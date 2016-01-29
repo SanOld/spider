@@ -1,0 +1,831 @@
+2016/01/14 10:38:46 [error] [exception.CException] exception 'CException' with message 'Property "CUrlManager.enablePrettyUrl" is not defined.' in /Applications/MAMP/htdocs/spider/framework/base/CComponent.php:173
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/YiiBase.php(220): CComponent->__set('enablePrettyUrl', true)
+#1 /Applications/MAMP/htdocs/spider/framework/base/CModule.php(393): YiiBase::createComponent(Array)
+#2 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(530): CModule->getComponent('urlManager')
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(140): CApplication->getUrlManager()
+#4 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#5 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#6 {main}
+REQUEST_URI=/
+---
+2016/01/14 10:39:06 [error] [exception.CException] exception 'CException' with message 'Property "CUrlManager.enablePrettyUrl" is not defined.' in /Applications/MAMP/htdocs/spider/framework/base/CComponent.php:173
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/YiiBase.php(220): CComponent->__set('enablePrettyUrl', true)
+#1 /Applications/MAMP/htdocs/spider/framework/base/CModule.php(393): YiiBase::createComponent(Array)
+#2 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(530): CModule->getComponent('urlManager')
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(140): CApplication->getUrlManager()
+#4 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#5 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#6 {main}
+REQUEST_URI=/
+---
+2016/01/14 10:55:11 [error] [php] require_once(utils/utils.php): failed to open stream: No such file or directory (/Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:2)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(276): CWebApplication->createController()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#2 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#3 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (2)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (2)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/14 10:55:45 [error] [php] include(User.php): failed to open stream: No such file or directory (/Applications/MAMP/htdocs/spider/framework/YiiBase.php:432)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/db/ar/CActiveRecord.php(395): spl_autoload_call()
+#1 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(28): model()
+#2 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#7 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#8 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#9 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (28)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/21 12:07:18 [error] [php] require_once(utils/auth.php): failed to open stream: No such file or directory (/Applications/MAMP/htdocs/spider/protected/models/BaseModel.php:2)
+Stack trace:
+#0 unknown(0): autoload()
+#1 /Applications/MAMP/htdocs/spider/protected/models/User.php(4): spl_autoload_call()
+#2 /Applications/MAMP/htdocs/spider/framework/YiiBase.php(432): include()
+#3 unknown(0): autoload()
+#4 /Applications/MAMP/htdocs/spider/framework/db/ar/CActiveRecord.php(395): spl_autoload_call()
+#5 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(28): model()
+#6 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#7 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#8 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#9 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#10 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#11 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#13 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (2)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (2)
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (4)
+2016/01/21 12:13:33 [error] [php] Declaration of User::doAfterUpdate() should be compatible with BaseModel::doAfterUpdate($result, $params, $post, $id) (/Applications/MAMP/htdocs/spider/protected/models/User.php:4)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/db/ar/CActiveRecord.php(395): spl_autoload_call()
+#1 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(28): model()
+#2 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#7 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#8 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#9 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (4)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (28)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/21 12:14:18 [error] [exception.CException] exception 'CException' with message 'User and its behaviors do not have a method or closure named "checkAuth".' in /Applications/MAMP/htdocs/spider/framework/base/CComponent.php:266
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(627): CComponent->__call('checkAuth', Array)
+#1 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(627): User->checkAuth()
+#2 /Applications/MAMP/htdocs/spider/protected/models/User.php(364): BaseModel->execute()
+#3 /Applications/MAMP/htdocs/spider/framework/db/ar/CActiveRecord.php(395): User->__construct(NULL)
+#4 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(28): CActiveRecord::model('User')
+#5 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): CController->run('')
+#10 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('base')
+#11 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#12 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/api/user
+---
+2016/01/21 12:16:23 [error] [exception.CException] exception 'CException' with message 'User and its behaviors do not have a method or closure named "checkAuth".' in /Applications/MAMP/htdocs/spider/framework/base/CComponent.php:266
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(627): CComponent->__call('checkAuth', Array)
+#1 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(627): User->checkAuth()
+#2 /Applications/MAMP/htdocs/spider/protected/models/User.php(364): BaseModel->execute()
+#3 /Applications/MAMP/htdocs/spider/framework/db/ar/CActiveRecord.php(395): User->__construct(NULL)
+#4 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(28): CActiveRecord::model('User')
+#5 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): CController->run('')
+#10 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('base')
+#11 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#12 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/api/user
+---
+2016/01/21 12:17:14 [error] [php] Undefined variable: auth (/Applications/MAMP/htdocs/spider/protected/models/BaseModel.php:631)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(28): model()
+#1 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#8 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (631)
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (364)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (28)
+2016/01/21 12:25:09 [error] [php] Cannot modify header information - headers already sent by (output started at /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:27) (/Applications/MAMP/htdocs/spider/protected/models/utils/responce.php:111)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(273): response()
+#1 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(41): BaseController->chekAuth()
+#2 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#7 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#8 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#9 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/utils/responce.php (111)
+in /Applications/MAMP/htdocs/spider/protected/models/utils/responce.php (38)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (273)
+2016/01/21 16:33:05 [error] [php] include(Auth.php): failed to open stream: No such file or directory (/Applications/MAMP/htdocs/spider/framework/YiiBase.php:432)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(38): spl_autoload_call()
+#1 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#8 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (38)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/21 16:33:52 [error] [php] Undefined index: Authorization (/Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:39)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#5 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (39)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/21 16:35:14 [error] [php] Cannot modify header information - headers already sent by (output started at /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:40) (/Applications/MAMP/htdocs/spider/protected/models/utils/responce.php:119)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(230): response()
+#1 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#8 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/utils/responce.php (119)
+in /Applications/MAMP/htdocs/spider/protected/models/utils/responce.php (38)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (230)
+2016/01/21 16:40:05 [error] [php] Undefined index: type_code (/Applications/MAMP/htdocs/spider/protected/models/User.php:14)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (14)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (604)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (57)
+2016/01/22 10:07:19 [error] [php] Undefined index: account_id (/Applications/MAMP/htdocs/spider/protected/models/User.php:16)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (16)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (603)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (57)
+2016/01/22 10:45:56 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "page/view/resttest".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('page/view/restt...')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/test
+---
+2016/01/22 10:46:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "resttest/debug.css".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('resttest/debug....')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/resttest/debug.css
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 10:46:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "resttest/debug.js".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('resttest/debug....')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/resttest/debug.js
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 10:46:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 10:48:45 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 10:49:53 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 10:51:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 11:04:32 [error] [php] Use of undefined constant console - assumed 'console' (/Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:19)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#5 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (19)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:06:33 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 11:06:51 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 11:06:59 [error] [php] Undefined variable: headers (/Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:20)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#5 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0&isWeb=true
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (20)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:07:17 [error] [php] Undefined variable: headers (/Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:20)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#5 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0&isWeb=true
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (20)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:07:52 [error] [php] Undefined variable: headers (/Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:21)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#5 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0&isWeb=true
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:11:27 [error] [php] Missing argument 1 for Auth::__construct(), called in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php on line 21 and defined (/Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php:7)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0&isWeb=true
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (7)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:11:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 11:11:38 [error] [php] Missing argument 1 for Auth::__construct(), called in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php on line 21 and defined (/Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php:7)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (7)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:12:04 [error] [php] Missing argument 1 for Auth::__construct(), called in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php on line 20 and defined (/Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php:7)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (7)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (20)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:12:47 [error] [system.db.CDbCommand] Error in preparing SQL: SELECT 'usr'.*
+FROM 'spi_user' 'usr'
+WHERE login=:user AND usr.password=MD5(:pass)
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (48)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:12:47 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: CDbCommand failed to prepare the SQL statement: SQLSTATE[HY000]: General error: 1 no such table: spi_user. The SQL statement executed was: SELECT 'usr'.*
+FROM 'spi_user' 'usr'
+WHERE login=:user AND usr.password=MD5(:pass).
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (48)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:12:47 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: CDbCommand failed to prepare the SQL statement: SQLSTATE[HY000]: General error: 1 no such table: spi_user. The SQL statement executed was: SELECT 'usr'.*
+FROM 'spi_user' 'usr'
+WHERE login=:user AND usr.password=MD5(:pass)' in /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php(415): CDbCommand->queryInternal('fetch', Array, Array)
+#1 /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php(48): CDbCommand->queryRow()
+#2 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(21): Auth->login(Array)
+#3 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): CController->run('')
+#8 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('base')
+#9 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#10 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 11:15:04 [error] [php] Undefined variable: user (/Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php:95)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (95)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:23:45 [error] [php] Undefined index: is_enabled (/Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php:49)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (49)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:24:20 [error] [php] Undefined variable: user (/Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php:51)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (51)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:24:45 [error] [php] Undefined variable: user (/Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php:72)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (72)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:27:43 [error] [php] Undefined index: auth_token (/Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php:68)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (68)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:28:23 [error] [php] Undefined index: auth_token (/Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php:65)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/login?loginKey=dGVzdDp0ZXN0
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (65)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (21)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:49:27 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 11:49:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 11:49:36 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 11:55:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "api/spinner.gif".' in /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('api/spinner.gif')
+#1 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/api/spinner.gif
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/22 11:55:06 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'emp.auth_token' in 'where clause'. The SQL statement executed was: SELECT `usr`.*
+FROM `spi_user` `usr`
+WHERE emp.auth_token=:token .
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (22)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (47)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/22 11:55:06 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'emp.auth_token' in 'where clause'. The SQL statement executed was: SELECT `usr`.*
+FROM `spi_user` `usr`
+WHERE emp.auth_token=:token ' in /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php(415): CDbCommand->queryInternal('fetch', Array, Array)
+#1 /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php(22): CDbCommand->queryRow()
+#2 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(47): Auth->__construct('221aa73791f3ba0...')
+#3 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): CController->run('')
+#8 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('base')
+#9 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#10 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/api/user
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/25 11:54:46 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'emp.auth_token' in 'where clause'. The SQL statement executed was: SELECT `usr`.*
+FROM `spi_user` `usr`
+WHERE emp.auth_token=:token .
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (22)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (47)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/25 11:54:46 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'emp.auth_token' in 'where clause'. The SQL statement executed was: SELECT `usr`.*
+FROM `spi_user` `usr`
+WHERE emp.auth_token=:token ' in /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php(415): CDbCommand->queryInternal('fetch', Array, Array)
+#1 /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php(22): CDbCommand->queryRow()
+#2 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(47): Auth->__construct('1f78b934b70ba82...')
+#3 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): CController->run('')
+#8 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('base')
+#9 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#10 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/api/user
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/25 11:59:42 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'emp.auth_token' in 'where clause'. The SQL statement executed was: SELECT `usr`.*
+FROM `spi_user` `usr`
+WHERE emp.auth_token=:token .
+in /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php (22)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (47)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/25 11:59:42 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'emp.auth_token' in 'where clause'. The SQL statement executed was: SELECT `usr`.*
+FROM `spi_user` `usr`
+WHERE emp.auth_token=:token ' in /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php(415): CDbCommand->queryInternal('fetch', Array, Array)
+#1 /Applications/MAMP/htdocs/spider/protected/models/utils/Auth.php(22): CDbCommand->queryRow()
+#2 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(47): Auth->__construct('1f78b934b70ba82...')
+#3 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): CController->run('')
+#8 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('base')
+#9 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#10 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/api/user
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/25 11:59:55 [error] [php] Undefined index: account_id (/Applications/MAMP/htdocs/spider/protected/models/User.php:16)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (16)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (603)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (63)
+2016/01/25 12:01:33 [error] [php] Cannot modify header information - headers already sent by (output started at /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:61) (/Applications/MAMP/htdocs/spider/protected/models/BaseModel.php:44)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(63): User->select()
+#1 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#8 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (44)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (610)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (63)
+2016/01/25 12:02:02 [error] [system.db.CDbCommand] CDbCommand::fetchColumn() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'spider.tt_language_translation' doesn't exist. The SQL statement executed was: SELECT `l_trans`.`translation`
+FROM `tt_language_translation` `l_trans`
+JOIN `tt_language_tag` `l_tag` ON l_tag.id = l_trans.tag_id
+WHERE l_tag.tag_type = 4 AND l_tag.tag=:tag AND l_trans.lang_id = :lang_id.
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (71)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (46)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (610)
+2016/01/25 12:02:02 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'spider.tt_language_translation' doesn't exist. The SQL statement executed was: SELECT `l_trans`.`translation`
+FROM `tt_language_translation` `l_trans`
+JOIN `tt_language_tag` `l_tag` ON l_tag.id = l_trans.tag_id
+WHERE l_tag.tag_type = 4 AND l_tag.tag=:tag AND l_trans.lang_id = :lang_id' in /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php(433): CDbCommand->queryInternal('fetchColumn', 0, Array)
+#1 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(71): CDbCommand->queryScalar()
+#2 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(46): BaseModel->responseText(Array)
+#3 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(610): BaseModel->response('200', Array)
+#4 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(61): BaseModel->select(Array)
+#5 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): CController->run('')
+#10 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('base')
+#11 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#12 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/api/user
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/25 12:12:05 [error] [system.db.CDbCommand] CDbCommand::fetchColumn() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'spider.tt_language_translation' doesn't exist. The SQL statement executed was: SELECT `l_trans`.`translation`
+FROM `tt_language_translation` `l_trans`
+JOIN `tt_language_tag` `l_tag` ON l_tag.id = l_trans.tag_id
+WHERE l_tag.tag_type = 4 AND l_tag.tag=:tag AND l_trans.lang_id = :lang_id.
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (71)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (46)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (554)
+2016/01/25 12:12:05 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'spider.tt_language_translation' doesn't exist. The SQL statement executed was: SELECT `l_trans`.`translation`
+FROM `tt_language_translation` `l_trans`
+JOIN `tt_language_tag` `l_tag` ON l_tag.id = l_trans.tag_id
+WHERE l_tag.tag_type = 4 AND l_tag.tag=:tag AND l_trans.lang_id = :lang_id' in /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/db/CDbCommand.php(433): CDbCommand->queryInternal('fetchColumn', 0, Array)
+#1 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(71): CDbCommand->queryScalar()
+#2 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(46): BaseModel->responseText(Array)
+#3 /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php(554): BaseModel->response('200', Array)
+#4 /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php(61): BaseModel->select(Array)
+#5 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#6 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): CController->run('')
+#10 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController('base')
+#11 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#12 /Applications/MAMP/htdocs/spider/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/api/user
+HTTP_REFERER=http://spider.dev/api/test
+---
+2016/01/27 16:22:00 [error] [php] Undefined index: is_super_admin (/Applications/MAMP/htdocs/spider/protected/models/User.php:290)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (290)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (306)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (114)
+2016/01/27 16:22:45 [error] [php] Undefined index: params (/Applications/MAMP/htdocs/spider/protected/models/BaseModel.php:309)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (309)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (114)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/29 11:57:51 [error] [php] Undefined index: account_id (/Applications/MAMP/htdocs/spider/protected/models/User.php:165)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (165)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (346)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (153)
+2016/01/29 11:58:06 [error] [php] Undefined index: params (/Applications/MAMP/htdocs/spider/protected/models/BaseModel.php:348)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (348)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (153)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/29 11:59:49 [error] [php] Undefined variable: results (/Applications/MAMP/htdocs/spider/protected/models/BaseModel.php:348)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#5 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#6 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (348)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (153)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/29 12:00:27 [error] [php] Invalid argument supplied for foreach() (/Applications/MAMP/htdocs/spider/protected/models/BaseModel.php:253)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (253)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (349)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (153)
+2016/01/29 12:02:02 [error] [php] Invalid argument supplied for foreach() (/Applications/MAMP/htdocs/spider/protected/models/BaseModel.php:253)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (253)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (349)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (153)
+2016/01/29 12:02:12 [error] [php] Invalid argument supplied for foreach() (/Applications/MAMP/htdocs/spider/protected/models/BaseModel.php:253)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (253)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (349)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (153)
+2016/01/29 12:15:08 [error] [php] Undefined variable: priv (/Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php:198)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#5 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user/2
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (198)
+in /Applications/MAMP/htdocs/spider/index.php (13)
+2016/01/29 12:16:24 [error] [php] Undefined index: is_account_owner (/Applications/MAMP/htdocs/spider/protected/models/User.php:81)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user/2
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (81)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (382)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (201)
