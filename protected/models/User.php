@@ -84,6 +84,20 @@ class User extends BaseModel {
     );
   }
 
+  protected function doAfterSelect($results) {
+    
+    $types = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_user_type tbl')->queryAll ();
+    $types_dict = array();
+    foreach($types as $type) {
+      $types_dict[$type['id']] = $type;
+    }
+    foreach($results['result'] as &$row) {
+      $row['type_name'] = $types_dict[$row['type_id']]['name'];
+      unset($row['password']); 
+    }
+    return $results;
+  }
+
   protected function doBeforeInsert($post) {
     $this->post = $post;
 //    unset($post['ref']);

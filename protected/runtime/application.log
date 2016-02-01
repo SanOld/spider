@@ -829,3 +829,17 @@ REQUEST_URI=/api/user/2
 in /Applications/MAMP/htdocs/spider/protected/models/User.php (81)
 in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (382)
 in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (201)
+2016/02/01 11:33:13 [error] [php] Undefined offset: 0 (/Applications/MAMP/htdocs/spider/protected/models/User.php:95)
+Stack trace:
+#0 /Applications/MAMP/htdocs/spider/framework/web/actions/CInlineAction.php(49): BaseController->actionIndex()
+#1 /Applications/MAMP/htdocs/spider/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /Applications/MAMP/htdocs/spider/framework/web/CController.php(286): BaseController->runAction()
+#3 /Applications/MAMP/htdocs/spider/framework/web/CController.php(265): BaseController->runActionWithFilters()
+#4 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(282): BaseController->run()
+#5 /Applications/MAMP/htdocs/spider/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /Applications/MAMP/htdocs/spider/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#7 /Applications/MAMP/htdocs/spider/index.php(13): CWebApplication->run()
+REQUEST_URI=/api/user
+in /Applications/MAMP/htdocs/spider/protected/models/User.php (95)
+in /Applications/MAMP/htdocs/spider/protected/models/BaseModel.php (412)
+in /Applications/MAMP/htdocs/spider/protected/controllers/BaseController.php (65)
