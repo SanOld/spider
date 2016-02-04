@@ -45,7 +45,7 @@ class BaseController extends Controller {
 //    $id = false;
 //    $token = false;
 //    $chekAuth = false;
-    
+
     if(!$auth ->checkToken()) {
       $error = $auth->getAuthError();
       response('401', $error);
