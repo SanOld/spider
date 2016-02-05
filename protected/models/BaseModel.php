@@ -301,6 +301,25 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
+  protected function getRelationNameByType($type) {
+    switch ($type) {
+      case ADMIN :
+      case PA :
+      case SENAT :
+        return 'No relation';
+        break;
+      case TA :
+        return 'Performer';
+        break;
+      case SCHOOL :
+        return 'School';
+        break;
+      case DISTRICT :
+        return 'District';
+        break;
+    }
+    return '';
+  }
   public function insert($post, $multiInsert = false) {
     $this->method = 'post';
     if ($this->checkPermission ( $this->user, ACTION_INSERT )) {

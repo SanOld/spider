@@ -5,11 +5,11 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/favicon.ico" type="image/x-icon">
 <!-- Google-Fonts -->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/css.css" rel="stylesheet">
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/my_style.css" rel="stylesheet">
-<link media="print" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css">
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" rel="stylesheet" media="print">
 <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/non-responsive.css">
 
 <!-- Bootstrap core CSS -->

@@ -2,6 +2,8 @@
 	//define('SERVER_URL', 'http://time-tracking.itera-research.com');
 	//define('SERVER_URL', 'http://stormhost');
 define('SERVER_URL','http://'.$_SERVER['SERVER_NAME']);
+$this->pageTitle = 'Test API | ' . Yii::app()->name;
+
 ?>
 
 <!-- Le styles -->

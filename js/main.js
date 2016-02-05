@@ -55,14 +55,11 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
         };
         $scope.isCurrentUser = network.user.id == data.id;
     } else {
-        $scope.userTypes = [
-            {id: 1, name: 'Admin'},
-            {id: 2, name: 'PA'},
-            {id: 3, name: 'TA'},
-            {id: 4, name: 'School'},
-            {id: 5, name: 'District'},
-            {id: 6, name: 'Senat'}
-        ];
+        network.get('user_type', {}, function (result, response) {
+            if(result) {
+                $scope.userTypes = response.result;
+            }
+        });
     }
 
     $scope.fieldError = function(field) {

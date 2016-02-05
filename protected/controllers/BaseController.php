@@ -4,7 +4,7 @@ require_once ('utils/php.php');
 require_once ('utils/responce.php');
 require_once ('utils/auth.php');
 
-define('MODELS', 'User');
+define('MODELS', 'User,UserType,UserTypeRight,Page');
 // define('SURVEY_DIR', '/surveys/');
 class BaseController extends Controller {
   private $method = false;
@@ -21,7 +21,7 @@ class BaseController extends Controller {
     
         response($res['code'], $res);
       }
-      $key = array_search(strtoupper($_GET['model']), $models);
+      $key = array_search(strtoupper(str_replace('_', '', $_GET['model'])), $models);
       if($key !== false) {
         $modelFor = $models_prot[$key]; // unix files 'user' and 'User' are not equal
       } else {
