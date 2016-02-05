@@ -28,9 +28,6 @@ class Auth {
     $res = array();
     
     if(safe($get, 'login') && safe($get, 'password') || safe($get, 'loginKey')) {
-      $login = '';
-      $password = '';
-      $account = '';
       if($key = safe($get, 'loginKey')) {
         $loginKey = explode(':',base64_decode($key));
         $login = $loginKey[0];
@@ -71,6 +68,7 @@ class Auth {
                     , 'system_code' => 'LOGIN_SUCCESSFUL'
                     , 'code'        => '200'
                     , 'token'       => $authToken
+                    , 'user'        => $this->user
                     , 'expiredAt'   => strtotime('+'.$this->live.' hour')
                     );
         

@@ -1,0 +1,30 @@
+.edit-user .datafilter form .col-lg-3.col-width-type{
+	width:21% !important;
+}
+.edit-user .datafilter form .col-lg-2.col-width-type{
+	width:14.4% !important;
+}
+.request-edit .datafilter .col-lg-3.col1{
+	width:24% !important;
+}
+.request-edit form .reset-btn-width{
+	width:16% !important;
+}
+.edit-user .datafilter form .col-lg-4.add{
+	width:21% !important;
+}
+.edit-user .datafilter form .col-lg-3.add2{
+	width:29% !important;
+}
+.col8-width-type.add{
+	width:66.3% !important;
+}
+#accordion-account .panel-heading > a > strong{
+	width:240px !important;
+}
+#accordion-account .panel-heading .sum{
+	margin:0 10px 0 0;
+}
+#modal-3 .modal-dialog.custom-width{
+	width:620px !important;
+}

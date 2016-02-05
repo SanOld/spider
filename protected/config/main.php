@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'SPIder',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -42,12 +42,13 @@ return array(
 		
 		'urlManager'=>array(
 			'urlFormat'=>'path',
-            'showScriptName'=>false,
-//            'enablePrettyUrl' => true,
+            'showScriptName'=> false,
 			'rules'=>array(
-//                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>', 
-//                '/test' => '/site',
-                '/api/test'        => '/site/page/view/resttest',
+				'/users'           => '/site/users',
+				'/user-roles'      => '/site/userRoles',
+				'/dashboard'       => '/site/dashboard',
+				'/forgot-password' => '/site/forgotPassword',
+				'/api/test'        => '/site/page/view/resttest',
 				'/api/<model:\w+>' => '/base',
 				'/api/<model:\w+>/<id:\d+>' => '/base',
 				'/api/<model:\w+>*' => '/base',

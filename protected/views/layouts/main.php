@@ -1,59 +1,327 @@
-<?php /* @var $this Controller */ ?>
 <!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="language" content="en">
+	<html lang="en">
+	<head>
+		<?php include('head.php'); ?>
+	</head>
+	<body ng-app="spi" ng-controller="main">
+	<div id="page">
+		<header class="top-head container-fluid">
+			<div class="container">
+				<div class="logo p-0 m-t-10 m-b-10 col-lg-6">
+					<a href="/dashboard">
+						<img src="<?php echo $baseUrl; ?>/images/logo.png" alt="logo">
+					</a>
+				</div>
+				<div class="logo logo-print p-0 m-t-20 m-b-15 col-lg-5">
+					<a target="_blank" href="http://service.berlin.de/senatsverwaltungen/" class="pull-right">
+						<img src="<?php echo $baseUrl; ?>/images/logo2.png" alt="logo">
+					</a>
+				</div>
+				<ul class="list-inline navbar-right top-menu top-right-menu profile-box">
+					<li class="dropdown text-center">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<img class="img-circle profile-img thumb-sm" src="<?php echo $baseUrl; ?>/images/avatar.jpg" alt="">
+							<div class="holder-box">
+								<span class="username" ng-bind="user.login"></span>
+								<span class="organization" ng-bind="user.relation_name"></span>
+							</div>
+							<span class="caret"></span>
+						</a>
+						<ul style="overflow: hidden; outline: none;" tabindex="5003" class="dropdown-menu extended pro-menu fadeInUp animated">
+							<li><a href="" ng-click="openEdit()"><i class="fa fa-briefcase"></i>Profil</a></li>
+							<li><a href="" ng-click="logout()"><i class="fa fa-sign-out"></i>Ausloggen</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</header>
 
-	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection">
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print">
-	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection">
-	<![endif]-->
+		<?php include('menu.php'); ?>
 
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css">
+		<?php if(isset($this->breadcrumbs) && $this->breadcrumbs): ?>
+			<div class="container">
+				<?php
+				$this->widget('zii.widgets.CBreadcrumbs', array(
+					'links'                => $this->breadcrumbs,
+					'homeLink'             => '<li>'.CHtml::link('Home', array('/site/dashboard')).'</li>',
+					'tagName'              => 'ul',
+					'separator'            => '',
+					'activeLinkTemplate'   => '<li><a href="{url}">{label}</a></li>',
+					'inactiveLinkTemplate' => '<li class="active">{label}</li>',
+					'htmlOptions'          => array('class' => 'breadcrumb p-0')
+				)); ?>
+			</div>
+		<?php endif; ?>
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-</head>
+		<?php echo $content; ?>
+	</div>
 
-<body>
+	<div class="footer">
+		<div class="container">
+			<div class="col-lg-7">
+				<a href="http://service.berlin.de/senatsverwaltungen" class="pull-left m-t-10">
+					<img src="<?php echo $baseUrl; ?>/images/logo2-small.png" alt="logo">
+				</a>
+			</div>
+			<div class="col-lg-5 contact-footer">
+				<a target="_blank" href="http://www.stiftung-spi.de" class="pull-right m-l-15">
+					<img src="<?php echo $baseUrl; ?>/images/logo3.png" alt="logo">
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="md-overlay"></div>
 
-<div class="container" id="page">
+	<script type="text/ng-template" id="editUserTemplate.html">
+		<div class="panel panel-color panel-primary">
+			<div class="panel-heading clearfix">
+				<h3 ng-if="isInsert" class="m-0 pull-left">Bearbeiten eines Benutzer</h3>
+				<h3 ng-if="!isInsert" class="m-0 pull-left">Benutzerprofil editieren</h3>
+				<button type="button" ng-click="cancel()" class="close"><i class="ion-close-round "></i></button>
+			</div>
+        <div ng-show="(submited && form.$invalid) || error" class="alert alert-danger m-t-20">
+          Bitte geben Sie die markierten Felder korrekt ein.
+        </div>
+			<h3 class="subheading">Benutzerinformation</h3>
+			<hr>
+			<div class="panel-body">
+				<form novalidate class="form-horizontal" method="post" name="form">
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Status</label>
+						<div class="col-lg-10">
+							<div ng-if="!isCurrentUser" class="btn-group btn-toggle">
+								<button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 1}" ng-model="user.is_active" uib-btn-radio="1">AKTIV</button>
+								<button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 0}" ng-model="user.is_active" uib-btn-radio="0">DEAKTIVIEREN</button>
+							</div>
+              <span ng-if="isCurrentUser" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Deaktivieren'}}</span>
+							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question" type="button">
+								<i class="fa fa-question"></i>
+							</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Benutzer-Typ</label>
 
-	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-	</div><!-- header -->
+						<div ng-if="!isInsert" class="col-lg-10">
+							<span class="no-edit-text">{{type_name}}</span>
+							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question" type="button">
+								<i class="fa fa-question"></i>
+							</button>
+						</div>
 
-	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
-			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-			),
-		)); ?>
-	</div><!-- mainmenu -->
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
+						<div ng-if="isInsert" class="col-lg-4 custom-width">
+							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
+								<i class="fa fa-question"></i>
+							</button>
+							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
+								<select class="form-control" ng-model="user.type_id" name="type_id" ng-options="type.id as type.name for type in userTypes" required>
+									<option value="">(Please choose)</option>
+								</select>
+							<span ng-show="fieldError('type_id')">
+								<label ng-show="form.type_id.$error.required" class="error">User type is required.</label>
+								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+							</span>
+							</div>
+						</div>
 
-	<?php echo $content; ?>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Organisation</label>
+						<div ng-if="!isInsert" class="col-lg-10">
+							<span class="no-edit-text">{{relation_name}}</span>
+							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question" type="button">
+								<i class="fa fa-question"></i>
+							</button>
+						</div>
 
-	<div class="clear"></div>
+						<div ng-if="isInsert" class="col-lg-10">
+							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
+								<i class="fa fa-question"></i>
+							</button>
+							<div class="wrap-hint">
+								<select class="form-control" ng-model="user.relation_id" ng-options="relation.id as relation.name for type in relations">
+									<option value="">(Not chosen)</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label two-line">Finanzielle Rechte</label>
+						<div class="col-lg-10">
+							<div ng-if="!isCurrentUser" class="btn-group btn-toggle">
+								<button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 1}" ng-model="user.is_finansist" uib-btn-radio="1">JA</button>
+								<button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 0}" ng-model="user.is_finansist" uib-btn-radio="0">NEIN</button>
+							</div>
+              <span ng-if="isCurrentUser" class="no-edit-text">{{user.is_active ? 'Ja' : 'Nein'}}</span>
 
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
-	</div><!-- footer -->
+							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question" type="button">
+								<i class="fa fa-question"></i>
+							</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Anrede</label>
+						<div class="col-lg-10">
+							<div class="radio-inline">
+								<label for="radio1" class="cr-styled">
+									<input type="radio" ng-model="user.sex" value="1" id="radio1">
+									<i class="fa"></i>
+									Herr
+								</label>
+							</div>
+							<div class="radio-inline">
+								<label for="radio2" class="cr-styled">
+									<input type="radio" ng-model="user.sex" value="2" id="radio2">
+									<i class="fa"></i>
+									Frau
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="title">Titel</label>
+								<div class="col-lg-8">
+									<div class="wrap-hint">
+										<input id="title" class="form-control" ng-model="user.title" type="text" value="">
+									</div>
+								</div>
+							</div>
+							<div class="form-group has-feedback">
+								<label class="col-lg-4 control-label" for="first_name">Vorname</label>
+								<div class="col-lg-8" ng-class="{'wrap-line error': fieldError('first_name')}">
+									<input class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name" value="" ng-minlength="2" ng-maxlength="45" required>
+								<span ng-show="fieldError('first_name')">
+									<label ng-show="form.first_name.$error.required" class="error">First name is required.</label>
+									<label ng-show="form.first_name.$error.minlength" class="error">First name is too short.</label>
+									<label ng-show="form.first_name.$error.maxlength" class="error">First name is too long.</label>
+									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								</span>
+								</div>
+							</div>
+							<div class="form-group has-feedback">
+								<label class="col-lg-4 control-label" for="lname">Nachname</label>
+								<div class="col-lg-8" ng-class="{'wrap-line error': fieldError('last_name')}">
+									<input class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value="" ng-minlength="2" ng-maxlength="45" required>
+								<span ng-show="fieldError('last_name')">
+									<label ng-show="form.last_name.$error.required" class="error">Last name is required.</label>
+									<label ng-show="form.last_name.$error.minlength" class="error">Last name is too short.</label>
+									<label ng-show="form.last_name.$error.maxlength" class="error">Last name is too long.</label>
+									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								</span>
+								</div>
+							</div>
 
-</div><!-- page -->
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label class="col-lg-3 control-label" for="login">Benutzername</label>
+								<div class="col-lg-9">
+									<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
+										<i class="fa fa-question"></i>
+									</button>
+									<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('login')}">
+										<input class="form-control" type="text" name="login" ng-model="user.login" id="login" value="" ng-disabled="isCurrentUser" ng-minlength="3" ng-maxlength="45" required>
+									<span ng-show="fieldError('login')">
+										<label ng-show="form.login.$error.required" class="error">Username is required.</label>
+										<label ng-show="form.login.$error.minlength" class="error">Username is too short.</label>
+										<label ng-show="form.login.$error.maxlength" class="error">Username is too long.</label>
+                    <label ng-show="error.login.dublicate" class="error">This Username already registered.</label>
+										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+									</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label" for="email">Email</label>
+								<div class="col-lg-9">
+									<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
+										<i class="fa fa-question"></i>
+									</button>
+									<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
+										<input class="form-control" type="email" name="email" ng-model="user.email" id="email" value="" ng-maxlength="45" required>
+									<span ng-show="fieldError('email')">
+										<label ng-show="form.email.$error.required" class="error">Email is required.</label>
+										<label ng-show="form.email.$error.email" class="error">Enter a valid email.</label>
+										<label ng-show="form.email.$error.maxlength" class="error">Username is too long.</label>
+										<label ng-show="error.email.dublicate" class="error">This email already registered.</label>
+										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+									</span>
+									</div>
+								</div>
+
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label" for="phone">Telefon</label>
+								<div class="col-lg-9">
+									<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
+										<i class="fa fa-question"></i>
+									</button>
+									<div class="wrap-hint">
+										<input class="form-control" type="text" ng-model="user.phone" id="phone" value="" ui-mask="(999) 9999 999"  ui-mask-placeholder ui-mask-placeholder-char="_">
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-custom-box clearfix">
+							<div class="col-lg-12">
+								<h4>Passwort</h4>
+							</div>
+              <div ng-if="isCurrentUser" class="col-lg-4">
+                <label>Altes Passwort</label>
+							  <span ng-class="{'wrap-line error': submited && form.old_password.$pristine && user.password && curentPassword != old_password}">
+								<input class="form-control" name="old_password" ng-model="old_password" type="password" value="">
+								  <span ng-show="submited && form.old_password.$pristine && user.password && curentPassword != old_password">
+                    <label class="error">Old password is wrong.</label>
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								  </span>
+							  </span>
+              </div>
+							<div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
+								<label>Passwort</label>
+							  <span ng-class="{'wrap-line error': fieldError('password')}">
+								<input class="form-control" name="password" ng-model="user.password" type="password" value="" ng-minlength="3" ng-maxlength="45" ng-required="isInsert">
+								  <span ng-show="fieldError('password')">
+                    <label ng-show="form.password.$error.required" class="error">Password is required.</label>
+                    <label ng-show="form.password.$error.minlength" class="error">Password is too short.</label>
+                    <label ng-show="form.password.$error.maxlength" class="error">Password is too long.</label>
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								  </span>
+							  </span>
+							</div>
+							<div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
+								<label>Passwort bestätigen</label>
+							<span ng-class="{'wrap-line error': fieldError('password_repeat')}">
+								<input class="form-control" name="password_repeat" ng-model="password_repeat" type="password" value="" password-verify="user.password" ng-required="isInsert || user.password.length">
+								<span ng-show="fieldError('password_repeat')">
+									<label ng-show="form.password_repeat.$error.required" class="error">Password repeat is required.</label>
+									<label ng-show="form.password_repeat.$error.passwordVerify" class="error">Passwords are not equal.</label>
+									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								</span>
+							</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group group-btn">
+						<div class="col-lg-2" ng-if="!isInsert && !isCurrentUser">
+							<a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove(userId)"><i class="fa fa-trash-o"></i></a>
+						</div>
+						<div class="col-lg-6 text-right pull-right">
+							<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+							<button class="btn w-lg custom-btn" ng-click="submitForm(user)">Speichern</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</script>
 
 </body>
 </html>
+
+
