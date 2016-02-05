@@ -25,7 +25,7 @@ class Page extends BaseModel {
     $params = array_change_key_case($params, CASE_UPPER);
 
     if(safe($params, 'RIGHT') && safe($params, 'TYPE_ID')) {
-      $command->select('tbl.*, IFNULL(utr.can_view, 0) can_view, IFNULL(utr.can_edit, 0) can_edit');
+      $command->select('tbl.*, utr.id right_id, IFNULL(utr.can_view, 0) can_view, IFNULL(utr.can_edit, 0) can_edit');
       $command->leftJoin('spi_user_type_right utr', 'tbl.id=utr.page_id AND utr.type_id=:type_id', array(':type_id' => $params['TYPE_ID']));
     }
     

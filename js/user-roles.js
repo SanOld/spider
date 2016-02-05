@@ -1,62 +1,95 @@
 spi.controller('UserRolesController', function($scope, network, GridService) {
 
     var grid = GridService();
-
-    network.get('user_type', {}, function(result, response){
-        if(result) {
-            $scope.tableParams = grid(response.result, {}, {sorting: {name: 'asc'}, count: response.result.length});
-        }
-    });
+    getTypes();
 
     $scope.updateGrid = function() {
         grid.reload();
     };
 
     $scope.openEdit = function (row) {
-        grid.openEditor({data: row});
+        grid.openEditor({data: row}, function() {
+            getTypes();
+        });
     };
+
+    function getTypes() {
+        network.get('user_type', {}, function(result, response){
+            if(result) {
+                $scope.tableParams = grid(response.result, {}, {sorting: {name: 'asc'}, count: response.result.length});
+            }
+        });
+    }
 
 });
 
 
 spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, GridService) {
     $scope.isInsert = !data.id;
-    $scope.default = data.default;
+
+    if(!$scope.isInsert) {
+        $scope.userTypeId = data.id
+        $scope.default = +data.default;
+        $scope.relation_name = data.relation_name;
+        $scope.user_type = {name: data.name};
+    } else {
+        network.get('relation', {}, function(result, response){
+            if(result) {
+                $scope.relations = response;
+                $scope.user_type = {type: 'a'};
+            }
+        });
+    }
+
 
     var grid = GridService();
     network.get('page', {right: 1, type_id: data.id}, function(result, response){
         if(result) {
             $scope.tableParams = grid(response.result, {}, {sorting: {page_name: 'asc'}, count: response.result.length});
+            $scope.user_right = [];
+            for(var k in response.result) {
+                $scope.user_right.push({
+                    id: response.result[k].right_id,
+                    type_id: data.id,
+                    page_id: response.result[k].id,
+                    can_view: response.result[k].can_view,
+                    can_edit: response.result[k].can_edit
+                });
+            }
         }
     });
 
     $scope.fieldError = function(field) {
-        return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;
+        return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid || ($scope.error && $scope.error[field] != undefined && $scope.form[field].$pristine);
     };
 
-    $scope.submitForm = function (formData) {
+    $scope.submitForm = function () {
         $scope.errors = [];
         $scope.submited = true;
+        $scope.form.$setPristine();
         if ($scope.form.$valid) {
-            delete formData['password_repeat'];
             var callback = function (result, response) {
                 if(result) {
                     $uibModalInstance.close();
                 } else {
-                    $scope.errors = response.message;
+                    setError(response.system_code);
                 }
                 $scope.submited = false;
             };
+            if(!$scope.default) {
+                $scope.user_type.rights = $scope.user_right;
+            }
             if($scope.isInsert) {
-                network.post('user', formData, callback);
+                network.post('user_type', $scope.user_type, callback);
+
             } else {
-                network.put('user/'+data.id, formData, callback);
+                network.put('user_type/'+data.id, $scope.user_type, callback);
             }
         }
     };
 
     $scope.remove = function(id) {
-        network.delete('user/'+id, function (result) {
+        network.delete('user_type/'+id, function (result) {
             if(result) {
                 $uibModalInstance.close();
             }
@@ -66,4 +99,14 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    function setError(code) {
+        var result = false;
+        switch (code) {
+            case 'ERR_DUPLICATED_NAME':
+                result = {name: {dublicate: true}};
+                break;
+        }
+        $scope.error = result;
+    }
 });

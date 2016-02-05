@@ -42,9 +42,9 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
         $scope.type_name = data.type_name;
         $scope.relation_name = data.relation_name;
         $scope.user = {
-            is_active: parseInt(data.is_active),
-            is_finansist: parseInt(data.is_finansist),
-            sex: parseInt(data.sex),
+            is_active: +data.is_active,
+            is_finansist: +data.is_finansist,
+            sex: +data.sex,
             title: data.title,
             first_name: data.first_name,
             last_name: data.last_name,

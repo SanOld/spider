@@ -31,3 +31,4 @@ ALTER TABLE spi_user_type ADD COLUMN `default` TINYINT(1) DEFAULT '0';
 UPDATE spi_user_type SET `default` = 1;
 
 ALTER TABLE `spi_user_type_right` ADD CONSTRAINT `spi_user_type_right_page` FOREIGN KEY (`page_id`) REFERENCES `spi_page` (`id`) ON DELETE CASCADE;
+ALTER TABLE `spi_user_type_right` ADD CONSTRAINT `spi_user_type_right_type` FOREIGN KEY (`type_id`) REFERENCES `spi_user_type` (`id`) ON DELETE CASCADE;

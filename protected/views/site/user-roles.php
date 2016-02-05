@@ -46,34 +46,36 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 				</div>
 				<div class="panel-body table-modal">
+          <form novalidate name="form">
 					<div class="form-group custom-field row clearfix">
 						<div class="form-group col-lg-6">
 							<label>Benutzer-Typ</label>
-							<input class="form-control" type="text" placeholder="Benutzerdefinierter Typ">
-						</div>
+              <input class="form-control" placeholder="Benutzerdefinierter Typ" name="user_type_name" ng-model="user_type.name" type="text" value="" ng-minlength="2" ng-maxlength="255" required>
+            </div>
 						<div class="form-group col-lg-6">
 							<label>Organisationstyp</label>
-							<select class="type-user form-control">
-								<option>Keine Verbindung</option>
-								<option>Bezirk</option>
-								<option>Schule</option>
-								<option>Träger</option>
-							</select>
+							<select ng-if="isInsert" name="user_type_type" ng-model="user_type.type" class="type-user form-control" ng-options="r.id as r.name for r in relations"></select>
+              <div ng-if="!isInsert" ng-bind="relation_name"></div>
 						</div>
 					</div>
 
           <table id="datatable-edit-roles" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered text-center">
             <tr ng-repeat="row in $data">
+              <td ng-if="0">
+                <input ng-if="!isInsert" type="hidden" ng-model="user_right[$index].id">
+                <input ng-if="isInsert" type="hidden" ng-model="user_right[$index].type_id">
+                <input ng-if="isInsert" type="hidden" ng-model="user_right[$index].page_id">
+              </td>
               <td data-title="'Seite'" sortable="'name'">{{row.name}}</td>
               <td data-title="'Ansicht'" header-class="'text-center'">
                 <label class="cr-styled">
-                  <input type="checkbox" checked="">
+                  <input type="checkbox" ng-model="user_right[$index].can_view" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default">
                   <i class="fa"></i>
                 </label>
               </td>
               <td data-title="'Bearbeitung'" header-class="'text-center'">
                 <label class="cr-styled">
-                  <input type="checkbox" checked="">
+                  <input type="checkbox" ng-model="user_right[$index].can_edit" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default">
                   <i class="fa"></i>
                 </label>
               </td>
@@ -83,14 +85,15 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<div class="row p-t-10">
 						<div class="form-group group-btn p-t-10">
 							<div class="col-lg-2" ng-if="!isInsert && !default">
-								<button class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa  fa-trash-o"></i></button>
+								<button ng-click="remove(userTypeId)" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
 							</div>
 							<div class="col-lg-6 text-right pull-right">
 								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" ng-click="submitForm(user)">Speichern</button>
+								<button class="btn w-lg custom-btn" ng-click="submitForm()">Speichern</button>
 							</div>
 						</div>
 					</div>
+          </form>
 				</div>
 			</div>
 </script>

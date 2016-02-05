@@ -68,6 +68,82 @@ class UserType extends BaseModel {
     return $command;
   }
 
+  protected function doBeforeInsert($post) {
+    $this->post = $post;
+    $name = safe($post,'name');
+    if(safe($post, 'rights')) {
+      unset($post['rights']);
+    }
+
+    if ($name && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('name=:name', array(
+        ':name' => $name
+      )) -> queryRow()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_DUPLICATED_NAME',
+        'message' => 'Insert failed: This Type Name already exists.'
+      );
+    }
+
+    return array(
+      'result' => true,
+      'params' => $post
+    );
+  }
+
+  protected function doAfterInsert($result, $params, $post) {
+    if(safe($post, 'rights') && $result['code'] == '200' && safe($result, 'id')) {
+      foreach($post['rights'] as $right) {
+        Yii::app ()->db->createCommand()->insert('spi_user_type_right', array(
+          'type_id' => $result['id'],
+          'page_id' => $right['page_id'],
+          'can_view' => $right['can_view'],
+          'can_edit' => $right['can_edit'],
+        ));
+      }
+    }
+    return $result;
+  }
+
+  protected function doBeforeUpdate($post, $id) {
+    $name = safe($post,'name');
+    if(safe($post, 'rights')) {
+      unset($post['rights']);
+    }
+    if ($name && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id!=:id AND name=:name', array(
+        ':id' => $id,
+        ':name' => $name
+      )) -> queryRow()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_DUPLICATED_NAME',
+        'message' => 'Insert failed: This Type Name already exists.'
+      );
+    }
+
+    return array(
+      'result' => true,
+      'params' => $post
+    );
+  }
+
+  protected function doAfterUpdate($result, $params, $post, $id) {
+    if(safe($post, 'rights') && $result['code'] == '200') {
+      foreach($post['rights'] as $right) {
+        if(!safe($right, 'id')) {
+          continue;
+        }
+        Yii::app ()->db->createCommand()->update('spi_user_type_right', array(
+          'can_view' => $right['can_view'],
+          'can_edit' => $right['can_edit'],
+        ), 'id=:id', array (':id' => $right['id']));
+      }
+    }
+    return $result;
+  }
+
   protected function doBeforeDelete($id) {
     $user = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
         ':id' => $id 

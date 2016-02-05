@@ -4,7 +4,7 @@ require_once ('utils/php.php');
 require_once ('utils/responce.php');
 require_once ('utils/auth.php');
 
-define('MODELS', 'User,UserType,UserTypeRight,Page');
+define('MODELS', 'User,UserType,UserTypeRight,Page,Relation');
 // define('SURVEY_DIR', '/surveys/');
 class BaseController extends Controller {
   private $method = false;
@@ -20,6 +20,8 @@ class BaseController extends Controller {
         $res = $auth->login($_GET);
     
         response($res['code'], $res);
+      } else if($_GET['model'] == 'relation') {
+        response(200, $this->getRelation());
       }
       $key = array_search(strtoupper(str_replace('_', '', $_GET['model'])), $models);
       if($key !== false) {
@@ -207,6 +209,15 @@ class BaseController extends Controller {
     } else {
       response($success);
     }
+  }
+
+  function getRelation() {
+    return array(
+      array('id' => 'a', 'name' => 'No relation'),
+      array('id' => 'd', 'name' => 'District'),
+      array('id' => 't', 'name' => 'Performer'),
+      array('id' => 's', 'name' => 'School'),
+    );
   }
   
   protected function checkAuth() {
