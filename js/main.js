@@ -62,6 +62,18 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
         });
     }
 
+    $scope.reloadRelation = function() {
+        $scope.relations = [];
+        var type = findTypeById($scope.user.type_id);
+        if(type && type.relation_code) {
+            network.get(type.relation_code, {}, function (result, response) {
+                if(result) {
+                    $scope.relations = response.result;
+                }
+            });
+        }
+    };
+
     $scope.fieldError = function(field) {
         return (($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid) || ($scope.error && $scope.error[field] != undefined && $scope.form[field].$pristine);
     };
@@ -125,5 +137,16 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
                 break;
         }
         $scope.error = result;
+    }
+
+    function findTypeById(id) {
+        if($scope.userTypes) {
+            for(var i = 0; i < $scope.userTypes.length; i++) {
+                if($scope.userTypes[i].id == id) {
+                    return $scope.userTypes[i];
+                }
+            }
+        }
+        return false;
     }
 });

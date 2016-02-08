@@ -22,7 +22,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 							<td data-title="'Benutzer-Typ'" sortable="'name'">{{row.name}}</td>
 							<td data-title="'Organisationstyp'" sortable="'relation_name'">{{row.relation_name}}</td>
 							<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-								<a class="btn center-block" ng-click="openEdit(row)">
+								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
 								</a>
 							</td>
@@ -50,7 +50,15 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<div class="form-group custom-field row clearfix">
 						<div class="form-group col-lg-6">
 							<label>Benutzer-Typ</label>
-              <input class="form-control" placeholder="Benutzerdefinierter Typ" name="user_type_name" ng-model="user_type.name" type="text" value="" ng-minlength="2" ng-maxlength="255" required>
+							<div ng-class="{'wrap-line error': fieldError('user_type_name')}">
+              	<input class="form-control" placeholder="Benutzerdefinierter Typ" name="user_type_name" ng-model="user_type.name" type="text" value="" ng-minlength="2" ng-maxlength="255" required>
+								<span ng-show="fieldError('user_type_name')">
+									<label ng-show="form.user_type_name.$error.required" class="error">Type name is required.</label>
+									<label ng-show="form.user_type_name.$error.minlength" class="error">Type name is too short.</label>
+									<label ng-show="form.user_type_name.$error.maxlength" class="error">Type name is too long.</label>
+									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								</span>
+							</div>
             </div>
 						<div class="form-group col-lg-6">
 							<label>Organisationstyp</label>

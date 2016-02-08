@@ -17,6 +17,7 @@
 					<li><a href="#">Finanzierungen</a></li>
 					<li><a href="#">Zusammenfassung der Finanzen</a></li>
 					<li><a href="#">Mittelabrufe</a></li>
+					<li><a href="#">Belege</a></li>
 					<li><a href="#">Finanzberichte</a></li>
 				</ul>
 			</li>
@@ -28,7 +29,7 @@
 				</ul>
 			</li>
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Organisationen</a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 				<ul class="dropdown-menu">
 					<li><a href="#">Träger Agentur</a></li>
 					<li><a href="#">Schule</a></li>

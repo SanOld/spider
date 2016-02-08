@@ -38,8 +38,9 @@ class Auth {
       }
 
       $this->user = Yii::app()->db->createCommand()
-                 ->select('usr.*')
+                 ->select('usr.*, ust.name type_name')
                  ->from('spi_user usr')
+                 ->join('spi_user_type ust', 'usr.type_id=ust.id')
                  ->where('login=:user AND usr.password=MD5(:pass)', 
                           array( ':user'=>$login, ':pass'=>$password)
                         )

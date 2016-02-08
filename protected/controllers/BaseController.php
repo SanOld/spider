@@ -4,7 +4,7 @@ require_once ('utils/php.php');
 require_once ('utils/responce.php');
 require_once ('utils/auth.php');
 
-define('MODELS', 'User,UserType,UserTypeRight,Page,Relation');
+define('MODELS', 'User,UserType,UserTypeRight,Page,Relation,Performer,School,District');
 // define('SURVEY_DIR', '/surveys/');
 class BaseController extends Controller {
   private $method = false;

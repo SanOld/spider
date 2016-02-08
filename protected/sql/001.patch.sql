@@ -32,3 +32,23 @@ UPDATE spi_user_type SET `default` = 1;
 
 ALTER TABLE `spi_user_type_right` ADD CONSTRAINT `spi_user_type_right_page` FOREIGN KEY (`page_id`) REFERENCES `spi_page` (`id`) ON DELETE CASCADE;
 ALTER TABLE `spi_user_type_right` ADD CONSTRAINT `spi_user_type_right_type` FOREIGN KEY (`type_id`) REFERENCES `spi_user_type` (`id`) ON DELETE CASCADE;
+
+CREATE TABLE `spi_performer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `short_name` varchar(255) NOT NULL,
+  `address` text,
+  `plz` varchar(45) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `fax` varchar(15) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `homepage` varchar(255) DEFAULT NULL,
+  `company_overview` text,
+  `diversity` text,
+  `further_education` text,
+  `quality_standards` text,
+  `comment` text,
+  `is_checked` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

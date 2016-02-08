@@ -1,70 +1,68 @@
 <?php
 require_once ('utils/utils.php');
-//require_once ('utils/responce.php');
+
 
 class User extends BaseModel {
   public $table = 'spi_user';
   public $post = array();
-  public $select_all = ' * ';
+  public $select_all = "CONCAT(tbl.first_name, ' ', tbl.last_name) name, tbl.* ";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    
-    $where = ' 1=1 ';
-    $conditions = array();
-    
-//    if (!in_array(safe($this->user, 'type_code'), array('t','a'))) {
-//      $where .= ' AND act.id=:actId ';
-//      $conditions[':actId'] = $this -> user['account_id'];
-//    }
-//    
-    
-    if ($where) {
-      $command -> where($where, $conditions);
-    }
-    
+    $command -> where(' 1=1 ', array());
     return $command;
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
-    $where = '';
     $params = array_change_key_case($params, CASE_UPPER);
-    
-    if (isset($params['SEARCH'])) {
-      $fields = $this -> getAllTableFields();
+    if (safe($params, 'KEYWORD')) {
+      $keyword_fields = ['first_name', 'last_name', 'login', 'email'];
+      $value = $params['KEYWORD'];
+      $where = array();
       $search_param = array();
-      $inttypes = array(
-          'TINYINT',
-          'SMALLINT',
-          'MEDIUMINT',
-          'INT',
-          'BIGINT' 
-      );
-      $chartypes = array(
-          'CHAR',
-          'VARCHAR',
-          'TEXT' 
-      );
-      if (!is_numeric($params['SEARCH'])) {
-        $k = 0;
-        foreach ( $fields as &$val ) {
-          if (in_array(strtoupper($val['coltype']), $chartypes)) {
-            if ($k == 0) {
-              $k++;
-              $where = 'tbl.' . $val['colname'] . " like :" . $val['colname'];
-              $search_param[':' . $val['colname']] = '%' . $params['SEARCH'] . '%';
-            } else {
-              $where .= " OR tbl." . $val['colname'] . " like :" . $val['colname'];
-              $search_param[':' . $val['colname']] = '%' . $params['SEARCH'] . '%';
-            }
-          }
-        }
-        unset($val);
+      foreach($keyword_fields as $field) {
+        $where[] = "tbl.{$field} like :{$value}";
+        $search_param[":{$value}"] = '%' . $value . '%';
       }
-      $where = '(' . $where . ')';
-      $command -> andWhere($where, $search_param);
+      if($where && $search_param) {
+        $where = '(' . implode(' OR ', $where) . ')';
+        $command -> andWhere($where, $search_param);
+      }
     }
-    
+    if (safe($params, 'RELATION_NAME')) {
+      $value = $params['RELATION_NAME'];
+      $where = array();
+      $search_param = array();
+      foreach(explode(',', USER_TYPES) as $type) {
+        $relation = $this->getRelationByType($type);
+        if($relation && safe($relation, 'code')) {
+          $command->leftJoin($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id');
+          $where[] = "({$relation['prefix']}.name like :value AND type = '".$type."')";
+          $search_param[":value"] = '%' . $value . '%';
+        }
+      }
+      if($where && $search_param) {
+        $where = implode(' OR ', $where);
+        $command -> andWhere($where, $search_param);
+      }
+    }
+    if (safe($params, 'TYPE_ID')) {
+      $command->andWhere("tbl.type_id = :type_id", array(':type_id' => $params['TYPE_ID']));
+    }
+    if (isset($params['IS_ACTIVE'])) {
+      $command -> andWhere("tbl.is_active = :is_active", array(':is_active' => $params['IS_ACTIVE']));
+    }
     return $command;
+  }
+
+  protected function calcResults($result) {
+    foreach($result['result'] as &$row) {
+      $relation = $this->getRelationByType($row['type']);
+      if($relation && safe($relation, 'table')) {
+        $row['relation_name'] = Yii::app() -> db -> createCommand() -> select('name')
+          -> from($relation['table']) -> where('id=:id', array(':id' => $row['relation_id'])) ->queryScalar();
+      }
+    }
+    return $result;
   }
 
   protected function doBeforeDelete($id) {
@@ -85,7 +83,6 @@ class User extends BaseModel {
   }
 
   protected function doAfterSelect($results) {
-    
     $types = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_user_type tbl')->queryAll ();
     $types_dict = array();
     foreach($types as $type) {
@@ -100,12 +97,25 @@ class User extends BaseModel {
 
   protected function doBeforeInsert($post) {
     $this->post = $post;
-//    unset($post['ref']);
     $login = safe($post,'login');
     $email = safe($post,'email');
-//    $account = isset($post['account_id']) ? $post['account_id'] : '';
-//    $is_account_owner = isset($post['is_account_owner']) ? $post['is_account_owner'] : '';
-//    $is_admin = isset($post['is_admin']) ? $post['is_admin'] : '';
+
+    if(safe($post, 'type_id')) {
+      $post['type'] = Yii::app() -> db -> createCommand() -> select('type') -> from('spi_user_type')
+        -> where('id=:id ', array(
+          ':id' => $post['type_id']))
+        -> queryScalar();
+      $relation = $this->getRelationByType($post['type']);
+      if(!safe($post, 'relation_id') && $relation && safe($relation, 'table')) {
+        return array(
+          'code' => '409',
+          'result' => false,
+          'system_code' => 'ERR_REQUIRED_FIELD',
+          'message' => 'Insert failed: Field relation_id required for this user type.'
+        );
+      }
+    }
+
     if ($this -> user['type'] != ADMIN && $this -> user['type'] != PA) {
       return array(
           'code' => '409',
@@ -113,8 +123,7 @@ class User extends BaseModel {
           'system_code' => 'ERR_PERMISSION' 
       );
     }
-    
-   
+
     if ($login && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('login=:login', array(
         ':login' => $login 
     )) -> queryRow()) {
@@ -185,9 +194,7 @@ class User extends BaseModel {
         'params' => $post 
     );
   }
-  
 
-  
 //  protected function checkPermission($user, $action) {
 //    switch ($action) {
 //      case ACTION_SELECT : 
@@ -209,9 +216,5 @@ class User extends BaseModel {
 //    return false;
 //  }
 
-  public function __construct() {
-//    parent::__construct();
-//    $this -> execute();
-//    exit();
-  }
+
 }

@@ -114,18 +114,18 @@
 								<i class="fa fa-question"></i>
 							</button>
 							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
-								<select class="form-control" ng-model="user.type_id" name="type_id" ng-options="type.id as type.name for type in userTypes" required>
+								<select ng-change="reloadRelation()" class="form-control" ng-model="user.type_id" name="type_id" ng-options="type.id as type.name for type in userTypes" required>
 									<option value="">(Please choose)</option>
 								</select>
-							<span ng-show="fieldError('type_id')">
-								<label ng-show="form.type_id.$error.required" class="error">User type is required.</label>
-								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
-							</span>
+								<span ng-show="fieldError('type_id')">
+									<label ng-show="form.type_id.$error.required" class="error">User type is required.</label>
+									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								</span>
 							</div>
 						</div>
 
 					</div>
-					<div class="form-group">
+					<div ng-if="(isInsert && relations.length) || (!isInsert && relation_name)" class="form-group">
 						<label class="col-lg-2 control-label">Organisation</label>
 						<div ng-if="!isInsert" class="col-lg-10">
 							<span class="no-edit-text">{{relation_name}}</span>
@@ -138,10 +138,14 @@
 							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
 								<i class="fa fa-question"></i>
 							</button>
-							<div class="wrap-hint">
-								<select class="form-control" ng-model="user.relation_id" ng-options="relation.id as relation.name for type in relations">
-									<option value="">(Not chosen)</option>
+							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('relation_id')}">
+								<select class="form-control" name="relation_id" ng-model="user.relation_id" ng-options="relation.id as relation.name for relation in relations" required>
+									<option value="">(Please choose)</option>
 								</select>
+								<span ng-show="fieldError('relation_id')">
+									<label ng-show="form.type_id.$error.required" class="error">Relation is required.</label>
+									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								</span>
 							</div>
 						</div>
 					</div>
@@ -274,17 +278,17 @@
 							</div>
               <div ng-if="isCurrentUser" class="col-lg-4">
                 <label>Altes Passwort</label>
-							  <span ng-class="{'wrap-line error': submited && form.old_password.$pristine && user.password && curentPassword != old_password}">
+							  <div ng-class="{'wrap-line error': submited && form.old_password.$pristine && user.password && curentPassword != old_password}">
 								<input class="form-control" name="old_password" ng-model="old_password" type="password" value="">
 								  <span ng-show="submited && form.old_password.$pristine && user.password && curentPassword != old_password">
                     <label class="error">Old password is wrong.</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								  </span>
-							  </span>
+							  </div>
               </div>
 							<div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
 								<label>Passwort</label>
-							  <span ng-class="{'wrap-line error': fieldError('password')}">
+							  <div ng-class="{'wrap-line error': fieldError('password')}">
 								<input class="form-control" name="password" ng-model="user.password" type="password" value="" ng-minlength="3" ng-maxlength="45" ng-required="isInsert">
 								  <span ng-show="fieldError('password')">
                     <label ng-show="form.password.$error.required" class="error">Password is required.</label>
@@ -292,18 +296,18 @@
                     <label ng-show="form.password.$error.maxlength" class="error">Password is too long.</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								  </span>
-							  </span>
+							  </div>
 							</div>
 							<div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
 								<label>Passwort bestätigen</label>
-							<span ng-class="{'wrap-line error': fieldError('password_repeat')}">
+							<div ng-class="{'wrap-line error': fieldError('password_repeat')}">
 								<input class="form-control" name="password_repeat" ng-model="password_repeat" type="password" value="" password-verify="user.password" ng-required="isInsert || user.password.length">
 								<span ng-show="fieldError('password_repeat')">
 									<label ng-show="form.password_repeat.$error.required" class="error">Password repeat is required.</label>
 									<label ng-show="form.password_repeat.$error.passwordVerify" class="error">Passwords are not equal.</label>
 									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</span>
-							</span>
+							</div>
 							</div>
 						</div>
 					</div>

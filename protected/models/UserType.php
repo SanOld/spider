@@ -21,50 +21,15 @@ class UserType extends BaseModel {
 
   protected function doAfterSelect($results) {
     foreach($results['result'] as &$row) {
-      $row['relation_name'] = $this->getRelationNameByType($row['type']);
+      $relation = $this->getRelationByType($row['type']);
+      $row['relation_name'] = $relation['name'];
+      $row['relation_code'] = safe($relation, 'code', '');
     }
     return $results;
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
-    $where = '';
     $params = array_change_key_case($params, CASE_UPPER);
-    
-    if (isset($params['SEARCH'])) {
-      $fields = $this -> getAllTableFields();
-      $search_param = array();
-      $inttypes = array(
-          'TINYINT',
-          'SMALLINT',
-          'MEDIUMINT',
-          'INT',
-          'BIGINT' 
-      );
-      $chartypes = array(
-          'CHAR',
-          'VARCHAR',
-          'TEXT' 
-      );
-      if (!is_numeric($params['SEARCH'])) {
-        $k = 0;
-        foreach ( $fields as &$val ) {
-          if (in_array(strtoupper($val['coltype']), $chartypes)) {
-            if ($k == 0) {
-              $k++;
-              $where = 'tbl.' . $val['colname'] . " like :" . $val['colname'];
-              $search_param[':' . $val['colname']] = '%' . $params['SEARCH'] . '%';
-            } else {
-              $where .= " OR tbl." . $val['colname'] . " like :" . $val['colname'];
-              $search_param[':' . $val['colname']] = '%' . $params['SEARCH'] . '%';
-            }
-          }
-        }
-        unset($val);
-      }
-      $where = '(' . $where . ')';
-      $command -> andWhere($where, $search_param);
-    }
-    
     return $command;
   }
 
@@ -111,6 +76,9 @@ class UserType extends BaseModel {
     if(safe($post, 'rights')) {
       unset($post['rights']);
     }
+    if($this->isDefaultType($id)) {
+      unset($post['type']);
+    }
     if ($name && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id!=:id AND name=:name', array(
         ':id' => $id,
         ':name' => $name
@@ -128,9 +96,16 @@ class UserType extends BaseModel {
       'params' => $post
     );
   }
+  protected function isDefaultType($id) {
+    return Yii::app()->db->createCommand()
+      ->select('default')
+      ->from($this -> table)
+      ->where('id=:id', array(':id'=> $id))
+      ->queryScalar();
+  }
 
   protected function doAfterUpdate($result, $params, $post, $id) {
-    if(safe($post, 'rights') && $result['code'] == '200') {
+    if(safe($post, 'rights') && $result['code'] == '200' && !$this->isDefaultType($id)) {
       foreach($post['rights'] as $right) {
         if(!safe($right, 'id')) {
           continue;
@@ -154,6 +129,12 @@ class UserType extends BaseModel {
           'result' => false,
           'system_code' => 'ERR_NOT_EXISTS' 
       );
+    } else if($this->isDefaultType($id)) {
+      return array(
+        'code' => '403',
+        'result' => false,
+        'system_code' => 'ERR_FORBIDDEN'
+      );
     }
     
     return array(
@@ -165,15 +146,12 @@ class UserType extends BaseModel {
   
 //  protected function checkPermission($user, $action) {
 //    switch ($action) {
-//      case ACTION_SELECT : 
+//      case ACTION_SELECT :
+//      case ACTION_INSERT :
+//      case ACTION_UPDATE :
 //        return true;
 //        break;
-//      case ACTION_INSERT :
-//        ;
-//      case ACTION_UPDATE :
-//        ;
 //      case ACTION_DELETE :
-//        ;
 //        if ($this -> user['is_super_admin']) {
 //          return true;
 //        } elseif ($this -> user['is_admin'] || $this -> user['is_account_owner']) {

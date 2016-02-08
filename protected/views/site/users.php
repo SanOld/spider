@@ -66,7 +66,7 @@ $this->breadcrumbs = array('Benutzerliste');
 							</div>
 							<table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
 								<tr ng-repeat="row in $data" ng-class="{'disable': row.is_active == '0'}">
-									<td data-title="'Name'" sortable="'name'">{{row.first_name}} {{row.last_name}}</td>
+									<td data-title="'Name'" sortable="'name'">{{row.name}}</td>
 									<td data-title="'Benutzer-Typ'" sortable="'type_name'">{{row.type_name}}</td>
 									<td data-title="'Organisation'" sortable="'relation_name'">{{row.relation_name}}</td>
 									<td data-title="'Benutzername'" sortable="'login'"><a href="#">{{row.login}}</a></td>
@@ -74,7 +74,7 @@ $this->breadcrumbs = array('Benutzerliste');
 									<td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
 									<td data-title="'Status'" sortable="'is_active'">{{row.active_name}}</td>
 									<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-										<a class="btn center-block" ng-click="openEdit(row)">
+										<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 											<i class="ion-edit"></i>
 										</a>
 									</td>

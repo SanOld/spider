@@ -13,6 +13,8 @@ define ( 'SCHOOL', 's' );
 define ( 'DISTRICT', 'd' );
 define ( 'SENAT', 'g' );
 
+define ( 'USER_TYPES', 'a,t,s,d' );
+
 class BaseModel extends CFormModel {
   public $table = '';
   public $id = false;
@@ -77,7 +79,8 @@ class BaseModel extends CFormModel {
   }
   
   protected function doSelect($command) {
-    $res = $command->queryAll ();
+    $commandClone = clone($command);
+    $res = $command->queryAll();
     $result = array (
         'system_code' => 'SUCCESSFUL',
         'code' => '200' 
@@ -86,9 +89,17 @@ class BaseModel extends CFormModel {
       $result ['result'] = isset ( $res [0] ) ? $res [0] : array ();//TODO
     } else {
       $result ['result'] = $res;
-      $result ['count'] = count ( $res );
+      $result ['count'] = $this->getCountRes($commandClone);
     }
     return $result;
+  }
+  protected function getCountRes($command) {
+    $command->select('COUNT(*)')
+      ->order('')
+      ->limit('-1')
+      ->offset('');
+    return $command->queryScalar();
+
   }
   protected function doAfterSelect($result) {
     return $result;
@@ -290,7 +301,7 @@ class BaseModel extends CFormModel {
       case SENAT :
         break;
       case TA :
-        $command -> join('spi_perfomer pfm ', 'pfm.id=tbl.relation_id');
+        $command -> join('spi_performer pfm ', 'pfm.id=tbl.relation_id');
         break;
       case SCHOOL :
         $command -> join('spi_school scl ', 'scl.id=tbl.relation_id');
@@ -301,25 +312,42 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
-  protected function getRelationNameByType($type) {
+
+  protected function getRelationByType($type) {
     switch ($type) {
       case ADMIN :
       case PA :
       case SENAT :
-        return 'No relation';
+        return array('name' => 'No relation');
         break;
       case TA :
-        return 'Performer';
+        return array(
+          'name'   => 'Performer',
+          'code'   => 'performer',
+          'prefix' => 'pfm',
+          'table'  => 'spi_performer',
+        );
         break;
       case SCHOOL :
-        return 'School';
+        return array(
+          'name'   => 'School',
+          'code'   => 'school',
+          'prefix' => 'scl',
+          'table'  => 'spi_school',
+        );
         break;
       case DISTRICT :
-        return 'District';
+        return array(
+          'name'   => 'District',
+          'code'   => 'district',
+          'prefix' => 'dst',
+          'table'  => 'spi_district',
+        );
         break;
     }
-    return '';
+    return array();
   }
+
   public function insert($post, $multiInsert = false) {
     $this->method = 'post';
     if ($this->checkPermission ( $this->user, ACTION_INSERT )) {
@@ -419,15 +447,34 @@ class BaseModel extends CFormModel {
       ), $this->method );
     }
   }
+  function setPagination($command, $get) {
+    if(safe($get, 'limit')) {
+      $command->limit($get['limit']);
+      if(safe($get, 'page') && $get['page'] > 1) {
+        $command->offset(($get['page'] - 1) * $get['limit']);
+      }
+    }
+    return $command;
+  }
+  function setOrder($command, $get) {
+    if(safe($get, 'order')) {
+      $direction = safe($get, 'direction', 'ASC');
+      $command->order($get['order'].' '.$direction);
+    }
+    return $command;
+  }
   public function select($get) {
     $this->method = 'get';
     if ($this->checkPermission ( $this->user, ACTION_SELECT )) {
       $command = $this->getCommand ();
       if (! empty ( $get )) {
+        $command = $this->setPagination($command, $get);
+        $command = $this->setOrder($command, $get);
         $command = $this->getParamCommand ( $command, $get, array () );
       }
       if ($command) {
         $results = $this->doSelect ( $command );
+        $results = $this->calcResults ( $results );
         $results = $this->doAfterSelect ( $results );
         
         response ( $results ['code'], $results , $this->method);
@@ -444,6 +491,9 @@ class BaseModel extends CFormModel {
       ), $this->method );
     }
     echo('select end');
+  }
+  protected function calcResults($result) {
+    return $result;
   }
   public function execute() {
 //    $headers = getallheaders();
