@@ -139,7 +139,8 @@ body.bg {
 .wrap-line.error input[type="password"],
 .wrap-line.error input[type="email"],
 .wrap-line.error select,
-.wrap-line.error textarea {
+.wrap-line.error textarea,
+.wrap-line.error .select2-container .select2-choice {
 	border:1px solid red;
 }
 .wrap-line.error {
@@ -1211,7 +1212,7 @@ body .nav.nav-tabs.tab-color > li.active > a,
 .select2-dropdown-open .select2-choice {
 	background: #fff !important;
 }
-.select2-container {
+body div .select2-container {
 	width:100% !important;
 }
 .select2-container .select2-choice .select2-arrow {

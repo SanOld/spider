@@ -274,6 +274,7 @@ class BaseModel extends CFormModel {
     return $missed;
   }
   protected function checkPermission($user, $action) {
+//    print_r(get_called_class());exit;
     switch ($action) {
       case ACTION_SELECT :
         ;

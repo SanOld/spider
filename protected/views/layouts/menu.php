@@ -41,7 +41,7 @@
 				<ul class="dropdown-menu">
 					<li><a href="#">E-Mail-Vorlagen</a></li>
 					<li><a href="#">E-Mail-Warteschlange</a></li>
-					<li><a href="#">Hintsmodul</a></li>
+					<li><a href="/hints">Hintsmodul</a></li>
 					<li><a href="#">Dokumentvorlage</a></li>
 					<li><a href="#">Audit</a></li>
 				</ul>

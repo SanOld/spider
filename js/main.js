@@ -78,6 +78,10 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
         return (($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid) || ($scope.error && $scope.error[field] != undefined && $scope.form[field].$pristine);
     };
 
+    $scope.showPreview = function() {
+        console.log('hover')
+    }
+
     $scope.submitForm = function (formData) {
         $scope.error = false;
         $scope.submited = true;
@@ -149,4 +153,5 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
         }
         return false;
     }
+
 });

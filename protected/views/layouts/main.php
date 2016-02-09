@@ -114,12 +114,14 @@
 								<i class="fa fa-question"></i>
 							</button>
 							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
-								<select ng-change="reloadRelation()" class="form-control" ng-model="user.type_id" name="type_id" ng-options="type.id as type.name for type in userTypes" required>
-									<option value="">(Please choose)</option>
-								</select>
+								<ui-select append-to-body="true" ng-change="reloadRelation()" ng-model="user.type_id" theme="select2" name="type_id" required>
+									<ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
+									<ui-select-choices repeat="type.id as type in userTypes | filter: $select.search">
+										<span ng-bind-html="type.name | highlight: $select.search"></span>
+									</ui-select-choices>
+								</ui-select>
 								<span ng-show="fieldError('type_id')">
 									<label ng-show="form.type_id.$error.required" class="error">User type is required.</label>
-									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</span>
 							</div>
 						</div>
@@ -139,9 +141,17 @@
 								<i class="fa fa-question"></i>
 							</button>
 							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('relation_id')}">
-								<select class="form-control" name="relation_id" ng-model="user.relation_id" ng-options="relation.id as relation.name for relation in relations" required>
-									<option value="">(Please choose)</option>
-								</select>
+								<ui-select append-to-body="true" ng-model="user.relation_id" theme="select2" name="relation_id" required>
+									<ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
+									<ui-select-choices repeat="relation.id as relation in relations | filter: $select.search">
+										<span ng-bind-html="relation.name | highlight: $select.search"></span>
+									</ui-select-choices>
+								</ui-select>
+
+
+<!--								<select class="form-control" name="relation_id" ng-model="user.relation_id" ng-options="relation.id as relation.name for relation in relations" required>-->
+<!--									<option value="">(Please choose)</option>-->
+<!--								</select>-->
 								<span ng-show="fieldError('relation_id')">
 									<label ng-show="form.type_id.$error.required" class="error">Relation is required.</label>
 									<span class="glyphicon glyphicon-remove form-control-feedback"></span>

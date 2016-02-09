@@ -52,3 +52,34 @@ CREATE TABLE `spi_performer` (
   `is_checked` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `spi_page_position` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `spi_page_position_page` (`page_id`),
+  CONSTRAINT `spi_page_position_page` FOREIGN KEY (`page_id`) REFERENCES `spi_page` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `spi_hint` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) NOT NULL,
+  `position_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `spi_hint_page` (`page_id`),
+  KEY `spi_hint_position` (`position_id`),
+  CONSTRAINT `spi_hint_page` FOREIGN KEY (`page_id`) REFERENCES `spi_page` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `spi_hint_position` FOREIGN KEY (`position_id`) REFERENCES `spi_page_position` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'is_active', 'Status');
+INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'type_id', 'Benutzer-Typ');
+INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'relation_id', 'Organisation');
+INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'is_finansist', 'Finanzielle Rechte');
+INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'login', 'Benutzername');
+INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'email', 'Email');
+INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'phone', 'Telefon');

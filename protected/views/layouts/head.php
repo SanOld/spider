@@ -11,8 +11,8 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/my_style.css" rel="stylesheet">
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" rel="stylesheet" media="print">
 <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/non-responsive.css">
-
-<!-- Bootstrap core CSS -->
+<!---->
+<!--<!-- Bootstrap core CSS -->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet">
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-reset.css" rel="stylesheet">
 
@@ -26,6 +26,9 @@
 <!--Morris Chart CSS -->
 <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/morris.css">
 
+<!-- Select -->
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/select2/select2.css" />
+
 <!-- Datapicker -->
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/timepicker/bootstrap-datepicker.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/timepicker/bootstrap-timepicker.min.css" />
@@ -38,13 +41,10 @@
 <!-- DataTables -->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 <!--ng-table-->
-<!--		<link href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/ng-table.min.css" rel="stylesheet" />-->
+		<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/ng-table.min.css" rel="stylesheet" />
 
 <!-- Plugins css -->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/modal-effect/css/component.css" rel="stylesheet">
-
-<!-- Select -->
-<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/select2/select2.css" />
 
 <!--bootstrap-wysihtml5-->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/summernote/summernote.css" rel="stylesheet" />
@@ -63,9 +63,12 @@ $cs->registerScriptFile($baseUrl . '/js/lib/jquery.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-local-storage.min.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-sanitize.min.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/select.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.1.2.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/mask.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ng-table.js');
+
 
 
 $cs->registerScriptFile($baseUrl . '/js/lib/pace.js');

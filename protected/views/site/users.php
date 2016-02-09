@@ -42,9 +42,12 @@ $this->breadcrumbs = array('Benutzerliste');
 									<div class="col-lg-2">
 										<div class="form-group">
 											<label>Benutzer-Typ</label>
-											<select ng-change="updateGrid()" class="type-user form-control" ng-model="filter.type_id" ng-options="type.id as type.name for type in userTypes">
-												<option value="">View all</option>
-											</select>
+											<ui-select ng-change="updateGrid()" ng-model="filter.type_id" theme="select2">
+												<ui-select-match allow-clear="true" placeholder="View all">{{$select.selected.name}}</ui-select-match>
+												<ui-select-choices repeat="item.id as item in userTypes | filter: $select.search">
+													<span ng-bind-html="item.name | highlight: $select.search"></span>
+												</ui-select-choices>
+											</ui-select>
 										</div>
 									</div>
 									<div class="col-lg-4 add">
@@ -56,7 +59,12 @@ $this->breadcrumbs = array('Benutzerliste');
 									<div class="col-lg-2">
 										<div class="form-group">
 											<label>Status</label>
-											<select ng-change="updateGrid()" class="type-status form-control" ng-model="filter.is_active" ng-options="status.id as status.name for status in statuses"></select>
+											<ui-select ng-change="updateGrid()" class="" ng-model="filter.is_active" theme="select2">
+												<ui-select-match allow-clear="true" placeholder="View all">{{$select.selected.name}}</ui-select-match>
+												<ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
+													<span ng-bind-html="item.name | highlight: $select.search"></span>
+												</ui-select-choices>
+											</ui-select>
 										</div>
 									</div>
 									<div class="col-lg-2 reset-btn-width">

@@ -1,4 +1,4 @@
-var spi = angular.module('spi',['LocalStorageModule', 'ngTable', 'ui.bootstrap', 'ui.mask']);
+var spi = angular.module('spi',['ngSanitize', 'ui.select', 'LocalStorageModule', 'ngTable', 'ui.bootstrap', 'ui.mask']);
 
 spi.run(function(ngTableDefaults, $templateCache) {
     ngTableDefaults.params.count = 10;
@@ -9,7 +9,7 @@ spi.run(function(ngTableDefaults, $templateCache) {
 });
 
 spi.config(function($uibTooltipProvider) {
-    $uibTooltipProvider.options({'trigger': 'focus', placement: 'top'})
+    $uibTooltipProvider.options({trigger: 'focus', placement: 'top', appendToBody: 'true'})
 });
 
 

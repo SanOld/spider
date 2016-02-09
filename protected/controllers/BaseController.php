@@ -4,11 +4,19 @@ require_once ('utils/php.php');
 require_once ('utils/responce.php');
 require_once ('utils/auth.php');
 
-define('MODELS', 'User,UserType,UserTypeRight,Page,Relation,Performer,School,District');
+define('MODELS', 'User,UserType,UserTypeRight,Page,Relation,Performer,School,District,Hint');
 // define('SURVEY_DIR', '/surveys/');
 class BaseController extends Controller {
   private $method = false;
   private $model;
+
+//  protected function beforeAction($event)
+//  {
+//    print_r(Yii::app()->controller->action->id);
+//    print_r($_GET);
+//    return true;
+//  }
+
   public function actionIndex() {
     $models_prot = explode(',', MODELS);
     $models = explode(',', MODELS);
@@ -52,7 +60,7 @@ class BaseController extends Controller {
       $error = $auth->getAuthError();
       response('401', $error);
     }
-    
+
     $this -> model -> user = $auth -> user;
 //    if($chekAuth != false) {
 //      $token = $chekAuth['token'];
@@ -260,53 +268,4 @@ class BaseController extends Controller {
       );
     }
   }
-  
-//  private function chekAuth() {
-//    $errors = array ();
-//    $success = array ();
-//    $token = false;
-//    if(isset($_GET['token']) && !empty($_GET['token'])) {
-//      $token = safe($_GET, 'token', null);
-//    }
-//    if($token) {
-//      $user = User::model() -> find('token=:token', array (
-//          ':token' => $_GET['token'] 
-//      ));
-//      if($user) {
-//        // print_r($user);
-//        $resauth = $user -> authentificate($_GET['token']);
-//        if(isset($resauth['token'])) {
-//          $priv = $user -> getPriveleges();
-//          // if($priv == 'SUPERADMIN') {
-//          $path = $_SERVER['REQUEST_URI'];
-//          preg_match('@/api/([^\?]+)(\?|$)@', $path, $matches);
-//          $res = $matches[1];
-//          $list = explode('/', $res);
-//          $id = (isset($list[1]) && $list[1] != '' && is_numeric($list[1])) ? (int)$list[1] : false;
-//          // $this->id=Yii::app()->request->getParam('id')?Yii::app()->request->getParam('id'):false;
-//          $this -> method = strtolower($_SERVER['REQUEST_METHOD']);
-//          $success['priv'] = $priv;
-//          $success['id'] = $id;
-//          $success['user'] = $user;
-//          $success['token'] = $token;
-//        } else {
-//          $errors = unserialize(ERR_TOKEN_OUT_OF_DATE);
-//          $errors['message'] = $resauth['error_time'];
-//          $errors = array_merge($errors, $resauth); // For mobile part
-//        }
-//      } else {
-//        $errors = unserialize(ERR_TOKEN);
-//        $errors['message'] = 'You have taken incorrect token';
-//      }
-//    } else {
-//      $errors = unserialize(ERR_TOKEN);
-//      $errors['message'] = 'Token must be setted';
-//    }
-//    if($errors) {
-//      response($errors);
-//      exit();
-//    } else {
-//      return $success;
-//    }
-//  }
 }

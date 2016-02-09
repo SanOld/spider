@@ -20,6 +20,11 @@ class SiteController extends Controller
 			),
 		);
 	}
+	protected function beforeAction($event)
+	{
+		//print_r(Yii::app()->controller->action->id);
+		return true;
+	}
 
 	public function actionIndex()
 	{
@@ -40,6 +45,10 @@ class SiteController extends Controller
 
 	public function actionUsers() {
 		$this->render('users');
+	}
+
+	public function actionHints() {
+		$this->render('hints');
 	}
 
 	public function actionUserRoles() {

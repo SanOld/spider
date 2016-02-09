@@ -46,6 +46,7 @@ return array(
 			'rules'=>array(
 				'/users'           => '/site/users',
 				'/user-roles'      => '/site/userRoles',
+				'/hints'           => '/site/hints',
 				'/dashboard'       => '/site/dashboard',
 				'/forgot-password' => '/site/forgotPassword',
 				'/api/test'        => '/site/page/view/resttest',
