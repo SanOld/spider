@@ -64,6 +64,7 @@ $cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-local-storage.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-sanitize.min.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-animate.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/select.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.1.2.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/mask.min.js');

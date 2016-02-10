@@ -94,9 +94,7 @@
 								<button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 0}" ng-model="user.is_active" uib-btn-radio="0">DEAKTIVIEREN</button>
 							</div>
               <span ng-if="isCurrentUser" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Deaktivieren'}}</span>
-							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question" type="button">
-								<i class="fa fa-question"></i>
-							</button>
+							<span spi-hint text="_hint.is_active"></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -104,15 +102,11 @@
 
 						<div ng-if="!isInsert" class="col-lg-10">
 							<span class="no-edit-text">{{type_name}}</span>
-							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question" type="button">
-								<i class="fa fa-question"></i>
-							</button>
+							<span spi-hint text="_hint.type_id"></span>
 						</div>
 
 						<div ng-if="isInsert" class="col-lg-4 custom-width">
-							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
-								<i class="fa fa-question"></i>
-							</button>
+							<span spi-hint text="_hint.type_id"></span>
 							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
 								<ui-select append-to-body="true" ng-change="reloadRelation()" ng-model="user.type_id" theme="select2" name="type_id" required>
 									<ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
@@ -131,15 +125,11 @@
 						<label class="col-lg-2 control-label">Organisation</label>
 						<div ng-if="!isInsert" class="col-lg-10">
 							<span class="no-edit-text">{{relation_name}}</span>
-							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question" type="button">
-								<i class="fa fa-question"></i>
-							</button>
+							<span spi-hint text="_hint.relation_id"></span>
 						</div>
 
 						<div ng-if="isInsert" class="col-lg-10">
-							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
-								<i class="fa fa-question"></i>
-							</button>
+							<span spi-hint text="_hint.relation_id"></span>
 							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('relation_id')}">
 								<ui-select append-to-body="true" ng-model="user.relation_id" theme="select2" name="relation_id" required>
 									<ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
@@ -147,11 +137,6 @@
 										<span ng-bind-html="relation.name | highlight: $select.search"></span>
 									</ui-select-choices>
 								</ui-select>
-
-
-<!--								<select class="form-control" name="relation_id" ng-model="user.relation_id" ng-options="relation.id as relation.name for relation in relations" required>-->
-<!--									<option value="">(Please choose)</option>-->
-<!--								</select>-->
 								<span ng-show="fieldError('relation_id')">
 									<label ng-show="form.type_id.$error.required" class="error">Relation is required.</label>
 									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -166,11 +151,8 @@
 								<button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 1}" ng-model="user.is_finansist" uib-btn-radio="1">JA</button>
 								<button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 0}" ng-model="user.is_finansist" uib-btn-radio="0">NEIN</button>
 							</div>
-              <span ng-if="isCurrentUser" class="no-edit-text">{{user.is_active ? 'Ja' : 'Nein'}}</span>
-
-							<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question" type="button">
-								<i class="fa fa-question"></i>
-							</button>
+              <span ng-if="isCurrentUser" class="no-edit-text">{{user.is_finansist ? 'Ja' : 'Nein'}}</span>
+							<span spi-hint text="_hint.is_finansist"></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -232,9 +214,7 @@
 							<div class="form-group">
 								<label class="col-lg-3 control-label" for="login">Benutzername</label>
 								<div class="col-lg-9">
-									<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
-										<i class="fa fa-question"></i>
-									</button>
+									<span spi-hint text="_hint.login" class="has-hint"></span>
 									<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('login')}">
 										<input class="form-control" type="text" name="login" ng-model="user.login" id="login" value="" ng-disabled="isCurrentUser" ng-minlength="3" ng-maxlength="45" required>
 									<span ng-show="fieldError('login')">
@@ -250,9 +230,7 @@
 							<div class="form-group">
 								<label class="col-lg-3 control-label" for="email">Email</label>
 								<div class="col-lg-9">
-									<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
-										<i class="fa fa-question"></i>
-									</button>
+									<span spi-hint text="_hint.email" class="has-hint"></span>
 									<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
 										<input class="form-control" type="email" name="email" ng-model="user.email" id="email" value="" ng-maxlength="45" required>
 									<span ng-show="fieldError('email')">
@@ -269,14 +247,11 @@
 							<div class="form-group">
 								<label class="col-lg-3 control-label" for="phone">Telefon</label>
 								<div class="col-lg-9">
-									<button uib-popover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." class="btn btn-question has-hint" type="button">
-										<i class="fa fa-question"></i>
-									</button>
+									<div spi-hint text="_hint.phone" class="has-hint"></div>
 									<div class="wrap-hint">
 										<input class="form-control" type="text" ng-model="user.phone" id="phone" value="" ui-mask="(999) 9999 999"  ui-mask-placeholder ui-mask-placeholder-char="_">
 									</div>
 								</div>
-
 							</div>
 						</div>
 					</div>

@@ -9,17 +9,7 @@ $this->breadcrumbs = array('Benutzerliste');
 <div ng-controller="UserController" class="wraper container-fluid" >
 	<div class="row">
 		<div class="container center-block">
-			<div class="hint-details alert alert-info m-0 clearfix">
-				<div class="heading-alert">
-					<strong>Lorem ipsum dolor sit amet</strong>
-								<span class="show-link pull-right">
-									Zeigen <span class="caret"></span>
-								</span>
-				</div>
-				<div class="content-alert">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-				</div>
-			</div>
+			<div spi-hint-main title="_hint._main.title" text="_hint._main.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
 					<h1 class="panel-title col-lg-6">Benutzerliste</h1>
@@ -59,7 +49,7 @@ $this->breadcrumbs = array('Benutzerliste');
 									<div class="col-lg-2">
 										<div class="form-group">
 											<label>Status</label>
-											<ui-select ng-change="updateGrid()" class="" ng-model="filter.is_active" theme="select2">
+											<ui-select append-to-body="true" ng-change="updateGrid()" class="" ng-model="filter.is_active" theme="select2">
 												<ui-select-match allow-clear="true" placeholder="View all">{{$select.selected.name}}</ui-select-match>
 												<ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
 													<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -99,23 +89,3 @@ $this->breadcrumbs = array('Benutzerliste');
 		</div>
 	</div>
 </div>
-
-
-<script type="text/javascript">
-
-	jQuery(window).load(function() {
-
-		$('.hint-details .show-link').click(function(){
-
-			if ($('.hint-details .content-alert').is(":visible")) {
-				$(this).html($(this).html().replace(/Ausblenden/, 'Zeigen'));
-			} else {
-				$(this).html($(this).html().replace(/Zeigen/, 'Ausblenden'));
-			}
-
-			$(".hint-details .content-alert").slideToggle();
-		})
-
-	});
-
-</script>

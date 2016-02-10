@@ -5,9 +5,12 @@ require_once ('utils/utils.php');
 class Hint extends BaseModel {
   public $table = 'spi_hint';
   public $post = array();
-  public $select_all = ' * ';
+  public $select_all = ' tbl.*, pag.name page_name, pgp.name position_name, pgp.code position_code ';
   protected function getCommand() {
-    $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
+    $command = Yii::app() -> db -> createCommand() -> select($this->select_all)
+      -> from($this -> table . ' tbl')
+      -> join('spi_page pag', 'tbl.page_id = pag.id')
+      -> leftJoin('spi_page_position pgp', 'tbl.position_id = pgp.id');
     
     $where = ' 1=1 ';
     $conditions = array();
@@ -19,104 +22,18 @@ class Hint extends BaseModel {
     return $command;
   }
 
-  protected function doAfterSelect($results) {
-    foreach($results['result'] as &$row) {
-      $relation = $this->getRelationByType($row['type']);
-      $row['relation_name'] = $relation['name'];
-      $row['relation_code'] = safe($relation, 'code', '');
-    }
-    return $results;
-  }
-
   protected function getParamCommand($command, array $params, array $logic = array()) {
     $params = array_change_key_case($params, CASE_UPPER);
+    if (safe($params, 'PAGE_ID')) {
+      $command->andWhere("tbl.page_id = :page_id", array(':page_id' => $params['PAGE_ID']));
+    }
+    if (safe($params, 'PAGE_CODE')) {
+      $command->andWhere("pag.code = :page_code", array(':page_code' => $params['PAGE_CODE']));
+    }
+    if (safe($params, 'POSITION')) {
+      $command->andWhere("pgp.name like :position", array(':position' => '%' . $params['POSITION'] . '%'));
+    }
     return $command;
-  }
-
-  protected function doBeforeInsert($post) {
-    $this->post = $post;
-    $name = safe($post,'name');
-    if(safe($post, 'rights')) {
-      unset($post['rights']);
-    }
-
-    if ($name && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('name=:name', array(
-        ':name' => $name
-      )) -> queryRow()) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'system_code' => 'ERR_DUPLICATED_NAME',
-        'message' => 'Insert failed: This Type Name already exists.'
-      );
-    }
-
-    return array(
-      'result' => true,
-      'params' => $post
-    );
-  }
-
-  protected function doAfterInsert($result, $params, $post) {
-    if(safe($post, 'rights') && $result['code'] == '200' && safe($result, 'id')) {
-      foreach($post['rights'] as $right) {
-        Yii::app ()->db->createCommand()->insert('spi_user_type_right', array(
-          'type_id' => $result['id'],
-          'page_id' => $right['page_id'],
-          'can_view' => $right['can_view'],
-          'can_edit' => $right['can_edit'],
-        ));
-      }
-    }
-    return $result;
-  }
-
-  protected function doBeforeUpdate($post, $id) {
-    $name = safe($post,'name');
-    if(safe($post, 'rights')) {
-      unset($post['rights']);
-    }
-    if($this->isDefaultType($id)) {
-      unset($post['type']);
-    }
-    if ($name && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id!=:id AND name=:name', array(
-        ':id' => $id,
-        ':name' => $name
-      )) -> queryRow()) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'system_code' => 'ERR_DUPLICATED_NAME',
-        'message' => 'Insert failed: This Type Name already exists.'
-      );
-    }
-
-    return array(
-      'result' => true,
-      'params' => $post
-    );
-  }
-  protected function isDefaultType($id) {
-    return Yii::app()->db->createCommand()
-      ->select('default')
-      ->from($this -> table)
-      ->where('id=:id', array(':id'=> $id))
-      ->queryScalar();
-  }
-
-  protected function doAfterUpdate($result, $params, $post, $id) {
-    if(safe($post, 'rights') && $result['code'] == '200' && !$this->isDefaultType($id)) {
-      foreach($post['rights'] as $right) {
-        if(!safe($right, 'id')) {
-          continue;
-        }
-        Yii::app ()->db->createCommand()->update('spi_user_type_right', array(
-          'can_view' => $right['can_view'],
-          'can_edit' => $right['can_edit'],
-        ), 'id=:id', array (':id' => $right['id']));
-      }
-    }
-    return $result;
   }
 
   protected function doBeforeDelete($id) {
@@ -129,38 +46,10 @@ class Hint extends BaseModel {
           'result' => false,
           'system_code' => 'ERR_NOT_EXISTS' 
       );
-    } else if($this->isDefaultType($id)) {
-      return array(
-        'code' => '403',
-        'result' => false,
-        'system_code' => 'ERR_FORBIDDEN'
-      );
     }
-    
     return array(
         'result' => true 
     );
   }
-  
-
-  
-//  protected function checkPermission($user, $action) {
-//    switch ($action) {
-//      case ACTION_SELECT :
-//      case ACTION_INSERT :
-//      case ACTION_UPDATE :
-//        return true;
-//        break;
-//      case ACTION_DELETE :
-//        if ($this -> user['is_super_admin']) {
-//          return true;
-//        } elseif ($this -> user['is_admin'] || $this -> user['is_account_owner']) {
-//          return true;
-//        }
-//        return false;
-//    }
-//    return false;
-//  }
-
 
 }

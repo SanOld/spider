@@ -1,9 +1,8 @@
 <?php
 require_once ('utils/utils.php');
-//require_once ('utils/responce.php');
 
-class Page extends BaseModel {
-  public $table = 'spi_page';
+class PagePosition extends BaseModel {
+  public $table = 'spi_page_position';
   public $post = array();
   public $select_all = ' * ';
   protected function getCommand() {
@@ -22,12 +21,9 @@ class Page extends BaseModel {
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
     $params = array_change_key_case($params, CASE_UPPER);
-
-    if(safe($params, 'RIGHT') && safe($params, 'TYPE_ID')) {
-      $command->select('tbl.*, utr.id right_id, IFNULL(utr.can_view, 0) can_view, IFNULL(utr.can_edit, 0) can_edit');
-      $command->leftJoin('spi_user_type_right utr', 'tbl.id=utr.page_id AND utr.type_id=:type_id', array(':type_id' => $params['TYPE_ID']));
+    if (safe($params, 'PAGE_ID')) {
+      $command->andWhere("tbl.page_id = :page_id", array(':page_id' => $params['PAGE_ID']));
     }
-    
     return $command;
   }
 

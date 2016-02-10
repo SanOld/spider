@@ -9,6 +9,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 <div ng-controller="UserRolesController" class="wraper container-fluid" >
 	<div class="row">
 		<div class="container center-block">
+			<div spi-hint-main title="_hint._main.title" text="_hint._main.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading heading-noborder clearfix">
 					<h1 class="panel-title col-lg-6">Benutzerrollen</h1>
@@ -20,7 +21,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
 						<tr ng-repeat="row in $data">
 							<td data-title="'Benutzer-Typ'" sortable="'name'">{{row.name}}</td>
-							<td data-title="'Organisationstyp'" sortable="'relation_name'">{{row.relation_name}}</td>
+							<td data-title="'Organisationstyp'">{{row.relation_name}}</td>
 							<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
@@ -35,8 +36,6 @@ $this->breadcrumbs = array('Benutzerrollen');
 </div>
 
 
-
-<!--Edit user role -->
 <script type="text/ng-template" id="editTemplate.html">
 			<div class="panel panel-color panel-primary">
 				<div class="panel-heading clearfix">
@@ -105,4 +104,3 @@ $this->breadcrumbs = array('Benutzerrollen');
 				</div>
 			</div>
 </script>
-<!--End Edit user role -->

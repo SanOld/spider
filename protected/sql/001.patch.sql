@@ -24,8 +24,9 @@ CREATE TABLE `spi_page` (
   `name` VARCHAR(255) NOT NULL,
 PRIMARY KEY (`id`));
 
-INSERT INTO page (code, name) VALUES ('user', 'Users');
-INSERT INTO page (code, name) VALUES ('user_roles', 'User Roles');
+INSERT INTO spi_page (code, name) VALUES ('user', 'Users');
+INSERT INTO spi_page (code, name) VALUES ('user_type', 'User Roles');
+INSERT INTO spi_page (code, name) VALUES ('hint', 'Hints module');
 
 ALTER TABLE spi_user_type ADD COLUMN `default` TINYINT(1) DEFAULT '0';
 UPDATE spi_user_type SET `default` = 1;
@@ -83,3 +84,8 @@ INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'is_finansist', '
 INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'login', 'Benutzername');
 INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'email', 'Email');
 INSERT INTO spi_page_position (page_id, code, name) VALUES (1, 'phone', 'Telefon');
+
+INSERT INTO spi_page_position (page_id, code, name) VALUES (3, 'page_id', 'Seite');
+INSERT INTO spi_page_position (page_id, code, name) VALUES (3, 'position_id', 'Position');
+INSERT INTO spi_page_position (page_id, code, name) VALUES (3, 'title', 'Hilfetext');
+INSERT INTO spi_page_position (page_id, code, name) VALUES (3, 'description', 'Description');

@@ -1,17 +1,22 @@
-spi.controller('UserRolesController', function($scope, network, GridService) {
+spi.controller('UserRolesController', function($scope, network, GridService, HintService) {
 
     var grid = GridService();
-    getTypes();
+    $scope.tableParams = grid('user_type', $scope.filter, {sorting: {name: 'asc'}});
+    //getTypes();
 
     $scope.updateGrid = function() {
         grid.reload();
     };
 
     $scope.openEdit = function (row) {
-        grid.openEditor({data: row}, function() {
+        grid.openEditor({data: row, hint: $scope._hint}, function() {
             getTypes();
         });
     };
+
+    HintService('user_type', function(result) {
+        $scope._hint = result;
+    });
 
     function getTypes() {
         network.get('user_type', {}, function(result, response){

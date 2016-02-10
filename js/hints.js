@@ -1,16 +1,24 @@
-spi.controller('HintsController', function($scope, network, GridService) {
+spi.controller('HintsController', function($scope, network, GridService, HintService) {
+    $scope.filter = {};
 
     var grid = GridService();
-    $scope.tableParams = grid('hint', {}, {});
+    $scope.tableParams = grid('hint', $scope.filter);
 
     $scope.updateGrid = function() {
         grid.reload();
     };
 
-    $scope.openEdit = function (row) {
-        grid.openEditor({data: row});
+    HintService('hint', function(result) {
+         $scope._hint = result;
+    });
+
+    $scope.resetFilter = function() {
+        $scope.filter = grid.resetFilter();
     };
 
+    $scope.openEdit = function (row) {
+        grid.openEditor({data: row, hint: $scope._hint});
+    };
 
     network.get('page', {}, function(result, response){
         if(result) {
@@ -22,72 +30,62 @@ spi.controller('HintsController', function($scope, network, GridService) {
 });
 
 
-spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, GridService) {
+spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, hint) {
     $scope.isInsert = !data.id;
+    $scope._hint = hint;
+    $scope.hint = {};
+
+    $scope.reloadPosition = function() {
+        $scope.positions = [];
+        if($scope.hint.page_id) {
+            network.get('page_position', {'page_id': $scope.hint.page_id}, function (result, response) {
+                if(result) {
+                    $scope.positions = angular.merge($scope.positions, response.result);
+                }
+            });
+        }
+    };
 
     if(!$scope.isInsert) {
-        $scope.userTypeId = data.id
-        $scope.default = +data.default;
-        $scope.relation_name = data.relation_name;
-        $scope.user_type = {name: data.name};
-    } else {
-        network.get('relation', {}, function(result, response){
-            if(result) {
-                $scope.relations = response;
-                $scope.user_type = {type: 'a'};
-            }
-        });
+        $scope.hint = {
+            page_id:     data.page_id,
+            position_id: data.position_id,
+            title:       data.title,
+            description: data.description
+        };
+        $scope.reloadPosition();
     }
 
-
-    var grid = GridService();
-    network.get('page', {right: 1, type_id: data.id}, function(result, response){
+    network.get('page', {}, function(result, response){
         if(result) {
-            $scope.tableParams = grid(response.result, {}, {sorting: {page_name: 'asc'}, count: response.result.length});
-            $scope.user_right = [];
-            for(var k in response.result) {
-                $scope.user_right.push({
-                    id: response.result[k].right_id,
-                    type_id: data.id,
-                    page_id: response.result[k].id,
-                    can_view: response.result[k].can_view,
-                    can_edit: response.result[k].can_edit
-                });
-            }
+            $scope.pages = response.result;
         }
     });
 
     $scope.fieldError = function(field) {
-        return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid || ($scope.error && $scope.error[field] != undefined && $scope.form[field].$pristine);
+        return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;
     };
 
-    $scope.submitForm = function () {
-        $scope.errors = [];
+    $scope.submitForm = function (formData) {
         $scope.submited = true;
         $scope.form.$setPristine();
         if ($scope.form.$valid) {
             var callback = function (result, response) {
                 if(result) {
                     $uibModalInstance.close();
-                } else {
-                    setError(response.system_code);
                 }
                 $scope.submited = false;
             };
-            if(!$scope.default) {
-                $scope.user_type.rights = $scope.user_right;
-            }
             if($scope.isInsert) {
-                network.post('user_type', $scope.user_type, callback);
-
+                network.post('hint', formData, callback);
             } else {
-                network.put('user_type/'+data.id, $scope.user_type, callback);
+                network.put('hint/'+data.id, formData, callback);
             }
         }
     };
 
-    $scope.remove = function(id) {
-        network.delete('user_type/'+id, function (result) {
+    $scope.remove = function() {
+        network.delete('hint/'+data.id, function (result) {
             if(result) {
                 $uibModalInstance.close();
             }
@@ -98,13 +96,4 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
         $uibModalInstance.dismiss('cancel');
     };
 
-    function setError(code) {
-        var result = false;
-        switch (code) {
-            case 'ERR_DUPLICATED_NAME':
-                result = {name: {dublicate: true}};
-                break;
-        }
-        $scope.error = result;
-    }
 });

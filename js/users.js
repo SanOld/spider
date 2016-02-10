@@ -1,4 +1,4 @@
-spi.controller('UserController', function($scope, network, GridService) {
+spi.controller('UserController', function($scope, network, GridService, HintService) {
     $scope.filter = {is_active: 1};
 
     $scope.statuses = [
@@ -10,6 +10,10 @@ spi.controller('UserController', function($scope, network, GridService) {
         if(result) {
             $scope.userTypes = response.result;
         }
+    });
+
+    HintService('user', function(result) {
+        $scope._hint = result;
     });
 
     var grid = GridService();
@@ -26,6 +30,7 @@ spi.controller('UserController', function($scope, network, GridService) {
     $scope.openEdit = function (row) {
         grid.openEditor({
             data: row,
+            hint: $scope._hint,
             controller: 'ModalEditUserController',
             template: 'editUserTemplate.html'
         });

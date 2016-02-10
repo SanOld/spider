@@ -27,13 +27,21 @@ spi.controller('main', function($scope, network, GridService) {
 
 });
 
-spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, data, network, localStorageService) {
+spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, data, network, localStorageService, hint, HintService) {
     $scope.isInsert = true;
     $scope.user = {
         is_active: 1,
         is_finansist: 0,
         sex: 1
     };
+
+    if(!hint) {
+        HintService('user', function(result) {
+            $scope._hint = result;
+        });
+    } else {
+        $scope._hint = hint;
+    }
 
     if(data.id) {
         $scope.isInsert = false;
@@ -77,10 +85,6 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
     $scope.fieldError = function(field) {
         return (($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid) || ($scope.error && $scope.error[field] != undefined && $scope.form[field].$pristine);
     };
-
-    $scope.showPreview = function() {
-        console.log('hover')
-    }
 
     $scope.submitForm = function (formData) {
         $scope.error = false;
