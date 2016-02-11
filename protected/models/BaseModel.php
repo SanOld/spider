@@ -273,20 +273,22 @@ class BaseModel extends CFormModel {
     }
     return $missed;
   }
-  protected function checkPermission($user, $action) {
-//    print_r(get_called_class());exit;
-    switch ($action) {
-      case ACTION_SELECT :
-        ;
-      case ACTION_UPDATE :
-        ;
-      case ACTION_INSERT :
-        ;
-      case ACTION_DELETE :
-        ;
-        return true;
+  protected function checkPermission($user, $action) { // TODO: cache all rights for user and used it later!
+    if(!$_GET['model']) {
+      return true;
     }
-    return false;
+    $can = Yii::app()->db->createCommand()
+      ->select($action == ACTION_SELECT ? 'can_view' : 'can_edit')
+      ->from('spi_user_type_right utr')
+      ->join('spi_page pag', 'utr.page_id=pag.id')
+      ->where('pag.code=:code AND utr.type_id=:type_id', array(':code' => $_GET['model'], ':type_id' => $user['type_id']))
+      ->queryScalar();
+    if($can !== false && !$can) {
+      return false;
+    } elseif(!$can && !ACTION_SELECT) {
+      return false;
+    }
+    return true;
   }
   
 //  define ( 'PA', 'p' );
