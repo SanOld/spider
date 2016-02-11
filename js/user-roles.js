@@ -1,8 +1,7 @@
 spi.controller('UserRolesController', function($scope, network, GridService, HintService) {
-
+    $scope.$parent._m = 'user_type';
     var grid = GridService();
-    $scope.tableParams = grid('user_type', $scope.filter, {sorting: {name: 'asc'}});
-    //getTypes();
+    $scope.tableParams = grid($scope.$parent._m, $scope.filter, {sorting: {name: 'asc'}});
 
     $scope.updateGrid = function() {
         grid.reload();
@@ -14,12 +13,12 @@ spi.controller('UserRolesController', function($scope, network, GridService, Hin
         });
     };
 
-    HintService('user_type', function(result) {
+    HintService($scope.$parent._m, function(result) {
         $scope._hint = result;
     });
 
     function getTypes() {
-        network.get('user_type', {}, function(result, response){
+        network.get($scope.$parent._m, {}, function(result, response){
             if(result) {
                 $scope.tableParams = grid(response.result, {}, {sorting: {name: 'asc'}, count: response.result.length});
             }
@@ -30,10 +29,11 @@ spi.controller('UserRolesController', function($scope, network, GridService, Hin
 
 
 spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, GridService) {
+    $scope.$parent._m = 'user_type';
     $scope.isInsert = !data.id;
 
     if(!$scope.isInsert) {
-        $scope.userTypeId = data.id
+        $scope.userTypeId = data.id;
         $scope.default = +data.default;
         $scope.relation_name = data.relation_name;
         $scope.user_type = {name: data.name};
@@ -85,10 +85,10 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
                 $scope.user_type.rights = $scope.user_right;
             }
             if($scope.isInsert) {
-                network.post('user_type', $scope.user_type, callback);
+                network.post($scope.$parent._m, $scope.user_type, callback);
 
             } else {
-                network.put('user_type/'+data.id, $scope.user_type, callback);
+                network.put($scope.$parent._m+'/'+data.id, $scope.user_type, callback);
             }
         }
     };

@@ -21,6 +21,7 @@ spi.service('network', function($http, configs, localStorageService) {
                 localStorageService.set('token',result.token);
                 $network.user = result.user;
                 localStorageService.set('user',result.user);
+                localStorageService.set('rights',result.rights);
                 callback(true);
             })
             .error(function(data, status, headers, config) {
@@ -34,6 +35,7 @@ spi.service('network', function($http, configs, localStorageService) {
         localStorageService.set('currLang',false);
         $network.user = {};
         localStorageService.set('user',false);
+        localStorageService.set('rights',false);
         $network.onLogout();
     };
     $network.isLogined = function() {
@@ -59,6 +61,7 @@ spi.service('network', function($http, configs, localStorageService) {
                     localStorageService.set('token',result.token);
                     localStorageService.set('tokenTime',$.now()+12*3600*1000);
                     localStorageService.set('user',result.user);
+                    localStorageService.set('rights',result.rights);
                     callback(true, result);
                     $network.onLogin();
                 })

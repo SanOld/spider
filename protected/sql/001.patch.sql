@@ -91,3 +91,8 @@ INSERT INTO spi_page_position (page_id, code, name) VALUES (3, 'page_id', 'Seite
 INSERT INTO spi_page_position (page_id, code, name) VALUES (3, 'position_id', 'Position');
 INSERT INTO spi_page_position (page_id, code, name) VALUES (3, 'title', 'Hilfetext');
 INSERT INTO spi_page_position (page_id, code, name) VALUES (3, 'description', 'Description');
+
+
+INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (1, 1, 1, 1);
+INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (1, 2, 1, 1);
+INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (1, 3, 1, 1);

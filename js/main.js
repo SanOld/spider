@@ -1,11 +1,22 @@
-
-spi.controller('main', function($scope, network, GridService) {
+spi.controller('main', function($scope, network, GridService, localStorageService) {
+    $scope._r = localStorageService.get('rights');
+    $scope._m = 'dashboard';
     $scope.isLogin = network.isLogined();
     if($scope.isLogin) {
         $scope.user = network.user;
     } else {
         window.location = '/'
     }
+
+    $scope.canView = function(model) {
+        var model = model || $scope._m;
+        return model && $scope._r[model].view;
+    };
+
+    $scope.canEdit = function(model) {
+        var model = model || $scope._m;
+        return model && $scope._r[model].edit;
+    };
 
     $scope.logout = function(){
         network.logout();
@@ -28,6 +39,7 @@ spi.controller('main', function($scope, network, GridService) {
 });
 
 spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, data, network, localStorageService, hint, HintService) {
+    $scope.model = 'user';
     $scope.isInsert = true;
     $scope.user = {
         is_active: 1,
@@ -36,7 +48,7 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
     };
 
     if(!hint) {
-        HintService('user', function(result) {
+        HintService($scope.model, function(result) {
             $scope._hint = result;
         });
     } else {
@@ -106,9 +118,9 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
                 $scope.submited = false;
             };
             if($scope.isInsert) {
-                network.post('user', formData, callback);
+                network.post($scope.model, formData, callback);
             } else {
-                network.put('user/'+data.id, formData, callback);
+                network.put($scope.model+'/'+data.id, formData, callback);
             }
         }
     };

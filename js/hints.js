@@ -1,14 +1,15 @@
 spi.controller('HintsController', function($scope, network, GridService, HintService) {
+    $scope.$parent._m = 'hint';
     $scope.filter = {};
 
     var grid = GridService();
-    $scope.tableParams = grid('hint', $scope.filter);
+    $scope.tableParams = grid($scope.$parent._m, $scope.filter);
 
     $scope.updateGrid = function() {
         grid.reload();
     };
 
-    HintService('hint', function(result) {
+    HintService($scope.$parent._m, function(result) {
          $scope._hint = result;
     });
 
@@ -31,6 +32,7 @@ spi.controller('HintsController', function($scope, network, GridService, HintSer
 
 
 spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
+    $scope.$parent._m = 'hint';
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.hint = {};
@@ -56,8 +58,6 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
     $scope.changePosition = function(id) {
         $scope.showTitle = id && Utils.getRowById($scope.positions, id, 'code') == 'header';
     };
-
-
 
     if(!$scope.isInsert) {
         $scope.page_name = data.page_name;
@@ -91,15 +91,15 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
                 $scope.submited = false;
             };
             if($scope.isInsert) {
-                network.post('hint', formData, callback);
+                network.post($scope.$parent._m, formData, callback);
             } else {
-                network.put('hint/'+data.id, formData, callback);
+                network.put($scope.$parent._m+'/'+data.id, formData, callback);
             }
         }
     };
 
     $scope.remove = function() {
-        network.delete('hint/'+data.id, function (result) {
+        network.delete($scope.$parent._m+'/'+data.id, function (result) {
             if(result) {
                 $uibModalInstance.close();
             }

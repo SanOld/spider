@@ -6,7 +6,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/user-roles.js"></script>
 
-<div ng-controller="UserRolesController" class="wraper container-fluid" >
+<div ng-controller="UserRolesController" class="wraper container-fluid" ng-cloak>
 	<div class="row">
 		<div class="container center-block">
 			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
@@ -22,7 +22,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Benutzer-Typ'" sortable="'name'">{{row.name}}</td>
 							<td data-title="'Organisationstyp'">{{row.relation_name}}</td>
-							<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+							<td data-title="'Bearbeiten'" ng-if="$parent._r.canView()" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
 								</a>

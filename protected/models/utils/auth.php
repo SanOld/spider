@@ -64,11 +64,23 @@ class Auth {
                                                , array(':id'=>$this->user['id']));
         $this->user['auth_token'] = $authToken;
         $this->user['auth_token_created_at'] = $toUpdate['auth_token_created_at'];
-        
+
+        $rights = [];
+        $rows = Yii::app()->db->createCommand()
+          ->select('pag.code, utr.can_view, utr.can_edit')
+          ->from('spi_user_type_right utr')
+          ->join('spi_page pag', 'utr.page_id = pag.id')
+          ->where('utr.type_id=:type_id', array(':type_id'=>$this->user['type_id']))
+          ->queryAll();
+        foreach($rows as $row) {
+          $rights[$row['code']] = ['view' => (int)$row['can_view'], 'edit' => (int)$row['can_edit']];
+        }
+
         $res = array( 'result'      => true
                     , 'system_code' => 'LOGIN_SUCCESSFUL'
                     , 'code'        => '200'
                     , 'token'       => $authToken
+                    , 'rights'      => $rights
                     , 'user'        => $this->user
                     , 'expiredAt'   => strtotime('+'.$this->live.' hour')
                     );

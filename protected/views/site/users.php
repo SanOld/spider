@@ -6,7 +6,7 @@ $this->breadcrumbs = array('Benutzerliste');
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/users.js"></script>
 
-<div ng-controller="UserController" class="wraper container-fluid" >
+<div ng-controller="UserController" class="wraper container-fluid" ng-cloak>
 	<div class="row">
 		<div class="container center-block">
 			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
@@ -71,7 +71,7 @@ $this->breadcrumbs = array('Benutzerliste');
 									<td data-title="'Email'" sortable="'email'"><a href="#">{{row.email}}</a></td>
 									<td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
 									<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
-									<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+									<td data-title="'Bearbeiten'" ng-if="$parent._r.canView()" header-class="'dt-edit'" class="dt-edit">
 										<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 											<i class="ion-edit"></i>
 										</a>

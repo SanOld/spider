@@ -1,4 +1,5 @@
 spi.controller('UserController', function($scope, network, GridService, HintService) {
+    $scope.$parent._m = 'user';
     $scope.filter = {is_active: 1};
 
     $scope.statuses = [
@@ -12,12 +13,12 @@ spi.controller('UserController', function($scope, network, GridService, HintServ
         }
     });
 
-    HintService('user', function(result) {
+    HintService($scope.$parent._m, function(result) {
         $scope._hint = result;
     });
 
     var grid = GridService();
-    $scope.tableParams = grid('user', $scope.filter, {sorting: {name: 'asc'}});
+    $scope.tableParams = grid($scope.$parent._m, $scope.filter, {sorting: {name: 'asc'}});
 
     $scope.resetFilter = function() {
         $scope.filter = grid.resetFilter();

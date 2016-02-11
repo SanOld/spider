@@ -4,8 +4,7 @@ $this->breadcrumbs = array('Hintsmodul');
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/hints.js"></script>
 
-
-<div ng-controller="HintsController" class="wraper container-fluid" >
+<div ng-controller="HintsController" class="wraper container-fluid" ng-cloak>
 	<div class="row">
 		<div class="container center-block">
 			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
@@ -47,7 +46,7 @@ $this->breadcrumbs = array('Hintsmodul');
 							<td data-title="'Seite'" sortable="'page_name'">{{row.page_name}}</td>
 							<td data-title="'Position'" sortable="'position_name'">{{row.position_name}}</td>
 							<td data-title="'Hilfetext'" sortable="'title'">{{row.title}}</td>
-							<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+							<td data-title="'Bearbeiten'" ng-if="$parent._r.canView()" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
 								</a>
