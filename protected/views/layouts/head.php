@@ -75,10 +75,9 @@ $cs->registerScriptFile($baseUrl . '/js/lib/ng-table.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/pace.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/wow.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/jquery.js');
-//$cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/sweet-alert.js');
 
-
+//$cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/modal-effect/js/classie.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/modal-effect/js/modalEffects.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/timepicker/bootstrap-datepicker.js');
@@ -90,8 +89,11 @@ $cs->registerScriptFile($baseUrl . '/js/lib/sweet-alert.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/bootstrap-wysihtml5/bootstrap-wysihtml5.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/summernote/summernote.min.js');
 
-$cs->registerScriptFile($baseUrl . '/js/app.js');
+$cs->registerScriptFile($baseUrl . '/js/common/app.js');
+$cs->registerScriptFile($baseUrl . '/js/common/services.js');
+$cs->registerScriptFile($baseUrl . '/js/common/directives.js');
+$cs->registerScriptFile($baseUrl . '/js/common/network.js');
 $cs->registerScriptFile($baseUrl . '/js/main.js');
-$cs->registerScriptFile($baseUrl . '/js/network.js');
+
 
 ?>

@@ -5,7 +5,7 @@ require_once ('utils/utils.php');
 class User extends BaseModel {
   public $table = 'spi_user';
   public $post = array();
-  public $select_all = "CONCAT(tbl.first_name, ' ', tbl.last_name) name, tbl.* ";
+  public $select_all = "CONCAT(tbl.first_name, ' ', tbl.last_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Deaktivieren') status_name, tbl.* ";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command -> where(' 1=1 ', array());

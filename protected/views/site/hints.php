@@ -8,7 +8,7 @@ $this->breadcrumbs = array('Hintsmodul');
 <div ng-controller="HintsController" class="wraper container-fluid" >
 	<div class="row">
 		<div class="container center-block">
-			<div spi-hint-main title="_hint._main.title" text="_hint._main.text"></div>
+			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
 					<h1 class="panel-title col-lg-6">Hintsmodul</h1>
@@ -72,10 +72,14 @@ $this->breadcrumbs = array('Hintsmodul');
 			<form novalidate name="form" class="form-horizontal">
 				<div class="form-group">
 					<label class="col-lg-2 control-label">Seite</label>
-					<div class="col-lg-10">
+					<div ng-if="!isInsert" class="col-lg-10">
+						<span class="no-edit-text">{{page_name}}</span>
+						<span spi-hint text="_hint.page_id"></span>
+					</div>
+					<div ng-if="isInsert" class="col-lg-10">
 						<span spi-hint text="_hint.page_id" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('page_id')}">
-							<ui-select append-to-body="true" ng-change="reloadPosition()" ng-model="hint.page_id" theme="select2" name="page_id" required>
+							<ui-select append-to-body="true" ng-change="changePage()" ng-model="hint.page_id" theme="select2" name="page_id" required>
 								<ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
 								<ui-select-choices repeat="item.id as item in pages | filter: $select.search">
 									<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -87,21 +91,28 @@ $this->breadcrumbs = array('Hintsmodul');
 						</div>
 					</div>
 				</div>
-				<div class="form-group" ng-if="hint.page_id">
+				<div class="form-group" ng-if="(isInsert && hint.page_id) || !isInsert">
 					<label class="col-lg-2 control-label">Position</label>
-					<div class="col-lg-10">
+					<div ng-if="!isInsert" class="col-lg-10">
+						<span class="no-edit-text">{{position_name}}</span>
+						<span spi-hint text="_hint.position_id"></span>
+					</div>
+					<div ng-if="isInsert && hint.page_id" class="col-lg-10">
 						<span spi-hint text="_hint.position_id" class="has-hint"></span>
-						<div class="wrap-hint">
-							<ui-select append-to-body="true" ng-model="hint.position_id" theme="select2" name="position_id">
-								<ui-select-match allow-clear="true" placeholder="Main">{{$select.selected.name}}</ui-select-match>
+						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('position_id')}">
+							<ui-select ng-disabled="!$select.items.length" ng-change="changePosition(hint.position_id)" append-to-body="true" ng-model="hint.position_id" theme="select2" name="position_id" required>
+								<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">{{$select.selected.name}}</ui-select-match>
 								<ui-select-choices repeat="item.id as item in positions | filter: $select.search">
 									<span ng-bind-html="item.name | highlight: $select.search"></span>
 								</ui-select-choices>
 							</ui-select>
+							<span ng-show="fieldError('position_id')">
+								<label ng-show="form.position_id.$error.required" class="error">Position is required.</label>
+							</span>
 						</div>
 					</div>
 				</div>
-				<div class="form-group" ng-if="!hint.position_id">
+				<div class="form-group" ng-if="showTitle">
 					<label class="col-lg-2 control-label">Hilfetext</label>
 					<div class="col-lg-10">
 						<span spi-hint text="_hint.title" class="has-hint"></span>

@@ -30,37 +30,51 @@ spi.controller('HintsController', function($scope, network, GridService, HintSer
 });
 
 
-spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, hint) {
+spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.hint = {};
+    $scope.showTitle = false;
 
-    $scope.reloadPosition = function() {
+    function reloadPosition() {
         $scope.positions = [];
         if($scope.hint.page_id) {
-            network.get('page_position', {'page_id': $scope.hint.page_id}, function (result, response) {
+            network.get('page_position', {page_id: $scope.hint.page_id, except: 'hint'}, function (result, response) {
                 if(result) {
-                    $scope.positions = angular.merge($scope.positions, response.result);
+                    $scope.positions = response.result;
                 }
             });
         }
+    }
+
+    $scope.changePage = function() {
+        $scope.hint.position_id = undefined;
+        $scope.changePosition();
+        reloadPosition();
     };
 
+    $scope.changePosition = function(id) {
+        $scope.showTitle = id && Utils.getRowById($scope.positions, id, 'code') == 'header';
+    };
+
+
+
     if(!$scope.isInsert) {
+        $scope.page_name = data.page_name;
+        $scope.position_name = data.position_name;
+        $scope.showTitle = data.title;
         $scope.hint = {
-            page_id:     data.page_id,
-            position_id: data.position_id,
             title:       data.title,
             description: data.description
         };
-        $scope.reloadPosition();
+        reloadPosition();
+    } else {
+        network.get('page', {}, function(result, response){
+            if(result) {
+                $scope.pages = response.result;
+            }
+        });
     }
-
-    network.get('page', {}, function(result, response){
-        if(result) {
-            $scope.pages = response.result;
-        }
-    });
 
     $scope.fieldError = function(field) {
         return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;

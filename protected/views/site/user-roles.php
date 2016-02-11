@@ -9,7 +9,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 <div ng-controller="UserRolesController" class="wraper container-fluid" >
 	<div class="row">
 		<div class="container center-block">
-			<div spi-hint-main title="_hint._main.title" text="_hint._main.text"></div>
+			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading heading-noborder clearfix">
 					<h1 class="panel-title col-lg-6">Benutzerrollen</h1>
