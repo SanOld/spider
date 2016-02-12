@@ -65,7 +65,7 @@ class Auth {
         $this->user['auth_token'] = $authToken;
         $this->user['auth_token_created_at'] = $toUpdate['auth_token_created_at'];
 
-        $rights = [];
+        $rights = array();
         $rows = Yii::app()->db->createCommand()
           ->select('pag.code, utr.can_view, utr.can_edit')
           ->from('spi_user_type_right utr')
