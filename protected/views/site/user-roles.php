@@ -22,7 +22,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Benutzer-Typ'" sortable="'name'">{{row.name}}</td>
 							<td data-title="'Organisationstyp'">{{row.relation_name}}</td>
-							<td data-title="'Bearbeiten'" ng-if="$parent._r.canView()" header-class="'dt-edit'" class="dt-edit">
+							<td data-title="'Bearbeiten'" ng-if="$parent.canEdit()" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
 								</a>

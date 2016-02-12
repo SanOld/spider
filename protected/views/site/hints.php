@@ -46,7 +46,7 @@ $this->breadcrumbs = array('Hintsmodul');
 							<td data-title="'Seite'" sortable="'page_name'">{{row.page_name}}</td>
 							<td data-title="'Position'" sortable="'position_name'">{{row.position_name}}</td>
 							<td data-title="'Hilfetext'" sortable="'title'">{{row.title}}</td>
-							<td data-title="'Bearbeiten'" ng-if="$parent._r.canView()" header-class="'dt-edit'" class="dt-edit">
+							<td data-title="'Bearbeiten'" ng-if="$parent.canEdit()" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
 								</a>

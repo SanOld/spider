@@ -3,6 +3,7 @@ require_once ('utils/utils.php');
 require_once ('utils/php.php');
 require_once ('utils/responce.php');
 require_once ('utils/auth.php');
+require_once ('utils/email.php');
 
 define('MODELS', 'User,UserType,UserTypeRight,Page,Relation,Performer,School,District,Hint,PagePosition');
 
@@ -10,26 +11,40 @@ class BaseController extends Controller {
   private $method = false;
   private $model;
 
-//  protected function beforeAction($event)
-//  {
-//    print_r(Yii::app()->controller->action->id);
-//    print_r($_GET);
-//    return true;
-//  }
-
   public function actionIndex() {
     $models_prot = explode(',', MODELS);
     $models = explode(',', MODELS);
     $models = array_change_case($models);
     if(isset($_GET['model'])) {
-      if($_GET['model'] == 'login') {
-        
-        $auth = new Auth();
-        $res = $auth->login($_GET);
-    
-        response($res['code'], $res);
-      } else if($_GET['model'] == 'relation') {
-        response(200, $this->getRelation());
+      switch($_GET['model']) {
+        case 'login':
+          $auth = new Auth();
+          $res = $auth->login($_GET);
+          response($res['code'], $res);
+          break;
+        case 'relation':
+          response(200, $this->getRelation());
+          break;
+        case 'forgot_password':
+          $auth = new Auth();
+          if($user = $auth->checkEmail(post('email'))) {
+            return Email::doRecovery($user, $auth->getRecoveryLink($user));
+          } else {
+            response(409, array('system_code' => 'ERR_RECOVERY_EMAIL'));
+          }
+          break;
+        case 'reset_password':
+          $auth = new Auth();
+          parse_str(file_get_contents("php://input"), $post_vars);
+          if($user = $auth->checkRecoveryToken(get('recovery_token'))) {
+            $auth->updatePassword($user, safe($post_vars, 'password'));
+            $auth->login(array('login' => $user['login'], 'password' => safe($post_vars, 'password')));
+            response(200, array('system_code' => 'SUCCESSFUL', 'login' => $user['login']));
+          } else {
+            response(409, array('system_code' => 'ERR_INVALID_TOKEN'));
+          }
+          break;
+
       }
       $key = array_search(strtoupper(str_replace('_', '', $_GET['model'])), $models);
       if($key !== false) {

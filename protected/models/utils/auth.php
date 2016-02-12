@@ -135,4 +135,35 @@ class Auth {
   public function isTokenExists() {
     return ( $this->user['auth_token'] ); 
   }
+
+  public function checkEmail($email) {
+    return Yii::app()->db->createCommand()
+      ->select('*')->from('spi_user')
+      ->where('email=:email AND is_active=1', array(':email'=>$email))
+      ->queryRow();
+  }
+
+  public function getRecoveryLink($user) {
+    $recToken = md5($user['id']. '/' . $user['login'] . '/' . strtotime('now') . 'spi', false);
+    Yii::app() -> db -> createCommand() -> update('spi_user', array(
+      'auth_token' => null, 'recovery_token' => $recToken),
+      'id=:id', array(':id' => $user['id']));
+    return Yii::app()->getBaseUrl(true).'/reset-password?recovery_token=' . $recToken;
+  }
+
+  public function checkRecoveryToken($recoveryToken) {
+    if(!$recoveryToken)
+      return false;
+    return Yii::app()->db->createCommand()
+      ->select('*')->from('spi_user')
+      ->where('recovery_token=:recovery_token', array(':recovery_token'=>$recoveryToken))
+      ->queryRow();
+  }
+
+  public function updatePassword($user, $newPassword) {
+    Yii::app() -> db -> createCommand() -> update('spi_user', array(
+      'password' => $newPassword, 'recovery_token' => null),
+      'id=:id', array(':id' => $user['id']));
+    return true;
+  }
 }

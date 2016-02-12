@@ -9,12 +9,12 @@ spi.controller('main', function($scope, network, GridService, localStorageServic
     }
 
     $scope.canView = function(model) {
-        var model = model || $scope._m;
+        model = model || $scope._m;
         return model && $scope._r[model].view;
     };
 
     $scope.canEdit = function(model) {
-        var model = model || $scope._m;
+        model = model || $scope._m;
         return model && $scope._r[model].edit;
     };
 

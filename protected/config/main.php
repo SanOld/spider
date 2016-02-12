@@ -32,7 +32,15 @@ return array(
 
 	// application components
 	'components'=>array(
-
+		'Smtpmail'=>array(
+			'class'=>'application.extensions.smtpmail.PHPMailer',
+			'Host'=>"localhost",
+			'Username'=>'',
+			'Password'=>'',
+			'Mailer'=>'smtp',
+			'Port'=>25,
+			'SMTPAuth'=>false,
+		),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
@@ -49,6 +57,7 @@ return array(
 				'/hints'           => '/site/hints',
 				'/dashboard'       => '/site/dashboard',
 				'/forgot-password' => '/site/forgotPassword',
+				'/reset-password'  => '/site/resetPassword',
 				'/api/test'        => '/site/page/view/resttest',
 				'/api/<model:\w+>' => '/base',
 				'/api/<model:\w+>/<id:\d+>' => '/base',

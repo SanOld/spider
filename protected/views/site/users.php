@@ -71,7 +71,7 @@ $this->breadcrumbs = array('Benutzerliste');
 									<td data-title="'Email'" sortable="'email'"><a href="#">{{row.email}}</a></td>
 									<td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
 									<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
-									<td data-title="'Bearbeiten'" ng-if="$parent._r.canView()" header-class="'dt-edit'" class="dt-edit">
+									<td data-title="'Bearbeiten'" ng-if="$parent.canEdit()" header-class="'dt-edit'" class="dt-edit">
 										<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 											<i class="ion-edit"></i>
 										</a>
