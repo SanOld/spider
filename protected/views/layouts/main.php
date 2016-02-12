@@ -274,11 +274,10 @@
 							<div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
 								<label>Passwort</label>
 							  <div ng-class="{'wrap-line error': fieldError('password')}">
-								<input class="form-control" name="password" ng-model="user.password" type="password" value="" ng-minlength="3" ng-maxlength="45" ng-required="isInsert">
+								<input class="form-control" name="password" ng-model="user.password" type="password" value="" ng-minlength="3" ng-required="isInsert">
 								  <span ng-show="fieldError('password')">
                     <label ng-show="form.password.$error.required" class="error">Password is required.</label>
                     <label ng-show="form.password.$error.minlength" class="error">Password is too short.</label>
-                    <label ng-show="form.password.$error.maxlength" class="error">Password is too long.</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								  </span>
 							  </div>

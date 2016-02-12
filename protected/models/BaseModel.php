@@ -498,56 +498,5 @@ class BaseModel extends CFormModel {
   protected function calcResults($result) {
     return $result;
   }
-  public function execute() {
-//    $headers = getallheaders();
-//    $this->localDate = safe($headers, 'X-Local-User-Date');
-////    $auth = $this->checkAuth ();
-//    $dmain = $_SERVER['HTTP_HOST'];
-//    preg_match ( '@([^\.]+)\.([^\.]+)$@', $dmain, $matches );
-//    $dmain = $matches[0];
-//    if ($auth ['result']) {
-//      $session_params = 'SET @domain="'.$dmain.'";'.
-//                        'SET @account_id='.$this->user['account_id'].';'.
-//                        'SET @local_date="'.$this->localDate.'";'.
-//                        'SET @employee_id='.$this->user['id'].';';
-//      Yii::app ()->db->createCommand ($session_params)->execute();
-//      $request = array ();
-//      $path = $_SERVER ['REQUEST_URI'];
-//      preg_match ( '@/api/v1/([^\?]+)(\?|$)@', $path, $matches );
-//      $res = $matches [1];
-//      $list = explode ( '/', $res );
-//      $this->id = (isset ( $list [1] ) && $list [1] != '' &&  $list [1] !='null') ? $list [1] : false;
-//      
-//      $this->method = strtolower ( $_SERVER ['REQUEST_METHOD'] );
-//      if ($this->method) {
-//        $jsonRequest = '';
-//        switch ($this->method) {
-//          case 'get' : $this->select($_GET);
-//            break;
-//          case 'post' : 
-//            if(isset($_POST['multi-insert']) && $_POST['multi-insert']) {
-//              $results = array('results' => array());
-//              foreach($_POST['multi-insert'] as $post) {
-//                $results['results'][] = $this->insert($post, true);
-//              }
-//              $results['system_code'] = 'SUCCESSFUL';
-//              response ( '200', $results );
-//            } else {
-//              $this->insert($_POST);
-//            }
-//            
-//            break;
-//          case 'put' :
-//            parse_str ( file_get_contents ( "php://input" ), $post_vars );
-//            $this->update($this->id, $post_vars);
-//            break;
-//          case 'delete' : $this->delete($this->id);
-//            break;
-//        }
-//      }
-//    } else {
-//      response ( $auth ['code'], $auth );
-//    }
-  }
 
 }

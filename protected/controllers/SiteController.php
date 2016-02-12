@@ -38,6 +38,14 @@ class SiteController extends Controller
 		$this->render('forgot-password');
 	}
 
+	public function actionResetPassword() {
+		$params = array_change_key_case($_GET, CASE_UPPER);
+		if(!isset($params['RECOVERY_TOKEN']))
+			$this->redirect('/');
+		$this->layout = 'mainWithoutLogin';
+		$this->render('reset-password');
+	}
+
 	public function actionDashboard()
 	{
 		$this->render('dashboard');

@@ -5,13 +5,10 @@
 </head>
 <body class="bg" ng-app="spi">
 <div id="page">
-	<!-- Header -->
 	<header class="top-head container-fluid">
 		<div class="container">
 			<div class="logo p-0 m-t-10 m-b-10 col-lg-6">
-                       <span>
-                           <img src="images/logo.png" alt="logo">
-                       </span>
+				<a href="/"><img src="images/logo.png" alt="logo"></a>
 			</div>
 			<div class="logo p-0 m-t-20 m-b-15 col-lg-6">
 				<a target="_blank" href="http://service.berlin.de/senatsverwaltungen/" class="pull-right">
@@ -20,7 +17,6 @@
 			</div>
 		</div>
 	</header>
-	<!-- Header Ends -->
 
 	<div class="pace pace-inactive">
 		<div data-progress="99" data-progress-text="100%" style="transform: translate3d(100%, 0px, 0px);" class="pace-progress">
@@ -30,6 +26,7 @@
 	</div>
 
 	<?php echo $content; ?>
+
 </div>
 <div class="footer">
 	<div class="container">
