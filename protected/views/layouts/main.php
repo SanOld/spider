@@ -184,6 +184,14 @@
 									</div>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="title">Funktion</label>
+								<div class="col-lg-8">
+									<div class="wrap-hint">
+										<input id="title" class="form-control" ng-model="user.function" type="text" value="">
+									</div>
+								</div>
+							</div>
 							<div class="form-group has-feedback">
 								<label class="col-lg-4 control-label" for="first_name">Vorname</label>
 								<div class="col-lg-8" ng-class="{'wrap-line error': fieldError('first_name')}">

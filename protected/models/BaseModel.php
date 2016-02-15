@@ -77,6 +77,26 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
+
+  protected function setLikeWhere($command, $keyword_fields, $value) {
+    if(!$value) {
+      return $command;
+    }
+    if(!is_array($keyword_fields)) {
+      $keyword_fields = array($keyword_fields);
+    }
+    $where = array();
+    $search_param = array();
+    foreach($keyword_fields as $k=>$field) {
+      $where[] = "{$field} like :key$k";
+      $search_param["key$k"] = "%{$value}%";
+    }
+    if($where && $search_param) {
+      $where = '(' . implode(' OR ', $where) . ')';
+      $command -> andWhere($where, $search_param);
+    }
+    return $command;
+  }
   
   protected function doSelect($command) {
     $commandClone = clone($command);

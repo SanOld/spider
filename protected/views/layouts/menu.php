@@ -28,10 +28,10 @@
 					<li><a ng-if="canView('user_type')" href="/user-roles">Benutzerrollen</a></li>
 				</ul>
 			</li>
-			<li class="dropdown">
+			<li ng-class="{'active': ['performer'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 				<ul class="dropdown-menu">
-					<li><a href="#">Träger Agentur</a></li>
+					<li><a ng-if="canView('performer')" href="/performers">Träger Agentur</a></li>
 					<li><a href="#">Schule</a></li>
 					<li><a href="#">Bezirk</a></li>
 				</ul>

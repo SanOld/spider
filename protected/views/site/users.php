@@ -68,7 +68,7 @@ $this->breadcrumbs = array('Benutzerliste');
 									<td data-title="'Benutzer-Typ'" sortable="'type_name'">{{row.type_name}}</td>
 									<td data-title="'Organisation'" sortable="'relation_name'">{{row.relation_name}}</td>
 									<td data-title="'Benutzername'" sortable="'login'"><a href="#">{{row.login}}</a></td>
-									<td data-title="'Email'" sortable="'email'"><a href="#">{{row.email}}</a></td>
+									<td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}"">{{row.email}}</a></td>
 									<td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
 									<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
 									<td data-title="'Bearbeiten'" ng-if="$parent.canEdit()" header-class="'dt-edit'" class="dt-edit">

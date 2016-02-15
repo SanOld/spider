@@ -55,6 +55,7 @@ return array(
 				'/users'           => '/site/users',
 				'/user-roles'      => '/site/userRoles',
 				'/hints'           => '/site/hints',
+				'/performers'      => '/site/performers',
 				'/dashboard'       => '/site/dashboard',
 				'/forgot-password' => '/site/forgotPassword',
 				'/reset-password'  => '/site/resetPassword',
@@ -74,7 +75,7 @@ return array(
 
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
+//			'errorAction'=>'site/error',
 		),
 
 		'log'=>array(

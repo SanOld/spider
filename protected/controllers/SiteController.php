@@ -63,6 +63,10 @@ class SiteController extends Controller
 		$this->render('user-roles');
 	}
 
+	public function actionPerformers() {
+		$this->render('performers');
+	}
+
 	public function actionError()
 	{
 		if($error=Yii::app()->errorHandler->error)

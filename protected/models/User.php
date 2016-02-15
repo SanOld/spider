@@ -14,20 +14,9 @@ class User extends BaseModel {
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
     $params = array_change_key_case($params, CASE_UPPER);
-    if (safe($params, 'KEYWORD')) {
-      $keyword_fields = array('first_name', 'last_name', 'login', 'email');
-      $value = $params['KEYWORD'];
-      $where = array();
-      $search_param = array();
-      foreach($keyword_fields as $field) {
-        $where[] = "tbl.{$field} like :{$value}";
-        $search_param[":{$value}"] = '%' . $value . '%';
-      }
-      if($where && $search_param) {
-        $where = '(' . implode(' OR ', $where) . ')';
-        $command -> andWhere($where, $search_param);
-      }
-    }
+    $command = $this->setLikeWhere($command,
+          array('tbl.first_name', 'tbl.last_name', 'tbl.login', 'tbl.email'),
+          safe($params, 'KEYWORD'));
     if (safe($params, 'RELATION_NAME')) {
       $value = $params['RELATION_NAME'];
       $where = array();

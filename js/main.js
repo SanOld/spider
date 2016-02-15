@@ -10,12 +10,12 @@ spi.controller('main', function($scope, network, GridService, localStorageServic
 
     $scope.canView = function(model) {
         model = model || $scope._m;
-        return model && $scope._r[model].view;
+        return !model || !$scope._r[model] ? 1 : $scope._r[model].view;
     };
 
     $scope.canEdit = function(model) {
         model = model || $scope._m;
-        return model && $scope._r[model].edit;
+        return !model || !$scope._r[model] ? 1 : $scope._r[model].edit;
     };
 
     $scope.logout = function(){
@@ -66,6 +66,7 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
             is_finansist: +data.is_finansist,
             sex: +data.sex,
             title: data.title,
+            function: data.function,
             first_name: data.first_name,
             last_name: data.last_name,
             login: data.login,
