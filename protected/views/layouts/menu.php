@@ -2,8 +2,8 @@
 	<div class="container">
 		<ul class="nav navbar-nav">
 			<li ng-class="{'active': _m=='dashboard'}"><a href="/dashboard">Startseite</a></li>
-			<li><a href="#">Projekte</a></li>
-			<li><a href="#">Anträge</a></li>
+			<li><a href="projects-list.php">Projekte</a></li>
+			<li><a href="request-list.php">Anträge</a></li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Berichte</a>
 				<ul class="dropdown-menu">
@@ -14,11 +14,10 @@
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 				<ul class="dropdown-menu">
-					<li><a href="#">Finanzierungen</a></li>
-					<li><a href="#">Zusammenfassung der Finanzen</a></li>
-					<li><a href="#">Mittelabrufe</a></li>
-					<li><a href="#">Belege</a></li>
-					<li><a href="#">Finanzberichte</a></li>
+					<li><a href="summary.php">Zusammenfassung der Finanzen</a></li>
+					<li><a href="financial-request.php">Mittelabrufe</a></li>
+					<li><a href="finance-report.php">Belege</a></li>
+					<li><a href="finance-source.php">Finanzierungen</a></li>
 				</ul>
 			</li>
 			<li ng-class="{'active': ['user', 'user_type'].indexOf(_m) !== -1}" class="dropdown" ng-if="_r.user.view || _r.user_type.view">
@@ -32,17 +31,17 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 				<ul class="dropdown-menu">
 					<li><a ng-if="canView('performer')" href="/performers">Träger Agentur</a></li>
-					<li><a href="#">Schule</a></li>
-					<li><a href="#">Bezirk</a></li>
+					<li><a href="schools-list.php">Schule</a></li>
+					<li><a href="districts-list.php">Bezirk</a></li>
 				</ul>
 			</li>
 			<li ng-class="{'active': ['hint'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Systemverwaltung</a>
 				<ul class="dropdown-menu">
-					<li><a href="#">E-Mail-Vorlagen</a></li>
+					<li><a href="email-templates.php">E-Mail-Vorlagen</a></li>
 					<li><a href="#">E-Mail-Warteschlange</a></li>
 					<li><a ng-if="canView('hint')" href="/hints">Hintsmodul</a></li>
-					<li><a href="#">Dokumentvorlage</a></li>
+					<li><a href="document-templates.php">Dokumentvorlage</a></li>
 					<li><a href="#">Audit</a></li>
 				</ul>
 			</li>
