@@ -21,7 +21,7 @@ CREATE TABLE `spi_project` (
   PRIMARY KEY (`id`));
 
 
-CREATE TABLE `spi_project_scool` (
+CREATE TABLE `spi_project_school` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `project_id` INT NOT NULL,
   `school_id` INT NOT NULL,
