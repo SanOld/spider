@@ -94,8 +94,8 @@ $this->breadcrumbs = array('Träger Agentur');
 		<div class="row">
 			<uib-tabset class="row">
 				<uib-tab heading="General">
-					<div class="holder-tab">
-						<div class="col-lg-8">
+					<div ng-class="{'holder-tab': !isInsert}">
+						<div ng-class="isInsert ? 'col-lg-12' : 'col-lg-8'">
 							<h3 class="subheading">Allgemeine Information</h3>
 							<hr>
 							<form class="form-horizontal">
