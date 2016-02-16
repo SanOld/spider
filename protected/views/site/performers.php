@@ -13,7 +13,7 @@ $this->breadcrumbs = array('Träger Agentur');
 					<h1 class="panel-title col-lg-6">Träger Agentur</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-						<button class="btn w-lg custom-btn" ng-click="">Agentur hinzufügen</button>
+						<button class="btn w-lg custom-btn" ng-click="openEdit()">Agentur hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body agency-edit">
@@ -65,7 +65,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<span ng-if="!+row.is_checked">-</span>
 									</td>
 									<td data-title="'Bearbeiten'" ng-if="$parent.canEdit()" header-class="'dt-edit'" class="dt-edit">
-										<a class="btn center-block edit-btn" ng-click="">
+										<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 											<i class="ion-edit"></i>
 										</a>
 									</td>
@@ -90,25 +90,26 @@ $this->breadcrumbs = array('Träger Agentur');
 			<h3 class="m-0 pull-left">Trägerdaten - Tandem gemeinnützige Beschäftigungs- und Qualifizierungsgesellschaft mbH</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
+
 		<div class="row">
-			<uib-tabset justified="true" class="row">
+			<uib-tabset class="row">
 				<uib-tab heading="General">
 					<div class="holder-tab">
 						<div class="col-lg-8">
 							<h3 class="subheading">Allgemeine Information</h3>
 							<hr>
-							<form action="#" class="form-horizontal">
+							<form class="form-horizontal">
 								<div class="address-row">
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Kurzname</label>
 										<div class="col-lg-10">
-											<input class="form-control" type="text" value="Tandem BQG"/>
+											<input class="form-control" name="name" ng-model="performer.name" type="text" value="" required>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Name</label>
 										<div class="col-lg-10">
-											<input class="form-control" type="text" value="Tandem gemeinnützige Beschäftigungs- und Qualifizierungsgesellschaft mbH"/>
+											<input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value=""/>
 										</div>
 									</div>
 								</div>
@@ -117,19 +118,19 @@ $this->breadcrumbs = array('Träger Agentur');
 										<div class="form-group">
 											<label class="col-lg-4 control-label">Adresse</label>
 											<div class="col-lg-8">
-												<textarea class="form-control">Potsdamer Str. 182, 10783 Berlin</textarea>
+												<textarea name="address" ng-model="performer.address" class="form-control"></textarea>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-lg-4 control-label">PLZ</label>
 											<div class="col-lg-8">
-												<input class="form-control" type="text" value="10997"/>
+												<input class="form-control" name="plz" ng-model="performer.plz" type="text" value=""/>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-lg-4 control-label">Stadt</label>
 											<div class="col-lg-8">
-												<input class="form-control" type="text" value="Berlin"/>
+												<input class="form-control" name="city" ng-model="performer.city" type="text" value=""/>
 											</div>
 										</div>
 									</div>
@@ -137,87 +138,97 @@ $this->breadcrumbs = array('Träger Agentur');
 										<div class="form-group">
 											<label class="col-lg-3 control-label">Telefon</label>
 											<div class="col-lg-9">
-												<input class="form-control" type="tel" value="(030) 2888 496"/>
+												<input class="form-control" name="phone" ng-model="performer.phone" type="text" value=""  ui-mask="(999) 9999 999"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-lg-3 control-label">Fax</label>
 											<div class="col-lg-9">
-												<input class="form-control" type="tel" value="(030) 2888 496"/>
+												<input class="form-control" name="fax" ng-model="performer.fax" type="text" value="" ui-mask="(999) 9999 999"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-lg-3 control-label">Email</label>
 											<div class="col-lg-9">
-												<input class="form-control" type="email" value="admin@warenform.de"/>
+												<input class="form-control" name="email" ng-model="performer.email" type="email" value=""/>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-lg-3 control-label">Webseite</label>
 											<div class="col-lg-9">
-												<input class="form-control" type="email" value="warenform.de"/>
+												<input class="form-control" name="homepage" ng-model="performer.homepage" type="text" value=""/>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="row holder-three-blocks">
+								<div class="row holder-three-blocks" ng-if="!isInsert">
 									<div class="col-lg-4">
 										<h4>Vertretungsberechtigte Person</h4>
-										<select class="form-control">
-											<option>Mr Werner Munk</option>
-											<option>Mr Werner Munk</option>
-										</select>
-										<dl>
+										<ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" append-to-body="true" ng-model="performer.representative_user_id" theme="select2" name="representative_user_id">
+											<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
+											<ui-select-choices repeat="item.id as item in users | filter: $select.search">
+												<span ng-bind-html="item.name | highlight: $select.search"></span>
+											</ui-select-choices>
+										</ui-select>
+										<dl ng-if="representativeUser">
 											<dt>Funktion</dt>
-											<dd>Some function</dd>
+											<dd ng-bind="representativeUser.function || '-'"></dd>
 											<dt>Titel</dt>
-											<dd>Some title</dd>
+											<dd ng-bind="representativeUser.title || '-'"></dd>
 											<dt>Telefon</dt>
-											<dd>(030) 2888 496</dd>
+											<dd ng-bind="representativeUser.phone || '-'"></dd>
 											<dt>Email</dt>
-											<dd>admin@warenform.de </dd>
+											<dd ng-bind="representativeUser.email || '-'"></dd>
 										</dl>
 									</div>
 									<div class="col-lg-4">
 										<h4>Ansprechperson für Antragsbearbeitung</h4>
-										<select class="form-control">
-											<option>Mr Werner Munk</option>
-											<option>Mr Werner Munk</option>
-										</select>
-										<dl>
+										<ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" append-to-body="true" ng-model="performer.application_processing_user_id" theme="select2" name="application_processing_user_id">
+											<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
+											<ui-select-choices repeat="item.id as item in users | filter: $select.search">
+												<span ng-bind-html="item.name | highlight: $select.search"></span>
+											</ui-select-choices>
+										</ui-select>
+										<dl ng-if="applicationProcessingUser">
+											<dt>Funktion</dt>
+											<dd ng-bind="applicationProcessingUser.function || '-'"></dd>
 											<dt>Titel</dt>
-											<dd>Some title</dd>
+											<dd ng-bind="applicationProcessingUser.title || '-'"></dd>
 											<dt>Telefon</dt>
-											<dd>(030) 2888 496</dd>
+											<dd ng-bind="applicationProcessingUser.phone || '-'"></dd>
 											<dt>Email</dt>
-											<dd>admin@warenform.de </dd>
+											<dd ng-bind="applicationProcessingUser.email || '-'"></dd>
 										</dl>
 									</div>
 									<div class="col-lg-4">
 										<h4>Ansprechperson für die Finanzplanbearbeitung</h4>
-										<select class="form-control">
-											<option>Mr Werner Munk</option>
-											<option>Mr Werner Munk</option>
-										</select>
-										<dl>
+										<ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
+											<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
+											<ui-select-choices repeat="item.id as item in users | filter: $select.search">
+												<span ng-bind-html="item.name | highlight: $select.search"></span>
+											</ui-select-choices>
+										</ui-select>
+										<dl ng-if="budgetProcessingUser">
+											<dt>Funktion</dt>
+											<dd ng-bind="budgetProcessingUser.function || '-'"></dd>
 											<dt>Titel</dt>
-											<dd>Some title</dd>
+											<dd ng-bind="budgetProcessingUser.title || '-'"></dd>
 											<dt>Telefon</dt>
-											<dd>(030) 2888 496</dd>
+											<dd ng-bind="budgetProcessingUser.phone || '-'"></dd>
 											<dt>Email</dt>
-											<dd>admin@warenform.de </dd>
+											<dd ng-bind="budgetProcessingUser.email || '-'"></dd>
 										</dl>
 									</div>
 								</div>
 							</form>
 						</div>
-						<div class="col-lg-4">
+						<div class="col-lg-4" ng-if="!isInsert">
 							<div class="heading-button clearfix m-b-15">
 								<h3 class="subheading pull-left">Bankverbindungen</h3>
-								<button class="btn w-md custom-btn pull-right" type="button">Neu</button>
+								<button ng-show="!performer.bank_details_id" ng-click="showBankDetails = 1" class="btn w-md custom-btn pull-right" type="button">Neu</button>
 							</div>
-							<div class="form-custom-box bank-details m-0">
-								<form action="#" class="form-horizontal">
+							<div class="form-custom-box bank-details m-0" ng-show="showBankDetails">
+								<form novalidate class="form-horizontal">
 									<div class="heading-bank clearfix m-b-15">
 										<h4 class="pull-left">Bankverbindungen</h4>
 										<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
@@ -225,30 +236,37 @@ $this->breadcrumbs = array('Träger Agentur');
 									<div class="form-group">
 										<label class="col-lg-5 p-r-0 control-label">Ansprechpartner(in)</label>
 										<div class="col-lg-7">
-											<input class="form-control" type="text" value="Mustermann"/>
+											<input class="form-control" name="contact_person" ng-model="bank_details.contact_person" type="text" value=""/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-5 p-r-0 control-label">IBAN</label>
 										<div class="col-lg-7">
-											<input class="form-control" type="text" value="DE64100708480511733803a"/>
+											<input class="form-control" name="iban" ng-model="bank_details.iban" type="text" value="" required/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-5 p-r-0 control-label">BIC</label>
 										<div class="col-lg-7">
-											<input class="form-control" type="text" value="UBSWUS33XXX"/>
+											<input class="form-control" type="text" name="bank_name" ng-model="bank_details.bank_name" value=""/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-5 p-r-0 control-label">Konto</label>
+										<div class="col-lg-7">
+											<input class="form-control" type="text" name="outer_id" ng-model="bank_details.outer_id" value=""/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-5 p-r-0 control-label">Beschreibung</label>
 										<div class="col-lg-7">
-											<textarea class="form-control"></textarea>
+											<textarea name="description" ng-model="bank_details.description" class="form-control"></textarea>
 										</div>
 									</div>
 									<div class="pull-right">
-										<button class="btn w-sm cancel-btn">Löschen</button>
-										<button class="btn w-sm custom-btn">Hinzufügen</button>
+										<button class="btn btn-icon btn-danger btn-lg sweet-4" ng-if="performer.bank_details_id" ng-click="removeBankDetails(performer.bank_details_id)" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+										<button class="btn w-sm cancel-btn" ng-if="!performer.bank_details_id" ng-click="$parent.showBankDetails = 0; $parent.bank_details = {}">Löschen</button>
+										<button class="btn w-sm custom-btn" ng-click="saveBankDetails(bank_details)">Hinzufügen</button>
 									</div>
 								</form>
 							</div>
@@ -257,12 +275,12 @@ $this->breadcrumbs = array('Träger Agentur');
 					<div class="col-lg-12">
 						<hr>
 						<div class="group-btn clearfix m-t-20">
-							<div class="pull-left">
-								<button class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+							<div class="pull-left" ng-if="!isInsert">
+								<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
 							</div>
 							<div class="pull-right">
 								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" data-dismiss="modal">Speichern</button>
+								<button class="btn w-lg custom-btn" ng-click="submitForm()">Speichern</button>
 							</div>
 						</div>
 					</div>
@@ -275,21 +293,20 @@ $this->breadcrumbs = array('Träger Agentur');
 								<div class="form-group">
 									<label>Selbstdarstellung</label>
 									<div class="holder-textarea">
-										<textarea class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
+										<textarea name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
 									</div>
 								</div>
 								<div class="form-group">
 									<label>Diversity: GM, CM, Inklusion</label>
 									<div class="holder-textarea">
-										<textarea class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
+										<textarea name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
 									</div>
 								</div>
-								<div class="clearfix m-t-40">
+								<div class="clearfix m-t-40" ng-if="!isInsert">
 									<div class="heading pull-left">
 										<h3 class="m-0">Dokumente</h3>
 										<label>Sie können PDF- und DOC-Dateien hochladen<br/> (10 Mb Größenbeschränkung)</label>
 									</div>
-
 									<div style="position:relative;">
 										<a class='btn w-sw custom-color pull-right' href='javascript:;'>
 											Dokumente hinzufügen
@@ -298,7 +315,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<span class='label label-info' id="upload-file-info"></span>
 									</div>
 								</div>
-								<div class="form-custom-box clearfix m-0 upload-box">
+								<div class="form-custom-box clearfix m-0 upload-box" ng-if="!isInsert">
 									<ul class="list-unstyled">
 										<li><i class="ion-document-text "></i><a href="#">Some document.doc</a><a class="sweet-4" href="#"><i class="ion-close"></i></a></li>
 										<li><i class="ion-document-text "></i><a href="#">Some document.doc</a><a class="sweet-4" href="#"><i class="ion-close"></i></a></li>
@@ -312,13 +329,13 @@ $this->breadcrumbs = array('Träger Agentur');
 								<div class="form-group">
 									<label>Fortbildung</label>
 									<div class="holder-textarea">
-										<textarea class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
+										<textarea name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
 									</div>
 								</div>
 								<div class="form-group">
 									<label>Qualitätsstandards</label>
 									<div class="holder-textarea">
-										<textarea class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
+										<textarea name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
 									</div>
 								</div>
 								<div class="clearfix m-t-40">
@@ -326,17 +343,17 @@ $this->breadcrumbs = array('Träger Agentur');
 									<label>Sie können eine Nachricht für PA hinterlassen </label>
 								</div>
 								<div class="form-group">
-									<textarea class="form-control custom-height" placeholder="Tragen Sie den Text hier ein"></textarea>
+									<textarea name="comment" ng-model="performer.comment" class="form-control custom-height" placeholder="Tragen Sie den Text hier ein"></textarea>
 								</div>
 								<div class="form-custom-box clearfix m-0">
-									<div class="pull-left">
+									<div class="pull-left" ng-if="checkedBy">
 										<label class="control-label">Information ist überprüft und korrekt</label><br/>
-										<span class="checked-person">Überpüft von Mustermann 15.12.2015</span>
+										<span class="checked-person">Überpüft von {{checkedBy}} {{checkedDate}}</span>
 									</div>
 									<div class="pull-right m-t-10">
 										<div class="btn-group btn-toggle">
-											<button class="btn btn-sm btn-default">JA</button>
-											<button class="btn btn-sm active">NEIN</button>
+											<button class="btn btn-sm" ng-class="performer.is_checked == 1 ? 'active' : 'btn-default'" ng-model="performer.is_checked" uib-btn-radio="1">JA</button>
+											<button class="btn btn-sm" ng-class="performer.is_checked == 0 ? 'active' : 'btn-default'" ng-model="performer.is_checked" uib-btn-radio="0">NEIN</button>
 										</div>
 									</div>
 								</div>
@@ -346,12 +363,12 @@ $this->breadcrumbs = array('Träger Agentur');
 					<div class="col-lg-12">
 						<hr>
 						<div class="group-btn clearfix m-t-20">
-							<div class="pull-left">
-								<button class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa  fa-trash-o"></i></button>
+							<div class="pull-left" ng-if="!isInsert">
+								<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
 							</div>
 							<div class="pull-right">
 								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" data-dismiss="modal">Speichern</button>
+								<button class="btn w-lg custom-btn" ng-click="submitForm()">Speichern</button>
 							</div>
 						</div>
 					</div>

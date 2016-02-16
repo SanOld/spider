@@ -5,7 +5,7 @@ require_once ('utils/responce.php');
 require_once ('utils/auth.php');
 require_once ('utils/email.php');
 
-define('MODELS', 'User,UserType,UserTypeRight,Page,Relation,Performer,School,District,Hint,PagePosition');
+define('MODELS', 'User,UserType,UserTypeRight,Page,Relation,Performer,School,District,Hint,PagePosition,BankDetails');
 
 class BaseController extends Controller {
   private $method = false;

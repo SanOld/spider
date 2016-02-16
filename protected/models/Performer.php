@@ -5,12 +5,12 @@ require_once ('utils/utils.php');
 class Performer extends BaseModel {
   public $table = 'spi_performer';
   public $post = array();
-  public $select_all = " tbl.*, CONCAT(usp.first_name, ' ', usp.last_name) representative_user";
+  public $select_all = " tbl.*, DATE_FORMAT(checked_date, '%d.%m.%Y') checked_date_formatted, CONCAT(usp.first_name, ' ', usp.last_name) representative_user";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all)
         -> from($this -> table . ' tbl')
         -> leftJoin('spi_user usp', 'tbl.representative_user_id = usp.id')
-        -> leftJoin('spi_bank_details bnd', 'bnd.performer_id = tbl.id');
+        -> leftJoin('spi_bank_details bnd', 'tbl.bank_details_id = bnd.id');
     $command -> where(' 1=1 ', array());
     return $command;
   }
@@ -27,6 +27,49 @@ class Performer extends BaseModel {
       $command -> andWhere("tbl.is_checked = :is_checked", array(':is_checked' => $params['IS_CHECKED']));
     }
     return $command;
+  }
+
+  protected function doBeforeInsert($post) {
+    if(safe($post, 'is_checked')) {
+      $post['checked_by'] = $this->user['id'];
+      $post['checked_date'] = date("Y-m-d", time());
+    }
+
+    return array(
+      'result' => true,
+      'params' => $post
+    );
+  }
+
+  protected function doBeforeUpdate($post, $id) {
+    if(safe($post, 'is_checked')) {
+      $post['checked_by'] = $this->user['id'];
+      $post['checked_date'] = date("Y-m-d", time());
+    } else {
+      $post['checked_by'] = null;
+      $post['checked_date'] = null;
+    }
+
+    if(isset($post['bank_details_id']) && !$post['bank_details_id']) {
+      unset($post['bank_details_id']);
+    }
+
+    if(isset($post['representative_user_id']) && !$post['representative_user_id']) {
+      unset($post['representative_user_id']);
+    }
+
+    if(isset($post['application_processing_user_id']) && !$post['application_processing_user_id']) {
+      unset($post['application_processing_user_id']);
+    }
+
+    if(isset($post['budget_processing_user_id']) && !$post['budget_processing_user_id']) {
+      unset($post['budget_processing_user_id']);
+    }
+
+    return array(
+      'result' => true,
+      'params' => $post
+    );
   }
 
 }
