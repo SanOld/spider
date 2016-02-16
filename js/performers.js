@@ -52,7 +52,6 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
             budget_processing_user_id: data.budget_processing_user_id,
             bank_details_id: data.bank_details_id,
         };
-        console.log($scope.performer);
         network.get('user', {}, function(result, response){
             if(result) {
                 $scope.users = response.result;
@@ -100,7 +99,6 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
     };
 
     $scope.submitForm = function () {
-        console.log($scope.performer);
         var callback = function (result, response) {
             if(result) {
                 $uibModalInstance.close();
