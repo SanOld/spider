@@ -797,17 +797,17 @@
 																<td>Nur Leserecht</td>
 																<td>
 																	<a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
-																		<span class="cell-finplan select"></span>
+																		<span class="cell-finplan select-decline"></span>
 																	</a>
 																</td>
 																<td>
 																	<a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
-																		<span class="cell-concept select"></span>
+																		<span class="cell-concept select-decline"></span>
 																	</a>
 																</td>
 																<td>
 																	<a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
-																		<span class="cell-school"></span>
+																		<span class="cell-school select-decline"></span>
 																	</a>
 																</td>
 																<td>13.11.2015</td>
@@ -857,25 +857,53 @@
 													</table>
 												</div>
 											</div>
-											<div class="notice">
-												<span class="color-notice open"></span>
-												Unbearbeitet
+											<div class="clearfix m-b-30">
+												<div class="notice">
+													<span class="color-notice open"></span>
+													Unbearbeitet
+												</div>
+												<div class="notice">
+													<span class="color-notice decline-row"></span>
+													Nur Leserecht
+												</div>
+												<div class="notice">
+													<span class="color-notice inprogress-row"></span>
+													Bitte bearbeiten
+												</div>
+												<div class="notice">
+													<span class="color-notice acceptable-row"></span>
+													Förderfähig 
+												</div>
+												<div class="notice">
+													<span class="color-notice accept-row"></span>
+													Genehmigt 
+												</div>
 											</div>
-											<div class="notice">
-												<span class="color-notice decline-row"></span>
-												Nur Leserecht
-											</div>
-											<div class="notice">
-												<span class="color-notice inprogress-row"></span>
-												Bitte bearbeiten
-											</div>
-											<div class="notice">
-												<span class="color-notice acceptable-row"></span>
-												Förderfähig 
-											</div>
-											<div class="notice">
-												<span class="color-notice accept-row"></span>
-												Genehmigt 
+											<div class="clearfix square-legend">
+												<div class="notice">
+													<div class="legends">
+													  	<span class="cell-finplan select"></span>
+													  	<span class="cell-concept select"></span>
+													    <span class="cell-school select"></span>
+													</div>
+													In Bearbeitung 
+												</div>
+												<div class="notice">
+													<div class="legends">
+													  	<span class="cell-finplan"></span>
+													  	<span class="cell-concept"></span>
+													    <span class="cell-school"></span>
+													</div>
+													Förderfähig 
+												</div>
+												<div class="notice">
+													<div class="legends">
+													  	<span class="cell-finplan select-decline"></span>
+													  	<span class="cell-concept select-decline"></span>
+													    <span class="cell-school select-decline"></span>
+													</div>
+													Abgelehnt
+												</div>
 											</div>
 										</div>
 									</div>

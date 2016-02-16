@@ -1,7 +1,7 @@
 				<nav class="navbar navbar-default header-nav m-b-0">
 					<div class="container">
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="home-dashboard.php">Startseite</a></li>
+							<li class="active"><a href="/dashboard">Startseite</a></li>
 							<li><a href="projects-list.php">Projekte</a></li>
 							<li><a href="request-list.php">Anträge</a></li>
 							<li class="dropdown">
@@ -14,7 +14,7 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 								<ul class="dropdown-menu">
-									<li><a href="summary.php">Zusammenfassung der Finanzen</a></li>
+									<li><a href="summary.php">Finanzübersicht</a></li>
 									<li><a href="financial-request.php">Mittelabrufe</a></li>
 									<li><a href="finance-report.php">Belege</a></li>
 									<li><a href="finance-source.php">Finanzierungen</a></li>
@@ -23,8 +23,8 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Benutzer</a>
 								<ul class="dropdown-menu">
-									<li><a href="user-list.php">Benutzerliste</a></li>
-									<li><a href="user-roles.php">Benutzerrollen</a></li>
+									<li><a href="/users">Benutzerliste</a></li>
+									<li><a href="/user-roles">Benutzerrollen</a></li>
 								</ul>
 							</li>
 							<li class="dropdown">
@@ -40,7 +40,7 @@
 								<ul class="dropdown-menu">
 									<li><a href="email-templates.php">E-Mail-Vorlagen</a></li>
 									<li><a href="#">E-Mail-Warteschlange</a></li>
-									<li><a href="hints.php">Hintsmodul</a></li>
+									<li><a href="/hints">Hintsmodul</a></li>
 									<li><a href="document-templates.php">Dokumentvorlage</a></li>
 									<li><a href="#">Audit</a></li>
 								</ul>

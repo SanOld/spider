@@ -2,11 +2,11 @@
 <html lang="en">
 	<head>
 		
-		<title>Finanzierungen | SPIder</title>
+		<title>Berichte | SPIder</title>
 		<?php include('templates/head.php'); ?>
 	</head>
 
-	<body>
+	<body class="berichte-page">
 		<div id="page">
 			<!-- Header -->
 			<?php include('templates/header.php'); ?>
@@ -19,7 +19,7 @@
 			<div class="container">
 				<ul class="breadcrumb p-0">
 					<li><a href="#">Home</a></li>
-					<li class="active">Finance Source</li>
+					<li class="active">Berichte</li>
 				</ul>
 			</div>
 			
@@ -31,30 +31,56 @@
 					<div class="container center-block">
 						<div class="panel panel-default">
 							<div class="panel-heading clearfix">
-								<h1 class="panel-title col-lg-6">Finanzierungen</h1>
+								<h1 class="panel-title col-lg-6">Berichte</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken<i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Finanzierung hinzufügen</button>
 								</div>
 							</div>
-							<div class="panel-body edit-user">
+							<div class="panel-body finacing-edit">
 								<div class="row">
 									<div class="col-lg-12">
 										<div class="row datafilter">
 											<form action="#" class="class-form">
-												<div class="col-lg-8 col8-width-type add">
+												<div class="col-lg-2">
 													<div class="form-group">
-														<label>Suche nach Finanzierung oder IBAN</label>
-														<input type="search" class="form-control" placeholder="Eingegeben">
+														<div class="form-group">
+															<label>Knnz.</label>
+															<select class="form-control">
+																<option>G053</option>
+															</select>
+														</div>
 													</div>
 												</div>
 												<div class="col-lg-2">
 													<div class="form-group">
-														<label>Jahr</label>
-														<select class="type-user form-control">
-															<option>2016</option>
-															<option>2016</option>
-														</select>
+														<div class="form-group">
+															<label>Status</label>
+															<select class="form-control">
+																<option>New</option>
+																<option>Abgelehnt</option>
+																<option>Accepted</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-3">
+													<div class="form-group">
+														<div class="form-group">
+															<label>Finanzierung</label>
+															<select class="form-control">
+																<option>LM_2016_sofort</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-3">
+													<div class="form-group">
+														<div class="form-group">
+															<label>Jahr</label>
+															<select class="form-control">
+																<option>2016</option>
+															</select>
+														</div>
 													</div>
 												</div>
 												<div class="col-lg-2 reset-btn-width">
@@ -66,131 +92,174 @@
 										<table id="datatable" class="table table-hover table-bordered table-edit" data-page-length="10000">
 											<thead>
 												<tr>
+													<th>Knnz.</th>
+													<th>Status</th>
 													<th>Finanzierung</th>
-													<th>Fördertopf</th>
-													<th>Programm</th>
-													<th>IBAN</th>
 													<th>Jahr</th>
-													<th>Bearbeiten</th>
+													<th>Personalkosten</th>
+													<th>Fortbildungskosten</th>
+													<th>Regiekosten</th>
+													<th>Berufsgenos</th>
+													<th>Ansicht /<br/> Bearbeiten</th>
 												</tr>
 											</thead>
 			
 											<tbody>
 												<tr>
+													<td><a href="order.php">G052</a>
+													<td>New</td>
 													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
 													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
 													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
+														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+															<i class="ion-edit"></i>
+														</a>
+													</td>
+												</tr>
+												<tr class="decline-row">
+													<td><a href="order.php">G052</a>
+													<td>Abgelehnt</td>
+													<td>LM_2016_sofort</td>
+													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
+													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
+														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+															<i class="ion-edit"></i>
+														</a>
+													</td>
+												</tr>
+												<tr class="exported-row">
+													<td><a href="order.php">G052</a>
+													<td>Accepted</td>
+													<td>LM_2016_sofort</td>
+													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
+													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
 													</td>
 												</tr>
 												<tr>
+													<td><a href="order.php">G052</a>
+													<td>New</td> 
 													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
 													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
 													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
+														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+															<i class="ion-edit"></i>
+														</a>
+													</td>
+												</tr>
+												<tr class="decline-row">
+													<td><a href="order.php">G052</a>
+													<td>Abgelehnt</td> 
+													<td>LM_2016_sofort</td>
+													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
+													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
+														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+															<i class="ion-edit"></i>
+														</a>
+													</td>
+												</tr>
+												<tr class="exported-row">
+													<td><a href="order.php">G052</a>
+													<td>Accepted</td> 
+													<td>LM_2016_sofort</td>
+													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
+													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
 													</td>
 												</tr>
 												<tr>
+													<td><a href="order.php">G052</a>
+													<td>New</td> 
 													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
 													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
 													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
+														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+															<i class="ion-edit"></i>
+														</a>
+													</td>
+												</tr>
+												<tr class="decline-row">
+													<td><a href="order.php">G052</a>
+													<td>Abgelehnt</td> 
+													<td>LM_2016_sofort</td>
+													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
+													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
 													</td>
 												</tr>
 												<tr>
+													<td><a href="order.php">G052</a>
+													<td>New</td> 
 													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
 													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
 													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
 													</td>
 												</tr>
 												<tr>
+													<td><a href="order.php">G052</a>
+													<td>New</td> 
 													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
 													<td>2016</td>
+													<td>33300,00</td>
+													<td>4500,00</td>
+													<td>33500,00</td>
+													<td>7500,00</td>
 													<td>
-														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
-													<td>2016</td>
-													<td>
-														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
-													<td>2016</td>
-													<td>
-														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
-													<td>2016</td>
-													<td>
-														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
-													<td>2016</td>
-													<td>
-														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>LM_2016_sofort</td>
-													<td>Landesmittel</td>
-													<td>Zusatzprogramm B</td>
-													<td>DE64 1007 0848 0511 7338 03</td>
-													<td>2016</td>
-													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -198,6 +267,22 @@
 												</tr>
 											</tbody>
 										</table>
+										<div class="row m-t-30">
+											<div class="col-lg-12">
+												<div class="notice">
+													<span class="color-notice open"></span>
+													New
+												</div>
+												<div class="notice">
+													<span class="color-notice decline-row"></span>
+													Abgelehnt
+												</div>
+												<div class="notice">
+													<span class="color-notice exported-row"></span>
+													Accepted
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -211,95 +296,6 @@
 		<!-- ================== -->
 		<?php include('templates/footer.php'); ?>
 
-<!--Add Finance source -->
-
-		<div id="modal-2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-           
-            <div class="modal-dialog custom-width">
-				<div class="panel panel-color panel-primary">
-					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Finanzierung hinzufügen</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
-					</div>
-					<div class="panel-body">
-						<form role="form" class="form-horizontal">
-							<div class="row">
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-3 control-label">Finanzierung</label>
-									<div class="col-lg-9">
-										<input class="form-control" type="text" value="">
-									</div>
-								</div>
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-3 control-label">Jahr</label>
-									<div class="col-lg-9">
-										<input class="form-control" type="text" value="">
-									</div>
-								</div>
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-3 control-label">Ansprechpartner/in</label>
-									<div class="col-lg-9">
-										<input class="form-control" type="text" value="">
-									</div>
-								</div>
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-3 control-label">IBAN</label>
-									<div class="col-lg-9">
-										<input class="form-control" type="text" value="">
-									</div>
-								</div>
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-3 control-label">Geldinstitut</label>
-									<div class="col-lg-9">
-										<input class="form-control" type="text" value="">
-									</div>
-								</div>
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-3 control-label">Fördertopf</label>
-									<div class="col-lg-9">
-										<select class="form-control">
-											<option>Landesmittel</option>
-											<option>Bonusprogramm</option>
-										</select>
-									</div>
-								</div>
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-3 control-label">Programm</label>
-									<div class="col-lg-9">
-										<select class="form-control">
-											<option>Schulsozialarbeit</option>
-											<option>Zusatzprogramm A</option>
-											<option>Zusatzprogramm B</option>
-											<option>Bonusprogramm</option>
-										</select>
-									</div>
-								</div>
-
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-3 control-label">Details</label>
-									<div class="col-lg-9">
-										<textarea class="form-control"></textarea>
-									</div>
-								</div>
-							</div>
-							<div class="form-group group-btn m-t-15">
-								<div class="col-lg-2">
-									<a class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></a>
-								</div>
-								<div class="col-lg-10 text-right pull-right">
-								 	<button class="btn w-lg cancel-btn" data-dismiss="modal">Abbrechen</button>
-									<button class="btn w-lg custom-btn" data-dismiss="modal">Speichern</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-				
-			</div>
-		
-		</div>
-
-<!--End Add Finance source -->
 
 <!--Edit Finance source -->
 
@@ -399,11 +395,12 @@
 
 				jQuery(".select2").select2();
 
-				var table = $('.edit-user #datatable').DataTable({
+				var table = $('.berichte-page #datatable').DataTable({
 					"paging":   false,
 			        "info":     false,
 			        "columnDefs": [
-						{ className:"dt-edit", "orderable": false, "targets": 5 }
+						{ className:"dt-edit", "orderable": false, "targets": 8 },
+						{ "width": "8%", "targets": [0] }
 					]
 				});
 

@@ -14,7 +14,7 @@
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 				<ul class="dropdown-menu">
-					<li><a href="summary.php">Zusammenfassung der Finanzen</a></li>
+					<li><a href="summary.php">Finanzübersicht</a></li>
 					<li><a href="financial-request.php">Mittelabrufe</a></li>
 					<li><a href="finance-report.php">Belege</a></li>
 					<li><a href="finance-source.php">Finanzierungen</a></li>

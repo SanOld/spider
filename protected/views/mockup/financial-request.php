@@ -134,8 +134,14 @@
 									</div>
 									<div class="box-finance">
 										<span class="sum requested">
-	                                    	<strong>Angefordert</strong>
+	                                    	<strong>Freimeldung</strong>
 											<span>€ 0,00</span>
+	                                    </span>
+									</div>
+									<div class="box-finance">
+										<span class="sum refund">
+	                                    	<strong>Rückgezahlt</strong>
+											<span>€ 100.00</span>
 	                                    </span>
 									</div>
 									<div class="box-finance">
@@ -146,14 +152,8 @@
 									</div>
 									<div class="box-finance">
 										<span class="sum spent">
-	                                    	<strong>Ausgegeben</strong>
+	                                    	<strong>Belege</strong>
 											<span>€ 1,000.00</span>
-	                                    </span>
-									</div>
-									<div class="box-finance">
-										<span class="sum refund">
-	                                    	<strong>Rückgezahlt</strong>
-											<span>€ 100.00</span>
 	                                    </span>
 									</div>
 									<div class="box-finance">
@@ -229,7 +229,6 @@
 														<div class="holder-id-request">
 															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
 														</div>
-														<i title="Regulär" class="fa fa-calendar"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td></td>
@@ -263,7 +262,6 @@
 														<div class="holder-id-request">
 															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
 														</div>
-														<i title="Rückgezahlt" class="fa fa-reply"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td></td>
@@ -298,7 +296,6 @@
 														<div class="holder-id-request">
 															<span>€ 862.86<span>DE65 1203 0000 1005 3670 06</span></span>
 														</div>
-														<i title="Regulär" class="fa fa-calendar"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td></td>
@@ -333,7 +330,6 @@
 														<div class="holder-id-request">
 															<span>€ 862.86<span>DE65 1203 0000 1005 3670 06</span></span>
 														</div>
-														<i title="Regulär" class="fa fa-calendar"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td></td>
@@ -368,7 +364,6 @@
 														<div class="holder-id-request">
 															<span>€ 862.86<span>DE65 1203 0000 1005 3670 06</span></span>
 														</div>
-														<i title="Regulär" class="fa fa-calendar"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td></td>
@@ -396,13 +391,12 @@
 														</button>
 													</td>
 													<td>2016<br/> März-Apr</td>
-													<td>In DATEV importiert</td>
+													<td>aus DATEV importiert</td>
 													<td>2016_LM</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
 														</div>
-														<i title="Rückgezahlt" class="fa fa-reply"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td>28.10.2015</td>
@@ -431,13 +425,12 @@
 														</button>
 													</td>
 													<td>2016<br/> März-Apr</td>
-													<td>In DATEV importiert</td>
+													<td>aus DATEV importiert</td>
 													<td>2016_LM</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
 														</div>
-														<i title="Extra" class="fa fa-files-o"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td>28.10.2015</td>
@@ -466,13 +459,12 @@
 														</button>
 													</td>
 													<td>2016<br/> März-Apr</td>
-													<td>Aus DATEV exportiert</td>
+													<td>nach DATEV exportiert</td>
 													<td>2016_LM</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
 														</div>
-														<i title="Regulär" class="fa fa-calendar"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td>28.10.2015</td>
@@ -507,7 +499,6 @@
 														<div class="holder-id-request">
 															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
 														</div>
-														<i title="Regulär" class="fa fa-calendar"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td></td>
@@ -542,7 +533,6 @@
 														<div class="holder-id-request">
 															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
 														</div>
-														<i title="Extra" class="fa fa-files-o"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td></td>
@@ -577,7 +567,6 @@
 														<div class="holder-id-request">
 															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
 														</div>
-														<i title="Regulär" class="fa fa-calendar"></i>
 													</td>
 													<td>28.10.2015</td>
 													<td></td>
@@ -594,24 +583,11 @@
 										<div class="btn-row m-t-15 clearfix">
 											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Export zu DATEV</button>
 											<button class="btn m-b-5" data-target="#modal-3" data-toggle="modal">Als importiert markieren</button>
-											<button class="btn m-b-5" data-target="#modal-4" data-toggle="modal">Akzeptieren und drucken erlauben</button>
-											<button class="btn m-b-5" data-target="#modal-5" data-toggle="modal">Brief ist erhalten und überprüft</button>
+											<button class="btn m-b-5" data-target="#modal-4" data-toggle="modal">Sachlich richtig (Druckfreigabe)</button>
+											<button class="btn m-b-5" data-target="#modal-5" data-toggle="modal">Mittelabruf liegt korrekt vor</button>
 										</div>
 									</div>
 								</div>
-								<div class="notice">
-									<i class="fa fa-calendar"></i>
-									Regulär 
-								</div>
-								<div class="notice">
-									<i class="fa fa-files-o"></i>
-									Extra
-								</div>
-								<div class="notice">
-									<i class="fa fa-reply"></i>
-									Rückgezahlt
-								</div>
-								<div class="clear"></div>
 								<div class="notice">
 									<span class="color-notice inprogress-row"></span>
 									In Bearbeitung
@@ -630,11 +606,11 @@
 								</div>
 								<div class="notice">
 									<span class="color-notice exported-row"></span>
-									Aus DATEV exportiert
+									nach DATEV exportiert
 								</div>
 								<div class="notice">
 									<span class="color-notice imported-row"></span>
-									In DATEV importiert
+									aus DATEV importiert
 								</div>
 							</div>
 						</div>

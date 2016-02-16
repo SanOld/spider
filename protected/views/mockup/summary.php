@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		
-		<title>Zusammenfassung der Finanzen | SPIder</title>
+		<title>Finanzübersicht | SPIder</title>
 		<?php include('templates/head.php'); ?>
 	</head>
 
@@ -20,7 +20,7 @@
 				<ul class="breadcrumb p-0">
 					<li><a href="#">Home</a></li>
 					<li><a href="#">Finanzen</a></li>
-					<li class="active">Zusammenfassung der Finanzen</li>
+					<li class="active">Finanzübersicht</li>
 				</ul>
 			</div>
 			
@@ -32,7 +32,7 @@
 					<div class="container center-block">
 						<div class="panel panel-default">
 							<div class="panel-heading clearfix">
-								<h1 class="panel-title col-lg-6">Zusammenfassung der Finanzen</h1>
+								<h1 class="panel-title col-lg-6">Finanzübersicht</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 								</div>

@@ -2147,15 +2147,6 @@ tfoot th.align-right {
 	padding: 0;
 	background:none;
 }
-.holder-id-request {
-    float: left;
-    width: 86%;
-}
-.holder-id-request + i {
-	color:#9c9f96;
-	font-size: 20px;
-    margin: 10px 0 0;
-}
 .holder-id-request span {
 	display:block;
 	white-space: nowrap;
@@ -2195,11 +2186,14 @@ tfoot th.align-right {
 	vertical-align:middle;
 	margin: 0 0 0 5px;
 }
-.square-legend .notice .color-notice {
-	border-radius: 0;
+.legends {
+    display: inline-block;
+    line-height: 15px;
+    margin: 0 10px 0 0;
+    vertical-align: middle;
 }
-.notice .decline-square {
-	background: #ff0000;
+.legends span {
+    display: inline-block;
 }
 /*.finance-report tr.accepted-row {
 	background: #fcecff;

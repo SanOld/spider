@@ -838,7 +838,8 @@ body .nav.nav-tabs + .tab-content {
 .finacing-edit tr.decline-row:hover {
 	background:#cacaca;
 }
-.notice .inprogress-row {
+.notice .inprogress-row,
+.notice .inprogress-square {
 	background: #ffd667;
 }
 .request-edit tr.inprogress-row,
@@ -849,7 +850,8 @@ body .nav.nav-tabs + .tab-content {
 .finacing-edit tr.inprogress-row:hover {
 	background: #fcf0cc;
 }
-.notice .acceptable-row{
+.notice .acceptable-row,
+.notice .acceptable-square {
 	background: #a1e187;
 }
 .request-edit tr.acceptable-row {
@@ -971,9 +973,9 @@ table.dataTable thead > tr > th.sorting_disabled {
 .finacing-edit #datatable tr th:first-child .cr-styled i {
 	margin:0;
 }
-.request-edit #datatable tr td:nth-child(3) {
+/*.request-edit #datatable tr td:nth-child(3) {
 	width: 250px;
-}
+}*/
 .modal-dialog.custom-width {
 	width:550px !important;
 }
@@ -1867,8 +1869,19 @@ div.dataTables_length select {
 .cell-school.select {
 	background-position: 4px -35px;
 }
+.cell-finplan.select-decline,
+.cell-concept.select-decline,
+.cell-school.select-decline {
+	background-position: 4px -76px;
+}
 .cell-finplan.select {
 	background-position: 3px -38px;
+}
+.cell-finplan.select-decline {
+	background-position: 3px -75px;
+}
+.cell-concept.select-decline {
+	background-position: 5px -77px;
 }
 .cell-finplan {
 	background: url('../images/icon-finplan.png') no-repeat 3px 3px;
@@ -2137,15 +2150,6 @@ tfoot th.align-right {
 	padding: 0;
 	background:none;
 }
-.holder-id-request {
-	float: left;
-	width: 86%;
-}
-.holder-id-request + i {
-	color:#9c9f96;
-	font-size: 20px;
-	margin: 10px 0 0;
-}
 .holder-id-request span {
 	display:block;
 	white-space: nowrap;
@@ -2184,6 +2188,15 @@ tfoot th.align-right {
 	display:inline-block;
 	vertical-align:middle;
 	margin: 0 0 0 5px;
+}
+.legends {
+	display: inline-block;
+	line-height: 15px;
+	margin: 0 10px 0 0;
+	vertical-align: middle;
+}
+.legends span {
+	display: inline-block;
 }
 /*.finance-report tr.accepted-row {
 	background: #fcecff;

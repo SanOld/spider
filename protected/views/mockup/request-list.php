@@ -538,15 +538,27 @@
 								</div>
 								<div class="clearfix square-legend">
 									<div class="notice">
-										<span class="color-notice inprogress-square"></span>
+										<div class="legends">
+										  	<span class="cell-finplan select"></span>
+										  	<span class="cell-concept select"></span>
+										    <span class="cell-school select"></span>
+										</div>
 										In Bearbeitung 
 									</div>
 									<div class="notice">
-										<span class="color-notice acceptable-square"></span>
+										<div class="legends">
+										  	<span class="cell-finplan"></span>
+										  	<span class="cell-concept"></span>
+										    <span class="cell-school"></span>
+										</div>
 										Förderfähig 
 									</div>
 									<div class="notice">
-										<span class="color-notice decline-square"></span>
+										<div class="legends">
+										  	<span class="cell-finplan select-decline"></span>
+										  	<span class="cell-concept select-decline"></span>
+										    <span class="cell-school select-decline"></span>
+										</div>
 										Abgelehnt
 									</div>
 								</div>
