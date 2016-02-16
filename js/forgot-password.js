@@ -10,8 +10,8 @@ spi.controller('ForgotPasswordController', function($scope, network) {
         $scope.form.$setPristine();
         if ($scope.form.$valid) {
             network.post('forgot_password', {email: $scope.email}, function(result, response) {
-                $scope.error = !result || response.result;
-                if(!$scope.error) {
+                $scope.error = !result;
+                if(result) {
                     $scope.success = true;
                 }
             });
