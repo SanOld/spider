@@ -34,7 +34,7 @@
 								<h1 class="panel-title col-lg-6">Fördertöpfe</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken<i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Fördertöpfe hinzufügen</button>
+									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Fördertöpf hinzufügen</button>
 								</div>
 							</div>
 							<div class="panel-body edit-user">
@@ -173,7 +173,7 @@
             <div class="modal-dialog custom-width">
 				<div class="panel panel-color panel-primary">
 					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Finanzierung hinzufügen</h3>
+						<h3 class="m-0 pull-left">Fördertöpf hinzufügen</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 					</div>
 					<div class="panel-body">
@@ -227,7 +227,7 @@
             <div class="modal-dialog custom-width">
 				<div class="panel panel-color panel-primary">
 					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Finanzierung bearbeiten</h3>
+						<h3 class="m-0 pull-left">Fördertöpf bearbeiten</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 					</div>
 					<div class="panel-body">

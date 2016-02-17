@@ -288,8 +288,10 @@
 																</select>
 															</div>
 															<dl class="custom-dl">
-																<dt>Ansprechpartner(in):</dt>
-																<dd>Mr Sascha Mase</dd>
+																<dt>Function:</dt>
+																<dd>Manager</dd>
+																<dt>Titel:</dt>
+																<dd>Some title</dd>
 																<dt>Telefon:</dt>
 																<dd>(030) 2888 496</dd>
 																<dt>Email:</dt>
