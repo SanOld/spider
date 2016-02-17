@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		
-		<title>Dokumentvorlage | SPIder</title>
+		<title>Druck-Template | SPIder</title>
 		<?php include('templates/head.php'); ?>
 	</head>
 
@@ -19,7 +19,7 @@
 			<div class="container">
 				<ul class="breadcrumb p-0">
 					<li><a href="#">Home</a></li>
-					<li><a href="#">Dokumentvorlage</a></li>
+					<li><a href="#">Druck-Template</a></li>
 					<li class="active">FV_2014_Sonderkündigung</li>
 				</ul>
 			</div>

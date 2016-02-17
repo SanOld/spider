@@ -34,7 +34,7 @@
 								<h1 class="panel-title col-lg-6">Druck-Templates</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken<i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Neues Dokument</button>
+									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Druck-Template hinzufügen</button>
 								</div>
 							</div>
 							<div class="panel-body edit-user doc-template">
@@ -228,7 +228,7 @@
             <div class="modal-dialog modal-width-full">
 				<div class="panel panel-color panel-primary">
 					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Vorlage bearbeiten - FV_2013_Sonderkündigung</h3>
+						<h3 class="m-0 pull-left">Druck-Template bearbeiten - FV_2013_Sonderkündigung</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 					</div>
 					<div class="panel-body p-t-0">
