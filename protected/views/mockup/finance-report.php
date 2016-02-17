@@ -50,7 +50,7 @@
 											<div class="col-lg-1">
 												<div class="form-group">
 													<div class="form-group">
-														<label>Knnz.</label>
+														<label>Kennziffer</label>
 														<select class="form-control">
 															<option>G053</option>
 														</select>

@@ -280,16 +280,21 @@
 														Ansprechpersonen für Rückfragen zum Konzept
 													</h3>
 													<hr/>
-													<div class="row m-b-30">
+													<div class="row m-b-30 row-holder-dl">
 														<div class="col-lg-4">
-															<div class="form-custom-box p-15 m-0">
+															<div class="form-group">
 																<select class="form-control m-b-15">
 																	<option>Mr Sascha Mase</option>
 																</select>
-																<strong class="visible-lg-block">Mr Sascha Mase</strong>
-																<span class="visible-lg-block">(030) 4433-607-40</span>
-																<a class="visible-lg-block" href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a>
 															</div>
+															<dl class="custom-dl">
+																<dt>Ansprechpartner(in):</dt>
+																<dd>Mr Sascha Mase</dd>
+																<dt>Telefon:</dt>
+																<dd>(030) 2888 496</dd>
+																<dt>Email:</dt>
+																<dd><a class="visible-lg-block" href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
+															</dl>
 														</div>
 													</div>
 													<h3 class="panel-title">
@@ -422,11 +427,11 @@
 																</select>
 															</div>
 															<dl class="custom-dl">
-																<dt>Kontoinhaber</dt>
+																<dt>Kontoinhaber:</dt>
 																<dd>Mr Werner Munk</dd>
-																<dt>Kontoinhaber</dt>
-																<dd>Bank für Sozialwirtschaft</dd>
-																<dt>Beschreibung</dt>
+																<dt>Kreditor:</dt>
+																<dd>3148800</dd>
+																<dt>Beschreibung:</dt>
 																<dd>tandem BQG</dd>
 															</dl>
 														</div>
@@ -1809,7 +1814,7 @@
 																			</div>
 																		</div>
 																	</div>
-																	<h4 class="m-t-40">Interne / Externe Vernetzung"</h4>
+																	<h4 class="m-t-40">Interne / Externe Vernetzung</h4>
 																	<div class="holder-radio">
 																		<div class="p-0 text-center">
 																			<div class="row">

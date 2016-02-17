@@ -138,6 +138,9 @@ body.bg {
 .form-horizontal .form-control-feedback {
 	right: 15px;
 }
+.form-horizontal .wrap-line .form-control-feedback {
+    right: 0;
+}
 .wrap-line.error input[type="text"],
 .wrap-line.error input[type="password"],
 .wrap-line.error input[type="email"],

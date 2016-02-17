@@ -703,21 +703,15 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-lg-4 control-label"></label>
+									<label class="col-lg-4 control-label">Kontoinhaber</label>
 									<div class="col-lg-8 control-label">
 										Mr Werner Munk
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-lg-4 control-label"></label>
+									<label class="col-lg-4 control-label">Kreditor</label>
 									<div class="col-lg-8 control-label">
-										UBSWUS33XXX
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-lg-4 control-label"></label>
-									<div class="col-lg-8 control-label">
-										Tandem BQG
+										3148800
 									</div>
 								</div>
 								<hr />

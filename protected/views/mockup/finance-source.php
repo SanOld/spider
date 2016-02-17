@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		
-		<title>Finanzierungen | SPIder</title>
+		<title>Fördertöpfe | SPIder</title>
 		<?php include('templates/head.php'); ?>
 	</head>
 
@@ -19,7 +19,7 @@
 			<div class="container">
 				<ul class="breadcrumb p-0">
 					<li><a href="#">Home</a></li>
-					<li class="active">Finance Source</li>
+					<li class="active">Fördertöpfe</li>
 				</ul>
 			</div>
 			
@@ -31,10 +31,10 @@
 					<div class="container center-block">
 						<div class="panel panel-default">
 							<div class="panel-heading clearfix">
-								<h1 class="panel-title col-lg-6">Finanzierungen</h1>
+								<h1 class="panel-title col-lg-6">Fördertöpfe</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken<i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Finanzierung hinzufügen</button>
+									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Fördertöpfe hinzufügen</button>
 								</div>
 							</div>
 							<div class="panel-body edit-user">

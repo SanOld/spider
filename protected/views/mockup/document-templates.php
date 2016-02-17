@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		
-		<title>Dokumentvorlage | SPIder</title>
+		<title>Druck-Templates | SPIder</title>
 		<?php include('templates/head.php'); ?>
 	</head>
 
@@ -19,7 +19,7 @@
 			<div class="container">
 				<ul class="breadcrumb p-0">
 					<li><a href="#">Home</a></li>
-					<li class="active">Dokumentvorlage</li>
+					<li class="active">Druck-Templates</li>
 				</ul>
 			</div>
 			
@@ -31,7 +31,7 @@
 					<div class="container center-block">
 						<div class="panel panel-default">
 							<div class="panel-heading clearfix">
-								<h1 class="panel-title col-lg-6">Dokumentvorlage</h1>
+								<h1 class="panel-title col-lg-6">Druck-Templates</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken<i class="ion-printer"></i></a>
 									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Neues Dokument</button>
