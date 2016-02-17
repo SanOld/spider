@@ -52,6 +52,18 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
             budget_processing_user_id: data.budget_processing_user_id,
             bank_details_id: data.bank_details_id,
         };
+        getUsers();
+        if(data.bank_details_id) {
+            getBankDetails();
+        }
+        getDocuments();
+        //initUploader(data.id);
+    } else {
+        $scope.performer = {is_checked: 0};
+    }
+
+
+    function getUsers() {
         network.get('user', {}, function(result, response){
             if(result) {
                 $scope.users = response.result;
@@ -70,17 +82,29 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
                 }
             }
         });
-        if(data.bank_details_id) {
-            network.get('bank_details', {id: data.bank_details_id}, function(result, response){
-                if(result) {
-                    $scope.showBankDetails = true;
-                    $scope.bank_details = response.result[0];
-                }
-            });
-        }
-    } else {
-        $scope.performer = {is_checked: 0};
     }
+
+    function getBankDetails() {
+        network.get('bank_details', {id: data.bank_details_id}, function(result, response){
+            if(result) {
+                $scope.showBankDetails = true;
+                $scope.bank_details = response.result[0];
+            }
+        });
+    }
+
+    function getDocuments() {
+        $scope.documents = [];
+        network.get('performer_document', {performer_id: data.id}, function(result, response){
+            if(result) {
+                $scope.documents = response.result;
+            }
+        });
+    }
+
+    $scope.removeDocument = function(docId) {
+
+    };
 
     $scope.changeRepresentativeUser = function(userId) {
         $scope.representativeUser = Utils.getRowById($scope.users, userId);
@@ -94,33 +118,43 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
         $scope.budgetProcessingUser = Utils.getRowById($scope.users, userId);
     };
 
-    $scope.fieldError = function(field) {
-        return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;
+    $scope.fieldError = function(field, innerForm) {
+        var form = innerForm ? $scope.form[innerForm] : $scope.form;
+        return ($scope.submited || form[field].$touched) && form[field].$invalid;
     };
 
     $scope.submitForm = function () {
-        var callback = function (result, response) {
-            if(result) {
-                $uibModalInstance.close();
+        $scope.submited = true;
+        $scope.form.$setPristine();
+        if ($scope.form.$valid) {
+            var callback = function (result, response) {
+                if (result) {
+                    $uibModalInstance.close();
+                }
+                $scope.submited = false;
+            };
+            if ($scope.isInsert) {
+                network.post($scope.$parent._m, $scope.performer, callback);
+            } else {
+                network.put($scope.$parent._m + '/' + data.id, $scope.performer, callback);
             }
-        };
-        if($scope.isInsert) {
-            network.post($scope.$parent._m, $scope.performer, callback);
-        } else {
-            network.put($scope.$parent._m+'/'+data.id, $scope.performer, callback);
         }
 
     };
 
     $scope.saveBankDetails = function(formData) {
-        if(!$scope.performer.bank_details_id) {
-            network.post('bank_details', formData, function(result, response) {
-                if(result) {
-                    $scope.performer.bank_details_id = response.id;
-                }
-            });
-        } else {
-            network.put('bank_details/'+$scope.performer.bank_details_id, formData);
+        $scope.submited = true;
+        $scope.form.formBank.$setPristine();
+        if ($scope.form.formBank.$valid) {
+            if (!$scope.performer.bank_details_id) {
+                network.post('bank_details', formData, function (result, response) {
+                    if (result) {
+                        $scope.performer.bank_details_id = response.id;
+                    }
+                });
+            } else {
+                network.put('bank_details/' + $scope.performer.bank_details_id, formData);
+            }
         }
     };
 
@@ -144,4 +178,40 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+
+
+    function initUploader(performerId) {
+        var uploader = new qq.FileUploader({
+            element: $('#file_upload')[0],
+            action: '/api/upload-document/'+performerId,
+            uploadButtonText: '',
+            validation: {
+                allowedExtensions: ['doc', 'pdf'],
+                itemLimit: 5,
+                sizeLimit: 10485760 // 10 Mb
+            },
+            onComplete: function(id, fileName, responseJSON){
+                var results = responseJSON.success || false;
+                var error = responseJSON.error || 'Error';
+                if(results) {
+                    var realFileName = responseJSON.filename || fileName;
+                    $timeout(function(){
+                        if(!imagesIsFull($scope.documents)) {
+                            $scope.documents.push({'url':'/files/uploads/'+realFileName, 'name':realFileName});
+                        }
+                    });
+                }
+            },
+            onUpload: function(id, fileName, xhr) {
+            },
+            onProgress: function(id, fileName, loaded, total) {
+            },
+            onError: function(id, fileName, xhr){
+            }
+        });
+    }
+
+
+
 });

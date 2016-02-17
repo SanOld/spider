@@ -78,6 +78,7 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
     } else {
         network.get('user_type', {}, function (result, response) {
             if(result) {
+                console.log($scope.form)
                 $scope.userTypes = response.result;
             }
         });
