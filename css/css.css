@@ -135,6 +135,9 @@ body.bg {
 .wrap-line.success .glyphicon-ok.form-control-feedback {
 	color: green;
 }
+.form-horizontal .form-control-feedback {
+	right: 15px;
+}
 .wrap-line.error input[type="text"],
 .wrap-line.error input[type="password"],
 .wrap-line.error input[type="email"],

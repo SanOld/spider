@@ -89,9 +89,10 @@
 										<div class="col-lg-2">
 											<div class="form-group">
 												<div class="form-group">
-													<label>Finanzierung</label>
+													<label>Fördertopf</label>
 													<select class="form-control">
-														<option>Alles anzeigen</option>
+														<option>LM</option>
+														<option>BP</option>
 													</select>
 												</div>
 											</div>
@@ -153,6 +154,7 @@
 													</th>
 													<th>Kennziffer</th>
 													<th>Träger</th>
+													<th>Programm</th>
 													<th>Jahr</th>
 													<th>Status</th>
 													<th></th>
@@ -171,6 +173,7 @@
 													</th>
 													<th>Kennziffer</th>
 													<th>Träger</th>
+													<th>Programm</th>
 													<th>Jahr</th>
 													<th>Status</th>
 													<th colspan="3">Prüfstatus</th>
@@ -191,6 +194,7 @@
 													</td>
 													<td><a href="order.php">K026</a></td>
 													<td><a href="#">Horizonte gGmbH</a></td>
+													<td>JSA</td>
 													<td>2016</td>
 													<td>Förderfähig</td>
 													<td></td>
@@ -214,6 +218,7 @@
 													</td>
 													<td><a href="order.php">G053</a></td>
 													<td><a href="#">CJD Berlin</a></td>
+													<td>BP</td>
 													<td>2016</td>
 													<td>Unbearbeitet</td>
 													<td>
@@ -248,6 +253,7 @@
 													</td>
 													<td><a href="order.php">K026</a></td>
 													<td><a href="#">Tandem BQG</a></td>
+													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>Unbearbeitet</td>
 													<td>
@@ -282,6 +288,7 @@
 													</td>
 													<td><a href="order.php">G053</a></td>
 													<td><a href="#">Tandem BQG</a></td>
+													<td>BP</td>
 													<td>2016</td>
 													<td>Unbearbeitet</td>
 													<td>
@@ -316,6 +323,7 @@
 													</td>
 													<td><a href="order.php">K026</a></td>
 													<td><a href="#">JaKuS gGmbH</a></td>
+													<td>JSA</td>
 													<td>2016</td>
 													<td>Förderfähig</td>
 													<td></td>
@@ -339,6 +347,7 @@
 													</td>
 													<td><a href="order.php">G053</a></td>
 													<td><a href="#">EJF gAG</a></td>
+													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>Bitte Bearbeiten</td>
 													<td>
@@ -373,6 +382,7 @@
 													</td>
 													<td><a href="order.php">K026</a></td>
 													<td><a href="#">Pad gGmbH</a></td>
+													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>Förderfähig</td>
 													<td></td>
@@ -396,6 +406,7 @@
 													</td>
 													<td><a href="order.php">K026</a></td>
 													<td><a href="#">JaKuS gGmbH</a></td>
+													<td>BP</td>
 													<td>2016</td>
 													<td>Genehmigt</td>
 													<td></td>
@@ -419,6 +430,7 @@
 													</td>
 													<td><a href="order.php">G053</a></td>
 													<td><a href="#">CJD Berlin</a></td>
+													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>Nur Leserecht</td>
 													<td>
@@ -453,6 +465,7 @@
 													</td>
 													<td><a href="order.php">K026</a></td>
 													<td><a href="#">Horizonte gGmbH</a></td>
+													<td>JSA</td>
 													<td>2016</td>
 													<td>Genehmigt</td>
 													<td></td>
@@ -476,6 +489,7 @@
 													</td>
 													<td><a href="order.php">G053</a></td>
 													<td><a href="#">Tandem BQG</a></td>
+													<td>BP</td>
 													<td>2016</td>
 													<td>Nur Leserecht</td>
 													<td>
@@ -504,12 +518,10 @@
 											</tbody>
 										</table>
 										<div class="btn-row m-t-15 clearfix">
-											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Vertragsvorlage wählen</button>
+											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Druck-Template wählen</button>
 											<button class="btn m-b-5" data-target="#modal-3" data-toggle="modal">Laufzeit festlegen</button>
-											<button class="btn m-b-5" data-target="#modal-4" data-toggle="modal">Finanzierung zuweisen</button>
 											<button class="btn m-b-5">Förderfähig</button>
 											<button class="btn m-b-5">Genehmigung</button>
-											<button class="btn m-b-5">Dokumente auswählen</button>
 											<button class="btn m-b-5 pull-right">Folgeantrag hinzufügen</button>
 										</div>
 									</div>
@@ -595,18 +607,33 @@
             <div class="modal-dialog custom-width">
 				<div class="panel panel-color panel-primary">
 					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Vertragsvorlage wählen</h3>
+						<h3 class="m-0 pull-left">Druck-Template wählen</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 					</div> 
 					<div class="panel-body text-center">
 						<h3 class="m-b-30">Vertragsvorlage für 4 Elemente auswählen</h3>
-						<div class="form-group">
-							<select class="form-control">
-								<option>Beispiel 1</option>
-								<option>Beispiel 2</option>
-								<option>Beispiel 3</option>
-								<option>Beispiel 4</option>
-							</select>
+						<div class="col-lg-12 text-left">
+							<div class="form-group">
+								<label>Zielvereinbarung</label>
+								<select class="form-control">
+									<option>Zielvereinbarung 1.doc</option>
+									<option>Zielvereinbarung 2.doc</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Antrag</label>
+								<select class="form-control">
+									<option>Antrag 1.doc</option>
+									<option>Antrag 2.doc</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Fördervertrag</label>
+								<select class="form-control">
+									<option>Fördervertrag 1.doc</option>
+									<option>Fördervertrag 2.doc</option>
+								</select>
+							</div>
 						</div>
 					</div>
 					<div class="row p-t-10 text-center">
@@ -652,34 +679,6 @@
                                 	</div>
                                 </div>
 							</div>
-						</div>
-					</div>
-					<div class="row p-t-10 text-center">
-						<div class="form-group group-btn m-t-20">
-							<div class="col-lg-12">
-								<button class="btn w-lg cancel-btn" data-dismiss="modal">Abbrechen</button>
-								<button class="btn w-lg custom-btn" data-dismiss="modal">Speichern</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Financing confirmation  -->
-		<div id="modal-4" class="modal fade request-alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog custom-width">
-				<div class="panel panel-color panel-primary">
-					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Finanzierung zuweisen</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
-					</div> 
-					<div class="panel-body text-center">
-						<h3 class="m-b-30">Wählen Sie die Finanzierungsquelle für 4 Elemente aus</h3>
-						<div class="form-group">
-							<select class="form-control">
-								<option>Wählen Sie die Finanzierungsquelle</option>
-							</select>
 						</div>
 					</div>
 					<div class="row p-t-10 text-center">
@@ -768,7 +767,7 @@
 				$('.request-edit #datatable').DataTable({
 					"sDom": 'Rfrtlip',
 					"columnDefs": [
-						{ className:"dt-edit", "targets": [10] }
+						{ className:"dt-edit", "targets": [11] }
 					],
 					"oLanguage": {
 				      	"sLengthMenu": "_MENU_   Objekte pro Seite ",
