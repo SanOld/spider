@@ -92,24 +92,33 @@ $this->breadcrumbs = array('Träger Agentur');
 		</div>
 
 		<div class="row">
+			<form novalidate name="form">
 			<uib-tabset class="row">
 				<uib-tab heading="General">
 					<div ng-class="{'holder-tab': !isInsert}">
 						<div ng-class="isInsert ? 'col-lg-12' : 'col-lg-8'">
 							<h3 class="subheading">Allgemeine Information</h3>
 							<hr>
-							<form class="form-horizontal">
+							<div class="form-horizontal">
 								<div class="address-row">
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Kurzname</label>
-										<div class="col-lg-10">
+										<div class="col-lg-10" ng-class="{'wrap-line error': fieldError('name')}">
 											<input class="form-control" name="name" ng-model="performer.name" type="text" value="" required>
+											<span ng-show="fieldError('name')">
+												<label ng-show="form.name.$error.required" class="error">Kurzname is required.</label>
+												<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+											</span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Name</label>
-										<div class="col-lg-10">
-											<input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value=""/>
+										<div class="col-lg-10" ng-class="{'wrap-line error': fieldError('short_name')}">
+											<input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value="" required/>
+											<span ng-show="fieldError('short_name')">
+												<label ng-show="form.short_name.$error.required" class="error">Name is required.</label>
+												<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+											</span>
 										</div>
 									</div>
 								</div>
@@ -220,7 +229,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										</dl>
 									</div>
 								</div>
-							</form>
+							</div>
 						</div>
 						<div class="col-lg-4" ng-if="!isInsert">
 							<div class="heading-button clearfix m-b-15">
@@ -228,7 +237,7 @@ $this->breadcrumbs = array('Träger Agentur');
 								<button ng-show="!performer.bank_details_id" ng-click="showBankDetails = 1" class="btn w-md custom-btn pull-right" type="button">Neu</button>
 							</div>
 							<div class="form-custom-box bank-details m-0" ng-show="showBankDetails">
-								<form novalidate class="form-horizontal">
+								<ng-form name="formBank" class="form-horizontal">
 									<div class="heading-bank clearfix m-b-15">
 										<h4 class="pull-left">Bankverbindungen</h4>
 										<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
@@ -241,8 +250,12 @@ $this->breadcrumbs = array('Träger Agentur');
 									</div>
 									<div class="form-group">
 										<label class="col-lg-5 p-r-0 control-label">IBAN</label>
-										<div class="col-lg-7">
-											<input class="form-control" name="iban" ng-model="bank_details.iban" type="text" value="" required/>
+										<div class="col-lg-7" ng-class="{'wrap-line error': fieldError('iban', 'formBank')}">
+											<input class="form-control" name="iban" ng-model="bank_details.iban" type="text" value="" ng-required="1"/>
+											<span ng-show="fieldError('iban', 'formBank')">
+												<label ng-show="form.formBank.iban.$error.required" class="error">IBAN is required.</label>
+												<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+											</span>
 										</div>
 									</div>
 									<div class="form-group">
@@ -268,7 +281,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<button class="btn w-sm cancel-btn" ng-if="!performer.bank_details_id" ng-click="$parent.showBankDetails = 0; $parent.bank_details = {}">Löschen</button>
 										<button class="btn w-sm custom-btn" ng-click="saveBankDetails(bank_details)">Hinzufügen</button>
 									</div>
-								</form>
+								</ng-form>
 							</div>
 						</div>
 					</div>
@@ -310,18 +323,14 @@ $this->breadcrumbs = array('Träger Agentur');
 									<div style="position:relative;">
 										<a class='btn w-sw custom-color pull-right' href='javascript:;'>
 											Dokumente hinzufügen
-											<input type="file" style='position:absolute;z-index:2;top:0;right:0; cursor:pointer; width: 118px; height: 36px; filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+											<input type="file" id="file_upload" style='position:absolute;z-index:2;top:0;right:0; cursor:pointer; width: 118px; height: 36px; filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
 										</a>
 										<span class='label label-info' id="upload-file-info"></span>
 									</div>
 								</div>
-								<div class="form-custom-box clearfix m-0 upload-box" ng-if="!isInsert">
+								<div class="form-custom-box clearfix m-0 upload-box" ng-if="!isInsert && documents.length">
 									<ul class="list-unstyled">
-										<li><i class="ion-document-text "></i><a href="#">Some document.doc</a><a class="sweet-4" href="#"><i class="ion-close"></i></a></li>
-										<li><i class="ion-document-text "></i><a href="#">Some document.doc</a><a class="sweet-4" href="#"><i class="ion-close"></i></a></li>
-										<li><i class="ion-document-text "></i><a href="#">Some document.doc</a><a class="sweet-4" href="#"><i class="ion-close"></i></a></li>
-										<li><i class="ion-document-text "></i><a href="#">Some document.doc</a><a class="sweet-4" href="#"><i class="ion-close"></i></a></li>
-										<li><i class="ion-document-text "></i><a href="#">Some document.doc</a><a class="sweet-4" href="#"><i class="ion-close"></i></a></li>
+										<li ng-repeat="doc in documents"><i class="ion-document-text "></i><a href="{{doc.href}}" ng-bind="doc.name"></a><a class="sweet-4" ng-click="removeDocument(doc.id)" href=""><i class="ion-close"></i></a></li>
 									</ul>
 								</div>
 							</div>
@@ -373,692 +382,8 @@ $this->breadcrumbs = array('Träger Agentur');
 						</div>
 					</div>
 				</uib-tab>
-
-				<uib-tab heading="Anträge">
-					<div class="holder-tab">
-						<div class="panel-body request-edit">
-							<div class="datafilter clearfix">
-								<form action="#">
-									<div class="col-lg-4">
-										<div class="form-group">
-											<div class="form-group">
-												<label>Antragstyp</label>
-												<select class="form-control">
-													<option>Alles anzeigen</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2">
-										<div class="form-group">
-											<div class="form-group">
-												<label>Jahr</label>
-												<select class="form-control">
-													<option>2015</option>
-													<option>2016</option>
-													<option>2017</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2">
-										<div class="form-group">
-											<div class="form-group">
-												<label>Status</label>
-												<select class="form-control">
-													<option>Akzeptabel</option>
-													<option>Öffnen</option>
-													<option>In Progress</option>
-													<option>Akzeptiert</option>
-													<option>Ablehnen </option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2">
-										<div class="form-group">
-											<div class="form-group">
-												<label>Finanzierung</label>
-												<select class="form-control">
-													<option>Alles anzeigen</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 reset-btn-width">
-										<button class="btn pull-right w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
-									</div>
-								</form>
-							</div>
-							<div>
-								<div class="col-lg-12">
-									<table id="datatable" class="table table-hover table-bordered table-edit">
-										<thead>
-										<tr class="head-top">
-											<th>Kennz.</th>
-											<th>Jahr</th>
-											<th>Status</th>
-											<th></th>
-											<th></th>
-											<th></th>
-											<th>Abgabe</th>
-											<th>Letzte Änd.</th>
-											<th>Ansicht</th>
-										</tr>
-										<tr>
-											<th>Kennz.</th>
-											<th>Jahr</th>
-											<th>Status</th>
-											<th colspan="3">Beanst.</th>
-											<th>Abgabe</th>
-											<th>Letzte Änd.</th>
-											<th>Ansicht</th>
-										</tr>
-
-										</thead>
-
-										<tbody>
-										<tr class="acceptable-row">
-											<td><a href="order.php">K026</a></td>
-											<td>2016</td>
-											<td>Förderfähig</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-												<a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
-											</td>
-										</tr>
-										<tr>
-											<td><a href="order.php">G053</a></td>
-											<td>2016</td>
-											<td>Unbearbeitet</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
-													<span class="cell-finplan select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
-													<span class="cell-concept select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
-													<span class="cell-school"></span>
-												</a>
-											</td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-
-											</td>
-										</tr>
-										<tr>
-											<td><a href="order.php">K026</a></td>
-											<td>2016</td>
-											<td>Unbearbeitet</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
-													<span class="cell-finplan select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
-													<span class="cell-concept select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
-													<span class="cell-school"></span>
-												</a>
-											</td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-
-											</td>
-										</tr>
-										<tr>
-											<td><a href="order.php">G053</a></td>
-											<td>2016</td>
-											<td>Unbearbeitet</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
-													<span class="cell-finplan select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
-													<span class="cell-concept select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
-													<span class="cell-school"></span>
-												</a>
-											</td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-
-											</td>
-										</tr>
-										<tr class="acceptable-row">
-											<td><a href="order.php">K026</a></td>
-											<td>2016</td>
-											<td>Förderfähig</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-												<a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
-
-											</td>
-										</tr>
-										<tr class="inprogress-row">
-											<td><a href="order.php">G053</a></td>
-											<td>2016</td>
-											<td>Bitte Bearbeiten</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
-													<span class="cell-finplan select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
-													<span class="cell-concept select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
-													<span class="cell-school"></span>
-												</a>
-											</td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-
-											</td>
-										</tr>
-										<tr class="acceptable-row">
-											<td><a href="order.php">K026</a></td>
-											<td>2016</td>
-											<td>Förderfähig</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-												<a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
-
-											</td>
-										</tr>
-										<tr class="accept-row">
-											<td><a href="order.php">K026</a></td>
-											<td>2016</td>
-											<td>Genehmigt</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-												<a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
-
-											</td>
-										</tr>
-										<tr class="decline-row">
-											<td><a href="order.php">G053</a></td>
-											<td>2016</td>
-											<td>Nur Leserecht</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
-													<span class="cell-finplan select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
-													<span class="cell-concept select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
-													<span class="cell-school"></span>
-												</a>
-											</td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-
-											</td>
-										</tr>
-										<tr class="accept-row">
-											<td><a href="order.php">K026</a></td>
-											<td>2016</td>
-											<td>Genehmigt</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td>
-												<a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
-
-											</td>
-										</tr>
-										<tr class="decline-row">
-											<td><a href="order.php">G053</a></td>
-											<td>2016</td>
-											<td>Nur Leserecht</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
-													<span class="cell-finplan select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
-													<span class="cell-concept select"></span>
-												</a>
-											</td>
-											<td>
-												<a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
-													<span class="cell-school"></span>
-												</a>
-											</td>
-											<td>13.11.2015</td>
-											<td>15.10.2015</td>
-											<td></td>
-										</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="notice">
-								<span class="color-notice open"></span>
-								Unbearbeitet
-							</div>
-							<div class="notice">
-								<span class="color-notice decline-row"></span>
-								Nur Leserecht
-							</div>
-							<div class="notice">
-								<span class="color-notice inprogress-row"></span>
-								Bitte bearbeiten
-							</div>
-							<div class="notice">
-								<span class="color-notice acceptable-row"></span>
-								Förderfähig
-							</div>
-							<div class="notice">
-								<span class="color-notice accept-row"></span>
-								Genehmigt
-							</div>
-						</div>
-					</div>
-				</uib-tab>
-
-				<uib-tab heading="Benutzer">
-					<div class="holder-tab">
-						<div class="panel-body edit-user agency-tab-user">
-							<div>
-								<div class="col-lg-12">
-									<div class="row datafilter">
-										<form action="#" class="class-form">
-											<div class="col-lg-3">
-												<div class="form-group">
-													<label>Suche nach Name, Benutzername oder Email</label>
-													<input type="search" class="form-control" placeholder="Eingegeben">
-												</div>
-											</div>
-											<div class="col-lg-4">
-												<div class="form-group">
-													<label>Benutzer-Typ</label>
-													<select class="type-user form-control">
-														<option>Performer (F)</option>
-														<option>Performer</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-4">
-												<div class="form-group">
-													<label>Status</label>
-													<select class="type-status form-control">
-														<option value="Active">Aktiv</option>
-														<option value="Disable">Deaktivieren</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-2 reset-btn-width">
-												<button class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
-											</div>
-										</form>
-									</div>
-
-									<table id="datatable" class="table table-hover table-bordered table-edit" data-page-length="10000">
-										<thead>
-										<tr>
-											<th>Name</th>
-											<th class="select-filter">Benutzer-Typ</th>
-											<th>Benutzername</th>
-											<th>Email</th>
-											<th>Telefon</th>
-											<th class="status-filter">Status</th>
-											<th>Bearbeiten</th>
-										</tr>
-										</thead>
-
-										<tbody>
-										<tr>
-											<td>Tiger Nixon</td>
-											<td>Performer</td>
-											<td><a href="#">jack.nik</a></td>
-											<td><a href="#">jack.nik@mail.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Aktiv</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										<tr>
-											<td>Garrett Winters</td>
-											<td>Performer</td>
-											<td><a href="#">ralph.fiennes</a></td>
-											<td><a href="#">ralph.fiennes@mail.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Aktiv</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										<tr>
-											<td>Ashton Cox</td>
-											<td>Performer (F)</td>
-											<td><a href="#">daniel.daylewis</a></td>
-											<td><a href="#">daniel.daylewis@mai.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Aktiv</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										<tr>
-											<td>Cedric Kelly</td>
-											<td>Performer</td>
-											<td><a href="#">dustin.hoffman</a></td>
-											<td><a href="#">dustin.hoffman@mail.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Aktiv</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										<tr class="disable">
-											<td>Airi Satou</td>
-											<td>Performer (F)</td>
-											<td><a href="#">ralph.fiennes</a></td>
-											<td><a href="#">ralph.fiennes@mail.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Deaktivieren</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										<tr>
-											<td>Brielle Williamson</td>
-											<td>Performer</td>
-											<td><a href="#">daniel.daylewis</a></td>
-											<td><a href="#">daniel.daylewis@mai.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Aktiv</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										<tr>
-											<td>Herrod Chandler</td>
-											<td>Performer</td>
-											<td><a href="#">jack.nik</a></td>
-											<td><a href="#">jack.nik@mail.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Aktiv</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										<tr>
-											<td>Rhona Davidson</td>
-											<td>Performer (F)</td>
-											<td><a href="#">jack.nik</a></td>
-											<td><a href="#">jack.nik@mail.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Aktiv</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										<tr>
-											<td>Colleen Hurst</td>
-											<td>Performer (F)</td>
-											<td><a href="#">jack.nik</a></td>
-											<td><a href="#">jack.nik@mail.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Aktiv</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										<tr>
-											<td>Sonya Frost</td>
-											<td>Performer</td>
-											<td>jack.nik</td>
-											<td><a href="#">jack.nik@mail.com</a></td>
-											<td>(030) 2888 496</td>
-											<td>Aktiv</td>
-											<td>
-												<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-													<i class="ion-edit"></i>
-												</a>
-											</td>
-										</tr>
-										</tbody>
-									</table>
-									<div class="notice">
-										<span class="color-notice"></span>
-										Deaktivierte Benutzer
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</uib-tab>
-				<uib-tab heading="Projekte">
-					<div class="holder-tab">
-						<div class="panel-body edit-user">
-							<div class="col-lg-12">
-								<div class="row datafilter">
-									<form action="#" class="class-form">
-										<div class="col-lg-3 col-width-type">
-											<div class="form-group">
-												<label>Suche nach Kennz.</label>
-												<input type="search" class="form-control" placeholder="Eingegeben">
-											</div>
-										</div>
-										<div class="col-lg-2 col-width-type">
-											<div class="form-group">
-												<label>Typ</label>
-												<select class="type-user form-control">
-													<option>Alles anzeigen</option>
-												</select>
-											</div>
-										</div>
-										<div class="col-lg-3 col-width-type">
-											<div class="form-group">
-												<label>Bezirk</label>
-												<select class="type-user form-control">
-													<option>Alles anzeigen</option>
-												</select>
-											</div>
-										</div>
-										<div class="col-lg-3">
-											<div class="form-group">
-												<label>Schule</label>
-												<select class="type-user form-control">
-													<option>Alles anzeigen</option>
-												</select>
-											</div>
-										</div>
-										<div class="col-lg-2 reset-btn-width">
-											<button class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
-										</div>
-									</form>
-								</div>
-
-								<table id="datatable" class="table table-hover table-bordered table-edit" data-page-length="10000">
-									<thead>
-									<tr>
-										<th>Kennz.</th>
-										<th>Bezirk</th>
-										<th>Schule</th>
-										<th>Bearbeiten</th>
-									</tr>
-									</thead>
-
-									<tbody>
-									<tr>
-										<td><a href="#">B026</a></td>
-										<td class="custom-data"><a href="#">Bezirk Neukolln</a></td>
-										<td><a href="#">Pestalozzi-Schule (06S01)</a></td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<td><a href="#">B053</a></td>
-										<td class="custom-data"><a href="#">Bezirk Pankow</a></td>
-										<td><a href="#">Pestalozzi-Schule (06S01)</a></td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<td><a href="#">Z026</a></td>
-										<td><a href="#">Lina Morgenstern</a></td>
-										<td class="custom-data"><a href="#">Lina Morgenstern (02K04)</a></td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<td><a href="#">G053</a></td>
-										<td><a href="#">Bezirk Neukolln</a></td>
-										<td><a href="#">Solling-Schule (ISS) (07K05)</a></td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<td><a href="#">B026</a></td>
-										<td class="custom-data"><a href="#">Bezirk Neukolln</a></td>
-										<td><a href="#">Solling-Schule (ISS) (07K05)</td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<td><a href="#">S053</a></td>
-										<td><a href="#">Bezirk Pankow</a></td>
-										<td><a href="#">Biesalski-Schule (06S02)</a></td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<td><a href="#">K026</a></td>
-										<td><a href="#">Bezirk Pankow</a></td>
-										<td><a href="#">Biesalski-Schule (06S02)</a></td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<td><a href="#">Z053</a></td>
-										<td><a href="#">Bezirk Neukolln</a></td>
-										<td class="custom-data"><a href="#">Biesalski-Schule (06S02)</a></td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<td><a href="#">S053</a></td>
-										<td><a href="#">Bezirk Pankow</a></td>
-										<td><a href="#">Biesalski-Schule (06S02)</a></td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<td><a href="#">S053</a></td>
-										<td><a href="#">Bezirk Pankow</a></td>
-										<td>
-											<a href="#">Solling-Schule (ISS) (07K05)</a><br/>
-											<a href="#">Pestalozzi-Schule (06S01)</a><br/>
-											<a href="#">Biesalski-Schule (06S02)</a>
-										</td>
-										<td>
-											<a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-												<i class="ion-edit"></i>
-											</a>
-										</td>
-									</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</uib-tab>
 			</uib-tabset>
+			</form>
 		</div>
 	</div>
 </script>
