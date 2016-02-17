@@ -420,7 +420,7 @@
 														<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
 													</div>
 													<div class="form-group">
-														<label class="col-lg-5 p-r-0 control-label">Ansprechpartner(in)</label>
+														<label class="col-lg-5 p-r-0 control-label">Kontoinhaber</label>
 														<div class="col-lg-7">
 															<input class="form-control" type="text" value="Mustermann"/>
 														</div>
@@ -432,9 +432,9 @@
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="col-lg-5 p-r-0 control-label">BIC</label>
+														<label class="col-lg-5 p-r-0 control-label">Kreditor</label>
 														<div class="col-lg-7">
-															<input class="form-control" type="text" value="UBSWUS33XXX"/>
+															<input class="form-control" type="text" value=""/>
 														</div>
 													</div>
 													<div class="form-group">

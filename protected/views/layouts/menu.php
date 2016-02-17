@@ -2,22 +2,21 @@
 	<div class="container">
 		<ul class="nav navbar-nav">
 			<li ng-class="{'active': _m=='dashboard'}"><a href="/dashboard">Startseite</a></li>
-			<li><a href="projects-list.php">Projekte</a></li>
 			<li><a href="request-list.php">Anträge</a></li>
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Berichte</a>
-				<ul class="dropdown-menu">
-					<li><a href="#">Statistik</a></li>
-					<li><a href="#">Auswertung</a></li>
-				</ul>
-			</li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 				<ul class="dropdown-menu">
 					<li><a href="summary.php">Finanzübersicht</a></li>
 					<li><a href="financial-request.php">Mittelabrufe</a></li>
 					<li><a href="finance-report.php">Belege</a></li>
-					<li><a href="finance-source.php">Finanzierungen</a></li>
+					<li><a href="finance-source.php">Fördertöpfe</a></li>
+				</ul>
+			</li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Berichte</a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Sachberichte</a></li>
+					<li><a href="#">Auswertung</a></li>
 				</ul>
 			</li>
 			<li ng-class="{'active': ['user', 'user_type'].indexOf(_m) !== -1}" class="dropdown" ng-if="_r.user.view || _r.user_type.view">
@@ -27,6 +26,7 @@
 					<li><a ng-if="canView('user_type')" href="/user-roles">Benutzerrollen</a></li>
 				</ul>
 			</li>
+			<li><a href="projects-list.php">Projekte</a></li>
 			<li ng-class="{'active': ['performer'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 				<ul class="dropdown-menu">
@@ -38,10 +38,10 @@
 			<li ng-class="{'active': ['hint'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Systemverwaltung</a>
 				<ul class="dropdown-menu">
-					<li><a href="email-templates.php">E-Mail-Vorlagen</a></li>
-					<li><a href="#">E-Mail-Warteschlange</a></li>
-					<li><a ng-if="canView('hint')" href="/hints">Hintsmodul</a></li>
-					<li><a href="document-templates.php">Dokumentvorlage</a></li>
+					<li><a href="document-templates.php">Druck-Templates</a></li>
+					<li><a ng-if="canView('hint')" href="/hints">Hilfetexte</a></li>
+					<li><a href="email-templates.php">Email-Vorlagen</a></li>
+					<li><a href="#">Email-Sendebericht</a></li>
 					<li><a href="#">Audit</a></li>
 				</ul>
 			</li>

@@ -193,7 +193,7 @@
 															<i class="fa"></i>
 														</label>
 													</th>
-													<th colspan="2">Kennz. / Beleg-Nr.</th>
+													<th colspan="2">Kennziffer / Beleg-Nr.</th>
 													<th>Jahr</th>
 													<th>Status</th>
 													<th>Finanzierung</th>
@@ -650,7 +650,7 @@
 								<dl class="custom-dl">
 									<dt>Haushaltsjahr</dt>
 									<dd>2016</dd>
-									<dt>Träger Agentur</dt>
+									<dt>Träger</dt>
 									<dd>Tandem BQG</dd>
 									<dt>Adresse</dt>
 									<dd>Potsdamer Str. 182 10783, Berlin</dd>

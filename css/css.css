@@ -1962,7 +1962,10 @@ div.dataTables_length select {
 }
 .summary-user .requsted-btn {
 	display: inline-block;
-	margin: 0 6px;
+	margin: 0 3px;
+}
+.summary-user table.dataTable thead > tr > th {
+	padding-right: 25px;
 }
 .summary-user .dt-edit {
 	width: 80px;

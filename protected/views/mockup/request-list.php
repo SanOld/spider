@@ -40,7 +40,7 @@
 									<form action="#">
 										<div class="col-lg-3 col1">
 											<div class="form-group">
-												<label>Träger Agentur</label>
+												<label>Träger</label>
 												<select class="select2" data-placeholder="View All">
 													<option>Alles anzeigen</option>
 													<option>Users</option>
@@ -151,8 +151,8 @@
 															<i class="fa"></i>
 														</label>
 													</th>
-													<th>Kennz.</th>
-													<th>Träger Agentur</th>
+													<th>Kennziffer</th>
+													<th>Träger</th>
 													<th>Jahr</th>
 													<th>Status</th>
 													<th></th>
@@ -169,8 +169,8 @@
 															<i class="fa"></i>
 														</label>
 													</th>
-													<th>Kennz.</th>
-													<th>Träger Agentur</th>
+													<th>Kennziffer</th>
+													<th>Träger</th>
 													<th>Jahr</th>
 													<th>Status</th>
 													<th colspan="3">Prüfstatus</th>

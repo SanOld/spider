@@ -32,7 +32,7 @@
 					<div class="container center-block">
 						<div class="panel panel-default">
 							<div class="panel-heading heading-noborder clearfix">
-								<h1 class="panel-title col-lg-6">Antrag S026 2015</h1>
+								<h1 class="panel-title col-lg-6">Antrag 2017 (S026)</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 								</div>
@@ -52,7 +52,7 @@
 										</li>
 										<li class="concepts"> 
 											<a href="#concepts" data-toggle="tab" aria-expanded="false">
-												<span class="hidden-xs">Schulkonzept</span> 
+												<span class="hidden-xs">Konzept</span> 
 											</a> 
 										</li>
 										<li class="schools-goals"> 
@@ -70,13 +70,13 @@
 													<div class="row">
 														<div class="col-lg-8 heading-title">
 															<h2 class="panel-title"> 
-																Projekte <strong>S026</strong>
+																Projekt <strong>S026</strong>
 															</h2>
 															<p>Gesellschaft für Sport und Jugendsozialarbeit gGmbH (GSJ)</p>
 														</div>
 														<div class="col-lg-4">
 															<div class="heading-date">
-																<strong>Beginn und Ende der Maßnahme (Beantragung):</strong>
+																<strong>Beginn und Ende der Maßnahme:</strong>
 																<div class="holder-head-date custom-dl  m-t-10">
 																	<i class="fa fa-calendar"></i>
 																	<dl>
@@ -96,9 +96,9 @@
 											
 												<div class="panel-body">
 													<div class="row">
-														<div class="col-lg-8">
+														<div class="col-lg-12">
 															<h3 class="panel-title">
-																Träger Agentur
+																Träger
 															</h3>
 															<hr/>
 															<strong>Gesellschaft für Sport und Jugendsozialarbeit gGmbH (GSJ) (bis 2008: Verein für Sport und Jugendsozialarbeit e.V.)</strong>
@@ -134,27 +134,6 @@
 																	</dl>
 																</div>
 															</div>
-														</div>
-														<div class="col-lg-4">
-															<h3 class="panel-title">
-																Financing
-															</h3>
-															<hr/>
-															<div class="form-group">
-																<label>Bankverbindungen</label>
-																<select class="form-control">
-																	<option>IBAN: DE64100708480511733803a</option>
-																	<option>IBAN: DE64100708480511733803a</option>
-																</select>
-															</div>
-															<dl class="custom-dl width-dt">
-																<dt>Ansprechpartner(in)</dt>
-																<dd>Mr Werner Munk</dd>
-																<dt>BIC</dt>
-																<dd>UBSWUS33XXX</dd>
-																<dt>Beschreibung</dt>
-																<dd>tandem BQG</dd>
-															</dl>
 														</div>
 													</div>
 													<h3 class="panel-title m-b-15">
@@ -298,34 +277,15 @@
 														</div>
 													</div>
 													<h3 class="panel-title">
-														Antragsrelevante Projektdaten
+														Ansprechpersonen für Rückfragen zum Konzept
 													</h3>
 													<hr/>
 													<div class="row m-b-30">
 														<div class="col-lg-4">
-															<h4>Bankverbindung</h4>
-															<dl class="custom-dl width-dt">
-																<dt>Ansprechpartner(in):</dt>
-																<dd><strong>Sascha Mase</strong></dd>
-																<dt>IBAN:</dt>
-																<dd>DE58 1002 0500 0003 1488 0</dd>
-																<dt>BIC:</dt>
-																<dd>UBSWUS33XXX</dd>
-																<dt>Detail:</dt>
-																<dd>tandem BQG</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
 															<div class="form-custom-box p-15 m-0">
-																<strong class="visible-lg-block m-b-10">Ansprechperson für die Antragsbearbeitung<br/> (für Rückfragen zum Konzept)</strong>
-																<strong class="visible-lg-block">Mr Sascha Mase</strong>
-																<span class="visible-lg-block">(030) 4433-607-40</span>
-																<a class="visible-lg-block" href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a>
-															</div>
-														</div>
-														<div class="col-lg-4">
-															<div class="form-custom-box p-15 m-0">
-																<strong class="visible-lg-block m-b-10">Ansprechperson für die Antragsbearbeitung<br/> (für Rückfragen zum Finanzplan)</strong>
+																<select class="form-control m-b-15">
+																	<option>Mr Sascha Mase</option>
+																</select>
 																<strong class="visible-lg-block">Mr Sascha Mase</strong>
 																<span class="visible-lg-block">(030) 4433-607-40</span>
 																<a class="visible-lg-block" href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a>
@@ -369,8 +329,15 @@
 												</div>
 												<hr/>
 												<div class="row">
+													<div class="col-lg-12">
+														<h4 class="m-t-0">Zusätzliche Information</h4>
+														<textarea placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
+													</div>
+												</div>
+												<hr />
+												<div class="row">
 													<div class="col-lg-4 form-horizontal">
-														<h4>Dokumente zum Druck wählen</h4>
+														<h4>Druck-Template wählen</h4>
 														<div class="form-group">
 															<label class="col-lg-4 control-label">Zielvereinbarung:</label>
 															<div class="col-lg-8">
@@ -400,15 +367,8 @@
 														</div>
 													</div>
 													<div class="col-lg-8">
-														<h4>Zustimmung vom Senat</h4>
+														<h4>Auflage vom Senat</h4>
 														<textarea class="form-control custom-height-textarea" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
-													</div>
-												</div>
-												<hr />
-												<div class="row">
-													<div class="col-lg-12">
-														<h4 class="m-t-0">Zusätzliche Information</h4>
-														<textarea placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
 													</div>
 												</div>
 												<hr />
@@ -1360,8 +1320,8 @@
 																<i class="fa fa-rotate-left"></i>
 																<span>Neu eröffnen</span>
 															</button>
-															<button class="btn w-lg btn-info btn-lg">Akzeptabel</button>
-															<button class="btn w-lg btn-info btn-lg">Akzeptiert </button>
+															<button class="btn w-lg btn-info btn-lg">Förderfähig</button>
+															<button class="btn w-lg btn-info btn-lg">Genehmigt</button>
 														</div>
 														<div class="col-lg-4 text-right">
 															<button class="btn w-lg cancel-btn btn-lg">Abbrechen</button>
@@ -1401,7 +1361,7 @@
 															</span>
 															<div class="btn-group btn-toggle pull-right tabs-toggle"> 
 																<button data-tab="tab-data" class="btn btn-sm active">DATEN</button>
-																<button data-tab="tab-history" class="btn btn-sm btn-default">GESCHICHTE</button>
+																<button data-tab="tab-history" class="btn btn-sm btn-default">VERLAUF</button>
 															</div>
 														</a> 
 													</h4> 
@@ -1632,8 +1592,8 @@
 													<i class="fa fa-rotate-left"></i>
 													<span>Neu eröffnen</span>
 												</button>
-												<button class="btn w-lg btn-info btn-lg">Akzeptabel</button>
-												<button class="btn w-lg btn-info btn-lg">Akzeptiert </button>
+												<button class="btn w-lg btn-info btn-lg">Förderfähig</button>
+												<button class="btn w-lg btn-info btn-lg">Genehmigt</button>
 											</div>
 											<div class="col-lg-4 text-right">
 												<button class="btn w-lg cancel-btn btn-lg">Abbrechen</button>
@@ -1849,7 +1809,7 @@
 																			</div>
 																		</div>
 																	</div>
-																	<h4 class="m-t-40">Interne / Externe Vernetzung" (alt: 4c und 4d)</h4>
+																	<h4 class="m-t-40">Interne / Externe Vernetzung"</h4>
 																	<div class="holder-radio">
 																		<div class="p-0 text-center">
 																			<div class="row">
@@ -2046,8 +2006,8 @@
 													<i class="fa fa-rotate-left"></i>
 													<span>Neu eröffnen</span>
 												</button>
-												<button class="btn w-lg btn-info btn-lg">Akzeptabel</button>
-												<button class="btn w-lg btn-info btn-lg">Akzeptiert </button>
+												<button class="btn w-lg btn-info btn-lg">Förderfähig</button>
+												<button class="btn w-lg btn-info btn-lg">Genehmigt</button>
 											</div>
 											<div class="col-lg-4 text-right">
 												<button class="btn w-lg cancel-btn btn-lg">Abbrechen</button>

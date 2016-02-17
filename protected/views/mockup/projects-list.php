@@ -44,7 +44,7 @@
 											<form action="#" class="class-form">
 												<div class="col-lg-3 col-width-type">
 													<div class="form-group">
-														<label>Suche nach Kennz.</label>
+														<label>Suche nach Kennziffer</label>
 														<input type="search" class="form-control" placeholder="Stichwort eingegeben">
 													</div>
 												</div>
@@ -74,7 +74,7 @@
 												</div>
 												<div class="col-lg-2">
 													<div class="form-group">
-														<label>Träger Agentur</label>
+														<label>Träger</label>
 														<select class="type-user form-control">
 															<option>Alles anzeigen</option>
 														</select>
@@ -89,9 +89,9 @@
 										<table id="datatable" class="table table-hover table-bordered table-edit" data-page-length="10000">
 											<thead>
 												<tr>
-													<th>Kennz.</th>
+													<th>Kennziffer</th>
 													<th>Schule</th>
-													<th>Träger Agentur</th>
+													<th>Träger</th>
 													<th>Bezirk</th>
 													<th>Bearbeiten</th>
 												</tr>

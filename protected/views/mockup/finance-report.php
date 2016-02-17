@@ -142,7 +142,7 @@
 																<i class="fa"></i>
 															</label>
 														</th>
-														<th>Kennz. /<br/> Beleg-Nr.</th>
+														<th>Kennziffer /<br/> Beleg-Nr.</th>
 														<th>Kostenart</th>
 														<th>Status</th>
 														<th>Jahr</th>
@@ -532,7 +532,7 @@
 						<form role="form" class="form-horizontal">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<label class="col-lg-5 control-label">Kennz.</label>
+									<label class="col-lg-5 control-label">Kennziffer</label>
 									<div class="col-lg-7 control-label">
 										G027
 									</div>
