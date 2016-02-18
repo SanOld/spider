@@ -138,7 +138,7 @@ body.bg {
 .form-horizontal .form-control-feedback {
 	right: 15px;
 }
-.form-horizontal .wrap-line .form-control-feedback {
+.form-horizontal .wrap-hint .form-control-feedback {
     right: 0;
 }
 .wrap-line.error input[type="text"],

@@ -96,7 +96,7 @@
 													<th>Jahr</th>
 													<th class="total-th"><span></span>Fördersumme</th>
 													<th class="requested-th"><span></span>Rate</th>
-													<th class="refund-th"><span></span>Rückgezahlt</th>
+													<th class="refund-th"><span></span>Freigemeldet</th>
 													<th class="income-th"><span></span>Ausgezahlt</th>
 													<th class="spent-th"><span></span>Belege</th>
 													<th class="expenditure-th"><span></span>Verblieben</th>
@@ -393,9 +393,9 @@
 			        	{ "width": "9%", "targets": [5] }
 			        ],
 			         "createdRow": function ( row, data, index ) {
-			            $('td', row).eq(4).addClass('highlight');
 			            $('td', row).eq(5).addClass('highlight');
 			            $('td', row).eq(6).addClass('highlight');
+			            $('td', row).eq(7).addClass('highlight');
 			        }
 
 				});
