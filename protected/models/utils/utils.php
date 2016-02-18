@@ -84,4 +84,17 @@ function safe($array, $name, $default = null) {
   
 }
 
+function mk_dir($path, $mode = 0) {
+
+  if (is_dir($path))
+    return true;
+
+  $npath = dirname($path);
+  if (!mk_dir($npath, $mode))
+    return false;
+
+  return @mkdir($path);
+
+}
+
 ?>

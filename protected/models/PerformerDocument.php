@@ -5,6 +5,7 @@ require_once ('utils/utils.php');
 class PerformerDocument extends BaseModel {
   public $table = 'spi_performer_document';
   public $post = array();
+  public $href = '';
   public $select_all = " * ";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
@@ -20,17 +21,24 @@ class PerformerDocument extends BaseModel {
     return $command;
   }
 
-  protected function doBeforeInsert($post) {
-    print_r($post);
-    print_r($_FILES);
-    exit;
-    // need check max 5 files, one file max 10 Mb
+  public function addFile($performerId, $name, $href) {
+    $this->insert(array(
+      'performer_id' => $performerId,
+      'name'         => $name,
+      'href'         => $href,
+    ));
+  }
 
-
-    return array(
-      'result' => true,
-      'params' => $post
+  protected function doBeforeDelete($id) {
+    $this->href = Yii::app()->db->createCommand()->select('href')->from($this -> table)->where('id=:id', array(':id'=>$id))->queryScalar();
+    return array (
+      'result' => true
     );
+  }
+
+  protected function doAfterDelete($result, $id) {
+    $this->removeFile($this->href);
+    return $result;
   }
 
 }

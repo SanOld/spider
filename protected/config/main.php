@@ -60,6 +60,7 @@ return array(
 				'/forgot-password' => '/site/forgotPassword',
 				'/reset-password'  => '/site/resetPassword',
 				'/api/test'        => '/site/page/view/resttest',
+				'/api/upload-file/<model:\w+>/' => '/base/uploadFile',
 				'/api/<model:\w+>' => '/base',
 				'/api/<model:\w+>/<id:\d+>' => '/base',
 				'/api/<model:\w+>*' => '/base',

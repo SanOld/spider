@@ -26,12 +26,14 @@ spi.controller('PerformerController', function($scope, network, GridService, Hin
 });
 
 
-spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
+spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
     $scope.$parent._m = 'performer';
     $scope.isInsert = !data.id;
     $scope._hint = hint;
+    $scope.fullAccess = network.user.type_id == 1 || network.user.type_id == 2;
 
     if(!$scope.isInsert) {
+        $scope.documents = [];
         $scope.performer = {
             name: data.name,
             short_name: data.short_name,
@@ -57,7 +59,20 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
             getBankDetails();
         }
         getDocuments();
-        //initUploader(data.id);
+        $scope.qqSetting = {
+            model: 'performer_document',
+            params: {id: data.id},
+            buttonText: 'Dokumente hinzufügen',
+            onCompile: function(id, fileName, responseJSON){
+                if(responseJSON.result) {
+                    Notification.success(responseJSON.message);
+                    getDocuments();
+                } else {
+                    Notification.error(responseJSON.message);
+                }
+            }
+        }
+
     } else {
         $scope.performer = {is_checked: 0};
     }
@@ -94,17 +109,12 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
     }
 
     function getDocuments() {
-        $scope.documents = [];
         network.get('performer_document', {performer_id: data.id}, function(result, response){
             if(result) {
                 $scope.documents = response.result;
             }
         });
     }
-
-    $scope.removeDocument = function(docId) {
-
-    };
 
     $scope.changeRepresentativeUser = function(userId) {
         $scope.representativeUser = Utils.getRowById($scope.users, userId);
@@ -118,15 +128,15 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
         $scope.budgetProcessingUser = Utils.getRowById($scope.users, userId);
     };
 
-    $scope.fieldError = function(field, innerForm) {
+    $scope.fieldError = function(innerForm, field) {
         var form = innerForm ? $scope.form[innerForm] : $scope.form;
         return ($scope.submited || form[field].$touched) && form[field].$invalid;
     };
 
-    $scope.submitForm = function () {
+    $scope.submitFormPerformer = function () {
         $scope.submited = true;
-        $scope.form.$setPristine();
-        if ($scope.form.$valid) {
+        $scope.form.formPerformer.$setPristine();
+        if ($scope.form.formPerformer.$valid) {
             var callback = function (result, response) {
                 if (result) {
                     $uibModalInstance.close();
@@ -139,7 +149,6 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
                 network.put($scope.$parent._m + '/' + data.id, $scope.performer, callback);
             }
         }
-
     };
 
     $scope.saveBankDetails = function(formData) {
@@ -167,6 +176,26 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
         });
     };
 
+    $scope.removeDocument = function(docId) {
+        SweetAlert.swal({
+                title: "Sind Sie sicher?",
+                text: "Diese Datei wird nicht wiedererstellt!",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "Abbrechen",
+                confirmButtonText: "Ja, löschen!",
+                closeOnConfirm: false},
+            function(isConfirm){
+                if (isConfirm) {
+                    network.delete('performer_document/'+docId, function(result, response){
+                        SweetAlert.swal("Gelöscht!", "Ihre Datrei ist erfolgreich gelöscht!", "success");
+                        getDocuments();
+                    }, false);
+                }
+            }
+        );
+    };
+
     $scope.remove = function() {
         network.delete($scope.$parent._m+'/'+data.id, function (result) {
             if(result) {
@@ -178,40 +207,5 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
-
-
-    function initUploader(performerId) {
-        var uploader = new qq.FileUploader({
-            element: $('#file_upload')[0],
-            action: '/api/upload-document/'+performerId,
-            uploadButtonText: '',
-            validation: {
-                allowedExtensions: ['doc', 'pdf'],
-                itemLimit: 5,
-                sizeLimit: 10485760 // 10 Mb
-            },
-            onComplete: function(id, fileName, responseJSON){
-                var results = responseJSON.success || false;
-                var error = responseJSON.error || 'Error';
-                if(results) {
-                    var realFileName = responseJSON.filename || fileName;
-                    $timeout(function(){
-                        if(!imagesIsFull($scope.documents)) {
-                            $scope.documents.push({'url':'/files/uploads/'+realFileName, 'name':realFileName});
-                        }
-                    });
-                }
-            },
-            onUpload: function(id, fileName, xhr) {
-            },
-            onProgress: function(id, fileName, loaded, total) {
-            },
-            onError: function(id, fileName, xhr){
-            }
-        });
-    }
-
-
 
 });

@@ -12,14 +12,30 @@ class Auth {
         $this->user = $user;
       } else {
         $where = 'usr.auth_token=:token ';
+//        if(!$_GET['model']) {
+//          return true;
+//        }
+//        $can = Yii::app()->db->createCommand()
+//          ->select($action == ACTION_SELECT ? 'can_view' : 'can_edit')
+//          ->from('spi_user_type_right utr')
+//          ->join('spi_page pag', 'utr.page_id=pag.id')
+//          ->where('pag.code=:code AND utr.type_id=:type_id', array(':code' => $_GET['model'], ':type_id' => $user['type_id']))
+//          ->queryScalar();
+//        if($can !== false && !$can) {
+//          return false;
+//        } elseif(!$can && !ACTION_SELECT) {
+//          return false;
+//        }
+//        return true;
+
         $this->user = Yii::app()->db
-                                ->createCommand()
-                                ->select('usr.*')
-                                ->from('spi_user usr')
-                                ->where( $where
-                                       , array( ':token' =>$token )
-                                       )
-                                ->queryRow();
+          ->createCommand()
+          ->select('usr.*, utr.can_view, utr.can_edit')
+          ->from('spi_user usr')
+          ->leftJoin('spi_user_type_right utr', 'utr.type_id=usr.type_id')
+          ->leftJoin('spi_page pag', 'utr.page_id=pag.id AND pag.code=:code', array(':code' => safe($_GET, 'model')))
+          ->where($where, array( ':token' =>$token ))
+          ->queryRow();
       }
     }
   }

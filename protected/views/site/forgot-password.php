@@ -31,20 +31,4 @@ $this->pageTitle = 'Forgot Password | ' . Yii::app()->name;
             </form>
         </div>
     </div>
-
-    <div ng-if="success" class="panel sweet-alert success-modal">
-        <div class="icon success animate" style="display: block;">
-            <span class="line tip animateSuccessTip"></span>
-            <span class="line long animateSuccessLong"></span>
-            <div class="placeholder"></div>
-            <div class="fix"></div>
-        </div>
-        <div class="form-group col-lg-12">
-            <h3 class="m-t-20 text-center">Passwort zurücksetzen</h3>
-            <p class="lead">Eine E-Mail mit Anweisungen wurde an Ihre E-Mail-Adresse gesendet.</p>
-            <p>Lesen Sie bitte für ein vollständiges Passwortrücksetzen</p>
-
-            <a href="/" class="btn btn-block btn-lg btn-purple w-md custom-btn" type="submit">Auf die Startseite</a>
-        </div>
-    </div>
 </div>

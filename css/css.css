@@ -2213,3 +2213,83 @@ tfoot th.align-right {
 .finance-report tr.approved-row:hover {
 	background: #d1e9c4;
 }*/
+
+/* qq File Uploader */
+.qq-uploader .qq-upload-list {
+	display: none;
+}
+.qq-uploader .qq-upload-button {
+	padding: 6px 12px;
+}
+#file-uploader {
+	padding: 0;
+}
+/* End qq File Uploader */
+
+/* ui notification */
+.ui-notification {
+	min-height: 52px;
+	min-width: 400px;
+	color: #444;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+.ui-notification .image {
+	display: table;
+	position: absolute;
+	height: auto;
+	width: auto;
+	left: 25px;
+	top: 50%;
+	font-size: 24px;
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+.ui-notification .text-wrapper {
+	display: inline-block;
+	vertical-align: top;
+	text-align: left;
+	margin: 10px 10px 10px 52px;
+	clear: both;
+}
+.ui-notification .title {
+	font-size: 15px;
+	line-height: 20px;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+.ui-notification .text {
+	font-size: 12px;
+	font-weight: normal;
+	max-width: 360px;
+	vertical-align: middle;
+}
+.ui-notification.primary {
+	background-color: #E6EAED;
+	border: 1px solid #ddd;
+}
+.ui-notification.error {
+	color: #fafafa !important;
+	background-color: #D56262;
+	border: 1px solid #cb2a2a;
+}
+.ui-notification.warning {
+	color: #fafafa !important;
+	background-color: #E9B055;
+	border: 1px solid #ebc142;
+}
+.ui-notification.success {
+	color: #fafafa !important;
+	background-color: #79A95D;
+	border: 1px solid #33b86c;
+}
+.ui-notification.info {
+	color: #fafafa !important;
+	background-color: #3777B1;
+	border: 1px solid #1ca8dd;
+}
+/* End ui notification */

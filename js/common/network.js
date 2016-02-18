@@ -1,4 +1,4 @@
-spi.service('network', function($http, configs, localStorageService) {
+spi.service('network', function($http, configs, localStorageService, Notification) {
     var $network = this;
     $network.servisePath = configs.getServisePath();
     $network.token = localStorageService.get('token');
@@ -32,7 +32,6 @@ spi.service('network', function($http, configs, localStorageService) {
     $network.logout = function() {
         $network.token = false;
         localStorageService.set('token',false);
-        localStorageService.set('currLang',false);
         $network.user = {};
         localStorageService.set('user',false);
         localStorageService.set('rights',false);
@@ -104,6 +103,8 @@ spi.service('network', function($http, configs, localStorageService) {
                             callback(false, data);
                         }
                     })
+                } else if(status == 403 && data.system_code == 'ERR_PERMISSION') {
+                    window.location = '/dashboard';
                 } else {
                     if(data.system_code == 'ERR_INVALID_TOKEN') {
                         $network.logout();
@@ -116,10 +117,11 @@ spi.service('network', function($http, configs, localStorageService) {
 
     };
 
-    $network.post = function(table, params, callback) {
+    $network.post = function(table, params, callback, showAlert) {
         callback = callback || function(){};
+        showAlert = showAlert == undefined || showAlert;
         $network.servisePath = configs.getServisePath();
-        var path = $network.servisePath + table
+        var path = $network.servisePath + table;
 
         var headers = {};
 
@@ -136,6 +138,8 @@ spi.service('network', function($http, configs, localStorageService) {
         })
             .success(function(result) {
                 callback(true, result);
+                if(showAlert)
+                    Notification.success({message: result.message});
             })
             .error(function(data, status, headers, config, statusText) {
                 if(status == 401) {
@@ -147,14 +151,18 @@ spi.service('network', function($http, configs, localStorageService) {
                         }
                     })
                 } else {
-                    callback(false, data)
+                    callback(false, data);
+                    if(showAlert)
+                        Notification.error({data: result.message});
                 }
             });
 
     };
 
-    $network.put = function(table, params, callback) {
+
+    $network.put = function(table, params, callback, showAlert) {
         callback = callback || function(){};
+        showAlert = showAlert == undefined || showAlert;
         $network.servisePath = configs.getServisePath();
         var path = $network.servisePath + table;
 
@@ -174,6 +182,8 @@ spi.service('network', function($http, configs, localStorageService) {
         })
             .success(function(result) {
                 callback(true, result);
+                if(showAlert)
+                    Notification.success({message: result.message});
             })
             .error(function(data, status, headers, config, statusText) {
                 if(status == 401) {
@@ -185,14 +195,17 @@ spi.service('network', function($http, configs, localStorageService) {
                         }
                     })
                 } else {
-                    callback(false, data)
+                    callback(false, data);
+                    if(showAlert)
+                        Notification.error({message: data.message});
                 }
             });
 
     };
 
-    $network.delete = function(table, callback) {
+    $network.delete = function(table, callback, showAlert) {
         callback = callback || function(){};
+        showAlert = showAlert == undefined || showAlert;
         $network.servisePath = configs.getServisePath();
         var path = $network.servisePath + table;
 
@@ -209,6 +222,8 @@ spi.service('network', function($http, configs, localStorageService) {
         })
             .success(function(result) {
                 callback(true, result);
+                if(showAlert)
+                    Notification.success({message: result.message});
             })
             .error(function(data, status, headers, config, statusText) {
                 if(status == 401) {
@@ -220,30 +235,12 @@ spi.service('network', function($http, configs, localStorageService) {
                         }
                     })
                 } else {
-                    callback(false, data)
+                    callback(false, data);
+                    if(showAlert)
+                        Notification.error({data: result.message});
                 }
             });
 
     };
 
-    //$network.sendSignUpMail = function(email, callback) {
-    //
-    //    var path = configs.getServisePath()+'mail';
-    //    var method = 'GET';
-    //
-    //
-    //
-    //    $http({ 'method': method
-    //        , 'url': path
-    //        , 'params': {'email':email}
-    //        , 'dataType': 'json'
-    //    })
-    //        .success(function(result, responce) {
-    //            callback(true, responce);
-    //        })
-    //        .error(function(data, status, headers, config, statusText) {
-    //            callback(false, data);
-    //        });
-    //
-    //}
 });

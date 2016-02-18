@@ -99,24 +99,24 @@ $this->breadcrumbs = array('Träger Agentur');
 						<div ng-class="isInsert ? 'col-lg-12' : 'col-lg-8'">
 							<h3 class="subheading">Allgemeine Information</h3>
 							<hr>
-							<div class="form-horizontal">
+							<ng-form name="formPerformer" class="form-horizontal">
 								<div class="address-row">
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Kurzname</label>
-										<div class="col-lg-10" ng-class="{'wrap-line error': fieldError('name')}">
+										<div class="col-lg-10" ng-class="{'wrap-line error': fieldError('formPerformer', 'name')}">
 											<input class="form-control" name="name" ng-model="performer.name" type="text" value="" required>
-											<span ng-show="fieldError('name')">
-												<label ng-show="form.name.$error.required" class="error">Kurzname is required.</label>
+											<span ng-show="fieldError('formPerformer', 'name')">
+												<label ng-show="formPerformer.name.$error.required" class="error">Kurzname is required.</label>
 												<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 											</span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Name</label>
-										<div class="col-lg-10" ng-class="{'wrap-line error': fieldError('short_name')}">
+										<div class="col-lg-10" ng-class="{'wrap-line error': fieldError('formPerformer', 'short_name')}">
 											<input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value="" required/>
-											<span ng-show="fieldError('short_name')">
-												<label ng-show="form.short_name.$error.required" class="error">Name is required.</label>
+											<span ng-show="fieldError('formPerformer', 'short_name')">
+												<label ng-show="form.formPerformer.short_name.$error.required" class="error">Name is required.</label>
 												<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 											</span>
 										</div>
@@ -185,7 +185,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<dt>Titel</dt>
 											<dd ng-bind="representativeUser.title || '-'"></dd>
 											<dt>Telefon</dt>
-											<dd ng-bind="representativeUser.phone || '-'"></dd>
+											<dd ng-bind="(representativeUser.phone | tel) || '-'"></dd>
 											<dt>Email</dt>
 											<dd ng-bind="representativeUser.email || '-'"></dd>
 										</dl>
@@ -204,7 +204,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<dt>Titel</dt>
 											<dd ng-bind="applicationProcessingUser.title || '-'"></dd>
 											<dt>Telefon</dt>
-											<dd ng-bind="applicationProcessingUser.phone || '-'"></dd>
+											<dd ng-bind="(applicationProcessingUser.phone | tel) || '-'"></dd>
 											<dt>Email</dt>
 											<dd ng-bind="applicationProcessingUser.email || '-'"></dd>
 										</dl>
@@ -223,13 +223,13 @@ $this->breadcrumbs = array('Träger Agentur');
 											<dt>Titel</dt>
 											<dd ng-bind="budgetProcessingUser.title || '-'"></dd>
 											<dt>Telefon</dt>
-											<dd ng-bind="budgetProcessingUser.phone || '-'"></dd>
+											<dd ng-bind="(budgetProcessingUser.phone | tel) || '-'"></dd>
 											<dt>Email</dt>
 											<dd ng-bind="budgetProcessingUser.email || '-'"></dd>
 										</dl>
 									</div>
 								</div>
-							</div>
+							</ng-form>
 						</div>
 						<div class="col-lg-4" ng-if="!isInsert">
 							<div class="heading-button clearfix m-b-15">
@@ -250,9 +250,9 @@ $this->breadcrumbs = array('Träger Agentur');
 									</div>
 									<div class="form-group">
 										<label class="col-lg-5 p-r-0 control-label">IBAN</label>
-										<div class="col-lg-7" ng-class="{'wrap-line error': fieldError('iban', 'formBank')}">
+										<div class="col-lg-7" ng-class="{'wrap-line error': fieldError('formBank', 'iban')}">
 											<input class="form-control" name="iban" ng-model="bank_details.iban" type="text" value="" ng-required="1"/>
-											<span ng-show="fieldError('iban', 'formBank')">
+											<span ng-show="fieldError('formBank', 'iban')">
 												<label ng-show="form.formBank.iban.$error.required" class="error">IBAN is required.</label>
 												<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 											</span>
@@ -293,7 +293,7 @@ $this->breadcrumbs = array('Träger Agentur');
 							</div>
 							<div class="pull-right">
 								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" ng-click="submitForm()">Speichern</button>
+								<button class="btn w-lg custom-btn" ng-click="submitFormPerformer()">Speichern</button>
 							</div>
 						</div>
 					</div>
@@ -320,17 +320,11 @@ $this->breadcrumbs = array('Träger Agentur');
 										<h3 class="m-0">Dokumente</h3>
 										<label>Sie können PDF- und DOC-Dateien hochladen<br/> (10 Mb Größenbeschränkung)</label>
 									</div>
-									<div style="position:relative;">
-										<a class='btn w-sw custom-color pull-right' href='javascript:;'>
-											Dokumente hinzufügen
-											<input type="file" id="file_upload" style='position:absolute;z-index:2;top:0;right:0; cursor:pointer; width: 118px; height: 36px; filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
-										</a>
-										<span class='label label-info' id="upload-file-info"></span>
-									</div>
+									<div ng-if="documents.length < 5" qq-file-upload setting="qqSetting"></div>
 								</div>
 								<div class="form-custom-box clearfix m-0 upload-box" ng-if="!isInsert && documents.length">
 									<ul class="list-unstyled">
-										<li ng-repeat="doc in documents"><i class="ion-document-text "></i><a href="{{doc.href}}" ng-bind="doc.name"></a><a class="sweet-4" ng-click="removeDocument(doc.id)" href=""><i class="ion-close"></i></a></li>
+										<li ng-repeat="doc in documents"><i class="ion-document-text "></i><a target="_blank" href="{{doc.href}}" ng-bind="doc.name"></a><a class="sweet-4" ng-click="removeDocument(doc.id)" href=""><i class="ion-close"></i></a></li>
 									</ul>
 								</div>
 							</div>
@@ -351,10 +345,10 @@ $this->breadcrumbs = array('Träger Agentur');
 									<h3 class="m-0">Interner Vermerk</h3>
 									<label>Sie können eine Nachricht für PA hinterlassen </label>
 								</div>
-								<div class="form-group">
+								<div class="form-group" ng-if="fullAccess">
 									<textarea name="comment" ng-model="performer.comment" class="form-control custom-height" placeholder="Tragen Sie den Text hier ein"></textarea>
 								</div>
-								<div class="form-custom-box clearfix m-0">
+								<div class="form-custom-box clearfix m-0" ng-if="fullAccess">
 									<div class="pull-left" ng-if="checkedBy">
 										<label class="control-label">Information ist überprüft und korrekt</label><br/>
 										<span class="checked-person">Überpüft von {{checkedBy}} {{checkedDate}}</span>
@@ -377,7 +371,7 @@ $this->breadcrumbs = array('Träger Agentur');
 							</div>
 							<div class="pull-right">
 								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" ng-click="submitForm()">Speichern</button>
+								<button class="btn w-lg custom-btn" ng-click="submitFormPerformer()">Speichern</button>
 							</div>
 						</div>
 					</div>
