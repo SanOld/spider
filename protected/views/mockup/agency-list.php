@@ -613,7 +613,7 @@
 													<table id="datatable" class="table table-hover table-bordered table-edit">
 														<thead>
 															<tr class="head-top">
-																<th>Kennz.</th>
+																<th>Kennziffer</th>
 																<th>Jahr</th>
 																<th>Status</th>
 																<th></th>
@@ -624,7 +624,7 @@
 																<th>Ansicht</th>
 															</tr>
 															<tr>
-																<th>Kennz.</th>
+																<th>Kennziffer</th>
 																<th>Jahr</th>
 																<th>Status</th>
 																<th colspan="3">Beanst.</th>
@@ -1108,7 +1108,7 @@
 													<form action="#" class="class-form">
 														<div class="col-lg-3 col-width-type">
 															<div class="form-group">
-																<label>Suche nach Kennz.</label>
+																<label>Suche nach Kennziffer</label>
 																<input type="search" class="form-control" placeholder="Eingegeben">
 															</div>
 														</div>
@@ -1145,7 +1145,7 @@
 												<table id="datatable" class="table table-hover table-bordered table-edit" data-page-length="10000">
 													<thead>
 														<tr>
-															<th>Kennz.</th>
+															<th>Kennziffer</th>
 															<th>Bezirk</th>
 															<th>Schule</th>
 															<th>Bearbeiten</th>

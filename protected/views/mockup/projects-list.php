@@ -241,7 +241,7 @@
 						<form role="form" class="form-horizontal">
 							<div class="row">
 								<div class="m-b-15 clearfix">
-									<label class="col-lg-2 control-label">Kennz.</label>
+									<label class="col-lg-2 control-label">Kennziffer</label>
 									<div class="col-lg-4">
 										<input class="form-control" type="text" value="">
 									</div>
@@ -249,15 +249,6 @@
 									<div class="col-lg-4">
 										<select class="form-control">
 											<option>S (Förderschulen)</option>
-										</select>
-									</div>
-								</div>
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-2 control-label">Fördertopf</label>
-									<div class="col-lg-10">
-										<select class="form-control">
-											<option>Landesmittel</option>
-											<option>Bonusprogramm</option>
 										</select>
 									</div>
 								</div>
@@ -273,7 +264,16 @@
 									</div>
 								</div>
 								<div class="m-b-15 clearfix">
-									<label class="col-lg-2 control-label p-r-0">Träger agentur</label>
+									<label class="col-lg-2 control-label">Fördertopf</label>
+									<div class="col-lg-10">
+										<select class="form-control">
+											<option>LM</option>
+											<option>BP</option>
+										</select>
+									</div>
+								</div>
+								<div class="m-b-15 clearfix">
+									<label class="col-lg-2 control-label p-r-0">Träger</label>
 									<div class="col-lg-10">
 										<select class="form-control">
 											<option>Stadtteilzentrum Steglitz e.V.</option>
@@ -333,7 +333,7 @@
 						<form role="form" class="form-horizontal">
 							<div class="row">
 								<div class="m-b-15 clearfix">
-									<label class="col-lg-2 control-label">Kennz.</label>
+									<label class="col-lg-2 control-label">Kennziffer</label>
 									<div class="col-lg-4">
 										<input class="form-control" type="text" value="S001">
 									</div>
@@ -341,15 +341,6 @@
 									<div class="col-lg-4">
 										<select class="form-control">
 											<option>S (Förderschulen)</option>
-										</select>
-									</div>
-								</div>
-								<div class="m-b-15 clearfix">
-									<label class="col-lg-2 control-label">Fördertopf</label>
-									<div class="col-lg-10">
-										<select class="form-control">
-											<option>Landesmittel</option>
-											<option>Bonusprogramm</option>
 										</select>
 									</div>
 								</div>
@@ -365,7 +356,13 @@
 									</div>
 								</div>
 								<div class="m-b-15 clearfix">
-									<label class="col-lg-2 control-label p-r-0">Träger agentur</label>
+									<label class="col-lg-2 control-label">Fördertopf</label>
+									<div class="col-lg-10">
+										<input class="form-control" type="text" value="BP" readonly>
+									</div>
+								</div>
+								<div class="m-b-15 clearfix">
+									<label class="col-lg-2 control-label p-r-0">Träger</label>
 									<div class="col-lg-10">
 										<select class="form-control">
 											<option>Stadtteilzentrum Steglitz e.V.</option>

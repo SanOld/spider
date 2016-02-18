@@ -1,6 +1,6 @@
 <?php
-$this->pageTitle = 'Hintsmodul | ' . Yii::app()->name;
-$this->breadcrumbs = array('Hintsmodul');
+$this->pageTitle = 'Hilfetexte | ' . Yii::app()->name;
+$this->breadcrumbs = array('Hilfetexte');
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/hints.js"></script>
 
@@ -10,9 +10,9 @@ $this->breadcrumbs = array('Hintsmodul');
 			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
-					<h1 class="panel-title col-lg-6">Hintsmodul</h1>
+					<h1 class="panel-title col-lg-6">Hilfetexte</h1>
 					<div class="pull-right heading-box-print">
-						<button class="btn w-lg custom-btn" ng-click="openEdit()">Neuen Hint hinzufügen</button>
+						<button class="btn w-lg custom-btn" ng-click="openEdit()">Neuen Hilf hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body hint-edit">
@@ -63,8 +63,8 @@ $this->breadcrumbs = array('Hintsmodul');
 <script type="text/ng-template" id="editTemplate.html">
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
-			<h3 ng-if="isInsert" class="m-0 pull-left">Hint hinzufügen</h3>
-			<h3 ng-if="!isInsert" class="m-0 pull-left">Hint bearbeiten</h3>
+			<h3 ng-if="isInsert" class="m-0 pull-left">Hilf hinzufügen</h3>
+			<h3 ng-if="!isInsert" class="m-0 pull-left">Hilf bearbeiten</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body">

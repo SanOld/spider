@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		
-		<title>Dokumentvorlage | SPIder</title>
+		<title>Druck-Templates | SPIder</title>
 		<?php include('templates/head.php'); ?>
 	</head>
 
@@ -19,7 +19,7 @@
 			<div class="container">
 				<ul class="breadcrumb p-0">
 					<li><a href="#">Home</a></li>
-					<li class="active">Dokumentvorlage</li>
+					<li class="active">Druck-Templates</li>
 				</ul>
 			</div>
 			
@@ -31,10 +31,10 @@
 					<div class="container center-block">
 						<div class="panel panel-default">
 							<div class="panel-heading clearfix">
-								<h1 class="panel-title col-lg-6">Dokumentvorlage</h1>
+								<h1 class="panel-title col-lg-6">Druck-Templates</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken<i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Neues Dokument</button>
+									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Druck-Template hinzufügen</button>
 								</div>
 							</div>
 							<div class="panel-body edit-user doc-template">
@@ -228,7 +228,7 @@
             <div class="modal-dialog modal-width-full">
 				<div class="panel panel-color panel-primary">
 					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Vorlage bearbeiten - FV_2013_Sonderkündigung</h3>
+						<h3 class="m-0 pull-left">Druck-Template bearbeiten - FV_2013_Sonderkündigung</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 					</div>
 					<div class="panel-body p-t-0">
