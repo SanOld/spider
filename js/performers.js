@@ -31,6 +31,8 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.fullAccess = network.user.type_id == 1 || network.user.type_id == 2;
+    $scope.tabs = [{active: true}];
+
 
     if(!$scope.isInsert) {
         $scope.documents = [];
@@ -65,10 +67,10 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
             buttonText: 'Dokumente hinzufügen',
             onCompile: function(id, fileName, responseJSON){
                 if(responseJSON.result) {
-                    Notification.success(responseJSON.message);
+                    Notification.success({title: 'File upload success!', message: responseJSON.message});
                     getDocuments();
                 } else {
-                    Notification.error(responseJSON.message);
+                    Notification.error({title: 'File upload fail!', message: responseJSON.message});
                 }
             }
         }
@@ -148,6 +150,8 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
             } else {
                 network.put($scope.$parent._m + '/' + data.id, $scope.performer, callback);
             }
+        } else {
+            $scope.tabs[0].active = true;
         }
     };
 

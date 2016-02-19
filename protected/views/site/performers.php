@@ -94,7 +94,7 @@ $this->breadcrumbs = array('Träger Agentur');
 		<div class="row">
 			<form novalidate name="form">
 			<uib-tabset class="row">
-				<uib-tab heading="General">
+				<uib-tab heading="General" active="tabs[0].active" ng-click="tabs[0].active = true">
 					<div ng-class="{'holder-tab': !isInsert}">
 						<div ng-class="isInsert ? 'col-lg-12' : 'col-lg-8'">
 							<h3 class="subheading">Allgemeine Information</h3>
@@ -158,14 +158,22 @@ $this->breadcrumbs = array('Träger Agentur');
 										</div>
 										<div class="form-group">
 											<label class="col-lg-3 control-label">Email</label>
-											<div class="col-lg-9">
+											<div class="col-lg-9" ng-class="{'wrap-line error': fieldError('formPerformer', 'email')}">
 												<input class="form-control" name="email" ng-model="performer.email" type="email" value=""/>
+												<span ng-show="fieldError('formPerformer', 'email')">
+													<label ng-show="form.formPerformer.email.$error.email" class="error">Enter a valid email.</label>
+													<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+												</span>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-lg-3 control-label">Webseite</label>
-											<div class="col-lg-9">
-												<input class="form-control" name="homepage" ng-model="performer.homepage" type="text" value=""/>
+											<div class="col-lg-9" ng-class="{'wrap-line error': fieldError('formPerformer', 'homepage')}">
+												<input class="form-control" name="homepage" ng-model="performer.homepage" type="text" ng-pattern="/^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/" value=""/>
+												<span ng-show="fieldError('formPerformer', 'homepage')">
+													<label ng-show="form.formPerformer.homepage.$error.pattern" class="error">Enter a valid webseite.</label>
+													<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+												</span>
 											</div>
 										</div>
 									</div>
@@ -243,7 +251,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
 									</div>
 									<div class="form-group">
-										<label class="col-lg-5 p-r-0 control-label">Ansprechpartner(in)</label>
+										<label class="col-lg-5 p-r-0 control-label">Kontoinhaber</label>
 										<div class="col-lg-7">
 											<input class="form-control" name="contact_person" ng-model="bank_details.contact_person" type="text" value=""/>
 										</div>
@@ -259,7 +267,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-5 p-r-0 control-label">BIC</label>
+										<label class="col-lg-5 p-r-0 control-label">Kreditor</label>
 										<div class="col-lg-7">
 											<input class="form-control" type="text" name="bank_name" ng-model="bank_details.bank_name" value=""/>
 										</div>
@@ -299,7 +307,7 @@ $this->breadcrumbs = array('Träger Agentur');
 					</div>
 				</uib-tab>
 
-				<uib-tab heading="Profil">
+				<uib-tab heading="Profil" active="tabs[1].active" ng-click="tabs[1].active = true">
 					<div class="holder-tab">
 						<div class="panel-body">
 							<div class="col-lg-6">

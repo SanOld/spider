@@ -108,7 +108,7 @@ spi.service('network', function($http, configs, localStorageService, Notificatio
                 } else {
                     if(data.system_code == 'ERR_INVALID_TOKEN') {
                         $network.logout();
-                        window.location = '/login'
+                        window.location = '/'
                     } else {
                         callback(false,data);
                     }
@@ -139,7 +139,7 @@ spi.service('network', function($http, configs, localStorageService, Notificatio
             .success(function(result) {
                 callback(true, result);
                 if(showAlert)
-                    Notification.success({message: result.message});
+                    Notification.success({title: result.message});
             })
             .error(function(data, status, headers, config, statusText) {
                 if(status == 401) {
@@ -153,7 +153,7 @@ spi.service('network', function($http, configs, localStorageService, Notificatio
                 } else {
                     callback(false, data);
                     if(showAlert)
-                        Notification.error({data: result.message});
+                        Notification.error({title: data.message});
                 }
             });
 
@@ -183,7 +183,7 @@ spi.service('network', function($http, configs, localStorageService, Notificatio
             .success(function(result) {
                 callback(true, result);
                 if(showAlert)
-                    Notification.success({message: result.message});
+                    Notification.success({title: result.message});
             })
             .error(function(data, status, headers, config, statusText) {
                 if(status == 401) {
@@ -197,7 +197,7 @@ spi.service('network', function($http, configs, localStorageService, Notificatio
                 } else {
                     callback(false, data);
                     if(showAlert)
-                        Notification.error({message: data.message});
+                        Notification.error({title: data.message});
                 }
             });
 
@@ -223,7 +223,7 @@ spi.service('network', function($http, configs, localStorageService, Notificatio
             .success(function(result) {
                 callback(true, result);
                 if(showAlert)
-                    Notification.success({message: result.message});
+                    Notification.success({title: result.message});
             })
             .error(function(data, status, headers, config, statusText) {
                 if(status == 401) {
@@ -237,7 +237,7 @@ spi.service('network', function($http, configs, localStorageService, Notificatio
                 } else {
                     callback(false, data);
                     if(showAlert)
-                        Notification.error({data: result.message});
+                        Notification.error({title: data.message});
                 }
             });
 

@@ -11,38 +11,18 @@ class Auth {
       if($user) {
         $this->user = $user;
       } else {
-        $where = 'usr.auth_token=:token ';
-//        if(!$_GET['model']) {
-//          return true;
-//        }
-//        $can = Yii::app()->db->createCommand()
-//          ->select($action == ACTION_SELECT ? 'can_view' : 'can_edit')
-//          ->from('spi_user_type_right utr')
-//          ->join('spi_page pag', 'utr.page_id=pag.id')
-//          ->where('pag.code=:code AND utr.type_id=:type_id', array(':code' => $_GET['model'], ':type_id' => $user['type_id']))
-//          ->queryScalar();
-//        if($can !== false && !$can) {
-//          return false;
-//        } elseif(!$can && !ACTION_SELECT) {
-//          return false;
-//        }
-//        return true;
-
         $this->user = Yii::app()->db
           ->createCommand()
-          ->select('usr.*, utr.can_view, utr.can_edit')
+          ->select('usr.*, IFNULL(`utr`.`can_view`, 1) can_view, IFNULL(`utr`.`can_edit`, 1) can_edit')
           ->from('spi_user usr')
-          ->leftJoin('spi_user_type_right utr', 'utr.type_id=usr.type_id')
-          ->leftJoin('spi_page pag', 'utr.page_id=pag.id AND pag.code=:code', array(':code' => safe($_GET, 'model')))
-          ->where($where, array( ':token' =>$token ))
+          ->leftJoin('spi_user_type_right utr', 'utr.type_id=usr.type_id AND utr.page_id = (SELECT id FROM spi_page WHERE code = :code)', array(':code' => safe($_GET, 'model')))
+          ->where('usr.auth_token=:token', array(':token' =>$token ))
           ->queryRow();
       }
     }
   }
   
   public function login($get) {
-    $res = array();
-    
     if(safe($get, 'login') && safe($get, 'password') || safe($get, 'loginKey')) {
       if($key = safe($get, 'loginKey')) {
         $loginKey = explode(':',base64_decode($key));
@@ -63,7 +43,6 @@ class Auth {
                  ->queryRow();
       
       if($this->user && $this->user['is_active']==1) {
-        $toUpdate = array();
         $authToken = $this->user['auth_token'];
         $auth = new Auth($authToken, $this->user);
         if($authToken && $auth->checkToken()) {
@@ -132,24 +111,25 @@ class Auth {
   }
   public function getAuthError() {
     if($this->user['is_active']==0) {
-      $res = array( 'result'      => false
+     return array( 'result'      => false
                   , 'system_code' => 'ERR_USER_DISABLED'
                   , 'code'        => '401'
                   );
-    } if($this->user['auth_token'] != $this->token) {
-      $res = array( 'result'      => false
+    }
+    if($this->user['auth_token'] != $this->token) {
+      return array( 'result'      => false
                   , 'system_code' => 'ERR_INVALID_TOKEN'
                   , 'code'        => '401'
                   );
     } else if (!$this->user['auth_token_created_at'] || strtotime($this->user['auth_token_created_at']) < strtotime('-'.$this->live.' hour')) {
-      $res = array( 'result'      => false
+      return array( 'result'      => false
                   , 'system_code' => 'ERR_OUT_OF_DATE'
                   , 'code'        => '401'
                   );
     }
   }
   public function isTokenExists() {
-    return ( $this->user['auth_token'] ); 
+    return $this->user['auth_token'];
   }
 
   public function checkEmail($email) {
