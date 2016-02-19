@@ -90,9 +90,10 @@
 										<div class="col-lg-2">
 											<div class="form-group">
 												<div class="form-group">
-													<label>Finanzierung</label>
+													<label>Fördertopf</label>
 													<select class="form-control">
-														<option>Alles anzeigen</option>
+														<option>LM</option>
+														<option>BP</option>
 													</select>
 												</div>
 											</div>
@@ -179,7 +180,7 @@
 													<th></th>
 													<th>Jahr</th>
 													<th>Status</th>
-													<th>Finanzierung</th>
+													<th>Programm</th>
 													<th>Betrag / IBAN / Typ</th>
 													<th>Bel.<br/>-Datum</th>
 													<th>Buch.<br/>-Datum</th>
@@ -196,7 +197,7 @@
 													<th colspan="2">Kennziffer / Beleg-Nr.</th>
 													<th>Jahr</th>
 													<th>Status</th>
-													<th>Finanzierung</th>
+													<th>Programm</th>
 													<th>Betrag / IBAN / Typ</th>
 													<th>Bel.<br/>-Datum</th>
 													<th>Buch.<br/>-Datum</th>
@@ -224,7 +225,7 @@
 													</td>
 													<td>2016<br/> Jan-Feb</td>
 													<td>Bitte bearbeiten</td>
-													<td>2016_LM_Sofort</td>
+													<td>JSA</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
@@ -257,7 +258,7 @@
 													</td>
 													<td>2016<br/> Jan-Feb</td>
 													<td>Bitte bearbeiten </td>
-													<td>2016_LM_Sofort</td>
+													<td>ZP_2017</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
@@ -291,7 +292,7 @@
 													</td>
 													<td>2016<br/> Jan-Feb</td>
 													<td>Abgelehnt</td>
-													<td>2016_LM</td>
+													<td>BP</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 862.86<span>DE65 1203 0000 1005 3670 06</span></span>
@@ -325,7 +326,7 @@
 													</td>
 													<td>2016<br/> März-Apr</td>
 													<td>Sachlich Richtig</td>
-													<td>2016_LM</td>
+													<td>ZP_2017</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 862.86<span>DE65 1203 0000 1005 3670 06</span></span>
@@ -359,7 +360,7 @@
 													</td>
 													<td>2016<br/> Jan-Feb</td>
 													<td>Abgelehnt</td>
-													<td>2016_LM</td>
+													<td>JSA</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 862.86<span>DE65 1203 0000 1005 3670 06</span></span>
@@ -392,7 +393,7 @@
 													</td>
 													<td>2016<br/> März-Apr</td>
 													<td>aus DATEV importiert</td>
-													<td>2016_LM</td>
+													<td>JSA</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
@@ -426,7 +427,7 @@
 													</td>
 													<td>2016<br/> März-Apr</td>
 													<td>aus DATEV importiert</td>
-													<td>2016_LM</td>
+													<td>BP</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
@@ -460,7 +461,7 @@
 													</td>
 													<td>2016<br/> März-Apr</td>
 													<td>nach DATEV exportiert</td>
-													<td>2016_LM</td>
+													<td>ZP_2017</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
@@ -494,7 +495,7 @@
 													</td>
 													<td>2016<br/> Jan-Feb</td>
 													<td>Bitte bearbeiten</td>
-													<td>2016_LM_Sofort</td>
+													<td>JSA</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
@@ -528,7 +529,7 @@
 													</td>
 													<td>2016<br/> März-Apr</td>
 													<td>Bereit</td>
-													<td>2016_LM</td>
+													<td>JSA</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
@@ -562,7 +563,7 @@
 													</td>
 													<td>2016<br/> März-Apr</td>
 													<td>Bereit</td>
-													<td>2016_LM</td>
+													<td>BP</td>
 													<td>
 														<div class="holder-id-request">
 															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>

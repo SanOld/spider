@@ -66,11 +66,13 @@
 												</div>
 												<div class="col-lg-2">
 													<div class="form-group">
-														<label>Finanzierung</label>
-														<select class="type-user form-control">
-															<option>Alles anzeigen</option>
-															<option>2016_LM</option>
-														</select>
+														<div class="form-group">
+															<label>Fördertopf</label>
+															<select class="form-control">
+																<option>LM</option>
+																<option>BP</option>
+															</select>
+														</div>
 													</div>
 												</div>
 												<div class="col-lg-2">
@@ -92,7 +94,7 @@
 												<tr>
 													<th>Kennziffer</th>
 													<th>Träger</th>
-													<th>Finanzierung</th>
+													<th>Programm</th>
 													<th>Jahr</th>
 													<th class="total-th"><span></span>Fördersumme</th>
 													<th class="requested-th"><span></span>Rate</th>
@@ -108,7 +110,7 @@
 												<tr>
 													<td><a href="#">B010</a></td>
 													<td><a href="#">CJD Berlin</a></td>
-													<td>2016_LM</td>
+													<td>JSA</td>
 													<td>2016</td>
 													<td>€ 39,749.98</td>
 													<td>€ 6,624.00</td>
@@ -128,7 +130,7 @@
 												<tr>
 													<td><a href="#">K034</a></td>
 													<td><a href="#">Tandem BQG</a></td>
-													<td>2016_LM</td>
+													<td>JSA</td>
 													<td>2016</td>
 													<td>€ 54,860.00</td>
 													<td></td>
@@ -148,7 +150,7 @@
 												<tr>
 													<td><a href="#">Z014</a></td>
 													<td><a href="#">JaKuS gGmbH</a></td>
-													<td>2016_LM</td>
+													<td>BP</td>
 													<td>2016</td>
 													<td>€ 46,613.86</td>
 													<td>€ 7,768.98</td>
@@ -168,7 +170,7 @@
 												<tr>
 													<td><a href="#">G085</a></td>
 													<td><a href="#">EJF gAG</a></td>
-													<td>2016_LM</td>
+													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>€ 76,168.48</td>
 													<td></td>
@@ -188,7 +190,7 @@
 												<tr>
 													<td><a href="#">Z021</a></td>
 													<td><a href="#">EJF gAG</a></td>
-													<td>2016_LM</td>
+													<td>BP</td>
 													<td>2016</td>
 													<td>€ 68,776.54</td>
 													<td></td>
@@ -208,7 +210,7 @@
 												<tr>
 													<td><a href="#">G044</a></td>
 													<td><a href="#">Pad gGmbH</a></td>
-													<td>2016_LM</td>
+													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>€ 7,633.44</td>
 													<td></td>
@@ -228,7 +230,7 @@
 												<tr>
 													<td><a href="#">BG058</a></td>
 													<td><a href="#">JaKuS gGmbH</a></td>
-													<td>2016_LM</td>
+													<td>JSA</td>
 													<td>2016</td>
 													<td>€ 31,637.43</td>
 													<td></td>
@@ -248,7 +250,7 @@
 												<tr>
 													<td><a href="#">G075</a></td>
 													<td><a href="#">Horizonte gGmbH</a></td>
-													<td>2016_LM</td>
+													<td>BP</td>
 													<td>2016</td>
 													<td>€ 98,763.86</td>
 													<td></td>
@@ -268,7 +270,7 @@
 												<tr>
 													<td><a href="#">G061</a></td>
 													<td><a href="#">Tandem BQG</a></td>
-													<td>2016_LM</td>
+													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>€ 53,647.42</td>
 													<td></td>
@@ -288,7 +290,7 @@
 												<tr>
 													<td><a href="#">G052</a></td>
 													<td><a href="#">CJD Berlin</a></td>
-													<td>2016_LM</td>
+													<td>JSA</td>
 													<td>2016</td>
 													<td>€ 87,443.54</td>
 													<td></td>
@@ -308,7 +310,7 @@
 												<tr>
 													<td><a href="#">K024</a></td>
 													<td><a href="#">CJD Berlin</a></td>
-													<td>2016_LM</td>
+													<td>JSA</td>
 													<td>2016</td>
 													<td>€ 54,687.45</td>
 													<td>€ 9,114.58</td>
@@ -328,7 +330,7 @@
 												<tr>
 													<td><a href="#">K037</a></td>
 													<td><a href="#">Pad gGmbH</a></td>
-													<td>2016_LM</td>
+													<td>BP</td>
 													<td>2016</td>
 													<td>€ 18,676.35</td>
 													<td></td>
