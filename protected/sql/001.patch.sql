@@ -1,0 +1,1 @@
+ALTER TABLE spi_performer_document ADD COLUMN href VARCHAR(1000) AFTER `name`;

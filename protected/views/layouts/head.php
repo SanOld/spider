@@ -6,6 +6,7 @@
 <meta name="author" content="">
 
 <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/angular-ui-notification/angular-ui-notification.min.css" />
 <!-- Google-Fonts -->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/css.css" rel="stylesheet">
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/my_style.css" rel="stylesheet">
@@ -21,17 +22,18 @@
 
 <!--Icon-fonts css-->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/font-awesome.css" rel="stylesheet">
-<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/ionicons.css" rel="stylesheet">
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/ionicon/css/ionicons.min.css" rel="stylesheet">
 
 <!--Morris Chart CSS -->
 <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/morris.css">
+
 
 <!-- Select -->
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/select2/select2.css" />
 
 <!-- Datapicker -->
-<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/timepicker/bootstrap-datepicker.min.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/timepicker/bootstrap-timepicker.min.css" />
+<!--<link rel="stylesheet" type="text/css" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/js/lib/timepicker/bootstrap-datepicker.min.css" />-->
+<!--<link rel="stylesheet" type="text/css" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/js/lib/timepicker/bootstrap-timepicker.min.css" />-->
 
 <!-- Custom styles for this template -->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/style.css" rel="stylesheet">
@@ -76,6 +78,8 @@ $cs->registerScriptFile($baseUrl . '/js/lib/pace.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/wow.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/jquery.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/sweet-alert.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/file-uploader.js');
+$cs->registerScriptFile($baseUrl . '/js/assets/angular-ui-notification/angular-ui-notification.min.js');
 
 //$cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/modal-effect/js/classie.js');

@@ -293,23 +293,6 @@ class BaseModel extends CFormModel {
     }
     return $missed;
   }
-  protected function checkPermission($user, $action) { // TODO: cache all rights for user and used it later!
-    if(!$_GET['model']) {
-      return true;
-    }
-    $can = Yii::app()->db->createCommand()
-      ->select($action == ACTION_SELECT ? 'can_view' : 'can_edit')
-      ->from('spi_user_type_right utr')
-      ->join('spi_page pag', 'utr.page_id=pag.id')
-      ->where('pag.code=:code AND utr.type_id=:type_id', array(':code' => $_GET['model'], ':type_id' => $user['type_id']))
-      ->queryScalar();
-    if($can !== false && !$can) {
-      return false;
-    } elseif(!$can && !ACTION_SELECT) {
-      return false;
-    }
-    return true;
-  }
   
 //  define ( 'PA', 'p' );
 //  define ( 'TA', 't' );
@@ -373,100 +356,78 @@ class BaseModel extends CFormModel {
 
   public function insert($post, $multiInsert = false) {
     $this->method = 'post';
-    if ($this->checkPermission ( $this->user, ACTION_INSERT )) {
-      $results = $this->doBeforeInsert ( $post );
-      if ($results ['result']) {
-        $params = safe($results, 'params', $post);
-        $missed = $this->checkRequired ( $params );
-        if (! $missed) {
-          $results = $this->doInsert ( $params, $post );
-          $results = $this->doAfterInsert ( $results, $params, $post);
-          if($multiInsert && $results['code'] == '200') {
-            return $results;
-          } else {
-            response ( $results ['code'], $results , $this->method);
-          }
-        } else {
-          response ( '400', array (
-              'result' => false,
-              'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
-              'required' => $missed 
-          ), $this->method);
-        }
-      } else {
+    $results = $this->doBeforeInsert ( $post );
+    if ($results ['result']) {
+      $params = safe($results, 'params', $post);
+      $missed = $this->checkRequired ( $params );
+      if (! $missed) {
+        $results = $this->doInsert ( $params, $post );
+        $results = $this->doAfterInsert ( $results, $params, $post);
         if($multiInsert && $results['code'] == '200') {
           return $results;
         } else {
           response ( $results ['code'], $results , $this->method);
         }
+      } else {
+        response ( '400', array (
+            'result' => false,
+            'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
+            'required' => $missed
+        ), $this->method);
       }
     } else {
-      response ( '403', array (
-          'result' => false,
-          'system_code' => 'ERR_PERMISSION' 
-      ), $this->method );
+      if($multiInsert && $results['code'] == '200') {
+        return $results;
+      } else {
+        response ( $results ['code'], $results , $this->method);
+      }
     }
   }
   public function update($id, $post) {
     $this->id = $id;
     $this->method = 'put';
-    if ($this->checkPermission ( $this->user, ACTION_UPDATE )) {
-      if ($id !== false && $id !== NULL) {
-        
-        $result = $this->doBeforeUpdate ( $post, $id );
-        if ($result ['result']) {
-          $params = safe($result, 'params', $post);
-          $missed = $this->checkRequired ( $params );
-          if (! $missed && !empty($params)) {
-            $results = $this->doUpdate ( $params, $post, $id );
-            $results = $this->doAfterUpdate ( $results, $params, $post, $id );
-            response ( $results ['code'], $results , $this->method);
-          } else {
-            response ( '400', array (
-                'result' => false,
-                'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
-                'required' => $missed 
-            ), $this->method );
-          }
+    if ($id !== false && $id !== NULL) {
+      $result = $this->doBeforeUpdate ( $post, $id );
+      if ($result ['result']) {
+        $params = safe($result, 'params', $post);
+        $missed = $this->checkRequired ( $params );
+        if (! $missed && !empty($params)) {
+          $results = $this->doUpdate ( $params, $post, $id );
+          $results = $this->doAfterUpdate ( $results, $params, $post, $id );
+          response ( $results ['code'], $results , $this->method);
         } else {
-          response ( $result ['code'], $result , $this->method);
+          response ( '400', array (
+              'result' => false,
+              'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
+              'required' => $missed
+          ), $this->method );
         }
       } else {
-        response ( '405', array (
-            'result' => false,
-            'system_code' => 'ERR_ID_NOT_SPECIFIED' 
-        ), $this->method );
+        response ( $result ['code'], $result , $this->method);
       }
     } else {
-      response ( '403', array (
+      response ( '405', array (
           'result' => false,
-          'system_code' => 'ERR_PERMISSION' 
+          'system_code' => 'ERR_ID_NOT_SPECIFIED'
       ), $this->method );
     }
   }
   public function delete($id) {
     $this->id = $id;
     $this->method = 'delete';
-    if ($this->checkPermission ( $this->user, ACTION_DELETE )) {
-      if ($id !== false) {
-        $result = $this->doBeforeDelete ( $id );
-        if ($result ['result']) {
-          $results = $this->doDelete ( $id );
-          $results = $this->doAfterDelete ( $results, $id );
-          response ( $results ['code'], $results , $this->method);
-        } else {
-          response ( $result ['code'], $result , $this->method);
-        }
+    if ($id !== false) {
+      $result = $this->doBeforeDelete ( $id );
+      if ($result ['result']) {
+        $results = $this->doDelete ( $id );
+        $results = $this->doAfterDelete ( $results, $id );
+        response ( $results ['code'], $results , $this->method);
       } else {
-        response ( '405', array (
-            'result' => false,
-            'system_code' => 'ERR_ID_NOT_SPECIFIED' 
-        ), $this->method );
+        response ( $result ['code'], $result , $this->method);
       }
     } else {
-      response ( '403', array (
+      response ( '405', array (
           'result' => false,
-          'system_code' => 'ERR_PERMISSION' 
+          'system_code' => 'ERR_ID_NOT_SPECIFIED'
       ), $this->method );
     }
   }
@@ -488,35 +449,32 @@ class BaseModel extends CFormModel {
   }
   public function select($get) {
     $this->method = 'get';
-    if ($this->checkPermission ( $this->user, ACTION_SELECT )) {
-      $command = $this->getCommand ();
-      if (! empty ( $get )) {
-        $command = $this->setPagination($command, $get);
-        $command = $this->setOrder($command, $get);
-        $command = $this->getParamCommand ( $command, $get, array () );
-      }
-      if ($command) {
-        $results = $this->doSelect ( $command );
-        $results = $this->calcResults ( $results );
-        $results = $this->doAfterSelect ( $results );
-        
-        response ( $results ['code'], $results , $this->method);
-      } else {
-        response ( '409', array (
-            'result' => false,
-            'system_code' => 'ERR_INVALID_QUERY' 
-        ), $this->method );
-      }
+    $command = $this->getCommand ();
+    if (! empty ( $get )) {
+      $command = $this->setPagination($command, $get);
+      $command = $this->setOrder($command, $get);
+      $command = $this->getParamCommand ( $command, $get, array () );
+    }
+    if ($command) {
+      $results = $this->doSelect ( $command );
+      $results = $this->calcResults ( $results );
+      $results = $this->doAfterSelect ( $results );
+
+      response ( $results ['code'], $results , $this->method);
     } else {
-      response ( '403', array (
+      response ( '409', array (
           'result' => false,
-          'system_code' => 'ERR_PERMISSION' 
+          'system_code' => 'ERR_INVALID_QUERY'
       ), $this->method );
     }
     echo('select end');
   }
   protected function calcResults($result) {
     return $result;
+  }
+
+  protected function removeFile($href) {
+    unlink($href);
   }
 
 }

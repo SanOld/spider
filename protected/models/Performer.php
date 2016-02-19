@@ -30,10 +30,7 @@ class Performer extends BaseModel {
   }
 
   protected function doBeforeInsert($post) {
-    if(safe($post, 'is_checked')) {
-      $post['checked_by'] = $this->user['id'];
-      $post['checked_date'] = date("Y-m-d", time());
-    }
+    $post = $this->checkFields($post);
 
     return array(
       'result' => true,
@@ -42,13 +39,7 @@ class Performer extends BaseModel {
   }
 
   protected function doBeforeUpdate($post, $id) {
-    if(safe($post, 'is_checked')) {
-      $post['checked_by'] = $this->user['id'];
-      $post['checked_date'] = date("Y-m-d", time());
-    } else {
-      $post['checked_by'] = null;
-      $post['checked_date'] = null;
-    }
+    $post = $this->checkFields($post);
 
     if(isset($post['bank_details_id']) && !$post['bank_details_id']) {
       unset($post['bank_details_id']);
@@ -70,6 +61,24 @@ class Performer extends BaseModel {
       'result' => true,
       'params' => $post
     );
+  }
+
+  protected function checkFields($post) {
+    if(safe($post, 'is_checked')) {
+      if(!in_array($this->user['type_id'], array(1,2))) { // Admin or PA
+        unset($post['is_checked']);
+      } else {
+        $post['checked_by'] = $this->user['id'];
+        $post['checked_date'] = date("Y-m-d", time());
+      }
+    } else {
+      $post['checked_by'] = null;
+      $post['checked_date'] = null;
+    }
+    if(safe($post, 'comment') && !in_array($this->user['type_id'], array(1,2))) { // Admin or PA
+      unset($post['comment']);
+    }
+    return $post;
   }
 
 }

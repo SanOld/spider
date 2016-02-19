@@ -5,7 +5,7 @@ require_once ('utils/responce.php');
 require_once ('utils/auth.php');
 require_once ('utils/email.php');
 
-define('MODELS', 'User,UserType,UserTypeRight,Page,Relation,Performer,School,District,Hint,PagePosition,BankDetails');
+define('MODELS', 'User,UserType,UserTypeRight,Page,Relation,Performer,School,District,Hint,PagePosition,BankDetails,PerformerDocument');
 
 class BaseController extends Controller {
   private $method = false;
@@ -46,7 +46,7 @@ class BaseController extends Controller {
           break;
 
       }
-      $key = array_search(strtoupper(str_replace('_', '', $_GET['model'])), $models);
+      $key = array_search(self::getClassName($_GET['model']), $models);
       if($key !== false) {
         $modelFor = $models_prot[$key]; // unix files 'user' and 'User' are not equal
       } else {
@@ -55,21 +55,9 @@ class BaseController extends Controller {
     }
     
     $this -> model = CActiveRecord::model($modelFor);
-    $classname = get_class($this -> model);
-    $chartypes = array (
-        'CHAR',
-        'VARCHAR',
-        'TEXT' 
-    );
-//    $errors = array ();
-//    $success = array ();
     $headers = getallheaders ();
-    
     $this -> method = strtolower($_SERVER['REQUEST_METHOD']);
     $auth = new Auth(safe($headers,'Authorization'));
-//    $id = false;
-//    $token = false;
-//    $chekAuth = false;
 
     if(!$auth ->checkToken()) {
       $error = $auth->getAuthError();
@@ -77,149 +65,25 @@ class BaseController extends Controller {
     }
 
     $this -> model -> user = $auth -> user;
-//    if($chekAuth != false) {
-//      $token = $chekAuth['token'];
-//      $id = $chekAuth['id'];
-//      $user = $chekAuth['user'];
-//      $priv = $chekAuth['priv'];
-//    }
+
+    $permissionField = in_array($this -> method, array('post', 'put', 'delete')) ? 'can_edit' : 'can_view';
+    if(!$auth->user[$permissionField]) {
+      $this->sendPermissionError();
+    }
+
     if($this -> method) {
       switch ($this -> method) {
         case 'get' :
-    
-            $this -> model ->select($_GET);
-//            if(in_array($priv, explode(',', $classname::SELECT_PERMISSION))) {
-//              $neededFields = explode(',', $classname::SELECT_FIELDS_LIST);
-//              $condition = false;
-//              $criteria = new CDbCriteria();
-//              if($classname::SELECT_ORDER != '') {
-//                $criteria -> order = $classname::SELECT_ORDER;
-//                $condition = true;
-//              }
-//              foreach($neededFields as &$value ) {
-//                if(isset($_GET[$value])) {
-//                  $column_type = $this -> model -> tableSchema -> getColumn($value) -> dbType;
-//                  $column_type = explode('(', $column_type);
-//                  $condition = true;
-//                  if(in_array(strtoupper($column_type[0]), $chartypes)) {
-//                    $criteria -> addCondition($value . ' LIKE :' . $value);
-//                    $criteria -> params[':' . $value] = '%' . safe($_GET, $value, null) . '%';
-//                  } else {
-//                    $criteria -> addCondition($value . '=:' . $value);
-//                    $criteria -> params[':' . $value] = safe($_GET, $value, null);
-//                  }
-//                }
-//              }
-//              unset($value);
-//              $criteria = $this -> model -> applyPermissionFilter($criteria);
-//              if($id) {
-//                $result = $this -> model -> findAll('id=:id', array (
-//                    ':id' => $id 
-//                ));
-//              } else {
-//                if(!$condition) {
-//                  $result = $this -> model -> findAll();
-//                } else {
-//                  $result = $this -> model -> findAll($criteria);
-//                }
-//              }
-//              $success = unserialize(SUCCESSFUL);
-//              foreach($result as &$value ) {
-//                $success['data'][] = array_merge($value -> getAttributes($neededFields), $value -> getRelatedRecords());
-//              }
-//              unset($value);
-//              $success['message'] = 'Successfully selected';
-//              break;
-//            } else {
-//              $errors = unserialize(ERR_PERMISSION);
-//              $errors['message'] = 'You have no priveleges to select ' . $classname;
-//              break;
-//            }
+          $this -> model ->select($_GET);
           break;
         case 'post' :
           $this -> model ->insert($_POST);
-//          {
-//            if(in_array($priv, explode(',', $classname::INSERT_PERMISSION))) {
-//              $needForSave = explode(',', $classname::INSERT_FIELDS_LIST);
-//              $diff = array_diff($needForSave, array_keys($_POST));
-//              if($diff) {
-//                $message = 'Not all parameters setted - ' . implode(', ', $diff);
-//                $errors = unserialize(ERR_MISSED_REQUIRED_PARAMETERS);
-//                $errors['message'] = $message;
-//                break;
-//              } else {
-//                $class = new ReflectionClass($classname);
-//                $insmodel = $class -> newInstance();
-//                $insmodel -> creator = $user;
-//                ;
-//                $errors = $insmodel -> chekInsertUpdateParams($_POST);
-//                if(!$errors) {
-//                  $insmodel -> attributes = $_POST;
-//                  if($insmodel -> save(true)) {
-//                    $success = unserialize(SUCCESSFUL);
-//                    $success['message'] = 'Successfully saved';
-//                    $success['new_id'] = $insmodel -> id; 
-//                    //Yii::app() -> db -> getLastInsertID();
-//                  } else {
-//                    $errors = unserialize(ERR_QUERY);
-//                    $errors['message'] = 'Error while save occurs';
-//                  }
-//                }
-//              }
-//            } else {
-//              $errors = unserialize(ERR_PERMISSION);
-//              $errors['message'] = 'You have no priveleges to insert ' . $classname;
-//            }
-//            break;
-//          }
           break;
         case 'put' :
           $post_vars = array ();
           parse_str(file_get_contents("php://input"), $post_vars);
           $id = safe($_GET,'id');
           $this -> model ->update($id, $post_vars);
-//          {
-//            if(in_array($priv, explode(',', $classname::UPDATE_PERMISSION))) {
-//              if($id) {
-//                $canBeUpdated = explode(',', $classname::UPDATE_FIELDS_LIST);
-//                $post_vars = array ();
-//                parse_str(file_get_contents("php://input"), $post_vars);
-//                $diff = array_diff(array_keys($post_vars), $canBeUpdated);
-//                if(!$diff && !empty($post_vars)) {
-//                  $updModel = $classname::model() -> find('id=:id', array (
-//                      ':id' => $id 
-//                  ));
-//                  $updModel -> creator = $user;
-//                  if($updModel) {
-//                    $errors = $updModel -> chekInsertUpdateParams($post_vars);
-//                    if(!$errors) {
-//                      $updModel -> attributes = $post_vars;
-//                      if($updModel -> save(true)) {
-//                        $success = unserialize(SUCCESSFUL);
-//                        $success['message'] = 'Successfully updated';
-//                      } else {
-//                        $errors = unserialize(ERR_QUERY);
-//                        $errors['message'] = 'Error while update occurs';
-//                      }
-//                    }
-//                  } else {
-//                    $errors = unserialize(ERR_REQUEST_PARAMETERS);
-//                    $errors['message'] = 'Incorrect id. The ' . $classname . ' not found with requested id';
-//                  }
-//                } else {
-//                  $errors = unserialize(ERR_REQUEST_PARAMETERS);
-//                  $errors['message'] = 'Not or invalid parameters setted - ' . implode(', ', $diff);
-//                }
-//              } else {
-//                $errors = unserialize(ERR_REQUEST_PARAMETERS);
-//                $errors['message'] = 'Id must be set for update.';
-//              }
-//            } else {
-//              $errors = unserialize(ERR_PERMISSION);
-//              $errors['message'] = 'You have no priveleges to update ' . $classname;
-//            }
-//            break;
-//          }
           break;
         case 'delete' :
             $id = safe($_GET,'id');
@@ -227,11 +91,17 @@ class BaseController extends Controller {
           break;
       }
     }
-    if($errors) {
-      response($errors);
-    } else {
-      response($success);
-    }
+  }
+
+  protected function sendPermissionError() {
+    response ( '403', array (
+      'result' => false,
+      'system_code' => 'ERR_PERMISSION'
+    ), $this->method );
+  }
+
+  static protected function getClassName($model) {
+    return strtoupper(str_replace('_', '', $model));
   }
 
   function getRelation() {
@@ -283,4 +153,42 @@ class BaseController extends Controller {
       );
     }
   }
+
+  public function actionUploadFile($model) {
+    function toBytes($str){
+      $val = trim($str);
+      $last = strtolower($str[strlen($str)-1]);
+      switch($last) {
+        case 'g': $val *= 1024;
+        case 'm': $val *= 1024;
+        case 'k': $val *= 1024;
+      }
+      return $val;
+    }
+    $dirpath = 'uploads/'.$model.'/';
+    if(isset($_GET['id']) && is_numeric($_GET['id'])){
+      $id = $_GET['id'];
+      unset($_GET['id']);
+      $strlength = strlen($id);
+      for($i=0;$i<$strlength;$i++){
+        $dirpath .=substr($id, $i, 1).'/';
+      }
+    }
+    $allowedExtensions = array('jpg','jpeg','png', 'gif', 'doc', 'docx', 'pdf');
+    $sizeLimit = 10 * 1024 * 1024; // 10 Mb
+    $postSize = toBytes(ini_get('post_max_size'));
+    $uploadSize = toBytes(ini_get('upload_max_filesize'));
+    $sizeLimit = min($sizeLimit, $postSize, $uploadSize);
+    $path = $_SERVER['DOCUMENT_ROOT'].'/'.$dirpath;
+    mk_dir($path);
+    $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+    $result = $uploader->handleUpload($path);
+    if(safe($result, 'success')) {
+      $this -> model = CActiveRecord::model(self::getClassName($model));
+      $this -> model -> addFile($id, $uploader->getName(), $dirpath.$result['filename']);
+    }
+    echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+  }
+
+
 }

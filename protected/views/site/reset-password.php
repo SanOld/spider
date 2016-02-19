@@ -25,7 +25,7 @@ $this->pageTitle = 'Passwort zurücksetzen | ' . Yii::app()->name;
             <div class="form-group has-feedback">
                 <label class="col-lg-12" for="password2">Ein neues Passwort bestätigen </label>
                 <div class="col-lg-12 wrap-line" ng-class="{'wrap-line error': fieldError('password_repeat'), 'wrap-line success': !fieldError('password_repeat')}">
-                    <input class="form-control" type="password" ng-model="password_repeat" name="password_repeat" password-verify="password" ng-minlength="3" required>
+                    <input class="form-control" type="password" ng-model="password_repeat" name="password_repeat" ng-pattern="password" ng-minlength="3" required>
                     <span ng-show="fieldError('password_repeat') || error">
                       <label ng-show="form.password_repeat.$error.required" class="error">Password repeat is required.</label>
                       <label ng-show="form.password_repeat.$error.passwordVerify" class="error">Passwords are not equal.</label>

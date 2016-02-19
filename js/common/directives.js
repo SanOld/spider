@@ -1,34 +1,3 @@
-spi.directive("passwordVerify", function() {
-    return {
-        require: "ngModel",
-        scope: {
-            passwordVerify: '='
-        },
-        link: function(scope, element, attrs, ctrl) {
-            scope.$watch(function() {
-                var combined;
-                if (scope.passwordVerify || ctrl.$viewValue) {
-                    combined = scope.passwordVerify + '_' + ctrl.$viewValue;
-                }
-                return combined;
-            }, function(value) {
-                if (value) {
-                    ctrl.$parsers.unshift(function(viewValue) {
-                        var origin = scope.passwordVerify;
-                        if (origin !== viewValue) {
-                            ctrl.$setValidity("passwordVerify", false);
-                            return undefined;
-                        } else {
-                            ctrl.$setValidity("passwordVerify", true);
-                            return viewValue;
-                        }
-                    });
-                }
-            });
-        }
-    };
-});
-
 spi.directive("spiHintMain", function() {
     return {
         restrict: 'A',
@@ -48,6 +17,43 @@ spi.directive("spiHint", function() {
             class: '@'
         },
         template: '<button ng-if="text" uib-popover="{{text}}" class="btn btn-question {{class}}" type="button"> <i class="fa fa-question"></i> </button>'
+    };
+});
+
+spi.directive("qqFileUpload", function(Notification) {
+    return {
+        restrict: 'A',
+        scope: {
+            setting: '='
+        },
+        template: '<div class="btn w-sw custom-color pull-right" id="file-uploader"></div>',
+        link: function(scope, element, attrs, ctrl) {
+            var uploader = new qq.FileUploader({
+                element: document.getElementById('file-uploader'),
+                action: '/api/upload-file/'+scope.setting.model+'/'+(scope.setting.params ? '?'+$.param(scope.setting.params) : ''),
+                uploadButtonText: scope.setting.buttonText || '',
+                sizeLimit: scope.setting.sizeLimit || 10520000,
+                allowedExtensions: scope.setting.allowedExtensions || ['doc', 'docx', 'pdf'],
+                messages: {
+                    typeError: "Unfortunately the file(s) you selected weren't the type we were expecting. Only {extensions} files are allowed.",
+                    sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                    minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                    emptyError: "{file} is empty, please select files again without it.",
+                    onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+                },
+                showMessage: function(message){
+                    Notification.error({title: 'File upload error', message: message});
+                },
+                onComplete: (scope.setting.onCompile) || function(id, fileName, responseJSON){
+                    Notification.success(responseJSON.message);
+                },
+                onUpload: scope.setting.onUpload || function(id, fileName, xhr){},
+                onProgress: scope.setting.onProgress || function(id, fileName, loaded, total){},
+                onError: scope.setting.onError || function(id, fileName, xhr){
+                    Notification.error(responseJSON.message);
+                }
+            });
+        }
     };
 });
 
