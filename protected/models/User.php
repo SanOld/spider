@@ -5,9 +5,10 @@ require_once ('utils/utils.php');
 class User extends BaseModel {
   public $table = 'spi_user';
   public $post = array();
-  public $select_all = "CONCAT(tbl.first_name, ' ', tbl.last_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Deaktivieren') status_name, tbl.* ";
+  public $select_all = "CONCAT(tbl.first_name, ' ', tbl.last_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Deaktivieren') status_name, ust.name type_name, tbl.* ";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
+    $command -> join('spi_user_type ust', 'tbl.type_id = ust.id');
     $command -> where(' 1=1 ', array());
     return $command;
   }
@@ -25,7 +26,7 @@ class User extends BaseModel {
         $relation = $this->getRelationByType($type);
         if($relation && safe($relation, 'code')) {
           $command->leftJoin($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id');
-          $where[] = "({$relation['prefix']}.name like :value AND type = '".$type."')";
+          $where[] = "({$relation['prefix']}.name like :value AND ust.type = '".$type."')";
           $search_param[":value"] = '%' . $value . '%';
         }
       }
@@ -34,11 +35,31 @@ class User extends BaseModel {
         $command -> andWhere($where, $search_param);
       }
     }
+    if (safe($params, 'TYPE')) {
+      $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
+    }
     if (safe($params, 'TYPE_ID')) {
       $command->andWhere("tbl.type_id = :type_id", array(':type_id' => $params['TYPE_ID']));
     }
+    if (isset($params['IS_FINANSIST'])) {
+      $command -> andWhere("tbl.is_finansist = :is_finansist", array(':is_finansist' => $params['IS_FINANSIST']));
+    }
     if (isset($params['IS_ACTIVE'])) {
       $command -> andWhere("tbl.is_active = :is_active", array(':is_active' => $params['IS_ACTIVE']));
+    }
+    if(safe($params, 'ORDER') == 'relation_name') {
+      $fields = array();
+      foreach(explode(',', USER_TYPES) as $type) {
+        $relation = $this->getRelationByType($type);
+        if($relation && safe($relation, 'code')) {
+          $command->leftJoin($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id');
+          $fields[] = "IFNULL(".$relation['prefix'].".name, '')";
+        }
+      }
+      if($fields) {
+        $command->select($this->select_all.", CONCAT(".implode(',', $fields).") relation_name");
+      }
+
     }
     return $command;
   }
@@ -72,13 +93,7 @@ class User extends BaseModel {
   }
 
   protected function doAfterSelect($results) {
-    $types = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_user_type tbl')->queryAll ();
-    $types_dict = array();
-    foreach($types as $type) {
-      $types_dict[$type['id']] = $type;
-    }
     foreach($results['result'] as &$row) {
-      $row['type_name'] = $types_dict[$row['type_id']]['name'];
       unset($row['password']); 
     }
     return $results;
@@ -94,6 +109,9 @@ class User extends BaseModel {
         -> where('id=:id ', array(
           ':id' => $post['type_id']))
         -> queryScalar();
+      if($post['type'] == 't') {
+        $post['is_finansist'] = $post['type_id'] == 7 ? 1 : 0;
+      }
       $relation = $this->getRelationByType($post['type']);
       if(!safe($post, 'relation_id') && $relation && safe($relation, 'table')) {
         return array(
@@ -146,7 +164,13 @@ class User extends BaseModel {
     $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id=:id ', array(
         ':id' => $id
     )) -> queryRow();
-        
+
+    if(safe($post, 'type_id') == 7) {
+      $post['is_finansist'] = 1;
+    } elseif(safe($post, 'type_id') == 3) {
+      $post['is_finansist'] = 0;
+    }
+
     if (Yii::app() -> db -> createCommand()
         -> select('*') 
         -> from($this -> table) 
@@ -183,27 +207,6 @@ class User extends BaseModel {
         'params' => $post 
     );
   }
-
-//  protected function checkPermission($user, $action) {
-//    switch ($action) {
-//      case ACTION_SELECT : 
-//        return true;
-//        break;
-//      case ACTION_INSERT :
-//        ;
-//      case ACTION_UPDATE :
-//        ;
-//      case ACTION_DELETE :
-//        ;
-//        if ($this -> user['is_super_admin']) {
-//          return true;
-//        } elseif ($this -> user['is_admin'] || $this -> user['is_account_owner']) {
-//          return true;
-//        }
-//        return false;
-//    }
-//    return false;
-//  }
 
 
 }

@@ -19,6 +19,14 @@ class UserType extends BaseModel {
     return $command;
   }
 
+  protected function getParamCommand($command, array $params, array $logic = array()) {
+    $params = array_change_key_case($params, CASE_UPPER);
+    if (safe($params, 'TYPE')) {
+      $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
+    }
+    return $command;
+  }
+
   protected function doAfterSelect($results) {
     foreach($results['result'] as &$row) {
       $relation = $this->getRelationByType($row['type']);
@@ -26,11 +34,6 @@ class UserType extends BaseModel {
       $row['relation_code'] = safe($relation, 'code', '');
     }
     return $results;
-  }
-
-  protected function getParamCommand($command, array $params, array $logic = array()) {
-    $params = array_change_key_case($params, CASE_UPPER);
-    return $command;
   }
 
   protected function doBeforeInsert($post) {
@@ -141,26 +144,6 @@ class UserType extends BaseModel {
         'result' => true 
     );
   }
-  
-
-  
-//  protected function checkPermission($user, $action) {
-//    switch ($action) {
-//      case ACTION_SELECT :
-//      case ACTION_INSERT :
-//      case ACTION_UPDATE :
-//        return true;
-//        break;
-//      case ACTION_DELETE :
-//        if ($this -> user['is_super_admin']) {
-//          return true;
-//        } elseif ($this -> user['is_admin'] || $this -> user['is_account_owner']) {
-//          return true;
-//        }
-//        return false;
-//    }
-//    return false;
-//  }
 
 
 }

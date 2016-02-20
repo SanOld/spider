@@ -1,24 +1,28 @@
-spi.controller('UserController', function($scope, network, GridService, HintService) {
-    $scope.$parent._m = 'user';
+spi.controller('UserController', function($scope, $rootScope, network, GridService, HintService) {
+    if(!$rootScope._m) {
+        $rootScope._m = 'user';
+    }
     $scope.filter = {is_active: 1};
-
+    if($scope.page && $scope.page == 'performer') {
+        $scope.filter['type'] = 't';
+    }
     $scope.statuses = [
         {id: 1, name: 'Aktiv'},
         {id: 0, name: 'Deaktivieren'}
     ];
 
-    network.get('user_type', {}, function (result, response) {
+    network.get('user_type', $scope.filter['type'] ? {type: $scope.filter['type'] } : {}, function (result, response) {
         if(result) {
             $scope.userTypes = response.result;
         }
     });
 
-    HintService($scope.$parent._m, function(result) {
+    HintService('user', function(result) {
         $scope._hint = result;
     });
 
     var grid = GridService();
-    $scope.tableParams = grid($scope.$parent._m, $scope.filter, {sorting: {name: 'asc'}});
+    $scope.tableParams = grid('user', $scope.filter, {sorting: {name: 'asc'}});
 
     $scope.resetFilter = function() {
         $scope.filter = grid.resetFilter();
@@ -32,7 +36,7 @@ spi.controller('UserController', function($scope, network, GridService, HintServ
         grid.openEditor({
             data: row,
             hint: $scope._hint,
-            controller: 'ModalEditUserController',
+            controller: 'UserEditController',
             template: 'editUserTemplate.html'
         });
     };

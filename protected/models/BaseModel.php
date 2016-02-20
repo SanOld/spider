@@ -36,18 +36,11 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
-  protected function getParamCommand($command, array $params/*, array $logic = array()*/) {
+  protected function getParamCommand($command, array $params) {
     $params = array_change_key_case ( $params, CASE_UPPER );
       if(isset($params['SEARCH'])) {
       $fields = $this -> getAllTableFields();
       $search_param=array();
-      $inttypes = array (
-          'TINYINT',
-          'SMALLINT',
-          'MEDIUMINT',
-          'INT',
-          'BIGINT' 
-      );
       $chartypes = array (
           'CHAR',
           'VARCHAR',

@@ -33,7 +33,7 @@ $this->breadcrumbs = array('Benutzerliste');
 										<div class="form-group">
 											<label>Benutzer-Typ</label>
 											<ui-select ng-change="updateGrid()" ng-model="filter.type_id" theme="select2">
-												<ui-select-match allow-clear="true" placeholder="View all">{{$select.selected.name}}</ui-select-match>
+												<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 												<ui-select-choices repeat="item.id as item in userTypes | filter: $select.search">
 													<span ng-bind-html="item.name | highlight: $select.search"></span>
 												</ui-select-choices>
@@ -50,7 +50,7 @@ $this->breadcrumbs = array('Benutzerliste');
 										<div class="form-group">
 											<label>Status</label>
 											<ui-select append-to-body="true" ng-change="updateGrid()" class="" ng-model="filter.is_active" theme="select2">
-												<ui-select-match allow-clear="true" placeholder="View all">{{$select.selected.name}}</ui-select-match>
+												<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 												<ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
 													<span ng-bind-html="item.name | highlight: $select.search"></span>
 												</ui-select-choices>
@@ -62,26 +62,7 @@ $this->breadcrumbs = array('Benutzerliste');
 									</div>
 								</form>
 							</div>
-							<table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
-								<tr ng-repeat="row in $data" ng-class="{'disable': row.is_active == '0'}">
-									<td data-title="'Name'" sortable="'name'">{{row.name}}</td>
-									<td data-title="'Benutzer-Typ'" sortable="'type_name'">{{row.type_name}}</td>
-									<td data-title="'Organisation'" sortable="'relation_name'">{{row.relation_name}}</td>
-									<td data-title="'Benutzername'" sortable="'login'"><a href="#">{{row.login}}</a></td>
-									<td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}"">{{row.email}}</a></td>
-									<td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
-									<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
-									<td data-title="'Bearbeiten'" ng-if="$parent.canEdit()" header-class="'dt-edit'" class="dt-edit">
-										<a class="btn center-block edit-btn" ng-click="openEdit(row)">
-											<i class="ion-edit"></i>
-										</a>
-									</td>
-								</tr>
-							</table>
-							<div class="notice">
-								<span class="color-notice"></span>
-								Deaktivierte Benutzer
-							</div>
+							<?php require_once(__DIR__.'/partials/users-table.php'); ?>
 						</div>
 					</div>
 				</div>

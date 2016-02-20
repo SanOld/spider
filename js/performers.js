@@ -1,16 +1,16 @@
-spi.controller('PerformerController', function($scope, network, GridService, HintService) {
-    $scope.$parent._m = 'performer';
+spi.controller('PerformerController', function($scope, $rootScope, network, GridService, HintService) {
+    $rootScope._m = 'performer';
     $scope.filter = {is_checked: 1};
     $scope.checks = [{id: 1, name: 'Checked'}, {id: 0, name: 'Not checked'}];
 
     var grid = GridService();
-    $scope.tableParams = grid($scope.$parent._m, $scope.filter, {sorting: {name: 'asc'}});
+    $scope.tableParams = grid('performer', $scope.filter, {sorting: {name: 'asc'}});
 
     $scope.updateGrid = function() {
         grid.reload();
     };
 
-    HintService($scope.$parent._m, function(result) {
+    HintService('performer', function(result) {
          $scope._hint = result;
     });
 
@@ -19,15 +19,14 @@ spi.controller('PerformerController', function($scope, network, GridService, Hin
     };
 
     $scope.openEdit = function (row) {
-        grid.openEditor({data: row, hint: $scope._hint, size: 'width-full'});
+        grid.openEditor({data: row, hint: $scope._hint, size: 'width-full', controller: 'EditPerformerController'});
     };
 
 
 });
 
 
-spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
-    $scope.$parent._m = 'performer';
+spi.controller('EditPerformerController', function ($scope, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.fullAccess = network.user.type_id == 1 || network.user.type_id == 2;
@@ -81,7 +80,7 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
 
 
     function getUsers() {
-        network.get('user', {}, function(result, response){
+        network.get('user', {is_active: 1}, function(result, response){
             if(result) {
                 $scope.users = response.result;
                 if(data.is_checked) {
@@ -146,9 +145,9 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
                 $scope.submited = false;
             };
             if ($scope.isInsert) {
-                network.post($scope.$parent._m, $scope.performer, callback);
+                network.post('performer', $scope.performer, callback);
             } else {
-                network.put($scope.$parent._m + '/' + data.id, $scope.performer, callback);
+                network.put('performer/' + data.id, $scope.performer, callback);
             }
         } else {
             $scope.tabs[0].active = true;
@@ -201,7 +200,7 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
     };
 
     $scope.remove = function() {
-        network.delete($scope.$parent._m+'/'+data.id, function (result) {
+        network.delete('performer/'+data.id, function (result) {
             if(result) {
                 $uibModalInstance.close();
             }
@@ -211,5 +210,10 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+
+
+
+    $scope.types = [{id: 0, name: 'Performer'}, {id: 1, name: 'Performer (F)'}];
 
 });

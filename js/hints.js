@@ -1,15 +1,15 @@
-spi.controller('HintsController', function($scope, network, GridService, HintService) {
-    $scope.$parent._m = 'hint';
+spi.controller('HintsController', function($scope, $rootScope, network, GridService, HintService) {
+    $rootScope._m = 'hint';
     $scope.filter = {};
 
     var grid = GridService();
-    $scope.tableParams = grid($scope.$parent._m, $scope.filter);
+    $scope.tableParams = grid('hint', $scope.filter);
 
     $scope.updateGrid = function() {
         grid.reload();
     };
 
-    HintService($scope.$parent._m, function(result) {
+    HintService('hint', function(result) {
          $scope._hint = result;
     });
 
@@ -18,7 +18,7 @@ spi.controller('HintsController', function($scope, network, GridService, HintSer
     };
 
     $scope.openEdit = function (row) {
-        grid.openEditor({data: row, hint: $scope._hint});
+        grid.openEditor({data: row, hint: $scope._hint, controller: 'EditHintController'});
     };
 
     network.get('page', {}, function(result, response){
@@ -31,8 +31,7 @@ spi.controller('HintsController', function($scope, network, GridService, HintSer
 });
 
 
-spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
-    $scope.$parent._m = 'hint';
+spi.controller('EditHintController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.hint = {};
@@ -91,15 +90,15 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
                 $scope.submited = false;
             };
             if($scope.isInsert) {
-                network.post($scope.$parent._m, formData, callback);
+                network.post('hint', formData, callback);
             } else {
-                network.put($scope.$parent._m+'/'+data.id, formData, callback);
+                network.put('hint/'+data.id, formData, callback);
             }
         }
     };
 
     $scope.remove = function() {
-        network.delete($scope.$parent._m+'/'+data.id, function (result) {
+        network.delete('hint/'+data.id, function (result) {
             if(result) {
                 $uibModalInstance.close();
             }

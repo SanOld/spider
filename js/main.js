@@ -1,22 +1,22 @@
-spi.controller('main', function($scope, network, GridService, localStorageService) {
+spi.controller('main', function($scope, $rootScope, network, GridService, localStorageService) {
     $scope._r = localStorageService.get('rights');
-    $scope._m = 'dashboard';
+    $rootScope.canView = function(model) {
+        model = model || $rootScope._m;
+        return !model || !$scope._r[model] ? 1 : $scope._r[model].view;
+    };
+
+    $rootScope.canEdit = function(model) {
+        model = model || $rootScope._m;
+        return !model || !$scope._r[model] ? 1 : $scope._r[model].edit;
+    };
+
+
     $scope.isLogin = network.isLogined();
     if($scope.isLogin) {
         $scope.user = network.user;
     } else {
         window.location = '/'
     }
-
-    $scope.canView = function(model) {
-        model = model || $scope._m;
-        return !model || !$scope._r[model] ? 1 : $scope._r[model].view;
-    };
-
-    $scope.canEdit = function(model) {
-        model = model || $scope._m;
-        return !model || !$scope._r[model] ? 1 : $scope._r[model].edit;
-    };
 
     $scope.logout = function(){
         network.logout();
@@ -28,7 +28,7 @@ spi.controller('main', function($scope, network, GridService, localStorageServic
     $scope.openEdit = function () {
         GridService().openEditor({
             data: $scope.user,
-            controller: 'ModalEditUserController',
+            controller: 'UserEditController',
             template: 'editUserTemplate.html'
         }, function(){
             $scope.user = network.user;
@@ -38,7 +38,7 @@ spi.controller('main', function($scope, network, GridService, localStorageServic
 
 });
 
-spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, data, network, localStorageService, hint, HintService) {
+spi.controller('UserEditController', function ($scope, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils) {
     $scope.model = 'user';
     $scope.isInsert = true;
     $scope.user = {
@@ -71,14 +71,15 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
             last_name: data.last_name,
             login: data.login,
             email: data.email,
-            phone: data.phone
-
+            phone: data.phone,
+            type_id: data.type_id
         };
         $scope.isCurrentUser = network.user.id == data.id;
-    } else {
-        network.get('user_type', {}, function (result, response) {
+        $scope.isPerformer = data.type == 't';
+    }
+    if(!data.id || $scope.isPerformer) {
+        network.get('user_type', $scope.isPerformer ? {type: 't'} : {}, function (result, response) {
             if(result) {
-                console.log($scope.form)
                 $scope.userTypes = response.result;
             }
         });
@@ -86,8 +87,11 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
 
     $scope.reloadRelation = function() {
         $scope.relations = [];
-        var type = findTypeById($scope.user.type_id);
-        if(type && type.relation_code) {
+        var type = Utils.getRowById($scope.userTypes, $scope.user.type_id);
+        $scope.isRelation = type && type.relation_code;
+        $scope.isPerformer = type && type.type == 't';
+        if($scope.isRelation) {
+            $scope.isRelation = true;
             network.get(type.relation_code, {}, function (result, response) {
                 if(result) {
                     $scope.relations = response.result;
@@ -159,17 +163,6 @@ spi.controller('ModalEditUserController', function ($scope, $uibModalInstance, d
                 break;
         }
         $scope.error = result;
-    }
-
-    function findTypeById(id) {
-        if($scope.userTypes) {
-            for(var i = 0; i < $scope.userTypes.length; i++) {
-                if($scope.userTypes[i].id == id) {
-                    return $scope.userTypes[i];
-                }
-            }
-        }
-        return false;
     }
 
 });

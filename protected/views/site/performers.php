@@ -3,6 +3,7 @@ $this->pageTitle = 'Träger Agentur | ' . Yii::app()->name;
 $this->breadcrumbs = array('Träger Agentur');
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/performers.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/users.js"></script>
 
 <div ng-controller="PerformerController" ng-cloak class="wraper container-fluid">
 	<div class="row">
@@ -38,7 +39,7 @@ $this->breadcrumbs = array('Träger Agentur');
 									<div class="form-group">
 										<label>Überprüft</label>
 										<ui-select append-to-body="true" ng-change="updateGrid()" class="" ng-model="filter.is_checked" theme="select2">
-											<ui-select-match allow-clear="true" placeholder="View all">{{$select.selected.name}}</ui-select-match>
+											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 											<ui-select-choices repeat="item.id as item in checks | filter: $select.search">
 												<span ng-bind-html="item.name | highlight: $select.search"></span>
 											</ui-select-choices>
@@ -380,6 +381,53 @@ $this->breadcrumbs = array('Träger Agentur');
 							<div class="pull-right">
 								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
 								<button class="btn w-lg custom-btn" ng-click="submitFormPerformer()">Speichern</button>
+							</div>
+						</div>
+					</div>
+				</uib-tab>
+
+				<uib-tab heading="Benutzer" ng-init="page = 'performer'" ng-if="canView('user')">
+					<div class="holder-tab" ng-controller="UserController">
+						<div class="panel-body edit-user agency-tab-user">
+							<div>
+								<div class="col-lg-12">
+									<div class="row datafilter">
+										<form action="#" class="class-form">
+											<div class="col-lg-4">
+												<div class="form-group">
+													<label>Suche nach Name, Benutzername oder Email</label>
+													<input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control" placeholder="Stichwort eingegeben">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group">
+													<label>Benutzer-Typ</label>
+													<ui-select ng-change="updateGrid()" ng-model="filter.type_id" theme="select2">
+														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices repeat="item.id as item in userTypes | filter: $select.search">
+															<span ng-bind-html="item.name | highlight: $select.search"></span>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group">
+													<label>Status</label>
+													<ui-select append-to-body="true" ng-change="updateGrid()" class="" ng-model="filter.is_active" theme="select2">
+														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
+															<span ng-bind-html="item.name | highlight: $select.search"></span>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</div>
+											<div class="col-lg-2 reset-btn-width">
+												<button ng-click="resetFilter()" class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
+											</div>
+										</form>
+									</div>
+									<?php require_once(__DIR__.'/partials/users-table.php'); ?>
+								</div>
 							</div>
 						</div>
 					</div>
