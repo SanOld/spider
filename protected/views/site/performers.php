@@ -38,7 +38,7 @@ $this->breadcrumbs = array('Träger Agentur');
 								<div class="form-group">
 									<div class="form-group">
 										<label>Überprüft</label>
-										<ui-select append-to-body="true" ng-change="updateGrid()" class="" ng-model="filter.is_checked" theme="select2">
+										<ui-select ng-change="updateGrid()" class="" ng-model="filter.is_checked">
 											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 											<ui-select-choices repeat="item.id as item in checks | filter: $select.search">
 												<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -182,7 +182,7 @@ $this->breadcrumbs = array('Träger Agentur');
 								<div class="row holder-three-blocks" ng-if="!isInsert">
 									<div class="col-lg-4">
 										<h4>Vertretungsberechtigte Person</h4>
-										<ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" append-to-body="true" ng-model="performer.representative_user_id" theme="select2" name="representative_user_id">
+										<ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" ng-model="performer.representative_user_id" name="representative_user_id">
 											<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
 											<ui-select-choices repeat="item.id as item in users | filter: $select.search">
 												<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -201,7 +201,7 @@ $this->breadcrumbs = array('Träger Agentur');
 									</div>
 									<div class="col-lg-4">
 										<h4>Ansprechperson für Antragsbearbeitung</h4>
-										<ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" append-to-body="true" ng-model="performer.application_processing_user_id" theme="select2" name="application_processing_user_id">
+										<ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" ng-model="performer.application_processing_user_id" name="application_processing_user_id">
 											<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
 											<ui-select-choices repeat="item.id as item in users | filter: $select.search">
 												<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -220,7 +220,7 @@ $this->breadcrumbs = array('Träger Agentur');
 									</div>
 									<div class="col-lg-4">
 										<h4>Ansprechperson für die Finanzplanbearbeitung</h4>
-										<ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
+										<ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" ng-model="performer.budget_processing_user_id" name="budget_processing_user_id">
 											<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
 											<ui-select-choices repeat="item.id as item in users | filter: $select.search">
 												<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -402,7 +402,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<div class="col-lg-3">
 												<div class="form-group">
 													<label>Benutzer-Typ</label>
-													<ui-select ng-change="updateGrid()" ng-model="filter.type_id" theme="select2">
+													<ui-select ng-change="updateGrid()" ng-model="filter.type_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices repeat="item.id as item in userTypes | filter: $select.search">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -413,7 +413,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<div class="col-lg-3">
 												<div class="form-group">
 													<label>Status</label>
-													<ui-select append-to-body="true" ng-change="updateGrid()" class="" ng-model="filter.is_active" theme="select2">
+													<ui-select ng-change="updateGrid()" class="" ng-model="filter.is_active">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>

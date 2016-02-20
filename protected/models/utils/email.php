@@ -6,8 +6,8 @@ class Email {
 
   static function doRecovery($user, $recoveryLink) {
     $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
-    $message .= '<br>We have received request for recovery your account password..';
-    $message .= '<br>If you have sent it, please follow this '.$recoveryLink.', for update your password.';
+    $message .= '<br><br>We have received request for recovery your account password..';
+    $message .= '<br>If you have sent it, please follow this <a target="_blank" href="'.$recoveryLink.'">link</a>, for update your password.';
     return self::send($user['email'], self::$from, 'Recovery confirmation from SPIder', $message);
   }
 

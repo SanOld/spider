@@ -21,7 +21,7 @@ $this->breadcrumbs = array('Hilfetexte');
 							<div class="col-lg-5">
 								<div class="form-group">
 									<label>Seite</label>
-									<ui-select ng-change="updateGrid()" ng-model="filter.page_id" theme="select2">
+									<ui-select ng-change="updateGrid()" ng-model="filter.page_id">
 										<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 										<ui-select-choices repeat="item.id as item in pages | filter: $select.search">
 											<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -78,7 +78,7 @@ $this->breadcrumbs = array('Hilfetexte');
 					<div ng-if="isInsert" class="col-lg-10">
 						<span spi-hint text="_hint.page_id" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('page_id')}">
-							<ui-select append-to-body="true" ng-change="changePage()" ng-model="hint.page_id" theme="select2" name="page_id" required>
+							<ui-select ng-change="changePage()" ng-model="hint.page_id" name="page_id" required>
 								<ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
 								<ui-select-choices repeat="item.id as item in pages | filter: $select.search">
 									<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -99,7 +99,7 @@ $this->breadcrumbs = array('Hilfetexte');
 					<div ng-if="isInsert && hint.page_id" class="col-lg-10">
 						<span spi-hint text="_hint.position_id" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('position_id')}">
-							<ui-select ng-disabled="!$select.items.length" ng-change="changePosition(hint.position_id)" append-to-body="true" ng-model="hint.position_id" theme="select2" name="position_id" required>
+							<ui-select ng-disabled="!$select.items.length" ng-change="changePosition(hint.position_id)" ng-model="hint.position_id" name="position_id" required>
 								<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">{{$select.selected.name}}</ui-select-match>
 								<ui-select-choices repeat="item.id as item in positions | filter: $select.search">
 									<span ng-bind-html="item.name | highlight: $select.search"></span>

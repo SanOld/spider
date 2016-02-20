@@ -18,7 +18,7 @@ spi.run(function(ngTableDefaults, $templateCache) {
     $templateCache.put("angular-ui-notification.html",'<div class=\"ui-notification\"><div class="image"><i class="fa" ng-class="{\'fa-check\': t == \'s\', \'fa-exclamation\': t == \'e\', \'fa-question\': t == \'i\', \'fa-warning\': t == \'w\', \'ion-ios7-information \': t == \'p\'}"></i></div><div class="text-wrapper"><div class="title" ng-show=\"title\" ng-bind-html=\"title\"></div><div class="text" ng-bind-html=\"message\"></div></div></div>');
 });
 
-spi.config(function($uibTooltipProvider, NotificationProvider) {
+spi.config(function($uibTooltipProvider, NotificationProvider, uiSelectConfig) {
     $uibTooltipProvider.options({trigger: 'focus', placement: 'top', appendToBody: 'true'});
     NotificationProvider.setOptions({
         delay: 5000,
@@ -29,4 +29,6 @@ spi.config(function($uibTooltipProvider, NotificationProvider) {
         positionX: 'right',
         positionY: 'top'
     });
+    uiSelectConfig.theme = 'select2';
+    uiSelectConfig.appendToBody = true;
 });
