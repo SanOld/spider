@@ -56,6 +56,7 @@ return array(
 				'/user-roles'      => '/site/userRoles',
 				'/hints'           => '/site/hints',
 				'/performers'      => '/site/performers',
+				'/schools'         => '/site/schools',
 				'/dashboard'       => '/site/dashboard',
 				'/forgot-password' => '/site/forgotPassword',
 				'/reset-password'  => '/site/resetPassword',

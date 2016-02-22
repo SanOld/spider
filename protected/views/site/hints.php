@@ -12,7 +12,7 @@ $this->breadcrumbs = array('Hilfetexte');
 				<div class="panel-heading clearfix">
 					<h1 class="panel-title col-lg-6">Hilfetexte</h1>
 					<div class="pull-right heading-box-print">
-						<button class="btn w-lg custom-btn" ng-click="openEdit()">Neuen Hilf hinzufügen</button>
+						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Neuen Hilf hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body hint-edit">
@@ -46,7 +46,7 @@ $this->breadcrumbs = array('Hilfetexte');
 							<td data-title="'Seite'" sortable="'page_name'">{{row.page_name}}</td>
 							<td data-title="'Position'" sortable="'position_name'">{{row.position_name}}</td>
 							<td data-title="'Hilfetext'" sortable="'title'">{{row.title}}</td>
-							<td data-title="'Bearbeiten'" ng-if="$parent.canEdit()" header-class="'dt-edit'" class="dt-edit">
+							<td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
 								</a>

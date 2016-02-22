@@ -67,6 +67,10 @@ class SiteController extends Controller
 		$this->render('performers');
 	}
 
+	public function actionSchools() {
+		$this->render('schools');
+	}
+
 	public function actionError()
 	{
 		if($error=Yii::app()->errorHandler->error)

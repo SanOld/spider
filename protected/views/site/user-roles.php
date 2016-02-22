@@ -14,7 +14,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 				<div class="panel-heading heading-noborder clearfix">
 					<h1 class="panel-title col-lg-6">Benutzerrollen</h1>
 					<div class="pull-right heading-box-print">
-						<button class="btn w-lg custom-btn" ng-click="openEdit()">Benutzer-Typ hinzufügen</button>
+						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Benutzer-Typ hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body roles-edit">
@@ -22,7 +22,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Benutzer-Typ'" sortable="'name'">{{row.name}}</td>
 							<td data-title="'Organisationstyp'">{{row.relation_name}}</td>
-							<td data-title="'Bearbeiten'" ng-if="$parent.canEdit()" header-class="'dt-edit'" class="dt-edit">
+							<td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
 								</a>

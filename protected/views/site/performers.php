@@ -14,7 +14,7 @@ $this->breadcrumbs = array('Träger Agentur');
 					<h1 class="panel-title col-lg-6">Träger Agentur</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-						<button class="btn w-lg custom-btn" ng-click="openEdit()">Agentur hinzufügen</button>
+						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Agentur hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body agency-edit">
@@ -65,7 +65,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<i ng-if="+row.is_checked" class="ion-checkmark"></i>
 										<span ng-if="!+row.is_checked">-</span>
 									</td>
-									<td data-title="'Bearbeiten'" ng-if="$parent.canEdit()" header-class="'dt-edit'" class="dt-edit">
+									<td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
 										<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 											<i class="ion-edit"></i>
 										</a>
@@ -92,9 +92,8 @@ $this->breadcrumbs = array('Träger Agentur');
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 
-		<div class="row">
 			<form novalidate name="form">
-			<uib-tabset class="row">
+			<uib-tabset>
 				<uib-tab heading="General" active="tabs[0].active" ng-click="tabs[0].active = true">
 					<div ng-class="{'holder-tab': !isInsert}">
 						<div ng-class="isInsert ? 'col-lg-12' : 'col-lg-8'">
@@ -201,7 +200,7 @@ $this->breadcrumbs = array('Träger Agentur');
 									</div>
 									<div class="col-lg-4">
 										<h4>Ansprechperson für Antragsbearbeitung</h4>
-										<ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" ng-model="performer.application_processing_user_id" name="application_processing_user_id">
+										<ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" ng-model="performer.application_processing_user_id" theme="select2" name="application_processing_user_id">
 											<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
 											<ui-select-choices repeat="item.id as item in users | filter: $select.search">
 												<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -220,7 +219,7 @@ $this->breadcrumbs = array('Träger Agentur');
 									</div>
 									<div class="col-lg-4">
 										<h4>Ansprechperson für die Finanzplanbearbeitung</h4>
-										<ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" ng-model="performer.budget_processing_user_id" name="budget_processing_user_id">
+										<ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
 											<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
 											<ui-select-choices repeat="item.id as item in users | filter: $select.search">
 												<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -386,23 +385,23 @@ $this->breadcrumbs = array('Träger Agentur');
 					</div>
 				</uib-tab>
 
-				<uib-tab heading="Benutzer" ng-init="page = 'performer'" ng-if="canView('user')">
+				<uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 'performer'" ng-if="canView('user')">
 					<div class="holder-tab" ng-controller="UserController">
 						<div class="panel-body edit-user agency-tab-user">
 							<div>
 								<div class="col-lg-12">
 									<div class="row datafilter">
-										<form action="#" class="class-form">
-											<div class="col-lg-4">
+										<ng-form class="class-form">
+											<div class="col-lg-3">
 												<div class="form-group">
 													<label>Suche nach Name, Benutzername oder Email</label>
 													<input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control" placeholder="Stichwort eingegeben">
 												</div>
 											</div>
-											<div class="col-lg-3">
+											<div class="col-lg-4">
 												<div class="form-group">
 													<label>Benutzer-Typ</label>
-													<ui-select ng-change="updateGrid()" ng-model="filter.type_id">
+													<ui-select ng-change="updateGrid()" ng-model="filter.type_id" theme="select2">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices repeat="item.id as item in userTypes | filter: $select.search">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -410,10 +409,10 @@ $this->breadcrumbs = array('Träger Agentur');
 													</ui-select>
 												</div>
 											</div>
-											<div class="col-lg-3">
+											<div class="col-lg-4">
 												<div class="form-group">
 													<label>Status</label>
-													<ui-select ng-change="updateGrid()" class="" ng-model="filter.is_active">
+													<ui-select append-to-body="true" ng-change="updateGrid()" class="" ng-model="filter.is_active" theme="select2">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -424,7 +423,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<div class="col-lg-2 reset-btn-width">
 												<button ng-click="resetFilter()" class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
 											</div>
-										</form>
+										</ng-form>
 									</div>
 									<?php require_once(__DIR__.'/partials/users-table.php'); ?>
 								</div>
@@ -434,6 +433,5 @@ $this->breadcrumbs = array('Träger Agentur');
 				</uib-tab>
 			</uib-tabset>
 			</form>
-		</div>
 	</div>
 </script>
