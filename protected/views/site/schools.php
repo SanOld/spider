@@ -5,7 +5,7 @@ $this->breadcrumbs = array('Schule');
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/schools.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/users.js"></script>
 
-<div ng-controller="PerformerController" ng-cloak class="wraper container-fluid">
+<div ng-controller="SchoolController" ng-cloak class="wraper container-fluid">
 	<div class="row">
 		<div class="container center-block">
 			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>

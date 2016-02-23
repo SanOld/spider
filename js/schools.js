@@ -1,4 +1,4 @@
-spi.controller('PerformerController', function($scope, $rootScope, network, GridService, HintService) {
+spi.controller('SchoolController', function($scope, $rootScope, network, GridService, HintService) {
     $rootScope._m = 'school';
     $scope.filter = {};
 
@@ -37,7 +37,7 @@ spi.controller('PerformerController', function($scope, $rootScope, network, Grid
 });
 
 
-spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
+spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.tabs = [{active: true}];
