@@ -12,7 +12,8 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   School, SchoolType,
                   District,
                   Hint,
-                  BankDetails');
+                  BankDetails,
+                  FinanceSource');
 
 class BaseController extends Controller {
   private $method = false;
