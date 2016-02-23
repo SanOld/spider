@@ -3,7 +3,7 @@ spi.controller('FinanceSourceController', function($scope, $rootScope, network, 
     $scope.filter = {};
 
     var grid = GridService();
-    $scope.tableParams = grid('finance_source', $scope.filter, {sorting: {number: 'asc'}});
+    $scope.tableParams = grid('finance_source', $scope.filter, {sorting: {'programm': 'asc'}});
 
     $scope.updateGrid = function() {
         grid.reload();
@@ -29,6 +29,7 @@ spi.controller('EditFinanceSourceController', function ($scope, $uibModalInstanc
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.finances = {};
+    $scope.types = [{'id':'l', 'name': 'LM'}, {'id':'b', 'name': 'BP'}];
 
 
     if(!$scope.isInsert) {
@@ -51,14 +52,14 @@ spi.controller('EditFinanceSourceController', function ($scope, $uibModalInstanc
     
 
     $scope.fieldError = function(field) {
-        var form = $scope.form.formFinances;
+        var form = $scope.formFinances;
         return ($scope.submited || form[field].$touched) && form[field].$invalid;
     };
 
     $scope.submitFormFinances = function () {
         $scope.submited = true;
-        $scope.form.formFinances.$setPristine();
-        if ($scope.form.formFinances.$valid) {
+        $scope.formFinances.$setPristine();
+        if ($scope.formFinances.$valid) {
             var callback = function (result, response) {
                 if (result) {
                     $uibModalInstance.close();
