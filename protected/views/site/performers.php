@@ -95,7 +95,7 @@ $this->breadcrumbs = array('Träger Agentur');
 			<form novalidate name="form">
 			<uib-tabset>
 				<uib-tab heading="General" active="tabs[0].active" ng-click="tabs[0].active = true">
-					<div ng-class="{'holder-tab': !isInsert}">
+					<div ng-class="isInsert ? 'row' : 'holder-tab'">
 						<div ng-class="isInsert ? 'col-lg-12' : 'col-lg-8'">
 							<h3 class="subheading">Allgemeine Information</h3>
 							<hr>
@@ -293,16 +293,14 @@ $this->breadcrumbs = array('Träger Agentur');
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-12">
-						<hr>
-						<div class="group-btn clearfix m-t-20">
-							<div class="pull-left" ng-if="!isInsert">
-								<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
-							</div>
-							<div class="pull-right">
-								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" ng-click="submitFormPerformer()">Speichern</button>
-							</div>
+					<hr>
+					<div class="group-btn clearfix m-t-20">
+						<div class="pull-left" ng-if="!isInsert">
+							<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+						</div>
+						<div class="pull-right">
+							<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+							<button class="btn w-lg custom-btn" ng-click="submitFormPerformer()">Speichern</button>
 						</div>
 					</div>
 				</uib-tab>
@@ -371,16 +369,14 @@ $this->breadcrumbs = array('Träger Agentur');
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-12">
-						<hr>
-						<div class="group-btn clearfix m-t-20">
-							<div class="pull-left" ng-if="!isInsert">
-								<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
-							</div>
-							<div class="pull-right">
-								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" ng-click="submitFormPerformer()">Speichern</button>
-							</div>
+					<hr>
+					<div class="group-btn clearfix m-t-20">
+						<div class="pull-left" ng-if="!isInsert">
+							<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
+						</div>
+						<div class="pull-right">
+							<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+							<button class="btn w-lg custom-btn" ng-click="submitFormPerformer()">Speichern</button>
 						</div>
 					</div>
 				</uib-tab>
