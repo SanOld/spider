@@ -2,6 +2,14 @@ spi.controller('SchoolController', function($scope, $rootScope, network, GridSer
     $rootScope._m = 'school';
     $scope.filter = {};
 
+    if($scope.page) {
+        switch ($scope.page) {
+            case 'district':
+                $scope.filter['district_id'] = $scope.districtId;
+                break;
+        }
+    }
+
     var grid = GridService();
     $scope.tableParams = grid('school', $scope.filter, {sorting: {number: 'asc'}});
 
@@ -19,18 +27,21 @@ spi.controller('SchoolController', function($scope, $rootScope, network, GridSer
         }
     });
 
-    network.get('district', {}, function (result, response) {
-        if(result) {
-            $scope.districts = response.result;
-        }
-    });
+    if(!$scope.page || $scope.page != 'district') {
+        network.get('district', {}, function (result, response) {
+            if(result) {
+                $scope.districts = response.result;
+            }
+        });
+    }
+
 
     $scope.resetFilter = function() {
         $scope.filter = grid.resetFilter();
     };
 
     $scope.openEdit = function (row) {
-        grid.openEditor({data: row, hint: $scope._hint, size: 'width-full', controller: 'EditSchoolController'});
+        grid.openEditor({data: row, hint: $scope._hint, size: 'width-full', controller: 'EditSchoolController', template: 'EditSchoolTemplate.html'});
     };
 
 
@@ -40,11 +51,11 @@ spi.controller('SchoolController', function($scope, $rootScope, network, GridSer
 spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
-    $scope.tabs = [{active: true}];
     $scope.school = {};
 
 
     if(!$scope.isInsert) {
+        $scope.schoolId = data.id;
         $scope.school = {
             name: data.name,
             district_id: data.district_id,
@@ -109,8 +120,6 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
             } else {
                 network.put('school/' + data.id, $scope.school, callback);
             }
-        } else {
-            $scope.tabs[0].active = true;
         }
     };
 
