@@ -62,7 +62,7 @@ $this->breadcrumbs = array('Benutzerliste');
 									</div>
 								</form>
 							</div>
-							<?php require_once(__DIR__.'/partials/users-table.php'); ?>
+							<?php include(Yii::app()->getBasePath().'/views/site/partials/users-table.php'); ?>
 						</div>
 					</div>
 				</div>

@@ -52,7 +52,7 @@ class User extends BaseModel {
       foreach(explode(',', USER_TYPES) as $type) {
         $relation = $this->getRelationByType($type);
         if($relation && safe($relation, 'code')) {
-          $command->leftJoin($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id');
+          $command->leftJoin($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
           $fields[] = "IFNULL(".$relation['prefix'].".name, '')";
         }
       }
@@ -60,6 +60,22 @@ class User extends BaseModel {
         $command->select($this->select_all.", CONCAT(".implode(',', $fields).") relation_name");
       }
 
+    }
+    if (safe($params, 'SCHOOL_ID')) {
+      $type = 's';
+      $relation = $this->getRelationByType($type);
+      if($relation && safe($relation, 'code')) {
+        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
+        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['SCHOOL_ID']));
+      }
+    }
+    if (safe($params, 'DISTRICT_ID')) {
+      $type = 'd';
+      $relation = $this->getRelationByType($type);
+      if($relation && safe($relation, 'code')) {
+        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
+        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['DISTRICT_ID']));
+      }
     }
     return $command;
   }

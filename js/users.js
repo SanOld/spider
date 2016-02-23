@@ -3,9 +3,21 @@ spi.controller('UserController', function($scope, $rootScope, network, GridServi
         $rootScope._m = 'user';
     }
     $scope.filter = {is_active: 1};
-    if($scope.page && $scope.page == 'performer') {
-        $scope.filter['type'] = 't';
+
+    if($scope.page) {
+        switch ($scope.page) {
+            case 'performer':
+                $scope.filter['type'] = 't';
+            break;
+            case 'school':
+                $scope.filter['school_id'] = $scope.schoolId;
+            break;
+            case 'district':
+                $scope.filter['district_id'] = $scope.districtId;
+            break;
+        }
     }
+
     $scope.statuses = [
         {id: 1, name: 'Aktiv'},
         {id: 0, name: 'Deaktivieren'}

@@ -421,7 +421,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											</div>
 										</ng-form>
 									</div>
-									<?php require_once(__DIR__.'/partials/users-table.php'); ?>
+									<?php include(Yii::app()->getBasePath().'/views/site/partials/users-table.php'); ?>
 								</div>
 							</div>
 						</div>
