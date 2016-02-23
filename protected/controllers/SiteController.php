@@ -3,16 +3,17 @@ require_once ('utils/utils.php');
               
 class SiteController extends Controller
 {
-    private $path = array('users'           => array('render' => 'users'),
-                          'user-roles'      => array('render' => 'user-roles'),
-                          'finance-source'  => array('render' => 'finance-source'),
-                          'hints'           => array('render' => 'hints'),
-                          'performers'      => array('render' => 'performers'),
-                          'schools'         => array('render' => 'schools'),
-                          'dashboard'       => array('render' => 'dashboard'),
-                          'forgot-password' => array('render' => 'forgot-password', 'layout' => 'mainWithoutLogin'),
-                          'reset-password'  => array('render' => 'reset-password',  'layout' => 'mainWithoutLogin'),
-                          'index'           => array('render' => 'index',           'layout' => 'mainWithoutLogin'),
+    private $path = array('users'           => array(),
+                          'user-roles'      => array(),
+                          'finance-source'  => array(),
+                          'hints'           => array(),
+                          'performers'      => array(),
+                          'schools'         => array(),
+                          'dashboard'       => array(),
+                          'forgot-password' => array('layout' => 'mainWithoutLogin'),
+                          'reset-password'  => array('layout' => 'mainWithoutLogin'),
+                          'index'           => array('layout' => 'mainWithoutLogin'),
+//                          'index'           => array('render' => 'index',           'layout' => 'mainWithoutLogin'),
                           );
 	/**
 	 * Declares class-based actions.
@@ -51,7 +52,7 @@ class SiteController extends Controller
         if(safe($pageInfo,'layout')) {
           $this->layout = $pageInfo['layout'];
         }
-		$this->render($pageInfo['render']);
+		$this->render(safe($pageInfo,'render',$page));
 	}
 
 	public function actionError()
