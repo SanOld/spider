@@ -1,0 +1,1 @@
+INSERT INTO spi_user_type (`type`, `name`, `default`) VALUES ('t', 'TA (F)', 1)

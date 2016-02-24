@@ -1,24 +1,24 @@
-spi.controller('UserRolesController', function($scope, network, GridService, HintService) {
-    $scope.$parent._m = 'user_type';
+spi.controller('UserRolesController', function($scope, $rootScope, network, GridService, HintService) {
+    $rootScope._m = 'user_type';
     var grid = GridService();
-    $scope.tableParams = grid($scope.$parent._m, $scope.filter, {sorting: {name: 'asc'}});
+    $scope.tableParams = grid('user_type', $scope.filter, {sorting: {name: 'asc'}});
 
     $scope.updateGrid = function() {
         grid.reload();
     };
 
     $scope.openEdit = function (row) {
-        grid.openEditor({data: row, hint: $scope._hint}, function() {
+        grid.openEditor({data: row, hint: $scope._hint, controller: 'EditUserRoleController'}, function() {
             getTypes();
         });
     };
 
-    HintService($scope.$parent._m, function(result) {
+    HintService('user_type', function(result) {
         $scope._hint = result;
     });
 
     function getTypes() {
-        network.get($scope.$parent._m, {}, function(result, response){
+        network.get('user_type', {}, function(result, response){
             if(result) {
                 $scope.tableParams = grid(response.result, {}, {sorting: {name: 'asc'}, count: response.result.length});
             }
@@ -28,8 +28,7 @@ spi.controller('UserRolesController', function($scope, network, GridService, Hin
 });
 
 
-spi.controller('ModalEditController', function ($scope, $uibModalInstance, data, network, GridService) {
-    $scope.$parent._m = 'user_type';
+spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, data, network, GridService) {
     $scope.isInsert = !data.id;
 
     if(!$scope.isInsert) {
@@ -85,10 +84,10 @@ spi.controller('ModalEditController', function ($scope, $uibModalInstance, data,
                 $scope.user_type.rights = $scope.user_right;
             }
             if($scope.isInsert) {
-                network.post($scope.$parent._m, $scope.user_type, callback);
+                network.post('user_type', $scope.user_type, callback);
 
             } else {
-                network.put($scope.$parent._m+'/'+data.id, $scope.user_type, callback);
+                network.put('user_type/'+data.id, $scope.user_type, callback);
             }
         }
     };

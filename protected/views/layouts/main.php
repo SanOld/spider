@@ -100,15 +100,15 @@
 					<div class="form-group">
 						<label class="col-lg-2 control-label">Benutzer-Typ</label>
 
-						<div ng-if="!isInsert" class="col-lg-10">
+						<div ng-if="!isInsert && !isPerformer" class="col-lg-10">
 							<span class="no-edit-text">{{type_name}}</span>
 							<span spi-hint text="_hint.type_id"></span>
 						</div>
 
-						<div ng-if="isInsert" class="col-lg-4 custom-width">
+						<div ng-if="isInsert || isPerformer" class="col-lg-4 custom-width">
 							<span spi-hint text="_hint.type_id"></span>
 							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
-								<ui-select append-to-body="true" ng-change="reloadRelation()" ng-model="user.type_id" theme="select2" name="type_id" required>
+								<ui-select ng-change="reloadRelation()" ng-model="user.type_id" name="type_id" required>
 									<ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
 									<ui-select-choices repeat="type.id as type in userTypes | filter: $select.search">
 										<span ng-bind-html="type.name | highlight: $select.search"></span>
@@ -121,7 +121,7 @@
 						</div>
 
 					</div>
-					<div ng-if="(isInsert && relations.length) || (!isInsert && relation_name)" class="form-group">
+					<div ng-if="(isInsert && isRelation) || (!isInsert && relation_name)" class="form-group">
 						<label class="col-lg-2 control-label">Organisation</label>
 						<div ng-if="!isInsert" class="col-lg-10">
 							<span class="no-edit-text">{{relation_name}}</span>
@@ -131,10 +131,10 @@
 						<div ng-if="isInsert" class="col-lg-10">
 							<span spi-hint text="_hint.relation_id"></span>
 							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('relation_id')}">
-								<ui-select append-to-body="true" ng-model="user.relation_id" theme="select2" name="relation_id" required>
-									<ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
-									<ui-select-choices repeat="relation.id as relation in relations | filter: $select.search">
-										<span ng-bind-html="relation.name | highlight: $select.search"></span>
+								<ui-select ng-disabled="!$select.items.length" ng-model="user.relation_id" name="relation_id" required>
+									<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">{{$select.selected.name}}</ui-select-match>
+									<ui-select-choices repeat="item.id as item in relations | filter: $select.search">
+										<span ng-bind-html="item.name | highlight: $select.search"></span>
 									</ui-select-choices>
 								</ui-select>
 								<span ng-show="fieldError('relation_id')">
@@ -144,7 +144,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" ng-if="!isPerformer">
 						<label class="col-lg-2 control-label two-line">Finanzielle Rechte</label>
 						<div class="col-lg-10">
 							<div ng-if="!isCurrentUser" class="btn-group btn-toggle">

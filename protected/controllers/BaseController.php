@@ -5,15 +5,22 @@ require_once ('utils/responce.php');
 require_once ('utils/auth.php');
 require_once ('utils/email.php');
 
-define('MODELS', 'User,UserType,UserTypeRight,Page,Relation,Performer,School,District,Hint,PagePosition,BankDetails,PerformerDocument');
+define('MODELS', 'User, UserType, UserTypeRight,
+                  Page, PagePosition,
+                  Relation,
+                  Performer, PerformerDocument,
+                  School, SchoolType,
+                  District,
+                  Hint,
+                  BankDetails,
+                  FinanceSource');
 
 class BaseController extends Controller {
   private $method = false;
   private $model;
 
   public function actionIndex() {
-    $models_prot = explode(',', MODELS);
-    $models = explode(',', MODELS);
+    $models = $models_prot = array_map('trim', explode(',', MODELS));
     $models = array_change_case($models);
     if(isset($_GET['model'])) {
       switch($_GET['model']) {

@@ -27,11 +27,11 @@
 				</ul>
 			</li>
 			<li><a href="projects-list.php">Projekte</a></li>
-			<li ng-class="{'active': ['performer'].indexOf(_m) !== -1}" class="dropdown">
+			<li ng-class="{'active': ['performer', 'school'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 				<ul class="dropdown-menu">
 					<li><a href="agency-list.php">Träger Agentur</a></li>
-					<li><a href="schools-list.php">Schule</a></li>
+					<li><a ng-if="canView('school')" href="/schools">Schule</a></li>
 					<li><a href="districts-list.php">Bezirk</a></li>
 				</ul>
 			</li>

@@ -1,7 +1,20 @@
 <?php
-
+require_once ('utils/utils.php');
+              
 class SiteController extends Controller
 {
+    private $path = array('users'           => array(),
+                          'user-roles'      => array(),
+                          'finance-source'  => array(),
+                          'hints'           => array(),
+                          'performers'      => array(),
+                          'schools'         => array(),
+                          'dashboard'       => array(),
+                          'forgot-password' => array('layout' => 'mainWithoutLogin'),
+                          'reset-password'  => array('layout' => 'mainWithoutLogin'),
+                          'index'           => array('layout' => 'mainWithoutLogin'),
+//                          'index'           => array('render' => 'index',           'layout' => 'mainWithoutLogin'),
+                          );
 	/**
 	 * Declares class-based actions.
 	 */
@@ -28,43 +41,18 @@ class SiteController extends Controller
 
 	public function actionIndex()
 	{
-		$this->layout = 'mainWithoutLogin';
-		$this->render('index');
-	}
-
-	public function actionForgotPassword()
-	{
-		$this->layout = 'mainWithoutLogin';
-		$this->render('forgot-password');
-	}
-
-	public function actionResetPassword() {
-		$params = array_change_key_case($_GET, CASE_UPPER);
-		if(!isset($params['RECOVERY_TOKEN']))
-			$this->redirect('/');
-		$this->layout = 'mainWithoutLogin';
-		$this->render('reset-password');
-	}
-
-	public function actionDashboard()
-	{
-		$this->render('dashboard');
-	}
-
-	public function actionUsers() {
-		$this->render('users');
-	}
-
-	public function actionHints() {
-		$this->render('hints');
-	}
-
-	public function actionUserRoles() {
-		$this->render('user-roles');
-	}
-
-	public function actionPerformers() {
-		$this->render('performers');
+        $page = safe($_GET,'page','index');
+        $pageInfo = safe($this->path,$page);
+        
+        if($page == 'reset-password') {
+          $params = array_change_key_case($_GET, CASE_UPPER);
+          if(!isset($params['RECOVERY_TOKEN']))
+            $this->redirect('/');
+        }
+        if(safe($pageInfo,'layout')) {
+          $this->layout = $pageInfo['layout'];
+        }
+		$this->render(safe($pageInfo,'render',$page));
 	}
 
 	public function actionError()

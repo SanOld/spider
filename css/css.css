@@ -557,7 +557,8 @@ table.dataTable thead .sorting_desc:after {
 .fa.fa-trash-o {
 	font-size: 23px;
 }
-.edit-user .datafilter form .col-lg-4 {
+.edit-user .datafilter form .col-lg-4,
+.edit-user .datafilter ng-form .col-lg-4 {
 	width: 24.6%;
 }
 .edit-user .datafilter form .col-lg-3 {
@@ -1438,7 +1439,8 @@ body > .select2-container {
 .dt-width {
 	width: 250px !important;
 }
-.edit-user.agency-tab-user .datafilter form .col-lg-3 {
+.edit-user.agency-tab-user .datafilter form .col-lg-3,
+.edit-user.agency-tab-user .datafilter ng-form .col-lg-3 {
 	width: 33.5%;
 }
 .col-width-type {
