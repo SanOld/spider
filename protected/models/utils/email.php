@@ -16,7 +16,7 @@ class Email {
     $message .= '<br><br>You get access to <a target="_blank" href="'.Yii::app()->getBaseUrl(true).'">SPIder</a>.';
     $message .= '<br>Login: '.$user['login'];
     $message .= '<br>Password: '.$user['password'];
-    return self::send($user['email'], self::$from, 'Welcome to SPIder', $message);
+    return self::send($user['email'], self::$from, 'Welcome to SPIder', $message, '', false);
   }
 
   static function send($to, $from, $subject, $message, $frwd = '', $showResults = true, $addAttachment = false) {
