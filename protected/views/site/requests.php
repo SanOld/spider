@@ -1,0 +1,227 @@
+<?php
+
+$this->pageTitle = 'Anträge | ' . Yii::app()->name;
+$this->breadcrumbs = array('Anträge');
+
+?>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/requests.js"></script>
+
+<div ng-controller="RequestController" class="wraper container-fluid" ng-cloak>
+	<div class="row">
+		<div class="container center-block">
+			<div class="panel panel-default">
+				<div class="panel-heading clearfix">
+					<h1 class="panel-title col-lg-6">Anträge</h1>
+					<div class="pull-right heading-box-print">
+						<a href="javascript:window.print()" title="Drucken">Drucken <i class="ion-printer"></i></a>
+<!--						<button class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>-->
+					</div>
+				</div>
+				<div class="panel-body request-edit">
+					<div class="row datafilter">
+						<form>
+							<div class="col-lg-3 col1">
+								<div class="form-group">
+									<label>Träger</label>
+									<ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
+										<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="item.id as item in performers | filter: $select.search">
+											<span ng-bind="item.name"></span>
+										</ui-select-choices>
+									</ui-select>
+								</div>
+							</div>
+							<div class="col-lg-2">
+								<div class="form-group">
+									<div class="form-group">
+										<label>Fördertopf</label>
+										<ui-select ng-change="updateGrid()" ng-model="filter.finance_type">
+											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+											<ui-select-choices repeat="item.id as item in financeTypes | filter: $select.search">
+												<span ng-bind="item.name"></span>
+											</ui-select-choices>
+										</ui-select>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-2">
+								<div class="form-group">
+									<div class="form-group">
+										<label>Programm</label>
+										<ui-select ng-change="updateGrid()" ng-model="filter.program_id">
+											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.programm}}</ui-select-match>
+											<ui-select-choices repeat="item.id as item in programs | filter: $select.search">
+												<span ng-bind="item.programm"></span>
+											</ui-select-choices>
+										</ui-select>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-1">
+								<div class="form-group">
+									<div class="form-group">
+										<label>Jahr</label>
+										<ui-select ng-change="updateGrid()" ng-model="filter.year">
+											<ui-select-match>{{$select.selected}}</ui-select-match>
+											<ui-select-choices repeat="item as item in years | filter: $select.search">
+												<span ng-bind="item"></span>
+											</ui-select-choices>
+										</ui-select>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-2">
+								<div class="form-group">
+									<div class="form-group">
+										<label>Status</label>
+										<ui-select ng-change="updateGrid()" ng-model="filter.status_id">
+											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+											<ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
+												<span ng-bind="item.name"></span>
+											</ui-select-choices>
+										</ui-select>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-2 reset-btn-width">
+								<button ng-click="resetFilter()" class="btn pull-right w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
+							</div>
+						</form>
+					</div>
+<!--					<div class="overview">-->
+<!--						<h2>Statusüberblick</h2>-->
+<!--						<div class="box-overview">-->
+<!--							<a href="#">-->
+<!--								<span>In Bearbeitung</span>-->
+<!--								<strong>253</strong>-->
+<!--							</a>-->
+<!--						</div>-->
+<!--						<div class="box-overview">-->
+<!--							<a href="#">-->
+<!--								<span>Empfangen</span>-->
+<!--								<strong>2</strong>-->
+<!--							</a>-->
+<!--						</div>-->
+<!--						<div class="box-overview">-->
+<!--							<a href="#">-->
+<!--								<span>Zurücksendet</span>-->
+<!--								<strong>0</strong>-->
+<!--							</a>-->
+<!--						</div>-->
+<!--						<div class="box-overview">-->
+<!--							<a href="#">-->
+<!--								<span>Berechtigt</span>-->
+<!--								<strong>0</strong>-->
+<!--							</a>-->
+<!--						</div>-->
+<!--						<div class="box-overview">-->
+<!--							<a href="#">-->
+<!--								<span>Genehmigt</span>-->
+<!--								<strong>3</strong>-->
+<!--							</a>-->
+<!--						</div>-->
+<!--						<div class="box-overview">-->
+<!--							<a href="#">-->
+<!--								<span>Ge­samt­zahl</span>-->
+<!--								<strong>258</strong>-->
+<!--							</a>-->
+<!--						</div>-->
+<!--					</div>-->
+					<div class="row">
+						<div class="col-lg-12">
+
+							<table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
+								<tr ng-repeat="row in $data" ng-class="{'accept-row': row.status_code == 'a', 'acceptable-row': row.status_code == 'b', 'inprogress-row': row.status_code == 'p', 'decline-row':  row.status_code == 'd'}">
+									<td header="'headerCheckbox.html'">
+										<label class="cr-styled">
+											<input type="checkbox" ng-model="checkboxes.items[row.id]">
+											<i class="fa"></i>
+										</label>
+									</td>
+									<td data-title="'Kennziffer'" sortable="'code'">{{row.code}}</td>
+									<td data-title="'Träger'" sortable="'performer_name'">{{row.performer_name}}</td>
+									<td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
+									<td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
+									<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
+									<td data-title="'Prüfstatus'">
+                    <div class="col-lg-4">
+                      <a class="request-button edit-btn" href="/order#tab_finance" title="Finanzplan">
+                        <span class="cell-finplan select-decline"></span>
+                      </a>
+                    </div>
+                    <div class="col-lg-4">
+                      <a class="request-button edit-btn" href="/order#tab_concepts" title="Schulkonzept">
+                        <span class="cell-finplan select-decline"></span>
+                      </a>
+                    </div>
+                    <div  class="col-lg-4">
+                      <a class="request-button edit-btn" href="/order#tab_schools-goals" title="Entwicklungsziele">
+                        <span class="cell-finplan select-decline"></span>
+                      </a>
+                    </div>
+                  </td>
+									<td data-title="'Abgabe'" sortable="'due_date'">{{row.due_date_unix | date : 'dd.MM.yyyy'}}</td>
+									<td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change_unix | date : 'dd.MM.yyyy'}}</td>
+									<td data-title="'Ansicht / Bearbeiten'">
+										<a ng-if="row.status_code == 'a' || row.status_code == 'b'" class="btn document" href="" ng-click="openPrint(row)" title="Drucken"><i class="ion-printer"></i></a>
+										<a ng-if="canEdit()" class="btn edit-btn" href="order?id={{row.id}}" title="Bearbeiten">
+											<i class="ion-edit"></i>
+										</a>
+									</td>
+								</tr>
+							</table>
+
+							<div class="btn-row m-t-15 clearfix">
+								<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Druck-Template wählen</button>
+								<button class="btn m-b-5" data-target="#modal-3" data-toggle="modal">Laufzeit festlegen</button>
+								<button class="btn m-b-5">Förderfähig</button>
+								<button class="btn m-b-5">Genehmigung</button>
+								<button class="btn m-b-5 pull-right">Folgeantrag hinzufügen</button>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix">
+						<div class="notice" ng-repeat="status in statuses">
+							<span class="color-notice" ng-class="{'open': status.code == 'o', 'decline-row': status.code == 'd', 'inprogress-row': status.code == 'p', 'acceptable-row': status.code == 'b', 'accept-row': status.code == 'a'}"></span>
+							{{status.name}}
+						</div>
+					</div>
+					<div class="clearfix square-legend">
+						<div class="notice">
+							<div class="legends">
+								<span class="cell-finplan select"></span>
+								<span class="cell-concept select"></span>
+								<span class="cell-school select"></span>
+							</div>
+							In Bearbeitung
+						</div>
+						<div class="notice">
+							<div class="legends">
+								<span class="cell-finplan"></span>
+								<span class="cell-concept"></span>
+								<span class="cell-school"></span>
+							</div>
+							Förderfähig
+						</div>
+						<div class="notice">
+							<div class="legends">
+								<span class="cell-finplan select-decline"></span>
+								<span class="cell-concept select-decline"></span>
+								<span class="cell-school select-decline"></span>
+							</div>
+							Abgelehnt
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- End Row -->
+</div>
+
+
+<script type="text/ng-template" id="headerCheckbox.html">
+	<label class="cr-styled">
+		<input type="checkbox" ng-model="checkboxes.checked" ng-click="headerChecked(checkboxes.checked)">
+		<i class="fa"></i>
+	</label>
+</script>
