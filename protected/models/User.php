@@ -1,5 +1,6 @@
 <?php
 require_once ('utils/utils.php');
+require_once ('utils/email.php');
 
 
 class User extends BaseModel {
@@ -222,6 +223,13 @@ class User extends BaseModel {
         'result' => true,
         'params' => $post 
     );
+  }
+
+  protected function doAfterInsert($result, $params, $post) {
+    if($result['result']) {
+      Email::doWelcome($params);
+    }
+    return $result;
   }
 
 
