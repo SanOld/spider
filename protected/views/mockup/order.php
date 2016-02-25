@@ -1927,8 +1927,49 @@
 																	<h4 class="m-t-40">Umsetzung</h4>
 																	<textarea class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
 																	<h4 class="m-t-40">Indikatoren und Zielwerte</h4>
-																	<p>Formulierung von Indikatoren und Zielwerten zur Messung der Zielerreichung</p>
-																	<textarea placeholder="Tragen Sie den Text hier ein here" class="form-control"></textarea>
+																	<p class="">Formulierung von Indikatoren und Zielwerten zur Messung der Zielerreichung</p>
+																	<div class="form-horizontal m-t-15">
+																		<div class="form-group">
+																			<label class="col-lg-1 control-label">
+																				1.
+																			</label>
+																			<div class="col-lg-11">
+																				<input type="text" value="" class="form-control">
+																			</div>
+																		</div>
+																		<div class="form-group">
+																			<label class="col-lg-1 control-label">
+																				2.
+																			</label>
+																			<div class="col-lg-11">
+																				<input type="text" value="" class="form-control">
+																			</div>
+																		</div>
+																		<div class="form-group">
+																			<label class="col-lg-1 control-label">
+																				3.
+																			</label>
+																			<div class="col-lg-11">
+																				<input type="text" value="" class="form-control">
+																			</div>
+																		</div>
+																		<div class="form-group">
+																			<label class="col-lg-1 control-label">
+																				4.
+																			</label>
+																			<div class="col-lg-11">
+																				<input type="text" value="" class="form-control">
+																			</div>
+																		</div>
+																		<div class="form-group">
+																			<label class="col-lg-1 control-label">
+																				5.
+																			</label>
+																			<div class="col-lg-11">
+																				<input type="text" value="" class="form-control">
+																			</div>
+																		</div>
+																	</div>
 																	<hr />
 																	<div class="row">
 																		<div class="col-lg-9">
