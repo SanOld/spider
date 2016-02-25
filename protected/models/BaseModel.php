@@ -433,8 +433,24 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
+
+  function isExistsField($fieldName) {
+    foreach($this->getAllTableFields() as $field) {
+      if($field['colname'] == $fieldName) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   function setOrder($command, $get) {
     if(safe($get, 'order')) {
+//      if(!$this->isExistsField($get['order'])) {
+//        response ( '409', array (
+//          'result' => false,
+//          'system_code' => 'ERR_INVALID_FIELD_ORDER'
+//        ), $this->method );
+//      }
       $direction = safe($get, 'direction', 'ASC');
       $command->order($get['order'].' '.$direction);
     }
