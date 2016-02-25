@@ -83,12 +83,15 @@ $this->breadcrumbs = array('Bezirk');
                   <div class="m-b-15 clearfix">
                     <label class="col-lg-2 control-label">Name</label>
 
-                    <div class="col-lg-10" ng-class="{'wrap-line error': fieldError('name')}">
-                      <input name="name" ng-model="district.name" class="form-control" type="text" value="" required>
-                      <span ng-show="fieldError('name')">
-                      <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required.</label>
-                      <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                      </span>
+                    <div class="col-lg-10">
+                      <div spi-hint text="_hint.name" class="has-hint"></div>
+                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
+                        <input name="name" ng-model="district.name" class="form-control" type="text" value="" required>
+                        <span ng-show="fieldError('name')">
+                        <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required.</label>
+                        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div class="clearfix">
@@ -97,21 +100,30 @@ $this->breadcrumbs = array('Bezirk');
                         <label class="col-lg-4 control-label">Adresse</label>
 
                         <div class="col-lg-8">
-                          <textarea name="address" ng-model="district.address" class="form-control"></textarea>
+                          <div spi-hint text="_hint.address" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <textarea name="address" ng-model="district.address" class="form-control"></textarea>
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-lg-4 control-label">PLZ</label>
 
                         <div class="col-lg-8">
-                          <input name="plz" ng-model="district.plz" type="text" value="" class="form-control">
+                          <div spi-hint text="_hint.plz" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <input name="plz" ng-model="district.plz" type="text" value="" class="form-control">
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-lg-4 control-label">Stadt</label>
 
                         <div class="col-lg-8">
-                          <input name="city" ng-model="district.city" type="text" value="" class="form-control">
+                          <div spi-hint text="_hint.city" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <input name="city" ng-model="district.city" type="text" value="" class="form-control">
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -121,42 +133,54 @@ $this->breadcrumbs = array('Bezirk');
                         <label class="col-lg-3 control-label">Telefon</label>
 
                         <div class="col-lg-9">
-                          <input name="phone" ng-model="district.phone" type="tel" value="" class="form-control"
-                                 ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                          <div spi-hint text="_hint.phone" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <input name="phone" ng-model="district.phone" type="tel" value="" class="form-control"
+                                   ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Fax</label>
 
                         <div class="col-lg-9">
-                          <input name="fax" ng-model="district.fax" type="tel" value="" class="form-control"
-                                 ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                          <div spi-hint text="_hint.fax" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <input name="fax" ng-model="district.fax" type="tel" value="" class="form-control"
+                                   ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Email</label>
 
-                        <div class="col-lg-9" ng-class="{'wrap-line error': fieldError('email')}">
-                          <input name="email" ng-model="district.email" type="email" value="" class="form-control">
-                          <span ng-show="fieldError('email')">
-                          <label ng-show="form.formDistrict.email.$error.email" class="error">Enter a valid
-                            email.</label>
-                          <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                          </span>
+                        <div class="col-lg-9">
+                          <div spi-hint text="_hint.email" class="has-hint"></div>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
+                            <input name="email" ng-model="district.email" type="email" value="" class="form-control">
+                            <span ng-show="fieldError('email')">
+                            <label ng-show="form.formDistrict.email.$error.email" class="error">Enter a valid
+                              email.</label>
+                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Webseite</label>
 
-                        <div class="col-lg-9" ng-class="{'wrap-line error': fieldError('homepage')}">
-                          <input name="homepage" ng-model="district.homepage" type="text" value=""
-                                 ng-pattern="/^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/"
-                                 class="form-control">
-                          <span ng-show="fieldError('homepage')">
-                          <label ng-show="form.formDistrict.homepage.$error.pattern" class="error">Enter a valid
-                            webseite.</label>
-                          <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                          </span>
+                        <div class="col-lg-9">
+                          <div spi-hint text="_hint.homepage" class="has-hint"></div>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('homepage')}">
+                            <input name="homepage" ng-model="district.homepage" type="text" value=""
+                                   ng-pattern="/^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/"
+                                   class="form-control">
+                            <span ng-show="fieldError('homepage')">
+                              <label ng-show="form.formDistrict.homepage.$error.pattern" class="error">Enter a valid
+                                webseite.</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -164,15 +188,18 @@ $this->breadcrumbs = array('Bezirk');
                 </div>
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
                   <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
-                  <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(district.contact_id)"
-                             ng-model="district.contact_id" name="contact_id">
-                    <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">
-                      {{$select.selected.name}}
-                    </ui-select-match>
-                    <ui-select-choices repeat="item.id as item in users | filter: $select.search">
-                      <span ng-bind-html="item.name | highlight: $select.search"></span>
-                    </ui-select-choices>
-                  </ui-select>
+                  <div spi-hint text="_hint.contact_id" class="has-hint"></div>
+                  <div class="wrap-hint">
+                    <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(district.contact_id)"
+                               ng-model="district.contact_id" name="contact_id">
+                      <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">
+                        {{$select.selected.name}}
+                      </ui-select-match>
+                      <ui-select-choices repeat="item.id as item in users | filter: $select.search">
+                        <span ng-bind-html="item.name | highlight: $select.search"></span>
+                      </ui-select-choices>
+                    </ui-select>
+                  </div>
                   <dl ng-if="contactUser">
                     <dt>Funktion</dt>
                     <dd ng-bind="contactUser.function || '-'"></dd>

@@ -49,7 +49,8 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<div class="form-group custom-field row clearfix">
 						<div class="form-group col-lg-6">
 							<label>Benutzer-Typ</label>
-							<div ng-class="{'wrap-line error': fieldError('user_type_name')}">
+              <div spi-hint text="_hint.name" class="has-hint"></div>
+							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('user_type_name')}">
               	<input class="form-control" placeholder="Benutzerdefinierter Typ" name="user_type_name" ng-model="user_type.name" type="text" value="" ng-minlength="2" ng-maxlength="255" required>
 								<span ng-show="fieldError('user_type_name')">
 									<label ng-show="form.user_type_name.$error.required" class="error">Type name is required.</label>
@@ -61,9 +62,17 @@ $this->breadcrumbs = array('Benutzerrollen');
             </div>
 						<div class="form-group col-lg-6">
 							<label>Organisationstyp</label>
-							<select ng-if="isInsert" name="user_type_type" ng-model="user_type.type" class="type-user form-control" ng-options="r.id as r.name for r in relations"></select>
-              <div ng-if="!isInsert" ng-bind="relation_name"></div>
-						</div>
+              <div>
+                <span ng-if="!isInsert" ng-bind="relation_name"></span>
+                <span spi-hint text="_hint.type" class="has-hint"></span>
+                <div ng-if="isInsert" class="wrap-hint">
+                  <select  name="user_type_type" ng-model="user_type.type" class="type-user form-control" ng-options="r.id as r.name for r in relations"></select>
+                </div>
+
+              </div>
+
+
+            </div>
 					</div>
 
           <table id="datatable-edit-roles" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered text-center">

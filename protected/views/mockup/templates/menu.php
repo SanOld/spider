@@ -31,8 +31,8 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 								<ul class="dropdown-menu">
 									<li><a href="agency-list.php">Träger Agentur</a></li>
-									<li><a href="schools-list.php">Schule</a></li>
-									<li><a href="districts-list.php">Bezirk</a></li>
+									<li><a href="/schools">Schule</a></li>
+									<li><a href="/districts">Bezirk</a></li>
 								</ul>
 							</li>
 							<li ng-class="{'active': ['hint'].indexOf(_m) !== -1}" class="dropdown">
