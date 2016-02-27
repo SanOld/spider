@@ -1,168 +1,177 @@
-spi.controller('main', function($scope, $rootScope, network, GridService, localStorageService) {
-    $scope._r = localStorageService.get('rights');
-    $rootScope.canView = function(model) {
-        model = model || $rootScope._m;
-        return !model || !$scope._r[model] ? 1 : $scope._r[model].view;
-    };
+spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService) {
+  $scope._r = localStorageService.get('rights');
+  $rootScope.canView = function (model) {
+    model = model || $rootScope._m;
+    return !model || !$scope._r[model] ? 1 : $scope._r[model].view;
+  };
 
-    $rootScope.canEdit = function(model) {
-        model = model || $rootScope._m;
-        return !model || !$scope._r[model] ? 1 : $scope._r[model].edit;
-    };
+  $rootScope.canEdit = function (model) {
+    model = model || $rootScope._m;
+    return !model || !$scope._r[model] ? 1 : $scope._r[model].edit;
+  };
 
 
-    $scope.isLogin = network.isLogined();
-    if($scope.isLogin) {
-        $scope.user = network.user;
-    } else {
-        window.location = '/'
-    }
+  $scope.isLogin = network.isLogined();
+  if ($scope.isLogin) {
+    $scope.user = network.user;
+  } else {
+    window.location = '/'
+  }
 
-    $scope.logout = function(){
-        network.logout();
-    };
-    network.onLogout = function(){
-        window.location = '/'
-    };
+  $scope.logout = function () {
+    network.logout();
+  };
+  network.onLogout = function () {
+    window.location = '/'
+  };
 
-    $scope.openEdit = function () {
-        GridService().openEditor({
-            data: $scope.user,
-            controller: 'UserEditController',
-            template: 'editUserTemplate.html'
-        }, function(){
-            $scope.user = network.user;
-        });
+  $scope.openEdit = function () {
+    GridService().openEditor({
+      data: $scope.user,
+      controller: 'UserEditController',
+      template: 'editUserTemplate.html'
+    }, function () {
+      $scope.user = network.user;
+    });
 
-    };
+  };
 
 });
 
-spi.controller('UserEditController', function ($scope, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils) {
-    $scope.model = 'user';
-    $scope.isInsert = true;
+spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils) {
+  $scope.model = 'user';
+  $scope.isInsert = true;
+  $scope.user = {
+    is_active: 1,
+    is_finansist: 0,
+    sex: 1
+  };
+
+  if (!hint) {
+    HintService($scope.model, function (result) {
+      $scope._hint = result;
+    });
+  } else {
+    $scope._hint = hint;
+  }
+
+  if (data.id) {
+    $scope.isInsert = false;
+    $scope.userId = data.id;
+    $scope.curentPassword = localStorageService.get('password');
+    $scope.type_name = data.type_name;
+    $scope.relation_name = data.relation_name;
     $scope.user = {
-        is_active: 1,
-        is_finansist: 0,
-        sex: 1
+      is_active: +data.is_active,
+      is_finansist: +data.is_finansist,
+      sex: +data.sex,
+      title: data.title,
+      function: data.function,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      login: data.login,
+      email: data.email,
+      phone: data.phone,
+      type_id: data.type_id
     };
+    $scope.isCurrentUser = network.user.id == data.id;
+    $scope.isPerformer = data.type == 't';
+  }
+  if (!data.id || $scope.isPerformer) {
+    network.get('user_type', angular.merge({filter: 1}, $scope.isPerformer ? {type: 't'} : {}), function (result, response) {
+      if (result) {
+        $scope.userTypes = response.result;
+      }
+    });
+  }
 
-    if(!hint) {
-        HintService($scope.model, function(result) {
-            $scope._hint = result;
-        });
-    } else {
-        $scope._hint = hint;
+  $scope.reloadRelation = function () {
+    $scope.relations = [];
+    var type = Utils.getRowById($scope.userTypes, $scope.user.type_id);
+    $scope.isRelation = type && type.relation_code;
+    $scope.isPerformer = type && type.type == 't';
+    if ($scope.isRelation) {
+      $scope.isRelation = true;
+      network.get(type.relation_code, {}, function (result, response) {
+        if (result) {
+          $scope.relations = response.result;
+        }
+      });
     }
+  };
 
-    if(data.id) {
-        $scope.isInsert = false;
-        $scope.userId = data.id;
-        $scope.curentPassword = localStorageService.get('password');
-        $scope.type_name = data.type_name;
-        $scope.relation_name = data.relation_name;
-        $scope.user = {
-            is_active: +data.is_active,
-            is_finansist: +data.is_finansist,
-            sex: +data.sex,
-            title: data.title,
-            function: data.function,
-            first_name: data.first_name,
-            last_name: data.last_name,
-            login: data.login,
-            email: data.email,
-            phone: data.phone,
-            type_id: data.type_id
-        };
-        $scope.isCurrentUser = network.user.id == data.id;
-        $scope.isPerformer = data.type == 't';
-    }
-    if(!data.id || $scope.isPerformer) {
-        network.get('user_type', $scope.isPerformer ? {type: 't'} : {}, function (result, response) {
-            if(result) {
-                $scope.userTypes = response.result;
-            }
-        });
-    }
+  $scope.fieldError = function (field) {
+    return (($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid) || ($scope.error && $scope.error[field] != undefined && $scope.form[field].$pristine);
+  };
 
-    $scope.reloadRelation = function() {
-        $scope.relations = [];
-        var type = Utils.getRowById($scope.userTypes, $scope.user.type_id);
-        $scope.isRelation = type && type.relation_code;
-        $scope.isPerformer = type && type.type == 't';
-        if($scope.isRelation) {
-            $scope.isRelation = true;
-            network.get(type.relation_code, {}, function (result, response) {
-                if(result) {
-                    $scope.relations = response.result;
-                }
+  $scope.submitForm = function (formData) {
+    $scope.error = false;
+    $scope.submited = true;
+    $scope.form.$setPristine();
+    if ($scope.form.$valid && isCurrentValid()) {
+      var callback = function (result, response) {
+        if (result) {
+          if ($scope.isCurrentUser) {
+            network.reconnect(function () {
+              $uibModalInstance.close();
             });
+          } else {
+            $uibModalInstance.close();
+          }
+        } else {
+          setError(response.system_code);
         }
-    };
-
-    $scope.fieldError = function(field) {
-        return (($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid) || ($scope.error && $scope.error[field] != undefined && $scope.form[field].$pristine);
-    };
-
-    $scope.submitForm = function (formData) {
-        $scope.error = false;
-        $scope.submited = true;
-        $scope.form.$setPristine();
-        if ($scope.form.$valid && isCurrentValid()) {
-            var callback = function (result, response) {
-                if(result) {
-                    if($scope.isCurrentUser) {
-                        network.reconnect(function() {
-                            $uibModalInstance.close();
-                        });
-                    } else {
-                        $uibModalInstance.close();
-                    }
-                } else {
-                    setError(response.system_code);
-                }
-                $scope.submited = false;
-            };
-            if($scope.isInsert) {
-                network.post($scope.model, formData, callback);
-            } else {
-                network.put($scope.model+'/'+data.id, formData, callback);
-            }
-        }
-    };
-
-    $scope.remove = function(id) {
-        network.delete('user/'+id, function (result) {
-            if(result) {
-                $uibModalInstance.close();
-            }
-        });
-    };
-
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-
-    function isCurrentValid() {
-        if(!$scope.isCurrentUser) {
-            return true;
-        } else if(!$scope.form.password.$viewValue) {
-            return true
-        }
-        return $scope.form.old_password.$viewValue == $scope.curentPassword;
+        $scope.submited = false;
+      };
+      if ($scope.isInsert) {
+        network.post($scope.model, formData, callback);
+      } else {
+        network.put($scope.model + '/' + data.id, formData, callback);
+      }
     }
+  };
 
-    function setError(code) {
-        var result = false;
-        switch (code) {
-            case 'ERR_DUPLICATED':
-                result = {login: {dublicate: true}};
-                break;
-            case 'ERR_DUPLICATED_EMAIL':
-                result = {email: {dublicate: true}};
-                break;
-        }
-        $scope.error = result;
+  $scope.remove = function (id) {
+    network.delete('user/' + id, function (result) {
+      if (result) {
+        $uibModalInstance.close();
+      }
+    });
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+  function isCurrentValid() {
+    if (!$scope.isCurrentUser) {
+      return true;
+    } else if (!$scope.form.password.$viewValue) {
+      return true
     }
+    return $scope.form.old_password.$viewValue == $scope.curentPassword;
+  }
+
+  function setError(code) {
+    var result = false;
+    switch (code) {
+      case 'ERR_DUPLICATED':
+        result = {login: {dublicate: true}};
+        break;
+      case 'ERR_DUPLICATED_EMAIL':
+        result = {email: {dublicate: true}};
+        break;
+    }
+    $scope.error = result;
+  }
+
+  $scope.canDelete = function() {
+    return $rootScope.canEdit() && network.userIsPA;
+  };
+
+  $scope.canEdit = function() {
+    return $scope.isCurrentUser || ($rootScope.canEdit() && !(network.userIsPA && data.type_id == 1));
+  };
+
 
 });

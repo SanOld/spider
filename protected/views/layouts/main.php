@@ -80,7 +80,7 @@
     <h3 class="subheading">Benutzerinformation</h3>
     <hr>
     <div class="panel-body">
-      <form novalidate class="form-horizontal" method="post" name="form">
+      <form novalidate class="form-horizontal" name="form" disable-all="!canEdit()">
         <div class="form-group">
           <label class="col-lg-2 control-label">Status</label>
 
@@ -100,12 +100,12 @@
         <div class="form-group">
           <label class="col-lg-2 control-label">Benutzer-Typ</label>
 
-          <div ng-if="!isInsert && !isPerformer" class="col-lg-10">
+          <div ng-if="isCurrentUser || (!isInsert && !isPerformer)" class="col-lg-10">
             <span class="no-edit-text">{{type_name}}</span>
             <span spi-hint text="_hint.type_id"></span>
           </div>
 
-          <div ng-if="isInsert || isPerformer" class="col-lg-4 custom-width">
+          <div ng-if="!isCurrentUser && (isInsert || isPerformer)" class="col-lg-4 custom-width">
             <div spi-hint text="_hint.type_id" class="has-hint"></div>
 
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
@@ -209,7 +209,7 @@
             </div>
             <div class="form-group has-feedback">
               <label class="col-lg-4 control-label" for="first_name">Vorname</label>
-              <div class="col-lg-8" ng-class="{'wrap-line error': fieldError('first_name')}">
+              <div class="col-lg-8">
                 <div spi-hint text="_hint.first_name" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('first_name')}">
                   <input class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name"
@@ -293,7 +293,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" ng-if="isCurrentUser || canEdit()">
           <div class="form-custom-box clearfix">
             <div class="col-lg-12">
               <h4>Passwort</h4>
@@ -341,13 +341,13 @@
           </div>
         </div>
         <div class="form-group group-btn">
-          <div class="col-lg-2" ng-if="!isInsert && !isCurrentUser">
+          <div class="col-lg-2" ng-if="!isInsert && !isCurrentUser && canDelete()">
             <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove(userId)"><i
                 class="fa fa-trash-o"></i></a>
           </div>
           <div class="col-lg-6 text-right pull-right">
             <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-            <button class="btn w-lg custom-btn" ng-click="submitForm(user)">Speichern</button>
+            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitForm(user)">Speichern</button>
           </div>
         </div>
       </form>

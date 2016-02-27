@@ -64,8 +64,8 @@ class UserType extends BaseModel {
     if(safe($post, 'rights') && $result['code'] == '200' && safe($result, 'id')) {
       foreach($post['rights'] as $right) {
         Yii::app ()->db->createCommand()->insert('spi_user_type_right', array(
-          'type_id' => $result['id'],
-          'page_id' => $right['page_id'],
+          'type_id'  => $result['id'],
+          'page_id'  => $right['page_id'],
           'can_view' => $right['can_view'],
           'can_edit' => $right['can_edit'],
         ));
@@ -143,6 +143,21 @@ class UserType extends BaseModel {
     return array(
         'result' => true 
     );
+  }
+
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        return true;
+      case ACTION_UPDATE:
+      case ACTION_INSERT:
+      case ACTION_DELETE:
+        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
+          return true;
+        }
+        break;
+    }
+    return false;
   }
 
 

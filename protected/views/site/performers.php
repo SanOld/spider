@@ -14,7 +14,7 @@ $this->breadcrumbs = array('Träger Agentur');
 					<h1 class="panel-title col-lg-6">Träger Agentur</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Agentur hinzufügen</button>
+						<button class="btn w-lg custom-btn" ng-if="canCreate()" ng-click="openEdit()">Agentur hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body agency-edit">
@@ -65,7 +65,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<i ng-if="+row.is_checked" class="ion-checkmark"></i>
 										<span ng-if="!+row.is_checked">-</span>
 									</td>
-									<td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
+									<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
 										<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 											<i class="ion-edit"></i>
 										</a>
@@ -96,10 +96,10 @@ $this->breadcrumbs = array('Träger Agentur');
 			<uib-tabset>
 				<uib-tab heading="General" active="tabs[0].active" ng-click="tabs[0].active = true">
 					<div ng-class="isInsert ? 'row' : 'holder-tab'">
-						<div ng-class="isInsert ? 'col-lg-12' : 'col-lg-8'">
+						<div ng-class="isInsert || !isFinansist ? 'col-lg-12' : 'col-lg-8'">
 							<h3 class="subheading">Allgemeine Information</h3>
 							<hr>
-							<ng-form name="formPerformer" class="form-horizontal">
+							<ng-form name="formPerformer" class="form-horizontal" disable-all="!canEdit()">
 								<div class="address-row">
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Kurzname</label>
@@ -275,13 +275,13 @@ $this->breadcrumbs = array('Träger Agentur');
 								</div>
 							</ng-form>
 						</div>
-						<div class="col-lg-4" ng-if="!isInsert">
+						<div class="col-lg-4" ng-if="!isInsert && isFinansist">
 							<div class="heading-button clearfix m-b-15">
 								<h3 class="subheading pull-left">Bankverbindungen</h3>
 								<button ng-show="!performer.bank_details_id" ng-click="showBankDetails = 1" class="btn w-md custom-btn pull-right" type="button">Neu</button>
 							</div>
 							<div class="form-custom-box bank-details m-0" ng-show="showBankDetails">
-								<ng-form name="formBank" class="form-horizontal">
+								<ng-form name="formBank" class="form-horizontal" disable-all="!canEditBankInfo()">
 									<div class="heading-bank clearfix m-b-15">
 										<h4 class="pull-left">Bankverbindungen</h4>
 										<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
@@ -336,9 +336,9 @@ $this->breadcrumbs = array('Träger Agentur');
 										</div>
 									</div>
 									<div class="pull-right">
-										<button class="btn btn-icon btn-danger btn-lg sweet-4" ng-if="performer.bank_details_id" ng-click="removeBankDetails(performer.bank_details_id)" id="sa-warning"><i class="fa fa-trash-o"></i></button>
-										<button class="btn w-sm cancel-btn" ng-if="!performer.bank_details_id" ng-click="$parent.showBankDetails = 0; $parent.bank_details = {}">Löschen</button>
-										<button class="btn w-sm custom-btn" ng-click="saveBankDetails(bank_details)">Hinzufügen</button>
+										<button class="btn btn-icon btn-danger btn-lg sweet-4" ng-if="performer.bank_details_id && canEditBankInfo()" ng-click="removeBankDetails(performer.bank_details_id)" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+										<button class="btn w-sm cancel-btn" ng-if="!performer.bank_details_id && canEditBankInfo()" ng-click="$parent.showBankDetails = 0; $parent.bank_details = {}">Löschen</button>
+										<button class="btn w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank_details)">Hinzufügen</button>
 									</div>
 								</ng-form>
 							</div>
@@ -346,12 +346,12 @@ $this->breadcrumbs = array('Träger Agentur');
 					</div>
 					<hr>
 					<div class="group-btn clearfix m-t-20">
-						<div class="pull-left" ng-if="!isInsert">
+						<div class="pull-left" ng-if="!isInsert && canDelete()">
 							<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
 						</div>
 						<div class="pull-right">
 							<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-							<button class="btn w-lg custom-btn" ng-click="submitFormPerformer()">Speichern</button>
+							<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitFormPerformer()">Speichern</button>
 						</div>
 					</div>
 				</uib-tab>
@@ -359,6 +359,7 @@ $this->breadcrumbs = array('Träger Agentur');
 				<uib-tab heading="Profil" active="tabs[1].active" ng-click="tabs[1].active = true">
 					<div class="holder-tab">
 						<div class="panel-body">
+              <span disable-all="!canEdit()">
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Selbstdarstellung</label>
@@ -383,11 +384,11 @@ $this->breadcrumbs = array('Träger Agentur');
 										<h3 class="m-0">Dokumente</h3>
 										<label>Sie können PDF- und DOC-Dateien hochladen<br/> (10 Mb Größenbeschränkung)</label>
 									</div>
-									<div ng-if="documents.length < 5" qq-file-upload setting="qqSetting"></div>
+									<div ng-if="documents.length < 5 && canEdit()" qq-file-upload setting="qqSetting"></div>
 								</div>
 								<div class="form-custom-box clearfix m-0 upload-box" ng-if="!isInsert && documents.length">
 									<ul class="list-unstyled">
-										<li ng-repeat="doc in documents"><i class="ion-document-text "></i><a target="_blank" href="{{doc.href}}" ng-bind="doc.name"></a><a class="sweet-4" ng-click="removeDocument(doc.id)" href=""><i class="ion-close"></i></a></li>
+										<li ng-repeat="doc in documents"><i class="ion-document-text "></i><a target="_blank" href="{{doc.href}}" ng-bind="doc.name"></a><a class="sweet-4" ng-if="canEdit()" ng-click="removeDocument(doc.id)" href=""><i class="ion-close"></i></a></li>
 									</ul>
 								</div>
 							</div>
@@ -410,7 +411,7 @@ $this->breadcrumbs = array('Träger Agentur');
 									  </div>
 									</div>
 								</div>
-								<div class="clearfix m-t-40">
+								<div class="clearfix m-t-40" ng-if="fullAccess">
 									<h3 class="m-0">Interner Vermerk</h3>
 									<label>Sie können eine Nachricht für PA hinterlassen </label>
 								</div>
@@ -433,16 +434,17 @@ $this->breadcrumbs = array('Träger Agentur');
 									</div>
 								</div>
 							</div>
+              </span>
 						</div>
 					</div>
 					<hr>
 					<div class="group-btn clearfix m-t-20">
-						<div class="pull-left" ng-if="!isInsert">
+						<div class="pull-left" ng-if="!isInsert && canDelete()">
 							<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
 						</div>
 						<div class="pull-right">
 							<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-							<button class="btn w-lg custom-btn" ng-click="submitFormPerformer()">Speichern</button>
+							<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitFormPerformer()">Speichern</button>
 						</div>
 					</div>
 				</uib-tab>

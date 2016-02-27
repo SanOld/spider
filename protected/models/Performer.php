@@ -81,4 +81,27 @@ class Performer extends BaseModel {
     return $post;
   }
 
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        return true;
+      case ACTION_UPDATE:
+        if(in_array($user['type'], array(ADMIN, TA)) && $user['type_id'] != 6) { // except Senat
+          return true;
+        }
+        break;
+      case ACTION_INSERT:
+        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
+          return true;
+        }
+        break;
+      case ACTION_DELETE:
+        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
+          return true;
+        }
+        break;
+    }
+    return false;
+  }
+
 }

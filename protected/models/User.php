@@ -182,10 +182,47 @@ class User extends BaseModel {
         ':id' => $id
     )) -> queryRow();
 
+    if($row['is_finansist'] != $post['is_finansist']) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_FORBIDDEN_FINANSIST',
+        'message' => 'The finansist can not be change.'
+      );
+    }
+
+
+    if(safe($post, 'type_id') && $row['type_id'] != $post['type_id'] && !(in_array($row['type_id'], array(3,7)) && in_array($post['type_id'], array(3,7)))) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_FORBIDDEN_TYPE',
+        'message' => 'The type can not be change.'
+      );
+    }
+
+    if(safe($post, 'relation_id') && $row['relation_id'] != $post['relation_id']) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_FORBIDDEN_RELATION',
+        'message' => 'The relation can not be change.'
+      );
+    }
+
     if(safe($post, 'type_id') == 7) {
       $post['is_finansist'] = 1;
     } elseif(safe($post, 'type_id') == 3) {
       $post['is_finansist'] = 0;
+    }
+
+    if($id == $this->user['id'] && $row['login'] != $post['login']) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_FORBIDDEN_LOGIN',
+        'message' => 'The login can not be change.'
+      );
     }
 
     if (Yii::app() -> db -> createCommand()
@@ -230,6 +267,36 @@ class User extends BaseModel {
       Email::doWelcome($params);
     }
     return $result;
+  }
+
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        return true;
+      case ACTION_UPDATE:
+        if($user['id'] == $this->id) {
+          return true;
+        }
+        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
+          if(!($user['type_id'] == 2 && $data['type_id'] == 1)) { // except PA create Admin
+            return true;
+          }
+        }
+        break;
+      case ACTION_INSERT:
+        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
+          if(!($user['type_id'] == 2 && $data['type_id'] == 1)) { // except PA create Admin
+            return true;
+          }
+        }
+        break;
+      case ACTION_DELETE:
+        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
+          return true;
+        }
+        break;
+    }
+    return false;
   }
 
 

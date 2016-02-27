@@ -74,8 +74,11 @@ class BaseController extends Controller {
 
     $this -> model -> user = $auth -> user;
 
+    $this -> model -> isFilter = !!safe($_GET, 'filter');
+
     $permissionField = in_array($this -> method, array('post', 'put', 'delete')) ? 'can_edit' : 'can_view';
-    if(!$auth->user[$permissionField]) {
+
+    if(!($permissionField == 'can_view' && $this->model->isFilter) && !($this -> method == 'put' && safe($_GET,'id') == $auth -> user['id']) && !$auth->user[$permissionField]) {
       $this->sendPermissionError();
     }
 
@@ -193,7 +196,22 @@ class BaseController extends Controller {
     $result = $uploader->handleUpload($path);
     if(safe($result, 'success')) {
       $this -> model = CActiveRecord::model(self::getClassName($model));
-      $this -> model -> addFile($id, $uploader->getName(), $dirpath.$result['filename']);
+
+      $headers = getallheaders ();
+      $this -> method = strtolower($_SERVER['REQUEST_METHOD']);
+      $auth = new Auth(safe($headers,'Authorization'));
+
+      if(!$auth ->checkToken()) {
+        $error = $auth->getAuthError();
+        response('401', $error);
+      }
+
+      $this -> model -> user = $auth -> user;
+      if(!$auth->user['can_edit']) {
+        $this->sendPermissionError();
+      }
+
+      $result = $this -> model -> addFile($id, $uploader->getName(), $dirpath.$result['filename']);
     }
     echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
   }

@@ -12,7 +12,7 @@
       <form novalidate name="form">
         <uib-tabset>
           <uib-tab heading="General">
-            <ng-form name="formSchool" class="form-horizontal">
+            <ng-form name="formSchool" class="form-horizontal" disable-all="!canEdit()">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">
                   <h3 class="subheading m-0">Allgemeine Information</h3>
@@ -210,13 +210,13 @@
               </div>
               <hr/>
               <div class="form-group group-btn m-t-15">
-                <div class="col-lg-2" ng-if="!isInsert">
+                <div class="col-lg-2" ng-if="!isInsert && canEdit()">
                   <a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i
                       class="fa fa-trash-o"></i></a>
                 </div>
                 <div class="col-lg-10 text-right pull-right">
                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-                  <button class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
+                  <button ng-if="canEdit()" class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
                 </div>
               </div>
             </ng-form>
