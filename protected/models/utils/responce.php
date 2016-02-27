@@ -89,6 +89,9 @@ function response($code, $data, $method = '') {
       case 'ERR_ID_NOT_SPECIFIED' :
             $message = $methods [$method] . ' failed: Id is not specified.';
         break;
+      case 'ERR_UPDATE_FORBIDDEN' :
+            $message = $methods [$method] . ' failed: You can\'t update this params.';
+        break;
       default :
             $text = array (
                 'LOGIN_SUCCESSFUL' => 'Authentication is successful',
