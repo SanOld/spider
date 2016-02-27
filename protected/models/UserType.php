@@ -19,6 +19,10 @@ class UserType extends BaseModel {
     return $command;
   }
 
+  protected function getCommandFilter() {
+    return Yii::app ()->db->createCommand ()->select ("id, name, type")->from ( $this->table  . ' tbl') -> order('name');
+  }
+
   protected function getParamCommand($command, array $params, array $logic = array()) {
     $params = array_change_key_case($params, CASE_UPPER);
     if (safe($params, 'TYPE')) {

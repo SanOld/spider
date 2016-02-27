@@ -92,7 +92,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
     $scope.isPerformer = type && type.type == 't';
     if ($scope.isRelation) {
       $scope.isRelation = true;
-      network.get(type.relation_code, {}, function (result, response) {
+      network.get(type.relation_code, {filter: 1}, function (result, response) {
         if (result) {
           $scope.relations = response.result;
         }
@@ -166,7 +166,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
   }
 
   $scope.canDelete = function() {
-    return $rootScope.canEdit() && network.userIsPA;
+    return $rootScope.canEdit() && !network.userIsPA;
   };
 
   $scope.canEdit = function() {

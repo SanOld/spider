@@ -54,7 +54,7 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   };
 
   $scope.canCreate = function () {
-    return $rootScope.canEdit() && network.user.type == 'a' && network.userIsSENAT;
+    return $rootScope.canEdit() && network.user.type == 'a' && !network.userIsSENAT;
   };
 
 });

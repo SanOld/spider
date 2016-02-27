@@ -18,7 +18,7 @@ spi.controller('UserRolesController', function ($scope, $rootScope, network, Gri
   });
 
   function getTypes() {
-    network.get('user_type', {}, function (result, response) {
+    network.get('user_type', {filter: 1}, function (result, response) {
       if (result) {
         $scope.tableParams = grid(response.result, {}, {sorting: {name: 'asc'}, count: response.result.length});
       }
@@ -38,7 +38,7 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, da
     $scope.relation_name = data.relation_name;
     $scope.user_type = {name: data.name};
   } else {
-    network.get('relation', {}, function (result, response) {
+    network.get('relation', {fitler: 1}, function (result, response) {
       if (result) {
         $scope.relations = response;
         $scope.user_type = {type: 'a'};

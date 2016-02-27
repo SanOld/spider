@@ -37,6 +37,9 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
+  protected function getCommandFilter() {
+    return Yii::app ()->db->createCommand ()->select ( 'id, name' )->from ( $this->table  . ' tbl') -> order('name');
+  }
   protected function getParamCommand($command, array $params) {
     $params = array_change_key_case ( $params, CASE_UPPER );
       if(isset($params['SEARCH'])) {
@@ -452,7 +455,11 @@ class BaseModel extends CFormModel {
   public function select($get) {
     $this->method = 'get';
     if($this->checkPermission($this->user, ACTION_SELECT, $get) || $this->isFilter) {
-      $command = $this->getCommand();
+      if($this->isFilter && get_called_class() != 'Hint') {
+        $command = $this->getCommandFilter();
+      } else {
+        $command = $this->getCommand();
+      }
       if (!empty ($get)) {
         $command = $this->setPagination($command, $get);
         $command = $this->setOrder($command, $get);

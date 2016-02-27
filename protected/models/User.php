@@ -14,6 +14,10 @@ class User extends BaseModel {
     return $command;
   }
 
+  protected function getCommandFilter() {
+    return Yii::app ()->db->createCommand ()->select ("id, CONCAT(first_name, ' ', last_name) name, function, phone, title, email")->from ( $this->table  . ' tbl') -> order('name');
+  }
+
   protected function getParamCommand($command, array $params, array $logic = array()) {
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,
@@ -82,11 +86,12 @@ class User extends BaseModel {
   }
 
   protected function calcResults($result) {
-    foreach($result['result'] as &$row) {
-      $relation = $this->getRelationByType($row['type']);
-      if($relation && safe($relation, 'table')) {
-        $row['relation_name'] = Yii::app() -> db -> createCommand() -> select('name')
-          -> from($relation['table']) -> where('id=:id', array(':id' => $row['relation_id'])) ->queryScalar();
+    if(!$this->isFilter) {
+      foreach ($result['result'] as &$row) {
+        $relation = $this->getRelationByType($row['type']);
+        if ($relation && safe($relation, 'table')) {
+          $row['relation_name'] = Yii::app()->db->createCommand()->select('name')->from($relation['table'])->where('id=:id', array(':id' => $row['relation_id']))->queryScalar();
+        }
       }
     }
     return $result;

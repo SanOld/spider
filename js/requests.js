@@ -17,7 +17,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     });
   };
 
-  network.get('performer', {}, function (result, response) {
+  network.get('performer', {filter: 1}, function (result, response) {
     if (result) {
       $scope.performers = response.result;
     }

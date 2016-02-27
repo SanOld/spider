@@ -21,14 +21,14 @@ spi.controller('SchoolController', function($scope, $rootScope, network, GridSer
          $scope._hint = result;
     });
 
-    network.get('school_type', {}, function (result, response) {
+    network.get('school_type', {filter: 1}, function (result, response) {
         if(result) {
             $scope.schoolTypes = response.result;
         }
     });
 
     if(!$scope.page || $scope.page != 'district') {
-        network.get('district', {}, function (result, response) {
+        network.get('district', {filter: 1}, function (result, response) {
             if(result) {
                 $scope.districts = response.result;
             }
@@ -73,20 +73,20 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
         getUsers();
     }
 
-    network.get('school_type', {}, function (result, response) {
+    network.get('school_type', {filter: 1}, function (result, response) {
         if(result) {
             $scope.schoolTypes = response.result;
         }
     });
 
-    network.get('district', {}, function (result, response) {
+    network.get('district', {filter: 1}, function (result, response) {
         if(result) {
             $scope.districts = response.result;
         }
     });
 
     function getUsers() {
-        network.get('user', {is_active: 1}, function(result, response){
+        network.get('user', {is_active: 1, fitler: 1}, function(result, response){
             if(result) {
                 $scope.users = response.result;
                 if(data.contact_id) {
