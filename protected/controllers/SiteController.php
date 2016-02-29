@@ -9,6 +9,8 @@ class SiteController extends Controller
                           'hints'           => array(),
                           'performers'      => array(),
                           'schools'         => array(),
+                          'requests'        => array(),
+                          'projects'         => array(),
                           'dashboard'       => array(),
                           'forgot-password' => array('layout' => 'mainWithoutLogin'),
                           'reset-password'  => array('layout' => 'mainWithoutLogin'),

@@ -44,4 +44,22 @@ class BankDetails extends BaseModel {
     );
   }
 
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        if($user['type'] == ADMIN || ($user['type'] == TA && $user['is_finansist'])) {
+          return true;
+        }
+        break;
+      case ACTION_UPDATE:
+      case ACTION_INSERT:
+      case ACTION_DELETE:
+        if($user['type'] == ADMIN && !in_array($user['type_id'], array(6)) || ($user['type'] == TA && $user['is_finansist'])) {
+          return true;
+        }
+        break;
+    }
+    return false;
+  }
+
 }

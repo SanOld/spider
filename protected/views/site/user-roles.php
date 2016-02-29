@@ -22,7 +22,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Benutzer-Typ'" sortable="'name'">{{row.name}}</td>
 							<td data-title="'Organisationstyp'">{{row.relation_name}}</td>
-							<td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
+							<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
 								</a>
@@ -45,11 +45,12 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 				</div>
 				<div class="panel-body table-modal">
-          <form novalidate name="form">
+          <form novalidate name="form" disable-all="!canEdit()">
 					<div class="form-group custom-field row clearfix">
 						<div class="form-group col-lg-6">
 							<label>Benutzer-Typ</label>
-							<div ng-class="{'wrap-line error': fieldError('user_type_name')}">
+              <div spi-hint text="_hint.name" class="has-hint"></div>
+							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('user_type_name')}">
               	<input class="form-control" placeholder="Benutzerdefinierter Typ" name="user_type_name" ng-model="user_type.name" type="text" value="" ng-minlength="2" ng-maxlength="255" required>
 								<span ng-show="fieldError('user_type_name')">
 									<label ng-show="form.user_type_name.$error.required" class="error">Type name is required.</label>
@@ -61,9 +62,14 @@ $this->breadcrumbs = array('Benutzerrollen');
             </div>
 						<div class="form-group col-lg-6">
 							<label>Organisationstyp</label>
-							<select ng-if="isInsert" name="user_type_type" ng-model="user_type.type" class="type-user form-control" ng-options="r.id as r.name for r in relations"></select>
-              <div ng-if="!isInsert" ng-bind="relation_name"></div>
-						</div>
+              <div>
+                <span ng-if="!isInsert" ng-bind="relation_name"></span>
+                <span spi-hint text="_hint.type" class="has-hint"></span>
+                <div ng-if="isInsert" class="wrap-hint">
+                  <select  name="user_type_type" ng-model="user_type.type" class="type-user form-control" ng-options="r.id as r.name for r in relations"></select>
+                </div>
+              </div>
+            </div>
 					</div>
 
           <table id="datatable-edit-roles" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered text-center">
@@ -91,12 +97,12 @@ $this->breadcrumbs = array('Benutzerrollen');
 
 					<div class="row p-t-10">
 						<div class="form-group group-btn p-t-10">
-							<div class="col-lg-2" ng-if="!isInsert && !default">
+							<div class="col-lg-2" ng-if="canEdit() && !isInsert && !default">
 								<button ng-click="remove(userTypeId)" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
 							</div>
 							<div class="col-lg-6 text-right pull-right">
 								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" ng-click="submitForm()">Speichern</button>
+								<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitForm()">Speichern</button>
 							</div>
 						</div>
 					</div>

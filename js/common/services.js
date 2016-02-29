@@ -113,7 +113,7 @@ spi.service("GridService", function(network, NgTableParams, $uibModal) {
 
 spi.service("HintService", function(network) {
     return function(code, callback) {
-        network.get('hint', {page_code: code}, function (result, response) {
+        network.get('hint', {filter: 1, page_code: code}, function (result, response) {
             if (result) {
                 var hints = {};
                 for(var i = 0; i < response.result.length; i++) {

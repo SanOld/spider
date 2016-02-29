@@ -15,7 +15,7 @@ $this->breadcrumbs = array('Benutzerliste');
 					<h1 class="panel-title col-lg-6">Benutzerliste</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Benutzer hinzufügen</button>
+						<button class="btn w-lg custom-btn" ng-if="canCreate()" ng-click="openEdit()">Benutzer hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body edit-user">
