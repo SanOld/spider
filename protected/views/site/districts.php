@@ -192,7 +192,7 @@ $this->breadcrumbs = array('Bezirk');
                   <div class="wrap-hint">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(district.contact_id)"
                                ng-model="district.contact_id" name="contact_id">
-                      <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">
+                      <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">
                         {{$select.selected.name}}
                       </ui-select-match>
                       <ui-select-choices repeat="item.id as item in users | filter: $select.search">
