@@ -28,3 +28,9 @@
 #modal-3 .modal-dialog.custom-width{
 	width:620px !important;
 }
+.modal-dialog.modal-custom-width-request-duration{
+  width:620px !important;
+}
+.modal-dialog.modal-custom-width{
+  width:550px !important;
+}

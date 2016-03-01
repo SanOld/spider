@@ -32,7 +32,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/select2/select2.css" />
 
 <!-- Datapicker -->
-<!--<link rel="stylesheet" type="text/css" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/js/lib/timepicker/bootstrap-datepicker.min.css" />-->
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/timepicker/bootstrap-datepicker.min.css" />
 <!--<link rel="stylesheet" type="text/css" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/js/lib/timepicker/bootstrap-timepicker.min.css" />-->
 
 <!-- Custom styles for this template -->

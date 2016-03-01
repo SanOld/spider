@@ -1,11 +1,11 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('RequestController', function ($scope, $rootScope, network, GridService, HintService, Utils, SweetAlert, $uibModal) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
   var d = new Date;
   $scope.filter = {year: d.getFullYear()};
 
-  $scope.financeTypes = [{id: 'l', name: 'LM'}, {id: 'b', name: 'BP'}];
+  $scope.financeTypes = Utils.getFinanceTypes();
   $scope.checkboxes = {
     checked: false,
     items: {}
@@ -54,6 +54,94 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
   $scope.updateGrid = function () {
     grid.reload();
+  };
+
+  $scope.existsSelected = function() {
+    return !!getSelectedIds().length;
+  };
+
+  function getSelectedIds() {
+    var ids = [];
+    for(var k in $scope.checkboxes.items) {
+      if($scope.checkboxes.items[k]) {
+        ids.push(k);
+      }
+    }
+    return ids;
+  }
+
+  $scope.setBulkDuration = function() {
+    var ids = getSelectedIds();
+    if (ids.length) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'setDuration.html',
+        controller: 'ModalDurationController',
+        size: 'custom-width-request-duration',
+        resolve: {
+          ids: function () {
+            return ids;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (data) {
+        network.patch('request', {ids: ids, start_date: Utils.getSqlDate(data.start_date), due_date: Utils.getSqlDate(data.due_date)}, function(result) {
+          if(result) {
+            grid.reload();
+          }
+        });
+      });
+
+
+    }
+  };
+
+  $scope.setBulkStatus = function(statusId) {
+    var ids = getSelectedIds();
+    if(ids.length) {
+      SweetAlert.swal({
+        title: "Bulk update rows",
+        text: "Do you want really update "+ids.length+" rows?",
+        type: "warning",
+        confirmButtonText: "Yes",
+        showCancelButton: true,
+        cancelButtonText: "No",
+        closeOnConfirm: true
+      }, function(isConfirm){
+        if(isConfirm) {
+          network.patch('request', {ids: ids, status_id: statusId}, function(result) {
+            if(result) {
+              grid.reload();
+            }
+          });
+        }
+      });
+    }
+
+
+
+  };
+
+});
+
+
+spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstance) {
+  $scope.countElements = ids.length;
+
+  $scope.dateOptions = {
+    startingDay: 1,
+    showButtonBar: 0,
+    showWeeks: 0
+  };
+
+
+  $scope.ok = function () {
+    $uibModalInstance.close($scope.form);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
   };
 
 });

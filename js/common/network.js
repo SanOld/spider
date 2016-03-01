@@ -224,6 +224,47 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
 
   };
 
+  $network.patch = function (table, params, callback, showAlert) {
+    callback = callback || function () {};
+    showAlert = showAlert == undefined || showAlert;
+    $network.servisePath = configs.getServisePath();
+    var path = $network.servisePath + table;
+    var headers = {
+      'Authorization': $network.token
+      , 'Content-Type': 'application/json; charset=utf-8'
+      , "Accept": "application/json; charset=utf-8"
+    };
+
+    $http({
+      'method': 'PATCH'
+      , 'headers': headers
+      , 'dataType': 'json'
+      , 'data': $.param(params)
+      , 'url': path
+    })
+      .success(function (result) {
+        callback(true, result);
+        if (showAlert)
+          Notification.success({title: result.message});
+      })
+      .error(function (data, status, headers, config, statusText) {
+        if (status == 401) {
+          $network.reconnect(function (result) {
+            if (result) {
+              $network.patch(table, params, callback)
+            } else {
+              callback(false, data)
+            }
+          })
+        } else {
+          callback(false, data);
+          if (showAlert)
+            Notification.error({title: data.message});
+        }
+      });
+
+  };
+
   $network.delete = function (table, callback, showAlert) {
     callback = callback || function () {
       };

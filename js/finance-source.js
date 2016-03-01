@@ -25,11 +25,11 @@ spi.controller('FinanceSourceController', function($scope, $rootScope, network, 
 });
 
 
-spi.controller('EditFinanceSourceController', function ($scope, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
+spi.controller('EditFinanceSourceController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.finances = {};
-    $scope.types = [{'id':'l', 'name': 'LM'}, {'id':'b', 'name': 'BP'}];
+    $scope.types = Utils.getFinanceTypes();
 
 
     if(!$scope.isInsert) {

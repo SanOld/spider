@@ -77,7 +77,7 @@ class BaseController extends Controller {
 
     $this -> model -> isFilter = !!safe($_GET, 'filter');
 
-    $permissionField = in_array($this -> method, array('post', 'put', 'delete')) ? 'can_edit' : 'can_view';
+    $permissionField = in_array($this -> method, array('post', 'put', 'delete', 'patch')) ? 'can_edit' : 'can_view';
 
     if(!($permissionField == 'can_view' && $this->model->isFilter) && !($this -> method == 'put' && safe($_GET,'id') == $auth -> user['id']) && !$auth->user[$permissionField]) {
       $this->sendPermissionError();
@@ -96,6 +96,17 @@ class BaseController extends Controller {
           parse_str(file_get_contents("php://input"), $post_vars);
           $id = safe($_GET,'id');
           $this -> model ->update($id, $post_vars);
+          break;
+        case 'patch' :
+          $post_vars = array ();
+          parse_str(file_get_contents("php://input"), $post_vars);
+          if(safe($post_vars, 'ids')) {
+            $ids = !is_array($post_vars['ids']) ? array($post_vars['ids']) : $post_vars['ids'];
+            unset($post_vars['ids']);
+            foreach($ids as $id) {
+              $this -> model ->update($id, $post_vars);
+            }
+          }
           break;
         case 'delete' :
             $id = safe($_GET,'id');

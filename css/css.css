@@ -2301,3 +2301,6 @@ tfoot th.align-right {
 	border: 1px solid #1ca8dd;
 }
 /* End ui notification */
+.uib-datepicker-popup.dropdown-menu {
+  z-index: 9999;
+}
