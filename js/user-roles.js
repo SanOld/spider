@@ -18,7 +18,7 @@ spi.controller('UserRolesController', function ($scope, $rootScope, network, Gri
   });
 
   function getTypes() {
-    network.get('user_type', {filter: 1}, function (result, response) {
+    network.get('user_type', {}, function (result, response) {
       if (result) {
         $scope.tableParams = grid(response.result, {}, {sorting: {name: 'asc'}, count: response.result.length});
       }
