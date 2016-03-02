@@ -129,10 +129,10 @@ class BaseController extends Controller {
 
   function getRelation() {
     return array(
-      array('id' => 'a', 'name' => 'No relation'),
-      array('id' => 'd', 'name' => 'District'),
-      array('id' => 't', 'name' => 'Performer'),
-      array('id' => 's', 'name' => 'School'),
+      array('id' => 'a', 'code' => 'no_relation', 'name' => 'Keine Verbindung'),
+      array('id' => 'd', 'code' => 'district',    'name' => 'Bezirk'),
+      array('id' => 't', 'code' => 'performer',   'name' => 'Träger Agentur'),
+      array('id' => 's', 'code' => 'school',      'name' => 'Schule'),
     );
   }
   

@@ -310,7 +310,7 @@ class BaseModel extends CFormModel {
     switch ($type) {
       case TA :
         return array(
-          'name'   => 'Performer',
+          'name'   => 'Träger Agentur',
           'code'   => 'performer',
           'prefix' => 'pfm',
           'table'  => 'spi_performer',
@@ -318,7 +318,7 @@ class BaseModel extends CFormModel {
         break;
       case SCHOOL :
         return array(
-          'name'   => 'School',
+          'name'   => 'Schule',
           'code'   => 'school',
           'prefix' => 'scl',
           'table'  => 'spi_school',
@@ -326,14 +326,14 @@ class BaseModel extends CFormModel {
         break;
       case DISTRICT :
         return array(
-          'name'   => 'District',
+          'name'   => 'Bezirk',
           'code'   => 'district',
           'prefix' => 'dst',
           'table'  => 'spi_district',
         );
         break;
     }
-    return array('name' => 'No relation');
+    return array('name' => 'Keine Verbindung');
   }
 
   public function insert($post, $multiInsert = false) {
@@ -454,7 +454,7 @@ class BaseModel extends CFormModel {
   }
   public function select($get) {
     $this->method = 'get';
-    if($this->checkPermission($this->user, ACTION_SELECT, $get) || $this->isFilter) {
+    if($this->checkPermission($this->user, ACTION_SELECT, $get) || (get_called_class() == 'Hint' && $this->isFilter)) {
       if($this->isFilter && get_called_class() != 'Hint') {
         $command = $this->getCommandFilter();
       } else {

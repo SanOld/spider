@@ -1,6 +1,6 @@
 <?php
 require_once ('utils/utils.php');
-//require_once ('utils/responce.php');
+
 
 class UserTypeRight extends BaseModel {
   public $table = 'spi_user_type_right';
@@ -97,29 +97,6 @@ class UserTypeRight extends BaseModel {
         'result' => true 
     );
   }
-  
-
-  
-//  protected function checkPermission($user, $action) {
-//    switch ($action) {
-//      case ACTION_SELECT : 
-//        return true;
-//        break;
-//      case ACTION_INSERT :
-//        ;
-//      case ACTION_UPDATE :
-//        ;
-//      case ACTION_DELETE :
-//        ;
-//        if ($this -> user['is_super_admin']) {
-//          return true;
-//        } elseif ($this -> user['is_admin'] || $this -> user['is_account_owner']) {
-//          return true;
-//        }
-//        return false;
-//    }
-//    return false;
-//  }
 
 
 }

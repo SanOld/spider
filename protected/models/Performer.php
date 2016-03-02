@@ -32,11 +32,38 @@ class Performer extends BaseModel {
   protected function doBeforeInsert($post) {
     $post = $this->checkFields($post);
 
+    if (Yii::app() -> db -> createCommand()
+      -> select('id')
+      -> from($this -> table)
+      -> where('name=:name', array(':name' => $post['name']))
+      -> queryScalar()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'custom' => true,
+        'system_code' => 'ERR_DUPLICATED'
+      );
+    }
+
+    if (Yii::app() -> db -> createCommand()
+      -> select('id')
+      -> from($this -> table)
+      -> where('short_name=:short_name', array(':short_name' => $post['short_name']))
+      -> queryScalar()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'custom' => true,
+        'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
+      );
+    }
+
     return array(
       'result' => true,
       'params' => $post
     );
   }
+
 
   protected function doBeforeUpdate($post, $id) {
     $post = $this->checkFields($post);
@@ -55,6 +82,34 @@ class Performer extends BaseModel {
 
     if(isset($post['budget_processing_user_id']) && !$post['budget_processing_user_id']) {
       unset($post['budget_processing_user_id']);
+    }
+
+    if (Yii::app() -> db -> createCommand()
+      -> select('id')
+      -> from($this -> table)
+      -> where('id != :id AND name=:name',
+        array(':id' => $id, ':name' => $post['name']))
+      -> queryScalar()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'custom' => true,
+        'system_code' => 'ERR_DUPLICATED'
+      );
+    }
+
+    if (Yii::app() -> db -> createCommand()
+      -> select('id')
+      -> from($this -> table)
+      -> where('id != :id AND short_name=:short_name',
+        array(':id' => $id, ':short_name' => $post['short_name']))
+      -> queryScalar()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'custom' => true,
+        'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
+      );
     }
 
     return array(
@@ -102,6 +157,25 @@ class Performer extends BaseModel {
         break;
     }
     return false;
+  }
+
+
+
+  protected function doBeforeDelete($id) {
+    $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
+      ':id' => $id
+    )) -> queryRow();
+    if (!$row) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_NOT_EXISTS'
+      );
+    }
+
+    return array(
+      'result' => true
+    );
   }
 
 }

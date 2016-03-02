@@ -80,9 +80,15 @@ $this->breadcrumbs = array('Benutzerrollen');
                 <input ng-if="isInsert" type="hidden" ng-model="user_right[$index].page_id">
               </td>
               <td data-title="'Seite'" sortable="'name'">{{row.name}}</td>
+              <td data-title="'Zeigen'" header-class="'text-center'">
+                <label class="cr-styled" ng-if="user_right[$index].is_real_page != '0'">
+                  <input type="checkbox" ng-model="user_right[$index].can_show" ng-init="user_right[$index].can_show = user_right[$index].code == 'dashboard' ? '1' : user_right[$index].can_show" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default || user_right[$index].code == 'dashboard'">
+                  <i class="fa"></i>
+                </label>
+              </td>
               <td data-title="'Ansicht'" header-class="'text-center'">
                 <label class="cr-styled">
-                  <input type="checkbox" ng-model="user_right[$index].can_view" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default">
+                  <input type="checkbox" ng-model="user_right[$index].can_show" ng-init="user_right[$index].can_show = user_right[$index].code == 'dashboard' ? '1' : user_right[$index].can_view" ng-model="user_right[$index].can_view" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default || user_right[$index].code == 'dashboard'">
                   <i class="fa"></i>
                 </label>
               </td>

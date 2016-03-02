@@ -64,4 +64,21 @@ class Request extends BaseModel {
     return $result;
   }
 
+  protected function doBeforeDelete($id) {
+    $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
+      ':id' => $id
+    )) -> queryRow();
+    if (!$row) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_NOT_EXISTS'
+      );
+    }
+
+    return array(
+      'result' => true
+    );
+  }
+
 }

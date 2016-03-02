@@ -33,7 +33,8 @@ function response($code, $data, $method = '') {
         'get' => 'Select',
         'post' => 'Insert',
         'put' => 'Update',
-        'delete' => 'Delete' 
+        'patch' => 'Update',
+        'delete' => 'Delete'
     );
 
     
@@ -42,7 +43,8 @@ function response($code, $data, $method = '') {
         'get' => 'selected',
         'post' => 'added',
         'put' => 'updated',
-        'delete' => 'deleted' 
+        'patch' => 'updated',
+        'delete' => 'deleted'
     );
 
     
@@ -76,12 +78,6 @@ function response($code, $data, $method = '') {
         break;
       case 'ERR_ACCOUNT_PERMISSION' :
             $message = $methods [$method] . ' failed: You are not allowed to perform operation with another account.';
-        break;
-      case 'ERR_EMPLOYEE_PERMISSION' :
-            $message = $methods [$method] . ' failed: You are not allowed to perform operation with another employee.';
-        break;
-      case 'ERR_TASK_PERMISSION' :
-            $message = $methods [$method] . ' failed: You are not attached to selected task or project.';
         break;
       case 'ERR_MISSED_REQUIRED_PARAMETERS' :
             $message = $methods [$method] . ' failed: A required parameter was not specified for this request.';

@@ -137,16 +137,19 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
 
   $scope.fieldError = function (innerForm, field) {
     var form = innerForm ? $scope.form[innerForm] : $scope.form;
-    return ($scope.submited || form[field].$touched) && form[field].$invalid;
+    return ($scope.submited || form[field].$touched) && form[field].$invalid  || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
   };
 
   $scope.submitFormPerformer = function () {
+    $scope.error = false;
     $scope.submited = true;
     $scope.form.formPerformer.$setPristine();
     if ($scope.form.formPerformer.$valid) {
       var callback = function (result, response) {
         if (result) {
           $uibModalInstance.close();
+        } else {
+          $scope.error = getError(response.system_code);
         }
         $scope.submited = false;
       };
@@ -228,5 +231,18 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
   $scope.canDelete = function() {
     return $rootScope.canEdit() && network.user['type'] == 'a' && !(network.user['type'] == 'a' && network.userIsPA);
   };
+
+  function getError(code) {
+    var result = false;
+    switch (code) {
+      case 'ERR_DUPLICATED':
+        result = {name: {dublicate: true}};
+        break;
+      case 'ERR_DUPLICATED_SHORT_NAME':
+        result = {short_name: {dublicate: true}};
+        break;
+    }
+    return result;
+  }
 
 });

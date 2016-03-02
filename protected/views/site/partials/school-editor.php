@@ -27,6 +27,7 @@
                             <input name="name" ng-model="school.name" class="form-control" type="text" value="" required>
                             <span ng-show="fieldError('name')">
                               <label ng-show="form.formSchool.name.$error.required" class="error">Name is required.</label>
+                              <label ng-show="error.name.dublicate" class="error">This Name already exists.</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>

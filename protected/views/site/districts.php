@@ -82,13 +82,13 @@ $this->breadcrumbs = array('Bezirk');
                   <hr>
                   <div class="m-b-15 clearfix">
                     <label class="col-lg-2 control-label">Name</label>
-
                     <div class="col-lg-10">
                       <div spi-hint text="_hint.name" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                         <input name="name" ng-model="district.name" class="form-control" type="text" value="" required>
                         <span ng-show="fieldError('name')">
-                        <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required.</label>
+                          <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required.</label>
+                          <label ng-show="error.name.dublicate" class="error">This name already exists.</label>
                         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>

@@ -3,7 +3,7 @@
 <head>
   <?php include('head.php'); ?>
 </head>
-<body ng-app="spi" ng-controller="main">
+<body ng-class="{'bg': _m == 'dashboard'}" ng-app="spi" ng-controller="main">
 <div id="page">
   <header class="top-head container-fluid">
     <div class="container">
@@ -144,7 +144,6 @@
               </ui-select>
 								<span ng-show="fieldError('relation_id')">
 									<label ng-show="form.type_id.$error.required" class="error">Organisation is required.</label>
-									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</span>
             </div>
           </div>

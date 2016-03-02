@@ -54,7 +54,7 @@ class UserType extends BaseModel {
         'code' => '409',
         'result' => false,
         'system_code' => 'ERR_DUPLICATED_NAME',
-        'message' => 'Insert failed: This Type Name already exists.'
+        'message' => 'Insert failed: This role name already exists.'
       );
     }
 
@@ -94,7 +94,7 @@ class UserType extends BaseModel {
         'code' => '409',
         'result' => false,
         'system_code' => 'ERR_DUPLICATED_NAME',
-        'message' => 'Insert failed: This Type Name already exists.'
+        'message' => 'Update failed: This role name already exists.'
       );
     }
 

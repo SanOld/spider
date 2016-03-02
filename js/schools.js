@@ -102,16 +102,19 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
 
     $scope.fieldError = function(field) {
         var form = $scope.form.formSchool;
-        return ($scope.submited || form[field].$touched) && form[field].$invalid;
+        return ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
     };
 
     $scope.submitFormSchool = function () {
+      $scope.error = false;
         $scope.submited = true;
         $scope.form.formSchool.$setPristine();
         if ($scope.form.formSchool.$valid) {
             var callback = function (result, response) {
                 if (result) {
                     $uibModalInstance.close();
+                } else {
+                  $scope.error = getError(response.system_code);
                 }
                 $scope.submited = false;
             };
@@ -135,5 +138,15 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+  function getError(code) {
+    var result = false;
+    switch (code) {
+      case 'ERR_DUPLICATED':
+        result = {name: {dublicate: true}};
+        break;
+    }
+    return result;
+  }
 
 });

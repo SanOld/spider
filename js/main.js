@@ -1,4 +1,4 @@
-spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService) {
+spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService, $timeout) {
   $scope._r = localStorageService.get('rights');
   $rootScope.canView = function (model) {
     model = model || $rootScope._m;
@@ -10,6 +10,11 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
     return !model || !$scope._r[model] ? 1 : $scope._r[model].edit;
   };
 
+  $timeout(function() {
+    if($rootScope._m && $scope._r[$rootScope._m] && !$scope._r[$rootScope._m].show) {
+      window.location = '/dashboard';
+    }
+  });
 
   $scope.isLogin = network.isLogined();
   if ($scope.isLogin) {
@@ -38,7 +43,7 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
 
 });
 
-spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils) {
+spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils, Notification) {
   $scope.model = 'user';
   $scope.isInsert = true;
   $scope.user = {
@@ -119,7 +124,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
             $uibModalInstance.close();
           }
         } else {
-          setError(response.system_code);
+          $scope.error = getError(response.system_code);
         }
         $scope.submited = false;
       };
@@ -152,7 +157,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
     return $scope.form.old_password.$viewValue == $scope.curentPassword;
   }
 
-  function setError(code) {
+  function getError(code) {
     var result = false;
     switch (code) {
       case 'ERR_DUPLICATED':
@@ -162,7 +167,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
         result = {email: {dublicate: true}};
         break;
     }
-    $scope.error = result;
+    return result;
   }
 
   $scope.canDelete = function() {

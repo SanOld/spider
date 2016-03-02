@@ -118,13 +118,12 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
               callback(false, data);
             }
           })
-        } else if (status == 403 && data.system_code == 'ERR_PERMISSION') {
-          window.location = '/dashboard';
         } else {
           if (data.system_code == 'ERR_INVALID_TOKEN') {
             $network.logout();
             window.location = '/'
           } else {
+            Notification.error({title: data.message});
             callback(false, data);
           }
         }
@@ -170,7 +169,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           })
         } else {
           callback(false, data);
-          if (showAlert)
+          if (showAlert && !data.custom)
             Notification.error({title: data.message});
         }
       });
@@ -217,7 +216,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           })
         } else {
           callback(false, data);
-          if (showAlert)
+          if (showAlert && !data.custom)
             Notification.error({title: data.message});
         }
       });
@@ -258,7 +257,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           })
         } else {
           callback(false, data);
-          if (showAlert)
+          if (showAlert && !data.custom)
             Notification.error({title: data.message});
         }
       });
@@ -301,7 +300,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           })
         } else {
           callback(false, data);
-          if (showAlert)
+          if (showAlert && !data.custom)
             Notification.error({title: data.message});
         }
       });

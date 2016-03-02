@@ -28,14 +28,14 @@ class BankDetails extends BaseModel {
   }
 
   protected function doBeforeDelete($id) {
-    $user = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
+    $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
         ':id' => $id 
     )) -> queryRow();
-    if (!$user) {
+    if (!$row) {
       return array(
           'code' => '409',
           'result' => false,
-          'system_code' => 'ERR_NOT_EXISTS' 
+          'system_code' => 'ERR_NOT_EXISTS'
       );
     }
     

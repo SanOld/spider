@@ -139,8 +139,8 @@ class User extends BaseModel {
         return array(
           'code' => '409',
           'result' => false,
-          'system_code' => 'ERR_REQUIRED_FIELD',
-          'message' => 'Insert failed: Field relation_id required for this user type.'
+          'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
+          'message' => 'Insert failed: Field relation required for this user type.'
         );
       }
     }
@@ -159,8 +159,7 @@ class User extends BaseModel {
       return array(
           'code' => '409',
           'result' => false,
-          'system_code' => 'ERR_DUPLICATED', 
-          'message' => 'Insert failed: This Username already registered.'
+          'system_code' => 'ERR_DUPLICATED'
       );
     }
 
@@ -191,8 +190,8 @@ class User extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'system_code' => 'ERR_FORBIDDEN_FINANSIST',
-        'message' => 'The finansist can not be change.'
+        'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        'message' => 'Update failed: The finansist can not be change.'
       );
     }
 
@@ -201,8 +200,8 @@ class User extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'system_code' => 'ERR_FORBIDDEN_TYPE',
-        'message' => 'The type can not be change.'
+        'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        'message' => 'Update failed: The type can not be change.'
       );
     }
 
@@ -210,8 +209,8 @@ class User extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'system_code' => 'ERR_FORBIDDEN_RELATION',
-        'message' => 'The relation can not be change.'
+        'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        'message' => 'Update failed: The relation can not be change.'
       );
     }
 
@@ -225,24 +224,22 @@ class User extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'system_code' => 'ERR_FORBIDDEN_LOGIN',
-        'message' => 'The login can not be change.'
+        'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        'message' => 'Update failed: The username can not be change.'
       );
     }
 
     if (Yii::app() -> db -> createCommand()
         -> select('*') 
         -> from($this -> table) 
-        -> where('id!=:id ' . 'AND login=:login',
-                  array(
-                  ':id' => $id,
-                  ':login' => $row['login']))
+        -> where('id != :id AND login=:login',
+                  array(':id' => $id, ':login' => $post['login']))
          -> queryRow()) {
       return array(
           'code' => '409',
           'result' => false,
-          'system_code' => 'ERR_DUPLICATED', 
-          'message' => 'This Username already registered'
+          'custom' => true,
+          'system_code' => 'ERR_DUPLICATED'
       );
     }
     

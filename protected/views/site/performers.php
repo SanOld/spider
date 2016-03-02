@@ -109,6 +109,7 @@ $this->breadcrumbs = array('Träger Agentur');
                         <input class="form-control" name="name" ng-model="performer.name" type="text" value="" required>
                         <span ng-show="fieldError('formPerformer', 'name')">
                           <label ng-show="formPerformer.name.$error.required" class="error">Kurzname is required.</label>
+                          <label ng-show="error.name.dublicate" class="error">This Kurzname already exists.</label>
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -122,6 +123,7 @@ $this->breadcrumbs = array('Träger Agentur');
                         <input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value="" required/>
                         <span ng-show="fieldError('formPerformer', 'short_name')">
                           <label ng-show="form.formPerformer.short_name.$error.required" class="error">Name is required.</label>
+                          <label ng-show="error.short_name.dublicate" class="error">This Name already exists.</label>
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -211,7 +213,7 @@ $this->breadcrumbs = array('Träger Agentur');
                     <div spi-hint text="_hint.representative_user_id" class="has-hint"></div>
                     <div class="wrap-hint">
                       <ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" ng-model="performer.representative_user_id" name="representative_user_id">
-                        <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
                         </ui-select-choices>
@@ -233,7 +235,7 @@ $this->breadcrumbs = array('Träger Agentur');
                     <div spi-hint text="_hint.application_processing_user_id" class="has-hint"></div>
                     <div class="wrap-hint">
                       <ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" ng-model="performer.application_processing_user_id" theme="select2" name="application_processing_user_id">
-                        <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
                         </ui-select-choices>
@@ -255,7 +257,7 @@ $this->breadcrumbs = array('Träger Agentur');
                     <div spi-hint text="_hint.budget_processing_user_id" class="has-hint"></div>
                     <div class="wrap-hint">
                       <ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
-                        <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
                         </ui-select-choices>
