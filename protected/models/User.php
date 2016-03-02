@@ -15,7 +15,7 @@ class User extends BaseModel {
   protected function getParamCommand($command, array $params, array $logic = array()) {
     $params = array_change_key_case($params, CASE_UPPER);
     if (safe($params, 'KEYWORD')) {
-      $keyword_fields = ['first_name', 'last_name', 'login', 'email'];
+      $keyword_fields = array('first_name', 'last_name', 'login', 'email');
       $value = $params['KEYWORD'];
       $where = array();
       $search_param = array();
