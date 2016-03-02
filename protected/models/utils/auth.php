@@ -73,7 +73,7 @@ class Auth {
           ->where('utr.type_id=:type_id', array(':type_id'=>$this->user['type_id']))
           ->queryAll();
         foreach($rows as $row) {
-          $rights[$row['code']] = ['view' => (int)$row['can_view'], 'edit' => (int)$row['can_edit']];
+          $rights[$row['code']] = array('view' => (int)$row['can_view'], 'edit' => (int)$row['can_edit']);
         }
 
         $res = array( 'result'      => true
