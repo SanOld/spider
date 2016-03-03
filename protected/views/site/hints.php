@@ -17,7 +17,7 @@ $this->breadcrumbs = array('Hilfetexte');
 				</div>
 				<div class="panel-body hint-edit">
 					<div class="row datafilter">
-						<form action="#">
+						<form>
 							<div class="col-lg-5">
 								<div class="form-group">
 									<label>Seite</label>
@@ -85,7 +85,7 @@ $this->breadcrumbs = array('Hilfetexte');
 								</ui-select-choices>
 							</ui-select>
 							<span ng-show="fieldError('page_id')">
-								<label ng-show="form.page_id.$error.required" class="error">Page is required.</label>
+								<label ng-show="form.page_id.$error.required" class="error">Seite is required.</label>
 							</span>
 						</div>
 					</div>
@@ -118,8 +118,8 @@ $this->breadcrumbs = array('Hilfetexte');
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('title')}">
 							<textarea ng-model="hint.title" ng-minlength="3" name="title" class="form-control" rows="5" required></textarea>
 							<span ng-show="fieldError('title')">
-								<label ng-show="form.title.$error.required" class="error">Title is required.</label>
-								<label ng-show="form.title.$error.minlength" class="error">Title is too short.</label>
+								<label ng-show="form.title.$error.required" class="error">Hilfetext is required.</label>
+								<label ng-show="form.title.$error.minlength" class="error">Hilfetext is too short.</label>
 							</span>
 						</div>
 					</div>

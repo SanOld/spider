@@ -3,7 +3,7 @@
 <head>
   <?php include('head.php'); ?>
 </head>
-<body ng-app="spi" ng-controller="main">
+<body ng-class="{'bg': _m == 'dashboard'}" ng-app="spi" ng-controller="main">
 <div id="page">
   <header class="top-head container-fluid">
     <div class="container">
@@ -80,7 +80,7 @@
     <h3 class="subheading">Benutzerinformation</h3>
     <hr>
     <div class="panel-body">
-      <form novalidate class="form-horizontal" method="post" name="form">
+      <form novalidate class="form-horizontal" name="form" disable-all="!canEdit()">
         <div class="form-group">
           <label class="col-lg-2 control-label">Status</label>
 
@@ -100,12 +100,12 @@
         <div class="form-group">
           <label class="col-lg-2 control-label">Benutzer-Typ</label>
 
-          <div ng-if="!isInsert && !isPerformer" class="col-lg-10">
+          <div ng-if="isCurrentUser || (!isInsert && !isPerformer)" class="col-lg-10">
             <span class="no-edit-text">{{type_name}}</span>
             <span spi-hint text="_hint.type_id"></span>
           </div>
 
-          <div ng-if="isInsert || isPerformer" class="col-lg-4 custom-width">
+          <div ng-if="!isCurrentUser && (isInsert || isPerformer)" class="col-lg-4 custom-width">
             <div spi-hint text="_hint.type_id" class="has-hint"></div>
 
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
@@ -116,7 +116,7 @@
                 </ui-select-choices>
               </ui-select>
 								<span ng-show="fieldError('type_id')">
-									<label ng-show="form.type_id.$error.required" class="error">User type is required.</label>
+									<label ng-show="form.type_id.$error.required" class="error">Benutzer-Typ is required.</label>
 								</span>
             </div>
           </div>
@@ -143,8 +143,7 @@
                 </ui-select-choices>
               </ui-select>
 								<span ng-show="fieldError('relation_id')">
-									<label ng-show="form.type_id.$error.required" class="error">Relation is required.</label>
-									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+									<label ng-show="form.type_id.$error.required" class="error">Organisation is required.</label>
 								</span>
             </div>
           </div>
@@ -209,15 +208,15 @@
             </div>
             <div class="form-group has-feedback">
               <label class="col-lg-4 control-label" for="first_name">Vorname</label>
-              <div class="col-lg-8" ng-class="{'wrap-line error': fieldError('first_name')}">
+              <div class="col-lg-8">
                 <div spi-hint text="_hint.first_name" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('first_name')}">
                   <input class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name"
                          value="" ng-minlength="2" ng-maxlength="45" required>
                     <span ng-show="fieldError('first_name')">
-                    <label ng-show="form.first_name.$error.required" class="error">First name is required.</label>
-                    <label ng-show="form.first_name.$error.minlength" class="error">First name is too short.</label>
-                    <label ng-show="form.first_name.$error.maxlength" class="error">First name is too long.</label>
+                    <label ng-show="form.first_name.$error.required" class="error">Vorname is required.</label>
+                    <label ng-show="form.first_name.$error.minlength" class="error">Vorname is too short.</label>
+                    <label ng-show="form.first_name.$error.maxlength" class="error">Vorname is too long.</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                   </span>
                 </div>
@@ -231,9 +230,9 @@
                   <input class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
                          ng-minlength="2" ng-maxlength="45" required>
                   <span ng-show="fieldError('last_name')">
-                    <label ng-show="form.last_name.$error.required" class="error">Last name is required.</label>
-                    <label ng-show="form.last_name.$error.minlength" class="error">Last name is too short.</label>
-                    <label ng-show="form.last_name.$error.maxlength" class="error">Last name is too long.</label>
+                    <label ng-show="form.last_name.$error.required" class="error">Nachname is required.</label>
+                    <label ng-show="form.last_name.$error.minlength" class="error">Nachname is too short.</label>
+                    <label ng-show="form.last_name.$error.maxlength" class="error">Nachname is too long.</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                   </span>
                 </div>
@@ -251,9 +250,9 @@
                   <input class="form-control" type="text" name="login" ng-model="user.login" id="login" value=""
                          ng-disabled="isCurrentUser" ng-minlength="3" ng-maxlength="45" required>
 									<span ng-show="fieldError('login')">
-										<label ng-show="form.login.$error.required" class="error">Username is required.</label>
-										<label ng-show="form.login.$error.minlength" class="error">Username is too short.</label>
-										<label ng-show="form.login.$error.maxlength" class="error">Username is too long.</label>
+										<label ng-show="form.login.$error.required" class="error">Benutzername is required.</label>
+										<label ng-show="form.login.$error.minlength" class="error">Benutzername is too short.</label>
+										<label ng-show="form.login.$error.maxlength" class="error">Benutzername is too long.</label>
                     <label ng-show="error.login.dublicate" class="error">This Username already registered.</label>
 										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 									</span>
@@ -293,7 +292,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" ng-if="isCurrentUser || canEdit()">
           <div class="form-custom-box clearfix">
             <div class="col-lg-12">
               <h4>Passwort</h4>
@@ -318,8 +317,8 @@
                 <input class="form-control" name="password" ng-model="user.password" type="password" value=""
                        ng-minlength="3" ng-required="isInsert">
 								  <span ng-show="fieldError('password')">
-                    <label ng-show="form.password.$error.required" class="error">Password is required.</label>
-                    <label ng-show="form.password.$error.minlength" class="error">Password is too short.</label>
+                    <label ng-show="form.password.$error.required" class="error">Passwort is required.</label>
+                    <label ng-show="form.password.$error.minlength" class="error">Passwort is too short.</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								  </span>
               </div>
@@ -331,7 +330,7 @@
                 <input class="form-control" name="password_repeat" ng-model="password_repeat" type="password" value=""
                        ng-pattern="user.password" ng-required="isInsert || user.password.length">
 								<span ng-show="fieldError('password_repeat')">
-									<label ng-show="form.password_repeat.$error.required" class="error">Password repeat is
+									<label ng-show="form.password_repeat.$error.required" class="error">Passwort bestätigen is
                     required.</label>
 									<label ng-show="form.password_repeat.$error.pattern" class="error">Passwords are not equal.</label>
 									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -341,13 +340,13 @@
           </div>
         </div>
         <div class="form-group group-btn">
-          <div class="col-lg-2" ng-if="!isInsert && !isCurrentUser">
+          <div class="col-lg-2" ng-if="!isInsert && !isCurrentUser && canDelete()">
             <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove(userId)"><i
                 class="fa fa-trash-o"></i></a>
           </div>
           <div class="col-lg-6 text-right pull-right">
             <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-            <button class="btn w-lg custom-btn" ng-click="submitForm(user)">Speichern</button>
+            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitForm(user)">Speichern</button>
           </div>
         </div>
       </form>

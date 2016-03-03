@@ -22,7 +22,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Benutzer-Typ'" sortable="'name'">{{row.name}}</td>
 							<td data-title="'Organisationstyp'">{{row.relation_name}}</td>
-							<td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
+							<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
 								</a>
@@ -45,7 +45,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 				</div>
 				<div class="panel-body table-modal">
-          <form novalidate name="form">
+          <form novalidate name="form" disable-all="!canEdit()">
 					<div class="form-group custom-field row clearfix">
 						<div class="form-group col-lg-6">
 							<label>Benutzer-Typ</label>
@@ -53,9 +53,9 @@ $this->breadcrumbs = array('Benutzerrollen');
 							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('user_type_name')}">
               	<input class="form-control" placeholder="Benutzerdefinierter Typ" name="user_type_name" ng-model="user_type.name" type="text" value="" ng-minlength="2" ng-maxlength="255" required>
 								<span ng-show="fieldError('user_type_name')">
-									<label ng-show="form.user_type_name.$error.required" class="error">Type name is required.</label>
-									<label ng-show="form.user_type_name.$error.minlength" class="error">Type name is too short.</label>
-									<label ng-show="form.user_type_name.$error.maxlength" class="error">Type name is too long.</label>
+									<label ng-show="form.user_type_name.$error.required" class="error">Benutzer-Typ is required.</label>
+									<label ng-show="form.user_type_name.$error.minlength" class="error">Benutzer-Typ is too short.</label>
+									<label ng-show="form.user_type_name.$error.maxlength" class="error">Benutzer-Typ is too long.</label>
 									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</span>
 							</div>
@@ -68,10 +68,7 @@ $this->breadcrumbs = array('Benutzerrollen');
                 <div ng-if="isInsert" class="wrap-hint">
                   <select  name="user_type_type" ng-model="user_type.type" class="type-user form-control" ng-options="r.id as r.name for r in relations"></select>
                 </div>
-
               </div>
-
-
             </div>
 					</div>
 
@@ -83,9 +80,15 @@ $this->breadcrumbs = array('Benutzerrollen');
                 <input ng-if="isInsert" type="hidden" ng-model="user_right[$index].page_id">
               </td>
               <td data-title="'Seite'" sortable="'name'">{{row.name}}</td>
+              <td data-title="'Zeigen'" header-class="'text-center'">
+                <label class="cr-styled" ng-if="user_right[$index].is_real_page != '0'">
+                  <input type="checkbox" ng-model="user_right[$index].can_show" ng-init="user_right[$index].can_show = user_right[$index].code == 'dashboard' ? '1' : user_right[$index].can_show" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default || user_right[$index].code == 'dashboard'">
+                  <i class="fa"></i>
+                </label>
+              </td>
               <td data-title="'Ansicht'" header-class="'text-center'">
                 <label class="cr-styled">
-                  <input type="checkbox" ng-model="user_right[$index].can_view" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default">
+                  <input type="checkbox" ng-model="user_right[$index].can_view" ng-init="user_right[$index].can_view = user_right[$index].code == 'dashboard' ? '1' : user_right[$index].can_view" ng-model="user_right[$index].can_view" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default || user_right[$index].code == 'dashboard'">
                   <i class="fa"></i>
                 </label>
               </td>
@@ -100,12 +103,12 @@ $this->breadcrumbs = array('Benutzerrollen');
 
 					<div class="row p-t-10">
 						<div class="form-group group-btn p-t-10">
-							<div class="col-lg-2" ng-if="!isInsert && !default">
+							<div class="col-lg-2" ng-if="canEdit() && !isInsert && !default">
 								<button ng-click="remove(userTypeId)" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
 							</div>
 							<div class="col-lg-6 text-right pull-right">
 								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" ng-click="submitForm()">Speichern</button>
+								<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitForm()">Speichern</button>
 							</div>
 						</div>
 					</div>

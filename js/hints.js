@@ -21,7 +21,7 @@ spi.controller('HintsController', function($scope, $rootScope, network, GridServ
         grid.openEditor({data: row, hint: $scope._hint, controller: 'EditHintController'});
     };
 
-    network.get('page', {}, function(result, response){
+    network.get('page', {filter: 1}, function(result, response){
         if(result) {
             $scope.pages = response.result;
         }
@@ -40,7 +40,7 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
     function reloadPosition() {
         $scope.positions = [];
         if($scope.hint.page_id) {
-            network.get('page_position', {page_id: $scope.hint.page_id, except: 'hint'}, function (result, response) {
+            network.get('page_position', {filter: 1, page_id: $scope.hint.page_id, except: 'hint'}, function (result, response) {
                 if(result) {
                     $scope.positions = response.result;
                 }
@@ -68,7 +68,7 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
         };
         reloadPosition();
     } else {
-        network.get('page', {}, function(result, response){
+        network.get('page', {filter: 1}, function(result, response){
             if(result) {
                 $scope.pages = response.result;
             }

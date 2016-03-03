@@ -37,10 +37,34 @@ class Auth {
                  ->select('usr.*, ust.name type_name')
                  ->from('spi_user usr')
                  ->join('spi_user_type ust', 'usr.type_id=ust.id')
-                 ->where('login=:user AND usr.password=MD5(:pass)', 
+                 ->where('login=:user AND usr.password=MD5(:pass)',
                           array( ':user'=>$login, ':pass'=>$password)
                         )
                  ->queryRow();
+      if($this->user['relation_id']) {
+        $table = '';
+        switch($this->user['type']) {
+          case 's':
+            $table = 'spi_school';
+            break;
+          case 'd':
+            $table = 'spi_district';
+            break;
+          case 't':
+            $table = 'spi_performer';
+            break;
+
+        }
+        if($table) {
+          $this->user['relation_name'] = Yii::app()->db->createCommand()
+            ->select('name')
+            ->from($table)
+            ->where('id=:id', array(':id' => $this->user['relation_id']))
+            ->queryScalar();
+        }
+      }
+
+
       
       if($this->user && $this->user['is_active']==1) {
         $authToken = $this->user['auth_token'];
@@ -62,13 +86,13 @@ class Auth {
 
         $rights = array();
         $rows = Yii::app()->db->createCommand()
-          ->select('pag.code, utr.can_view, utr.can_edit')
+          ->select('pag.code, utr.can_show, utr.can_view, utr.can_edit')
           ->from('spi_user_type_right utr')
           ->join('spi_page pag', 'utr.page_id = pag.id')
           ->where('utr.type_id=:type_id', array(':type_id'=>$this->user['type_id']))
           ->queryAll();
         foreach($rows as $row) {
-          $rights[$row['code']] = array('view' => (int)$row['can_view'], 'edit' => (int)$row['can_edit']);
+          $rights[$row['code']] = array('show' => (int)$row['can_show'], 'view' => (int)$row['can_view'], 'edit' => (int)$row['can_edit']);
         }
 
         $res = array( 'result'      => true

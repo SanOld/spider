@@ -32,7 +32,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/select2/select2.css" />
 
 <!-- Datapicker -->
-<!--<link rel="stylesheet" type="text/css" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/js/lib/timepicker/bootstrap-datepicker.min.css" />-->
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/timepicker/bootstrap-datepicker.min.css" />
 <!--<link rel="stylesheet" type="text/css" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/js/lib/timepicker/bootstrap-timepicker.min.css" />-->
 
 <!-- Custom styles for this template -->
@@ -64,6 +64,7 @@ $cs = Yii::app()->clientScript;
 $cs->registerScriptFile($baseUrl . '/js/lib/jquery.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular.min.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-locale_de-de.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-local-storage.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-sanitize.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-animate.min.js');

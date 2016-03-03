@@ -39,7 +39,7 @@ class BaseController extends Controller {
           if($user = $auth->checkEmail(post('email'))) {
             return Email::doRecovery($user, $auth->getRecoveryLink($user));
           } else {
-            response(409, array('system_code' => 'ERR_RECOVERY_EMAIL'));
+            response(409, array('system_code' => 'ERR_RECOVERY_EMAIL', 'silent' => true));
           }
           break;
         case 'reset_password':
@@ -75,8 +75,11 @@ class BaseController extends Controller {
 
     $this -> model -> user = $auth -> user;
 
-    $permissionField = in_array($this -> method, array('post', 'put', 'delete')) ? 'can_edit' : 'can_view';
-    if(!$auth->user[$permissionField]) {
+    $this -> model -> isFilter = !!safe($_GET, 'filter');
+
+    $permissionField = in_array($this -> method, array('post', 'put', 'delete', 'patch')) ? 'can_edit' : 'can_view';
+
+    if(!($permissionField == 'can_view' && $this->model->isFilter) && !($this -> method == 'put' && safe($_GET,'id') == $auth -> user['id']) && !$auth->user[$permissionField]) {
       $this->sendPermissionError();
     }
 
@@ -93,6 +96,17 @@ class BaseController extends Controller {
           parse_str(file_get_contents("php://input"), $post_vars);
           $id = safe($_GET,'id');
           $this -> model ->update($id, $post_vars);
+          break;
+        case 'patch' :
+          $post_vars = array ();
+          parse_str(file_get_contents("php://input"), $post_vars);
+          if(safe($post_vars, 'ids')) {
+            $ids = !is_array($post_vars['ids']) ? array($post_vars['ids']) : $post_vars['ids'];
+            unset($post_vars['ids']);
+            foreach($ids as $id) {
+              $this -> model ->update($id, $post_vars);
+            }
+          }
           break;
         case 'delete' :
             $id = safe($_GET,'id');
@@ -115,10 +129,10 @@ class BaseController extends Controller {
 
   function getRelation() {
     return array(
-      array('id' => 'a', 'name' => 'No relation'),
-      array('id' => 'd', 'name' => 'District'),
-      array('id' => 't', 'name' => 'Performer'),
-      array('id' => 's', 'name' => 'School'),
+      array('id' => 'a', 'code' => 'no_relation', 'name' => 'Keine Verbindung'),
+      array('id' => 'd', 'code' => 'district',    'name' => 'Bezirk'),
+      array('id' => 't', 'code' => 'performer',   'name' => 'Träger Agentur'),
+      array('id' => 's', 'code' => 'school',      'name' => 'Schule'),
     );
   }
   
@@ -194,7 +208,22 @@ class BaseController extends Controller {
     $result = $uploader->handleUpload($path);
     if(safe($result, 'success')) {
       $this -> model = CActiveRecord::model(self::getClassName($model));
-      $this -> model -> addFile($id, $uploader->getName(), $dirpath.$result['filename']);
+
+      $headers = getallheaders ();
+      $this -> method = strtolower($_SERVER['REQUEST_METHOD']);
+      $auth = new Auth(safe($headers,'Authorization'));
+
+      if(!$auth ->checkToken()) {
+        $error = $auth->getAuthError();
+        response('401', $error);
+      }
+
+      $this -> model -> user = $auth -> user;
+      if(!$auth->user['can_edit']) {
+        $this->sendPermissionError();
+      }
+
+      $result = $this -> model -> addFile($id, $uploader->getName(), $dirpath.$result['filename']);
     }
     echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
   }

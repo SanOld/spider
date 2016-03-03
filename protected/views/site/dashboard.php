@@ -1,21 +1,18 @@
 <?php
 /* @var $this SiteController */
 
-$this->pageTitle=Yii::app()->name;
+$this->pageTitle = 'Startseite | ' . Yii::app()->name;
 
 ?>
 
-<div class="container home-dashboard">
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/dashboard.js"></script>
+
+<div class="container home-dashboard" ng-controller="DashboardController">
     <div class="col-lg-12 animated fadeInDown text-center">
         <div class="col-lg-12">
             <h1>Willkommen zu Stiftung SPI</h1>
-            <h2>Upgrade der "Jugendsozialarbeit an Berliner Schulen" auf SPIder 2</h2>
-            <p>Ab der Antragsphase für das Förderjahr 2017 steigen wir um auf die neue Programmsoftware SPIder 2.
-                Wir freuen uns, Ihnen schon jetzt die neue Software vorstellen zu können, so dass Sie sich frühzeitig
-                mit der neu überarbeiteten Software vertraut machen können.
-                Damit Ihre Arbeitsumgebung zum Start der neuen Antragsphase 2017 optimal eingerichtet ist,
-                bitten wir Sie, schon jetzt Ihre Trägerdaten auszufüllen.
-                Den Antrag 2017 und den Mittelabruf können Sie sich bereits ansehen.</p>
+            <h2 ng-bind="_hint.header.title"></h2>
+            <p ng-bind="_hint.header.text"></p>
         </div>
         <div class="row text-left">
             <div class="col-lg-4">

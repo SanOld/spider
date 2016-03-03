@@ -171,12 +171,12 @@ $this->breadcrumbs = array('Anträge');
 								</tr>
 							</table>
 
-							<div class="btn-row m-t-15 clearfix">
-								<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Druck-Template wählen</button>
-								<button class="btn m-b-5" data-target="#modal-3" data-toggle="modal">Laufzeit festlegen</button>
-								<button class="btn m-b-5">Förderfähig</button>
-								<button class="btn m-b-5">Genehmigung</button>
-								<button class="btn m-b-5 pull-right">Folgeantrag hinzufügen</button>
+							<div class="btn-row m-t-15 clearfix" ng-if="canEdit()">
+								<button class="btn m-b-5" ng-disabled="!existsSelected()">Druck-Template wählen</button>
+								<button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkDuration()">Laufzeit festlegen</button>
+								<button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(4)">Förderfähig</button>
+								<button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(5)">Genehmigung</button>
+								<button class="btn m-b-5 pull-right" ng-disabled="!existsSelected()">Folgeantrag hinzufügen</button>
 							</div>
 						</div>
 					</div>
@@ -224,4 +224,49 @@ $this->breadcrumbs = array('Anträge');
 		<input type="checkbox" ng-model="checkboxes.checked" ng-click="headerChecked(checkboxes.checked)">
 		<i class="fa"></i>
 	</label>
+</script>
+
+
+<script type="text/ng-template" id="setDuration.html">
+    <div class="panel panel-color panel-primary">
+      <div class="panel-heading clearfix">
+        <h3 class="m-0 pull-left">Laufzeit festlegen</h3>
+        <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
+      </div>
+      <div class="panel-body text-center">
+        <h3 class="m-b-30">Geben Sie die Zeitdauer für die {{countElements}} Elemente ein</h3>
+        <div class="form-group">
+          <ng-form name="form">
+          <div class="holder-datepicker text-right">
+            <div class="col-lg-3 p-0">
+              <label>Anfangsdatum</label>
+            </div>
+            <div class="col-lg-3 p-0">
+              <div class="input-group">
+                <input type="text" ng-click="dp_start_date_is_open = !dp_start_date_is_open" ng-model="form.start_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_start_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+            <div class="col-lg-3 p-0">
+              <label>Fälligkeitstermin</label>
+            </div>
+            <div class="col-lg-3 p-0">
+              <div class="input-group">
+                <input type="text" ng-click="dp_due_date_is_open = !dp_due_date_is_open" ng-model="form.due_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_due_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+          </div>
+          </ng-form>
+        </div>
+      </div>
+      <div class="row p-t-10 text-center">
+        <div class="form-group group-btn m-t-20">
+          <div class="col-lg-12">
+            <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+            <button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date">Speichern</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </script>

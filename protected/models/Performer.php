@@ -12,6 +12,25 @@ class Performer extends BaseModel {
         -> leftJoin('spi_user usp', 'tbl.representative_user_id = usp.id')
         -> leftJoin('spi_bank_details bnd', 'tbl.bank_details_id = bnd.id');
     $command -> where(' 1=1 ', array());
+    $command = $this->setWhereByRole($command);
+    return $command;
+  }
+
+  protected function setWhereByRole($command) {
+    switch($this->user['type']) {
+      case SCHOOL:
+        $command->join('spi_project prj', 'tbl.id = prj.performer_id');
+        $command->join('spi_project_school pjs', 'prj.id = pjs.project_id');
+        $command->andWhere('pjs.school_id = :school_id ', array(':school_id' => $this->user['relation_id']));
+        break;
+      case DISTRICT:
+        $command->join('spi_project prj', 'tbl.id = prj.performer_id');
+        $command->andWhere('prj.district_id = :district_id', array(':district_id' => $this->user['relation_id']));
+        break;
+      case TA:
+        $command->andWhere('tbl.id = :performer_id', array(':performer_id' => $this->user['relation_id']));
+        break;
+    }
     return $command;
   }
 
@@ -32,14 +51,46 @@ class Performer extends BaseModel {
   protected function doBeforeInsert($post) {
     $post = $this->checkFields($post);
 
+    if (Yii::app() -> db -> createCommand()
+      -> select('id')
+      -> from($this -> table)
+      -> where('name=:name', array(':name' => $post['name']))
+      -> queryScalar()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_DUPLICATED'
+      );
+    }
+
+    if (Yii::app() -> db -> createCommand()
+      -> select('id')
+      -> from($this -> table)
+      -> where('short_name=:short_name', array(':short_name' => $post['short_name']))
+      -> queryScalar()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
+      );
+    }
+
     return array(
       'result' => true,
       'params' => $post
     );
   }
 
+
   protected function doBeforeUpdate($post, $id) {
     $post = $this->checkFields($post);
+
+    if($id == safe($this->user, 'relation_id')) {
+      $post['is_checked'] = 0;
+      $post['checked_by'] = null;
+    }
 
     if(isset($post['bank_details_id']) && !$post['bank_details_id']) {
       unset($post['bank_details_id']);
@@ -55,6 +106,34 @@ class Performer extends BaseModel {
 
     if(isset($post['budget_processing_user_id']) && !$post['budget_processing_user_id']) {
       unset($post['budget_processing_user_id']);
+    }
+
+    if (Yii::app() -> db -> createCommand()
+      -> select('id')
+      -> from($this -> table)
+      -> where('id != :id AND name=:name',
+        array(':id' => $id, ':name' => $post['name']))
+      -> queryScalar()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_DUPLICATED'
+      );
+    }
+
+    if (Yii::app() -> db -> createCommand()
+      -> select('id')
+      -> from($this -> table)
+      -> where('id != :id AND short_name=:short_name',
+        array(':id' => $id, ':short_name' => $post['short_name']))
+      -> queryScalar()) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
+      );
     }
 
     return array(
@@ -79,6 +158,29 @@ class Performer extends BaseModel {
       unset($post['comment']);
     }
     return $post;
+  }
+
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        return true;
+      case ACTION_UPDATE:
+        if(($user['type'] == ADMIN && $user['type_id'] != 6) || ($user['type'] == TA && safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id'))) { // except Senat
+          return true;
+        }
+        break;
+      case ACTION_INSERT:
+        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
+          return true;
+        }
+        break;
+      case ACTION_DELETE:
+        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
+          return true;
+        }
+        break;
+    }
+    return false;
   }
 
 }

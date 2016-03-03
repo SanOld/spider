@@ -45,7 +45,7 @@ $this->breadcrumbs = array('Bezirk');
                   <td data-title="'Adresse'" sortable="'address'">{{row.address}}</td>
                   <td data-title="'Ansprechpartner(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
                   <td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
-                  <td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
+                  <td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
                     <a class="btn center-block edit-btn" ng-click="openEdit(row)">
                       <i class="ion-edit"></i>
                     </a>
@@ -75,20 +75,20 @@ $this->breadcrumbs = array('Bezirk');
       <form novalidate name="form">
         <uib-tabset>
           <uib-tab heading="Allgemein">
-            <ng-form name="formDistrict" class="form-horizontal">
+            <ng-form name="formDistrict" class="form-horizontal" disable-all="!canEdit()">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">
                   <h3 class="subheading m-0">Allgemeine Information</h3>
                   <hr>
                   <div class="m-b-15 clearfix">
                     <label class="col-lg-2 control-label">Name</label>
-
                     <div class="col-lg-10">
                       <div spi-hint text="_hint.name" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                         <input name="name" ng-model="district.name" class="form-control" type="text" value="" required>
                         <span ng-show="fieldError('name')">
-                        <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required.</label>
+                          <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required.</label>
+                          <label ng-show="error.name.dublicate" class="error">This name already exists.</label>
                         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -192,7 +192,7 @@ $this->breadcrumbs = array('Bezirk');
                   <div class="wrap-hint">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(district.contact_id)"
                                ng-model="district.contact_id" name="contact_id">
-                      <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">
+                      <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">
                         {{$select.selected.name}}
                       </ui-select-match>
                       <ui-select-choices repeat="item.id as item in users | filter: $select.search">
@@ -214,19 +214,19 @@ $this->breadcrumbs = array('Bezirk');
               </div>
               <hr/>
               <div class="form-group group-btn m-t-15">
-                <div class="col-lg-2" ng-if="!isInsert">
+                <div class="col-lg-2" ng-if="!isInsert && canEdit()">
                   <a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i
                       class="fa fa-trash-o"></i></a>
                 </div>
                 <div class="col-lg-10 text-right pull-right">
                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-                  <button class="btn w-lg custom-btn" ng-click="submitFormDistrict()">Speichern</button>
+                  <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitFormDistrict()">Speichern</button>
                 </div>
               </div>
             </ng-form>
           </uib-tab>
 
-          <uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 'district'" ng-if="canView('user')">
+          <uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 'd'; relationId = districtId" ng-if="canView('user')">
             <div class="holder-tab" ng-controller="UserController">
               <div class="panel-body edit-user agency-tab-user">
                 <div>

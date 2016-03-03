@@ -21,6 +21,7 @@ class BaseModel extends CFormModel {
   public $user = array ();
   public $localDate = array ();
   public $method = false;
+  public $isFilter = false;
   
   public $filePath = '';
   public $uploadPath = '';
@@ -34,6 +35,16 @@ class BaseModel extends CFormModel {
           ':id' => $this->id 
       ) );
     }
+    return $command;
+  }
+  protected function setWhereByRole($command) {
+    return $command;
+  }
+  protected function getCommandFilter() {
+    $command = Yii::app()->db->createCommand()->select ('tbl.id, tbl.name')
+      ->from($this->table  . ' tbl');
+    $command = $this->setWhereByRole($command);
+    $command->order('name');
     return $command;
   }
   protected function getParamCommand($command, array $params) {
@@ -199,8 +210,19 @@ class BaseModel extends CFormModel {
   
   // ------------ delete ----------------
   protected function doBeforeDelete($id) {
-    return array (
-        'result' => true 
+    $row = Yii::app() -> db -> createCommand() -> select('id') -> from($this -> table . ' tbl') -> where('id=:id', array(
+      ':id' => $id
+    )) -> queryScalar();
+    if (!$row) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_NOT_EXISTS'
+      );
+    }
+
+    return array(
+      'result' => true
     );
   }
   protected function doDelete($id) {
@@ -222,11 +244,7 @@ class BaseModel extends CFormModel {
       }
     } catch (CDbException $e) {
       if ($e->getCode() == 23000){
-        $table = strstr($e->errorInfo[2],'foreign key constraint fails (');
-        $table = strstr($table,'`tt_'); 
-        $table = explode('`', $table);
-        $table = explode('tt_', $table[1]);
-        return array('code' => '409', 'result'=> false, 'system_code'=> 'ERR_DEPENDENT_RECORD', 'table' => $table[1]);
+        return $this->getForeignKeyError($e);
       } else {
         return array (
             'code' => '409',
@@ -235,6 +253,13 @@ class BaseModel extends CFormModel {
             );
       } 
     }
+  }
+  protected function getForeignKeyError($e) {
+    $table = strstr($e->errorInfo[2],'foreign key constraint fails (');
+    $table = strstr($table,'`spi_');
+    $table = explode('`', $table);
+    $table = explode('spi_', $table[1]);
+    return array('code' => '409', 'result'=> false, 'system_code'=> 'ERR_DEPENDENT_RECORD', 'table' => $table[1]);
   }
   protected function doAfterDelete($result, $id) {
     return $result;
@@ -286,19 +311,9 @@ class BaseModel extends CFormModel {
     }
     return $missed;
   }
-  
-//  define ( 'PA', 'p' );
-//  define ( 'TA', 't' );
-//  define ( 'ADMIN', 'a' );
-//  define ( 'SCHOOL', 's' );
-//  define ( 'DISTRICT', 'd' );
-//  define ( 'SENAT', 'g' );
+
   protected function addRelations($user, $command) {
     switch ($user['type']) {
-      case ADMIN :
-      case PA :
-      case SENAT :
-        break;
       case TA :
         $command -> join('spi_performer pfm ', 'pfm.id=tbl.relation_id');
         break;
@@ -314,14 +329,9 @@ class BaseModel extends CFormModel {
 
   protected function getRelationByType($type) {
     switch ($type) {
-      case ADMIN :
-      case PA :
-      case SENAT :
-        return array('name' => 'No relation');
-        break;
       case TA :
         return array(
-          'name'   => 'Performer',
+          'name'   => 'Träger Agentur',
           'code'   => 'performer',
           'prefix' => 'pfm',
           'table'  => 'spi_performer',
@@ -329,7 +339,7 @@ class BaseModel extends CFormModel {
         break;
       case SCHOOL :
         return array(
-          'name'   => 'School',
+          'name'   => 'Schule',
           'code'   => 'school',
           'prefix' => 'scl',
           'table'  => 'spi_school',
@@ -337,91 +347,98 @@ class BaseModel extends CFormModel {
         break;
       case DISTRICT :
         return array(
-          'name'   => 'District',
+          'name'   => 'Bezirk',
           'code'   => 'district',
           'prefix' => 'dst',
           'table'  => 'spi_district',
         );
         break;
     }
-    return array();
+    return array('name' => 'Keine Verbindung');
   }
 
   public function insert($post, $multiInsert = false) {
     $this->method = 'post';
-    $results = $this->doBeforeInsert ( $post );
-    if ($results ['result']) {
-      $params = safe($results, 'params', $post);
-      $missed = $this->checkRequired ( $params );
-      if (! $missed) {
-        $results = $this->doInsert ( $params, $post );
-        $results = $this->doAfterInsert ( $results, $params, $post);
-        if($multiInsert && $results['code'] == '200') {
-          return $results;
+    if ($this->checkPermission($this->user, ACTION_INSERT, $post)) {
+      $results = $this->doBeforeInsert($post);
+      if ($results ['result']) {
+        $params = safe($results, 'params', $post);
+        $missed = $this->checkRequired($params);
+        if (!$missed) {
+          $results = $this->doInsert($params, $post);
+          $results = $this->doAfterInsert($results, $params, $post);
+          if ($multiInsert && $results['code'] == '200') {
+            return $results;
+          } else {
+            response($results ['code'], $results, $this->method);
+          }
         } else {
-          response ( $results ['code'], $results , $this->method);
+          response('400', array('result' => false, 'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS', 'required' => $missed), $this->method);
         }
       } else {
-        response ( '400', array (
-            'result' => false,
-            'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
-            'required' => $missed
-        ), $this->method);
+        if ($multiInsert && $results['code'] == '200') {
+          return $results;
+        } else {
+          response($results ['code'], $results, $this->method);
+        }
       }
     } else {
-      if($multiInsert && $results['code'] == '200') {
-        return $results;
-      } else {
-        response ( $results ['code'], $results , $this->method);
-      }
+      response('403', array(
+        'result' => false,
+        'system_code' => 'ERR_PERMISSION'
+      ));
     }
   }
   public function update($id, $post) {
     $this->id = $id;
     $this->method = 'put';
-    if ($id !== false && $id !== NULL) {
-      $result = $this->doBeforeUpdate ( $post, $id );
-      if ($result ['result']) {
-        $params = safe($result, 'params', $post);
-        $missed = $this->checkRequired ( $params );
-        if (! $missed && !empty($params)) {
-          $results = $this->doUpdate ( $params, $post, $id );
-          $results = $this->doAfterUpdate ( $results, $params, $post, $id );
-          response ( $results ['code'], $results , $this->method);
+    if ($this->checkPermission($this->user, ACTION_UPDATE, $post)) {
+      if ($id !== false && $id !== NULL) {
+        $result = $this->doBeforeUpdate($post, $id);
+        if ($result ['result']) {
+          $params = safe($result, 'params', $post);
+          $missed = $this->checkRequired($params);
+          if (!$missed && !empty($params)) {
+            $results = $this->doUpdate($params, $post, $id);
+            $results = $this->doAfterUpdate($results, $params, $post, $id);
+            response($results ['code'], $results, $this->method);
+          } else {
+            response('400', array('result' => false, 'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS', 'required' => $missed), $this->method);
+          }
         } else {
-          response ( '400', array (
-              'result' => false,
-              'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
-              'required' => $missed
-          ), $this->method );
+          response($result ['code'], $result, $this->method);
         }
       } else {
-        response ( $result ['code'], $result , $this->method);
+        response('405', array('result' => false, 'system_code' => 'ERR_ID_NOT_SPECIFIED'), $this->method);
       }
     } else {
-      response ( '405', array (
-          'result' => false,
-          'system_code' => 'ERR_ID_NOT_SPECIFIED'
-      ), $this->method );
+      response('403', array(
+        'result' => false,
+        'system_code' => 'ERR_PERMISSION'
+      ));
     }
   }
   public function delete($id) {
     $this->id = $id;
     $this->method = 'delete';
-    if ($id !== false) {
-      $result = $this->doBeforeDelete ( $id );
-      if ($result ['result']) {
-        $results = $this->doDelete ( $id );
-        $results = $this->doAfterDelete ( $results, $id );
-        response ( $results ['code'], $results , $this->method);
+    if ($this->checkPermission($this->user, ACTION_DELETE, $id)) {
+      if ($id !== false) {
+        $result = $this->doBeforeDelete($id);
+        if ($result ['result']) {
+          $results = $this->doDelete($id);
+          $results = $this->doAfterDelete($results, $id);
+          response($results ['code'], $results, $this->method);
+        } else {
+          response($result ['code'], $result, $this->method);
+        }
       } else {
-        response ( $result ['code'], $result , $this->method);
+        response('405', array('result' => false, 'system_code' => 'ERR_ID_NOT_SPECIFIED'), $this->method);
       }
     } else {
-      response ( '405', array (
-          'result' => false,
-          'system_code' => 'ERR_ID_NOT_SPECIFIED'
-      ), $this->method );
+      response('403', array(
+        'result' => false,
+        'system_code' => 'ERR_PERMISSION'
+      ));
     }
   }
   function setPagination($command, $get) {
@@ -458,42 +475,33 @@ class BaseModel extends CFormModel {
   }
   public function select($get) {
     $this->method = 'get';
-    
-    $params = array_change_key_case($get, CASE_UPPER);
-    if(safe($params,'GET_LAST_ID')) {
-      $results = $this->getLastId ();
-      response ( $results ['code'], $results , $this->method);
-    } else {
-      $command = $this->getCommand ();
-      if($command) {
-        if (! empty ( $get )) {
-          $command = $this->setPagination($command, $get);
-          $command = $this->setOrder($command, $get);
-          $command = $this->getParamCommand ( $command, $get, array () );
-        }
-        $results = $this->doSelect ( $command );
-        $results = $this->calcResults ( $results );
-        $results = $this->doAfterSelect ( $results );
-      
-        response ( $results ['code'], $results , $this->method);
+    if($this->checkPermission($this->user, ACTION_SELECT, $get) || (get_called_class() == 'Hint' && $this->isFilter)) {
+      if($this->isFilter && get_called_class() != 'Hint') {
+        $command = $this->getCommandFilter();
       } else {
-        response ( '409', array (
-            'result' => false,
-            'system_code' => 'ERR_INVALID_QUERY'
-        ), $this->method );
+        $command = $this->getCommand();
       }
+      if (!empty ($get)) {
+        $command = $this->setPagination($command, $get);
+        $command = $this->setOrder($command, $get);
+        $command = $this->getParamCommand($command, $get, array());
+      }
+      if ($command) {
+        $results = $this->doSelect($command);
+        $results = $this->calcResults($results);
+        $results = $this->doAfterSelect($results);
+
+        response($results ['code'], $results, $this->method);
+      } else {
+        response('409', array('result' => false, 'system_code' => 'ERR_INVALID_QUERY'), $this->method);
+      }
+      echo('select end');
+    } else {
+      response('403', array(
+        'result' => false,
+        'system_code' => 'ERR_PERMISSION'
+      ));
     }
-  }
-  protected function getLastId() {
-    $res = Yii::app() -> db -> createCommand() -> select('max(`id`)') -> from($this -> table . ' tbl')->queryScalar();
-    $res = $res?$res:0;
-    $result = array (
-        'system_code' => 'SUCCESSFUL',
-        'code' => '200',
-        'max_id' => $res
-    );
-    
-    return $result;
   }
   protected function calcResults($result) {
     return $result;
@@ -501,6 +509,17 @@ class BaseModel extends CFormModel {
 
   protected function removeFile($href) {
     unlink($href);
+  }
+
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+      case ACTION_UPDATE:
+      case ACTION_INSERT:
+      case ACTION_DELETE:
+        return true;
+    }
+    return false;
   }
 
 }

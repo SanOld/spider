@@ -29,16 +29,35 @@ class PerformerDocument extends BaseModel {
     ));
   }
 
-  protected function doBeforeDelete($id) {
-    $this->href = Yii::app()->db->createCommand()->select('href')->from($this -> table)->where('id=:id', array(':id'=>$id))->queryScalar();
-    return array (
-      'result' => true
-    );
-  }
-
   protected function doAfterDelete($result, $id) {
     $this->removeFile($this->href);
     return $result;
+  }
+
+  protected function doBeforeDelete($id) {
+    $this->href = Yii::app()->db->createCommand()
+      ->select('href')
+      ->from($this -> table)
+      ->where('id=:id', array(':id'=>$id))
+      ->queryScalar();
+    return parent::doBeforeDelete($id);
+  }
+
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        return true;
+      case ACTION_UPDATE:
+      case ACTION_INSERT:
+      case ACTION_DELETE:
+//        return true;
+//        print_r($user['type']);
+//        print_r($user['type_id']);exit;
+        if(($user['type'] == ADMIN && $user['type_id'] != 6) || $user['type'] == TA) {
+          return true;
+        }
+    }
+    return false;
   }
 
 }

@@ -1,199 +1,206 @@
 spi.service('configs', function () {
-    var $configs = this;
+  var $configs = this;
 
-    $configs.getServisePath = function(){
-        return ((location+'').match(/http\:\/\/([^\/]+)/)[0])+'/api/';
-    };
-    $configs.getAuthPath = function(){
-        return ((location+'').match(/http\:\/\/([^\/]+)/)[0])+'/api/login';
-    };
-    $configs.getSitePath = function(){
-        return ((location+'').match(/http\:\/\/([^\/]+)/)[0])+'';
-    };
-    $configs.getDomain = function(){
-        var domain = ((location+'').match(/http\:\/\/([^\/]+)/)[1])+'';
-        var path = domain.split('.');
-        var start = path.length-2;
-        start = start < 0 ? 0 : start;
-        account = path.splice(start,path.length).join('.');
-        return account;
-    };
-    $configs.getAccount = function(){
-        var domain = ((location+'').match(/http\:\/\/([^\/]+)/)[1])+'';
-        var path = domain.split('.');
-        var account = '';
-        if(path.length > 2) {
-            account = path.splice(0,path.length-2).join('.');
-        }
-        return account;
+  $configs.getServisePath = function () {
+    return ((location + '').match(/http\:\/\/([^\/]+)/)[0]) + '/api/';
+  };
+  $configs.getAuthPath = function () {
+    return ((location + '').match(/http\:\/\/([^\/]+)/)[0]) + '/api/login';
+  };
+  $configs.getSitePath = function () {
+    return ((location + '').match(/http\:\/\/([^\/]+)/)[0]) + '';
+  };
+  $configs.getDomain = function () {
+    var domain = ((location + '').match(/http\:\/\/([^\/]+)/)[1]) + '';
+    var path = domain.split('.');
+    var start = path.length - 2;
+    start = start < 0 ? 0 : start;
+    account = path.splice(start, path.length).join('.');
+    return account;
+  };
+  $configs.getAccount = function () {
+    var domain = ((location + '').match(/http\:\/\/([^\/]+)/)[1]) + '';
+    var path = domain.split('.');
+    var account = '';
+    if (path.length > 2) {
+      account = path.splice(0, path.length - 2).join('.');
     }
+    return account;
+  }
 });
 
-spi.service("GridService", function(network, NgTableParams, $uibModal) {
-    return function() {
-        var tableParams;
-        var defaultFilter = {};
-        var filter = {};
+spi.service("GridService", function (network, NgTableParams, $uibModal) {
+  return function () {
+    var tableParams;
+    var defaultFilter = {};
+    var filter = {};
 
-        function getData(path, params, filter, callback){
-            filter['limit'] = params.count();
-            filter['page'] = params.page();
-            var sort = params.sorting();
-            if(Object.keys(sort).length) {
-                filter['order'] = Object.keys(sort)[0];
-                filter['direction'] = sort[filter['order']];
-            }
-            network.get(path, angular.copy(filter), function(result, response){
-                if(result) {
-                    callback(response);
-                }
-            });
+    function getData(path, params, filter, callback) {
+      filter['limit'] = params.count();
+      filter['page'] = params.page();
+      var sort = params.sorting();
+      if (Object.keys(sort).length) {
+        filter['order'] = Object.keys(sort)[0];
+        filter['direction'] = sort[filter['order']];
+      }
+      network.get(path, angular.copy(filter), function (result, response) {
+        if (result) {
+          callback(response);
         }
-
-        function filterEquals() {
-            var trueFilter = {};
-            var except = ['page', 'limit', 'order', 'direction'];
-            for (var k in filter) {
-                if(except.indexOf(k) === -1) {
-                    trueFilter[k] = filter[k];
-                }
-            }
-            return angular.equals(defaultFilter, trueFilter);
-        }
-
-        function grid(data, defFilter, params) {
-            filter = defFilter || {};
-            params = params || {};
-            defaultFilter = angular.copy(filter);
-            var dataset = typeof(data) === 'object' ? {dataset: data} : {
-                getData: function($defer, params) {
-                    getData(data, params, filter, function(response) {
-                        tableParams.total(response.count);
-                        $defer.resolve(response.result);
-                    });
-                }
-            };
-            tableParams = new NgTableParams(params, dataset);
-            return tableParams;
-        }
-        grid.reload = function() {
-            tableParams.page(1);
-            tableParams.reload();
-        };
-        grid.resetFilter = function() {
-            if(!filterEquals()) {
-                filter = angular.copy(defaultFilter);
-                grid.reload();
-            }
-            return filter;
-        };
-        grid.openEditor = function(params, callback) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: params.template || 'editTemplate.html',
-                controller: params.controller || 'ModalEditController',
-                size: params.size || 'lg',
-                resolve: {
-                    data: function () {
-                        return params.data || {};
-                    },
-                    hint: function () {
-                        return params.hint;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function () {
-                callback ? callback() : tableParams.reload();
-            });
-        };
-        return grid;
+      });
     }
-});
 
-spi.service("HintService", function(network) {
-    return function(code, callback) {
-        network.get('hint', {page_code: code}, function (result, response) {
-            if (result) {
-                var hints = {};
-                for(var i = 0; i < response.result.length; i++) {
-                    hints[response.result[i].position_code] = response.result[i].position_code == 'header' ?
-                    {title: response.result[i].title, text: response.result[i].description} : response.result[i].description;
-                }
-                callback(hints);
-            }
-        });
-    };
-});
-
-
-spi.factory('Utils', function() {
-    return {
-        getRowById : function(items, id, field) {
-            for(var i = 0; i < items.length; i++) {
-                if(items[i].id == id) {
-                    if(field && items[i][field] != undefined) {
-                        return items[i][field];
-                    }
-                    return items[i];
-                }
-            }
-            return false;
+    function filterEquals() {
+      var trueFilter = {};
+      var except = ['page', 'limit', 'order', 'direction'];
+      for (var k in filter) {
+        if (except.indexOf(k) === -1) {
+          trueFilter[k] = filter[k];
         }
+      }
+      return angular.equals(defaultFilter, trueFilter);
+    }
+
+    function grid(data, defFilter, params) {
+      filter = defFilter || {};
+      params = params || {};
+      defaultFilter = angular.copy(filter);
+      var dataset = typeof(data) === 'object' ? {dataset: data} : {
+        getData: function ($defer, params) {
+          getData(data, params, filter, function (response) {
+            tableParams.total(response.count);
+            $defer.resolve(response.result);
+          });
+        }
+      };
+      tableParams = new NgTableParams(params, dataset);
+      return tableParams;
+    }
+
+    grid.reload = function () {
+      tableParams.page(1);
+      tableParams.reload();
     };
+    grid.resetFilter = function () {
+      if (!filterEquals()) {
+        filter = angular.copy(defaultFilter);
+        grid.reload();
+      }
+      return filter;
+    };
+    grid.openEditor = function (params, callback) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: params.template || 'editTemplate.html',
+        controller: params.controller || 'ModalEditController',
+        size: params.size || 'lg',
+        resolve: {
+          data: function () {
+            return params.data || {};
+          },
+          hint: function () {
+            return params.hint;
+          }
+        }
+      });
+
+      modalInstance.result.then(function () {
+        callback ? callback() : tableParams.reload();
+      });
+    };
+    return grid;
+  }
 });
 
-spi.factory('SweetAlert', [ '$rootScope', function ( $rootScope ) {
+spi.service("HintService", function (network) {
+  return function (code, callback) {
+    network.get('hint', {filter: 1, page_code: code}, function (result, response) {
+      if (result) {
+        var hints = {};
+        for (var i = 0; i < response.result.length; i++) {
+          hints[response.result[i].position_code] = response.result[i].position_code == 'header' ?
+          {title: response.result[i].title, text: response.result[i].description} : response.result[i].description;
+        }
+        callback(hints);
+      }
+    });
+  };
+});
 
-        var swal = window.swal;
 
-        //public methods
-        var self = {
+spi.factory('Utils', function () {
+  return {
+    getRowById: function (items, id, field) {
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].id == id) {
+          if (field && items[i][field] != undefined) {
+            return items[i][field];
+          }
+          return items[i];
+        }
+      }
+      return false;
+    },
+    getFinanceTypes: function () {
+      return [{id: 'l', name: 'LM'}, {id: 'b', name: 'BP'}];
+    },
+    getSqlDate: function(d) {
+      return d.getFullYear()+'-'+((d.getMonth()+1) < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1)+'-'+(d.getDate() < 10 ? '0'+d.getDate() : d.getDate());
+  }
+  };
+});
 
-            swal: function ( arg1, arg2, arg3 ) {
-                $rootScope.$evalAsync(function(){
-                    if( typeof(arg2) === 'function' ) {
-                        swal( arg1, function(isConfirm){
-                            $rootScope.$evalAsync( function(){
-                                arg2(isConfirm);
-                            });
-                        }, arg3 );
-                    } else {
-                        swal( arg1, arg2, arg3 );
-                    }
-                });
-            },
-            success: function(title, message) {
-                $rootScope.$evalAsync(function(){
-                    swal( title, message, 'success' );
-                });
-            },
-            error: function(title, message) {
-                $rootScope.$evalAsync(function(){
-                    swal( title, message, 'error' );
-                });
-            },
-            warning: function(title, message) {
-                $rootScope.$evalAsync(function(){
-                    swal( title, message, 'warning' );
-                });
-            },
-            info: function(title, message) {
-                $rootScope.$evalAsync(function(){
-                    swal( title, message, 'info' );
-                });
-            },
-            showInputError: function(message) {
-                $rootScope.$evalAsync(function(){
-                    swal.showInputError( message );
-                });
-            },
-            close: function() {
-                $rootScope.$evalAsync(function(){
-                    swal.close();
-                });
-            }
-        };
+spi.factory('SweetAlert', ['$rootScope', function ($rootScope) {
 
-        return self;
-    }]);
+  var swal = window.swal;
+
+  //public methods
+  var self = {
+
+    swal: function (arg1, arg2, arg3) {
+      $rootScope.$evalAsync(function () {
+        if (typeof(arg2) === 'function') {
+          swal(arg1, function (isConfirm) {
+            $rootScope.$evalAsync(function () {
+              arg2(isConfirm);
+            });
+          }, arg3);
+        } else {
+          swal(arg1, arg2, arg3);
+        }
+      });
+    },
+    success: function (title, message) {
+      $rootScope.$evalAsync(function () {
+        swal(title, message, 'success');
+      });
+    },
+    error: function (title, message) {
+      $rootScope.$evalAsync(function () {
+        swal(title, message, 'error');
+      });
+    },
+    warning: function (title, message) {
+      $rootScope.$evalAsync(function () {
+        swal(title, message, 'warning');
+      });
+    },
+    info: function (title, message) {
+      $rootScope.$evalAsync(function () {
+        swal(title, message, 'info');
+      });
+    },
+    showInputError: function (message) {
+      $rootScope.$evalAsync(function () {
+        swal.showInputError(message);
+      });
+    },
+    close: function () {
+      $rootScope.$evalAsync(function () {
+        swal.close();
+      });
+    }
+  };
+
+  return self;
+}]);

@@ -27,21 +27,4 @@ class FinanceSource extends BaseModel {
     return $command;
   }
 
-  protected function doBeforeDelete($id) {
-    $user = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
-        ':id' => $id 
-    )) -> queryRow();
-    if (!$user) {
-      return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_NOT_EXISTS' 
-      );
-    }
-    
-    return array(
-        'result' => true 
-    );
-  }
-
 }

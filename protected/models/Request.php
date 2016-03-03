@@ -59,4 +59,9 @@ class Request extends BaseModel {
     return $result;
   }
 
+  protected function doAfterUpdate($result, $params, $post, $id) {
+    Yii::app()->db->createCommand()->update($this->table, array('last_change' => date("Y-m-d", time())), 'id=:id', array(':id' => $id ));
+    return $result;
+  }
+
 }

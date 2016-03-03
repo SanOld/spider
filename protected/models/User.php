@@ -14,6 +14,10 @@ class User extends BaseModel {
     return $command;
   }
 
+  protected function getCommandFilter() {
+    return Yii::app ()->db->createCommand ()->select ("id, CONCAT(first_name, ' ', last_name) name, function, phone, title, email")->from ( $this->table  . ' tbl') -> order('name');
+  }
+
   protected function getParamCommand($command, array $params, array $logic = array()) {
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,
@@ -62,51 +66,38 @@ class User extends BaseModel {
       }
 
     }
-    if (safe($params, 'SCHOOL_ID')) {
-      $type = 's';
-      $relation = $this->getRelationByType($type);
-      if($relation && safe($relation, 'code')) {
-        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['SCHOOL_ID']));
-      }
-    }
-    if (safe($params, 'DISTRICT_ID')) {
-      $type = 'd';
-      $relation = $this->getRelationByType($type);
-      if($relation && safe($relation, 'code')) {
-        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['DISTRICT_ID']));
-      }
+//    if (safe($params, 'SCHOOL_ID')) {
+//      $type = 's';
+//      $relation = $this->getRelationByType($type);
+//      if($relation && safe($relation, 'code')) {
+//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
+//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['SCHOOL_ID']));
+//      }
+//    }
+//    if (safe($params, 'DISTRICT_ID')) {
+//      $type = 'd';
+//      $relation = $this->getRelationByType($type);
+//      if($relation && safe($relation, 'code')) {
+//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
+//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['DISTRICT_ID']));
+//      }
+//    }
+    if (safe($params, 'RELATION_ID')) {
+      $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['RELATION_ID']));
     }
     return $command;
   }
 
   protected function calcResults($result) {
-    foreach($result['result'] as &$row) {
-      $relation = $this->getRelationByType($row['type']);
-      if($relation && safe($relation, 'table')) {
-        $row['relation_name'] = Yii::app() -> db -> createCommand() -> select('name')
-          -> from($relation['table']) -> where('id=:id', array(':id' => $row['relation_id'])) ->queryScalar();
+    if(!$this->isFilter) {
+      foreach ($result['result'] as &$row) {
+        $relation = $this->getRelationByType($row['type']);
+        if ($relation && safe($relation, 'table')) {
+          $row['relation_name'] = Yii::app()->db->createCommand()->select('name')->from($relation['table'])->where('id=:id', array(':id' => $row['relation_id']))->queryScalar();
+        }
       }
     }
     return $result;
-  }
-
-  protected function doBeforeDelete($id) {
-    $user = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
-        ':id' => $id 
-    )) -> queryRow();
-    if (!$user) {
-      return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_NOT_EXISTS' 
-      );
-    }
-    
-    return array(
-        'result' => true 
-    );
   }
 
   protected function doAfterSelect($results) {
@@ -134,8 +125,8 @@ class User extends BaseModel {
         return array(
           'code' => '409',
           'result' => false,
-          'system_code' => 'ERR_REQUIRED_FIELD',
-          'message' => 'Insert failed: Field relation_id required for this user type.'
+          'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
+          'message' => 'Insert failed: Field relation required for this user type.'
         );
       }
     }
@@ -154,8 +145,7 @@ class User extends BaseModel {
       return array(
           'code' => '409',
           'result' => false,
-          'system_code' => 'ERR_DUPLICATED', 
-          'message' => 'Insert failed: This Username already registered.'
+          'system_code' => 'ERR_DUPLICATED'
       );
     }
 
@@ -163,9 +153,10 @@ class User extends BaseModel {
         ':email' => $email 
     )) -> queryRow()) {
       return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_DUPLICATED_EMAIL' 
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_DUPLICATED_EMAIL'
       );
     }
     
@@ -182,25 +173,60 @@ class User extends BaseModel {
         ':id' => $id
     )) -> queryRow();
 
+    if($row['is_finansist'] != $post['is_finansist']) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        'message' => 'Update failed: The finansist can not be change.'
+      );
+    }
+
+
+    if(safe($post, 'type_id') && $row['type_id'] != $post['type_id'] && !(in_array($row['type_id'], array(3,7)) && in_array($post['type_id'], array(3,7)))) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        'message' => 'Update failed: The type can not be change.'
+      );
+    }
+
+    if(safe($post, 'relation_id') && $row['relation_id'] != $post['relation_id']) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        'message' => 'Update failed: The relation can not be change.'
+      );
+    }
+
     if(safe($post, 'type_id') == 7) {
       $post['is_finansist'] = 1;
     } elseif(safe($post, 'type_id') == 3) {
       $post['is_finansist'] = 0;
     }
 
+    if($id == $this->user['id'] && $row['login'] != $post['login']) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        'message' => 'Update failed: The username can not be change.'
+      );
+    }
+
     if (Yii::app() -> db -> createCommand()
         -> select('*') 
         -> from($this -> table) 
-        -> where('id!=:id ' . 'AND login=:login',
-                  array(
-                  ':id' => $id,
-                  ':login' => $row['login']))
+        -> where('id != :id AND login=:login',
+                  array(':id' => $id, ':login' => $post['login']))
          -> queryRow()) {
       return array(
           'code' => '409',
           'result' => false,
-          'system_code' => 'ERR_DUPLICATED', 
-          'message' => 'This Username already registered'
+          'silent' => true,
+          'system_code' => 'ERR_DUPLICATED'
       );
     }
     
@@ -213,9 +239,10 @@ class User extends BaseModel {
                   ':id' => $id))
          -> queryRow()) {
       return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_DUPLICATED_EMAIL'
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_DUPLICATED_EMAIL'
       );
     }
     
@@ -230,6 +257,36 @@ class User extends BaseModel {
       Email::doWelcome($params);
     }
     return $result;
+  }
+
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        return true;
+      case ACTION_UPDATE:
+        if($user['id'] == $this->id) {
+          return true;
+        }
+        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
+          if(!($user['type_id'] == 2 && $data['type_id'] == 1)) { // except PA create Admin
+            return true;
+          }
+        }
+        break;
+      case ACTION_INSERT:
+        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
+          if(!($user['type_id'] == 2 && $data['type_id'] == 1)) { // except PA create Admin
+            return true;
+          }
+        }
+        break;
+      case ACTION_DELETE:
+        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
+          return true;
+        }
+        break;
+    }
+    return false;
   }
 
 

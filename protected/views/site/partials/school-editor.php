@@ -12,7 +12,7 @@
       <form novalidate name="form">
         <uib-tabset>
           <uib-tab heading="General">
-            <ng-form name="formSchool" class="form-horizontal">
+            <ng-form name="formSchool" class="form-horizontal" disable-all="!canEdit()">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">
                   <h3 class="subheading m-0">Allgemeine Information</h3>
@@ -27,6 +27,7 @@
                             <input name="name" ng-model="school.name" class="form-control" type="text" value="" required>
                             <span ng-show="fieldError('name')">
                               <label ng-show="form.formSchool.name.$error.required" class="error">Name is required.</label>
+                              <label ng-show="error.name.dublicate" class="error">This Name already exists.</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -210,19 +211,19 @@
               </div>
               <hr/>
               <div class="form-group group-btn m-t-15">
-                <div class="col-lg-2" ng-if="!isInsert">
+                <div class="col-lg-2" ng-if="!isInsert && canEdit()">
                   <a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i
                       class="fa fa-trash-o"></i></a>
                 </div>
                 <div class="col-lg-10 text-right pull-right">
                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-                  <button class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
+                  <button ng-if="canEdit()" class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
                 </div>
               </div>
             </ng-form>
           </uib-tab>
 
-          <uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 'school'; schoolId = schoolId"
+          <uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 's'; relationId = schoolId"
                    ng-if="canView('user')">
             <div class="holder-tab" ng-controller="UserController">
               <div class="panel-body edit-user agency-tab-user">

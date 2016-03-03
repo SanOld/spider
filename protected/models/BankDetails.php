@@ -27,21 +27,22 @@ class BankDetails extends BaseModel {
     return $command;
   }
 
-  protected function doBeforeDelete($id) {
-    $user = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
-        ':id' => $id 
-    )) -> queryRow();
-    if (!$user) {
-      return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_NOT_EXISTS' 
-      );
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        if($user['type'] == ADMIN || ($user['type'] == TA && $user['is_finansist'])) {
+          return true;
+        }
+        break;
+      case ACTION_UPDATE:
+      case ACTION_INSERT:
+      case ACTION_DELETE:
+        if($user['type'] == ADMIN && !in_array($user['type_id'], array(6)) || ($user['type'] == TA && $user['is_finansist'])) {
+          return true;
+        }
+        break;
     }
-    
-    return array(
-        'result' => true 
-    );
+    return false;
   }
 
 }

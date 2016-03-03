@@ -38,7 +38,7 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, da
     $scope.relation_name = data.relation_name;
     $scope.user_type = {name: data.name};
   } else {
-    network.get('relation', {}, function (result, response) {
+    network.get('relation', {fitler: 1}, function (result, response) {
       if (result) {
         $scope.relations = response;
         $scope.user_type = {type: 'a'};
@@ -48,7 +48,7 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, da
 
 
   var grid = GridService();
-  network.get('page', {right: 1, type_id: data.id}, function (result, response) {
+  network.get('page', {right: 1, type_id: data.id, order: 'name'}, function (result, response) {
     if (result) {
       $scope.tableParams = grid(response.result, {}, {sorting: {page_name: 'asc'}, count: response.result.length});
       $scope.user_right = [];
@@ -57,8 +57,11 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, da
           id: response.result[k].right_id,
           type_id: data.id,
           page_id: response.result[k].id,
+          code: response.result[k].code,
           can_view: response.result[k].can_view,
-          can_edit: response.result[k].can_edit
+          can_edit: response.result[k].can_edit,
+          can_show: response.result[k].can_show,
+          is_real_page: response.result[k].is_real_page
         });
       }
     }

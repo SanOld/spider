@@ -1,7 +1,7 @@
 				<header class="top-head container-fluid">
 					<div class="container">
 						<div class="logo p-0 m-t-10 m-b-10 col-lg-6">
-							<a href="home-dashboard.php">
+							<a href="/dashboard">
 								<img src="images/logo.png" alt="logo">
 							</a>
 						</div>

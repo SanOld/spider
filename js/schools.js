@@ -21,14 +21,14 @@ spi.controller('SchoolController', function($scope, $rootScope, network, GridSer
          $scope._hint = result;
     });
 
-    network.get('school_type', {}, function (result, response) {
+    network.get('school_type', {filter: 1}, function (result, response) {
         if(result) {
             $scope.schoolTypes = response.result;
         }
     });
 
     if(!$scope.page || $scope.page != 'district') {
-        network.get('district', {}, function (result, response) {
+        network.get('district', {filter: 1}, function (result, response) {
             if(result) {
                 $scope.districts = response.result;
             }
@@ -73,20 +73,20 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
         getUsers();
     }
 
-    network.get('school_type', {}, function (result, response) {
+    network.get('school_type', {filter: 1}, function (result, response) {
         if(result) {
             $scope.schoolTypes = response.result;
         }
     });
 
-    network.get('district', {}, function (result, response) {
+    network.get('district', {filter: 1}, function (result, response) {
         if(result) {
             $scope.districts = response.result;
         }
     });
 
     function getUsers() {
-        network.get('user', {is_active: 1}, function(result, response){
+        network.get('user', {is_active: 1, fitler: 1}, function(result, response){
             if(result) {
                 $scope.users = response.result;
                 if(data.contact_id) {
@@ -102,16 +102,19 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
 
     $scope.fieldError = function(field) {
         var form = $scope.form.formSchool;
-        return ($scope.submited || form[field].$touched) && form[field].$invalid;
+        return ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
     };
 
     $scope.submitFormSchool = function () {
+      $scope.error = false;
         $scope.submited = true;
         $scope.form.formSchool.$setPristine();
         if ($scope.form.formSchool.$valid) {
             var callback = function (result, response) {
                 if (result) {
                     $uibModalInstance.close();
+                } else {
+                  $scope.error = getError(response.system_code);
                 }
                 $scope.submited = false;
             };
@@ -135,5 +138,15 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+  function getError(code) {
+    var result = false;
+    switch (code) {
+      case 'ERR_DUPLICATED':
+        result = {name: {dublicate: true}};
+        break;
+    }
+    return result;
+  }
 
 });
