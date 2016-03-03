@@ -477,8 +477,8 @@ class BaseModel extends CFormModel {
     $this->method = 'get';
     if($this->checkPermission($this->user, ACTION_SELECT, $get) || (get_called_class() == 'Hint' && $this->isFilter)) {
       $params = array_change_key_case($get, CASE_UPPER);
-      if(safe($params,'GET_LAST_ID')) {
-        $results = $this->getLastId ();
+      if(safe($params,'GET_NEXT_ID')) {
+        $results = $this->getNextId ();
         response ( $results ['code'], $results , $this->method);
       } else {
         if($this->isFilter && get_called_class() != 'Hint') {
@@ -508,13 +508,13 @@ class BaseModel extends CFormModel {
       ));
     }
   }
-  protected function getLastId() {
-    $res = Yii::app() -> db -> createCommand() -> select('max(`id`)') -> from($this -> table . ' tbl')->queryScalar();
-    $res = $res?$res:0;
+  protected function getNextId() {
+    $res = Yii::app()->db->createCommand('SHOW TABLE STATUS WHERE name = "'.$this -> table.'"')->queryRow();
+    $next_id = $res ? (int)$res['Auto_increment'] : 1;
     $result = array (
         'system_code' => 'SUCCESSFUL',
         'code' => '200',
-        'max_id' => $res
+        'next_id' => $next_id
     );
     
     return $result;

@@ -68,9 +68,15 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
             fax: data.fax,
             email: data.email,
             homepage: data.homepage,
-            contact_id: data.contact_id,
+            contact_id: data.contact_id
         };
         getUsers();
+    } else {
+      network.get('school', {'get_next_id':1}, function(result, response){
+        if(result) {
+          $scope.nextId = response.next_id;
+        }
+      });
     }
 
     network.get('school_type', {filter: 1}, function (result, response) {
