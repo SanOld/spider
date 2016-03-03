@@ -19,6 +19,13 @@ class Email {
     return self::send($user['email'], self::$from, 'Welcome to SPIder', $message, '', false);
   }
 
+  static function updatePassword($user, $newPassword) {
+    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
+    $message .= '<br><br>Your password was been changed.';
+    $message .= '<br>New password: '.$newPassword;
+    return self::send($user['email'], self::$from, 'Welcome to SPIder', $message, '', false);
+  }
+
   static function send($to, $from, $subject, $message, $frwd = '', $showResults = true, $addAttachment = false) {
     $mail = Yii::app() -> Smtpmail;
     if ($addAttachment && is_array($addAttachment)) {

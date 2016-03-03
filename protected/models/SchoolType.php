@@ -17,4 +17,12 @@ class SchoolType extends BaseModel {
     return $command;
   }
 
+  protected function getCommandFilter() {
+    $command = Yii::app()->db->createCommand()->select ('tbl.id, UPPER(tbl.code) code, tbl.name')
+      ->from($this->table  . ' tbl');
+    $command = $this->setWhereByRole($command);
+    $command->order('name');
+    return $command;
+  }
+
 }

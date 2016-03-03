@@ -66,22 +66,6 @@ class User extends BaseModel {
       }
 
     }
-//    if (safe($params, 'SCHOOL_ID')) {
-//      $type = 's';
-//      $relation = $this->getRelationByType($type);
-//      if($relation && safe($relation, 'code')) {
-//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['SCHOOL_ID']));
-//      }
-//    }
-//    if (safe($params, 'DISTRICT_ID')) {
-//      $type = 'd';
-//      $relation = $this->getRelationByType($type);
-//      if($relation && safe($relation, 'code')) {
-//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['DISTRICT_ID']));
-//      }
-//    }
     if (safe($params, 'RELATION_ID')) {
       $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['RELATION_ID']));
     }
@@ -245,11 +229,23 @@ class User extends BaseModel {
         'system_code' => 'ERR_DUPLICATED_EMAIL'
       );
     }
-    
+
     return array(
         'result' => true,
         'params' => $post 
     );
+  }
+
+  protected function doAfterUpdate($result, $params, $post, $id) {
+    if(safe($post, 'password')) {
+      $user = Yii::app() -> db -> createCommand()
+        -> select('*')
+        -> from($this->table)
+        -> where('id=:id', array(':id' => $id))
+        ->queryRow();
+      Email::updatePassword($user, $post['password']);
+    }
+    return $result;
   }
 
   protected function doAfterInsert($result, $params, $post) {

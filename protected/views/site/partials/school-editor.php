@@ -110,7 +110,7 @@
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.type_id" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
-                            <ui-select ng-disabled="!$select.items.length" ng-model="school.type_id" name="type_id"
+                            <ui-select ng-change="setNumber(school.type_id)" ng-disabled="!$select.items.length" ng-model="school.type_id" name="type_id"
                                        required>
                               <ui-select-match
                                 placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
