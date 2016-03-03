@@ -38,7 +38,7 @@ class School extends BaseModel {
   protected function getParamCommand($command, array $params, array $logic = array()) {
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,
-      array('tbl.name', 'tbl.address', "CONCAT(usr.first_name, ' ', usr.last_name)"),
+      array('tbl.name', 'tbl.number', 'tbl.address', "CONCAT(usr.first_name, ' ', usr.last_name)"),
       safe($params, 'KEYWORD'));
     if (isset($params['DISTRICT_ID'])) {
       $command -> andWhere("tbl.district_id = :district_id", array(':district_id' => $params['DISTRICT_ID']));

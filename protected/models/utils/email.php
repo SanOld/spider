@@ -22,6 +22,7 @@ class Email {
   static function updatePassword($user, $newPassword) {
     $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
     $message .= '<br><br>Your password was been changed.';
+    $message .= '<br>Login: '.$user['login'];
     $message .= '<br>New password: '.$newPassword;
     return self::send($user['email'], self::$from, 'Welcome to SPIder', $message, '', false);
   }
