@@ -32,9 +32,15 @@ $this->breadcrumbs = array('Projekte');
                                     <div class="col-lg-2 col-width-type">
                                         <div class="form-group">
                                             <label>Typ</label>
-                                            <select class="type-user form-control">
+<!--                                            <select class="type-user form-control">
                                                 <option>Alles anzeigen</option>
-                                            </select>
+                                            </select>-->
+                                            <ui-select ng-change="updateGrid()" ng-model="filter.school_type_id">
+                                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search">
+                                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                                                </ui-select-choices>
+                                            </ui-select>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-width-type">
@@ -138,3 +144,157 @@ $this->breadcrumbs = array('Projekte');
 		</div>
 	</div>
 </div>
+
+<script type="text/ng-template" id="editTemplate.html">
+  <div class="panel panel-color panel-primary">
+      <div class="panel-heading clearfix"> 
+          <h3 class="m-0 pull-left" ng-if="!isInsert">Projekt bearbeiten</h3>
+          <h3 class="m-0 pull-left" ng-if="isInsert">Projekt hinzufügen</h3>
+          <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
+      </div>
+      <div class="panel-body">
+          <ng-form name="formProjects" class="form-horizontal">
+              <div class="row">
+                  <div class="m-b-15 clearfix">
+                      <label class="col-lg-2 control-label">Kennziffer</label>
+                      <div class="col-lg-4">
+                          <div spi-hint text="_hint.code" class="has-hint"></div>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('code')}">
+                            <input name="code" ng-model="project.code" class="form-control" type="text" value="" required>
+                            <span ng-show="fieldError('code')">
+                                <label ng-show="formFinances.code.$error.required" class="error">Code is
+                                  required.</label>
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
+                          </div>
+                      </div>
+                      <label class="col-lg-2 control-label">Schultyp</label>
+                      <div class="col-lg-4">
+                        <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
+                        <div class="wrap-hint">
+                          <ui-select ng-disabled="!$select.items.length" ng-model="project.school_type_id"
+                                     name="school_type_id" required on-select="updateSchools()">
+                            <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                              {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+<!--                          <select class="form-control">
+                              <option>S (Förderschulen)</option>
+                          </select>-->
+                      </div>
+                  </div>
+                  <div class="m-b-15 clearfix">
+                      <label class="col-lg-2 control-label">Programm</label>
+                      <div class="col-lg-10">
+                        <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
+                        <div class="wrap-hint">
+                          <ui-select ng-disabled="!$select.items.length" ng-model="project.finance_programm_id"
+                                     name="finance_programm_id" required>
+                            <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                              {{$select.selected.programm}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item.id as item in programms | filter: $select.search">
+                              <span ng-bind-html="item.programm | highlight: $select.search"></span>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+<!--                          <select class="form-control">
+                              <option>Schulsozialarbeit</option>
+                              <option>Zusatzprogramm A</option>
+                              <option>Zusatzprogramm B</option>
+                              <option>Bonusprogramm</option>
+                          </select>-->
+                      </div>
+                  </div>
+                  <div class="m-b-15 clearfix">
+                      <label class="col-lg-2 control-label">Fördertopf</label>
+                      <div class="col-lg-10">
+                        <div spi-hint text="_hint.code" class="has-hint"></div>
+                        <div class="wrap-hint">
+                          <input name="code" ng-model1="project.finance_source_type" ng-value="finance_source_type[project.finance_programm_id]" class="form-control" type="text" value="" disabled="disabled">
+                        </div>
+<!--                          <select class="form-control">
+                              <option>LM</option>
+                              <option>BP</option>
+                          </select>-->
+                      </div>
+                  </div>
+                  <div class="m-b-15 clearfix">
+                      <label class="col-lg-2 control-label p-r-0">Träger</label>
+                      <div class="col-lg-10">
+                        <div spi-hint text="_hint.performer_id" class="has-hint"></div>
+                        <div class="wrap-hint">
+                          <ui-select ng-disabled="!$select.items.length" ng-model="project.performer_id"
+                                     name="performer_id" required>
+                            <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                              {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+<!--                          <select class="form-control">
+                              <option>Stadtteilzentrum Steglitz e.V.</option>
+                              <option>Arbeit und Bildung e.V.</option>
+                          </select>-->
+                      </div>
+                  </div>
+                  <div class="m-b-15 clearfix">
+                      <label class="col-lg-2 control-label">Bezirk</label>
+                      <div class="col-lg-10">
+                          <div spi-hint text="_hint.district_id" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <ui-select ng-disabled="!$select.items.length" ng-model="project.district_id"
+                                       name="district_id" required on-select="updateSchools()">
+                              <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                                {{$select.selected.name}}
+                              </ui-select-match>
+                              <ui-select-choices repeat="item.id as item in districts | filter: $select.search">
+                                <span ng-bind-html="item.name | highlight: $select.search"></span>
+                              </ui-select-choices>
+                            </ui-select>
+                          </div>
+<!--                          <select class="form-control">
+                              <option>Bezirk Neukolln</option>
+                          </select>-->
+                      </div>
+                  </div>
+                  <div class="m-b-15 clearfix">
+                      <label class="col-lg-2 control-label">Schule</label>
+                      <div class="col-lg-10">
+                          <div spi-hint text="_hint.schools" class="has-hint"></div>
+                  
+                          <div class="wrap-hint">
+                            <ui-select multiple ng-disabled="!$select.items.length" ng-model="project.schools"
+                                       name="schools" required>
+                              <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                                {{$item.name}}
+                              </ui-select-match>
+                              <ui-select-choices repeat="item.id as item in schools | filter: $select.search">
+                                <span ng-bind-html="item.name | highlight: $select.search"></span>
+                              </ui-select-choices>
+                            </ui-select>
+                          </div>
+                  
+                      </div>
+                  </div>
+
+              </div>
+              <div class="form-group group-btn m-t-15">
+                  <div class="col-lg-2">
+                      <a class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></a>
+                  </div>
+                  <div class="col-lg-10 text-right pull-right">
+                      <button class="btn w-lg cancel-btn" data-dismiss="modal">Abbrechen</button>
+                      <button class="btn w-lg custom-btn" data-dismiss="modal">Speichern</button>
+                  </div>
+              </div>
+          </ng-form>
+      </div>
+  </div>
+</script>
