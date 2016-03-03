@@ -1,5 +1,11 @@
 spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService, $timeout) {
   $scope._r = localStorageService.get('rights');
+
+  $scope.canShow = function (model) {
+    model = model || $rootScope._m;
+    return !model || !$scope._r[model] ? 1 : $scope._r[model].show;
+  };
+
   $rootScope.canView = function (model) {
     model = model || $rootScope._m;
     return !model || !$scope._r[model] ? 1 : $scope._r[model].view;
