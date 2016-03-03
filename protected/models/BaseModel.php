@@ -476,32 +476,48 @@ class BaseModel extends CFormModel {
   public function select($get) {
     $this->method = 'get';
     if($this->checkPermission($this->user, ACTION_SELECT, $get) || (get_called_class() == 'Hint' && $this->isFilter)) {
-      if($this->isFilter && get_called_class() != 'Hint') {
-        $command = $this->getCommandFilter();
+      $params = array_change_key_case($get, CASE_UPPER);
+      if(safe($params,'GET_LAST_ID')) {
+        $results = $this->getLastId ();
+        response ( $results ['code'], $results , $this->method);
       } else {
-        $command = $this->getCommand();
-      }
-      if (!empty ($get)) {
-        $command = $this->setPagination($command, $get);
-        $command = $this->setOrder($command, $get);
-        $command = $this->getParamCommand($command, $get, array());
-      }
-      if ($command) {
-        $results = $this->doSelect($command);
-        $results = $this->calcResults($results);
-        $results = $this->doAfterSelect($results);
+        if($this->isFilter && get_called_class() != 'Hint') {
+          $command = $this->getCommandFilter();
+        } else {
+          $command = $this->getCommand();
+        }
+        if (!empty ($get)) {
+          $command = $this->setPagination($command, $get);
+          $command = $this->setOrder($command, $get);
+          $command = $this->getParamCommand($command, $get, array());
+        }
+        if ($command) {
+          $results = $this->doSelect($command);
+          $results = $this->calcResults($results);
+          $results = $this->doAfterSelect($results);
 
-        response($results ['code'], $results, $this->method);
-      } else {
-        response('409', array('result' => false, 'system_code' => 'ERR_INVALID_QUERY'), $this->method);
+          response($results ['code'], $results, $this->method);
+        } else {
+          response('409', array('result' => false, 'system_code' => 'ERR_INVALID_QUERY'), $this->method);
+        }
       }
-      echo('select end');
     } else {
       response('403', array(
         'result' => false,
         'system_code' => 'ERR_PERMISSION'
       ));
     }
+  }
+  protected function getLastId() {
+    $res = Yii::app() -> db -> createCommand() -> select('max(`id`)') -> from($this -> table . ' tbl')->queryScalar();
+    $res = $res?$res:0;
+    $result = array (
+        'system_code' => 'SUCCESSFUL',
+        'code' => '200',
+        'max_id' => $res
+    );
+    
+    return $result;
   }
   protected function calcResults($result) {
     return $result;
