@@ -19,12 +19,12 @@ class Email {
     return self::send($user['email'], self::$from, 'Welcome to SPIder', $message, '', false);
   }
 
-  static function updatePassword($user, $newPassword) {
+  static function doUpdatePassword($user, $newPassword) {
     $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
     $message .= '<br><br>Your password was been changed.';
     $message .= '<br>Login: '.$user['login'];
     $message .= '<br>New password: '.$newPassword;
-    return self::send($user['email'], self::$from, 'Welcome to SPIder', $message, '', false);
+    return self::send($user['email'], self::$from, 'SPIder: Password changed', $message, '', false);
   }
 
   static function send($to, $from, $subject, $message, $frwd = '', $showResults = true, $addAttachment = false) {

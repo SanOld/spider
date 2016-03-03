@@ -301,11 +301,10 @@
               <label>Altes Passwort</label>
 
               <div
-                ng-class="{'wrap-line error': submited && form.old_password.$pristine && user.password && curentPassword != old_password}">
-                <input class="form-control" name="old_password" ng-model="old_password" type="password" value="">
-								  <span
-                    ng-show="submited && form.old_password.$pristine && user.password && curentPassword != old_password">
-                    <label class="error">Old password is wrong.</label>
+                ng-class="{'wrap-line error': fieldError('old_password')}">
+                <input class="form-control" name="old_password" ng-model="user.old_password" type="password" value="">
+								  <span ng-show="fieldError('old_password')">
+                    <label ng-show="error.old_password.error" class="error">Old password is wrong.</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								  </span>
               </div>

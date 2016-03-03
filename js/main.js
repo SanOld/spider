@@ -69,7 +69,6 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
   if (data.id) {
     $scope.isInsert = false;
     $scope.userId = data.id;
-    $scope.curentPassword = localStorageService.get('password');
     $scope.type_name = data.type_name;
     $scope.relation_name = data.relation_name;
     $scope.user = {
@@ -119,7 +118,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
     $scope.error = false;
     $scope.submited = true;
     $scope.form.$setPristine();
-    if ($scope.form.$valid && isCurrentValid()) {
+    if ($scope.form.$valid) {
       var callback = function (result, response) {
         if (result) {
           if ($scope.isCurrentUser) {
@@ -139,6 +138,8 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
       } else {
         network.put($scope.model + '/' + data.id, formData, callback);
       }
+    } else {
+      console.log('not valid');
     }
   };
 
@@ -154,15 +155,6 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
     $uibModalInstance.dismiss('cancel');
   };
 
-  function isCurrentValid() {
-    if (!$scope.isCurrentUser) {
-      return true;
-    } else if (!$scope.form.password.$viewValue) {
-      return true
-    }
-    return $scope.form.old_password.$viewValue == $scope.curentPassword;
-  }
-
   function getError(code) {
     var result = false;
     switch (code) {
@@ -171,6 +163,9 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
         break;
       case 'ERR_DUPLICATED_EMAIL':
         result = {email: {dublicate: true}};
+        break;
+      case 'ERR_CURRENT_PASSWORD':
+        result = {old_password: {error: true}};
         break;
     }
     return result;

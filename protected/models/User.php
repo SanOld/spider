@@ -230,6 +230,17 @@ class User extends BaseModel {
       );
     }
 
+    if (isset($param['PASSWORD']) && $this->user['id'] == $row['id'] && md5($param['OLD_PASSWORD']) != $row['password']) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_CURRENT_PASSWORD'
+      );
+    }
+
+    unset($post['old_password']);
+
     return array(
         'result' => true,
         'params' => $post 
@@ -243,7 +254,7 @@ class User extends BaseModel {
         -> from($this->table)
         -> where('id=:id', array(':id' => $id))
         ->queryRow();
-      Email::updatePassword($user, $post['password']);
+      Email::doUpdatePassword($user, $post['password']);
     }
     return $result;
   }
