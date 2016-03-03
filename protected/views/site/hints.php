@@ -17,7 +17,7 @@ $this->breadcrumbs = array('Hilfetexte');
 				</div>
 				<div class="panel-body hint-edit">
 					<div class="row datafilter">
-						<form action="#">
+						<form>
 							<div class="col-lg-5">
 								<div class="form-group">
 									<label>Seite</label>

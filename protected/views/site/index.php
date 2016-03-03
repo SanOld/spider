@@ -12,8 +12,8 @@ $this->pageTitle = 'Login | ' . Yii::app()->name;
         </div>
 
         <form novalidate method="post" name="form" id="loginForm" class="cmxform form-horizontal m-t-40">
-            <div ng-style="loginError && {'display': 'block'}" class="alert alert-danger text-center">
-                Bitte geben Sie die markierten Felder korrekt ein.
+            <div ng-style="error && {'display': 'block'}" class="alert alert-danger text-center" ng-bind="error">
+
             </div>
             <div class="form-group has-feedback">
                 <label class="col-xs-12" for="username">Benutzername</label>

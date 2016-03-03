@@ -37,8 +37,15 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
+  protected function setWhereByRole($command) {
+    return $command;
+  }
   protected function getCommandFilter() {
-    return Yii::app ()->db->createCommand ()->select ( 'id, name' )->from ( $this->table  . ' tbl') -> order('name');
+    $command = Yii::app()->db->createCommand()->select ('tbl.id, tbl.name')
+      ->from($this->table  . ' tbl');
+    $command = $this->setWhereByRole($command);
+    $command->order('name');
+    return $command;
   }
   protected function getParamCommand($command, array $params) {
     $params = array_change_key_case ( $params, CASE_UPPER );
@@ -203,8 +210,19 @@ class BaseModel extends CFormModel {
   
   // ------------ delete ----------------
   protected function doBeforeDelete($id) {
-    return array (
-        'result' => true 
+    $row = Yii::app() -> db -> createCommand() -> select('id') -> from($this -> table . ' tbl') -> where('id=:id', array(
+      ':id' => $id
+    )) -> queryScalar();
+    if (!$row) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_NOT_EXISTS'
+      );
+    }
+
+    return array(
+      'result' => true
     );
   }
   protected function doDelete($id) {
@@ -226,11 +244,7 @@ class BaseModel extends CFormModel {
       }
     } catch (CDbException $e) {
       if ($e->getCode() == 23000){
-        $table = strstr($e->errorInfo[2],'foreign key constraint fails (');
-        $table = strstr($table,'`tt_'); 
-        $table = explode('`', $table);
-        $table = explode('tt_', $table[1]);
-        return array('code' => '409', 'result'=> false, 'system_code'=> 'ERR_DEPENDENT_RECORD', 'table' => $table[1]);
+        return $this->getForeignKeyError($e);
       } else {
         return array (
             'code' => '409',
@@ -239,6 +253,13 @@ class BaseModel extends CFormModel {
             );
       } 
     }
+  }
+  protected function getForeignKeyError($e) {
+    $table = strstr($e->errorInfo[2],'foreign key constraint fails (');
+    $table = strstr($table,'`spi_');
+    $table = explode('`', $table);
+    $table = explode('spi_', $table[1]);
+    return array('code' => '409', 'result'=> false, 'system_code'=> 'ERR_DEPENDENT_RECORD', 'table' => $table[1]);
   }
   protected function doAfterDelete($result, $id) {
     return $result;

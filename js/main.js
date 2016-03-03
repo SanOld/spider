@@ -11,7 +11,7 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
   };
 
   $timeout(function() {
-    if($rootScope._m && $scope._r[$rootScope._m] && !$scope._r[$rootScope._m].show) {
+    if($rootScope._m && $rootScope._m != 'dashboard' && $scope._r[$rootScope._m] && !$scope._r[$rootScope._m].show) {
       window.location = '/dashboard';
     }
   });

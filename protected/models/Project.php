@@ -90,23 +90,6 @@ class Project extends BaseModel {
 //    return $result;
 //  }
 
-  protected function doBeforeDelete($id) {
-    $user = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
-        ':id' => $id 
-    )) -> queryRow();
-    if (!$user) {
-      return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_NOT_EXISTS' 
-      );
-    }
-    
-    return array(
-        'result' => true 
-    );
-  }
-
   protected function doAfterSelect($results) {
     foreach($results['result'] as &$row) {
 //      $relation = $this->getSchools($row['id']);

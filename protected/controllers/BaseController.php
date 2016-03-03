@@ -39,7 +39,7 @@ class BaseController extends Controller {
           if($user = $auth->checkEmail(post('email'))) {
             return Email::doRecovery($user, $auth->getRecoveryLink($user));
           } else {
-            response(409, array('system_code' => 'ERR_RECOVERY_EMAIL'));
+            response(409, array('system_code' => 'ERR_RECOVERY_EMAIL', 'silent' => true));
           }
           break;
         case 'reset_password':

@@ -226,7 +226,7 @@ $this->breadcrumbs = array('Bezirk');
             </ng-form>
           </uib-tab>
 
-          <uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 'district'" ng-if="canView('user')">
+          <uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 'd'; relationId = districtId" ng-if="canView('user')">
             <div class="holder-tab" ng-controller="UserController">
               <div class="panel-body edit-user agency-tab-user">
                 <div>

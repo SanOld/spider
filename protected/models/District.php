@@ -11,6 +11,24 @@ class District extends BaseModel {
     $command = Yii::app()->db->createCommand()->select($this->select_all)->from($this->table . ' tbl');
     $command->leftJoin('spi_user usr', 'tbl.contact_id  = usr.id');
     $command->where(' 1=1 ', array());
+    $command = $this->setWhereByRole($command);
+    return $command;
+  }
+
+  protected function setWhereByRole($command) {
+    switch($this->user['type']) {
+      case SCHOOL:
+        $command->join('spi_school sch', 'tbl.id = sch.district_id');
+        $command->andWhere('sch.id = :school_id', array(':school_id' => $this->user['relation_id']));
+        break;
+      case DISTRICT:
+        $command->andWhere('tbl.id = :district_id', array(':district_id' => $this->user['relation_id']));
+        break;
+      case TA:
+        $command->join('spi_project prj', 'tbl.id = prj.district_id');
+        $command->andWhere('prj.performer_id = :performer_id', array(':performer_id' => $this->user['relation_id']));
+        break;
+    }
     return $command;
   }
 
@@ -44,7 +62,7 @@ class District extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'custom' => true,
+        'silent' => true,
         'system_code' => 'ERR_DUPLICATED'
       );
     }
@@ -70,7 +88,7 @@ class District extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'custom' => true,
+        'silent' => true,
         'system_code' => 'ERR_DUPLICATED'
       );
     }
@@ -82,19 +100,4 @@ class District extends BaseModel {
 
   }
 
-  protected function doBeforeDelete($id) {
-    $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
-      ':id' => $id
-    )) -> queryRow();
-    if (!$row) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'system_code' => 'ERR_NOT_EXISTS'
-      );
-    }
-    return array(
-      'result' => true
-    );
-  }
 }

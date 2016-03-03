@@ -5,17 +5,8 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   $scope.filter = {is_active: 1};
 
   if ($scope.page) {
-    switch ($scope.page) {
-      case 'performer':
-        $scope.filter['type'] = 't';
-        break;
-      case 'school':
-        $scope.filter['school_id'] = $scope.schoolId;
-        break;
-      case 'district':
-        $scope.filter['district_id'] = $scope.districtId;
-        break;
-    }
+    $scope.filter['type'] = $scope.page; // t - performer, d - district, s - school
+    $scope.filter['relation_id'] = $scope.relationId;
   }
 
   $scope.statuses = [

@@ -223,7 +223,7 @@
             </ng-form>
           </uib-tab>
 
-          <uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 'school'; schoolId = schoolId"
+          <uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 's'; relationId = schoolId"
                    ng-if="canView('user')">
             <div class="holder-tab" ng-controller="UserController">
               <div class="panel-body edit-user agency-tab-user">

@@ -12,6 +12,25 @@ class Performer extends BaseModel {
         -> leftJoin('spi_user usp', 'tbl.representative_user_id = usp.id')
         -> leftJoin('spi_bank_details bnd', 'tbl.bank_details_id = bnd.id');
     $command -> where(' 1=1 ', array());
+    $command = $this->setWhereByRole($command);
+    return $command;
+  }
+
+  protected function setWhereByRole($command) {
+    switch($this->user['type']) {
+      case SCHOOL:
+        $command->join('spi_project prj', 'tbl.id = prj.performer_id');
+        $command->join('spi_project_school pjs', 'prj.id = pjs.project_id');
+        $command->andWhere('pjs.school_id = :school_id ', array(':school_id' => $this->user['relation_id']));
+        break;
+      case DISTRICT:
+        $command->join('spi_project prj', 'tbl.id = prj.performer_id');
+        $command->andWhere('prj.district_id = :district_id', array(':district_id' => $this->user['relation_id']));
+        break;
+      case TA:
+        $command->andWhere('tbl.id = :performer_id', array(':performer_id' => $this->user['relation_id']));
+        break;
+    }
     return $command;
   }
 
@@ -40,7 +59,7 @@ class Performer extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'custom' => true,
+        'silent' => true,
         'system_code' => 'ERR_DUPLICATED'
       );
     }
@@ -53,7 +72,7 @@ class Performer extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'custom' => true,
+        'silent' => true,
         'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
       );
     }
@@ -67,6 +86,11 @@ class Performer extends BaseModel {
 
   protected function doBeforeUpdate($post, $id) {
     $post = $this->checkFields($post);
+
+    if($id == safe($this->user, 'relation_id')) {
+      $post['is_checked'] = 0;
+      $post['checked_by'] = null;
+    }
 
     if(isset($post['bank_details_id']) && !$post['bank_details_id']) {
       unset($post['bank_details_id']);
@@ -93,7 +117,7 @@ class Performer extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'custom' => true,
+        'silent' => true,
         'system_code' => 'ERR_DUPLICATED'
       );
     }
@@ -107,7 +131,7 @@ class Performer extends BaseModel {
       return array(
         'code' => '409',
         'result' => false,
-        'custom' => true,
+        'silent' => true,
         'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
       );
     }
@@ -141,7 +165,7 @@ class Performer extends BaseModel {
       case ACTION_SELECT:
         return true;
       case ACTION_UPDATE:
-        if(in_array($user['type'], array(ADMIN, TA)) && $user['type_id'] != 6) { // except Senat
+        if(($user['type'] == ADMIN && $user['type_id'] != 6) || ($user['type'] == TA && safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id'))) { // except Senat
           return true;
         }
         break;
@@ -157,25 +181,6 @@ class Performer extends BaseModel {
         break;
     }
     return false;
-  }
-
-
-
-  protected function doBeforeDelete($id) {
-    $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
-      ':id' => $id
-    )) -> queryRow();
-    if (!$row) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'system_code' => 'ERR_NOT_EXISTS'
-      );
-    }
-
-    return array(
-      'result' => true
-    );
   }
 
 }

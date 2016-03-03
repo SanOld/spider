@@ -37,10 +37,34 @@ class Auth {
                  ->select('usr.*, ust.name type_name')
                  ->from('spi_user usr')
                  ->join('spi_user_type ust', 'usr.type_id=ust.id')
-                 ->where('login=:user AND usr.password=MD5(:pass)', 
+                 ->where('login=:user AND usr.password=MD5(:pass)',
                           array( ':user'=>$login, ':pass'=>$password)
                         )
                  ->queryRow();
+      if($this->user['relation_id']) {
+        $table = '';
+        switch($this->user['type']) {
+          case 's':
+            $table = 'spi_school';
+            break;
+          case 'd':
+            $table = 'spi_district';
+            break;
+          case 't':
+            $table = 'spi_performer';
+            break;
+
+        }
+        if($table) {
+          $this->user['relation_name'] = Yii::app()->db->createCommand()
+            ->select('name')
+            ->from($table)
+            ->where('id=:id', array(':id' => $this->user['relation_id']))
+            ->queryScalar();
+        }
+      }
+
+
       
       if($this->user && $this->user['is_active']==1) {
         $authToken = $this->user['auth_token'];

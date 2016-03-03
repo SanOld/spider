@@ -6,17 +6,15 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
   $network.loginKey = localStorageService.get('loginKey');
   $network.user = localStorageService.get('user');
 
-  if($network.user) {
-    $network.userIsADMIN    = $network.user['type_id'] == 1;
-    $network.userIsPA       = $network.user['type_id'] == 2;
-    $network.userIsTA       = $network.user['type_id'] == 3;
-    $network.userIsSCHOOL   = $network.user['type_id'] == 4;
-    $network.userIsDISTRICT = $network.user['type_id'] == 5;
-    $network.userIsSENAT    = $network.user['type_id'] == 6;
-    $network.userIsTAF      = $network.user['type_id'] == 7;
+  if($network.user && $network.user.type_id) {
+    $network.userIsADMIN    = $network.user.type_id == 1;
+    $network.userIsPA       = $network.user.type_id == 2;
+    $network.userIsTA       = $network.user.type_id == 3;
+    $network.userIsSCHOOL   = $network.user.type_id == 4;
+    $network.userIsDISTRICT = $network.user.type_id == 5;
+    $network.userIsSENAT    = $network.user.type_id == 6;
+    $network.userIsTAF      = $network.user.type_id == 7;
   }
-
-
 
   $network.onLogin = function () {
   };
@@ -172,7 +170,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           })
         } else {
           callback(false, data);
-          if (showAlert && !data.custom)
+          if (showAlert && !data.silent)
             Notification.error({title: data.message});
         }
       });
@@ -219,7 +217,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           })
         } else {
           callback(false, data);
-          if (showAlert && !data.custom)
+          if (showAlert && !data.silent)
             Notification.error({title: data.message});
         }
       });
@@ -260,7 +258,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           })
         } else {
           callback(false, data);
-          if (showAlert && !data.custom)
+          if (showAlert && !data.silent)
             Notification.error({title: data.message});
         }
       });
@@ -303,7 +301,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           })
         } else {
           callback(false, data);
-          if (showAlert && !data.custom)
+          if (showAlert && !data.silent)
             Notification.error({title: data.message});
         }
       });

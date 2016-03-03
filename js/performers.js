@@ -32,11 +32,11 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
 
 spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
   $scope.isInsert = !data.id;
+  $scope.performerId = data.id;
   $scope._hint = hint;
   $scope.fullAccess = network.userIsADMIN || network.userIsPA;
   $scope.isFinansist = network.userIsADMIN || network.userIsPA || network.userIsSENAT || network.userIsTAF;
   $scope.tabs = [{active: true}];
-
 
   if (!$scope.isInsert) {
     $scope.documents = [];
@@ -184,6 +184,9 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
       if (result) {
         $scope.performer.bank_details_id = null;
         $scope.bank_details = {};
+        $scope.form.formBank.$setPristine();
+        $scope.form.formBank.$setUntouched();
+
       }
     });
   };
@@ -226,6 +229,10 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
 
   $scope.canEditBankInfo = function() {
     return $rootScope.canEdit() || (network.user['type'] == 't' && network.user['is_finansist']);
+  };
+
+  $scope.canEditPerformer = function() {
+    return ($rootScope.canEdit() && network.user['type'] != 't') || data.id == network.user.relation_id;
   };
 
   $scope.canDelete = function() {

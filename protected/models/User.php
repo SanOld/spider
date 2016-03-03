@@ -66,21 +66,24 @@ class User extends BaseModel {
       }
 
     }
-    if (safe($params, 'SCHOOL_ID')) {
-      $type = 's';
-      $relation = $this->getRelationByType($type);
-      if($relation && safe($relation, 'code')) {
-        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['SCHOOL_ID']));
-      }
-    }
-    if (safe($params, 'DISTRICT_ID')) {
-      $type = 'd';
-      $relation = $this->getRelationByType($type);
-      if($relation && safe($relation, 'code')) {
-        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['DISTRICT_ID']));
-      }
+//    if (safe($params, 'SCHOOL_ID')) {
+//      $type = 's';
+//      $relation = $this->getRelationByType($type);
+//      if($relation && safe($relation, 'code')) {
+//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
+//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['SCHOOL_ID']));
+//      }
+//    }
+//    if (safe($params, 'DISTRICT_ID')) {
+//      $type = 'd';
+//      $relation = $this->getRelationByType($type);
+//      if($relation && safe($relation, 'code')) {
+//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
+//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['DISTRICT_ID']));
+//      }
+//    }
+    if (safe($params, 'RELATION_ID')) {
+      $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['RELATION_ID']));
     }
     return $command;
   }
@@ -95,23 +98,6 @@ class User extends BaseModel {
       }
     }
     return $result;
-  }
-
-  protected function doBeforeDelete($id) {
-    $user = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
-        ':id' => $id 
-    )) -> queryRow();
-    if (!$user) {
-      return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_NOT_EXISTS' 
-      );
-    }
-    
-    return array(
-        'result' => true 
-    );
   }
 
   protected function doAfterSelect($results) {
@@ -167,9 +153,10 @@ class User extends BaseModel {
         ':email' => $email 
     )) -> queryRow()) {
       return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_DUPLICATED_EMAIL' 
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_DUPLICATED_EMAIL'
       );
     }
     
@@ -238,7 +225,7 @@ class User extends BaseModel {
       return array(
           'code' => '409',
           'result' => false,
-          'custom' => true,
+          'silent' => true,
           'system_code' => 'ERR_DUPLICATED'
       );
     }
@@ -252,9 +239,10 @@ class User extends BaseModel {
                   ':id' => $id))
          -> queryRow()) {
       return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_DUPLICATED_EMAIL'
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_DUPLICATED_EMAIL'
       );
     }
     

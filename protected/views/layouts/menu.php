@@ -3,13 +3,13 @@
 		<ul class="nav navbar-nav">
 			<li ng-class="{'active': _m=='dashboard'}"><a href="/dashboard">Startseite</a></li>
 			<li><a href="request-list.php">Anträge</a></li>
-			<li class="dropdown">
+			<li ng-class="{'active': ['finance_source'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 				<ul class="dropdown-menu">
 					<li><a href="summary.php">Finanzübersicht</a></li>
 					<li><a href="financial-request.php">Mittelabrufe</a></li>
 					<li><a href="finance-report.php">Belege</a></li>
-					<li><a href="finance-source.php">Fördertöpfe</a></li>
+					<li><a ng-if="canView('finance_source')" href="/finance-source">Fördertöpfe</a></li>
 				</ul>
 			</li>
 			<li class="dropdown">

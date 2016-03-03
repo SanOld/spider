@@ -17,22 +17,4 @@ class SchoolType extends BaseModel {
     return $command;
   }
 
-  protected function doBeforeDelete($id) {
-    $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl') -> where('id=:id', array(
-      ':id' => $id
-    )) -> queryRow();
-    if (!$row) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'system_code' => 'ERR_NOT_EXISTS'
-      );
-    }
-
-    $this->href = Yii::app()->db->createCommand()->select('href')->from($this -> table)->where('id=:id', array(':id'=>$id))->queryScalar();
-    return array (
-      'result' => true
-    );
-  }
-
 }
