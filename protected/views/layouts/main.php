@@ -69,8 +69,7 @@
 <script type="text/ng-template" id="editUserTemplate.html">
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
-      <h3 ng-if="isInsert" class="m-0 pull-left">Bearbeiten eines Benutzer</h3>
-
+      <h3 ng-if="isInsert" class="m-0 pull-left">Benutzer hinzufügen</h3>
       <h3 ng-if="!isInsert" class="m-0 pull-left">Benutzerprofil editieren</h3>
       <button type="button" ng-click="cancel()" class="close"><i class="ion-close-round "></i></button>
     </div>
