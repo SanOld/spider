@@ -302,10 +302,10 @@ $this->breadcrumbs = array('Träger Agentur');
 										<div class="col-lg-7">
                       <div spi-hint text="_hint.iban" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank', 'iban')}">
-                        <input class="form-control" name="iban" ng-model="bank_details.iban" type="text" value="" ng-required="1" maxlength="34"/>
+                        <input class="form-control" name="iban" ng-iban="DE" ng-model="bank_details.iban" type="text" value="" ng-required="1" maxlength="34"/>
                         <span ng-show="fieldError('formBank', 'iban')">
                           <label ng-show="form.formBank.iban.$error.required" class="error">IBAN is required.</label>
-                          <label ng-show="form.formBank.iban.$error.maxlength" class="error">IBAN is to large.</label>
+                          <label ng-show="form.formBank.iban.$error.iban" class="error">It doesn't seems real IBAN.</label>
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
 										  </div>
@@ -339,7 +339,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										</div>
 									</div>
 									<div class="pull-right">
-										<button class="btn btn-icon btn-danger btn-lg sweet-4" ng-if="performer.bank_details_id && canEditBankInfo()" ng-click="removeBankDetails(performer.bank_details_id, $parent.bank_details);" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+										<button class="btn btn-icon btn-danger btn-lg sweet-4" ng-if="performer.bank_details_id && canEditBankInfo()" ng-click="$parent.bank_details = {}; removeBankDetails(performer.bank_details_id)" id="sa-warning"><i class="fa fa-trash-o"></i></button>
 										<button class="btn w-sm cancel-btn" ng-if="!performer.bank_details_id && canEditBankInfo()" ng-click="$parent.showBankDetails = 0; $parent.bank_details = {}">Löschen</button>
 										<button class="btn w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank_details)">Hinzufügen</button>
 									</div>

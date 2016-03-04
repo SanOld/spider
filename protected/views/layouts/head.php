@@ -68,6 +68,7 @@ $cs->registerScriptFile($baseUrl . '/js/lib/angular-locale_de-de.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-local-storage.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-sanitize.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-animate.min.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/ng-iban.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/select.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.1.2.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/mask.min.js');

@@ -183,7 +183,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
     network.delete('bank_details/' + id, function (result) {
       if (result) {
         $scope.performer.bank_details_id = null;
-        $scope.bank_details = {};
+        //$scope.bank_details = {};
         $scope.form.formBank.$setPristine();
         $scope.form.formBank.$setUntouched();
 
