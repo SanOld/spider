@@ -149,20 +149,6 @@ class UserType extends BaseModel {
     );
   }
 
-  protected function checkPermission($user, $action, $data) {
-    switch ($action) {
-      case ACTION_SELECT:
-        return true;
-      case ACTION_UPDATE:
-      case ACTION_INSERT:
-      case ACTION_DELETE:
-        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
-          return true;
-        }
-        break;
-    }
-    return false;
-  }
   protected function getForeignKeyError($e) {
     return array('code' => '409', 'result'=> false, 'system_code'=> 'ERR_DEPENDENT_RECORD',
       'message' => 'Delete this role is not possible. You must first delete users with this role.');

@@ -23,8 +23,8 @@
             <img class="img-circle profile-img thumb-sm" src="<?php echo $baseUrl; ?>/images/avatar.jpg" alt="">
 
             <div class="holder-box">
-              <span class="username" ng-bind="user.login"></span>
-              <span class="organization" ng-bind="user.relation_name"></span>
+              <span class="username" ng-bind="user.login">&nbsp</span>
+              <span class="organization">Stiftung SPI</span>
             </div>
             <span class="caret"></span>
           </a>

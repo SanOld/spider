@@ -5,6 +5,8 @@ class BankDetails extends BaseModel {
   public $table = 'spi_bank_details';
   public $post = array();
   public $select_all = ' * ';
+  public $isFinance = true;
+
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     
@@ -25,24 +27,6 @@ class BankDetails extends BaseModel {
       $command->andWhere("tbl.id = :id", array(':id' => $params['ID']));
     }
     return $command;
-  }
-
-  protected function checkPermission($user, $action, $data) {
-    switch ($action) {
-      case ACTION_SELECT:
-        if($user['type'] == ADMIN || ($user['type'] == TA && $user['is_finansist'])) {
-          return true;
-        }
-        break;
-      case ACTION_UPDATE:
-      case ACTION_INSERT:
-      case ACTION_DELETE:
-        if($user['type'] == ADMIN && !in_array($user['type_id'], array(6)) || ($user['type'] == TA && $user['is_finansist'])) {
-          return true;
-        }
-        break;
-    }
-    return false;
   }
 
 }

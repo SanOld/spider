@@ -39,7 +39,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
       })
       .error(function (data, status, headers, config) {
         $network.logout();
-        window.location = '/login'
+        window.location = '/';
       });
   };
   $network.logout = function () {

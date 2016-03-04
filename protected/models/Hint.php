@@ -36,17 +36,4 @@ class Hint extends BaseModel {
     return $command;
   }
 
-  protected function checkPermission($user, $action, $data) {
-    switch ($action) {
-      case ACTION_SELECT:
-      case ACTION_UPDATE:
-      case ACTION_INSERT:
-      case ACTION_DELETE:
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          return true;
-        }
-    }
-    return false;
-  }
-
 }

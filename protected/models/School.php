@@ -49,21 +49,6 @@ class School extends BaseModel {
     return $command;
   }
 
-  protected function checkPermission($user, $action, $data) {
-    switch ($action) {
-      case ACTION_SELECT:
-        return true;
-      case ACTION_UPDATE:
-      case ACTION_INSERT:
-      case ACTION_DELETE:
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          return true;
-        }
-        break;
-    }
-    return false;
-  }
-
   protected function doBeforeInsert($post) {
     if (Yii::app() -> db -> createCommand()
       -> select('id')

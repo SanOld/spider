@@ -68,7 +68,7 @@ class BaseController extends Controller {
     $this -> method = strtolower($_SERVER['REQUEST_METHOD']);
     $auth = new Auth(safe($headers,'Authorization'));
 
-    if(!$auth ->checkToken()) {
+    if(!$auth ->isActive() || !$auth ->checkToken()) {
       $error = $auth->getAuthError();
       response('401', $error);
     }

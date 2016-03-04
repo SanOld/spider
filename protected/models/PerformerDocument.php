@@ -44,18 +44,14 @@ class PerformerDocument extends BaseModel {
   }
 
   protected function checkPermission($user, $action, $data) {
+    print_r($data);exit;
     switch ($action) {
       case ACTION_SELECT:
-        return true;
+        return $user['can_view'];
       case ACTION_UPDATE:
       case ACTION_INSERT:
       case ACTION_DELETE:
-//        return true;
-//        print_r($user['type']);
-//        print_r($user['type_id']);exit;
-        if(($user['type'] == ADMIN && $user['type_id'] != 6) || $user['type'] == TA) {
-          return true;
-        }
+        return $user['can_edit']; // TODO: performers can edit only your docs
     }
     return false;
   }

@@ -127,6 +127,9 @@ class Auth {
   public function getUser() {
     return $this->user;
   }
+  public function isActive() {
+    return $this->user['is_active'];
+  }
   public function checkToken() {
     return (   $this->user['auth_token'] == $this->token
             && $this->user['auth_token_created_at'] 

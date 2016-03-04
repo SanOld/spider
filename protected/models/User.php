@@ -269,29 +269,13 @@ class User extends BaseModel {
   protected function checkPermission($user, $action, $data) {
     switch ($action) {
       case ACTION_SELECT:
-        return true;
+        return $user['can_view'] || $user['id'] == $this->id;
       case ACTION_UPDATE:
-        if($user['id'] == $this->id) {
-          return true;
-        }
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          if(!($user['type_id'] == 2 && $data['type_id'] == 1)) { // except PA create Admin
-            return true;
-          }
-        }
-        break;
+        return $user['can_edit'] || $user['id'] == $this->id;
       case ACTION_INSERT:
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          if(!($user['type_id'] == 2 && $data['type_id'] == 1)) { // except PA create Admin
-            return true;
-          }
-        }
-        break;
+        return $user['can_edit'] && !($user['type_id'] == 2 && $data['type_id'] == 1); // except PA create Admin
       case ACTION_DELETE:
-        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
-          return true;
-        }
-        break;
+        return $user['can_edit'] && $user['type_id'] != 2; // except PA
     }
     return false;
   }

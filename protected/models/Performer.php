@@ -163,22 +163,12 @@ class Performer extends BaseModel {
   protected function checkPermission($user, $action, $data) {
     switch ($action) {
       case ACTION_SELECT:
-        return true;
+        return $user['can_view'];
       case ACTION_UPDATE:
-        if(($user['type'] == ADMIN && $user['type_id'] != 6) || ($user['type'] == TA && safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id'))) { // except Senat
-          return true;
-        }
-        break;
+        return $user['can_edit'] || (safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id'));
       case ACTION_INSERT:
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          return true;
-        }
-        break;
       case ACTION_DELETE:
-        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
-          return true;
-        }
-        break;
+        return $user['can_edit'];
     }
     return false;
   }
