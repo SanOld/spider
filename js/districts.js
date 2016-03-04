@@ -47,7 +47,7 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, da
   }
 
   function getUsers() {
-    network.get('user', {filter: 1, is_active: 1}, function (result, response) {
+    network.get('user', {filter: 1, is_active: 1, relation_id: data.id, type: 'd'}, function (result, response) {
       if (result) {
         $scope.users = response.result;
         if (data.contact_id) {

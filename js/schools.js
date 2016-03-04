@@ -104,7 +104,7 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
   });
 
   function getUsers() {
-    network.get('user', {is_active: 1, fitler: 1}, function (result, response) {
+    network.get('user', {is_active: 1, fitler: 1, relation_id: data.id, type: 's'}, function (result, response) {
       if (result) {
         $scope.users = response.result;
         if (data.contact_id) {
