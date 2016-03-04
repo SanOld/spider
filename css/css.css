@@ -2303,3 +2303,6 @@ tfoot th.align-right {
 .uib-datepicker-popup.dropdown-menu {
   z-index: 9999;
 }
+.table.ng-table th {
+  text-align: left;
+}
