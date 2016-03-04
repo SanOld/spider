@@ -33,9 +33,11 @@ class UserType extends BaseModel {
 
   protected function doAfterSelect($results) {
     foreach($results['result'] as &$row) {
-      $relation = $this->getRelationByType($row['type']);
-      $row['relation_name'] = $relation['name'];
-      $row['relation_code'] = safe($relation, 'code', '');
+      if(safe($row, 'type') && !$this->isFilter) {
+        $relation = $this->getRelationByType($row['type']);
+        $row['relation_name'] = $relation['name'];
+        $row['relation_code'] = safe($relation, 'code', '');
+      }
     }
     return $results;
   }

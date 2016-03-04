@@ -148,7 +148,7 @@
             </div>
           </div>
         </div>
-        <div class="form-group" ng-if="!isPerformer">
+        <div class="form-group" ng-if="isPerformer">
           <label class="col-lg-2 control-label two-line">Finanzielle Rechte</label>
 
           <div class="col-lg-10">

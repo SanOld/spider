@@ -6,7 +6,7 @@ require_once ('utils/email.php');
 class User extends BaseModel {
   public $table = 'spi_user';
   public $post = array();
-  public $select_all = "CONCAT(tbl.first_name, ' ', tbl.last_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Deaktivieren') status_name, ust.name type_name, tbl.* ";
+  public $select_all = "CONCAT(tbl.first_name, ' ', tbl.last_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Deaktivieren') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command -> join('spi_user_type ust', 'tbl.type_id = ust.id');
@@ -101,9 +101,6 @@ class User extends BaseModel {
         -> where('id=:id ', array(
           ':id' => $post['type_id']))
         -> queryScalar();
-      if($post['type'] == 't') {
-        $post['is_finansist'] = $post['type_id'] == 7 ? 1 : 0;
-      }
       $relation = $this->getRelationByType($post['type']);
       if(!safe($post, 'relation_id') && $relation && safe($relation, 'table')) {
         return array(
@@ -157,7 +154,7 @@ class User extends BaseModel {
         ':id' => $id
     )) -> queryRow();
 
-    if($row['is_finansist'] != $post['is_finansist']) {
+    if($row['is_finansist'] != $post['is_finansist'] && $row['type'] != 't') {
       return array(
         'code' => '409',
         'result' => false,
@@ -183,12 +180,6 @@ class User extends BaseModel {
         'system_code' => 'ERR_UPDATE_FORBIDDEN',
         'message' => 'Update failed: The relation can not be change.'
       );
-    }
-
-    if(safe($post, 'type_id') == 7) {
-      $post['is_finansist'] = 1;
-    } elseif(safe($post, 'type_id') == 3) {
-      $post['is_finansist'] = 0;
     }
 
     if($id == $this->user['id'] && $row['login'] != $post['login']) {

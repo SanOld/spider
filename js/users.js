@@ -1,4 +1,4 @@
-spi.controller('UserController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('UserController', function ($scope, $rootScope, network, GridService, HintService, Utils) {
   if (!$rootScope._m) {
     $rootScope._m = 'user';
   }
@@ -17,6 +17,18 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   network.get('user_type', angular.merge({filter: 1}, $scope.filter['type'] ? {type: $scope.filter['type']} : {}), function (result, response) {
     if (result) {
       $scope.userTypes = response.result;
+
+      var rowTA = null;
+      for (var i = 0; i < $scope.userTypes.length; i++) {
+        if ($scope.userTypes[i].type == 't') {
+          rowTA = $scope.userTypes[i];
+          break;
+        }
+      }
+      if(rowTA) {
+        $scope.userTypes.push({id: rowTA.id+'_1', name: rowTA.name + ' (F)', 'type': rowTA.type});
+        rowTA.id += '_0'
+      }
     }
   });
 
@@ -32,6 +44,12 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   };
 
   $scope.updateGrid = function () {
+    var rowType = Utils.getRowById($scope.userTypes, $scope.filter.type_id);
+    if(rowType.type == 't') {
+      $scope.filter.is_finansist = rowType.id.split('_')[1];
+    } else {
+      delete $scope.filter.is_finansist;
+    }
     grid.reload();
   };
 
