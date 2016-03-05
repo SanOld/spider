@@ -156,7 +156,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert)
+        if (showAlert && !result.silent)
           Notification.success({title: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
@@ -203,7 +203,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert)
+        if (showAlert && !result.silent)
           Notification.success({title: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
@@ -244,7 +244,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert)
+        if (showAlert && !result.silent)
           Notification.success({title: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
@@ -287,7 +287,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert)
+        if (showAlert && !result.silent)
           Notification.success({title: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
