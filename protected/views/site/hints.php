@@ -45,7 +45,7 @@ $this->breadcrumbs = array('Hilfetexte');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Seite'" sortable="'page_name'">{{row.page_name}}</td>
 							<td data-title="'Position'" sortable="'position_name'">{{row.position_name}}</td>
-							<td data-title="'Hilfetext'" sortable="'title'">{{row.title}}</td>
+							<td data-title="'Hilfetext'">{{row.description}}</td>
 							<td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
 								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
 									<i class="ion-edit"></i>
@@ -112,27 +112,27 @@ $this->breadcrumbs = array('Hilfetexte');
 					</div>
 				</div>
 				<div class="form-group" ng-if="showTitle">
-					<label class="col-lg-2 control-label">Hilfetext</label>
+					<label class="col-lg-2 control-label">Titel</label>
 					<div class="col-lg-10">
 						<span spi-hint text="_hint.title" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('title')}">
 							<textarea ng-model="hint.title" ng-minlength="3" name="title" class="form-control" rows="5" required></textarea>
 							<span ng-show="fieldError('title')">
-								<label ng-show="form.title.$error.required" class="error">Hilfetext is required.</label>
-								<label ng-show="form.title.$error.minlength" class="error">Hilfetext is too short.</label>
+								<label ng-show="form.title.$error.required" class="error">Titel is required.</label>
+								<label ng-show="form.title.$error.minlength" class="error">Titel is too short.</label>
 							</span>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-lg-2 control-label">Description</label>
+					<label class="col-lg-2 control-label">Hilfetext</label>
 					<div class="col-lg-10">
 						<span spi-hint text="_hint.description" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
 							<textarea ng-model="hint.description" name="description" ng-minlength="3" class="form-control" rows="5" required></textarea>
 							<span ng-show="fieldError('description')">
-								<label ng-show="form.description.$error.required" class="error">Description is required.</label>
-								<label ng-show="form.description.$error.minlength" class="error">Description is too short.</label>
+								<label ng-show="form.description.$error.required" class="error">Hilfetext is required.</label>
+								<label ng-show="form.description.$error.minlength" class="error">Hilfetext is too short.</label>
 							</span>
 						</div>
 					</div>
