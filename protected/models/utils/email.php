@@ -8,7 +8,7 @@ class Email {
     $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
     $message .= '<br><br>We have received request for recovery your account password.';
     $message .= '<br>If you have sent it, please follow this <a target="_blank" href="'.$recoveryLink.'">link</a>, for update your password.';
-    return self::send($user['email'], self::$from, 'Recovery confirmation from SPIder', $message, '', false);
+    return self::send($user['email'], self::$from, 'Recovery confirmation from SPIder', $message);
   }
 
   static function doWelcome($user) {
@@ -55,6 +55,7 @@ class Email {
         }
         response('200', array(
           'result' => true,
+          'silent' => true,
           'message' => 'Email successfully sent',
         ));
       }
