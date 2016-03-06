@@ -86,7 +86,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
 
 
   function getUsers() {
-    network.get('user', {filter: 1, is_active: 1}, function (result, response) {
+    network.get('user', {filter: 1, is_active: 1, relation_id: data.id, type: 't'}, function (result, response) {
       if (result) {
         $scope.users = response.result;
         if (data.is_checked) {
@@ -171,22 +171,23 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
         network.post('bank_details', formData, function (result, response) {
           if (result) {
             $scope.performer.bank_details_id = response.id;
+            $scope.submited = false;
           }
         });
       } else {
         network.put('bank_details/' + $scope.performer.bank_details_id, formData);
+        $scope.submited = false;
       }
     }
   };
 
-  $scope.removeBankDetails = function (id) {
+  $scope.removeBankDetails = function (id, scope) {
     network.delete('bank_details/' + id, function (result) {
       if (result) {
-        $scope.performer.bank_details_id = null;
-        //$scope.bank_details = {};
-        $scope.form.formBank.$setPristine();
         $scope.form.formBank.$setUntouched();
-
+        $scope.form.formBank.$setPristine();
+        $scope.performer.bank_details_id = null;
+        scope.bank_details = {};
       }
     });
   };

@@ -26,7 +26,7 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
         }
       }
       if(rowTA) {
-        $scope.userTypes.push({id: rowTA.id+'_1', name: rowTA.name + ' (F)', 'type': rowTA.type});
+        $scope.userTypes.splice(i+1, 0, {id: rowTA.id+'_1', name: rowTA.name + ' (F)', 'type': rowTA.type});
         rowTA.id += '_0'
       }
     }
@@ -63,7 +63,7 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   };
 
   $scope.canCreate = function () {
-    return $rootScope.canEdit() && network.user.type == 'a' && !network.userIsSENAT;
+    return $rootScope.canEdit();
   };
 
 });

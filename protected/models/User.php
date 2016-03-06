@@ -112,14 +112,6 @@ class User extends BaseModel {
       }
     }
 
-    if ($this -> user['type'] != ADMIN && $this -> user['type'] != PA) {
-      return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_PERMISSION' 
-      );
-    }
-
     if ($login && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('login=:login', array(
         ':login' => $login 
     )) -> queryRow()) {
