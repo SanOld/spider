@@ -40,9 +40,6 @@ class User extends BaseModel {
         $command -> andWhere($where, $search_param);
       }
     }
-    if (safe($params, 'TYPE')) {
-      $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
-    }
     if (safe($params, 'TYPE_ID')) {
       $command->andWhere("tbl.type_id = :type_id", array(':type_id' => $params['TYPE_ID']));
     }
@@ -69,6 +66,14 @@ class User extends BaseModel {
     if (safe($params, 'RELATION_ID')) {
       $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['RELATION_ID']));
     }
+    if (safe($params, 'TYPE')) {
+      $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
+    }
+
+    if($this->user['relation_id']) {
+      $command->andWhere("tbl.relation_id = :relation_id || tbl.type_id = 1", array(':relation_id' => $this->user['relation_id']));
+    }
+
     return $command;
   }
 

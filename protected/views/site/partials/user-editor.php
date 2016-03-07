@@ -31,12 +31,12 @@
         <div class="form-group">
           <label class="col-lg-2 control-label">Benutzer-Typ</label>
 
-          <div ng-if="isCurrentUser || (!isInsert && !isPerformer)" class="col-lg-10">
+          <div ng-if="isCurrentUser || !isInsert" class="col-lg-10">
             <span class="no-edit-text">{{type_name}}</span>
             <span spi-hint text="_hint.type_id"></span>
           </div>
 
-          <div ng-if="!isCurrentUser && (isInsert || isPerformer)" class="col-lg-4 custom-width">
+          <div ng-if="!isCurrentUser && isInsert" class="col-lg-4 custom-width">
             <div spi-hint text="_hint.type_id" class="has-hint"></div>
 
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">

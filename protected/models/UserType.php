@@ -8,7 +8,7 @@ class UserType extends BaseModel {
   public $select_all = ' * ';
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    
+
     $where = ' 1=1 ';
     $conditions = array();
 
@@ -27,6 +27,9 @@ class UserType extends BaseModel {
     $params = array_change_key_case($params, CASE_UPPER);
     if (safe($params, 'TYPE')) {
       $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
+    }
+    if($this->user['relation_id']) {
+      $command->andWhere("tbl.type = :type || tbl.id = 1", array(':type' => $this->user['type']));
     }
     return $command;
   }
