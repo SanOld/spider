@@ -164,6 +164,24 @@ class Performer extends BaseModel {
     );
   }
 
+  protected function doBeforeDelete($id) {
+    $userId = Yii::app() -> db -> createCommand() -> select('id') -> from('spi_user')
+      -> where('relation_id=:relation_id AND type="t"', array(':relation_id' => $id))
+      -> queryScalar();
+    if ($userId) {
+      return array(
+        'code' => '409',
+        'result'=> false,
+        'system_code'=> 'ERR_DEPENDENT_RECORD',
+        'message' => 'Delete this performer is not possible. You must first delete users with this performer.'
+      );
+    }
+
+    return array(
+      'result' => true
+    );
+  }
+
   protected function checkFields($post) {
     if(safe($post, 'is_checked')) {
       if(!in_array($this->user['type_id'], array(1,2))) { // Admin or PA

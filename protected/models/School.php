@@ -126,6 +126,24 @@ class School extends BaseModel {
 
   }
 
+  protected function doBeforeDelete($id) {
+    $userId = Yii::app() -> db -> createCommand() -> select('id') -> from('spi_user')
+      -> where('relation_id=:relation_id AND type="s"', array(':relation_id' => $id))
+      -> queryScalar();
+    if ($userId) {
+      return array(
+        'code' => '409',
+        'result'=> false,
+        'system_code'=> 'ERR_DEPENDENT_RECORD',
+        'message' => 'Delete this school is not possible. You must first delete users with this school.'
+      );
+    }
+
+    return array(
+      'result' => true
+    );
+  }
+
   protected function checkPermission($user, $action, $data) {
     switch ($action) {
       case ACTION_SELECT:

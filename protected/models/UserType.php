@@ -194,8 +194,12 @@ class UserType extends BaseModel {
   }
 
   protected function getForeignKeyError($e) {
-    return array('code' => '409', 'result'=> false, 'system_code'=> 'ERR_DEPENDENT_RECORD',
-      'message' => 'Delete this role is not possible. You must first delete users with this role.');
+    return array(
+      'code' => '409',
+      'result'=> false,
+      'system_code'=> 'ERR_DEPENDENT_RECORD',
+      'message' => 'Delete this role is not possible. You must first delete users with this role.'
+    );
   }
 
 
