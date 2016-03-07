@@ -531,11 +531,11 @@ class BaseModel extends CFormModel {
   protected function checkPermission($user, $action, $data) {
     switch ($action) {
       case ACTION_SELECT:
-        return $this->isFinance ? $user['can_view'] && $user['is_finansist'] : $user['can_view'];
+        return $this->isFinance && $user['type'] == TA ? $user['can_view'] && $user['is_finansist'] : $user['can_view'];
       case ACTION_UPDATE:
       case ACTION_INSERT:
       case ACTION_DELETE:
-        return $this->isFinance ? $user['can_edit'] && $user['is_finansist'] : $user['can_edit'];
+        return $this->isFinance && $user['type'] == TA ? $user['can_edit'] && $user['is_finansist'] : $user['can_edit'];
     }
     return false;
   }

@@ -35,7 +35,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
   $scope.performerId = data.id;
   $scope._hint = hint;
   $scope.fullAccess = network.user.type == 'a' && !network.userIsSENAT;
-  $scope.isFinansist = !(['d', 's'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && !network.user.is_finansist));
+  $scope.isFinansist = network.user.type == 'a' || (network.user.type == 't' && parseInt(network.user.is_finansist));
   $scope.tabs = [{active: true}];
 
   if (!$scope.isInsert) {
@@ -198,8 +198,8 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
         text: "Diese Datei wird nicht wiedererstellt!",
         type: "warning",
         showCancelButton: true,
-        cancelButtonText: "Abbrechen",
-        confirmButtonText: "Ja, löschen!",
+        cancelButtonText: "ABBRECHEN",
+        confirmButtonText: "JA, LÖSCHEN!",
         closeOnConfirm: false
       },
       function (isConfirm) {
@@ -231,7 +231,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
   $scope.types = [{id: 0, name: 'Performer'}, {id: 1, name: 'Performer (F)'}];
 
   $scope.canEditBankInfo = function() {
-    return $rootScope.canEdit() || (network.user['type'] == 't' && network.user['is_finansist']);
+    return network.user['type'] == 't' ? $rootScope.canEdit('bank_details') && parseInt(network.user.is_finansist) : $rootScope.canEdit();
   };
 
   $scope.canEditPerformer = function() {
