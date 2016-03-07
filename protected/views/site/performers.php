@@ -165,8 +165,12 @@ $this->breadcrumbs = array('Träger Agentur');
 											<label class="col-lg-3 control-label">Telefon</label>
 											<div class="col-lg-9">
                         <div spi-hint text="_hint.phone" class="has-hint"></div>
-                        <div class="wrap-hint">
-												  <input class="form-control" name="phone" ng-model="performer.phone" type="text" value="" />
+                        <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'phone')}">
+                          <input name="phone" ng-model="performer.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
+                            <span ng-show="fieldError('formPerformer', 'phone')">
+                              <label ng-show="form.formPerformer.phone.$error.pattern" class="error">Telefon must not contain letters.</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
                         </div>
 											</div>
 										</div>
@@ -174,8 +178,12 @@ $this->breadcrumbs = array('Träger Agentur');
 											<label class="col-lg-3 control-label">Fax</label>
 											<div class="col-lg-9">
                         <div spi-hint text="_hint.fax" class="has-hint"></div>
-                        <div class="wrap-hint">
-												  <input class="form-control" name="fax" ng-model="performer.fax" type="text" value="" />
+                        <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'fax')}">
+												  <input class="form-control" name="fax" ng-model="performer.fax" type="text" value="" ng-pattern="/^[^A-Za-z]*$/" />
+                            <span ng-show="fieldError('formPerformer', 'fax')">
+                              <label ng-show="form.formPerformer.fax.$error.pattern" class="error">Fax must not contain letters.</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
                         </div>
                       </div>
 										</div>

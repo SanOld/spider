@@ -134,8 +134,12 @@ $this->breadcrumbs = array('Bezirk');
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.phone" class="has-hint"></div>
-                          <div class="wrap-hint">
-                            <input name="phone" ng-model="district.phone" type="tel" value="" class="form-control">
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
+                            <input name="phone" ng-model="district.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
+                            <span ng-show="fieldError('phone')">
+                              <label ng-show="form.formDistrict.phone.$error.pattern" class="error">Telefon must not contain letters.</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -144,8 +148,12 @@ $this->breadcrumbs = array('Bezirk');
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.fax" class="has-hint"></div>
-                          <div class="wrap-hint">
-                            <input name="fax" ng-model="district.fax" type="tel" value="" class="form-control">
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('fax')}">
+                            <input name="fax" ng-model="district.fax" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
+                            <span ng-show="fieldError('fax')">
+                              <label ng-show="form.formDistrict.fax.$error.pattern" class="error">Fax must not contain letters.</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
                           </div>
                         </div>
                       </div>

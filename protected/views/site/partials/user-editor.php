@@ -215,8 +215,12 @@
 
               <div class="col-lg-9">
                 <div spi-hint text="_hint.phone" class="has-hint"></div>
-                <div class="wrap-hint">
-                  <input class="form-control" type="text" ng-model="user.phone" id="phone" value="">
+                <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
+                  <input class="form-control" type="text" name="phone" ng-model="user.phone"  value="" ng-pattern="/^[^A-Za-z]*$/">
+                  <span ng-show="fieldError('phone')">
+										<label ng-show="form.phone.$error.pattern" class="error">Telefon must not contain letters.</label>
+										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+									</span>
                 </div>
               </div>
             </div>

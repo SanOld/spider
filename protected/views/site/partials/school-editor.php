@@ -133,8 +133,12 @@
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.phone" class="has-hint"></div>
-                          <div class="wrap-hint">
-                            <input name="phone" ng-model="school.phone" type="tel" value="" class="form-control">
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
+                            <input name="phone" ng-model="school.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
+                            <span ng-show="fieldError('phone')">
+                              <label ng-show="form.formSchool.phone.$error.pattern" class="error">Telefon must not contain letters.</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -143,8 +147,12 @@
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.fax" class="has-hint"></div>
-                          <div class="wrap-hint">
-                            <input name="fax" ng-model="school.fax" type="tel" value="" class="form-control">
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('fax')}">
+                            <input name="fax" ng-model="school.fax" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
+                            <span ng-show="fieldError('fax')">
+                              <label ng-show="form.formSchool.fax.$error.pattern" class="error">Fax must not contain letters.</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
                           </div>
                         </div>
                       </div>
