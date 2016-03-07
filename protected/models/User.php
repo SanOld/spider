@@ -278,7 +278,7 @@ class User extends BaseModel {
       case ACTION_UPDATE:
         return $user['can_edit'] || $user['id'] == $this->id;
       case ACTION_INSERT:
-        return $user['can_edit'] && !(in_array($user['type_id'], array(1,2)) && $data['type_id'] == 1); // except PA & Senat create Admin
+        return $user['can_edit'] && !(in_array($user['type_id'], array(6,2)) && $data['type_id'] == 1); // except PA & Senat create Admin
       case ACTION_DELETE:
         return $user['can_edit'] && $user['type_id'] != 2; // except PA
     }
