@@ -4,7 +4,7 @@ var spi = angular.module('spi', [
     'LocalStorageModule',
     'ngTable',
     'ui.bootstrap',
-    'ui.mask',
+    //'ui.mask',
     'ngAnimate',
     'ui-notification',
     'mm.iban'
