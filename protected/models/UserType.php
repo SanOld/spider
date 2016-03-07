@@ -20,7 +20,7 @@ class UserType extends BaseModel {
   }
 
   protected function getCommandFilter() {
-    return Yii::app ()->db->createCommand ()->select ("id, name, type")->from ( $this->table  . ' tbl') -> order('name');
+    return Yii::app ()->db->createCommand ()->select ("tbl.id, tbl.name, tbl.type")->from ( $this->table  . ' tbl') -> order('name');
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
@@ -29,7 +29,30 @@ class UserType extends BaseModel {
       $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
     }
     if($this->user['relation_id']) {
-      $command->andWhere("tbl.type = :type || tbl.id = 1", array(':type' => $this->user['type']));
+      $command = $this->setWhereByRole($command);
+    }
+
+    return $command;
+  }
+
+  protected function setWhereByRole($command) {
+    switch($this->user['type']) {
+      case SCHOOL:
+        $command->join('spi_user usr', 'usr.type_id = tbl.id');
+        $command->andWhere('(tbl.id = 1) OR (usr.relation_id = :relation_id AND tbl.type = :type) '.
+          'OR (usr.relation_id IN (SELECT performer_id FROM spi_project WHERE id IN('.
+          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "t") '.
+          'OR (usr.relation_id IN (SELECT school_id FROM spi_project_school WHERE id IN('.
+          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "s") '.
+          'OR (usr.relation_id IN (SELECT district_id FROM spi_project WHERE id IN('.
+          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "d") ',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        break;
+      case DISTRICT:
+      case TA:
+        $command->join('spi_user usr', 'usr.type_id = tbl.id');
+        $command->andWhere('(tbl.id = 1) OR (usr.relation_id = :relation_id AND tbl.type = :type)', array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        break;
     }
     return $command;
   }
