@@ -34,8 +34,8 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
   $scope.isInsert = !data.id;
   $scope.performerId = data.id;
   $scope._hint = hint;
-  $scope.fullAccess = network.userIsADMIN || network.userIsPA;
-  $scope.isFinansist = network.userIsADMIN || network.userIsPA || network.userIsSENAT || network.userIsTAF;
+  $scope.fullAccess = network.user.type == 'a' && !network.userIsSENAT;
+  $scope.isFinansist = !(['d', 's'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && !network.user.is_finansist));
   $scope.tabs = [{active: true}];
 
   if (!$scope.isInsert) {
@@ -235,11 +235,11 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
   };
 
   $scope.canEditPerformer = function() {
-    return ($rootScope.canEdit() && network.user['type'] != 't') || data.id == network.user.relation_id;
+    return $rootScope.canEdit() || data.id == network.user.relation_id;
   };
 
   $scope.canDelete = function() {
-    return $rootScope.canEdit() && network.user['type'] == 'a' && !(network.user['type'] == 'a' && network.userIsPA);
+    return $rootScope.canEdit() && !(network.user['type'] == 'a' && network.userIsPA);
   };
 
   function getError(code) {

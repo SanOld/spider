@@ -64,6 +64,25 @@ class District extends BaseModel {
       unset($post['contact_id']);
     }
 
+    if(!$this->user['can_edit']) {
+      $row = Yii::app() -> db -> createCommand() -> select('*')
+        -> from($this -> table)
+        -> where('id = :id', array(':id' => $id))
+        -> queryRow();
+      $errorField = '';
+      if($row['name'] != $post['name']) {
+        $errorField = 'Name';
+      }
+      if($errorField) {
+        return array(
+          'code' => '409',
+          'result' => false,
+          'system_code' => 'ERR_UPDATE_FORBIDDEN',
+          'message' => 'Update failed: The '.$errorField.' can not be change.'
+        );
+      }
+    }
+
     if (Yii::app() -> db -> createCommand()
       -> select('id')
       -> from($this -> table)
@@ -83,6 +102,19 @@ class District extends BaseModel {
       'params' => $post
     );
 
+  }
+
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        return $user['can_view'];
+      case ACTION_UPDATE:
+        return $user['can_edit'] || (safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id'));
+      case ACTION_INSERT:
+      case ACTION_DELETE:
+        return $user['can_edit'];
+    }
+    return false;
   }
 
 }

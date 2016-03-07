@@ -92,6 +92,28 @@ class Performer extends BaseModel {
       $post['checked_by'] = null;
     }
 
+    if(!$this->user['can_edit']) {
+      $row = Yii::app() -> db -> createCommand() -> select('*')
+        -> from($this -> table)
+        -> where('id = :id', array(':id' => $id))
+        -> queryRow();
+      $errorField = '';
+      if($row['name'] != $post['name']) {
+        $errorField = 'Kurzname';
+      } else if($row['short_name'] != $post['short_name']) {
+        $errorField = 'Name';
+      }
+      if($errorField) {
+        return array(
+          'code' => '409',
+          'result' => false,
+          'system_code' => 'ERR_UPDATE_FORBIDDEN',
+          'message' => 'Update failed: The '.$errorField.' can not be change.'
+        );
+      }
+
+    }
+
     if(isset($post['bank_details_id']) && !$post['bank_details_id']) {
       unset($post['bank_details_id']);
     }

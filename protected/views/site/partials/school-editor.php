@@ -12,7 +12,7 @@
       <form novalidate name="form">
         <uib-tabset>
           <uib-tab heading="General">
-            <ng-form name="formSchool" class="form-horizontal" disable-all="!canEdit()">
+            <ng-form name="formSchool" class="form-horizontal" disable-all="!canEditSchool()">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">
                   <h3 class="subheading m-0">Allgemeine Information</h3>
@@ -24,7 +24,7 @@
                         <div class="col-lg-8">
                           <div spi-hint text="_hint.name" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
-                            <input name="name" ng-model="school.name" class="form-control" type="text" value="" required>
+                            <input name="name" ng-model="school.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                             <span ng-show="fieldError('name')">
                               <label ng-show="form.formSchool.name.$error.required" class="error">Name is required.</label>
                               <label ng-show="error.name.dublicate" class="error">This Name already exists.</label>
@@ -38,7 +38,8 @@
 
                         <div class="col-lg-8">
                           <div spi-hint text="_hint.district_id" class="has-hint"></div>
-                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}">
+                          <span ng-if="!canEdit()" ng-bind="districtName"></span>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}" ng-if="canEdit()">
                             <ui-select ng-disabled="!$select.items.length" ng-model="school.district_id"
                                        name="district_id" required>
                               <ui-select-match
@@ -94,8 +95,7 @@
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.number" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('number')}">
-                            <input name="number" ng-model="school.number" class="form-control" type="text" value=""
-                                   required>
+                            <input name="number" ng-model="school.number" class="form-control" type="text" value="" required  ng-disabled="!canEdit()">
                             <span ng-show="fieldError('number')">
                               <label ng-show="form.formSchool.number.$error.required" class="error">Nummer is
                                 required.</label>
@@ -109,7 +109,8 @@
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.type_id" class="has-hint"></div>
-                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
+                          <span ng-if="!canEdit()" ng-bind="schoolName"></span>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}" ng-if="canEdit()">
                             <ui-select ng-change="setNumber(school.type_id)" ng-disabled="!$select.items.length" ng-model="school.type_id" name="type_id"
                                        required>
                               <ui-select-match
@@ -215,7 +216,7 @@
                 </div>
                 <div class="col-lg-10 text-right pull-right">
                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-                  <button ng-if="canEdit()" class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
+                  <button ng-if="canEditSchool()" class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
                 </div>
               </div>
             </ng-form>

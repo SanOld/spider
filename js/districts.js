@@ -25,7 +25,7 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
 });
 
 
-spi.controller('EditDistrictController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
+spi.controller('EditDistrictController', function ($scope, $uibModalInstance, $rootScope, data, network, hint, Utils) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.district = {};
@@ -110,6 +110,10 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, da
         break;
     }
     return result;
+  }
+
+  $scope.canEditDistrict = function() {
+    return $rootScope.canEdit() || data.id == network.user.relation_id;
   }
 
 });

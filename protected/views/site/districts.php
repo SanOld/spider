@@ -75,7 +75,7 @@ $this->breadcrumbs = array('Bezirk');
       <form novalidate name="form">
         <uib-tabset>
           <uib-tab heading="Allgemein">
-            <ng-form name="formDistrict" class="form-horizontal" disable-all="!canEdit()">
+            <ng-form name="formDistrict" class="form-horizontal" disable-all="!canEditDistrict()">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">
                   <h3 class="subheading m-0">Allgemeine Information</h3>
@@ -85,7 +85,7 @@ $this->breadcrumbs = array('Bezirk');
                     <div class="col-lg-10">
                       <div spi-hint text="_hint.name" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
-                        <input name="name" ng-model="district.name" class="form-control" type="text" value="" required>
+                        <input name="name" ng-model="district.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                         <span ng-show="fieldError('name')">
                           <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required.</label>
                           <label ng-show="error.name.dublicate" class="error">This name already exists.</label>
@@ -218,7 +218,7 @@ $this->breadcrumbs = array('Bezirk');
                 </div>
                 <div class="col-lg-10 text-right pull-right">
                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-                  <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitFormDistrict()">Speichern</button>
+                  <button class="btn w-lg custom-btn" ng-if="canEditDistrict()" ng-click="submitFormDistrict()">Speichern</button>
                 </div>
               </div>
             </ng-form>

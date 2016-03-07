@@ -106,7 +106,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<div class="col-lg-10">
                       <div spi-hint text="_hint.name" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'name')}">
-                        <input class="form-control" name="name" ng-model="performer.name" type="text" value="" required>
+                        <input class="form-control" name="name" ng-model="performer.name" type="text" value="" required ng-disabled="!canEdit()">
                         <span ng-show="fieldError('formPerformer', 'name')">
                           <label ng-show="formPerformer.name.$error.required" class="error">Kurzname is required.</label>
                           <label ng-show="error.name.dublicate" class="error">This Kurzname already exists.</label>
@@ -120,7 +120,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<div class="col-lg-10">
                       <div spi-hint text="_hint.short_name" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'short_name')}">
-                        <input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value="" required/>
+                        <input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value="" required ng-disabled="!canEdit()"/>
                         <span ng-show="fieldError('formPerformer', 'short_name')">
                           <label ng-show="form.formPerformer.short_name.$error.required" class="error">Name is required.</label>
                           <label ng-show="error.short_name.dublicate" class="error">This Name already exists.</label>

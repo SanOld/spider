@@ -77,11 +77,11 @@ class BaseController extends Controller {
 
     $this -> model -> isFilter = !!safe($_GET, 'filter');
 
-    $permissionField = in_array($this -> method, array('post', 'put', 'delete', 'patch')) ? 'can_edit' : 'can_view';
-
-    if(!($permissionField == 'can_view' && $this->model->isFilter) && !($this -> method == 'put' && safe($_GET,'id') == $auth -> user['id']) && !$auth->user[$permissionField]) {
-      $this->sendPermissionError();
-    }
+//    $permissionField = in_array($this -> method, array('post', 'put', 'delete', 'patch')) ? 'can_edit' : 'can_view';
+//
+//    if(!($permissionField == 'can_view' && $this->model->isFilter) && !($this -> method == 'put' && safe($_GET,'id') == $auth -> user['id']) && !$auth->user[$permissionField]) {
+//      $this->sendPermissionError();
+//    }
 
     if($this -> method) {
       switch ($this -> method) {

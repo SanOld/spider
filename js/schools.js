@@ -54,7 +54,7 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
 });
 
 
-spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
+spi.controller('EditSchoolController', function ($scope, $rootScope, $uibModalInstance, data, network, hint, Utils) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.school = {};
@@ -94,12 +94,18 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
   network.get('school_type', {filter: 1}, function (result, response) {
     if (result) {
       $scope.schoolTypes = response.result;
+      if($scope.school.type_id) {
+        $scope.schoolName = Utils.getRowById($scope.schoolTypes, $scope.school.type_id, 'name');
+      }
     }
   });
 
   network.get('district', {filter: 1}, function (result, response) {
     if (result) {
       $scope.districts = response.result;
+      if($scope.school.district_id) {
+        $scope.districtName = Utils.getRowById($scope.districts, $scope.school.district_id, 'name');
+      }
     }
   });
 
@@ -167,6 +173,10 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
         break;
     }
     return result;
+  }
+
+  $scope.canEditSchool = function() {
+    return $rootScope.canEdit() || data.id == network.user.relation_id;
   }
 
 });
