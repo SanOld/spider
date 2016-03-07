@@ -60,7 +60,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
       };
     if (!$network.authProgress) {
       $network.authProgress = true;
-      $network.loginKey = btoa(login + ':' + password);
+      //$network.loginKey = btoa(login + ':' + password);
+      $network.loginKey = btoa(unescape(encodeURIComponent(login + ':' + password)));
       localStorageService.set('loginKey', $network.loginKey);
       $http({
         'method': 'JSON'
