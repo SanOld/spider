@@ -28,7 +28,7 @@ spi.controller('UserRolesController', function ($scope, $rootScope, network, Gri
 });
 
 
-spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, data, hint, network, GridService) {
+spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, data, hint, network, GridService, Utils) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
 
@@ -97,10 +97,12 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, da
   };
 
   $scope.remove = function (id) {
-    network.delete('user_type/' + id, function (result) {
-      if (result) {
-        $uibModalInstance.close();
-      }
+    Utils.doConfirm(function() {
+      network.delete('user_type/' + id, function (result) {
+        if (result) {
+          $uibModalInstance.close();
+        }
+      });
     });
   };
 

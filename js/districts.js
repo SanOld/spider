@@ -89,10 +89,12 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, da
 
 
   $scope.remove = function () {
-    network.delete('district/' + data.id, function (result) {
-      if (result) {
-        $uibModalInstance.close();
-      }
+    Utils.doConfirm(function() {
+      network.delete('district/' + data.id, function (result) {
+        if (result) {
+          $uibModalInstance.close();
+        }
+      });
     });
   };
 

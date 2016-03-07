@@ -128,7 +128,7 @@ spi.service("HintService", function (network) {
 });
 
 
-spi.factory('Utils', function () {
+spi.factory('Utils', function (SweetAlert) {
   return {
     getRowById: function (items, id, field) {
       for (var i = 0; i < items.length; i++) {
@@ -146,7 +146,22 @@ spi.factory('Utils', function () {
     },
     getSqlDate: function(d) {
       return d.getFullYear()+'-'+((d.getMonth()+1) < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1)+'-'+(d.getDate() < 10 ? '0'+d.getDate() : d.getDate());
-  }
+    },
+    doConfirm: function(callback) {
+      SweetAlert.swal({
+        title: "Sind Sie sicher?",
+        text: "Diese Datei wird nicht weidererstellt!",
+        type: "warning",
+        confirmButtonText: "JA, LÖSCHEN!",
+        showCancelButton: true,
+        cancelButtonText: "ABBRECHEN",
+        closeOnConfirm: true
+      }, function(isConfirm){
+        if(isConfirm) {
+          callback();
+        }
+      });
+    }
   };
 });
 

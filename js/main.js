@@ -144,10 +144,12 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
   };
 
   $scope.remove = function (id) {
-    network.delete('user/' + id, function (result) {
-      if (result) {
-        $uibModalInstance.close();
-      }
+    Utils.doConfirm(function() {
+      network.delete('user/' + id, function (result) {
+        if (result) {
+          $uibModalInstance.close();
+        }
+      });
     });
   };
 

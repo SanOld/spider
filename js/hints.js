@@ -103,10 +103,12 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
   };
 
   $scope.remove = function () {
-    network.delete('hint/' + data.id, function (result) {
-      if (result) {
-        $uibModalInstance.close();
-      }
+    Utils.doConfirm(function() {
+      network.delete('hint/' + data.id, function (result) {
+        if (result) {
+          $uibModalInstance.close();
+        }
+      });
     });
   };
 

@@ -214,10 +214,12 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
   };
 
   $scope.remove = function () {
-    network.delete('performer/' + data.id, function (result) {
-      if (result) {
-        $uibModalInstance.close();
-      }
+    Utils.doConfirm(function() {
+      network.delete('performer/' + data.id, function (result) {
+        if (result) {
+          $uibModalInstance.close();
+        }
+      });
     });
   };
 

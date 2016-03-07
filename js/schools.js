@@ -146,10 +146,12 @@ spi.controller('EditSchoolController', function ($scope, $uibModalInstance, data
 
 
   $scope.remove = function () {
-    network.delete('school/' + data.id, function (result) {
-      if (result) {
-        $uibModalInstance.close();
-      }
+    Utils.doConfirm(function() {
+      network.delete('school/' + data.id, function (result) {
+        if (result) {
+          $uibModalInstance.close();
+        }
+      });
     });
   };
 

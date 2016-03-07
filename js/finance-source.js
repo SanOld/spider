@@ -78,11 +78,13 @@ spi.controller('EditFinanceSourceController', function ($scope, $uibModalInstanc
 
 
     $scope.remove = function() {
+      Utils.doConfirm(function() {
         network.delete('finance_source/'+data.id, function (result) {
             if(result) {
                 $uibModalInstance.close();
             }
         });
+      });
     };
 
     $scope.cancel = function () {

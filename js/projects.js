@@ -51,7 +51,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
 
 });
 
-spi.controller('ProjectEditController', function ($scope, $uibModalInstance, data, network, hint, $timeout) {
+spi.controller('ProjectEditController', function ($scope, $uibModalInstance, data, network, hint, $timeout, Utils) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.finance_source_type = {};
@@ -160,11 +160,13 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, dat
 
 
     $scope.remove = function() {
+      Utils.doConfirm(function() {
         network.delete('project/'+data.id, function (result) {
             if(result) {
                 $uibModalInstance.close();
             }
         });
+      });
     };
 
     $scope.cancel = function () {
