@@ -31,7 +31,21 @@ class UserType extends BaseModel {
     if($this->user['relation_id']) {
       $command = $this->setWhereByRole($command);
     }
-
+    if(safe($params, 'USER_CREATE')) {
+      switch($this->user['type']) {
+        case SCHOOL:
+        case TA:
+        case DISTRICT:
+          $command->andWhere("tbl.type = :type", array(':type' => $this->user['type']));
+          break;
+        case ADMIN:
+          if($this->user['type_id'] == 2) {
+            $command->andWhere("tbl.id != 1");
+          } else if($this->user['type_id'] == 6) {
+            $command->andWhere("tbl.id NOT IN(1,2)");
+          }
+      }
+    }
     return $command;
   }
 

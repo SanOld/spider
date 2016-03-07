@@ -86,9 +86,8 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
     };
     $scope.isCurrentUser = network.user.id == data.id;
     $scope.isPerformer = data.type == 't';
-  }
-  if (!data.id || $scope.isPerformer) {
-    network.get('user_type', angular.merge({filter: 1}, $scope.isPerformer ? {type: 't'} : {}), function (result, response) {
+  } else {
+    network.get('user_type', {filter: 1, user_create: 1}, function (result, response) {
       if (result) {
         $scope.userTypes = response.result;
       }
