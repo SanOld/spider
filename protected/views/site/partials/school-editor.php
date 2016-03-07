@@ -133,8 +133,7 @@
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.phone" class="has-hint"></div>
                           <div class="wrap-hint">
-                            <input name="phone" ng-model="school.phone" type="tel" value="" class="form-control"
-                                   ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                            <input name="phone" ng-model="school.phone" type="tel" value="" class="form-control">
                           </div>
                         </div>
                       </div>
@@ -144,8 +143,7 @@
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.fax" class="has-hint"></div>
                           <div class="wrap-hint">
-                            <input name="fax" ng-model="school.fax" type="tel" value="" class="form-control"
-                                   ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                            <input name="fax" ng-model="school.fax" type="tel" value="" class="form-control">
                           </div>
                         </div>
                       </div>
@@ -203,7 +201,7 @@
                     <dt>Titel</dt>
                     <dd ng-bind="contactUser.title || '-'"></dd>
                     <dt>Telefon</dt>
-                    <dd ng-bind="(contactUser.phone | tel) || '-'"></dd>
+                    <dd ng-bind="contactUser.phone || '-'"></dd>
                     <dt>Email</dt>
                     <dd ng-bind="contactUser.email || '-'"></dd>
                   </dl>

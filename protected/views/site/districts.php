@@ -44,7 +44,7 @@ $this->breadcrumbs = array('Bezirk');
                   <td data-title="'Name'" sortable="'name'">{{row.name}}</td>
                   <td data-title="'Adresse'" sortable="'address'">{{row.address}}</td>
                   <td data-title="'Ansprechpartner(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
-                  <td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
+                  <td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
                   <td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
                     <a class="btn center-block edit-btn" ng-click="openEdit(row)">
                       <i class="ion-edit"></i>
@@ -135,8 +135,7 @@ $this->breadcrumbs = array('Bezirk');
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.phone" class="has-hint"></div>
                           <div class="wrap-hint">
-                            <input name="phone" ng-model="district.phone" type="tel" value="" class="form-control"
-                                   ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                            <input name="phone" ng-model="district.phone" type="tel" value="" class="form-control">
                           </div>
                         </div>
                       </div>
@@ -146,8 +145,7 @@ $this->breadcrumbs = array('Bezirk');
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.fax" class="has-hint"></div>
                           <div class="wrap-hint">
-                            <input name="fax" ng-model="district.fax" type="tel" value="" class="form-control"
-                                   ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                            <input name="fax" ng-model="district.fax" type="tel" value="" class="form-control">
                           </div>
                         </div>
                       </div>
@@ -206,7 +204,7 @@ $this->breadcrumbs = array('Bezirk');
                     <dt>Titel</dt>
                     <dd ng-bind="contactUser.title || '-'"></dd>
                     <dt>Telefon</dt>
-                    <dd ng-bind="(contactUser.phone | tel) || '-'"></dd>
+                    <dd ng-bind="contactUser.phone || '-'"></dd>
                     <dt>Email</dt>
                     <dd ng-bind="contactUser.email || '-'"></dd>
                   </dl>

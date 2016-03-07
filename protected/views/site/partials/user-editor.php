@@ -216,8 +216,7 @@
               <div class="col-lg-9">
                 <div spi-hint text="_hint.phone" class="has-hint"></div>
                 <div class="wrap-hint">
-                  <input class="form-control" type="text" ng-model="user.phone" id="phone" value=""
-                         ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                  <input class="form-control" type="text" ng-model="user.phone" id="phone" value="">
                 </div>
               </div>
             </div>

@@ -60,7 +60,7 @@ $this->breadcrumbs = array('Träger Agentur');
 									<td data-title="'Adresse'" sortable="'address'">{{row.address}}</td>
 									<td data-title="'Ansprechpartner(in)'" sortable="'representative_user'">{{row.representative_user}}</td>
 									<td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}">{{row.email}}</a></td>
-									<td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
+									<td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
 									<td data-title="'Überprüft'" sortable="'is_checked'" class="text-center">
 										<i ng-if="+row.is_checked" class="ion-checkmark"></i>
 										<span ng-if="!+row.is_checked">-</span>
@@ -166,7 +166,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<div class="col-lg-9">
                         <div spi-hint text="_hint.phone" class="has-hint"></div>
                         <div class="wrap-hint">
-												  <input class="form-control" name="phone" ng-model="performer.phone" type="text" value=""  ui-mask="(999) 9999 999"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
+												  <input class="form-control" name="phone" ng-model="performer.phone" type="text" value="" />
                         </div>
 											</div>
 										</div>
@@ -175,7 +175,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<div class="col-lg-9">
                         <div spi-hint text="_hint.fax" class="has-hint"></div>
                         <div class="wrap-hint">
-												  <input class="form-control" name="fax" ng-model="performer.fax" type="text" value="" ui-mask="(999) 9999 999"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
+												  <input class="form-control" name="fax" ng-model="performer.fax" type="text" value="" />
                         </div>
                       </div>
 										</div>
@@ -225,7 +225,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<dt>Titel</dt>
 											<dd ng-bind="representativeUser.title || '-'"></dd>
 											<dt>Telefon</dt>
-											<dd ng-bind="(representativeUser.phone | tel) || '-'"></dd>
+											<dd ng-bind="(representativeUser.phone) || '-'"></dd>
 											<dt>Email</dt>
 											<dd ng-bind="representativeUser.email || '-'"></dd>
 										</dl>
@@ -247,7 +247,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<dt>Titel</dt>
 											<dd ng-bind="applicationProcessingUser.title || '-'"></dd>
 											<dt>Telefon</dt>
-											<dd ng-bind="(applicationProcessingUser.phone | tel) || '-'"></dd>
+											<dd ng-bind="(applicationProcessingUser.phone) || '-'"></dd>
 											<dt>Email</dt>
 											<dd ng-bind="applicationProcessingUser.email || '-'"></dd>
 										</dl>
@@ -269,7 +269,7 @@ $this->breadcrumbs = array('Träger Agentur');
 											<dt>Titel</dt>
 											<dd ng-bind="budgetProcessingUser.title || '-'"></dd>
 											<dt>Telefon</dt>
-											<dd ng-bind="(budgetProcessingUser.phone | tel) || '-'"></dd>
+											<dd ng-bind="(budgetProcessingUser.phone) || '-'"></dd>
 											<dt>Email</dt>
 											<dd ng-bind="budgetProcessingUser.email || '-'"></dd>
 										</dl>

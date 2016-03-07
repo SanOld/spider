@@ -6,7 +6,7 @@
     <td ng-if="page != 'district'" data-title="'Bezirk'" sortable="'district_name'">{{row.district_name}}</td>
     <td data-title="'Adresse'" sortable="'address'">{{row.address}}</td>
     <td data-title="'Ansprechpartner(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
-    <td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
+    <td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
     <td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
       <a class="btn center-block edit-btn" ng-click="openEdit(row)">
         <i class="ion-edit"></i>
