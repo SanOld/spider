@@ -47,6 +47,7 @@ class UserType extends BaseModel {
           'OR (usr.relation_id IN (SELECT district_id FROM spi_project WHERE id IN('.
           'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "d") ',
           array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        $command->group('tbl.id');
         break;
       case DISTRICT:
       case TA:
