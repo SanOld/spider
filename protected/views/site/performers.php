@@ -452,6 +452,365 @@ $this->breadcrumbs = array('Träger Agentur');
 					</div>
 				</uib-tab>
 
+        <uib-tab heading="Anträge (mockup)" ng-if="!isInsert">
+          <div class="holder-tab">
+            <div class="holder-tab">
+              <div class="panel-body request-edit">
+                <div class="datafilter clearfix">
+                  <form action="#">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <label>Antragstyp</label>
+                          <select class="form-control">
+                            <option>Alles anzeigen</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <label>Jahr</label>
+                          <select class="form-control">
+                            <option>2015</option>
+                            <option>2016</option>
+                            <option>2017</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <label>Status</label>
+                          <select class="form-control">
+                            <option>Akzeptabel</option>
+                            <option>Öffnen</option>
+                            <option>In Progress</option>
+                            <option>Akzeptiert</option>
+                            <option>Ablehnen </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <label>Finanzierung</label>
+                          <select class="form-control">
+                            <option>Alles anzeigen</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 reset-btn-width">
+                      <button class="btn pull-right w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
+                    </div>
+                  </form>
+                </div>
+                <div>
+                  <div class="col-lg-12">
+                    <table id="datatable" class="table table-hover table-bordered table-edit">
+                      <thead>
+                      <tr class="head-top">
+                        <th>Kennziffer</th>
+                        <th>Jahr</th>
+                        <th>Status</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Abgabe</th>
+                        <th>Letzte Änd.</th>
+                        <th>Ansicht</th>
+                      </tr>
+                      <tr>
+                        <th>Kennziffer</th>
+                        <th>Jahr</th>
+                        <th>Status</th>
+                        <th colspan="3">Beanst.</th>
+                        <th>Abgabe</th>
+                        <th>Letzte Änd.</th>
+                        <th>Ansicht</th>
+                      </tr>
+
+                      </thead>
+
+                      <tbody>
+                      <tr class="acceptable-row">
+                        <td><a href="order.php">K026</a></td>
+                        <td>2016</td>
+                        <td>Förderfähig</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+                          <a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><a href="order.php">G053</a></td>
+                        <td>2016</td>
+                        <td>Unbearbeitet</td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
+                            <span class="cell-finplan select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
+                            <span class="cell-concept select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
+                            <span class="cell-school"></span>
+                          </a>
+                        </td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><a href="order.php">K026</a></td>
+                        <td>2016</td>
+                        <td>Unbearbeitet</td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
+                            <span class="cell-finplan select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
+                            <span class="cell-concept select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
+                            <span class="cell-school"></span>
+                          </a>
+                        </td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><a href="order.php">G053</a></td>
+                        <td>2016</td>
+                        <td>Unbearbeitet</td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
+                            <span class="cell-finplan select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
+                            <span class="cell-concept select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
+                            <span class="cell-school"></span>
+                          </a>
+                        </td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+
+                        </td>
+                      </tr>
+                      <tr class="acceptable-row">
+                        <td><a href="order.php">K026</a></td>
+                        <td>2016</td>
+                        <td>Förderfähig</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+                          <a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
+
+                        </td>
+                      </tr>
+                      <tr class="inprogress-row">
+                        <td><a href="order.php">G053</a></td>
+                        <td>2016</td>
+                        <td>Bitte Bearbeiten</td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
+                            <span class="cell-finplan select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
+                            <span class="cell-concept select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
+                            <span class="cell-school"></span>
+                          </a>
+                        </td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+
+                        </td>
+                      </tr>
+                      <tr class="acceptable-row">
+                        <td><a href="order.php">K026</a></td>
+                        <td>2016</td>
+                        <td>Förderfähig</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+                          <a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
+
+                        </td>
+                      </tr>
+                      <tr class="accept-row">
+                        <td><a href="order.php">K026</a></td>
+                        <td>2016</td>
+                        <td>Genehmigt</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+                          <a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
+
+                        </td>
+                      </tr>
+                      <tr class="decline-row">
+                        <td><a href="order.php">G053</a></td>
+                        <td>2016</td>
+                        <td>Nur Leserecht</td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
+                            <span class="cell-finplan select-decline"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
+                            <span class="cell-concept select-decline"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
+                            <span class="cell-school select-decline"></span>
+                          </a>
+                        </td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+
+                        </td>
+                      </tr>
+                      <tr class="accept-row">
+                        <td><a href="order.php">K026</a></td>
+                        <td>2016</td>
+                        <td>Genehmigt</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td>
+                          <a class="btn document" href="#" data-target="#modal-5" data-toggle="modal" title="Drucken"><i class="ion-printer"></i></a>
+
+                        </td>
+                      </tr>
+                      <tr class="decline-row">
+                        <td><a href="order.php">G053</a></td>
+                        <td>2016</td>
+                        <td>Nur Leserecht</td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_finance" title="Finanzplan">
+                            <span class="cell-finplan select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_concepts" title="Schulkonzept">
+                            <span class="cell-concept select"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="request-button btn edit-btn" href="/order.php#tab_schools-goals" title="Entwicklungsziele">
+                            <span class="cell-school"></span>
+                          </a>
+                        </td>
+                        <td>13.11.2015</td>
+                        <td>15.10.2015</td>
+                        <td></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="clearfix m-b-30">
+                  <div class="notice">
+                    <span class="color-notice open"></span>
+                    Unbearbeitet
+                  </div>
+                  <div class="notice">
+                    <span class="color-notice decline-row"></span>
+                    Nur Leserecht
+                  </div>
+                  <div class="notice">
+                    <span class="color-notice inprogress-row"></span>
+                    Bitte bearbeiten
+                  </div>
+                  <div class="notice">
+                    <span class="color-notice acceptable-row"></span>
+                    Förderfähig
+                  </div>
+                  <div class="notice">
+                    <span class="color-notice accept-row"></span>
+                    Genehmigt
+                  </div>
+                </div>
+                <div class="clearfix square-legend">
+                  <div class="notice">
+                    <div class="legends">
+                      <span class="cell-finplan select"></span>
+                      <span class="cell-concept select"></span>
+                      <span class="cell-school select"></span>
+                    </div>
+                    In Bearbeitung
+                  </div>
+                  <div class="notice">
+                    <div class="legends">
+                      <span class="cell-finplan"></span>
+                      <span class="cell-concept"></span>
+                      <span class="cell-school"></span>
+                    </div>
+                    Förderfähig
+                  </div>
+                  <div class="notice">
+                    <div class="legends">
+                      <span class="cell-finplan select-decline"></span>
+                      <span class="cell-concept select-decline"></span>
+                      <span class="cell-school select-decline"></span>
+                    </div>
+                    Abgelehnt
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+
 				<uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 't'; relationId = performerId" ng-if="canView('user')">
 					<div class="holder-tab" ng-controller="UserController">
 						<div class="panel-body edit-user agency-tab-user">
@@ -498,6 +857,173 @@ $this->breadcrumbs = array('Träger Agentur');
 						</div>
 					</div>
 				</uib-tab>
+
+        <uib-tab heading="Projekte (mockup)" ng-if="!isInsert">
+          <div class="holder-tab">
+            <div class="holder-tab">
+              <div class="panel-body edit-user">
+                <div class="col-lg-12">
+                  <div class="row datafilter">
+                    <form action="#" class="class-form">
+                      <div class="col-lg-3 col-width-type">
+                        <div class="form-group">
+                          <label>Suche nach Kennziffer</label>
+                          <input type="search" class="form-control" placeholder="Eingegeben">
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-width-type">
+                        <div class="form-group">
+                          <label>Typ</label>
+                          <select class="type-user form-control">
+                            <option>Alles anzeigen</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-width-type">
+                        <div class="form-group">
+                          <label>Bezirk</label>
+                          <select class="type-user form-control">
+                            <option>Alles anzeigen</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="form-group">
+                          <label>Schule</label>
+                          <select class="type-user form-control">
+                            <option>Alles anzeigen</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 reset-btn-width">
+                        <button class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <table id="datatable" class="table table-hover table-bordered table-edit" data-page-length="10000">
+                    <thead>
+                    <tr>
+                      <th>Kennziffer</th>
+                      <th>Bezirk</th>
+                      <th>Schule</th>
+                      <th>Bearbeiten</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                      <td><a href="#">B026</a></td>
+                      <td class="custom-data"><a href="#">Bezirk Neukolln</a></td>
+                      <td><a href="#">Pestalozzi-Schule (06S01)</a></td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">B053</a></td>
+                      <td class="custom-data"><a href="#">Bezirk Pankow</a></td>
+                      <td><a href="#">Pestalozzi-Schule (06S01)</a></td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">Z026</a></td>
+                      <td><a href="#">Lina Morgenstern</a></td>
+                      <td class="custom-data"><a href="#">Lina Morgenstern (02K04)</a></td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">G053</a></td>
+                      <td><a href="#">Bezirk Neukolln</a></td>
+                      <td><a href="#">Solling-Schule (ISS) (07K05)</a></td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">B026</a></td>
+                      <td class="custom-data"><a href="#">Bezirk Neukolln</a></td>
+                      <td><a href="#">Solling-Schule (ISS) (07K05)</td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">S053</a></td>
+                      <td><a href="#">Bezirk Pankow</a></td>
+                      <td><a href="#">Biesalski-Schule (06S02)</a></td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">K026</a></td>
+                      <td><a href="#">Bezirk Pankow</a></td>
+                      <td><a href="#">Biesalski-Schule (06S02)</a></td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">Z053</a></td>
+                      <td><a href="#">Bezirk Neukolln</a></td>
+                      <td class="custom-data"><a href="#">Biesalski-Schule (06S02)</a></td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">S053</a></td>
+                      <td><a href="#">Bezirk Pankow</a></td>
+                      <td><a href="#">Biesalski-Schule (06S02)</a></td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">S053</a></td>
+                      <td><a href="#">Bezirk Pankow</a></td>
+                      <td>
+                        <a href="#">Solling-Schule (ISS) (07K05)</a><br/>
+                        <a href="#">Pestalozzi-Schule (06S01)</a><br/>
+                        <a href="#">Biesalski-Schule (06S02)</a>
+                      </td>
+                      <td>
+                        <a class="btn edit-btn center-block" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+                          <i class="ion-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+
 			</uib-tabset>
 			</form>
 	</div>

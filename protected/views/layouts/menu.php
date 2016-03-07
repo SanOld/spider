@@ -30,7 +30,7 @@
 			<li ng-class="{'active': ['performer', 'school', 'district'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 				<ul class="dropdown-menu">
-					<li><a ng-if="canShow('performer')" href="agency-list.php">Träger Agentur</a></li>
+					<li><a ng-if="canShow('performer')" href="/performers">Träger Agentur</a></li>
 					<li><a ng-if="canShow('school')" href="/schools">Schule</a></li>
 					<li><a ng-if="canShow('district')" href="/districts">Bezirk</a></li>
 				</ul>
