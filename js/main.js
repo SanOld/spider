@@ -36,13 +36,17 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
     window.location = '/'
   };
 
-  $scope.openEdit = function () {
-    GridService().openEditor({
-      data: $scope.user,
-      controller: 'UserEditController',
-      template: 'editUserTemplate.html'
-    }, function () {
-      $scope.user = network.user;
+  $scope.openUserProfile = function () {
+    network.get('user', {auth_token: network.token}, function(result, response) {
+      if(result) {
+        GridService().openEditor({
+          data: response.result[0],
+          controller: 'UserEditController',
+          template: 'editUserTemplate.html'
+        }, function () {
+          $scope.user = network.user;
+        });
+      }
     });
 
   };
@@ -52,6 +56,7 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
 spi.controller('UserEditController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils, Notification) {
   $scope.model = 'user';
   $scope.isInsert = true;
+  $scope.isAdmin = network.userIsADMIN;
   $scope.modeView = modeView;
   $scope.user = {
     is_active: 1,
@@ -122,12 +127,9 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
       var callback = function (result, response) {
         if (result) {
           if ($scope.isCurrentUser) {
-            network.reconnect(function () {
-              $uibModalInstance.close();
-            });
-          } else {
-            $uibModalInstance.close();
+            network.updateUserField('login', formData.login);
           }
+          $uibModalInstance.close();
         } else {
           $scope.error = getError(response.system_code);
         }

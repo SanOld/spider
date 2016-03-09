@@ -19,6 +19,14 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
   };
   $network.onLogout = function () {
   };
+  $network.createLoginKey = function(login, password) {
+    return btoa(unescape(encodeURIComponent(login + ':' + password)))
+  };
+  $network.updateUserField = function(field, value) {
+    if($network.user[field] != undefined) {
+      $network.user[field] = value;
+    }
+  };
 
   $network.reconnect = function (callback) {
 
@@ -60,7 +68,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     if (!$network.authProgress) {
       $network.authProgress = true;
       //$network.loginKey = btoa(login + ':' + password);
-      $network.loginKey = btoa(unescape(encodeURIComponent(login + ':' + password)));
+      $network.loginKey = $network.createLoginKey(login, password);
       localStorageService.set('loginKey', $network.loginKey);
       $http({
         'method': 'JSON'

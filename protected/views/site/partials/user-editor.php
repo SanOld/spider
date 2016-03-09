@@ -182,7 +182,7 @@
                 <div spi-hint text="_hint.login" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('login')}">
                   <input class="form-control" type="text" name="login" ng-model="user.login" id="login" value=""
-                         ng-disabled="isCurrentUser" ng-minlength="3" ng-maxlength="45" required>
+                         ng-disabled="isCurrentUser && !isAdmin" ng-minlength="3" ng-maxlength="45" required>
 									<span ng-show="fieldError('login')">
 										<label ng-show="form.login.$error.required" class="error">Benutzername is required.</label>
 										<label ng-show="form.login.$error.minlength" class="error">Benutzername is too short.</label>
@@ -277,8 +277,9 @@
         </div>
         <div class="form-group group-btn">
           <div class="col-lg-2" ng-if="!isInsert && !isCurrentUser && canDelete() && !modeView">
-            <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove(userId)"><i
-                class="fa fa-trash-o"></i></a>
+            <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove(userId)">
+              <i class="fa fa-trash-o"></i>
+            </a>
           </div>
           <div class="col-lg-6 text-right pull-right">
             <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>

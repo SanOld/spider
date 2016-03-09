@@ -69,6 +69,9 @@ class User extends BaseModel {
     if (safe($params, 'TYPE')) {
       $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
     }
+    if (safe($params, 'AUTH_TOKEN')) {
+      $command->andWhere("tbl.auth_token = :auth_token", array(':auth_token' => $params['AUTH_TOKEN']));
+    }
 
     if($this->user['relation_id']) {
       $command = $this->setWhereByRole($command);
@@ -196,7 +199,7 @@ class User extends BaseModel {
       );
     }
 
-    if($id == $this->user['id'] && $row['login'] != $post['login']) {
+    if($id == $this->user['id'] && !($this->user['can_edit'] && $this->user['type_id'] != 2) && $row['login'] != $post['login']) {
       return array(
         'code' => '409',
         'result' => false,
