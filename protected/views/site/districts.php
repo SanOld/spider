@@ -45,8 +45,11 @@ $this->breadcrumbs = array('Bezirk');
                   <td data-title="'Adresse'" sortable="'address'">{{row.address}}</td>
                   <td data-title="'Ansprechpartner(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
                   <td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
-                  <td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-                    <a class="btn center-block edit-btn" ng-click="openEdit(row)">
+                  <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+                    <a class="btn pull-left edit-btn" ng-click="openEdit(row, 1)">
+                      <i class="ion-eye"></i>
+                    </a>
+                    <a class="btn pull-right edit-btn" ng-if="canEdit(row.id)" ng-click="openEdit(row)">
                       <i class="ion-edit"></i>
                     </a>
                   </td>
@@ -65,8 +68,8 @@ $this->breadcrumbs = array('Bezirk');
 
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
-      <h3 class="m-0 pull-left" ng-if="!isInsert">Bezirk bearbeiten - {{district.name}}</h3>
-
+      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Bezirk bearbeiten - {{district.name}}</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Bezirk ansicht - {{district.name}}</h3>
       <h3 class="m-0 pull-left" ng-if="isInsert">Bezirk hinzufügen</h3>
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
@@ -75,7 +78,7 @@ $this->breadcrumbs = array('Bezirk');
       <form novalidate name="form">
         <uib-tabset>
           <uib-tab heading="Allgemein">
-            <ng-form name="formDistrict" class="form-horizontal" disable-all="!canEditDistrict()">
+            <ng-form name="formDistrict" class="form-horizontal" disable-all="!canEditDistrict() || modeView">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">
                   <h3 class="subheading m-0">Allgemeine Information</h3>
@@ -195,7 +198,8 @@ $this->breadcrumbs = array('Bezirk');
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
                   <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
                   <div spi-hint text="_hint.contact_id" class="has-hint"></div>
-                  <div class="wrap-hint">
+                  <span ng-if="!canEdit() || modeView" ng-bind="contactUser.name || '-'"></span>
+                  <div class="wrap-hint" ng-if="canEdit() && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(district.contact_id)"
                                ng-model="district.contact_id" name="contact_id">
                       <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">
@@ -220,13 +224,13 @@ $this->breadcrumbs = array('Bezirk');
               </div>
               <hr/>
               <div class="form-group group-btn m-t-15">
-                <div class="col-lg-2" ng-if="!isInsert && canEdit()">
+                <div class="col-lg-2" ng-if="!isInsert && canEdit() && !modeView">
                   <a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i
                       class="fa fa-trash-o"></i></a>
                 </div>
                 <div class="col-lg-10 text-right pull-right">
                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-                  <button class="btn w-lg custom-btn" ng-if="canEditDistrict()" ng-click="submitFormDistrict()">Speichern</button>
+                  <button class="btn w-lg custom-btn" ng-if="canEditDistrict() && !modeView" ng-click="submitFormDistrict()">Speichern</button>
                 </div>
               </div>
             </ng-form>

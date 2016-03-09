@@ -49,9 +49,10 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
 
 });
 
-spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils, Notification) {
+spi.controller('UserEditController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils, Notification) {
   $scope.model = 'user';
   $scope.isInsert = true;
+  $scope.modeView = modeView;
   $scope.user = {
     is_active: 1,
     is_finansist: 0,

@@ -53,10 +53,11 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
     grid.reload();
   };
 
-  $scope.openEdit = function (row) {
+  $scope.openEdit = function (row, modeView) {
     grid.openEditor({
       data: row,
       hint: $scope._hint,
+      modeView: !!modeView,
       controller: 'UserEditController',
       template: 'editUserTemplate.html'
     });
@@ -65,6 +66,10 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   $scope.canCreate = function () {
     return $rootScope.canEdit();
   };
+
+  $scope.canEdit = function(id) {
+    return $rootScope.canEdit() || id == network.user.id;
+  }
 
 });
 

@@ -2,7 +2,8 @@
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
       <h3 ng-if="isInsert" class="m-0 pull-left">Benutzer hinzufügen</h3>
-      <h3 ng-if="!isInsert" class="m-0 pull-left">Benutzerprofil editieren</h3>
+      <h3 ng-if="!isInsert && !modeView" class="m-0 pull-left">Benutzerprofil editieren</h3>
+      <h3 ng-if="!isInsert && modeView" class="m-0 pull-left">Benutzerprofil ansicht</h3>
       <button type="button" ng-click="cancel()" class="close"><i class="ion-close-round "></i></button>
     </div>
     <div ng-show="(submited && form.$invalid) || error" class="alert alert-danger m-t-20">
@@ -11,12 +12,12 @@
     <h3 class="subheading">Benutzerinformation</h3>
     <hr>
     <div class="panel-body">
-      <form novalidate class="form-horizontal" name="form" disable-all="!canEdit()">
+      <form novalidate class="form-horizontal" name="form" disable-all="!canEdit() || modeView">
         <div class="form-group">
           <label class="col-lg-2 control-label">Status</label>
 
           <div class="col-lg-10">
-            <div ng-if="!isCurrentUser" class="btn-group btn-toggle">
+            <div ng-if="!isCurrentUser && !modeView" class="btn-group btn-toggle">
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 1}" ng-model="user.is_active"
                       uib-btn-radio="1">AKTIV
               </button>
@@ -24,7 +25,7 @@
                       uib-btn-radio="0">DEAKTIVIEREN
               </button>
             </div>
-            <span ng-if="isCurrentUser" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Deaktivieren'}}</span>
+            <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Deaktivieren'}}</span>
             <span spi-hint text="_hint.is_active"></span>
           </div>
         </div>
@@ -83,7 +84,7 @@
           <label class="col-lg-2 control-label two-line">Finanzielle Rechte</label>
 
           <div class="col-lg-10">
-            <div ng-if="!isCurrentUser" class="btn-group btn-toggle">
+            <div ng-if="!isCurrentUser && !modeView" class="btn-group btn-toggle">
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 1}" ng-model="user.is_finansist"
                       uib-btn-radio="1">JA
               </button>
@@ -91,7 +92,7 @@
                       uib-btn-radio="0">NEIN
               </button>
             </div>
-            <span ng-if="isCurrentUser" class="no-edit-text">{{user.is_finansist ? 'Ja' : 'Nein'}}</span>
+            <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_finansist ? 'Ja' : 'Nein'}}</span>
             <span spi-hint text="_hint.is_finansist"></span>
           </div>
         </div>
@@ -99,7 +100,7 @@
           <label class="col-lg-2 control-label">Anrede</label>
 
           <div class="col-lg-10">
-            <div class="radio-inline">
+            <div class="radio-inline" ng-if="!modeView && canEdit()">
               <label for="radio1" class="cr-styled">
                 <input type="radio" ng-model="user.sex" value="1" id="radio1">
                 <i class="fa"></i>
@@ -107,11 +108,12 @@
               </label>
             </div>
             <div class="radio-inline">
-              <label for="radio2" class="cr-styled">
+              <label for="radio2" class="cr-styled" ng-if="!modeView && canEdit()">
                 <input type="radio" ng-model="user.sex" value="2" id="radio2">
                 <i class="fa"></i>
                 Frau
               </label>
+              <span ng-if="modeView || !canEdit()" class="no-edit-text">{{user.sex == '1' ? 'Herr' : 'Frau'}}</span>
               <span spi-hint text="_hint.sex"></span>
             </div>
           </div>
@@ -227,7 +229,7 @@
           </div>
         </div>
 
-        <div class="row" ng-if="isCurrentUser || canEdit()">
+        <div class="row" ng-if="!modeView && (isCurrentUser || canEdit())">
           <div class="form-custom-box clearfix">
             <div class="col-lg-12">
               <h4>Passwort</h4>
@@ -274,13 +276,13 @@
           </div>
         </div>
         <div class="form-group group-btn">
-          <div class="col-lg-2" ng-if="!isInsert && !isCurrentUser && canDelete()">
+          <div class="col-lg-2" ng-if="!isInsert && !isCurrentUser && canDelete() && !modeView">
             <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove(userId)"><i
                 class="fa fa-trash-o"></i></a>
           </div>
           <div class="col-lg-6 text-right pull-right">
             <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitForm(user)">Speichern</button>
+            <button class="btn w-lg custom-btn" ng-if="canEdit() && !modeView" ng-click="submitForm(user)">Speichern</button>
           </div>
         </div>
       </form>

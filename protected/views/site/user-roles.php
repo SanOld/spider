@@ -22,11 +22,14 @@ $this->breadcrumbs = array('Benutzerrollen');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Benutzer-Typ'" sortable="'name'">{{row.name}}</td>
 							<td data-title="'Organisationstyp'">{{row.relation_name}}</td>
-							<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
-									<i class="ion-edit"></i>
-								</a>
-							</td>
+              <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+                <a class="btn pull-left edit-btn" ng-click="openEdit(row, 1)">
+                  <i class="ion-eye"></i>
+                </a>
+                <a class="btn pull-right edit-btn" ng-if="canEdit()" ng-click="openEdit(row)">
+                  <i class="ion-edit"></i>
+                </a>
+              </td>
 						</tr>
 					</table>
 				</div>
@@ -45,7 +48,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 				</div>
 				<div class="panel-body table-modal">
-          <form novalidate name="form" disable-all="!canEdit()">
+          <form novalidate name="form" disable-all="!canEdit() || modeView">
 					<div class="form-group custom-field row clearfix">
 						<div class="form-group col-lg-6">
 							<label>Benutzer-Typ</label>
@@ -103,12 +106,12 @@ $this->breadcrumbs = array('Benutzerrollen');
 
 					<div class="row p-t-10">
 						<div class="form-group group-btn p-t-10">
-							<div class="col-lg-2" ng-if="canEdit() && !isInsert && !default">
+							<div class="col-lg-2" ng-if="canEdit() && !isInsert && !default && !modeView">
 								<button ng-click="remove(userTypeId)" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
 							</div>
 							<div class="col-lg-6 text-right pull-right">
 								<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-								<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitForm()">Speichern</button>
+								<button class="btn w-lg custom-btn" ng-if="canEdit() && !modeView" ng-click="submitForm()">Speichern</button>
 							</div>
 						</div>
 					</div>

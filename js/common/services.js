@@ -100,6 +100,9 @@ spi.service("GridService", function (network, NgTableParams, $uibModal) {
           },
           hint: function () {
             return params.hint;
+          },
+          modeView: function () {
+            return params.modeView;
           }
         }
       });

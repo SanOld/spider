@@ -46,11 +46,14 @@ $this->breadcrumbs = array('Hilfetexte');
 							<td data-title="'Seite'" sortable="'page_name'">{{row.page_name}}</td>
 							<td data-title="'Position'" sortable="'position_name'">{{row.position_name}}</td>
 							<td data-title="'Hilfetext'">{{row.description}}</td>
-							<td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
-								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
-									<i class="ion-edit"></i>
-								</a>
-							</td>
+              <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+                <a class="btn pull-left edit-btn" ng-click="openEdit(row, 1)">
+                  <i class="ion-eye"></i>
+                </a>
+                <a class="btn pull-right edit-btn" ng-if="canEdit()" ng-click="openEdit(row)">
+                  <i class="ion-edit"></i>
+                </a>
+              </td>
 						</tr>
 					</table>
 				</div>
@@ -64,11 +67,12 @@ $this->breadcrumbs = array('Hilfetexte');
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
 			<h3 ng-if="isInsert" class="m-0 pull-left">Hilf hinzufügen</h3>
-			<h3 ng-if="!isInsert" class="m-0 pull-left">Hilf bearbeiten</h3>
+			<h3 ng-if="!isInsert && !modeView" class="m-0 pull-left">Hilf bearbeiten</h3>
+			<h3 ng-if="!isInsert && modeView" class="m-0 pull-left">Hilf ansicht</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body">
-			<form novalidate name="form" class="form-horizontal">
+			<form novalidate name="form" class="form-horizontal" disable-all="modeView || !canEdit()">
 				<div class="form-group">
 					<label class="col-lg-2 control-label">Seite</label>
 					<div ng-if="!isInsert" class="col-lg-10">
@@ -138,12 +142,12 @@ $this->breadcrumbs = array('Hilfetexte');
 					</div>
 				</div>
 				<div class="form-group group-btn p-t-10">
-					<div class="col-lg-2" ng-if="!isInsert">
+					<div class="col-lg-2" ng-if="!isInsert && !modeView && canEdit()">
 						<a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></a>
 					</div>
 					<div class="col-lg-6 text-right pull-right">
 						<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-						<button class="btn w-lg custom-btn" ng-click="submitForm(hint)">Speichern</button>
+						<button class="btn w-lg custom-btn" ng-if="!modeView && canEdit()" ng-click="submitForm(hint)">Speichern</button>
 					</div>
 				</div>
 			</form>

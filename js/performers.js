@@ -1,6 +1,6 @@
 spi.controller('PerformerController', function ($scope, $rootScope, network, GridService, HintService) {
   $rootScope._m = 'performer';
-  $scope.filter = {is_checked: 1};
+  $scope.filter = {};
   $scope.checks = [{id: 1, name: 'Checked'}, {id: 0, name: 'Not checked'}];
 
   var grid = GridService();
@@ -18,23 +18,32 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
     $scope.filter = grid.resetFilter();
   };
 
-  $scope.openEdit = function (row) {
-    grid.openEditor({data: row, hint: $scope._hint, size: 'width-full', controller: 'EditPerformerController'});
+  $scope.openEdit = function (row, modeView) {
+    grid.openEditor({
+      data: row,
+      hint: $scope._hint,
+      modeView: !!modeView,
+      size: 'width-full',
+      controller: 'EditPerformerController'
+    });
   };
 
   $scope.canCreate = function () {
     return $rootScope.canEdit() && network.user['type'] != 't';
-  }
+  };
 
+  $scope.canEdit = function(id) {
+    return $rootScope.canEdit() || id == network.user.relation_id;
+  };
 
 });
 
 
-spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
+spi.controller('EditPerformerController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
   $scope.isInsert = !data.id;
   $scope.performerId = data.id;
   $scope._hint = hint;
-  $scope.fullAccess = network.user.type == 'a' && !network.userIsSENAT;
+  $scope.modeView = modeView;
   $scope.isFinansist = network.user.type == 'a' || (network.user.type == 't' && parseInt(network.user.is_finansist));
   $scope.tabs = [{active: true}];
 
@@ -90,7 +99,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, $uibModa
       if (result) {
         $scope.users = response.result;
         if (data.is_checked) {
-          $scope.checkedBy = Utils.getRowById($scope.users, data.checked_by, 'name');
+          $scope.checkedBy = data.checked_name;
           $scope.checkedDate = data.checked_date_formatted;
         }
         if (data.representative_user_id) {

@@ -7,8 +7,13 @@ spi.controller('UserRolesController', function ($scope, $rootScope, network, Gri
     grid.reload();
   };
 
-  $scope.openEdit = function (row) {
-    grid.openEditor({data: row, hint: $scope._hint, controller: 'EditUserRoleController'}, function () {
+  $scope.openEdit = function (row, modeView) {
+    grid.openEditor({
+      data: row,
+      hint: $scope._hint,
+      modeView: !!modeView,
+      controller: 'EditUserRoleController'
+    }, function () {
       getTypes();
     });
   };
@@ -28,9 +33,10 @@ spi.controller('UserRolesController', function ($scope, $rootScope, network, Gri
 });
 
 
-spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, data, hint, network, GridService, Utils) {
+spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, modeView, data, hint, network, GridService, Utils) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
+  $scope.modeView = modeView;
 
   if (!$scope.isInsert) {
     $scope.userTypeId = data.id;

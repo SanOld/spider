@@ -2,8 +2,8 @@
 
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
-      <h3 class="m-0 pull-left" ng-if="!isInsert">Schule bearbeiten - {{school.number}}</h3>
-
+      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Schule bearbeiten - {{school.number}}</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Schule ansicht - {{school.number}}</h3>
       <h3 class="m-0 pull-left" ng-if="isInsert">Schule hinzufügen</h3>
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
@@ -12,7 +12,7 @@
       <form novalidate name="form">
         <uib-tabset>
           <uib-tab heading="General">
-            <ng-form name="formSchool" class="form-horizontal" disable-all="!canEditSchool()">
+            <ng-form name="formSchool" class="form-horizontal" disable-all="!canEditSchool() || modeView">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">
                   <h3 class="subheading m-0">Allgemeine Information</h3>
@@ -38,8 +38,8 @@
 
                         <div class="col-lg-8">
                           <div spi-hint text="_hint.district_id" class="has-hint"></div>
-                          <span ng-if="!canEdit()" ng-bind="districtName"></span>
-                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}" ng-if="canEdit()">
+                          <span ng-if="!canEdit() || modeView" ng-bind="districtName"></span>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}" ng-if="canEdit() && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-model="school.district_id"
                                        name="district_id" required>
                               <ui-select-match
@@ -109,8 +109,8 @@
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.type_id" class="has-hint"></div>
-                          <span ng-if="!canEdit()" ng-bind="schoolName"></span>
-                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}" ng-if="canEdit()">
+                          <span ng-if="!canEdit() || modeView" ng-bind="schoolName"></span>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}" ng-if="canEdit() && !modeView">
                             <ui-select ng-change="setNumber(school.type_id)" ng-disabled="!$select.items.length" ng-model="school.type_id" name="type_id"
                                        required>
                               <ui-select-match
@@ -193,10 +193,11 @@
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
                   <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
                   <div spi-hint text="_hint.homepage" class="has-hint"></div>
-                  <div class="wrap-hint">
+                  <span ng-if="!canEdit() || modeView" ng-bind="contactUser.name || '-'"></span>
+                  <div class="wrap-hint" ng-if="canEdit() && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(school.contact_id)"
                                ng-model="school.contact_id" name="contact_id">
-                      <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No choosen)'}}">
+                      <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">
                         {{$select.selected.name}}
                       </ui-select-match>
                       <ui-select-choices repeat="item.id as item in users | filter: $select.search">
@@ -218,13 +219,13 @@
               </div>
               <hr/>
               <div class="form-group group-btn m-t-15">
-                <div class="col-lg-2" ng-if="!isInsert && canEdit()">
+                <div class="col-lg-2" ng-if="!isInsert && canEdit() && !modeView">
                   <a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i
                       class="fa fa-trash-o"></i></a>
                 </div>
                 <div class="col-lg-10 text-right pull-right">
                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-                  <button ng-if="canEditSchool()" class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
+                  <button ng-if="canEditSchool() && !modeView" class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
                 </div>
               </div>
             </ng-form>

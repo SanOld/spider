@@ -65,11 +65,14 @@ $this->breadcrumbs = array('Träger Agentur');
 										<i ng-if="+row.is_checked" class="ion-checkmark"></i>
 										<span ng-if="!+row.is_checked">-</span>
 									</td>
-									<td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-										<a class="btn center-block edit-btn" ng-click="openEdit(row)">
-											<i class="ion-edit"></i>
-										</a>
-									</td>
+                  <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+                    <a class="btn pull-left edit-btn" ng-click="openEdit(row, 1)">
+                      <i class="ion-eye"></i>
+                    </a>
+                    <a class="btn pull-right edit-btn" ng-if="canEdit(row.id)" ng-click="openEdit(row)">
+                      <i class="ion-edit"></i>
+                    </a>
+                  </td>
 								</tr>
 							</table>
 						</div>
@@ -88,7 +91,9 @@ $this->breadcrumbs = array('Träger Agentur');
 <script type="text/ng-template" id="editTemplate.html">
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
-			<h3 class="m-0 pull-left">Trägerdaten - Tandem gemeinnützige Beschäftigungs- und Qualifizierungsgesellschaft mbH</h3>
+			<h3 class="m-0 pull-left" ng-if="isInsert">Agentur hinzufügen</h3>
+			<h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Trägerdaten - {{performer.name}}</h3>
+			<h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Trägerdaten - {{performer.name}}</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 
@@ -99,7 +104,7 @@ $this->breadcrumbs = array('Träger Agentur');
 						<div ng-class="isInsert || !isFinansist ? 'col-lg-12' : 'col-lg-8'">
 							<h3 class="subheading">Allgemeine Information</h3>
 							<hr>
-							<ng-form name="formPerformer" class="form-horizontal" disable-all="!canEditPerformer()">
+							<ng-form name="formPerformer" class="form-horizontal" disable-all="!canEditPerformer() || modeView">
 								<div class="address-row">
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Kurzname</label>
@@ -219,7 +224,8 @@ $this->breadcrumbs = array('Träger Agentur');
 									<div class="col-lg-4">
 										<h4>Vertretungsberechtigte Person</h4>
                     <div spi-hint text="_hint.representative_user_id" class="has-hint"></div>
-                    <div class="wrap-hint">
+                    <span ng-if="!canEdit() || modeView" ng-bind="representativeUser.name || '-'"></span>
+                    <div class="wrap-hint" ng-if="canEdit() && !modeView">
                       <ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" ng-model="performer.representative_user_id" name="representative_user_id">
                         <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search">
@@ -241,7 +247,8 @@ $this->breadcrumbs = array('Träger Agentur');
 									<div class="col-lg-4">
 										<h4>Ansprechperson für Antragsbearbeitung</h4>
                     <div spi-hint text="_hint.application_processing_user_id" class="has-hint"></div>
-                    <div class="wrap-hint">
+                    <span ng-if="!canEdit() || modeView" ng-bind="applicationProcessingUser.name || '-'"></span>
+                    <div class="wrap-hint" ng-if="canEdit() && !modeView">
                       <ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" ng-model="performer.application_processing_user_id" theme="select2" name="application_processing_user_id">
                         <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search">
@@ -263,7 +270,8 @@ $this->breadcrumbs = array('Träger Agentur');
 									<div class="col-lg-4">
 										<h4>Ansprechperson für die Finanzplanbearbeitung</h4>
                     <div spi-hint text="_hint.budget_processing_user_id" class="has-hint"></div>
-                    <div class="wrap-hint">
+                    <span ng-if="!canEdit() || modeView" ng-bind="budgetProcessingUser.name || '-'"></span>
+                    <div class="wrap-hint" ng-if="canEdit() && !modeView">
                       <ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
                         <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search">
@@ -288,10 +296,10 @@ $this->breadcrumbs = array('Träger Agentur');
 						<div class="col-lg-4" ng-if="!isInsert && isFinansist">
 							<div class="heading-button clearfix m-b-15">
 								<h3 class="subheading pull-left">Bankverbindungen</h3>
-								<button ng-show="!performer.bank_details_id" ng-click="showBankDetails = 1" class="btn w-md custom-btn pull-right" type="button">Neu</button>
+								<button ng-show="!performer.bank_details_id && !modeView" ng-click="showBankDetails = 1" class="btn w-md custom-btn pull-right" type="button">Neu</button>
 							</div>
 							<div class="form-custom-box bank-details m-0" ng-show="showBankDetails">
-								<ng-form name="formBank" class="form-horizontal" disable-all="!canEditBankInfo()">
+								<ng-form name="formBank" class="form-horizontal" disable-all="!canEditBankInfo() || modeView">
 									<div class="heading-bank clearfix m-b-15">
 										<h4 class="pull-left">Bankverbindungen</h4>
 										<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
@@ -346,7 +354,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										  </div>
 										</div>
 									</div>
-									<div class="pull-right">
+									<div class="pull-right" ng-if="!modeView">
 										<button class="btn btn-icon btn-danger btn-lg sweet-4" ng-if="performer.bank_details_id && canEditBankInfo()" ng-click="removeBankDetails(performer.bank_details_id, $parent)" id="sa-warning"><i class="fa fa-trash-o"></i></button>
 										<button class="btn w-sm cancel-btn" ng-if="!performer.bank_details_id && canEditBankInfo()" ng-click="$parent.showBankDetails = 0; $parent.bank_details = {}">Löschen</button>
 										<button class="btn w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank_details)">Hinzufügen</button>
@@ -357,12 +365,12 @@ $this->breadcrumbs = array('Träger Agentur');
 					</div>
 					<hr>
 					<div class="group-btn clearfix m-t-20">
-						<div class="pull-left" ng-if="!isInsert && canDelete()">
+						<div class="pull-left" ng-if="!isInsert && canDelete() && !modeView">
 							<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
 						</div>
 						<div class="pull-right">
 							<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-							<button class="btn w-lg custom-btn" ng-if="canEditPerformer()" ng-click="submitFormPerformer()">Speichern</button>
+							<button class="btn w-lg custom-btn" ng-if="canEditPerformer() && !modeView" ng-click="submitFormPerformer()">Speichern</button>
 						</div>
 					</div>
 				</uib-tab>
@@ -370,7 +378,7 @@ $this->breadcrumbs = array('Träger Agentur');
 				<uib-tab heading="Profil" active="tabs[1].active" ng-click="tabs[1].active = true">
 					<div class="holder-tab">
 						<div class="panel-body">
-              <span disable-all="!canEditPerformer()">
+              <span disable-all="!canEditPerformer() || modeView">
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Selbstdarstellung</label>
@@ -422,23 +430,24 @@ $this->breadcrumbs = array('Träger Agentur');
 									  </div>
 									</div>
 								</div>
-								<div class="clearfix m-t-40" ng-if="fullAccess">
+								<div class="clearfix m-t-40" ng-if="canEdit()">
 									<h3 class="m-0">Interner Vermerk</h3>
 									<label>Sie können eine Nachricht für PA hinterlassen </label>
 								</div>
-								<div class="form-group" ng-if="fullAccess">
+								<div class="form-group" ng-if="canEdit()">
                   <div spi-hint text="_hint.comment" class="has-hint"></div>
                   <div class="wrap-hint">
 									  <textarea name="comment" ng-model="performer.comment" class="form-control custom-height" placeholder="Tragen Sie den Text hier ein"></textarea>
 								  </div>
 								</div>
-								<div class="form-custom-box clearfix m-0" ng-if="fullAccess">
-									<div class="pull-left" ng-if="checkedBy">
+								<div class="form-custom-box clearfix m-0" ng-if="canEdit()">
+									<div class="pull-left">
 										<label class="control-label">Information ist überprüft und korrekt</label><br/>
-										<span class="checked-person">Überpüft von {{checkedBy}} {{checkedDate}}</span>
+										<span class="checked-person" ng-if="checkedBy">Überpüft von {{checkedBy}} {{checkedDate}}</span>
 									</div>
 									<div class="pull-right m-t-10">
-										<div class="btn-group btn-toggle">
+                    <span ng-if="modeView" ng-bind="performer.is_checked == 1 ? 'JA' : 'NEIN'"></span>
+										<div class="btn-group btn-toggle" ng-if="!modeView">
 											<button class="btn btn-sm" ng-class="performer.is_checked == 1 ? 'active' : 'btn-default'" ng-model="performer.is_checked" uib-btn-radio="1">JA</button>
 											<button class="btn btn-sm" ng-class="performer.is_checked == 0 ? 'active' : 'btn-default'" ng-model="performer.is_checked" uib-btn-radio="0">NEIN</button>
 										</div>
@@ -450,12 +459,12 @@ $this->breadcrumbs = array('Träger Agentur');
 					</div>
 					<hr>
 					<div class="group-btn clearfix m-t-20">
-						<div class="pull-left" ng-if="!isInsert && canDelete()">
+						<div class="pull-left" ng-if="!isInsert && canDelete() && !modeView">
 							<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
 						</div>
 						<div class="pull-right">
 							<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-							<button class="btn w-lg custom-btn" ng-if="canEditPerformer()" ng-click="submitFormPerformer()">Speichern</button>
+							<button class="btn w-lg custom-btn" ng-if="canEditPerformer() && !modeView" ng-click="submitFormPerformer()">Speichern</button>
 						</div>
 					</div>
 				</uib-tab>

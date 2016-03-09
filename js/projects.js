@@ -40,20 +40,22 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
         grid.reload();
     };
 
-    $scope.openEdit = function (row) {
+    $scope.openEdit = function (row, modeView) {
         grid.openEditor({
-            data: row,
-            hint: $scope._hint,
-            controller: 'ProjectEditController',
-            template: 'editTemplate.html'
+          data: row,
+          hint: $scope._hint,
+          modeView: !!modeView,
+          controller: 'ProjectEditController',
+          template: 'editTemplate.html'
         });
     };
 
 });
 
-spi.controller('ProjectEditController', function ($scope, $uibModalInstance, data, network, hint, $timeout, Utils) {
+spi.controller('ProjectEditController', function ($scope, $uibModalInstance, modeView, data, network, hint, $timeout, Utils) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
+    $scope.modeView = modeView;
     $scope.finance_source_type = {};
     
     $timeout(function () {

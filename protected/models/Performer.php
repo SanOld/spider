@@ -7,10 +7,16 @@ class Performer extends BaseModel {
   public $post = array();
   public $select_all = " tbl.*, DATE_FORMAT(checked_date, '%d.%m.%Y') checked_date_formatted, CONCAT(usp.first_name, ' ', usp.last_name) representative_user";
   protected function getCommand() {
+    if($this->user['can_edit']) {
+      $this->select_all .=  ", CONCAT(usc.first_name, ' ', usc.last_name) checked_name";
+    }
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all)
         -> from($this -> table . ' tbl')
         -> leftJoin('spi_user usp', 'tbl.representative_user_id = usp.id')
         -> leftJoin('spi_bank_details bnd', 'tbl.bank_details_id = bnd.id');
+    if($this->user['can_edit']) {
+      $command->leftJoin('spi_user usc', 'tbl.checked_by = usc.id');
+    }
     $command -> where(' 1=1 ', array());
     $command = $this->setWhereByRole($command);
     return $command;

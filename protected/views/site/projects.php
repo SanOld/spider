@@ -126,8 +126,11 @@ $this->breadcrumbs = array('Projekte');
                                 </td>
                                 <td data-title="'Träger'" sortable="'performer_name'"><a href="#">{{row.performer_name}}</a></td>
                                 <td data-title="'Bezirk'" sortable="'district_name'">{{row.district_name}}</td>
-                                <td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
-                                  <a class="btn center-block edit-btn" ng-click="openEdit(row)">
+                                <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+                                  <a class="btn pull-left edit-btn" ng-click="openEdit(row, 1)">
+                                    <i class="ion-eye"></i>
+                                  </a>
+                                  <a class="btn pull-right edit-btn" ng-click="openEdit(row)">
                                     <i class="ion-edit"></i>
                                   </a>
                                 </td>

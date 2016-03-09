@@ -40,24 +40,30 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
     $scope.filter = grid.resetFilter();
   };
 
-  $scope.openEdit = function (row) {
+  $scope.openEdit = function (row, modeView) {
     grid.openEditor({
       data: row,
       hint: $scope._hint,
+      modeView: !!modeView,
       size: 'width-full',
       controller: 'EditSchoolController',
       template: 'EditSchoolTemplate.html'
     });
   };
 
+  $scope.canEdit = function(id) {
+    return $rootScope.canEdit() || id == network.user.relation_id;
+  }
+
 
 });
 
 
-spi.controller('EditSchoolController', function ($scope, $rootScope, $uibModalInstance, data, network, hint, Utils) {
+spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.school = {};
+  $scope.modeView = modeView;
   var next_id = 1;
 
   if (!$scope.isInsert) {

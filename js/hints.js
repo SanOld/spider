@@ -17,8 +17,13 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
     $scope.filter = grid.resetFilter();
   };
 
-  $scope.openEdit = function (row) {
-    grid.openEditor({data: row, hint: $scope._hint, controller: 'EditHintController'});
+  $scope.openEdit = function (row, modeView) {
+    grid.openEditor({
+      data: row,
+      modeView: !!modeView,
+      hint: $scope._hint,
+      controller: 'EditHintController'
+    });
   };
 
   network.get('page', {filter: 1}, function (result, response) {
@@ -31,11 +36,12 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
 });
 
 
-spi.controller('EditHintController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
+spi.controller('EditHintController', function ($scope, $uibModalInstance, data, modeView, network, hint, Utils) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.hint = {};
   $scope.showTitle = false;
+  $scope.modeView = modeView;
 
   function reloadPosition() {
     $scope.positions = [];
