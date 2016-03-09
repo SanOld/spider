@@ -15,7 +15,7 @@ class User extends BaseModel {
   }
 
   protected function getCommandFilter() {
-    return Yii::app ()->db->createCommand ()->select ("id, CONCAT(first_name, ' ', last_name) name, function, phone, title, email")->from ( $this->table  . ' tbl') -> order('name');
+    return Yii::app ()->db->createCommand ()->select ("id, CONCAT(first_name, ' ', last_name) name, function, phone, title, email, is_finansist")->from ( $this->table  . ' tbl') -> order('name');
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {

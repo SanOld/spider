@@ -272,7 +272,7 @@ $this->breadcrumbs = array('Träger Agentur');
                     <div class="wrap-hint" ng-if="canEdit() && !modeView">
                       <ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
                         <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="item.id as item in users | filter: $select.search">
+                        <ui-select-choices repeat="item.id as item in financeUsers | filter: $select.search">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
                         </ui-select-choices>
                       </ui-select>

@@ -39,7 +39,7 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
 });
 
 
-spi.controller('EditPerformerController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
+spi.controller('EditPerformerController', function ($scope, $rootScope, filterFilter, modeView, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
   $scope.isInsert = !data.id;
   $scope.performerId = data.id;
   $scope._hint = hint;
@@ -98,6 +98,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, modeView
     network.get('user', {filter: 1, is_active: 1, relation_id: data.id, type: 't'}, function (result, response) {
       if (result) {
         $scope.users = response.result;
+        $scope.financeUsers = filterFilter(response.result, {is_finansist: "1"});
         if (data.is_checked) {
           $scope.checkedBy = data.checked_name;
           $scope.checkedDate = data.checked_date_formatted;
