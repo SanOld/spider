@@ -46,11 +46,9 @@ $this->breadcrumbs = array('Bezirk');
                   <td data-title="'Ansprechpartner(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
                   <td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
                   <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-                    <a class="btn pull-left edit-btn" ng-click="openEdit(row, 1)">
-                      <i class="ion-eye"></i>
-                    </a>
-                    <a class="btn pull-right edit-btn" ng-if="canEdit(row.id)" ng-click="openEdit(row)">
-                      <i class="ion-edit"></i>
+                    <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit(row.id))">
+                      <i class="ion-eye"  ng-if="!canEdit(row.id)"></i>
+                      <i class="ion-edit" ng-if="canEdit(row.id)"></i>
                     </a>
                   </td>
                 </tr>

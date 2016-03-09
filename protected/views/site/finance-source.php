@@ -27,11 +27,9 @@ $this->breadcrumbs = array('Fördertöpfe');
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
                   <td data-title="'Details'" sortable="'description'">{{row.description}}</td>
                   <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-                    <a class="btn pull-left edit-btn" ng-click="openEdit(row, 1)">
-                      <i class="ion-eye"></i>
-                    </a>
-                    <a class="btn pull-right edit-btn" ng-if="canEdit()" ng-click="openEdit(row)">
-                      <i class="ion-edit"></i>
+                    <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit())">
+                      <i class="ion-eye"  ng-if="!canEdit()"></i>
+                      <i class="ion-edit" ng-if="canEdit()"></i>
                     </a>
                   </td>
                 </tr>
