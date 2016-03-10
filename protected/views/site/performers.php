@@ -135,7 +135,7 @@ $this->breadcrumbs = array('Träger Agentur');
 								</div>
 								<div class="row address-row">
 									<div class="col-lg-6">
-										<div class="form-group">
+										<div class="form-group" ng-if="!(modeView && !performer.address)">
 											<label class="col-lg-4 control-label">Adresse</label>
 											<div class="col-lg-8">
                         <div spi-hint text="_hint.address" class="has-hint"></div>
@@ -144,7 +144,7 @@ $this->breadcrumbs = array('Träger Agentur');
                         </div>
 											</div>
 										</div>
-										<div class="form-group">
+										<div class="form-group" ng-if="!(modeView && !performer.plz)">
 											<label class="col-lg-4 control-label">PLZ</label>
 											<div class="col-lg-8">
                         <div spi-hint text="_hint.plz" class="has-hint"></div>
@@ -153,7 +153,7 @@ $this->breadcrumbs = array('Träger Agentur');
                         </div>
 											</div>
 										</div>
-										<div class="form-group">
+										<div class="form-group" ng-if="!(modeView && !performer.city)">
 											<label class="col-lg-4 control-label">Stadt</label>
 											<div class="col-lg-8">
                         <div spi-hint text="_hint.city" class="has-hint"></div>
@@ -164,7 +164,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										</div>
 									</div>
 									<div class="col-lg-5 col-lg-offset-1">
-										<div class="form-group">
+										<div class="form-group" ng-if="!(modeView && !performer.phone)">
 											<label class="col-lg-3 control-label">Telefon</label>
 											<div class="col-lg-9">
                         <div spi-hint text="_hint.phone" class="has-hint"></div>
@@ -177,7 +177,7 @@ $this->breadcrumbs = array('Träger Agentur');
                         </div>
 											</div>
 										</div>
-										<div class="form-group">
+										<div class="form-group" ng-if="!(modeView && !performer.fax)">
 											<label class="col-lg-3 control-label">Fax</label>
 											<div class="col-lg-9">
                         <div spi-hint text="_hint.fax" class="has-hint"></div>
@@ -190,7 +190,7 @@ $this->breadcrumbs = array('Träger Agentur');
                         </div>
                       </div>
 										</div>
-										<div class="form-group">
+										<div class="form-group" ng-if="!(modeView && !performer.email)">
 											<label class="col-lg-3 control-label">Email</label>
 											<div class="col-lg-9">
                         <div spi-hint text="_hint.email" class="has-hint"></div>
@@ -203,7 +203,7 @@ $this->breadcrumbs = array('Träger Agentur');
                         </div>
 											</div>
 										</div>
-										<div class="form-group">
+										<div class="form-group" ng-if="!(modeView && !performer.homepage)">
 											<label class="col-lg-3 control-label">Webseite</label>
 											<div class="col-lg-9">
                         <div spi-hint text="_hint.homepage" class="has-hint"></div>

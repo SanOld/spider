@@ -57,9 +57,8 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !school.address)">
                         <label class="col-lg-4 control-label">Adresse</label>
-
                         <div class="col-lg-8">
                           <div spi-hint text="_hint.address" class="has-hint"></div>
                           <div class="wrap-hint">
@@ -67,7 +66,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !school.plz)">
                         <label class="col-lg-4 control-label">PLZ</label>
 
                         <div class="col-lg-8">
@@ -77,7 +76,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !school.city)">
                         <label class="col-lg-4 control-label">Stadt</label>
 
                         <div class="col-lg-8">
@@ -128,7 +127,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !school.phone)">
                         <label class="col-lg-3 control-label">Telefon</label>
 
                         <div class="col-lg-9">
@@ -142,7 +141,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !school.fax)">
                         <label class="col-lg-3 control-label">Fax</label>
 
                         <div class="col-lg-9">
@@ -156,7 +155,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !school.email)">
                         <label class="col-lg-3 control-label">Email</label>
 
                         <div class="col-lg-9">
@@ -170,7 +169,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !school.homepage)">
                         <label class="col-lg-3 control-label">Webseite</label>
 
                         <div class="col-lg-9">
