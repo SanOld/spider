@@ -53,7 +53,7 @@ class UserType extends BaseModel {
     switch($this->user['type']) {
       case SCHOOL:
         $command->join('spi_user usr', 'usr.type_id = tbl.id');
-        $command->andWhere('(tbl.id = 1) OR (usr.relation_id = :relation_id AND tbl.type = :type) '.
+        $command->andWhere('(tbl.id IN(1,2)) OR (usr.relation_id = :relation_id AND tbl.type = :type) '.
           'OR (usr.relation_id IN (SELECT performer_id FROM spi_project WHERE id IN('.
           'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "t") '.
           'OR (usr.relation_id IN (SELECT school_id FROM spi_project_school WHERE id IN('.
@@ -66,7 +66,7 @@ class UserType extends BaseModel {
       case DISTRICT:
       case TA:
         $command->join('spi_user usr', 'usr.type_id = tbl.id');
-        $command->andWhere('(tbl.id = 1) OR (usr.relation_id = :relation_id AND tbl.type = :type)', array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        $command->andWhere('(tbl.id IN(1,2)) OR (usr.relation_id = :relation_id AND tbl.type = :type)', array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
         $command->group('tbl.id');
         break;
     }
