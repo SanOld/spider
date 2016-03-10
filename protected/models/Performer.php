@@ -12,8 +12,7 @@ class Performer extends BaseModel {
     }
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all)
         -> from($this -> table . ' tbl')
-        -> leftJoin('spi_user usp', 'tbl.representative_user_id = usp.id')
-        -> leftJoin('spi_bank_details bnd', 'tbl.bank_details_id = bnd.id');
+        -> leftJoin('spi_user usp', 'tbl.representative_user_id = usp.id');
     if($this->user['can_edit']) {
       $command->leftJoin('spi_user usc', 'tbl.checked_by = usc.id');
     }
@@ -46,9 +45,14 @@ class Performer extends BaseModel {
     $command = $this->setLikeWhere($command,
         array('tbl.address', 'tbl.email', "CONCAT(usp.first_name, ' ', usp.last_name)"),
         safe($params, 'KEYWORD'));
-    $command = $this->setLikeWhere($command,
+    if(safe($params, 'BANK_DETAILS')) {
+      $command -> leftJoin('spi_bank_details bnd', 'tbl.id = bnd.performer_id');
+      $command -> group('tbl.id');
+      $command = $this->setLikeWhere($command,
         array('bnd.contact_person', 'bnd.iban', 'bnd.bank_name', 'bnd.outer_id'),
         safe($params, 'BANK_DETAILS'));
+    }
+
     if (isset($params['IS_CHECKED'])) {
       $command -> andWhere("tbl.is_checked = :is_checked", array(':is_checked' => $params['IS_CHECKED']));
     }
@@ -119,10 +123,6 @@ class Performer extends BaseModel {
         );
       }
 
-    }
-
-    if(isset($post['bank_details_id']) && !$post['bank_details_id']) {
-      unset($post['bank_details_id']);
     }
 
     if(isset($post['representative_user_id']) && !$post['representative_user_id']) {

@@ -39,9 +39,11 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
 });
 
 
-spi.controller('EditPerformerController', function ($scope, $rootScope, filterFilter, modeView, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
+spi.controller('EditPerformerController', function ($scope, $rootScope, filterFilter, $anchorScroll, $location, modeView, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
   $scope.isInsert = !data.id;
   $scope.performerId = data.id;
+  $scope.formBank = [];
+  $scope.bank_details = [];
   $scope._hint = hint;
   $scope.modeView = modeView;
   $scope.isFinansist = network.user.type == 'a' || (network.user.type == 't' && parseInt(network.user.is_finansist));
@@ -71,10 +73,9 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
       representative_user_id: data.representative_user_id,
       application_processing_user_id: data.application_processing_user_id,
       budget_processing_user_id: data.budget_processing_user_id,
-      bank_details_id: data.bank_details_id,
     };
     getUsers();
-    if (data.bank_details_id && $scope.isFinansist) {
+    if ($scope.isFinansist) {
       getBankDetails();
     }
     if($scope.canView() && $scope.isFinansist) {
@@ -122,10 +123,10 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   }
 
   function getBankDetails() {
-    network.get('bank_details', {id: data.bank_details_id}, function (result, response) {
+    network.get('bank_details', {performer_id: data.id}, function (result, response) {
       if (result) {
         $scope.showBankDetails = true;
-        $scope.bank_details = response.result[0];
+        $scope.bank_details = response.result;
       }
     });
   }
@@ -137,6 +138,14 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
       }
     });
   }
+
+  $scope.addBankForm = function() {
+    $scope.bank_details.unshift({
+      performer_id: data.id,
+    });
+    $location.hash('formBank0');
+    $anchorScroll();
+  };
 
   $scope.changeRepresentativeUser = function (userId) {
     $scope.representativeUser = Utils.getRowById($scope.users, userId);
@@ -178,33 +187,36 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     }
   };
 
-  $scope.saveBankDetails = function (formData) {
+  $scope.saveBankDetails = function (formData, index) {
     $scope.submited = true;
-    $scope.form.formBank.$setPristine();
-    if ($scope.form.formBank.$valid) {
-      if (!$scope.performer.bank_details_id) {
-        network.post('bank_details', formData, function (result, response) {
+    var form = $scope.form['formBank'+index];
+    form.$setPristine();
+    if (form.$valid) {
+      delete formData['$$hashKey'];
+      if (!formData.id) {
+        network.post('bank_details', angular.merge(formData, {performer_id: data.id}), function (result, response) {
           if (result) {
-            $scope.performer.bank_details_id = response.id;
+            $scope.bank_details[index].id = response.id;
             $scope.submited = false;
           }
         });
       } else {
-        network.put('bank_details/' + $scope.performer.bank_details_id, formData);
+        network.put('bank_details/' + formData.id, formData);
         $scope.submited = false;
       }
     }
   };
 
-  $scope.removeBankDetails = function (id, scope) {
-    network.delete('bank_details/' + id, function (result) {
-      if (result) {
-        $scope.form.formBank.$setUntouched();
-        $scope.form.formBank.$setPristine();
-        $scope.performer.bank_details_id = null;
-        scope.bank_details = {};
-      }
-    });
+  $scope.removeBankDetails = function (bank, index) {
+    if(bank.id) {
+      network.delete('bank_details/' + bank.id, function (result) {
+        if (result) {
+          $scope.bank_details.splice(index, 1);
+        }
+      });
+    } else {
+      $scope.bank_details.splice(index, 1);
+    }
   };
 
   $scope.removeDocument = function (docId) {

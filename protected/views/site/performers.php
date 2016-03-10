@@ -294,10 +294,11 @@ $this->breadcrumbs = array('Träger Agentur');
 						<div class="col-lg-4" ng-if="!isInsert && isFinansist">
 							<div class="heading-button clearfix m-b-15">
 								<h3 class="subheading pull-left">Bankverbindungen</h3>
-								<button ng-show="!performer.bank_details_id && !modeView" ng-click="showBankDetails = 1" class="btn w-md custom-btn pull-right" type="button">Neu</button>
+								<button ng-if="!modeView && (!bank_details.length || bank_details[0].id)" ng-click="addBankForm()" class="btn w-md custom-btn pull-right" type="button">Neu</button>
 							</div>
-							<div class="form-custom-box bank-details m-0" ng-show="showBankDetails">
-								<ng-form name="formBank" class="form-horizontal" disable-all="!canEditBankInfo() || modeView">
+              <div class="holder-bank-details">
+							<div class="form-custom-box bank-details" ng-repeat="bank in bank_details">
+								<ng-form id="formBank{{$index}}" name="formBank{{$index}}" class="form-horizontal" disable-all="!canEditBankInfo() || modeView">
 									<div class="heading-bank clearfix m-b-15">
 										<h4 class="pull-left">Bankverbindungen</h4>
 										<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
@@ -307,7 +308,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<div class="col-lg-7">
                       <div spi-hint text="_hint.contact_person" class="has-hint"></div>
                       <div class="wrap-hint">
-											  <input class="form-control" name="contact_person" ng-model="bank_details.contact_person" type="text" value=""/>
+											  <input class="form-control" name="contact_person" ng-model="bank.contact_person" type="text" value=""/>
 										  </div>
 										</div>
 									</div>
@@ -315,11 +316,11 @@ $this->breadcrumbs = array('Träger Agentur');
 										<label class="col-lg-5 p-r-0 control-label">IBAN</label>
 										<div class="col-lg-7">
                       <div spi-hint text="_hint.iban" class="has-hint"></div>
-                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank', 'iban')}">
-                        <input class="form-control" name="iban" ng-iban="DE" ng-model="bank_details.iban" type="text" value="" ng-required="1" maxlength="34"/>
-                        <span ng-show="fieldError('formBank', 'iban')">
-                          <label ng-show="form.formBank.iban.$error.required" class="error">IBAN is required.</label>
-                          <label ng-show="form.formBank.iban.$error.iban" class="error">It doesn't seems real IBAN.</label>
+                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
+                        <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
+                        <span ng-show="fieldError('formBank{{$index}}', 'iban')">
+                          <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN is required.</label>
+                          <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">It doesn't seems real IBAN.</label>
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
 										  </div>
@@ -330,7 +331,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<div class="col-lg-7">
                       <div spi-hint text="_hint.bank_name" class="has-hint"></div>
                       <div class="wrap-hint">
-											  <input class="form-control" type="text" name="bank_name" ng-model="bank_details.bank_name" value=""/>
+											  <input class="form-control" type="text" name="bank_name" ng-model="bank.bank_name" value=""/>
 										  </div>
 										</div>
 									</div>
@@ -339,7 +340,7 @@ $this->breadcrumbs = array('Träger Agentur');
 										<div class="col-lg-7">
                       <div spi-hint text="_hint.outer_id" class="has-hint"></div>
                       <div class="wrap-hint">
-											  <input class="form-control" type="text" name="outer_id" ng-model="bank_details.outer_id" value=""/>
+											  <input class="form-control" type="text" name="outer_id" ng-model="bank.outer_id" value=""/>
 										  </div>
 										</div>
 									</div>
@@ -348,16 +349,16 @@ $this->breadcrumbs = array('Träger Agentur');
 										<div class="col-lg-7">
                       <div spi-hint text="_hint.description" class="has-hint"></div>
                       <div class="wrap-hint">
-											  <textarea name="description" ng-model="bank_details.description" class="form-control"></textarea>
+											  <textarea name="description" ng-model="bank.description" class="form-control"></textarea>
 										  </div>
 										</div>
 									</div>
 									<div class="clearfix" ng-if="!modeView">
-										<button class="btn pull-left btn-icon btn-danger sweet-4" ng-if="performer.bank_details_id && canEditBankInfo()" ng-click="removeBankDetails(performer.bank_details_id, $parent)" id="sa-warning"><i class="fa fa-trash-o"></i></button>
-										<button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank_details)">Hinzufügen</button>
-										<button class="btn pull-right w-sm cancel-btn" ng-if="!performer.bank_details_id && canEditBankInfo()" ng-click="$parent.showBankDetails = 0; $parent.bank_details = {}">Löschen</button>
+										<button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">Hinzufügen</button>
+										<button class="btn pull-right w-sm cancel-btn" ng-if="canEditBankInfo()" ng-click="removeBankDetails(bank, $index)">Löschen</button>
 									</div>
 								</ng-form>
+							</div>
 							</div>
 						</div>
 					</div>
