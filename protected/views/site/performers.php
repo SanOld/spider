@@ -352,10 +352,10 @@ $this->breadcrumbs = array('Träger Agentur');
 										  </div>
 										</div>
 									</div>
-									<div class="pull-right" ng-if="!modeView">
-										<button class="btn btn-icon btn-danger btn-lg sweet-4" ng-if="performer.bank_details_id && canEditBankInfo()" ng-click="removeBankDetails(performer.bank_details_id, $parent)" id="sa-warning"><i class="fa fa-trash-o"></i></button>
-										<button class="btn w-sm cancel-btn" ng-if="!performer.bank_details_id && canEditBankInfo()" ng-click="$parent.showBankDetails = 0; $parent.bank_details = {}">Löschen</button>
-										<button class="btn w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank_details)">Hinzufügen</button>
+									<div class="clearfix" ng-if="!modeView">
+										<button class="btn pull-left btn-icon btn-danger sweet-4" ng-if="performer.bank_details_id && canEditBankInfo()" ng-click="removeBankDetails(performer.bank_details_id, $parent)" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+										<button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank_details)">Hinzufügen</button>
+										<button class="btn pull-right w-sm cancel-btn" ng-if="!performer.bank_details_id && canEditBankInfo()" ng-click="$parent.showBankDetails = 0; $parent.bank_details = {}">Löschen</button>
 									</div>
 								</ng-form>
 							</div>

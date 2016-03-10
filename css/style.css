@@ -1144,7 +1144,7 @@ lesshat-selector {
 /************* 11.Forms **********/
 /* Form-validation */
 .error {
-  color: #ff0000;
+  color: #ff0000 !important;
 }
 /* Datapicker */
 .datepicker {

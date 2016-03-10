@@ -1765,6 +1765,15 @@ body > .select2-container {
 }
 .form-custom-box.bank-details {
 	overflow: hidden;
+	margin: 0 0 20px;
+}
+.form-custom-box.bank-details:last-child {
+	margin:0;
+}
+.holder-bank-details {
+    height: 355px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 .sweet-alert button {
 	text-transform:uppercase;
@@ -2334,5 +2343,3 @@ form .form-control:disabled::-moz-placeholder {
 form .form-control:disabled:-ms-input-placeholder{
   color:Transparent !important;
 }
-
-
