@@ -19,13 +19,4 @@ class FinanceSource extends BaseModel {
     return $command;
   }
 
-
-  protected function getParamCommand($command, array $params, array $logic = array()) {
-    $params = array_change_key_case($params, CASE_UPPER);
-    if(safe($params, 'ID')) {
-      $command->andWhere("tbl.id = :id", array(':id' => $params['ID']));
-    }
-    return $command;
-  }
-
 }

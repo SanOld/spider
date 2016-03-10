@@ -140,8 +140,6 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
       } else {
         network.put($scope.model + '/' + data.id, formData, callback);
       }
-    } else {
-      console.log('not valid');
     }
   };
 

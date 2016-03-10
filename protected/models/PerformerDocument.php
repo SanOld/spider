@@ -14,6 +14,7 @@ class PerformerDocument extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     if (isset($params['PERFORMER_ID'])) {
       $command -> andWhere("tbl.performer_id = :performer_id", array(':performer_id' => $params['PERFORMER_ID']));

@@ -41,6 +41,7 @@ class Performer extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,
         array('tbl.address', 'tbl.email', "CONCAT(usp.first_name, ' ', usp.last_name)"),

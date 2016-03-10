@@ -19,6 +19,7 @@ class User extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,
           array('tbl.first_name', 'tbl.last_name', 'tbl.login', 'tbl.email'),

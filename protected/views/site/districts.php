@@ -97,7 +97,7 @@ $this->breadcrumbs = array('Bezirk');
                   </div>
                   <div class="clearfix">
                     <div class="col-lg-6">
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.address)">
                         <label class="col-lg-4 control-label">Adresse</label>
 
                         <div class="col-lg-8">
@@ -107,7 +107,7 @@ $this->breadcrumbs = array('Bezirk');
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.plz)">
                         <label class="col-lg-4 control-label">PLZ</label>
 
                         <div class="col-lg-8">
@@ -117,7 +117,7 @@ $this->breadcrumbs = array('Bezirk');
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.city)">
                         <label class="col-lg-4 control-label">Stadt</label>
 
                         <div class="col-lg-8">
@@ -130,7 +130,7 @@ $this->breadcrumbs = array('Bezirk');
                     </div>
 
                     <div class="col-lg-5 col-lg-offset-1">
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.phone)">
                         <label class="col-lg-3 control-label">Telefon</label>
 
                         <div class="col-lg-9">
@@ -144,7 +144,7 @@ $this->breadcrumbs = array('Bezirk');
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.fax)">
                         <label class="col-lg-3 control-label">Fax</label>
 
                         <div class="col-lg-9">
@@ -158,7 +158,7 @@ $this->breadcrumbs = array('Bezirk');
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.email)">
                         <label class="col-lg-3 control-label">Email</label>
 
                         <div class="col-lg-9">
@@ -173,7 +173,7 @@ $this->breadcrumbs = array('Bezirk');
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.homepage)">
                         <label class="col-lg-3 control-label">Webseite</label>
 
                         <div class="col-lg-9">

@@ -120,7 +120,7 @@
         </div>
         <div class="row">
           <div class="col-lg-6">
-            <div class="form-group">
+            <div class="form-group" ng-if="!(modeView && !user.title)">
               <label class="col-lg-4 control-label" for="title">Titel</label>
 
               <div class="col-lg-8">
@@ -130,7 +130,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-if="!(modeView && !user.function)">
               <label class="col-lg-4 control-label" for="title">Funktion</label>
 
               <div class="col-lg-8">
@@ -212,7 +212,7 @@
               </div>
 
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-if="!(modeView && !user.phone)">
               <label class="col-lg-3 control-label" for="phone">Telefon</label>
 
               <div class="col-lg-9">
