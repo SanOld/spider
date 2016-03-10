@@ -44,14 +44,24 @@ class PerformerDocument extends BaseModel {
   }
 
   protected function checkPermission($user, $action, $data) {
-    print_r($data);exit;
+
+//    if(!is_array($data)) {
+//      $performedId = Yii::app()->db->createCommand()
+//        ->select('performer_id')
+//        ->from($this -> table)
+//        ->where('id=:id', array(':id'=> $data))
+//        ->queryScalar();
+//    } else {
+//      $performedId = safe($data, 'performer_id', 0);
+//    }
+
     switch ($action) {
       case ACTION_SELECT:
-        return $user['can_view'];
+        return $user['can_view'] && ($user['type'] != 't' || $user['is_finansist']);
       case ACTION_UPDATE:
       case ACTION_INSERT:
       case ACTION_DELETE:
-        return $user['can_edit']; // TODO: performers can edit only your docs
+        return $user['can_edit'] && ($user['type'] != 't' || $user['is_finansist']);
     }
     return false;
   }

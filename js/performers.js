@@ -47,6 +47,10 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope.isFinansist = network.user.type == 'a' || (network.user.type == 't' && parseInt(network.user.is_finansist));
   $scope.tabs = [{active: true}];
 
+  $scope.canEditPerformer = function() {
+    return $rootScope.canEdit() || data.id == network.user.relation_id;
+  };
+
   if (!$scope.isInsert) {
     $scope.documents = [];
     $scope.performer = {
@@ -73,22 +77,23 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     if (data.bank_details_id && $scope.isFinansist) {
       getBankDetails();
     }
-    getDocuments();
-    $scope.qqSetting = {
-      model: 'performer_document',
-      customHeaders:{Authorization: network.token},
-      params: {id: data.id},
-      buttonText: 'Dokumente hinzufügen',
-      onCompile: function (id, fileName, responseJSON) {
-        if (responseJSON.result) {
-          Notification.success({title: 'File upload success!', message: responseJSON.message});
-          getDocuments();
-        } else {
-          Notification.error({title: 'File upload fail!', message: responseJSON.message});
+    if($scope.canView() && $scope.isFinansist) {
+      getDocuments();
+      $scope.qqSetting = {
+        model: 'performer_document',
+        customHeaders:{Authorization: network.token},
+        params: {id: data.id},
+        buttonText: 'Dokumente hinzufügen',
+        onCompile: function (id, fileName, responseJSON) {
+          if (responseJSON.result) {
+            Notification.success({title: 'File upload success!', message: responseJSON.message});
+            getDocuments();
+          } else {
+            Notification.error({title: 'File upload fail!', message: responseJSON.message});
+          }
         }
       }
     }
-
   } else {
     $scope.performer = {is_checked: 0};
   }
@@ -244,9 +249,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     return network.user['type'] == 't' ? $rootScope.canEdit('bank_details') && parseInt(network.user.is_finansist) : $rootScope.canEdit();
   };
 
-  $scope.canEditPerformer = function() {
-    return $rootScope.canEdit() || data.id == network.user.relation_id;
-  };
+
 
   $scope.canDelete = function() {
     return $rootScope.canEdit() && !(network.user['type'] == 'a' && network.userIsPA);

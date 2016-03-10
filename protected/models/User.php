@@ -82,7 +82,7 @@ class User extends BaseModel {
   protected function setWhereByRole($command) {
     switch($this->user['type']) {
       case SCHOOL:
-        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR (tbl.type_id = 1) '.
+        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR (tbl.type_id IN(1,2)) '.
           'OR (tbl.relation_id IN (SELECT performer_id FROM spi_project WHERE id IN('.
           'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "t") '.
           'OR (tbl.relation_id IN (SELECT district_id FROM spi_project WHERE id IN('.
@@ -91,7 +91,7 @@ class User extends BaseModel {
         break;
       case DISTRICT:
       case TA:
-        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR tbl.type_id = 1', array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR tbl.type_id IN(1,2)', array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
         break;
     }
     return $command;

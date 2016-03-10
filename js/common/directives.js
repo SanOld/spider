@@ -113,7 +113,7 @@ spi.directive('disableAll', function ($timeout) {
     restrict: 'A',
     link: function (scope, element, attrs) {
       var _disableElements = ['input', 'button[uib-btn-radio]', 'textarea', 'select'];
-      var _skipClasses = ['cancel-btn'];
+      var _skipClasses = ['cancel-btn', 'document-link'];
 
       scope.$watch(attrs.disableAll, function (isDisabled) {
         if(isDisabled) {

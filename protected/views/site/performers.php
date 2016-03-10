@@ -396,7 +396,7 @@ $this->breadcrumbs = array('Träger Agentur');
                     </div>
                   </div>
 								</div>
-								<div class="clearfix m-t-40" ng-if="!isInsert">
+								<div class="clearfix m-t-40" ng-if="!isInsert && isFinansist">
 									<div class="heading pull-left">
 										<h3 class="m-0">Dokumente</h3>
 										<label>Sie können PDF- und DOC-Dateien hochladen<br/> (10 Mb Größenbeschränkung)</label>
@@ -405,7 +405,7 @@ $this->breadcrumbs = array('Träger Agentur');
 								</div>
 								<div class="form-custom-box clearfix m-0 upload-box" ng-if="!isInsert && documents.length">
 									<ul class="list-unstyled">
-										<li ng-repeat="doc in documents"><i class="ion-document-text "></i><a target="_blank" href="{{doc.href}}" ng-bind="doc.name"></a><a class="sweet-4" ng-if="canEditPerformer()" ng-click="removeDocument(doc.id)" href=""><i class="ion-close"></i></a></li>
+										<li ng-repeat="doc in documents"><i class="ion-document-text "></i><a target="_blank" class="document-link" href="{{doc.href}}" ng-bind="doc.name"></a><a class="sweet-4" ng-click="removeDocument(doc.id)" href=""><i ng-if="canEditPerformer()" class="ion-close"></i></a></li>
 									</ul>
 								</div>
 							</div>
