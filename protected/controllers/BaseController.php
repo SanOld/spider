@@ -207,7 +207,16 @@ class BaseController extends Controller {
     $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
     $result = $uploader->handleUpload($path);
     if(safe($result, 'success')) {
-      $this -> model = CActiveRecord::model(self::getClassName($model));
+      $models = $models_prot = array_map('trim', explode(',', MODELS));
+      $models = array_change_case($models);
+      $key = array_search(self::getClassName($_GET['model']), $models);
+      if($key !== false) {
+        $modelFor = $models_prot[$key]; // unix files 'user' and 'User' are not equal
+      } else {
+        response('405', array('system_code' => 'ERR_SERVICE'));
+      }
+
+      $this -> model = CActiveRecord::model($modelFor);
 
       $headers = getallheaders ();
       $this -> method = strtolower($_SERVER['REQUEST_METHOD']);
