@@ -29,6 +29,7 @@ class UserTypeRight extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     if(safe($params, 'TYPE_ID') === NULL) {
       return NULL;

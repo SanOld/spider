@@ -23,6 +23,7 @@ class Hint extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     if (safe($params, 'PAGE_ID')) {
       $command->andWhere("tbl.page_id = :page_id", array(':page_id' => $params['PAGE_ID']));

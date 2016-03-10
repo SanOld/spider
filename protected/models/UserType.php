@@ -24,6 +24,7 @@ class UserType extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     if (safe($params, 'TYPE')) {
       $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
