@@ -63,18 +63,16 @@ class User extends BaseModel {
       }
 
     }
-    if (safe($params, 'RELATION_ID')) {
-      $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['RELATION_ID']));
-    }
-    if (safe($params, 'TYPE')) {
-      $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
+    if (safe($params, 'RELATION_ID') && safe($params, 'TYPE')) {
+      $command->andWhere("tbl.relation_id = :relation_id AND tbl.type = :type", array(
+        ':relation_id' => $params['RELATION_ID'],
+        ':type'        => $params['TYPE']
+      ));
+    } elseif($this->user['relation_id']) {
+      $command = $this->setWhereByRole($command);
     }
     if (safe($params, 'AUTH_TOKEN')) {
       $command->andWhere("tbl.auth_token = :auth_token", array(':auth_token' => $params['AUTH_TOKEN']));
-    }
-
-    if($this->user['relation_id']) {
-      $command = $this->setWhereByRole($command);
     }
     return $command;
   }
@@ -90,8 +88,17 @@ class User extends BaseModel {
           array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
         break;
       case DISTRICT:
+        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) '.
+          'OR tbl.type_id IN(1,2) '.
+          'OR (tbl.relation_id IN(SELECT id FROM spi_school WHERE district_id = :relation_id) AND tbl.type = "s")'.
+          'OR (tbl.relation_id IN(SELECT performer_id FROM spi_project WHERE district_id = :relation_id ) AND tbl.type = "t")',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        break;
       case TA:
-        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR tbl.type_id IN(1,2)', array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR tbl.type_id IN(1,2)'.
+          'OR (tbl.relation_id IN(SELECT district_id FROM spi_project WHERE performer_id = :relation_id ) AND tbl.type = "d")'.
+          'OR (tbl.relation_id IN(SELECT school_id FROM spi_project_school WHERE project_id IN(SELECT id FROM spi_project WHERE performer_id = :relation_id)) AND tbl.type = "s")',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
         break;
     }
     return $command;

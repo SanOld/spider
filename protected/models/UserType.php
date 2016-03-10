@@ -27,8 +27,7 @@ class UserType extends BaseModel {
     $params = array_change_key_case($params, CASE_UPPER);
     if (safe($params, 'TYPE')) {
       $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
-    }
-    if($this->user['relation_id']) {
+    } else if($this->user['relation_id']) {
       $command = $this->setWhereByRole($command);
     }
     if(safe($params, 'USER_CREATE')) {
@@ -58,15 +57,25 @@ class UserType extends BaseModel {
           'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "t") '.
           'OR (usr.relation_id IN (SELECT school_id FROM spi_project_school WHERE id IN('.
           'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "s") '.
-          'OR (usr.relation_id IN (SELECT district_id FROM spi_project WHERE id IN('.
-          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "d") ',
+          'OR (usr.relation_id IN(SELECT district_id FROM spi_school WHERE id = :relation_id) OR (usr.relation_id IN (SELECT district_id FROM spi_project WHERE id IN('.
+          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id))) AND tbl.type = "d") ',
           array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
         $command->group('tbl.id');
         break;
       case DISTRICT:
+        $command->join('spi_user usr', 'usr.type_id = tbl.id');
+        $command->andWhere('tbl.id IN(1,2) OR (usr.relation_id = :relation_id AND tbl.type = :type) '.
+          'OR (usr.relation_id IN(SELECT id FROM spi_school WHERE district_id = :relation_id) AND tbl.type = "s")'.
+          'OR (usr.relation_id IN(SELECT performer_id FROM spi_project WHERE district_id = :relation_id) AND tbl.type = "t")',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        $command->group('tbl.id');
+        break;
       case TA:
         $command->join('spi_user usr', 'usr.type_id = tbl.id');
-        $command->andWhere('(tbl.id IN(1,2)) OR (usr.relation_id = :relation_id AND tbl.type = :type)', array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        $command->andWhere('(tbl.id IN(1,2)) OR (usr.relation_id = :relation_id AND tbl.type = :type) '.
+          'OR (usr.relation_id IN(SELECT school_id FROM spi_project_school WHERE project_id IN(SELECT id FROM spi_project WHERE performer_id = :relation_id)) AND tbl.type = "s")'.
+          'OR (usr.relation_id IN(SELECT district_id FROM spi_project WHERE performer_id = :relation_id) AND tbl.type = "d")',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
         $command->group('tbl.id');
         break;
     }
