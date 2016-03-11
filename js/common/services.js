@@ -125,7 +125,11 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
         });
 
         modalInstance.result.then(function () {
-          callback ? callback() : tableParams.reload();
+          callback ? callback(true) : tableParams.reload();
+        }, function() {
+          if(callback) {
+            callback(false)
+          }
         });
 
       }
