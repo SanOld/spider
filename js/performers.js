@@ -39,7 +39,7 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
 });
 
 
-spi.controller('EditPerformerController', function ($scope, $rootScope, filterFilter, $anchorScroll, $location, modeView, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert) {
+spi.controller('EditPerformerController', function ($scope, $rootScope, filterFilter, $anchorScroll, $location, modeView, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert, $timeout) {
   $scope.isInsert = !data.id;
   $scope.performerId = data.id;
   $scope.formBank = [];
@@ -166,29 +166,56 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   };
 
   $scope.submitFormPerformer = function () {
-    $scope.error = false;
+    var formBankValid = true;
     $scope.submited = true;
-    $scope.form.formPerformer.$setPristine();
-    if ($scope.form.formPerformer.$valid) {
-      var callback = function (result, response) {
-        if (result) {
-          $uibModalInstance.close();
-        } else {
-          $scope.error = getError(response.system_code);
-        }
-        $scope.submited = false;
-      };
-      if ($scope.isInsert) {
-        network.post('performer', $scope.performer, callback);
-      } else {
-        network.put('performer/' + data.id, $scope.performer, callback);
+
+    for(var i=0; i<$scope.bank_details.length; i++) {
+      var form = $scope.form['formBank'+i];
+      form.$setPristine();
+      if (form.$invalid) {
+        $scope.tabs[0].active = true;
+        $location.hash('formBank'+i);
+        $timeout(function() {
+          $anchorScroll();
+        });
+        formBankValid = false;
+        break;
       }
-    } else {
-      $scope.tabs[0].active = true;
+    }
+
+
+    if(formBankValid) {
+      for(var i=0; i<$scope.bank_details.length; i++) {
+        $scope.saveBankDetails($scope.bank_details[i], i, true);
+      }
+      savePerformer();
+    }
+
+    function savePerformer() {
+      $scope.error = false;
+      $scope.submited = true;
+      $scope.form.formPerformer.$setPristine();
+      if ($scope.form.formPerformer.$valid) {
+        var callback = function (result, response) {
+          if (result) {
+            $uibModalInstance.close();
+          } else {
+            $scope.error = getError(response.system_code);
+          }
+          $scope.submited = false;
+        };
+        if ($scope.isInsert) {
+          network.post('performer', $scope.performer, callback);
+        } else {
+          network.put('performer/' + data.id, $scope.performer, callback);
+        }
+      } else {
+        $scope.tabs[0].active = true;
+      }
     }
   };
 
-  $scope.saveBankDetails = function (formData, index) {
+  $scope.saveBankDetails = function (formData, index, bulk, callback) {
     $scope.submited = true;
     var form = $scope.form['formBank'+index];
     form.$setPristine();
@@ -200,11 +227,26 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
             $scope.bank_details[index].id = response.id;
             $scope.submited = false;
           }
+          if(callback) {
+            callback(result, index);
+          }
         });
       } else {
-        network.put('bank_details/' + formData.id, formData);
-        $scope.submited = false;
+        network.put('bank_details/' + formData.id, formData, function(result, response) {
+          if (result) {
+            $scope.submited = false;
+          }
+          if(callback) {
+            callback(result, index);
+          }
+        }, !bulk);
       }
+    } else {
+      $scope.tabs[0].active = true;
+      $location.hash('formBank'+index);
+      $timeout(function() {
+        $anchorScroll();
+      });
     }
   };
 
@@ -262,8 +304,6 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope.canEditBankInfo = function() {
     return network.user['type'] == 't' ? $rootScope.canEdit('bank_details') && parseInt(network.user.is_finansist) : $rootScope.canEdit();
   };
-
-
 
   $scope.canDelete = function() {
     return $rootScope.canEdit() && !(network.user['type'] == 'a' && network.userIsPA);
