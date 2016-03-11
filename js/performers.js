@@ -235,7 +235,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
           network.delete('performer_document/' + docId, function (result, response) {
             SweetAlert.swal("Gelöscht!", "Ihre Datrei ist erfolgreich gelöscht!", "success");
             getDocuments();
-          }, false);
+          });
         }
       }
     );
@@ -245,6 +245,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     Utils.doConfirm(function() {
       network.delete('performer/' + data.id, function (result) {
         if (result) {
+          Utils.deleteSuccess();
           $uibModalInstance.close();
         }
       });

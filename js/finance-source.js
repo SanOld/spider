@@ -89,7 +89,8 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
       Utils.doConfirm(function() {
         network.delete('finance_source/'+data.id, function (result) {
             if(result) {
-                $uibModalInstance.close();
+              Utils.deleteSuccess();
+              $uibModalInstance.close();
             }
         });
       });

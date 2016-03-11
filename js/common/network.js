@@ -132,7 +132,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
             $network.logout();
             window.location = '/'
           } else {
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
             callback(false, data);
           }
         }
@@ -164,8 +164,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert && !result.silent)
-          Notification.success({title: result.message});
+        //if (showAlert && !result.silent)
+        //  Notification.success({title: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
         if (status == 401) {
@@ -179,7 +179,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           callback(false, data);
           if (showAlert && !data.silent)
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
         }
       });
 
@@ -212,7 +212,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
       .success(function (result) {
         callback(true, result);
         if (showAlert && !result.silent)
-          Notification.success({title: result.message});
+          Notification.success({title: 'Notification', message: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
         if (status == 401) {
@@ -226,7 +226,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           callback(false, data);
           if (showAlert && !data.silent)
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
         }
       });
 
@@ -253,7 +253,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
       .success(function (result) {
         callback(true, result);
         if (showAlert && !result.silent)
-          Notification.success({title: result.message});
+          Notification.success({title: 'Notification', message: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
         if (status == 401) {
@@ -267,7 +267,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           callback(false, data);
           if (showAlert && !data.silent)
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
         }
       });
 
@@ -295,8 +295,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert && !result.silent)
-          Notification.success({title: result.message});
+        //if (showAlert && !result.silent)
+        //  Notification.success({title: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
         if (status == 401) {
@@ -310,7 +310,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           callback(false, data);
           if (showAlert && !data.silent)
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
         }
       });
 

@@ -53,7 +53,7 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
 
 });
 
-spi.controller('UserEditController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils, Notification) {
+spi.controller('UserEditController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils) {
   $scope.model = 'user';
   $scope.isInsert = true;
   $scope.isAdmin = network.userIsADMIN;
@@ -147,6 +147,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
     Utils.doConfirm(function() {
       network.delete('user/' + id, function (result) {
         if (result) {
+          Utils.deleteSuccess();
           $uibModalInstance.close();
         }
       });

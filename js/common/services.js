@@ -180,12 +180,15 @@ spi.factory('Utils', function (SweetAlert) {
         confirmButtonText: "JA, LÖSCHEN!",
         showCancelButton: true,
         cancelButtonText: "ABBRECHEN",
-        closeOnConfirm: true
+        closeOnConfirm: false
       }, function(isConfirm){
         if(isConfirm) {
           callback();
         }
       });
+    },
+    deleteSuccess: function() {
+      SweetAlert.swal("Gelöscht!", "Ihre Datrei ist erfolgreich gelöscht!", "success");
     }
   };
 });

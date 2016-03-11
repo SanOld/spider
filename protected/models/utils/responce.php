@@ -53,7 +53,7 @@ function response($code, $data, $method = '') {
     
     switch ($code) {
       case 'SUCCESSFUL' :
-            $message = 'Successfully ' . $methodsDone[$method] . '.';
+            $message = 'Successfully ' . $methodsDone[$method];
         break;
       case 'ERR_NOT_EXISTS' :
             $message = $methods [$method] . ' failed: This record not exists.';

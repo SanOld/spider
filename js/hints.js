@@ -112,6 +112,7 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
     Utils.doConfirm(function() {
       network.delete('hint/' + data.id, function (result) {
         if (result) {
+          Utils.deleteSuccess();
           $uibModalInstance.close();
         }
       });

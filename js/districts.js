@@ -102,6 +102,7 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, mo
     Utils.doConfirm(function() {
       network.delete('district/' + data.id, function (result) {
         if (result) {
+          Utils.deleteSuccess();
           $uibModalInstance.close();
         }
       });

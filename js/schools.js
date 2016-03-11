@@ -161,6 +161,7 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
     Utils.doConfirm(function() {
       network.delete('school/' + data.id, function (result) {
         if (result) {
+          Utils.deleteSuccess();
           $uibModalInstance.close();
         }
       });

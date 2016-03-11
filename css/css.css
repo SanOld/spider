@@ -411,8 +411,6 @@ table.dataTable thead .sorting_desc:after {
 	margin: 0 15px;
 	vertical-align: middle;
 }
-.edit-user #datatable_length,
-.edit-user #datatable_info,
 #datatable-edit-roles_filter {
 	display:none;
 }

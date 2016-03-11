@@ -106,6 +106,7 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, mo
     Utils.doConfirm(function() {
       network.delete('user_type/' + id, function (result) {
         if (result) {
+          Utils.deleteSuccess();
           $uibModalInstance.close();
         }
       });

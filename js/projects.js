@@ -165,7 +165,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       Utils.doConfirm(function() {
         network.delete('project/'+data.id, function (result) {
             if(result) {
-                $uibModalInstance.close();
+              Utils.deleteSuccess();
+              $uibModalInstance.close();
             }
         });
       });
