@@ -9,9 +9,7 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
     grid.reload();
   };
 
-  HintService('hint', function (result) {
-    $scope._hint = result;
-  });
+  getHints();
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();
@@ -23,6 +21,10 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
       modeView: !!modeView,
       hint: $scope._hint,
       controller: 'EditHintController'
+    }, function(result) {
+      if(result) {
+        getHints();
+      }
     });
   };
 
@@ -32,6 +34,11 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
     }
   });
 
+  function getHints() {
+    HintService('hint', function (result) {
+      $scope._hint = result;
+    });
+  }
 
 });
 
