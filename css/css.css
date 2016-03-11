@@ -496,6 +496,11 @@ table.dataTable thead .sorting_desc:after {
 	font-size: 18px;
 	line-height: 18px;
 }
+.popover {
+	border-radius:0 !important;
+	font-size:15px !important;
+	max-width: 450px;
+}
 .popover-content {
 	z-index:999;
 }
@@ -559,8 +564,11 @@ table.dataTable thead .sorting_desc:after {
 .holder-label-radio .no-edit-text {
 	padding:0;
 }
-.holder-label-radio {
-	padding:7px 0 0;
+.form-horizontal .holder-label-radio .radio-inline {
+	padding-top:0;
+}
+.form-horizontal .holder-label-radio {
+	padding:7px 0 0 15px;
 }
 
 .fa.fa-trash-o {
@@ -1240,7 +1248,7 @@ body > .select2-container {
 	z-index: 99999;
 }
 .select2-container .select2-choice .select2-arrow {
-	top: -1px !important;
+	top: -3px !important;
 }
 .select2-container-multi .select2-choices {
 	padding: 1px 5px !important;
@@ -1440,6 +1448,7 @@ body > .select2-container {
 	right:5px;
 	top:5px;
 	cursor:pointer;
+	font-size:13px;
 }
 .popover .ion-close-round:hover {
 	opacity: 0.7;

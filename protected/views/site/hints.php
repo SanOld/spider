@@ -131,7 +131,7 @@ $this->breadcrumbs = array('Hilfetexte');
 					<div class="col-lg-10">
 						<span spi-hint text="_hint.description" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
-							<textarea ng-model="hint.description" name="description" ng-minlength="3" class="form-control" rows="5" required></textarea>
+							<textarea ng-model="hint.description" name="description" ng-minlength="3" class="form-control" rows="7" required></textarea>
 							<span ng-show="fieldError('description')">
 								<label ng-show="form.description.$error.required" class="error">Hilfetext is required</label>
 								<label ng-show="form.description.$error.minlength" class="error">Hilfetext is too short</label>
