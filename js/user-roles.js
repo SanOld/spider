@@ -54,7 +54,7 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, mo
 
 
   var grid = GridService();
-  network.get('page', {right: 1, type_id: data.id, order: 'name'}, function (result, response) {
+  network.get('page', {right: 1, type_id: data.id, all: 1, order: 'name'}, function (result, response) {
     if (result) {
       $scope.tableParams = grid(response.result, {}, {sorting: {page_name: 'asc'}, count: response.result.length});
       $scope.user_right = [];
