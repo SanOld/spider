@@ -60,8 +60,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.modeView = modeView;
   $scope.user = {
     is_active: 1,
-    is_finansist: 0,
-    sex: 1
+    is_finansist: 0
   };
 
   if (!hint) {

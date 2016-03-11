@@ -102,19 +102,22 @@
           <div class="col-lg-10">
             <div class="radio-inline" ng-if="!modeView && canEdit()">
               <label for="radio1" class="cr-styled">
-                <input type="radio" ng-model="user.sex" value="1" id="radio1">
+                <input type="radio" ng-model="user.sex" name="sex" value="1" id="radio1" ng-required="!user.sex">
                 <i class="fa"></i>
                 Herr
               </label>
             </div>
             <div class="radio-inline">
               <label for="radio2" class="cr-styled" ng-if="!modeView && canEdit()">
-                <input type="radio" ng-model="user.sex" value="2" id="radio2">
+                <input type="radio" ng-model="user.sex" name="sex" value="2" id="radio2" ng-required="!user.sex">
                 <i class="fa"></i>
                 Frau
               </label>
               <span ng-if="modeView || !canEdit()" class="no-edit-text">{{user.sex == '1' ? 'Herr' : 'Frau'}}</span>
               <span spi-hint text="_hint.sex"></span>
+            </div>
+            <div ng-show="fieldError('sex')">
+              <label class="error" ng-show="form.sex.$error.required">Anrede is required.</label>
             </div>
           </div>
         </div>
