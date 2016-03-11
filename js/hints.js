@@ -23,6 +23,7 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
       controller: 'EditHintController'
     }, function(result) {
       if(result) {
+        $scope.updateGrid();
         getHints();
       }
     });
