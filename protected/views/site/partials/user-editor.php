@@ -99,7 +99,7 @@
         <div class="form-group">
           <label class="col-lg-2 control-label">Anrede</label>
 
-          <div class="col-lg-10">
+          <div class="col-lg-10 holder-label-radio">
             <div class="radio-inline" ng-if="!modeView && canEdit()">
               <label for="radio1" class="cr-styled">
                 <input type="radio" ng-model="user.sex" name="sex" value="1" id="radio1" ng-required="!user.sex">
