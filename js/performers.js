@@ -87,7 +87,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
         buttonText: 'Dokumente hinzufügen',
         onCompile: function (id, fileName, responseJSON) {
           if (responseJSON.result) {
-            Notification.success({title: 'File upload success!', message: responseJSON.message});
+            //Notification.success({title: 'File upload success!', message: responseJSON.message});
             getDocuments();
           } else {
             Notification.error({title: 'File upload fail!', message: responseJSON.message});
