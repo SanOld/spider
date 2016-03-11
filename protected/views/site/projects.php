@@ -166,7 +166,7 @@ $this->breadcrumbs = array('Projekte');
                             <input name="code" ng-model="project.code" class="form-control" type="text" value="" required>
                             <span ng-show="fieldError('code')">
                                 <label ng-show="formFinances.code.$error.required" class="error">Code is
-                                  required.</label>
+                                  required</label>
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>

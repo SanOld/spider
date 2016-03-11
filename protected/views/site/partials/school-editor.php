@@ -26,8 +26,8 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                             <input name="name" ng-model="school.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                             <span ng-show="fieldError('name')">
-                              <label ng-show="form.formSchool.name.$error.required" class="error">Name is required.</label>
-                              <label ng-show="error.name.dublicate" class="error">This Name already exists.</label>
+                              <label ng-show="form.formSchool.name.$error.required" class="error">Name is required</label>
+                              <label ng-show="error.name.dublicate" class="error">This Name already exists</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -52,7 +52,7 @@
                             </ui-select>
                             <span ng-show="fieldError('district_id')">
                               <label ng-show="form.formSchool.district_id.$error.required" class="error">Bezirk is
-                                required.</label>
+                                required</label>
                             </span>
                           </div>
                         </div>
@@ -97,7 +97,7 @@
                             <input name="number" ng-model="school.number" class="form-control" type="text" value="" required  ng-disabled="!canEdit()">
                             <span ng-show="fieldError('number')">
                               <label ng-show="form.formSchool.number.$error.required" class="error">Nummer is
-                                required.</label>
+                                required</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -122,7 +122,7 @@
                             </ui-select>
                             <span ng-show="fieldError('type_id')">
                               <label ng-show="form.formSchool.type_id.$error.required" class="error">Schultyp is
-                                required.</label>
+                                required</label>
                             </span>
                           </div>
                         </div>
@@ -135,7 +135,7 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
                             <input name="phone" ng-model="school.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-show="fieldError('phone')">
-                              <label ng-show="form.formSchool.phone.$error.pattern" class="error">Telefon must not contain letters.</label>
+                              <label ng-show="form.formSchool.phone.$error.pattern" class="error">Telefon must not contain letters</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -149,7 +149,7 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('fax')}">
                             <input name="fax" ng-model="school.fax" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-show="fieldError('fax')">
-                              <label ng-show="form.formSchool.fax.$error.pattern" class="error">Fax must not contain letters.</label>
+                              <label ng-show="form.formSchool.fax.$error.pattern" class="error">Fax must not contain letters</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -163,7 +163,7 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                             <input name="email" ng-model="school.email" type="email" value="" class="form-control">
                             <span ng-show="fieldError('email')">
-                              <label ng-show="form.formSchool.email.$error.email" class="error">Enter a valid email.</label>
+                              <label ng-show="form.formSchool.email.$error.email" class="error">Enter a valid email</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -180,7 +180,7 @@
                                    class="form-control">
                             <span ng-show="fieldError('homepage')">
                               <label ng-show="form.formSchool.homepage.$error.pattern" class="error">Enter a valid
-                                webseite.</label>
+                                webseite</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>

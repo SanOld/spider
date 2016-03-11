@@ -56,37 +56,37 @@ function response($code, $data, $method = '') {
             $message = 'Successfully ' . $methodsDone[$method];
         break;
       case 'ERR_NOT_EXISTS' :
-            $message = $methods [$method] . ' failed: This record not exists.';
+            $message = $methods [$method] . ' failed: This record not exists';
         break;
       case 'ERR_DUPLICATED' :
-            $message = $methods [$method] . ' failed: This record already exists.';
+            $message = $methods [$method] . ' failed: This record already exists';
         break;
       case 'ERR_DUPLICATED_EMAIL' :
-            $message = $methods [$method] . ' failed: This email already registered.';
+            $message = $methods [$method] . ' failed: This email already registered';
         break;
       case 'ERR_DEPENDENT_RECORD' :
             $message = $methods [$method] . ' failed: You cannot delete this entry. There are related records exists: ' . $data ['table'] . '.';
         break;
       case 'ERR_INVALID_QUERY' :
-            $message = $methods [$method] . ' failed: Invalid query.';
+            $message = $methods [$method] . ' failed: Invalid query';
         break;
       case 'ERR_QUERY' :
-            $message = $methods [$method] . ' failed: Query error.';
+            $message = $methods [$method] . ' failed: Query error';
         break;
       case 'ERR_PERMISSION' :
-            $message = $methods [$method] . ' failed: You are not allowed to perform this operation.';
+            $message = $methods [$method] . ' failed: You are not allowed to perform this operation';
         break;
       case 'ERR_ACCOUNT_PERMISSION' :
-            $message = $methods [$method] . ' failed: You are not allowed to perform operation with another account.';
+            $message = $methods [$method] . ' failed: You are not allowed to perform operation with another account';
         break;
       case 'ERR_MISSED_REQUIRED_PARAMETERS' :
-            $message = $methods [$method] . ' failed: A required parameter was not specified for this request.';
+            $message = $methods [$method] . ' failed: A required parameter was not specified for this request';
         break;
       case 'ERR_ID_NOT_SPECIFIED' :
-            $message = $methods [$method] . ' failed: Id is not specified.';
+            $message = $methods [$method] . ' failed: Id is not specified';
         break;
       case 'ERR_UPDATE_FORBIDDEN' :
-            $message = $methods [$method] . ' failed: You can\'t update this params.';
+            $message = $methods [$method] . ' failed: You can\'t update this params';
         break;
       default :
             $text = array (
@@ -98,7 +98,7 @@ function response($code, $data, $method = '') {
                 'ERR_RECOVERY_EMAIL' => 'Not valid email',
                 'ERR_SEND_EMAIL' => 'Email sending error',
                 'ERR_ACTIVATION_ACCAUNT' => 'Account activation error',
-                'ERR_USER_DISABLED' => 'Your account is disabled.',
+                'ERR_USER_DISABLED' => 'Your account is disabled',
                 'ERR_AUTH_FAILED' => 'Authentication is failed',
                 'ERR_ACCOUNT_CREATION' => 'Account creation error',
                 'ERR_SERVICE' => 'Invalid service call',

@@ -88,8 +88,8 @@ $this->breadcrumbs = array('Bezirk');
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                         <input name="name" ng-model="district.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                         <span ng-show="fieldError('name')">
-                          <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required.</label>
-                          <label ng-show="error.name.dublicate" class="error">This name already exists.</label>
+                          <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required</label>
+                          <label ng-show="error.name.dublicate" class="error">This name already exists</label>
                         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -138,7 +138,7 @@ $this->breadcrumbs = array('Bezirk');
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
                             <input name="phone" ng-model="district.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-show="fieldError('phone')">
-                              <label ng-show="form.formDistrict.phone.$error.pattern" class="error">Telefon must not contain letters.</label>
+                              <label ng-show="form.formDistrict.phone.$error.pattern" class="error">Telefon must not contain letters</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -152,7 +152,7 @@ $this->breadcrumbs = array('Bezirk');
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('fax')}">
                             <input name="fax" ng-model="district.fax" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-show="fieldError('fax')">
-                              <label ng-show="form.formDistrict.fax.$error.pattern" class="error">Fax must not contain letters.</label>
+                              <label ng-show="form.formDistrict.fax.$error.pattern" class="error">Fax must not contain letters</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -167,7 +167,7 @@ $this->breadcrumbs = array('Bezirk');
                             <input name="email" ng-model="district.email" type="email" value="" class="form-control">
                             <span ng-show="fieldError('email')">
                             <label ng-show="form.formDistrict.email.$error.email" class="error">Enter a valid
-                              email.</label>
+                              email</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -184,7 +184,7 @@ $this->breadcrumbs = array('Bezirk');
                                    class="form-control">
                             <span ng-show="fieldError('homepage')">
                               <label ng-show="form.formDistrict.homepage.$error.pattern" class="error">Enter a valid
-                                webseite.</label>
+                                webseite</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
