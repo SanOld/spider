@@ -45,8 +45,11 @@ html {
 body {
 	min-width: 1280px;
 	position:relative;
-	margin: 0 0 91px !important;
 	height: 100%;
+}
+body.modal-open,
+body.modal-open .modal {
+	padding-right: 17px;
 }
 form label {
 	font-weight:500;
@@ -135,11 +138,11 @@ body.bg {
 .wrap-line.success .glyphicon-ok.form-control-feedback {
 	color: green;
 }
-.form-horizontal .form-control-feedback {
+/*.form-horizontal .form-control-feedback {
 	right: 15px;
-}
-.form-horizontal .wrap-hint .form-control-feedback {
-    right: 0;
+}*/
+.form-horizontal .has-feedback .form-control-feedback {
+    right: 0 !important;
 }
 .wrap-line.error input[type="text"],
 .wrap-line.error input[type="password"],
@@ -555,6 +558,7 @@ table.dataTable thead .sorting_desc:after {
 .no-edit-text {
 	display: inline-block;
 	vertical-align: middle;
+	padding:7px 0 0;
 }
 .fa.fa-trash-o {
 	font-size: 23px;
@@ -808,12 +812,15 @@ body .nav.nav-tabs + .tab-content {
 }
 .bank-details textarea.form-control {
 	background: #fff;
-	width: 173px !important;
 }
 .bank-details button.btn {
 	font-size:17px;
 	text-transform:none;
 	margin: 0 0 0 5px;
+}
+.bank-details .has-hint.btn-question {
+    margin-top: 8px;
+    font-size:14px;
 }
 .modal-width-full > .panel {
 	height:100%;
@@ -1147,7 +1154,7 @@ table.dataTable thead > tr > th.sorting_disabled {
 }
 .form-group .cr-styled input[type="radio"] + i:before {
 	position:absolute;
-	top:1px;
+	top:2px;
 	left:3px;
 }
 .holder-radio {
@@ -1769,9 +1776,14 @@ body > .select2-container {
 	margin:0;
 }
 .holder-bank-details {
-    height: 430px;
     overflow-x: hidden;
     overflow-y: auto;
+}
+.holder-bank-details.has-few-block {
+	height: 405px;
+}
+input.ng-invalid {
+	padding: 6px 27px 6px 12px;
 }
 .sweet-alert button {
 	text-transform:uppercase;

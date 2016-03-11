@@ -296,7 +296,7 @@ $this->breadcrumbs = array('Träger Agentur');
 								<h3 class="subheading pull-left">Bankverbindungen</h3>
 								<button ng-if="!modeView && (!bank_details.length || bank_details[0].id)" ng-click="addBankForm()" class="btn w-md custom-btn pull-right" type="button">Neu</button>
 							</div>
-              <div class="holder-bank-details">
+              <div class="holder-bank-details has-few-block">
 							<div class="form-custom-box bank-details" ng-repeat="bank in bank_details">
 								<ng-form id="formBank{{$index}}" name="formBank{{$index}}" class="form-horizontal" disable-all="!canEditBankInfo() || modeView">
 									<div class="heading-bank clearfix m-b-15">
