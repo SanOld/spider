@@ -61,6 +61,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
       address: data.address,
       plz: data.plz,
       city: data.city,
+      fax: data.fax,
       phone: data.phone,
       email: data.email,
       homepage: data.homepage,

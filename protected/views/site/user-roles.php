@@ -45,7 +45,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 				</div>
 				<div class="panel-body table-modal">
-          <form novalidate name="form" disable-all="!canEdit() || modeView">
+          <form novalidate name="form" id="user_right_form" disable-all="!canEdit() || modeView">
 					<div class="form-group custom-field row clearfix">
 						<div class="form-group col-lg-6">
 							<label>Benutzer-Typ</label>

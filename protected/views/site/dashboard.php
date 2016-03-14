@@ -11,7 +11,7 @@ $this->pageTitle = 'Startseite | ' . Yii::app()->name;
     <div class="col-lg-12 animated fadeInDown text-center">
         <div class="col-lg-12">
             <h2 ng-bind="_hint.header.title"></h2>
-            <p ng-bind="_hint.header.text"></p>
+            <p ng-bind-html="_hint.header.text | nl2br"></p>
         </div>
         <div class="row text-left">
             <div class="col-lg-4">

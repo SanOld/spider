@@ -2365,3 +2365,6 @@ form .form-control:disabled::-moz-placeholder {
 form .form-control:disabled:-ms-input-placeholder{
   color:Transparent !important;
 }
+#user_right_form .wrap-paging {
+  display: none;
+}
