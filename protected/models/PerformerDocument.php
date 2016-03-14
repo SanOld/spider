@@ -14,6 +14,7 @@ class PerformerDocument extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     if (isset($params['PERFORMER_ID'])) {
       $command -> andWhere("tbl.performer_id = :performer_id", array(':performer_id' => $params['PERFORMER_ID']));
@@ -44,18 +45,24 @@ class PerformerDocument extends BaseModel {
   }
 
   protected function checkPermission($user, $action, $data) {
+
+//    if(!is_array($data)) {
+//      $performedId = Yii::app()->db->createCommand()
+//        ->select('performer_id')
+//        ->from($this -> table)
+//        ->where('id=:id', array(':id'=> $data))
+//        ->queryScalar();
+//    } else {
+//      $performedId = safe($data, 'performer_id', 0);
+//    }
+
     switch ($action) {
       case ACTION_SELECT:
-        return true;
+        return $user['can_view'] && ($user['type'] != 't' || $user['is_finansist']);
       case ACTION_UPDATE:
       case ACTION_INSERT:
       case ACTION_DELETE:
-//        return true;
-//        print_r($user['type']);
-//        print_r($user['type_id']);exit;
-        if(($user['type'] == ADMIN && $user['type_id'] != 6) || $user['type'] == TA) {
-          return true;
-        }
+        return $user['can_edit'] && ($user['type'] != 't' || $user['is_finansist']);
     }
     return false;
   }

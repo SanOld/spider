@@ -14,7 +14,7 @@ spi.controller('ForgotPasswordController', function($scope, network, SweetAlert)
                 if(result) {
                     SweetAlert.swal({
                             title: "Passwort zurücksetzen",
-                            text: "Eine E-Mail mit Anweisungen wurde an Ihre E-Mail-Adresse gesendet.",
+                            text: "Eine E-Mail mit Anweisungen wurde an Ihre E-Mail-Adresse gesendet",
                             type: "success",
                             confirmButtonText: "Auf die Startseite",
                             closeOnConfirm: false

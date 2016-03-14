@@ -5,7 +5,7 @@ spi.directive("spiHintMain", function () {
       title: '=',
       text: '='
     },
-    template: '<div ng-if="title && text" class="hint-details alert alert-info m-0 clearfix"  ng-init="isCollapsed = 1"> <div class="heading-alert"> <strong ng-bind="title"></strong> <span ng-click="isCollapsed = !isCollapsed" class="show-link pull-right"> <span ng-show="isCollapsed">Zeigen</span> <span ng-hide="isCollapsed">Ausblenden</span> <span class="caret" ng-class="{\'open\': !isCollapsed}"></span> </span> </div> <div uib-collapse="isCollapsed"> <p ng-bind="text"></p> </div> </div>'
+    template: '<div ng-if="title && text" class="hint-details alert alert-info m-0 clearfix"  ng-init="isCollapsed = 1"> <div class="heading-alert"> <strong ng-bind="title"></strong> <span ng-click="isCollapsed = !isCollapsed" class="show-link pull-right"> <span ng-show="isCollapsed">Zeigen</span> <span ng-hide="isCollapsed">Ausblenden</span> <span class="caret" ng-class="{\'open\': !isCollapsed}"></span> </span> </div> <div uib-collapse="isCollapsed"> <p ng-bind-html="text | nl2br"></p> </div> </div>'
   };
 });
 
@@ -61,59 +61,59 @@ spi.directive("qqFileUpload", function (Notification) {
 });
 
 
-spi.filter('tel', function () {
-  return function (tel) {
-    if (!tel) {
-      return '';
-    }
-
-    var value = tel.toString().trim().replace(/^\+/, '');
-
-    if (value.match(/[^0-9]/)) {
-      return tel;
-    }
-
-    var country, city, number;
-
-    switch (value.length) {
-      case 10: // +1PPP####### -> C (PPP) ###-####
-        country = 1;
-        city = value.slice(0, 3);
-        number = value.slice(3);
-        break;
-
-      case 11: // +CPPP####### -> CCC (PP) ###-####
-        country = value[0];
-        city = value.slice(1, 4);
-        number = value.slice(4);
-        break;
-
-      case 12: // +CCCPP####### -> CCC (PP) ###-####
-        country = value.slice(0, 3);
-        city = value.slice(3, 5);
-        number = value.slice(5);
-        break;
-
-      default:
-        return tel;
-    }
-
-    if (country == 1) {
-      country = "";
-    }
-
-    number = number.slice(0, 3) + '-' + number.slice(3);
-
-    return (country + " (" + city + ") " + number).trim();
-  };
-});
+//spi.filter('tel', function () {
+//  return function (tel) {
+//    if (!tel) {
+//      return '';
+//    }
+//
+//    var value = tel.toString().trim().replace(/^\+/, '');
+//
+//    if (value.match(/[^0-9]/)) {
+//      return tel;
+//    }
+//
+//    var country, city, number;
+//
+//    switch (value.length) {
+//      case 10: // +1PPP####### -> C (PPP) ###-####
+//        country = 1;
+//        city = value.slice(0, 3);
+//        number = value.slice(3);
+//        break;
+//
+//      case 11: // +CPPP####### -> CCC (PP) ###-####
+//        country = value[0];
+//        city = value.slice(1, 4);
+//        number = value.slice(4);
+//        break;
+//
+//      case 12: // +CCCPP####### -> CCC (PP) ###-####
+//        country = value.slice(0, 3);
+//        city = value.slice(3, 5);
+//        number = value.slice(5);
+//        break;
+//
+//      default:
+//        return tel;
+//    }
+//
+//    if (country == 1) {
+//      country = "";
+//    }
+//
+//    number = number.slice(0, 3) + '-' + number.slice(3);
+//
+//    return (country + " (" + city + ") " + number).trim();
+//  };
+//});
 
 spi.directive('disableAll', function ($timeout) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
       var _disableElements = ['input', 'button[uib-btn-radio]', 'textarea', 'select'];
-      var _skipClasses = ['cancel-btn'];
+      var _skipClasses = ['cancel-btn', 'document-link'];
 
       scope.$watch(attrs.disableAll, function (isDisabled) {
         if(isDisabled) {
@@ -162,5 +162,11 @@ spi.directive('disableAll', function ($timeout) {
     }
   }
 });
+
+spi.filter('nl2br', ['$sce', function ($sce) {
+  return function (text) {
+    return text ? $sce.trustAsHtml(text.replace(/\n/g, '<br/>')) : '';
+  };
+}]);
 
 

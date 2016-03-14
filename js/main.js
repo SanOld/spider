@@ -36,26 +36,31 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
     window.location = '/'
   };
 
-  $scope.openEdit = function () {
-    GridService().openEditor({
-      data: $scope.user,
-      controller: 'UserEditController',
-      template: 'editUserTemplate.html'
-    }, function () {
-      $scope.user = network.user;
+  $scope.openUserProfile = function () {
+    network.get('user', {auth_token: network.token}, function(result, response) {
+      if(result) {
+        GridService().openEditor({
+          data: response.result[0],
+          controller: 'UserEditController',
+          template: 'editUserTemplate.html'
+        }, function () {
+          $scope.user = network.user;
+        });
+      }
     });
 
   };
 
 });
 
-spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils, Notification) {
+spi.controller('UserEditController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, localStorageService, hint, HintService, Utils) {
   $scope.model = 'user';
   $scope.isInsert = true;
+  $scope.isAdmin = network.userIsADMIN;
+  $scope.modeView = modeView;
   $scope.user = {
     is_active: 1,
-    is_finansist: 0,
-    sex: 1
+    is_finansist: 0
   };
 
   if (!hint) {
@@ -69,7 +74,6 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
   if (data.id) {
     $scope.isInsert = false;
     $scope.userId = data.id;
-    $scope.curentPassword = localStorageService.get('password');
     $scope.type_name = data.type_name;
     $scope.relation_name = data.relation_name;
     $scope.user = {
@@ -87,9 +91,8 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
     };
     $scope.isCurrentUser = network.user.id == data.id;
     $scope.isPerformer = data.type == 't';
-  }
-  if (!data.id || $scope.isPerformer) {
-    network.get('user_type', angular.merge({filter: 1}, $scope.isPerformer ? {type: 't'} : {}), function (result, response) {
+  } else {
+    network.get('user_type', {filter: 1, user_create: 1}, function (result, response) {
       if (result) {
         $scope.userTypes = response.result;
       }
@@ -119,16 +122,13 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
     $scope.error = false;
     $scope.submited = true;
     $scope.form.$setPristine();
-    if ($scope.form.$valid && isCurrentValid()) {
+    if ($scope.form.$valid) {
       var callback = function (result, response) {
         if (result) {
           if ($scope.isCurrentUser) {
-            network.reconnect(function () {
-              $uibModalInstance.close();
-            });
-          } else {
-            $uibModalInstance.close();
+            network.updateUserField('login', formData.login);
           }
+          $uibModalInstance.close();
         } else {
           $scope.error = getError(response.system_code);
         }
@@ -143,25 +143,19 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
   };
 
   $scope.remove = function (id) {
-    network.delete('user/' + id, function (result) {
-      if (result) {
-        $uibModalInstance.close();
-      }
+    Utils.doConfirm(function() {
+      network.delete('user/' + id, function (result) {
+        if (result) {
+          Utils.deleteSuccess();
+          $uibModalInstance.close();
+        }
+      });
     });
   };
 
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
-
-  function isCurrentValid() {
-    if (!$scope.isCurrentUser) {
-      return true;
-    } else if (!$scope.form.password.$viewValue) {
-      return true
-    }
-    return $scope.form.old_password.$viewValue == $scope.curentPassword;
-  }
 
   function getError(code) {
     var result = false;
@@ -171,6 +165,9 @@ spi.controller('UserEditController', function ($scope, $rootScope, $uibModalInst
         break;
       case 'ERR_DUPLICATED_EMAIL':
         result = {email: {dublicate: true}};
+        break;
+      case 'ERR_CURRENT_PASSWORD':
+        result = {old_password: {error: true}};
         break;
     }
     return result;

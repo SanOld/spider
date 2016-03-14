@@ -8,22 +8,14 @@ class UserTypeRight extends BaseModel {
   public $select_all = ' * ';
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    
     $where = ' 1=1 ';
     $conditions = array();
-    
-//    if (!in_array(safe($this->user, 'type_code'), array('t','a'))) {
-//      $where .= ' AND act.id=:actId ';
-//      $conditions[':actId'] = $this -> user['account_id'];
-//    }
-//    
-    
     if ($where) {
       $command -> where($where, $conditions);
     }
-    
     return $command;
   }
+
   protected function doAfterSelect($results) {
     $pages = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_page tbl')->queryAll ();
     $pages_dict = array();
@@ -37,47 +29,12 @@ class UserTypeRight extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
-    $where = '';
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     if(safe($params, 'TYPE_ID') === NULL) {
       return NULL;
     }
     $command->andWhere(' tbl.type_id=:type_id ',array(':type_id' => $params['TYPE_ID']));
-    if (isset($params['SEARCH'])) {
-      $fields = $this -> getAllTableFields();
-      $search_param = array();
-      $inttypes = array(
-          'TINYINT',
-          'SMALLINT',
-          'MEDIUMINT',
-          'INT',
-          'BIGINT' 
-      );
-      $chartypes = array(
-          'CHAR',
-          'VARCHAR',
-          'TEXT' 
-      );
-      if (!is_numeric($params['SEARCH'])) {
-        $k = 0;
-        foreach ( $fields as &$val ) {
-          if (in_array(strtoupper($val['coltype']), $chartypes)) {
-            if ($k == 0) {
-              $k++;
-              $where = 'tbl.' . $val['colname'] . " like :" . $val['colname'];
-              $search_param[':' . $val['colname']] = '%' . $params['SEARCH'] . '%';
-            } else {
-              $where .= " OR tbl." . $val['colname'] . " like :" . $val['colname'];
-              $search_param[':' . $val['colname']] = '%' . $params['SEARCH'] . '%';
-            }
-          }
-        }
-        unset($val);
-      }
-      $where = '(' . $where . ')';
-      $command -> andWhere($where, $search_param);
-    }
-    
     return $command;
   }
 

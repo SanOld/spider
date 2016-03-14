@@ -44,10 +44,11 @@ $this->breadcrumbs = array('Bezirk');
                   <td data-title="'Name'" sortable="'name'">{{row.name}}</td>
                   <td data-title="'Adresse'" sortable="'address'">{{row.address}}</td>
                   <td data-title="'Ansprechpartner(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
-                  <td data-title="'Telefon'" sortable="'phone'">{{row.phone | tel}}</td>
-                  <td data-title="'Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-                    <a class="btn center-block edit-btn" ng-click="openEdit(row)">
-                      <i class="ion-edit"></i>
+                  <td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
+                  <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+                    <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit(row.id))">
+                      <i class="ion-eye"  ng-if="!canEdit(row.id)"></i>
+                      <i class="ion-edit" ng-if="canEdit(row.id)"></i>
                     </a>
                   </td>
                 </tr>
@@ -65,8 +66,8 @@ $this->breadcrumbs = array('Bezirk');
 
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
-      <h3 class="m-0 pull-left" ng-if="!isInsert">Bezirk bearbeiten - {{district.name}}</h3>
-
+      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Bezirk bearbeiten - {{district.name}}</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Bezirk ansicht - {{district.name}}</h3>
       <h3 class="m-0 pull-left" ng-if="isInsert">Bezirk hinzufügen</h3>
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
@@ -75,7 +76,7 @@ $this->breadcrumbs = array('Bezirk');
       <form novalidate name="form">
         <uib-tabset>
           <uib-tab heading="Allgemein">
-            <ng-form name="formDistrict" class="form-horizontal" disable-all="!canEdit()">
+            <ng-form name="formDistrict" class="form-horizontal" disable-all="!canEditDistrict() || modeView">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">
                   <h3 class="subheading m-0">Allgemeine Information</h3>
@@ -85,10 +86,10 @@ $this->breadcrumbs = array('Bezirk');
                     <div class="col-lg-10">
                       <div spi-hint text="_hint.name" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
-                        <input name="name" ng-model="district.name" class="form-control" type="text" value="" required>
+                        <input name="name" ng-model="district.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                         <span ng-show="fieldError('name')">
-                          <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required.</label>
-                          <label ng-show="error.name.dublicate" class="error">This name already exists.</label>
+                          <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required</label>
+                          <label ng-show="error.name.dublicate" class="error">This name already exists</label>
                         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -96,7 +97,7 @@ $this->breadcrumbs = array('Bezirk');
                   </div>
                   <div class="clearfix">
                     <div class="col-lg-6">
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.address)">
                         <label class="col-lg-4 control-label">Adresse</label>
 
                         <div class="col-lg-8">
@@ -106,7 +107,7 @@ $this->breadcrumbs = array('Bezirk');
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.plz)">
                         <label class="col-lg-4 control-label">PLZ</label>
 
                         <div class="col-lg-8">
@@ -116,7 +117,7 @@ $this->breadcrumbs = array('Bezirk');
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.city)">
                         <label class="col-lg-4 control-label">Stadt</label>
 
                         <div class="col-lg-8">
@@ -129,29 +130,35 @@ $this->breadcrumbs = array('Bezirk');
                     </div>
 
                     <div class="col-lg-5 col-lg-offset-1">
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.phone)">
                         <label class="col-lg-3 control-label">Telefon</label>
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.phone" class="has-hint"></div>
-                          <div class="wrap-hint">
-                            <input name="phone" ng-model="district.phone" type="tel" value="" class="form-control"
-                                   ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
+                            <input name="phone" ng-model="district.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
+                            <span ng-show="fieldError('phone')">
+                              <label ng-show="form.formDistrict.phone.$error.pattern" class="error">Telefon must not contain letters</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.fax)">
                         <label class="col-lg-3 control-label">Fax</label>
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.fax" class="has-hint"></div>
-                          <div class="wrap-hint">
-                            <input name="fax" ng-model="district.fax" type="tel" value="" class="form-control"
-                                   ui-mask="(999) 9999 999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('fax')}">
+                            <input name="fax" ng-model="district.fax" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
+                            <span ng-show="fieldError('fax')">
+                              <label ng-show="form.formDistrict.fax.$error.pattern" class="error">Fax must not contain letters</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.email)">
                         <label class="col-lg-3 control-label">Email</label>
 
                         <div class="col-lg-9">
@@ -160,13 +167,13 @@ $this->breadcrumbs = array('Bezirk');
                             <input name="email" ng-model="district.email" type="email" value="" class="form-control">
                             <span ng-show="fieldError('email')">
                             <label ng-show="form.formDistrict.email.$error.email" class="error">Enter a valid
-                              email.</label>
+                              email</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-if="!(modeView && !district.homepage)">
                         <label class="col-lg-3 control-label">Webseite</label>
 
                         <div class="col-lg-9">
@@ -177,7 +184,7 @@ $this->breadcrumbs = array('Bezirk');
                                    class="form-control">
                             <span ng-show="fieldError('homepage')">
                               <label ng-show="form.formDistrict.homepage.$error.pattern" class="error">Enter a valid
-                                webseite.</label>
+                                webseite</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -189,7 +196,8 @@ $this->breadcrumbs = array('Bezirk');
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
                   <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
                   <div spi-hint text="_hint.contact_id" class="has-hint"></div>
-                  <div class="wrap-hint">
+                  <span ng-if="!canEdit() || modeView" ng-bind="contactUser.name || '-'"></span>
+                  <div class="wrap-hint" ng-if="canEdit() && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(district.contact_id)"
                                ng-model="district.contact_id" name="contact_id">
                       <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">
@@ -206,7 +214,7 @@ $this->breadcrumbs = array('Bezirk');
                     <dt>Titel</dt>
                     <dd ng-bind="contactUser.title || '-'"></dd>
                     <dt>Telefon</dt>
-                    <dd ng-bind="(contactUser.phone | tel) || '-'"></dd>
+                    <dd ng-bind="contactUser.phone || '-'"></dd>
                     <dt>Email</dt>
                     <dd ng-bind="contactUser.email || '-'"></dd>
                   </dl>
@@ -214,13 +222,13 @@ $this->breadcrumbs = array('Bezirk');
               </div>
               <hr/>
               <div class="form-group group-btn m-t-15">
-                <div class="col-lg-2" ng-if="!isInsert && canEdit()">
+                <div class="col-lg-2" ng-if="!isInsert && canEdit() && !modeView">
                   <a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i
                       class="fa fa-trash-o"></i></a>
                 </div>
                 <div class="col-lg-10 text-right pull-right">
                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-                  <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="submitFormDistrict()">Speichern</button>
+                  <button class="btn w-lg custom-btn" ng-if="canEditDistrict() && !modeView" ng-click="submitFormDistrict()">Speichern</button>
                 </div>
               </div>
             </ng-form>

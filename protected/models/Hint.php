@@ -23,6 +23,7 @@ class Hint extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     if (safe($params, 'PAGE_ID')) {
       $command->andWhere("tbl.page_id = :page_id", array(':page_id' => $params['PAGE_ID']));
@@ -33,20 +34,10 @@ class Hint extends BaseModel {
     if (safe($params, 'POSITION')) {
       $command->andWhere("pgp.name like :position", array(':position' => '%' . $params['POSITION'] . '%'));
     }
-    return $command;
-  }
-
-  protected function checkPermission($user, $action, $data) {
-    switch ($action) {
-      case ACTION_SELECT:
-      case ACTION_UPDATE:
-      case ACTION_INSERT:
-      case ACTION_DELETE:
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          return true;
-        }
+    if (safe($params, 'POSITION_ID')) {
+      $command->andWhere("tbl.position_id = :position_id", array(':position_id' => $params['POSITION_ID']));
     }
-    return false;
+    return $command;
   }
 
 }

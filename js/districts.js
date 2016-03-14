@@ -17,17 +17,27 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
     $scope.filter = grid.resetFilter();
   };
 
-  $scope.openEdit = function (row) {
-    grid.openEditor({data: row, hint: $scope._hint, size: 'width-full', controller: 'EditDistrictController'});
+  $scope.openEdit = function (row, modeView) {
+    grid.openEditor({
+      data: row,
+      hint: $scope._hint,
+      modeView: !!modeView,
+      size: 'width-full',
+      controller: 'EditDistrictController'
+    });
   };
 
+  $scope.canEdit = function(id) {
+    return $rootScope.canEdit() || id == network.user.relation_id;
+  }
 
 });
 
 
-spi.controller('EditDistrictController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
+spi.controller('EditDistrictController', function ($scope, $uibModalInstance, modeView, $rootScope, data, network, hint, Utils) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
+  $scope.modeView = modeView;
   $scope.district = {};
 
   if (!$scope.isInsert) {
@@ -47,7 +57,7 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, da
   }
 
   function getUsers() {
-    network.get('user', {filter: 1, is_active: 1}, function (result, response) {
+    network.get('user', {filter: 1, is_active: 1, relation_id: data.id, type: 'd'}, function (result, response) {
       if (result) {
         $scope.users = response.result;
         if (data.contact_id) {
@@ -89,10 +99,13 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, da
 
 
   $scope.remove = function () {
-    network.delete('district/' + data.id, function (result) {
-      if (result) {
-        $uibModalInstance.close();
-      }
+    Utils.doConfirm(function() {
+      network.delete('district/' + data.id, function (result) {
+        if (result) {
+          Utils.deleteSuccess();
+          $uibModalInstance.close();
+        }
+      });
     });
   };
 
@@ -108,6 +121,10 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, da
         break;
     }
     return result;
+  }
+
+  $scope.canEditDistrict = function() {
+    return $rootScope.canEdit() || data.id == network.user.relation_id;
   }
 
 });

@@ -6,7 +6,7 @@ require_once ('utils/email.php');
 class User extends BaseModel {
   public $table = 'spi_user';
   public $post = array();
-  public $select_all = "CONCAT(tbl.first_name, ' ', tbl.last_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Deaktivieren') status_name, ust.name type_name, tbl.* ";
+  public $select_all = "CONCAT(tbl.last_name, ' ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Deaktivieren') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command -> join('spi_user_type ust', 'tbl.type_id = ust.id');
@@ -15,10 +15,11 @@ class User extends BaseModel {
   }
 
   protected function getCommandFilter() {
-    return Yii::app ()->db->createCommand ()->select ("id, CONCAT(first_name, ' ', last_name) name, function, phone, title, email")->from ( $this->table  . ' tbl') -> order('name');
+    return Yii::app ()->db->createCommand ()->select ("id, CONCAT(last_name, ' ', first_name) name, function, phone, title, email, is_finansist")->from ( $this->table  . ' tbl') -> order('name');
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,
           array('tbl.first_name', 'tbl.last_name', 'tbl.login', 'tbl.email'),
@@ -39,9 +40,6 @@ class User extends BaseModel {
         $where = implode(' OR ', $where);
         $command -> andWhere($where, $search_param);
       }
-    }
-    if (safe($params, 'TYPE')) {
-      $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
     }
     if (safe($params, 'TYPE_ID')) {
       $command->andWhere("tbl.type_id = :type_id", array(':type_id' => $params['TYPE_ID']));
@@ -66,24 +64,43 @@ class User extends BaseModel {
       }
 
     }
-//    if (safe($params, 'SCHOOL_ID')) {
-//      $type = 's';
-//      $relation = $this->getRelationByType($type);
-//      if($relation && safe($relation, 'code')) {
-//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['SCHOOL_ID']));
-//      }
-//    }
-//    if (safe($params, 'DISTRICT_ID')) {
-//      $type = 'd';
-//      $relation = $this->getRelationByType($type);
-//      if($relation && safe($relation, 'code')) {
-//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['DISTRICT_ID']));
-//      }
-//    }
-    if (safe($params, 'RELATION_ID')) {
-      $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['RELATION_ID']));
+    if (safe($params, 'RELATION_ID') && safe($params, 'TYPE')) {
+      $command->andWhere("tbl.relation_id = :relation_id AND tbl.type = :type", array(
+        ':relation_id' => $params['RELATION_ID'],
+        ':type'        => $params['TYPE']
+      ));
+    } elseif($this->user['relation_id']) {
+      $command = $this->setWhereByRole($command);
+    }
+    if (safe($params, 'AUTH_TOKEN')) {
+      $command->andWhere("tbl.auth_token = :auth_token", array(':auth_token' => $params['AUTH_TOKEN']));
+    }
+    return $command;
+  }
+
+  protected function setWhereByRole($command) {
+    switch($this->user['type']) {
+      case SCHOOL:
+        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR (tbl.type_id IN(1,2)) '.
+          'OR (tbl.relation_id IN (SELECT performer_id FROM spi_project WHERE id IN('.
+          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "t") '.
+          'OR (tbl.relation_id IN(SELECT district_id FROM spi_school WHERE id = :relation_id) OR (tbl.relation_id IN (SELECT district_id FROM spi_project WHERE id IN('.
+          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id))) AND tbl.type = "d") ',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        break;
+      case DISTRICT:
+        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) '.
+          'OR tbl.type_id IN(1,2) '.
+          'OR (tbl.relation_id IN(SELECT id FROM spi_school WHERE district_id = :relation_id) AND tbl.type = "s")'.
+          'OR (tbl.relation_id IN(SELECT performer_id FROM spi_project WHERE district_id = :relation_id ) AND tbl.type = "t")',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        break;
+      case TA:
+        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR tbl.type_id IN(1,2)'.
+          'OR (tbl.relation_id IN(SELECT district_id FROM spi_project WHERE performer_id = :relation_id ) AND tbl.type = "d")'.
+          'OR (tbl.relation_id IN(SELECT school_id FROM spi_project_school WHERE project_id IN(SELECT id FROM spi_project WHERE performer_id = :relation_id)) AND tbl.type = "s")',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        break;
     }
     return $command;
   }
@@ -117,9 +134,6 @@ class User extends BaseModel {
         -> where('id=:id ', array(
           ':id' => $post['type_id']))
         -> queryScalar();
-      if($post['type'] == 't') {
-        $post['is_finansist'] = $post['type_id'] == 7 ? 1 : 0;
-      }
       $relation = $this->getRelationByType($post['type']);
       if(!safe($post, 'relation_id') && $relation && safe($relation, 'table')) {
         return array(
@@ -129,14 +143,6 @@ class User extends BaseModel {
           'message' => 'Insert failed: Field relation required for this user type.'
         );
       }
-    }
-
-    if ($this -> user['type'] != ADMIN && $this -> user['type'] != PA) {
-      return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_PERMISSION' 
-      );
     }
 
     if ($login && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('login=:login', array(
@@ -173,7 +179,7 @@ class User extends BaseModel {
         ':id' => $id
     )) -> queryRow();
 
-    if($row['is_finansist'] != $post['is_finansist']) {
+    if($row['is_finansist'] != $post['is_finansist'] && $row['type'] != 't') {
       return array(
         'code' => '409',
         'result' => false,
@@ -201,13 +207,7 @@ class User extends BaseModel {
       );
     }
 
-    if(safe($post, 'type_id') == 7) {
-      $post['is_finansist'] = 1;
-    } elseif(safe($post, 'type_id') == 3) {
-      $post['is_finansist'] = 0;
-    }
-
-    if($id == $this->user['id'] && $row['login'] != $post['login']) {
+    if($id == $this->user['id'] && !($this->user['can_edit'] && $this->user['type_id'] != 2) && $row['login'] != $post['login']) {
       return array(
         'code' => '409',
         'result' => false,
@@ -245,11 +245,34 @@ class User extends BaseModel {
         'system_code' => 'ERR_DUPLICATED_EMAIL'
       );
     }
-    
+
+    if (isset($param['PASSWORD']) && $this->user['id'] == $row['id'] && md5($param['OLD_PASSWORD']) != $row['password']) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'silent' => true,
+        'system_code' => 'ERR_CURRENT_PASSWORD'
+      );
+    }
+
+    unset($post['old_password']);
+
     return array(
         'result' => true,
         'params' => $post 
     );
+  }
+
+  protected function doAfterUpdate($result, $params, $post, $id) {
+    if(safe($post, 'password')) {
+      $user = Yii::app() -> db -> createCommand()
+        -> select('*')
+        -> from($this->table)
+        -> where('id=:id', array(':id' => $id))
+        ->queryRow();
+      Email::doUpdatePassword($user, $post['password']);
+    }
+    return $result;
   }
 
   protected function doAfterInsert($result, $params, $post) {
@@ -262,29 +285,13 @@ class User extends BaseModel {
   protected function checkPermission($user, $action, $data) {
     switch ($action) {
       case ACTION_SELECT:
-        return true;
+        return $user['can_view'] || $user['id'] == $this->id;
       case ACTION_UPDATE:
-        if($user['id'] == $this->id) {
-          return true;
-        }
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          if(!($user['type_id'] == 2 && $data['type_id'] == 1)) { // except PA create Admin
-            return true;
-          }
-        }
-        break;
+        return $user['can_edit'] || $user['id'] == $this->id;
       case ACTION_INSERT:
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          if(!($user['type_id'] == 2 && $data['type_id'] == 1)) { // except PA create Admin
-            return true;
-          }
-        }
-        break;
+        return $user['can_edit'] && !(in_array($user['type_id'], array(6,2)) && $data['type_id'] == 1); // except PA & Senat create Admin
       case ACTION_DELETE:
-        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
-          return true;
-        }
-        break;
+        return $user['can_edit'] && $user['type_id'] != 2; // except PA
     }
     return false;
   }

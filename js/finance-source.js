@@ -17,17 +17,24 @@ spi.controller('FinanceSourceController', function($scope, $rootScope, network, 
         $scope.filter = grid.resetFilter();
     };
 
-    $scope.openEdit = function (row) {
-        grid.openEditor({data: row, hint: $scope._hint, size: 'width-full', controller: 'EditFinanceSourceController'});
+    $scope.openEdit = function (row, modeView) {
+        grid.openEditor({
+          data: row,
+          hint: $scope._hint,
+          modeView: !!modeView,
+          size: 'width-full',
+          controller: 'EditFinanceSourceController'
+        });
     };
 
 
 });
 
 
-spi.controller('EditFinanceSourceController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
+spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibModalInstance, data, network, hint, Utils) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
+    $scope.modeView = modeView;
     $scope.finances = {};
     $scope.types = Utils.getFinanceTypes();
 
@@ -38,6 +45,7 @@ spi.controller('EditFinanceSourceController', function ($scope, $uibModalInstanc
             programm: data.programm,
             description: data.description
         };
+        $scope.sourceTypeName = Utils.getRowById($scope.types, data.finance_source_type, 'name');
         getFinances();
     }
 
@@ -78,11 +86,14 @@ spi.controller('EditFinanceSourceController', function ($scope, $uibModalInstanc
 
 
     $scope.remove = function() {
+      Utils.doConfirm(function() {
         network.delete('finance_source/'+data.id, function (result) {
             if(result) {
-                $uibModalInstance.close();
+              Utils.deleteSuccess();
+              $uibModalInstance.close();
             }
         });
+      });
     };
 
     $scope.cancel = function () {

@@ -22,7 +22,8 @@ class BaseModel extends CFormModel {
   public $localDate = array ();
   public $method = false;
   public $isFilter = false;
-  
+  public $isFinance = false;
+
   public $filePath = '';
   public $uploadPath = '';
   public $outerPath = '';
@@ -49,35 +50,8 @@ class BaseModel extends CFormModel {
   }
   protected function getParamCommand($command, array $params) {
     $params = array_change_key_case ( $params, CASE_UPPER );
-      if(isset($params['SEARCH'])) {
-      $fields = $this -> getAllTableFields();
-      $search_param=array();
-      $chartypes = array (
-          'CHAR',
-          'VARCHAR',
-          'TEXT' 
-      );
-      if(!is_numeric($params['SEARCH'])) {
-        $k = 0;
-        foreach($fields as &$val ) {
-          if(in_array(strtoupper($val['coltype']), $chartypes)) {
-            if($k == 0) {
-              $k++;
-              $where = 'tbl.' . $val['colname'] . " like :" . $val['colname'];
-              $search_param[':'.$val['colname']]='%'.$params['SEARCH'].'%';
-            } else {
-              $where .= " OR tbl." . $val['colname'] . " like :" . $val['colname'];
-              $search_param[':'.$val['colname']]='%'.$params['SEARCH'].'%';
-            }
-          }
-        }
-        unset($val);
-      }
-      if(isset($where)) {
-        $where='('.$where.')';
-        $command -> andWhere($where,$search_param);
-      }
-      
+    if (safe($params, 'ID')) {
+      $command->andWhere("tbl.id = :id", array(':id' => $params['ID']));
     }
     return $command;
   }
@@ -530,10 +504,11 @@ class BaseModel extends CFormModel {
   protected function checkPermission($user, $action, $data) {
     switch ($action) {
       case ACTION_SELECT:
+        return $this->isFinance && $user['type'] == TA ? $user['can_view'] && $user['is_finansist'] : $user['can_view'];
       case ACTION_UPDATE:
       case ACTION_INSERT:
       case ACTION_DELETE:
-        return true;
+        return $this->isFinance && $user['type'] == TA ? $user['can_edit'] && $user['is_finansist'] : $user['can_edit'];
     }
     return false;
   }

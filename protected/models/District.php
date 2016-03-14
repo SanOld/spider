@@ -33,24 +33,10 @@ class District extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command, array('tbl.name', 'tbl.address', "CONCAT(usr.first_name, ' ', usr.last_name)"), safe($params, 'KEYWORD'));
     return $command;
-  }
-
-  protected function checkPermission($user, $action, $data) {
-    switch ($action) {
-      case ACTION_SELECT:
-        return true;
-      case ACTION_UPDATE:
-      case ACTION_INSERT:
-      case ACTION_DELETE:
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          return true;
-        }
-        break;
-    }
-    return false;
   }
 
   protected function doBeforeInsert($post) {
@@ -79,6 +65,25 @@ class District extends BaseModel {
       unset($post['contact_id']);
     }
 
+    if(!$this->user['can_edit']) {
+      $row = Yii::app() -> db -> createCommand() -> select('*')
+        -> from($this -> table)
+        -> where('id = :id', array(':id' => $id))
+        -> queryRow();
+      $errorField = '';
+      if($row['name'] != $post['name']) {
+        $errorField = 'Name';
+      }
+      if($errorField) {
+        return array(
+          'code' => '409',
+          'result' => false,
+          'system_code' => 'ERR_UPDATE_FORBIDDEN',
+          'message' => 'Update failed: The '.$errorField.' can not be change.'
+        );
+      }
+    }
+
     if (Yii::app() -> db -> createCommand()
       -> select('id')
       -> from($this -> table)
@@ -98,6 +103,37 @@ class District extends BaseModel {
       'params' => $post
     );
 
+  }
+
+  protected function doBeforeDelete($id) {
+    $userId = Yii::app() -> db -> createCommand() -> select('id') -> from('spi_user')
+      -> where('relation_id=:relation_id AND type="d"', array(':relation_id' => $id))
+      -> queryScalar();
+    if ($userId) {
+      return array(
+        'code' => '409',
+        'result'=> false,
+        'system_code'=> 'ERR_DEPENDENT_RECORD',
+        'message' => 'Delete this district is not possible. You must first delete users with this district.'
+      );
+    }
+
+    return array(
+      'result' => true
+    );
+  }
+
+  protected function checkPermission($user, $action, $data) {
+    switch ($action) {
+      case ACTION_SELECT:
+        return $user['can_view'];
+      case ACTION_UPDATE:
+        return $user['can_edit'] || (safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id'));
+      case ACTION_INSERT:
+      case ACTION_DELETE:
+        return $user['can_edit'];
+    }
+    return false;
   }
 
 }

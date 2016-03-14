@@ -29,13 +29,15 @@ spi.service('configs', function () {
   }
 });
 
-spi.service("GridService", function (network, NgTableParams, $uibModal) {
+spi.service("GridService", function (network, NgTableParams, $uibModal, Notification) {
   return function () {
     var tableParams;
     var defaultFilter = {};
     var filter = {};
+    var model = '';
 
     function getData(path, params, filter, callback) {
+      model = path;
       filter['limit'] = params.count();
       filter['page'] = params.page();
       var sort = params.sorting();
@@ -43,7 +45,7 @@ spi.service("GridService", function (network, NgTableParams, $uibModal) {
         filter['order'] = Object.keys(sort)[0];
         filter['direction'] = sort[filter['order']];
       }
-      network.get(path, angular.copy(filter), function (result, response) {
+      network.get(model, angular.copy(filter), function (result, response) {
         if (result) {
           callback(response);
         }
@@ -89,24 +91,51 @@ spi.service("GridService", function (network, NgTableParams, $uibModal) {
       return filter;
     };
     grid.openEditor = function (params, callback) {
-      var modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: params.template || 'editTemplate.html',
-        controller: params.controller || 'ModalEditController',
-        size: params.size || 'lg',
-        resolve: {
-          data: function () {
-            return params.data || {};
-          },
-          hint: function () {
-            return params.hint;
+      model = params.model || model;
+      if(model && params.data && params.data.id) {
+        network.get(model, {id: params.data.id}, function(result, response) {
+          if(result && response.result.length) {
+            params.data = response.result[0];
+            openModal(params, callback);
+          } else {
+            Notification.error({title: 'The row not found!', message: 'Please update page.'});
           }
-        }
-      });
+        });
+      } else {
+        openModal(params, callback);
+      }
 
-      modalInstance.result.then(function () {
-        callback ? callback() : tableParams.reload();
-      });
+      function openModal(params, callback) {
+        var modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: params.template || 'editTemplate.html',
+          controller: params.controller || 'ModalEditController',
+          size: params.size || 'lg',
+          resolve: {
+            data: function () {
+              return params.data || {};
+            },
+            hint: function () {
+              return params.hint;
+            },
+            modeView: function () {
+              return params.modeView;
+            }
+          }
+        });
+
+        modalInstance.result.then(function () {
+          callback ? callback(true) : tableParams.reload();
+        }, function() {
+          if(callback) {
+            callback(false)
+          }
+        });
+
+      }
+
+
+
     };
     return grid;
   }
@@ -128,7 +157,7 @@ spi.service("HintService", function (network) {
 });
 
 
-spi.factory('Utils', function () {
+spi.factory('Utils', function (SweetAlert) {
   return {
     getRowById: function (items, id, field) {
       for (var i = 0; i < items.length; i++) {
@@ -146,7 +175,25 @@ spi.factory('Utils', function () {
     },
     getSqlDate: function(d) {
       return d.getFullYear()+'-'+((d.getMonth()+1) < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1)+'-'+(d.getDate() < 10 ? '0'+d.getDate() : d.getDate());
-  }
+    },
+    doConfirm: function(callback) {
+      SweetAlert.swal({
+        title: "Sind Sie sicher?",
+        text: "Diese Datei wird nicht weidererstellt!",
+        type: "warning",
+        confirmButtonText: "JA, LÖSCHEN!",
+        showCancelButton: true,
+        cancelButtonText: "ABBRECHEN",
+        closeOnConfirm: false
+      }, function(isConfirm){
+        if(isConfirm) {
+          callback();
+        }
+      });
+    },
+    deleteSuccess: function() {
+      SweetAlert.swal("Gelöscht!", "Ihre Datrei ist erfolgreich gelöscht!", "success");
+    }
   };
 });
 

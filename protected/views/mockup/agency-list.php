@@ -413,41 +413,81 @@
 												<h3 class="subheading pull-left">Bankverbindungen</h3>
 												<button class="btn w-md custom-btn pull-right" type="button">Neu</button>
 											</div>
-											<div class="form-custom-box bank-details m-0">
-												<form action="#" class="form-horizontal">
-													<div class="heading-bank clearfix m-b-15">
-														<h4 class="pull-left">Bankverbindungen</h4>
-														<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
-													</div>
-													<div class="form-group">
-														<label class="col-lg-5 p-r-0 control-label">Kontoinhaber</label>
-														<div class="col-lg-7">
-															<input class="form-control" type="text" value="Mustermann"/>
+											<div class="holder-bank-details">
+												<div class="form-custom-box bank-details">
+													<form action="#" class="form-horizontal">
+														<div class="heading-bank clearfix m-b-15">
+															<h4 class="pull-left">Bankverbindungen</h4>
+															<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
 														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-lg-5 p-r-0 control-label">IBAN</label>
-														<div class="col-lg-7">
-															<input class="form-control" type="text" value="DE64100708480511733803a"/>
+														<div class="form-group">
+															<label class="col-lg-5 p-r-0 control-label">Kontoinhaber</label>
+															<div class="col-lg-7">
+																<input class="form-control" type="text" value="Mustermann"/>
+															</div>
 														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-lg-5 p-r-0 control-label">Kreditor</label>
-														<div class="col-lg-7">
-															<input class="form-control" type="text" value=""/>
+														<div class="form-group">
+															<label class="col-lg-5 p-r-0 control-label">IBAN</label>
+															<div class="col-lg-7">
+																<input class="form-control" type="text" value="DE64100708480511733803a"/>
+															</div>
 														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-lg-5 p-r-0 control-label">Beschreibung</label>
-														<div class="col-lg-7">
-															<textarea class="form-control"></textarea>
+														<div class="form-group">
+															<label class="col-lg-5 p-r-0 control-label">Kreditor</label>
+															<div class="col-lg-7">
+																<input class="form-control" type="text" value=""/>
+															</div>
 														</div>
-													</div>
-													<div class="pull-right">
-													 	<button class="btn w-sm cancel-btn">Löschen</button>
-														<button class="btn w-sm custom-btn">Hinzufügen</button>
-													</div>
-												</form>
+														<div class="form-group">
+															<label class="col-lg-5 p-r-0 control-label">Beschreibung</label>
+															<div class="col-lg-7">
+																<textarea class="form-control"></textarea>
+															</div>
+														</div>
+														<div class="pull-right">
+														 	<button class="btn w-sm cancel-btn">Löschen</button>
+															<button class="btn w-sm custom-btn">Hinzufügen</button>
+														</div>
+													</form>
+												</div>
+
+												<div class="form-custom-box bank-details">
+													<form action="#" class="form-horizontal">
+														<div class="heading-bank clearfix m-b-15">
+															<h4 class="pull-left">Bankverbindungen</h4>
+															<!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
+														</div>
+														<div class="form-group">
+															<label class="col-lg-5 p-r-0 control-label">Kontoinhaber</label>
+															<div class="col-lg-7">
+																<input class="form-control" type="text" value="Mustermann"/>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-lg-5 p-r-0 control-label">IBAN</label>
+															<div class="col-lg-7">
+																<input class="form-control" type="text" value="DE64100708480511733803a"/>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-lg-5 p-r-0 control-label">Kreditor</label>
+															<div class="col-lg-7">
+																<input class="form-control" type="text" value=""/>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-lg-5 p-r-0 control-label">Beschreibung</label>
+															<div class="col-lg-7">
+																<textarea class="form-control"></textarea>
+															</div>
+														</div>
+														<div class="pull-right">
+														 	<button class="btn w-sm cancel-btn">Löschen</button>
+															<button class="btn w-sm custom-btn">Hinzufügen</button>
+														</div>
+													</form>
+												</div>
+											
 											</div>
 										</div>
 									</div>

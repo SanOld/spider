@@ -8,7 +8,7 @@ class UserType extends BaseModel {
   public $select_all = ' * ';
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    
+
     $where = ' 1=1 ';
     $conditions = array();
 
@@ -20,22 +20,76 @@ class UserType extends BaseModel {
   }
 
   protected function getCommandFilter() {
-    return Yii::app ()->db->createCommand ()->select ("id, name, type")->from ( $this->table  . ' tbl') -> order('name');
+    return Yii::app ()->db->createCommand ()->select ("tbl.id, tbl.name, tbl.type")->from ( $this->table  . ' tbl') -> order('name');
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     if (safe($params, 'TYPE')) {
       $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
+    } else if($this->user['relation_id']) {
+      $command = $this->setWhereByRole($command);
+    }
+    if(safe($params, 'USER_CREATE')) {
+      switch($this->user['type']) {
+        case SCHOOL:
+        case TA:
+        case DISTRICT:
+          $command->andWhere("tbl.type = :type", array(':type' => $this->user['type']));
+          break;
+        case ADMIN:
+          if($this->user['type_id'] == 2) {
+            $command->andWhere("tbl.id != 1");
+          } else if($this->user['type_id'] == 6) {
+            $command->andWhere("tbl.id NOT IN(1,2)");
+          }
+      }
+    }
+    return $command;
+  }
+
+  protected function setWhereByRole($command) {
+    switch($this->user['type']) {
+      case SCHOOL:
+        $command->join('spi_user usr', 'usr.type_id = tbl.id');
+        $command->andWhere('(tbl.id IN(1,2)) OR (usr.relation_id = :relation_id AND tbl.type = :type) '.
+          'OR (usr.relation_id IN (SELECT performer_id FROM spi_project WHERE id IN('.
+          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "t") '.
+          'OR (usr.relation_id IN (SELECT school_id FROM spi_project_school WHERE id IN('.
+          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "s") '.
+          'OR (usr.relation_id IN(SELECT district_id FROM spi_school WHERE id = :relation_id) OR (usr.relation_id IN (SELECT district_id FROM spi_project WHERE id IN('.
+          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id))) AND tbl.type = "d") ',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        $command->group('tbl.id');
+        break;
+      case DISTRICT:
+        $command->join('spi_user usr', 'usr.type_id = tbl.id');
+        $command->andWhere('tbl.id IN(1,2) OR (usr.relation_id = :relation_id AND tbl.type = :type) '.
+          'OR (usr.relation_id IN(SELECT id FROM spi_school WHERE district_id = :relation_id) AND tbl.type = "s")'.
+          'OR (usr.relation_id IN(SELECT performer_id FROM spi_project WHERE district_id = :relation_id) AND tbl.type = "t")',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        $command->group('tbl.id');
+        break;
+      case TA:
+        $command->join('spi_user usr', 'usr.type_id = tbl.id');
+        $command->andWhere('(tbl.id IN(1,2)) OR (usr.relation_id = :relation_id AND tbl.type = :type) '.
+          'OR (usr.relation_id IN(SELECT school_id FROM spi_project_school WHERE project_id IN(SELECT id FROM spi_project WHERE performer_id = :relation_id)) AND tbl.type = "s")'.
+          'OR (usr.relation_id IN(SELECT district_id FROM spi_project WHERE performer_id = :relation_id) AND tbl.type = "d")',
+          array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        $command->group('tbl.id');
+        break;
     }
     return $command;
   }
 
   protected function doAfterSelect($results) {
     foreach($results['result'] as &$row) {
-      $relation = $this->getRelationByType($row['type']);
-      $row['relation_name'] = $relation['name'];
-      $row['relation_code'] = safe($relation, 'code', '');
+      if(safe($row, 'type')) {
+        $relation = $this->getRelationByType($row['type']);
+        $row['relation_name'] = $relation['name'];
+        $row['relation_code'] = safe($relation, 'code', '');
+      }
     }
     return $results;
   }
@@ -149,23 +203,13 @@ class UserType extends BaseModel {
     );
   }
 
-  protected function checkPermission($user, $action, $data) {
-    switch ($action) {
-      case ACTION_SELECT:
-        return true;
-      case ACTION_UPDATE:
-      case ACTION_INSERT:
-      case ACTION_DELETE:
-        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
-          return true;
-        }
-        break;
-    }
-    return false;
-  }
   protected function getForeignKeyError($e) {
-    return array('code' => '409', 'result'=> false, 'system_code'=> 'ERR_DEPENDENT_RECORD',
-      'message' => 'Delete this role is not possible. You must first delete users with this role.');
+    return array(
+      'code' => '409',
+      'result'=> false,
+      'system_code'=> 'ERR_DEPENDENT_RECORD',
+      'message' => 'Delete this role is not possible. You must first delete users with this role.'
+    );
   }
 
 

@@ -13,12 +13,19 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     $network.userIsSCHOOL   = $network.user.type_id == 4;
     $network.userIsDISTRICT = $network.user.type_id == 5;
     $network.userIsSENAT    = $network.user.type_id == 6;
-    $network.userIsTAF      = $network.user.type_id == 7;
   }
 
   $network.onLogin = function () {
   };
   $network.onLogout = function () {
+  };
+  $network.createLoginKey = function(login, password) {
+    return btoa(unescape(encodeURIComponent(login + ':' + password)))
+  };
+  $network.updateUserField = function(field, value) {
+    if($network.user[field] != undefined) {
+      $network.user[field] = value;
+    }
   };
 
   $network.reconnect = function (callback) {
@@ -39,7 +46,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
       })
       .error(function (data, status, headers, config) {
         $network.logout();
-        window.location = '/login'
+        window.location = '/';
       });
   };
   $network.logout = function () {
@@ -60,7 +67,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
       };
     if (!$network.authProgress) {
       $network.authProgress = true;
-      $network.loginKey = btoa(login + ':' + password);
+      //$network.loginKey = btoa(login + ':' + password);
+      $network.loginKey = $network.createLoginKey(login, password);
       localStorageService.set('loginKey', $network.loginKey);
       $http({
         'method': 'JSON'
@@ -124,7 +132,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
             $network.logout();
             window.location = '/'
           } else {
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
             callback(false, data);
           }
         }
@@ -156,8 +164,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert)
-          Notification.success({title: result.message});
+        //if (showAlert && !result.silent)
+        //  Notification.success({title: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
         if (status == 401) {
@@ -171,7 +179,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           callback(false, data);
           if (showAlert && !data.silent)
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
         }
       });
 
@@ -203,8 +211,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert)
-          Notification.success({title: result.message});
+        if (showAlert && !result.silent)
+          Notification.success({title: 'Notification', message: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
         if (status == 401) {
@@ -218,7 +226,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           callback(false, data);
           if (showAlert && !data.silent)
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
         }
       });
 
@@ -244,8 +252,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert)
-          Notification.success({title: result.message});
+        if (showAlert && !result.silent)
+          Notification.success({title: 'Notification', message: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
         if (status == 401) {
@@ -259,7 +267,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           callback(false, data);
           if (showAlert && !data.silent)
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
         }
       });
 
@@ -287,8 +295,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     })
       .success(function (result) {
         callback(true, result);
-        if (showAlert)
-          Notification.success({title: result.message});
+        //if (showAlert && !result.silent)
+        //  Notification.success({title: result.message});
       })
       .error(function (data, status, headers, config, statusText) {
         if (status == 401) {
@@ -302,7 +310,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           callback(false, data);
           if (showAlert && !data.silent)
-            Notification.error({title: data.message});
+            Notification.error({title: 'Notification', message: data.message});
         }
       });
 

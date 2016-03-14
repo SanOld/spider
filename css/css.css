@@ -45,7 +45,6 @@ html {
 body {
 	min-width: 1280px;
 	position:relative;
-	margin: 0 0 91px !important;
 	height: 100%;
 }
 form label {
@@ -139,7 +138,7 @@ body.bg {
 	right: 15px;
 }
 .form-horizontal .wrap-hint .form-control-feedback {
-    right: 0;
+    right: 0 !important;
 }
 .wrap-line.error input[type="text"],
 .wrap-line.error input[type="password"],
@@ -411,8 +410,6 @@ table.dataTable thead .sorting_desc:after {
 	margin: 0 15px;
 	vertical-align: middle;
 }
-.edit-user #datatable_length,
-.edit-user #datatable_info,
 #datatable-edit-roles_filter {
 	display:none;
 }
@@ -499,8 +496,13 @@ table.dataTable thead .sorting_desc:after {
 	font-size: 18px;
 	line-height: 18px;
 }
+.popover {
+	border-radius:0 !important;
+}
 .popover-content {
 	z-index:999;
+	min-width: 250px;
+	font-size:15px !important;
 }
 .btn.btn-question {
 	color:#0d5697;
@@ -557,7 +559,18 @@ table.dataTable thead .sorting_desc:after {
 .no-edit-text {
 	display: inline-block;
 	vertical-align: middle;
+	padding:7px 0 0;
 }
+.holder-label-radio .no-edit-text {
+	padding:0;
+}
+.form-horizontal .holder-label-radio .radio-inline {
+	padding-top:0;
+}
+.form-horizontal .holder-label-radio {
+	padding:7px 0 0 15px;
+}
+
 .fa.fa-trash-o {
 	font-size: 23px;
 }
@@ -810,12 +823,15 @@ body .nav.nav-tabs + .tab-content {
 }
 .bank-details textarea.form-control {
 	background: #fff;
-	width: 173px !important;
 }
 .bank-details button.btn {
 	font-size:17px;
 	text-transform:none;
 	margin: 0 0 0 5px;
+}
+.bank-details .has-hint.btn-question {
+    margin-top: 8px;
+    font-size:14px;
 }
 .modal-width-full > .panel {
 	height:100%;
@@ -1149,7 +1165,7 @@ table.dataTable thead > tr > th.sorting_disabled {
 }
 .form-group .cr-styled input[type="radio"] + i:before {
 	position:absolute;
-	top:1px;
+	top:2px;
 	left:3px;
 }
 .holder-radio {
@@ -1232,7 +1248,7 @@ body > .select2-container {
 	z-index: 99999;
 }
 .select2-container .select2-choice .select2-arrow {
-	top: -1px !important;
+	top: -3px !important;
 }
 .select2-container-multi .select2-choices {
 	padding: 1px 5px !important;
@@ -1432,6 +1448,7 @@ body > .select2-container {
 	right:5px;
 	top:5px;
 	cursor:pointer;
+	font-size:13px;
 }
 .popover .ion-close-round:hover {
 	opacity: 0.7;
@@ -1765,6 +1782,20 @@ body > .select2-container {
 }
 .form-custom-box.bank-details {
 	overflow: hidden;
+	margin: 0 0 20px;
+}
+.form-custom-box.bank-details:last-child {
+	margin:0;
+}
+.holder-bank-details {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.holder-bank-details.has-few-block {
+	height: 405px;
+}
+input.ng-invalid {
+	padding: 6px 27px 6px 12px;
 }
 .sweet-alert button {
 	text-transform:uppercase;
@@ -2302,4 +2333,35 @@ tfoot th.align-right {
 /* End ui notification */
 .uib-datepicker-popup.dropdown-menu {
   z-index: 9999;
+}
+.table.ng-table th {
+  text-align: left;
+}
+.table.ng-table th.dt-edit,
+.table.ng-table td.dt-edit {
+  width: 80px;
+  text-align: center;
+  padding: 10px 6px;
+}
+form .form-control:disabled,
+ng-form .form-control:disabled{
+  border-style: none;
+  overflow: auto;
+  resize: none;
+  background-color: Transparent;
+  padding-left: 0;
+  color: #202020;
+  cursor: default;
+}
+form .form-control:disabled::-webkit-input-placeholder {
+  color:Transparent !important;
+}
+form .form-control:disabled:-moz-placeholder {
+  color:Transparent !important;
+}
+form .form-control:disabled::-moz-placeholder {
+  color:Transparent !important;
+}
+form .form-control:disabled:-ms-input-placeholder{
+  color:Transparent !important;
 }

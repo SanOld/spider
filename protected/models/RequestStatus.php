@@ -12,9 +12,4 @@ class RequestStatus extends BaseModel {
     return $command;
   }
 
-  protected function getParamCommand($command, array $params, array $logic = array()) {
-    $params = array_change_key_case($params, CASE_UPPER);
-    return $command;
-  }
-
 }

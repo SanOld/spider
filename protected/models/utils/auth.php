@@ -34,35 +34,35 @@ class Auth {
       }
 
       $this->user = Yii::app()->db->createCommand()
-                 ->select('usr.*, ust.name type_name')
+                 ->select('usr.id, usr.type, usr.type_id, usr.relation_id, usr.login, usr.is_finansist, usr.sex, usr.title, usr.function, usr.first_name, usr.last_name, usr.email, usr.phone, usr.is_active, usr.auth_token, usr.auth_token_created_at, ust.name type_name')
                  ->from('spi_user usr')
                  ->join('spi_user_type ust', 'usr.type_id=ust.id')
                  ->where('login=:user AND usr.password=MD5(:pass)',
                           array( ':user'=>$login, ':pass'=>$password)
                         )
                  ->queryRow();
-      if($this->user['relation_id']) {
-        $table = '';
-        switch($this->user['type']) {
-          case 's':
-            $table = 'spi_school';
-            break;
-          case 'd':
-            $table = 'spi_district';
-            break;
-          case 't':
-            $table = 'spi_performer';
-            break;
-
-        }
-        if($table) {
-          $this->user['relation_name'] = Yii::app()->db->createCommand()
-            ->select('name')
-            ->from($table)
-            ->where('id=:id', array(':id' => $this->user['relation_id']))
-            ->queryScalar();
-        }
-      }
+//      if($this->user['relation_id']) {
+//        $table = '';
+//        switch($this->user['type']) {
+//          case 's':
+//            $table = 'spi_school';
+//            break;
+//          case 'd':
+//            $table = 'spi_district';
+//            break;
+//          case 't':
+//            $table = 'spi_performer';
+//            break;
+//
+//        }
+//        if($table) {
+//          $this->user['relation_name'] = Yii::app()->db->createCommand()
+//            ->select('name')
+//            ->from($table)
+//            ->where('id=:id', array(':id' => $this->user['relation_id']))
+//            ->queryScalar();
+//        }
+//      }
 
 
       
@@ -126,6 +126,9 @@ class Auth {
 
   public function getUser() {
     return $this->user;
+  }
+  public function isActive() {
+    return $this->user['is_active'];
   }
   public function checkToken() {
     return (   $this->user['auth_token'] == $this->token

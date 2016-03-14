@@ -26,9 +26,10 @@ $this->breadcrumbs = array('Fördertöpfe');
                   <td data-title="'Fördertopf'" sortable="'finance_source_type'">{{row.finance_source_type}}</td>
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
                   <td data-title="'Details'" sortable="'description'">{{row.description}}</td>
-                  <td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
-                    <a class="btn center-block edit-btn" ng-click="openEdit(row)">
-                      <i class="ion-edit"></i>
+                  <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+                    <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit())">
+                      <i class="ion-eye"  ng-if="!canEdit()"></i>
+                      <i class="ion-edit" ng-if="canEdit()"></i>
                     </a>
                   </td>
                 </tr>
@@ -45,20 +46,21 @@ $this->breadcrumbs = array('Fördertöpfe');
 <script type="text/ng-template" id="editTemplate.html">
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
-      <h3 class="m-0 pull-left" ng-if="!isInsert">Fördertöpf bearbeiten</h3>
-
+      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Fördertöpf bearbeiten</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Fördertöpf ansicht</h3>
       <h3 class="m-0 pull-left" ng-if="isInsert">Fördertöpf hinzufügen</h3>
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
     <div class="panel-body">
-      <ng-form name="formFinances" class="form-horizontal">
+      <ng-form name="formFinances" class="form-horizontal" disable-all="!canEdit() || modeView">
         <div class="row">
           <div class="m-b-15 clearfix">
             <label class="col-lg-3 control-label">Fördertopf</label>
 
             <div class="col-lg-9">
               <div spi-hint text="_hint.finance_source_type" class="has-hint"></div>
-              <div class="wrap-hint">
+              <span ng-if="!canEdit() || modeView" ng-bind="sourceTypeName"></span>
+              <div class="wrap-hint" ng-if="canEdit() && !modeView">
                 <ui-select ng-disabled="!$select.items.length" ng-model="finance.finance_source_type"
                            name="finance_source_type" required>
                   <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
@@ -80,7 +82,7 @@ $this->breadcrumbs = array('Fördertöpfe');
                 <input name="programm" ng-model="finance.programm" class="form-control" type="text" value="" required>
                 <span ng-show="fieldError('programm')">
                     <label ng-show="formFinances.programm.$error.required" class="error">Programm is
-                      required.</label>
+                      required</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                 </span>
               </div>
@@ -99,11 +101,11 @@ $this->breadcrumbs = array('Fördertöpfe');
         </div>
         <div class="form-group group-btn m-t-15">
           <div class="col-lg-2">
-            <a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></a>
+            <a ng-click="remove()" ng-if="canEdit() && !modeView" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></a>
           </div>
           <div class="col-lg-10 text-right pull-right">
             <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-            <button class="btn w-lg custom-btn" ng-click="submitFormFinances()">Speichern</button>
+            <button class="btn w-lg custom-btn" ng-if="canEdit() && !modeView" ng-click="submitFormFinances()">Speichern</button>
           </div>
         </div>
       </ng-form>

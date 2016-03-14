@@ -7,10 +7,15 @@ class Performer extends BaseModel {
   public $post = array();
   public $select_all = " tbl.*, DATE_FORMAT(checked_date, '%d.%m.%Y') checked_date_formatted, CONCAT(usp.first_name, ' ', usp.last_name) representative_user";
   protected function getCommand() {
+    if($this->user['can_edit']) {
+      $this->select_all .=  ", CONCAT(usc.first_name, ' ', usc.last_name) checked_name";
+    }
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all)
         -> from($this -> table . ' tbl')
-        -> leftJoin('spi_user usp', 'tbl.representative_user_id = usp.id')
-        -> leftJoin('spi_bank_details bnd', 'tbl.bank_details_id = bnd.id');
+        -> leftJoin('spi_user usp', 'tbl.representative_user_id = usp.id');
+    if($this->user['can_edit']) {
+      $command->leftJoin('spi_user usc', 'tbl.checked_by = usc.id');
+    }
     $command -> where(' 1=1 ', array());
     $command = $this->setWhereByRole($command);
     return $command;
@@ -35,13 +40,19 @@ class Performer extends BaseModel {
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,
         array('tbl.address', 'tbl.email', "CONCAT(usp.first_name, ' ', usp.last_name)"),
         safe($params, 'KEYWORD'));
-    $command = $this->setLikeWhere($command,
+    if(safe($params, 'BANK_DETAILS')) {
+      $command -> leftJoin('spi_bank_details bnd', 'tbl.id = bnd.performer_id');
+      $command -> group('tbl.id');
+      $command = $this->setLikeWhere($command,
         array('bnd.contact_person', 'bnd.iban', 'bnd.bank_name', 'bnd.outer_id'),
         safe($params, 'BANK_DETAILS'));
+    }
+
     if (isset($params['IS_CHECKED'])) {
       $command -> andWhere("tbl.is_checked = :is_checked", array(':is_checked' => $params['IS_CHECKED']));
     }
@@ -92,8 +103,26 @@ class Performer extends BaseModel {
       $post['checked_by'] = null;
     }
 
-    if(isset($post['bank_details_id']) && !$post['bank_details_id']) {
-      unset($post['bank_details_id']);
+    if(!$this->user['can_edit']) {
+      $row = Yii::app() -> db -> createCommand() -> select('*')
+        -> from($this -> table)
+        -> where('id = :id', array(':id' => $id))
+        -> queryRow();
+      $errorField = '';
+      if($row['name'] != $post['name']) {
+        $errorField = 'Kurzname';
+      } else if($row['short_name'] != $post['short_name']) {
+        $errorField = 'Name';
+      }
+      if($errorField) {
+        return array(
+          'code' => '409',
+          'result' => false,
+          'system_code' => 'ERR_UPDATE_FORBIDDEN',
+          'message' => 'Update failed: The '.$errorField.' can not be change.'
+        );
+      }
+
     }
 
     if(isset($post['representative_user_id']) && !$post['representative_user_id']) {
@@ -142,6 +171,24 @@ class Performer extends BaseModel {
     );
   }
 
+  protected function doBeforeDelete($id) {
+    $userId = Yii::app() -> db -> createCommand() -> select('id') -> from('spi_user')
+      -> where('relation_id=:relation_id AND type="t"', array(':relation_id' => $id))
+      -> queryScalar();
+    if ($userId) {
+      return array(
+        'code' => '409',
+        'result'=> false,
+        'system_code'=> 'ERR_DEPENDENT_RECORD',
+        'message' => 'Delete this performer is not possible. You must first delete users with this performer.'
+      );
+    }
+
+    return array(
+      'result' => true
+    );
+  }
+
   protected function checkFields($post) {
     if(safe($post, 'is_checked')) {
       if(!in_array($this->user['type_id'], array(1,2))) { // Admin or PA
@@ -163,22 +210,12 @@ class Performer extends BaseModel {
   protected function checkPermission($user, $action, $data) {
     switch ($action) {
       case ACTION_SELECT:
-        return true;
+        return $user['can_view'];
       case ACTION_UPDATE:
-        if(($user['type'] == ADMIN && $user['type_id'] != 6) || ($user['type'] == TA && safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id'))) { // except Senat
-          return true;
-        }
-        break;
+        return $user['can_edit'] || (safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id'));
       case ACTION_INSERT:
-        if($user['type'] == ADMIN && $user['type_id'] != 6) { // except Senat
-          return true;
-        }
-        break;
       case ACTION_DELETE:
-        if($user['type'] == ADMIN && !in_array($user['type_id'], array(2,6))) { // except PA and Senat
-          return true;
-        }
-        break;
+        return $user['can_edit'];
     }
     return false;
   }

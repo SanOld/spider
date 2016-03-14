@@ -68,7 +68,7 @@ class BaseController extends Controller {
     $this -> method = strtolower($_SERVER['REQUEST_METHOD']);
     $auth = new Auth(safe($headers,'Authorization'));
 
-    if(!$auth ->checkToken()) {
+    if(!$auth ->isActive() || !$auth ->checkToken()) {
       $error = $auth->getAuthError();
       response('401', $error);
     }
@@ -77,11 +77,11 @@ class BaseController extends Controller {
 
     $this -> model -> isFilter = !!safe($_GET, 'filter');
 
-    $permissionField = in_array($this -> method, array('post', 'put', 'delete', 'patch')) ? 'can_edit' : 'can_view';
-
-    if(!($permissionField == 'can_view' && $this->model->isFilter) && !($this -> method == 'put' && safe($_GET,'id') == $auth -> user['id']) && !$auth->user[$permissionField]) {
-      $this->sendPermissionError();
-    }
+//    $permissionField = in_array($this -> method, array('post', 'put', 'delete', 'patch')) ? 'can_edit' : 'can_view';
+//
+//    if(!($permissionField == 'can_view' && $this->model->isFilter) && !($this -> method == 'put' && safe($_GET,'id') == $auth -> user['id']) && !$auth->user[$permissionField]) {
+//      $this->sendPermissionError();
+//    }
 
     if($this -> method) {
       switch ($this -> method) {
@@ -207,7 +207,16 @@ class BaseController extends Controller {
     $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
     $result = $uploader->handleUpload($path);
     if(safe($result, 'success')) {
-      $this -> model = CActiveRecord::model(self::getClassName($model));
+      $models = $models_prot = array_map('trim', explode(',', MODELS));
+      $models = array_change_case($models);
+      $key = array_search(self::getClassName($_GET['model']), $models);
+      if($key !== false) {
+        $modelFor = $models_prot[$key]; // unix files 'user' and 'User' are not equal
+      } else {
+        response('405', array('system_code' => 'ERR_SERVICE'));
+      }
+
+      $this -> model = CActiveRecord::model($modelFor);
 
       $headers = getallheaders ();
       $this -> method = strtolower($_SERVER['REQUEST_METHOD']);

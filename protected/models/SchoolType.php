@@ -12,8 +12,11 @@ class SchoolType extends BaseModel {
     return $command;
   }
 
-  protected function getParamCommand($command, array $params, array $logic = array()) {
-    $params = array_change_key_case($params, CASE_UPPER);
+  protected function getCommandFilter() {
+    $command = Yii::app()->db->createCommand()->select ('tbl.id, UPPER(tbl.code) code, tbl.name')
+      ->from($this->table  . ' tbl');
+    $command = $this->setWhereByRole($command);
+    $command->order('name');
     return $command;
   }
 

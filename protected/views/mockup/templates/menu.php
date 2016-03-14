@@ -27,19 +27,19 @@
 								</ul>
 							</li>
 							<li><a href="projects-list.php">Projekte</a></li>
-							<li ng-class="{'active': ['performer'].indexOf(_m) !== -1}" class="dropdown">
+							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 								<ul class="dropdown-menu">
-									<li><a href="agency-list.php">Träger Agentur</a></li>
+									<li><a href="/performers">Träger Agentur</a></li>
 									<li><a href="/schools">Schule</a></li>
 									<li><a href="/districts">Bezirk</a></li>
 								</ul>
 							</li>
-							<li ng-class="{'active': ['hint'].indexOf(_m) !== -1}" class="dropdown">
+							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Systemverwaltung</a>
 								<ul class="dropdown-menu">
 									<li><a href="document-templates.php">Druck-Templates</a></li>
-									<li><a ng-if="canView('hint')" href="/hints">Hilfetexte</a></li>
+									<li><a href="/hints">Hilfetexte</a></li>
 									<li><a href="email-templates.php">Email-Vorlagen</a></li>
 									<li><a href="#">Email-Sendebericht</a></li>
 									<li><a href="#">Audit</a></li>

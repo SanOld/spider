@@ -1,112 +1,147 @@
-spi.controller('HintsController', function($scope, $rootScope, network, GridService, HintService) {
-    $rootScope._m = 'hint';
-    $scope.filter = {};
+spi.controller('HintsController', function ($scope, $rootScope, network, GridService, HintService) {
+  $rootScope._m = 'hint';
+  $scope.filter = {};
 
-    var grid = GridService();
-    $scope.tableParams = grid('hint', $scope.filter);
+  var grid = GridService();
+  $scope.tableParams = grid('hint', $scope.filter);
 
-    $scope.updateGrid = function() {
-        grid.reload();
-    };
+  $scope.updateGrid = function () {
+    grid.reload();
+  };
 
-    HintService('hint', function(result) {
-         $scope._hint = result;
+  getHints();
+
+  $scope.resetFilter = function () {
+    $scope.filter = grid.resetFilter();
+  };
+
+  $scope.openEdit = function (row, modeView) {
+    grid.openEditor({
+      data: row,
+      modeView: !!modeView,
+      hint: $scope._hint,
+      controller: 'EditHintController'
+    }, function(result) {
+      if(result) {
+        $scope.updateGrid();
+        getHints();
+      }
     });
+  };
 
-    $scope.resetFilter = function() {
-        $scope.filter = grid.resetFilter();
-    };
+  network.get('page', {filter: 1}, function (result, response) {
+    if (result) {
+      $scope.pages = response.result;
+    }
+  });
 
-    $scope.openEdit = function (row) {
-        grid.openEditor({data: row, hint: $scope._hint, controller: 'EditHintController'});
-    };
-
-    network.get('page', {filter: 1}, function(result, response){
-        if(result) {
-            $scope.pages = response.result;
-        }
+  function getHints() {
+    HintService('hint', function (result) {
+      $scope._hint = result;
     });
-
+  }
 
 });
 
 
-spi.controller('EditHintController', function ($scope, $uibModalInstance, data, network, hint, Utils) {
-    $scope.isInsert = !data.id;
-    $scope._hint = hint;
-    $scope.hint = {};
-    $scope.showTitle = false;
+spi.controller('EditHintController', function ($scope, $uibModalInstance, data, modeView, network, hint, Utils) {
+  $scope.isInsert = !data.id;
+  $scope._hint = hint;
+  $scope.hint = {};
+  $scope.showTitle = false;
+  $scope.modeView = modeView;
 
-    function reloadPosition() {
-        $scope.positions = [];
-        if($scope.hint.page_id) {
-            network.get('page_position', {filter: 1, page_id: $scope.hint.page_id, except: 'hint'}, function (result, response) {
-                if(result) {
-                    $scope.positions = response.result;
-                }
-            });
+  function reloadPosition() {
+    $scope.positions = [];
+    if ($scope.hint.page_id) {
+      network.get('page_position', {
+        filter: 1,
+        page_id: $scope.hint.page_id
+      }, function (result, response) {
+        if (result) {
+          $scope.positions = response.result;
         }
+      });
     }
+  }
 
-    $scope.changePage = function() {
-        $scope.hint.position_id = undefined;
-        $scope.changePosition();
-        reloadPosition();
-    };
+  $scope.changePage = function () {
+    $scope.hint.position_id = undefined;
+    $scope.hint.title = $scope.hint.description = '';
+    $scope.form.$setUntouched();
+    $scope.changePosition();
+    reloadPosition();
+  };
 
-    $scope.changePosition = function(id) {
-        $scope.showTitle = id && Utils.getRowById($scope.positions, id, 'code') == 'header';
-    };
-
-    if(!$scope.isInsert) {
-        $scope.page_name = data.page_name;
-        $scope.position_name = data.position_name;
-        $scope.showTitle = data.title;
-        $scope.hint = {
-            title:       data.title,
-            description: data.description
-        };
-        reloadPosition();
-    } else {
-        network.get('page', {filter: 1}, function(result, response){
-            if(result) {
-                $scope.pages = response.result;
-            }
-        });
+  $scope.changePosition = function (id) {
+    if(!id) {
+      return false;
     }
+    $scope.showTitle = Utils.getRowById($scope.positions, id, 'code') == 'header';
+    network.get('hint', {position_id: id}, function(result, response) {
+      if(result && response.result.length) {
+        $scope.hint.title = response.result[0].title;
+        $scope.hint.description = response.result[0].description;
+        data.id = response.result[0].id;
+      } else {
+        delete data.id;
+      }
+    });
+  };
 
-    $scope.fieldError = function(field) {
-        return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;
+  if (!$scope.isInsert) {
+
+    $scope.page_name = data.page_name;
+    $scope.position_name = data.position_name;
+    $scope.showTitle = data.position_code == 'header';
+    $scope.hint = {
+      title: data.title,
+      description: data.description
     };
+    reloadPosition();
+  } else {
+    network.get('page', {filter: 1}, function (result, response) {
+      if (result) {
+        $scope.pages = response.result;
+      }
+    });
+  }
 
-    $scope.submitForm = function (formData) {
-        $scope.submited = true;
-        $scope.form.$setPristine();
-        if ($scope.form.$valid) {
-            var callback = function (result, response) {
-                if(result) {
-                    $uibModalInstance.close();
-                }
-                $scope.submited = false;
-            };
-            if($scope.isInsert) {
-                network.post('hint', formData, callback);
-            } else {
-                network.put('hint/'+data.id, formData, callback);
-            }
+  $scope.fieldError = function (field) {
+    return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;
+  };
+
+  $scope.submitForm = function (formData) {
+    $scope.submited = true;
+    $scope.form.$setPristine();
+    if ($scope.form.$valid) {
+      var callback = function (result, response) {
+        if (result) {
+          $uibModalInstance.close();
         }
-    };
+        $scope.submited = false;
+      };
+      if (!data.id) {
+        network.post('hint', formData, callback);
+      } else {
+        network.put('hint/' + data.id, formData, callback);
+      }
+    }
+  };
 
-    $scope.remove = function() {
-        network.delete('hint/'+data.id, function (result) {
-            if(result) {
-                $uibModalInstance.close();
-            }
-        });
-    };
+  $scope.remove = function () {
+    Utils.doConfirm(function() {
+      network.delete('hint/' + data.id, function (result) {
+        if (result) {
+          Utils.deleteSuccess();
+          $uibModalInstance.close();
+        }
+      });
+    });
+  };
 
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
 
 });

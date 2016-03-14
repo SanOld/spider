@@ -12,7 +12,7 @@ $this->breadcrumbs = array('Hilfetexte');
 				<div class="panel-heading clearfix">
 					<h1 class="panel-title col-lg-6">Hilfetexte</h1>
 					<div class="pull-right heading-box-print">
-						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Neuen Hilf hinzufügen</button>
+						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Hilfetext hinzufügen/bearbeiten</button>
 					</div>
 				</div>
 				<div class="panel-body hint-edit">
@@ -45,12 +45,13 @@ $this->breadcrumbs = array('Hilfetexte');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Seite'" sortable="'page_name'">{{row.page_name}}</td>
 							<td data-title="'Position'" sortable="'position_name'">{{row.position_name}}</td>
-							<td data-title="'Hilfetext'" sortable="'title'">{{row.title}}</td>
-							<td data-title="'Bearbeiten'" ng-if="canEdit()" header-class="'dt-edit'" class="dt-edit">
-								<a class="btn center-block edit-btn" ng-click="openEdit(row)">
-									<i class="ion-edit"></i>
-								</a>
-							</td>
+							<td data-title="'Hilfetext'">{{row.description}}</td>
+              <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+                <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit())">
+                  <i class="ion-eye"  ng-if="!canEdit()"></i>
+                  <i class="ion-edit" ng-if="canEdit()"></i>
+                </a>
+              </td>
 						</tr>
 					</table>
 				</div>
@@ -64,11 +65,12 @@ $this->breadcrumbs = array('Hilfetexte');
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
 			<h3 ng-if="isInsert" class="m-0 pull-left">Hilf hinzufügen</h3>
-			<h3 ng-if="!isInsert" class="m-0 pull-left">Hilf bearbeiten</h3>
+			<h3 ng-if="!isInsert && !modeView" class="m-0 pull-left">Hilf bearbeiten</h3>
+			<h3 ng-if="!isInsert && modeView" class="m-0 pull-left">Hilf ansicht</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body">
-			<form novalidate name="form" class="form-horizontal">
+			<form novalidate name="form" class="form-horizontal" disable-all="modeView || !canEdit()">
 				<div class="form-group">
 					<label class="col-lg-2 control-label">Seite</label>
 					<div ng-if="!isInsert" class="col-lg-10">
@@ -85,7 +87,7 @@ $this->breadcrumbs = array('Hilfetexte');
 								</ui-select-choices>
 							</ui-select>
 							<span ng-show="fieldError('page_id')">
-								<label ng-show="form.page_id.$error.required" class="error">Seite is required.</label>
+								<label ng-show="form.page_id.$error.required" class="error">Seite is required</label>
 							</span>
 						</div>
 					</div>
@@ -106,44 +108,44 @@ $this->breadcrumbs = array('Hilfetexte');
 								</ui-select-choices>
 							</ui-select>
 							<span ng-show="fieldError('position_id')">
-								<label ng-show="form.position_id.$error.required" class="error">Position is required.</label>
+								<label ng-show="form.position_id.$error.required" class="error">Position is required</label>
 							</span>
 						</div>
 					</div>
 				</div>
 				<div class="form-group" ng-if="showTitle">
-					<label class="col-lg-2 control-label">Hilfetext</label>
+					<label class="col-lg-2 control-label">Titel</label>
 					<div class="col-lg-10">
 						<span spi-hint text="_hint.title" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('title')}">
 							<textarea ng-model="hint.title" ng-minlength="3" name="title" class="form-control" rows="5" required></textarea>
 							<span ng-show="fieldError('title')">
-								<label ng-show="form.title.$error.required" class="error">Hilfetext is required.</label>
-								<label ng-show="form.title.$error.minlength" class="error">Hilfetext is too short.</label>
+								<label ng-show="form.title.$error.required" class="error">Titel is required</label>
+								<label ng-show="form.title.$error.minlength" class="error">Titel is too short</label>
 							</span>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-lg-2 control-label">Description</label>
+					<label class="col-lg-2 control-label">Hilfetext</label>
 					<div class="col-lg-10">
 						<span spi-hint text="_hint.description" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
-							<textarea ng-model="hint.description" name="description" ng-minlength="3" class="form-control" rows="5" required></textarea>
+							<textarea ng-model="hint.description" name="description" ng-minlength="3" class="form-control" rows="7" required></textarea>
 							<span ng-show="fieldError('description')">
-								<label ng-show="form.description.$error.required" class="error">Description is required.</label>
-								<label ng-show="form.description.$error.minlength" class="error">Description is too short.</label>
+								<label ng-show="form.description.$error.required" class="error">Hilfetext is required</label>
+								<label ng-show="form.description.$error.minlength" class="error">Hilfetext is too short</label>
 							</span>
 						</div>
 					</div>
 				</div>
 				<div class="form-group group-btn p-t-10">
-					<div class="col-lg-2" ng-if="!isInsert">
+					<div class="col-lg-2" ng-if="!isInsert && !modeView && canEdit()">
 						<a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></a>
 					</div>
 					<div class="col-lg-6 text-right pull-right">
 						<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-						<button class="btn w-lg custom-btn" ng-click="submitForm(hint)">Speichern</button>
+						<button class="btn w-lg custom-btn" ng-if="!modeView && canEdit()" ng-click="submitForm(hint)">Speichern</button>
 					</div>
 				</div>
 			</form>

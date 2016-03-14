@@ -7,19 +7,19 @@ class PagePosition extends BaseModel {
   public $select_all = ' * ';
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    
-    $where = ' 1=1 ';
-    $conditions = array();
-
-    if ($where) {
-      $command -> where($where, $conditions);
-    }
-    
     return $command;
   }
 
+  protected function getCommandFilter() {
+    $command = Yii::app()->db->createCommand()->select ('tbl.id, tbl.name, tbl.code')
+      ->from($this->table  . ' tbl');
+    $command = $this->setWhereByRole($command);
+    $command->order('name');
+    return $command;
+  }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     if (safe($params, 'PAGE_ID')) {
       $command->andWhere("tbl.page_id = :page_id", array(':page_id' => $params['PAGE_ID']));
