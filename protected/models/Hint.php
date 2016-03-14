@@ -34,6 +34,9 @@ class Hint extends BaseModel {
     if (safe($params, 'POSITION')) {
       $command->andWhere("pgp.name like :position", array(':position' => '%' . $params['POSITION'] . '%'));
     }
+    if (safe($params, 'POSITION_ID')) {
+      $command->andWhere("tbl.position_id = :position_id", array(':position_id' => $params['POSITION_ID']));
+    }
     return $command;
   }
 

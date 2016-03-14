@@ -56,8 +56,7 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
     if ($scope.hint.page_id) {
       network.get('page_position', {
         filter: 1,
-        page_id: $scope.hint.page_id,
-        except: 'hint'
+        page_id: $scope.hint.page_id
       }, function (result, response) {
         if (result) {
           $scope.positions = response.result;
@@ -68,12 +67,26 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
 
   $scope.changePage = function () {
     $scope.hint.position_id = undefined;
+    $scope.hint.title = $scope.hint.description = '';
+    $scope.form.$setUntouched();
     $scope.changePosition();
     reloadPosition();
   };
 
   $scope.changePosition = function (id) {
-    $scope.showTitle = id && Utils.getRowById($scope.positions, id, 'code') == 'header';
+    if(!id) {
+      return false;
+    }
+    $scope.showTitle = Utils.getRowById($scope.positions, id, 'code') == 'header';
+    network.get('hint', {position_id: id}, function(result, response) {
+      if(result && response.result.length) {
+        $scope.hint.title = response.result[0].title;
+        $scope.hint.description = response.result[0].description;
+        data.id = response.result[0].id;
+      } else {
+        delete data.id;
+      }
+    });
   };
 
   if (!$scope.isInsert) {
@@ -108,7 +121,7 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
         }
         $scope.submited = false;
       };
-      if ($scope.isInsert) {
+      if (!data.id) {
         network.post('hint', formData, callback);
       } else {
         network.put('hint/' + data.id, formData, callback);

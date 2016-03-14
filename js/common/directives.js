@@ -5,7 +5,7 @@ spi.directive("spiHintMain", function () {
       title: '=',
       text: '='
     },
-    template: '<div ng-if="title && text" class="hint-details alert alert-info m-0 clearfix"  ng-init="isCollapsed = 1"> <div class="heading-alert"> <strong ng-bind="title"></strong> <span ng-click="isCollapsed = !isCollapsed" class="show-link pull-right"> <span ng-show="isCollapsed">Zeigen</span> <span ng-hide="isCollapsed">Ausblenden</span> <span class="caret" ng-class="{\'open\': !isCollapsed}"></span> </span> </div> <div uib-collapse="isCollapsed"> <p ng-bind="text"></p> </div> </div>'
+    template: '<div ng-if="title && text" class="hint-details alert alert-info m-0 clearfix"  ng-init="isCollapsed = 1"> <div class="heading-alert"> <strong ng-bind="title"></strong> <span ng-click="isCollapsed = !isCollapsed" class="show-link pull-right"> <span ng-show="isCollapsed">Zeigen</span> <span ng-hide="isCollapsed">Ausblenden</span> <span class="caret" ng-class="{\'open\': !isCollapsed}"></span> </span> </div> <div uib-collapse="isCollapsed"> <p ng-bind-html="text | nl2br"></p> </div> </div>'
   };
 });
 
@@ -162,5 +162,11 @@ spi.directive('disableAll', function ($timeout) {
     }
   }
 });
+
+spi.filter('nl2br', ['$sce', function ($sce) {
+  return function (text) {
+    return text ? $sce.trustAsHtml(text.replace(/\n/g, '<br/>')) : '';
+  };
+}]);
 
 
