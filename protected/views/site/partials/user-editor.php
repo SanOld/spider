@@ -55,7 +55,7 @@
 
         </div>
         <div ng-if="(isInsert && isRelation) || (!isInsert && relation_name)" class="form-group">
-          <label class="col-lg-2 control-label">Organisation</label>
+          <label class="col-lg-2 control-label">Akteur</label>
 
           <div ng-if="!isInsert" class="col-lg-10">
             <span class="no-edit-text">{{relation_name}}</span>
@@ -75,7 +75,7 @@
                 </ui-select-choices>
               </ui-select>
 								<span ng-show="fieldError('relation_id')">
-									<label ng-show="form.type_id.$error.required" class="error">Organisation is required</label>
+									<label ng-show="form.type_id.$error.required" class="error">Akteur is required</label>
 								</span>
             </div>
           </div>
