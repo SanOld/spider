@@ -498,11 +498,11 @@ table.dataTable thead .sorting_desc:after {
 }
 .popover {
 	border-radius:0 !important;
-	font-size:15px !important;
-	max-width: 450px;
 }
 .popover-content {
 	z-index:999;
+	min-width: 250px;
+	font-size:15px !important;
 }
 .btn.btn-question {
 	color:#0d5697;
