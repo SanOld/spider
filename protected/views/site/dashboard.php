@@ -10,7 +10,6 @@ $this->pageTitle = 'Startseite | ' . Yii::app()->name;
 <div class="container home-dashboard" ng-controller="DashboardController">
     <div class="col-lg-12 animated fadeInDown text-center">
         <div class="col-lg-12">
-            <h1>Willkommen zu Stiftung SPI</h1>
             <h2 ng-bind="_hint.header.title"></h2>
             <p ng-bind="_hint.header.text"></p>
         </div>

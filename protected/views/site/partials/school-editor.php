@@ -89,14 +89,14 @@
                     </div>
                     <div class="col-lg-5 col-lg-offset-1">
                       <div class="form-group">
-                        <label class="col-lg-3 control-label">Nummer</label>
+                        <label class="col-lg-3 control-label">Schul-Nr.</label>
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.number" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('number')}">
                             <input name="number" ng-model="school.number" class="form-control" type="text" value="" required  ng-disabled="!canEdit()">
                             <span ng-show="fieldError('number')">
-                              <label ng-show="form.formSchool.number.$error.required" class="error">Nummer is
+                              <label ng-show="form.formSchool.number.$error.required" class="error">Schul-Nr. is
                                 required</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>

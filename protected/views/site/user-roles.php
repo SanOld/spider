@@ -21,8 +21,8 @@ $this->breadcrumbs = array('Benutzerrollen');
 					<table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
 						<tr ng-repeat="row in $data">
 							<td data-title="'Benutzer-Typ'" sortable="'name'">{{row.name}}</td>
-							<td data-title="'Organisationstyp'">{{row.relation_name}}</td>
-              <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+							<td data-title="'Akteur-Typ'">{{row.relation_name}}</td>
+              <td data-title="'Browser / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
                 <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit())">
                   <i class="ion-eye"  ng-if="!canEdit()"></i>
                   <i class="ion-edit" ng-if="canEdit()"></i>
@@ -42,7 +42,6 @@ $this->breadcrumbs = array('Benutzerrollen');
 				<div class="panel-heading clearfix">
           <h3 ng-if="isInsert" class="m-0 pull-left">Benutzer-Typ hinzufügen</h3>
           <h3 ng-if="!isInsert" class="m-0 pull-left">Benutzerrollen editieren</h3>
-					<h3 class="m-0 pull-left">Benutzerrollen editieren</h3>
 					<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 				</div>
 				<div class="panel-body table-modal">
@@ -62,7 +61,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 							</div>
             </div>
 						<div class="form-group col-lg-6">
-							<label>Organisationstyp</label>
+							<label>Akteur-Typ</label>
               <div>
                 <span ng-if="!isInsert" ng-bind="relation_name"></span>
                 <span spi-hint text="_hint.type" class="has-hint"></span>
@@ -81,19 +80,19 @@ $this->breadcrumbs = array('Benutzerrollen');
                 <input ng-if="isInsert" type="hidden" ng-model="user_right[$index].page_id">
               </td>
               <td data-title="'Seite'" sortable="'name'">{{row.name}}</td>
-              <td data-title="'Zeigen'" header-class="'text-center'">
+              <td data-title="'Content'" header-class="'text-center'">
                 <label class="cr-styled" ng-if="user_right[$index].is_real_page != '0'">
                   <input type="checkbox" ng-model="user_right[$index].can_show" ng-init="user_right[$index].can_show = user_right[$index].code == 'dashboard' ? '1' : user_right[$index].can_show" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default || user_right[$index].code == 'dashboard'">
                   <i class="fa"></i>
                 </label>
               </td>
-              <td data-title="'Ansicht'" header-class="'text-center'">
+              <td data-title="'Browser'" header-class="'text-center'">
                 <label class="cr-styled">
                   <input type="checkbox" ng-model="user_right[$index].can_view" ng-init="user_right[$index].can_view = user_right[$index].code == 'dashboard' ? '1' : user_right[$index].can_view" ng-model="user_right[$index].can_view" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default || user_right[$index].code == 'dashboard'">
                   <i class="fa"></i>
                 </label>
               </td>
-              <td data-title="'Bearbeitung'" header-class="'text-center'">
+              <td data-title="'Editieren'" header-class="'text-center'">
                 <label class="cr-styled">
                   <input type="checkbox" ng-model="user_right[$index].can_edit" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default">
                   <i class="fa"></i>

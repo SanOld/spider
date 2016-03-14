@@ -12,7 +12,7 @@ $this->breadcrumbs = array('Hilfetexte');
 				<div class="panel-heading clearfix">
 					<h1 class="panel-title col-lg-6">Hilfetexte</h1>
 					<div class="pull-right heading-box-print">
-						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Neuen Hilfetext hinzufügen/bearbeiten</button>
+						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Hilfetext hinzufügen/bearbeiten</button>
 					</div>
 				</div>
 				<div class="panel-body hint-edit">
