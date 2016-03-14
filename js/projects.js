@@ -54,6 +54,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
 
 spi.controller('ProjectEditController', function ($scope, $uibModalInstance, modeView, data, network, hint, $timeout, Utils) {
     $scope.isInsert = !data.id;
+    $scope.newCode = 0;
     $scope._hint = hint;
     $scope.modeView = modeView;
     $scope.finance_source_type = {};
@@ -74,18 +75,20 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         getProjects();
     } else {
       $scope.project = {schools:[]};
-      console.log('get project')
-      network.get('project', {'get_last_id':1}, function(result, response){
+      network.get('project', {'get_next_id':1}, function(result, response){
           if(result) {
-            console.log(result)
-              //$scope.projects = response.result;
+            $scope.newCode = maxId < 1000?('00'+(response.next_id)).slice(-3):response.next_id;
           }
       });
     }
-    
+    $scope.schoolTypesId = {};
     network.get('school_type', {}, function (result, response) {
         if(result) {
             $scope.schoolTypes = response.result;
+            angular.forEach(response.result, function(val){
+              val['fullName'] = '('+val.code.toUpperCase()+') '+val.name;
+              $scope.schoolTypesId[val.id] = val;
+            })
         }
     });
     
@@ -121,6 +124,9 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.fieldError = function(field) {
         var form = $scope.formProjects;
         return ($scope.submited || form[field].$touched) && form[field].$invalid;
+    };
+    $scope.updateCode = function() {
+        $scope.project.code = $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase() + $scope.newCode;
     };
     $scope.updateSchools = function() {
         var schoolParams = {};
