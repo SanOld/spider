@@ -34,7 +34,7 @@
 								<h1 class="panel-title col-lg-6">Projekte</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Projekt hinzufügen</button>
+									<!--<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Projekt hinzufügen</button>-->
 								</div>
 							</div>
 							<div class="panel-body edit-user">
@@ -50,23 +50,7 @@
 												</div>
 												<div class="col-lg-2 col-width-type">
 													<div class="form-group">
-														<label>Typ</label>
-														<select class="type-user form-control">
-															<option>Alles anzeigen</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-lg-2 col-width-type">
-													<div class="form-group">
-														<label>Bezirk</label>
-														<select class="type-user form-control">
-															<option>Alles anzeigen</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-lg-2">
-													<div class="form-group">
-														<label>Schule</label>
+														<label>Schultyp</label>
 														<select class="type-user form-control">
 															<option>Alles anzeigen</option>
 														</select>
@@ -80,6 +64,23 @@
 														</select>
 													</div>
 												</div>
+												<div class="col-lg-2">
+													<div class="form-group">
+														<label>Schule</label>
+														<select class="type-user form-control">
+															<option>Alles anzeigen</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-lg-2 col-width-type">
+													<div class="form-group">
+														<label>Bezirk</label>
+														<select class="type-user form-control">
+															<option>Alles anzeigen</option>
+														</select>
+													</div>
+												</div>
+												
 												<div class="col-lg-2 reset-btn-width">
 													<button class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
 												</div>

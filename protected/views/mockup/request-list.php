@@ -53,7 +53,7 @@
 										<div class="col-lg-2">
 											<div class="form-group">
 												<div class="form-group">
-													<label>Antragstyp</label>
+													<label>Schultyp</label>
 													<select class="form-control">
 														<option>Alles anzeigen</option>
 													</select>
@@ -520,9 +520,9 @@
 										<div class="btn-row m-t-15 clearfix">
 											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Druck-Template wählen</button>
 											<button class="btn m-b-5" data-target="#modal-3" data-toggle="modal">Laufzeit festlegen</button>
-											<button class="btn m-b-5">Förderfähig</button>
+											<button class="btn m-b-5">Geprüft</button>
 											<button class="btn m-b-5">Genehmigung</button>
-											<button class="btn m-b-5 pull-right">Folgeantrag hinzufügen</button>
+											<!--<button class="btn m-b-5 pull-right">Folgeantrag hinzufügen</button>-->
 										</div>
 									</div>
 								</div>

@@ -288,7 +288,7 @@
 																</select>
 															</div>
 															<dl class="custom-dl">
-																<dt>Function:</dt>
+																<dt>Funktion:</dt>
 																<dd>Manager</dd>
 																<dt>Titel:</dt>
 																<dd>Some title</dd>
@@ -411,7 +411,7 @@
 																</select>
 															</div>
 															<dl class="custom-dl">
-																<dt>Function:</dt>
+																<dt>Funktion:</dt>
 																<dd>Manager</dd>
 																<dt>Titel:</dt>
 																<dd>Some title</dd>

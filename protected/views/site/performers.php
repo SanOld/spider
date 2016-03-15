@@ -1,6 +1,6 @@
 <?php
-$this->pageTitle = 'Träger Agentur | ' . Yii::app()->name;
-$this->breadcrumbs = array('Träger Agentur');
+$this->pageTitle = 'Träger | ' . Yii::app()->name;
+$this->breadcrumbs = array('Träger');
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/performers.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/users.js"></script>
@@ -11,10 +11,10 @@ $this->breadcrumbs = array('Träger Agentur');
 			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
-					<h1 class="panel-title col-lg-6">Träger Agentur</h1>
+					<h1 class="panel-title col-lg-6">Träger</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-						<button class="btn w-lg custom-btn" ng-if="canCreate()" ng-click="openEdit()">Agentur hinzufügen</button>
+						<!--<button class="btn w-lg custom-btn" ng-if="canCreate()" ng-click="openEdit()">Träger hinzufügen</button>-->
 					</div>
 				</div>
 				<div class="panel-body agency-edit">
