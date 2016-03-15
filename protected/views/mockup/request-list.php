@@ -32,7 +32,7 @@
 								<h1 class="panel-title col-lg-6">Anträge</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()" title="Drucken">Drucken <i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
+									<!--<button class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>-->
 								</div>
 							</div>
 							<div class="panel-body request-edit">
@@ -520,9 +520,9 @@
 										<div class="btn-row m-t-15 clearfix">
 											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Druck-Template wählen</button>
 											<button class="btn m-b-5" data-target="#modal-3" data-toggle="modal">Laufzeit festlegen</button>
-											<button class="btn m-b-5">Geprüft</button>
+											<button class="btn m-b-5">Förderfähig</button>
 											<button class="btn m-b-5">Genehmigung</button>
-											<!--<button class="btn m-b-5 pull-right">Folgeantrag hinzufügen</button>-->
+											<button class="btn m-b-5 pull-right">Folgeantrag hinzufügen</button>
 										</div>
 									</div>
 								</div>
@@ -563,7 +563,7 @@
 										  	<span class="cell-concept"></span>
 										    <span class="cell-school"></span>
 										</div>
-										Förderfähig 
+										Geprüft 
 									</div>
 									<div class="notice">
 										<div class="legends">

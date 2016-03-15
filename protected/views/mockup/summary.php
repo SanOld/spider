@@ -4,6 +4,12 @@
 		
 		<title>Finanzübersicht | SPIder</title>
 		<?php include('templates/head.php'); ?>
+        
+        <style>
+          .dt-edit {
+              display: none;
+          }
+        </style>
 	</head>
 
 	<body class="summary-page">
@@ -112,12 +118,12 @@
 													<td><a href="#">CJD Berlin</a></td>
 													<td>JSA</td>
 													<td>2016</td>
-													<td>€ 39,749.98</td>
-													<td>€ 6,624.00</td>
+													<td>€ 39.749,98</td>
+													<td>€ 6.624,00</td>
 													<td></td>
-													<td>€ 26,499.91</td>
-													<td>€ 8,743.00</td>
-													<td>€ 6,624.98</td>
+													<td>€ 26.499,91</td>
+													<td>€ 8.743,00</td>
+													<td>€ 6.624,98</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -132,12 +138,12 @@
 													<td><a href="#">Tandem BQG</a></td>
 													<td>JSA</td>
 													<td>2016</td>
-													<td>€ 54,860.00</td>
+													<td>€ 54.860,00</td>
 													<td></td>
 													<td></td>
-													<td>€ 36,573.33</td>
-													<td>€ 6,733.00</td>
-													<td>€ 18,286.67</td>
+													<td>€ 36.573,33</td>
+													<td>€ 6.733,00</td>
+													<td>€ 18.286,67</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -152,12 +158,12 @@
 													<td><a href="#">JaKuS gGmbH</a></td>
 													<td>BP</td>
 													<td>2016</td>
-													<td>€ 46,613.86</td>
-													<td>€ 7,768.98</td>
+													<td>€ 46.613,86</td>
+													<td>€ 7.768,98</td>
 													<td></td>
-													<td>€ 31,075.91</td>
-													<td>€ 17,623.00</td>
-													<td>€ 7,768.98</td>
+													<td>€ 31.075,91</td>
+													<td>€ 17.623,00</td>
+													<td>€ 7.768,98</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -172,12 +178,12 @@
 													<td><a href="#">EJF gAG</a></td>
 													<td>ZP_2017</td>
 													<td>2016</td>
-													<td>€ 76,168.48</td>
+													<td>€ 76.168,48</td>
 													<td></td>
 													<td></td>
-													<td>€ 50,778.99</td>
-													<td>€ 0.00</td>
-													<td>€ 25,389.49</td>
+													<td>€ 50.778,99</td>
+													<td>€ 0,00</td>
+													<td>€ 25.389,49</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -192,12 +198,12 @@
 													<td><a href="#">EJF gAG</a></td>
 													<td>BP</td>
 													<td>2016</td>
-													<td>€ 68,776.54</td>
+													<td>€ 68.776,54</td>
 													<td></td>
 													<td></td>
-													<td>€ 45,851.03</td>
-													<td>€ 1,225.00</td>
-													<td>€ 22,925.51</td>
+													<td>€ 45.851,03</td>
+													<td>€ 1.225,00</td>
+													<td>€ 22.925,51</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -212,12 +218,12 @@
 													<td><a href="#">Pad gGmbH</a></td>
 													<td>ZP_2017</td>
 													<td>2016</td>
-													<td>€ 7,633.44</td>
+													<td>€ 7.633,44</td>
 													<td></td>
 													<td></td>
-													<td>€ 5,088.96</td>
-													<td>€ 544.00</td>
-													<td>€ 2,544.48</td>
+													<td>€ 5.088,96</td>
+													<td>€ 544,00</td>
+													<td>€ 2.544,48</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -232,12 +238,12 @@
 													<td><a href="#">JaKuS gGmbH</a></td>
 													<td>JSA</td>
 													<td>2016</td>
-													<td>€ 31,637.43</td>
+													<td>€ 31.637,43</td>
 													<td></td>
-													<td>€ 100.00</td>
-													<td>€ 21,098.62</td>
-													<td>€ 0.00</td>
-													<td>€ 10,545.81</td>
+													<td>€ 100,00</td>
+													<td>€ 21.098,62</td>
+													<td>€ 0,00</td>
+													<td>€ 10.545,81</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -252,12 +258,12 @@
 													<td><a href="#">Horizonte gGmbH</a></td>
 													<td>BP</td>
 													<td>2016</td>
-													<td>€ 98,763.86</td>
+													<td>€ 98.763,86</td>
 													<td></td>
 													<td></td>
-													<td>€ 65,842.57</td>
-													<td>€ 50,000.00</td>
-													<td>€ 32,921.29</td>
+													<td>€ 65.842,57</td>
+													<td>€ 50.000,00</td>
+													<td>€ 32.921,29</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -272,12 +278,12 @@
 													<td><a href="#">Tandem BQG</a></td>
 													<td>ZP_2017</td>
 													<td>2016</td>
-													<td>€ 53,647.42</td>
+													<td>€ 53.647,42</td>
 													<td></td>
 													<td></td>
-													<td>€ 35,764.95</td>
-													<td>€ 0.00</td>
-													<td>€ 17,882.47</td>
+													<td>€ 35.764,95</td>
+													<td>€ 0,00</td>
+													<td>€ 17.882,47</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -292,12 +298,12 @@
 													<td><a href="#">CJD Berlin</a></td>
 													<td>JSA</td>
 													<td>2016</td>
-													<td>€ 87,443.54</td>
+													<td>€ 87.443,54</td>
 													<td></td>
-													<td>€ 100.00</td>
-													<td>€ 58,295.69</td>
-													<td>€ 1,000.00</td>
-													<td>€ 29,147.85</td>
+													<td>€ 100,00</td>
+													<td>€ 58.295,69</td>
+													<td>€ 1.000,00</td>
+													<td>€ 29.147,85</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -312,12 +318,12 @@
 													<td><a href="#">CJD Berlin</a></td>
 													<td>JSA</td>
 													<td>2016</td>
-													<td>€ 54,687.45</td>
-													<td>€ 9,114.58</td>
+													<td>€ 54.687,45</td>
+													<td>€ 9.114,58</td>
 													<td></td>
-													<td>€ 36,458.30</td>
-													<td>€ 0.00</td>
-													<td>€ 9,114.58</td>
+													<td>€ 36.458,30</td>
+													<td>€ 0,00</td>
+													<td>€ 9.114,58</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -332,12 +338,12 @@
 													<td><a href="#">Pad gGmbH</a></td>
 													<td>BP</td>
 													<td>2016</td>
-													<td>€ 18,676.35</td>
+													<td>€ 18.676,35</td>
 													<td></td>
-													<td>445.33</td>
-													<td>€ 12,450.90</td>
-													<td>€ 0.00</td>
-													<td>€ 6,225.45</td>
+													<td>445,33</td>
+													<td>€ 12.450,90</td>
+													<td>€ 0,00</td>
+													<td>€ 6.225,45</td>
 													<td>
 														<a href="financial-request.php" class="btn requsted-btn" title="Mittelabrufe">
 															<span></span>
@@ -353,12 +359,12 @@
 													    <th></th>
 														<th></th>
 														<th></th>
-														<th>€ 638,658.23</th>
-														<th>€ 23,508.53</th>
-														<th>€ 425,772.15</th>
-														<th>€ 143,163.69</th>
-														<th>€ 645.33</th>
-														<th>€ 189,377.55</th>
+														<th>€ 638.658,23</th>
+														<th>€ 23.508,53</th>
+														<th>€ 425.772,15</th>
+														<th>€ 143.163,69</th>
+														<th>€ 645,33</th>
+														<th>€ 189.377,55</th>
 														<th></th>
 													</tr>
 												</tfoot>
