@@ -7,8 +7,8 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 								<ul class="dropdown-menu">
 									<li><a href="summary.php">Finanzübersicht</a></li>
-									<li><a href="#financial-request.php" style="color: #aaa;">Mittelabrufe</a></li>
-									<li><a href="#finance-report.php" style="color: #aaa;">Belege</a></li>
+									<li><a href="financial-request.php">Mittelabrufe</a></li>
+									<li><a href="finance-report.php">Belege</a></li>
 									<!--<li><a href="finance-source.php">Fördertöpfe</a></li>-->
 								</ul>
 							</li>
