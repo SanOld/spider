@@ -46,6 +46,7 @@ body {
 	min-width: 1280px;
 	position:relative;
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
 }
 form label {
 	font-weight:500;
@@ -284,6 +285,9 @@ form .alert-danger {
 }
 .profile-box .caret {
 	margin-left: 15px;
+}
+body.safari .navbar-default.header-nav .navbar-nav > li > a {
+	padding: 12px 29px 15px;
 }
 .top-menu.profile-box li > a:hover,
 .top-menu.profile-box li > a:focus,
