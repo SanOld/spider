@@ -17,5 +17,5 @@
 </table>
 <div class="notice">
   <span class="color-notice"></span>
-  Deaktivierte Benutzer
+  Nicht aktiv Benutzer
 </div>

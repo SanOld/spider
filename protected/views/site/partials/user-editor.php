@@ -22,10 +22,10 @@
                       uib-btn-radio="1">AKTIV
               </button>
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 0}" ng-model="user.is_active"
-                      uib-btn-radio="0">DEAKTIVIEREN
+                      uib-btn-radio="0">NICHT AKTIV
               </button>
             </div>
-            <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Deaktivieren'}}</span>
+            <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Nicht aktiv'}}</span>
             <span spi-hint text="_hint.is_active"></span>
           </div>
         </div>
@@ -48,54 +48,24 @@
                 </ui-select-choices>
               </ui-select>
 								<span ng-show="fieldError('type_id')">
-									<label ng-show="form.type_id.$error.required" class="error">Benutzer-Typ is required</label>
+									<label ng-show="form.type_id.$error.required" class="error">Benutzer-Typ erforderlich</label>
 								</span>
             </div>
           </div>
 
         </div>
-        <div ng-if="(isInsert && isRelation) || (!isInsert && relation_name)" class="form-group">
-          <label class="col-lg-2 control-label">Akteur</label>
+        
+        <div class="form-group" ng-if="!(modeView && !user.function)">
+          <label class="col-lg-2 control-label" for="title">Funktion</label>
 
-          <div ng-if="!isInsert" class="col-lg-10">
-            <span class="no-edit-text">{{relation_name}}</span>
-            <span spi-hint text="_hint.relation_id"></span>
-          </div>
-
-          <div ng-if="isInsert" class="col-lg-10">
-            <div spi-hint text="_hint.relation_id" class="has-hint"></div>
-
-            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('relation_id')}">
-              <ui-select ng-disabled="!$select.items.length" ng-model="user.relation_id" name="relation_id" required>
-                <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
-                  {{$select.selected.name}}
-                </ui-select-match>
-                <ui-select-choices repeat="item.id as item in relations | filter: $select.search">
-                  <span ng-bind-html="item.name | highlight: $select.search"></span>
-                </ui-select-choices>
-              </ui-select>
-								<span ng-show="fieldError('relation_id')">
-									<label ng-show="form.type_id.$error.required" class="error">Akteur is required</label>
-								</span>
+          <div class="col-lg-4">
+            <div spi-hint text="_hint.function" class="has-hint"></div>
+            <div class="wrap-hint">
+              <input id="title" class="form-control" ng-model="user.function" type="text" value="">
             </div>
           </div>
         </div>
-        <div class="form-group" ng-if="isPerformer">
-          <label class="col-lg-2 control-label two-line">Finanzielle Rechte</label>
-
-          <div class="col-lg-10">
-            <div ng-if="!isCurrentUser && !modeView" class="btn-group btn-toggle">
-              <button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 1}" ng-model="user.is_finansist"
-                      uib-btn-radio="1">JA
-              </button>
-              <button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 0}" ng-model="user.is_finansist"
-                      uib-btn-radio="0">NEIN
-              </button>
-            </div>
-            <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_finansist ? 'Ja' : 'Nein'}}</span>
-            <span spi-hint text="_hint.is_finansist"></span>
-          </div>
-        </div>
+        
         <div class="form-group">
           <label class="col-lg-2 control-label">Anrede</label>
 
@@ -117,13 +87,129 @@
               <span spi-hint text="_hint.sex"></span>
             </div>
             <div ng-show="fieldError('sex')">
-              <label class="error" ng-show="form.sex.$error.required">Anrede is required</label>
+              <label class="error" ng-show="form.sex.$error.required">Anrede erforderlich</label>
             </div>
           </div>
         </div>
+        
+        
+        
+        
+        <div ng-if="(isInsert && isRelation) || (!isInsert && relation_name)" class="form-group">
+          <label class="col-lg-2 control-label">Akteur</label>
+
+          <div ng-if="!isInsert" class="col-lg-10">
+            <span class="no-edit-text">{{relation_name}}</span>
+            <span spi-hint text="_hint.relation_id"></span>
+          </div>
+
+          <div ng-if="isInsert" class="col-lg-10">
+            <div spi-hint text="_hint.relation_id" class="has-hint"></div>
+
+            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('relation_id')}">
+              <ui-select ng-disabled="!$select.items.length" ng-model="user.relation_id" name="relation_id" required>
+                <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                  {{$select.selected.name}}
+                </ui-select-match>
+                <ui-select-choices repeat="item.id as item in relations | filter: $select.search">
+                  <span ng-bind-html="item.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+								<span ng-show="fieldError('relation_id')">
+									<label ng-show="form.type_id.$error.required" class="error">Akteur erforderlich</label>
+								</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" ng-if="isPerformer">
+          <label class="col-lg-2 control-label two-line">Finanzielle Rechte</label>
+
+          <div class="col-lg-10">
+            <div ng-if="!isCurrentUser && !modeView" class="btn-group btn-toggle">
+              <button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 1}" ng-model="user.is_finansist"
+                      uib-btn-radio="1">JA
+              </button>
+              <button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 0}" ng-model="user.is_finansist"
+                      uib-btn-radio="0">NEIN
+              </button>
+            </div>
+            <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_finansist ? 'Ja' : 'Nein'}}</span>
+            <span spi-hint text="_hint.is_finansist"></span>
+          </div>
+        </div>
+<!--        <div class="form-group">
+          <label class="col-lg-2 control-label">Anrede</label>
+
+          <div class="col-lg-10 holder-label-radio">
+            <div class="radio-inline" ng-if="!modeView && canEdit()">
+              <label for="radio1" class="cr-styled">
+                <input type="radio" ng-model="user.sex" name="sex" value="1" id="radio1" ng-required="!user.sex">
+                <i class="fa"></i>
+                Herr
+              </label>
+            </div>
+            <div class="radio-inline">
+              <label for="radio2" class="cr-styled" ng-if="!modeView && canEdit()">
+                <input type="radio" ng-model="user.sex" name="sex" value="2" id="radio2" ng-required="!user.sex">
+                <i class="fa"></i>
+                Frau
+              </label>
+              <span ng-if="modeView || !canEdit()" class="no-edit-text">{{user.sex == '1' ? 'Herr' : 'Frau'}}</span>
+              <span spi-hint text="_hint.sex"></span>
+            </div>
+            <div ng-show="fieldError('sex')">
+              <label class="error" ng-show="form.sex.$error.required">Anrede erforderlich</label>
+            </div>
+          </div>
+        </div>-->
         <div class="row">
           <div class="col-lg-6">
+            
             <div class="form-group" ng-if="!(modeView && !user.title)">
+          <label class="col-lg-4 control-label" for="title">Titel</label>
+
+          <div class="col-lg-8">
+            <div spi-hint text="_hint.title" class="has-hint"></div>
+            <div class="wrap-hint">
+              <input id="title" class="form-control" ng-model="user.title" type="text" value="">
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group has-feedback">
+          <label class="col-lg-4 control-label" for="first_name">Vorname</label>
+          <div class="col-lg-8">
+            <div spi-hint text="_hint.first_name" class="has-hint"></div>
+            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('first_name')}">
+              <input class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name"
+                     value="" ng-minlength="2" ng-maxlength="45" required>
+                <span ng-show="fieldError('first_name')">
+                <label ng-show="form.first_name.$error.required" class="error">Vorname erforderlich</label>
+                <label ng-show="form.first_name.$error.minlength" class="error">Vorname is too short</label>
+                <label ng-show="form.first_name.$error.maxlength" class="error">Vorname is too long</label>
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group has-feedback">
+          <label class="col-lg-4 control-label" for="lname">Nachname</label>
+          <div class="col-lg-8">
+            <div spi-hint text="_hint.last_name" class="has-hint"></div>
+            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('last_name')}">
+              <input class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
+                     ng-minlength="2" ng-maxlength="45" required>
+              <span ng-show="fieldError('last_name')">
+                <label ng-show="form.last_name.$error.required" class="error">Nachname erforderlich</label>
+                <label ng-show="form.last_name.$error.minlength" class="error">Nachname is too short</label>
+                <label ng-show="form.last_name.$error.maxlength" class="error">Nachname is too long</label>
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+            
+<!--            <div class="form-group" ng-if="!(modeView && !user.title)">
               <label class="col-lg-4 control-label" for="title">Titel</label>
 
               <div class="col-lg-8">
@@ -132,8 +218,8 @@
                   <input id="title" class="form-control" ng-model="user.title" type="text" value="">
                 </div>
               </div>
-            </div>
-            <div class="form-group" ng-if="!(modeView && !user.function)">
+            </div>-->
+<!--            <div class="form-group" ng-if="!(modeView && !user.function)">
               <label class="col-lg-4 control-label" for="title">Funktion</label>
 
               <div class="col-lg-8">
@@ -142,8 +228,8 @@
                   <input id="title" class="form-control" ng-model="user.function" type="text" value="">
                 </div>
               </div>
-            </div>
-            <div class="form-group has-feedback">
+            </div>-->
+<!--            <div class="form-group has-feedback">
               <label class="col-lg-4 control-label" for="first_name">Vorname</label>
               <div class="col-lg-8">
                 <div spi-hint text="_hint.first_name" class="has-hint"></div>
@@ -151,7 +237,7 @@
                   <input class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name"
                          value="" ng-minlength="2" ng-maxlength="45" required>
                     <span ng-show="fieldError('first_name')">
-                    <label ng-show="form.first_name.$error.required" class="error">Vorname is required</label>
+                    <label ng-show="form.first_name.$error.required" class="error">Vorname erforderlich</label>
                     <label ng-show="form.first_name.$error.minlength" class="error">Vorname is too short</label>
                     <label ng-show="form.first_name.$error.maxlength" class="error">Vorname is too long</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -167,14 +253,14 @@
                   <input class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
                          ng-minlength="2" ng-maxlength="45" required>
                   <span ng-show="fieldError('last_name')">
-                    <label ng-show="form.last_name.$error.required" class="error">Nachname is required</label>
+                    <label ng-show="form.last_name.$error.required" class="error">Nachname erforderlich</label>
                     <label ng-show="form.last_name.$error.minlength" class="error">Nachname is too short</label>
                     <label ng-show="form.last_name.$error.maxlength" class="error">Nachname is too long</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                   </span>
                 </div>
               </div>
-            </div>
+            </div>-->
 
           </div>
           <div class="col-lg-6">
@@ -187,7 +273,7 @@
                   <input class="form-control" type="text" name="login" ng-model="user.login" id="login" value=""
                          ng-disabled="isCurrentUser && !isAdmin" ng-minlength="3" ng-maxlength="45" required>
 									<span ng-show="fieldError('login')">
-										<label ng-show="form.login.$error.required" class="error">Benutzername is required</label>
+										<label ng-show="form.login.$error.required" class="error">Benutzername erforderlich</label>
 										<label ng-show="form.login.$error.minlength" class="error">Benutzername is too short</label>
 										<label ng-show="form.login.$error.maxlength" class="error">Benutzername is too long</label>
                     <label ng-show="error.login.dublicate" class="error">This Username already registered</label>
@@ -205,7 +291,7 @@
                   <input class="form-control" type="email" name="email" ng-model="user.email" id="email" value=""
                          ng-maxlength="45" required>
 									<span ng-show="fieldError('email')">
-										<label ng-show="form.email.$error.required" class="error">Email is required</label>
+										<label ng-show="form.email.$error.required" class="error">Email erforderlich</label>
 										<label ng-show="form.email.$error.email" class="error">Enter a valid email</label>
 										<label ng-show="form.email.$error.maxlength" class="error">Username is too long</label>
 										<label ng-show="error.email.dublicate" class="error">This email already registered</label>
@@ -256,7 +342,7 @@
                 <input class="form-control" name="password" ng-model="user.password" type="password" value=""
                        ng-minlength="3" ng-required="isInsert">
 								  <span ng-show="fieldError('password')">
-                    <label ng-show="form.password.$error.required" class="error">Passwort is required</label>
+                    <label ng-show="form.password.$error.required" class="error">Passwort erforderlich</label>
                     <label ng-show="form.password.$error.minlength" class="error">Passwort is too short</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								  </span>
