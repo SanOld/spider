@@ -4,12 +4,6 @@
 		
 		<title>Finanzübersicht | SPIder</title>
 		<?php include('templates/head.php'); ?>
-        
-        <style>
-          .dt-edit {
-              display: none;
-          }
-        </style>
 	</head>
 
 	<body class="summary-page">

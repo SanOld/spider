@@ -11,7 +11,7 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
 
   $scope.statuses = [
     {id: 1, name: 'Aktiv'},
-    {id: 0, name: 'Deaktivieren'}
+    {id: 0, name: 'Nicht aktiv'}
   ];
 
   network.get('user_type', angular.merge({filter: 1}, $scope.filter['type'] ? {type: $scope.filter['type']} : {}), function (result, response) {

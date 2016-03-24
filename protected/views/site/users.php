@@ -42,8 +42,8 @@ $this->breadcrumbs = array('Benutzerliste');
 									</div>
 									<div class="col-lg-4 add">
 										<div class="form-group">
-											<label>Akteur</label>
-											<input ng-change="updateGrid()" type="text" ng-model="filter.relation_name" placeholder="Akteurname eingeben" class="search-relation form-control">
+											<label>Suche nach Akteur</label>
+											<input ng-change="updateGrid()" type="text" ng-model="filter.relation_name" placeholder="Stichwort eingeben" class="search-relation form-control">
 										</div>
 									</div>
 									<div class="col-lg-2">
