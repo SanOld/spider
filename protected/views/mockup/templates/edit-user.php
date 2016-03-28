@@ -27,7 +27,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2">Benutzer-Typ</label>
+								<label class="col-lg-2">Benutzerrollen</label>
 	                            <div class="col-lg-10">
 	                            	<span class="no-edit-text">Träger</span>
 									<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn btn-question" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">

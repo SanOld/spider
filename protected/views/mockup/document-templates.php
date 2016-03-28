@@ -44,18 +44,20 @@
 											<form action="#" class="class-form">
 												<div class="col-lg-5">
 													<div class="form-group">
-														<label>Suche nach Namen und Typ</label>
+														<label>Suche nach Namen und Dokument-Typ</label>
 														<input type="search" class="form-control" placeholder="Eingegeben">
 													</div>
 												</div>
 												<div class="col-lg-5">
 													<div class="form-group">
-														<label>Typ</label>
+														<label>Dokument-Typ</label>
 														<select class="type-user form-control">
 															<option>Alles anzeigen</option>
-															<option>Typ 1</option>
-															<option>Typ 2</option>
-															<option>Typ 3</option>
+															<option>Fördervertrag</option>
+															<option>Zielvereinbarung</option>
+															<option>Antrag</option>
+															<option>Mittelabruf</option>
+															<option>Verwendungsnachweis</option>
 														</select>
 													</div>
 												</div>
@@ -70,7 +72,7 @@
 												<tr>
 													<th>Name</th>
 													<th>Typ</th>
-													<th>Letzte Änd.</th>
+													<th>Letzte Änderung</th>
 													<th>
 														<span>Ansicht</span>
 														<span>Bearbeiten</span>
@@ -84,7 +86,9 @@
 													<td>Typ 1</td>
 													<td>24.03.2010, 16:04 von Markus Prill</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht">
+															<i class="ion-document-text"></i>
+														</a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -95,7 +99,7 @@
 													<td>Typ 1</td>
 													<td>02.09.2011, 14:24 von Anita Reindl</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -106,7 +110,7 @@
 													<td>Typ 1</td>
 													<td>24.03.2010, 16:04 von Frank Kiepert</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -117,7 +121,7 @@
 													<td>Typ 2</td>
 													<td>02.09.2011, 14:24 von Undine Zeibig</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -128,7 +132,7 @@
 													<td>Typ 2</td>
 													<td>24.03.2010, 16:04 von Brigitte Bollinger</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -139,7 +143,7 @@
 													<td>Typ 2</td>
 													<td>02.09.2011, 14:24 von Werner Munk</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -150,7 +154,7 @@
 													<td>Typ 2</td>
 													<td>02.09.2011, 14:24 von Sabina Kästner</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -161,7 +165,7 @@
 													<td>Typ 3</td>
 													<td>24.03.2010, 16:04 von Markus Prill</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -172,7 +176,7 @@
 													<td>Typ 3</td>
 													<td>24.03.2010, 16:04 von Anita Reindl</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -183,7 +187,7 @@
 													<td>Typ 3</td>
 													<td>02.09.2011, 14:24 von Frank Kiepert</td>
 													<td class="text-center">
-														<a class="btn document" href="view-document.php"><i class="ion-document-text" title="Ansicht"></i></a>
+														<a class="btn edit-btn"  data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn"  data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -314,28 +318,24 @@
 			
 											<tbody>
 												<tr>
-													<td>KENNZIFFER</td>
-													<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </td>
-												</tr>
-												<tr>
-													<td>TRAEGER</td>
-													<td>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</td>
-												</tr>
-												<tr>
-													<td>ZEITRAUM</td>
-													<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </td>
+													<td>AUFLAGEN</td>
+													<td>Bei der Antragsabnahme können Auflagen durch die Programmagentur hinzugefügt bzw. formuliert werden.</td>
 												</tr>
 												<tr>
 													<td>FOERDERSUMME</td>
-													<td>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </td>
+													<td>Die Fördersumme aus dem förderfähigen Antrag.</td>
 												</tr>
 												<tr>
-													<td>AUFLAGEN</td>
-													<td>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</td>
+													<td>KENNZIFFER</td>
+													<td>Die Kennziffer des Projekts wird aus dem Antrag übernommen.</td>
 												</tr>
 												<tr>
-													<td>KONTONUMMER</td>
-													<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </td>
+													<td>TRAEGER</td>
+													<td>Name und Adresse des antragsstellenden Trägers.</td>
+												</tr>
+												<tr>
+													<td>ZEITRAUM</td>
+													<td>Laufzeit laut förderfähigem Antrag (Beginn und Ende).</td>
 												</tr>
 											</tbody>
 										</table>
@@ -350,6 +350,66 @@
 		</div>
 
 <!--End Edit Doc templ -->
+
+<!--View Doc-->
+
+		<div id="modal-3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-width-full">
+				<div class="panel panel-color panel-primary">
+					<div class="panel-heading clearfix"> 
+						<h3 class="m-0 pull-left">Druck-Template bearbeiten - FV_2013_Sonderkündigung</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
+					</div>
+
+                  
+                  <div class="panel-body edit-user doc-template">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            Zwischen<br/>
+                            der<br/>
+                            Stiftung Sozialpädagogisches Institut Berlin<br/>
+                            Programmagentur “Jugendsozialarbeit an Berliner Schulen”<br/>
+                            Schicklerstraße 5-7 in 10179 Berlin<br/>
+
+                            - nachstehend Programmagentur SPI genannt -<br/>
+                            und dem Träger<br/>
+
+                            <strong>{TRAEGER}</strong> mit der Kennziffer <strong>{KENNZIFFER}</strong><br/>
+
+                            - nachstehend Förderungsempfänger genannt -<br/>
+                            wird folgender<br/>
+                            <h3>FÖRDERVERTRAG (Weiterleitungsvertrag)</h3>
+                            geschlossen.<br/>
+
+                            <h4>§ 1 Grundsätzliche Regelungen</h4>
+
+                            (1) Die Programmagentur SPI ist vom Land Berlin, vertreten durch die Senatsverwaltung für Bildung, Jugend und Wissenschaft beauftragt worden, das Programm „Jugendsozialarbeit an Berliner Schulen“ umzusetzen. Das Programm wird durch Mittel des Berliner Landeshaushalts finanziert.<br/>
+
+                            (2) Zur Umsetzung des Programms entwickeln die freien Träger der Kinder- und Jugendhilfe zusammen mit einer Schule bzw. mehreren Schulen (betrifft Jugendsozialarbeit mit besonderen Aufgaben) konkrete auf die jeweilige Schule bezogene Konzepte. Dazu werden Kooperationsverträge zwischen den Schulen und den freien Trägern der Kinder- und Jugendhilfe abgeschlossen.<br/>
+
+                            (3) Die freien Träger verpflichten sich, das Gender-Mainstreaming-Prinzip anzuwenden, d. h. bei der Planung, Durchführung und Begleitung der Maßnahme sind Auswirkungen auf die Gleichstellung von Frauen und Männern aktiv zu berücksichtigen und in der Berichterstattung darzustellen.<br/>
+
+                            <h4>§ 2 Vertragsgegenstand und -bestandteile</h4>
+
+                            (1) Gegenstand dieses privatrechtlichen Vertrages ist die Weitergabe von Zuwendungen des Landes Berlin durch die Programmagentur SPI an die Förderungsempfänger auf der Grundlage entsprechender Bewilligungsbescheide der Senatsverwaltung für Bildung, Jugend und Wissenschaft.<br/>
+
+                            (2) Bestandteile dieses Vertrages sind – in ihrer jeweils geltenden Fassung – insbesondere:<br/>
+                            Antrag des Förderungsempfängers inkl. Finanzplan,
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group group-btn m-t-15">
+                        <div class="col-lg-10 text-right pull-right">
+                            <button class="btn w-lg custom-btn" data-dismiss="modal">Schließen</button>
+                        </div>
+                    </div>
+                  </div>
+				</div>
+				
+			</div>
+		</div>
+
+<!-- End View Doc -->
 
 		<div class="md-overlay"></div>
 		

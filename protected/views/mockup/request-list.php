@@ -16,7 +16,7 @@
 				
 			<div class="container">
 				<ul class="breadcrumb p-0">
-					<li><a href="#">Home</a></li>
+					<li><a href="performers#id=2">Home</a></li>
 					<li class="active">Anträge</li>
 				</ul>
 			</div>
@@ -105,37 +105,37 @@
 								<div class="overview">
 									<h2>Statusüberblick</h2>
 									<div class="box-overview">
-										<a href="#">
+										<a href="performers#id=2">
 											<span>In Bearbeitung</span>
 											<strong>253</strong>
 										</a>
 									</div>
 									<div class="box-overview">
-										<a href="#">
+										<a href="performers#id=2">
 											<span>Empfangen</span>
 											<strong>2</strong>
 										</a>
 									</div>
 									<div class="box-overview">
-										<a href="#">
+										<a href="performers#id=2">
 											<span>Zurücksendet</span>
 											<strong>0</strong>
 										</a>
 									</div>
 									<div class="box-overview">
-										<a href="#">
+										<a href="performers#id=2">
 											<span>Berechtigt</span>
 											<strong>0</strong>
 										</a>
 									</div>
 									<div class="box-overview">
-										<a href="#">
+										<a href="performers#id=2">
 											<span>Genehmigt</span>
 											<strong>3</strong>
 										</a>
 									</div>
 									<div class="box-overview">
-										<a href="#">
+										<a href="performers#id=2">
 											<span>Ge­samt­zahl</span>
 											<strong>258</strong>
 										</a>
@@ -192,8 +192,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">K026</a></td>
-													<td><a href="#">Horizonte gGmbH</a></td>
+													<td><a href="projects-list.php#id=1">K026</a></td>
+													<td><a href="performers#id=2">Horizonte gGmbH</a></td>
 													<td>JSA</td>
 													<td>2016</td>
 													<td>Förderfähig</td>
@@ -216,8 +216,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">G053</a></td>
-													<td><a href="#">CJD Berlin</a></td>
+													<td><a href="projects-list.php#id=1">G053</a></td>
+													<td><a href="performers#id=2">CJD Berlin</a></td>
 													<td>BP</td>
 													<td>2016</td>
 													<td>Unbearbeitet</td>
@@ -251,8 +251,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">K026</a></td>
-													<td><a href="#">Tandem BQG</a></td>
+													<td><a href="projects-list.php#id=1">K026</a></td>
+													<td><a href="performers#id=2">Tandem BQG</a></td>
 													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>Unbearbeitet</td>
@@ -286,8 +286,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">G053</a></td>
-													<td><a href="#">Tandem BQG</a></td>
+													<td><a href="projects-list.php#id=1">G053</a></td>
+													<td><a href="performers#id=2">Tandem BQG</a></td>
 													<td>BP</td>
 													<td>2016</td>
 													<td>Unbearbeitet</td>
@@ -321,8 +321,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">K026</a></td>
-													<td><a href="#">JaKuS gGmbH</a></td>
+													<td><a href="projects-list.php#id=1">K026</a></td>
+													<td><a href="performers#id=2">JaKuS gGmbH</a></td>
 													<td>JSA</td>
 													<td>2016</td>
 													<td>Förderfähig</td>
@@ -345,8 +345,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">G053</a></td>
-													<td><a href="#">EJF gAG</a></td>
+													<td><a href="projects-list.php#id=1">G053</a></td>
+													<td><a href="performers#id=2">EJF gAG</a></td>
 													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>Bitte Bearbeiten</td>
@@ -380,8 +380,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">K026</a></td>
-													<td><a href="#">Pad gGmbH</a></td>
+													<td><a href="projects-list.php#id=1">K026</a></td>
+													<td><a href="performers#id=2">Pad gGmbH</a></td>
 													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>Förderfähig</td>
@@ -404,8 +404,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">K026</a></td>
-													<td><a href="#">JaKuS gGmbH</a></td>
+													<td><a href="projects-list.php#id=1">K026</a></td>
+													<td><a href="performers#id=2">JaKuS gGmbH</a></td>
 													<td>BP</td>
 													<td>2016</td>
 													<td>Genehmigt</td>
@@ -428,8 +428,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">G053</a></td>
-													<td><a href="#">CJD Berlin</a></td>
+													<td><a href="projects-list.php#id=1">G053</a></td>
+													<td><a href="performers#id=2">CJD Berlin</a></td>
 													<td>ZP_2017</td>
 													<td>2016</td>
 													<td>Nur Leserecht</td>
@@ -463,8 +463,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">K026</a></td>
-													<td><a href="#">Horizonte gGmbH</a></td>
+													<td><a href="projects-list.php#id=1">K026</a></td>
+													<td><a href="performers#id=2">Horizonte gGmbH</a></td>
 													<td>JSA</td>
 													<td>2016</td>
 													<td>Genehmigt</td>
@@ -487,8 +487,8 @@
 															<i class="fa"></i>
 														</label>
 													</td>
-													<td><a href="order.php">G053</a></td>
-													<td><a href="#">Tandem BQG</a></td>
+													<td><a href="projects-list.php#id=1">G053</a></td>
+													<td><a href="performers#id=2">Tandem BQG</a></td>
 													<td>BP</td>
 													<td>2016</td>
 													<td>Nur Leserecht</td>

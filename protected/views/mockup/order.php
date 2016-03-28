@@ -1308,7 +1308,7 @@
 													</div>
 													<div class="row">
 														<div class="col-lg-10">
-															<h4 class="m-t-0">Kommentare</h4>
+															<h4 class="m-t-0">Prüfnotiz</h4>
 															<textarea placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
 														</div>
 
@@ -1391,7 +1391,7 @@
 																<hr />
 																<div class="row">
 																	<div class="col-lg-10">
-																		<h4 class="m-t-0">Kommentare</h4>
+																		<h4 class="m-t-0">Prüfnotiz</h4>
 																		<textarea placeholder="Tragen Sie den Text hier ein" class="form-control comments"></textarea>
 																	</div>
 															
@@ -1973,7 +1973,7 @@
 																	<hr />
 																	<div class="row">
 																		<div class="col-lg-9">
-																			<h4 class="m-t-0">Kommentare</h4>
+																			<h4 class="m-t-0">Prüfnotiz</h4>
 																			<textarea placeholder="Tragen Sie den Text hier ein here" class="form-control"></textarea>
 																		</div>
 

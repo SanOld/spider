@@ -31,6 +31,9 @@ class Page extends BaseModel {
     if(!safe($params, 'ALL')) {
       $command->andWhere('tbl.is_real_page = 1');
     }
+    if(!safe($params, 'SYSTEM')) {
+      $command->andWhere('tbl.is_system = 0');
+    }
     return $command;
   }
 

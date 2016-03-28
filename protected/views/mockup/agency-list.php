@@ -963,7 +963,7 @@
 															</div>
 															<div class="col-lg-4">
 																<div class="form-group">
-																	<label>Benutzer-Typ</label>
+																	<label>Benutzerrollen</label>
 																	<select class="type-user form-control">
 																		<option>Performer (F)</option>
 																		<option>Performer</option>
@@ -989,7 +989,7 @@
 														<thead>
 															<tr>
 																<th>Name</th>
-																<th class="select-filter">Benutzer-Typ</th>
+																<th class="select-filter">Benutzerrollen</th>
 																<th>Benutzername</th>
 																<th>Email</th>
 																<th>Telefon</th>

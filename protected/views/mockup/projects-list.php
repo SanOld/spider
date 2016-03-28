@@ -100,10 +100,10 @@
 			
 											<tbody>
 												<tr>
-													<td><a href="#">B026</a></td>
-													<td><a href="#">Pestalozzi-Schule (06S01)</a></td>
-													<td><a href="#">Träger Nachbarschaftsheim Schöneberg e.V.</a></td>
-													<td class="custom-data"><a href="#">Bezirk Neukolln</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">B026</a></td>
+													<td><a href="schools#id=4">Pestalozzi-Schule (06S01)</a></td>
+													<td><a href="performers#id=2">Träger Nachbarschaftsheim Schöneberg e.V.</a></td>
+													<td class="custom-data"><a href="districts#id=1">Bezirk Neukolln</a></td>
 													<td>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
@@ -111,10 +111,10 @@
 													</td>
 												</tr>
 												<tr>
-													<td><a href="#">B053</a></td>
-													<td><a href="#">Pestalozzi-Schule (06S01)</a></td>
-													<td><a href="#">JAO gGmbH</a></td>
-													<td class="custom-data"><a href="#">Bezirk Pankow</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">B053</a></td>
+													<td><a href="schools#id=4">Pestalozzi-Schule (06S01)</a></td>
+													<td><a href="performers#id=2">JAO gGmbH</a></td>
+													<td class="custom-data"><a href="districts#id=1">Bezirk Pankow</a></td>
 													 <td>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
@@ -122,10 +122,10 @@
 													</td>
 												</tr>
 												<tr>
-													<td><a href="#">Z026</a></td>
-													<td class="custom-data"><a href="#">Lina Morgenstern (02K04)</a></td>
-													<td><a href="#">Horizonte gGmbH</a></td>
-													<td><a href="#">Lina Morgenstern</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">Z026</a></td>
+													<td class="custom-data"><a href="schools#id=4">Lina Morgenstern (02K04)</a></td>
+													<td><a href="performers#id=2">Horizonte gGmbH</a></td>
+													<td><a href="districts#id=1">Lina Morgenstern</a></td>
 													 <td>
 													 	<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
@@ -133,10 +133,10 @@
 													</td>
 												</tr>
 												<tr>
-													<td><a href="#">G053</a></td>
-													<td><a href="#">Solling-Schule (ISS) (07K05)</a></td>
-													<td><a href="#">LebensWelt</a></td>
-													<td><a href="#">Bezirk Neukolln</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">G053</a></td>
+													<td><a href="schools#id=4">Solling-Schule (ISS) (07K05)</a></td>
+													<td><a href="performers#id=2">LebensWelt</a></td>
+													<td><a href="districts#id=1">Bezirk Neukolln</a></td>
 													 <td>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
@@ -144,10 +144,10 @@
 													</td>
 												</tr>
 												<tr>
-													<td><a href="#">B026</a></td>
-													<td><a href="#">Solling-Schule (ISS) (07K05)</a></td>
-													<td><a href="#">JAO gGmbH</a></td>
-													<td class="custom-data"><a href="#">Bezirk Neukolln</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">B026</a></td>
+													<td><a href="schools#id=4">Solling-Schule (ISS) (07K05)</a></td>
+													<td><a href="performers#id=2">JAO gGmbH</a></td>
+													<td class="custom-data"><a href="districts#id=1">Bezirk Neukolln</a></td>
 													 <td>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
@@ -155,10 +155,10 @@
 													</td>
 												</tr>
 												<tr>
-													<td><a href="#">S053</a></td>
-													<td><a href="#">Biesalski-Schule (06S02)</a></td>
-													<td><a href="#">AWO Südost</a></td>
-													<td><a href="#">Bezirk Pankow</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">S053</a></td>
+													<td><a href="schools#id=4">Biesalski-Schule (06S02)</a></td>
+													<td><a href="performers#id=2">AWO Südost</a></td>
+													<td><a href="districts#id=1">Bezirk Pankow</a></td>
 													 <td>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
@@ -166,10 +166,10 @@
 													</td>
 												</tr>
 												<tr>
-													<td><a href="#">K026</a></td>
-													<td><a href="#">Biesalski-Schule (06S02)</a></td>
-													<td><a href="#">Arbeit und Bildung e.V.</a></td>
-													<td><a href="#">Bezirk Pankow</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">K026</a></td>
+													<td><a href="schools#id=4">Biesalski-Schule (06S02)</a></td>
+													<td><a href="performers#id=2">Arbeit und Bildung e.V.</a></td>
+													<td><a href="districts#id=1">Bezirk Pankow</a></td>
 													 <td>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
@@ -177,10 +177,10 @@
 													</td>
 												</tr>
 												<tr>
-													<td><a href="#">Z053</a></td>
-													<td class="custom-data"><a href="#">Biesalski-Schule (06S02)</a></td>
-													<td><a href="#">Stadtteilzentrum Steglitz e.V.</a></td>
-													<td><a href="#">Bezirk Neukolln</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">Z053</a></td>
+													<td class="custom-data"><a href="schools#id=4">Biesalski-Schule (06S02)</a></td>
+													<td><a href="performers#id=2">Stadtteilzentrum Steglitz e.V.</a></td>
+													<td><a href="districts#id=1">Bezirk Neukolln</a></td>
 													 <td>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
@@ -188,10 +188,10 @@
 													</td>
 												</tr>
 												<tr>
-													<td><a href="#">K026</a></td>
-													<td><a href="#">Biesalski-Schule (06S02)</a></td>
-													<td><a href="#">gss Schulpartner GmbH</a></td>
-													<td><a href="#">Bezirk Pankow</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">K026</a></td>
+													<td><a href="schools#id=4">Biesalski-Schule (06S02)</a></td>
+													<td><a href="performers#id=2">gss Schulpartner GmbH</a></td>
+													<td><a href="districts#id=1">Bezirk Pankow</a></td>
 													 <td>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
@@ -199,14 +199,14 @@
 													</td>
 												</tr>
 												<tr>
-													<td><a href="#">S053</a></td>
+													<td><a data-target="#modal-1" data-toggle="modal" href="#">S053</a></td>
 													<td>
-														<a href="#">Solling-Schule (ISS) (07K05)</a><br/>
-														<a href="#">Pestalozzi-Schule (06S01)</a><br/>
-														<a href="#">Biesalski-Schule (06S02)</a>
+														<a href="schools#id=4">Solling-Schule (ISS) (07K05)</a><br/>
+														<a href="schools#id=4">Pestalozzi-Schule (06S01)</a><br/>
+														<a href="schools#id=4">Biesalski-Schule (06S02)</a>
 													</td>
-													<td><a href="#">LebensWelt</a></td>
-													<td><a href="#">Bezirk Pankow</a></td>
+													<td><a href="performers#id=2">LebensWelt</a></td>
+													<td><a href="districts#id=1">Bezirk Pankow</a></td>
 													 <td>
 														<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>

@@ -34,7 +34,7 @@
 								<div class="panel-heading heading-noborder clearfix">
 									<h1 class="panel-title col-lg-6">Benutzerrollen</h1>
 									<div class="pull-right heading-box-print">
-										<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Benutzer-Typ hinzufügen</button>
+										<button class="btn w-lg custom-btn" data-target="#modal-2" data-toggle="modal">Benutzerrollen hinzufügen</button>
 									</div>
 								</div>
 								<div class="panel-body roles-edit">
@@ -42,7 +42,7 @@
 									<table id="datatable" class="table table-hover table-bordered table-edit">
 										<thead>
 											<tr>
-												<th>Benutzer-Typ</th>
+												<th>Benutzerrollen</th>
 												<th>Organisationstyp</th>
 												<th></th>
 											</tr>
@@ -127,10 +127,10 @@
 				<div class="panel-body table-modal">
 					<div class="form-group custom-field row clearfix">
 						<div class="form-group col-lg-6">
-							<label>Benutzer-Typ</label>
+							<label>Benutzerrollen</label>
 							<div class="wrap-line error">
 								<input class="form-control" type="text" placeholder="Benutzerdefinierter Typ">
-								<label class="error" for="username">Benutzer-Typ</label>
+								<label class="error" for="username">Benutzerrollen</label>
 								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 							</div>
 						</div>
@@ -376,13 +376,13 @@
             <div class="modal-dialog">
                 <div class="panel panel-color panel-primary">
 				<div class="panel-heading clearfix"> 
-					<h3 class="m-0 pull-left">Benutzer-Typ hinzufügen</h3>
+					<h3 class="m-0 pull-left">Benutzerrollen hinzufügen</h3>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 				</div> 
 				<div class="panel-body table-modal">
 					<div class="form-group custom-field row clearfix">
 						<div class="form-group col-lg-6">
-							<label>Benutzer-Typ</label>
+							<label>Benutzerrollen</label>
 							<input class="form-control" type="text" placeholder="Benutzerdefinierter Typ">
 						</div>
 						<div class="form-group col-lg-6">

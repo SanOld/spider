@@ -62,7 +62,7 @@
 												</div>
 												<div class="col-lg-2">
 													<div class="form-group">
-														<label>Benutzer-Typ</label>
+														<label>Benutzerrollen</label>
 														<select class="type-user form-control">
 															<option>Alles anzeigen</option>
 															<option>Bezirk</option>
@@ -99,7 +99,7 @@
 											<thead>
 												<tr>
 													<th>Name</th>
-													<th class="select-filter">Benutzer-Typ</th>
+													<th class="select-filter">Benutzerrollen</th>
 													<th>Organisation</th>
 													<th>Benutzername</th>
 													<th>Email</th>
@@ -298,7 +298,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label">Benutzer-Typ</label>
+								<label class="col-lg-2 control-label">Benutzerrollen</label>
 								<div class="col-lg-4 custom-width">
 									<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="has-hint btn btn-question" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
 										<i class="fa fa-question"></i>
@@ -307,7 +307,7 @@
 								  		<select class="select2" data-placeholder="View All">
 		                                    <option>Träger</option>
 		                                </select>
-		                                <label id="username-error" class="error" for="username">Bitte geben Benutzer-Typ</label>
+		                                <label id="username-error" class="error" for="username">Bitte geben Benutzerrollen</label>
 								  	</div>
 								</div>
 							</div>
@@ -490,7 +490,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2">Benutzer-Typ</label>
+								<label class="col-lg-2">Benutzerrollen</label>
 	                            <div class="col-lg-10">
 	                            	<span class="no-edit-text">Träger</span>
 									<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" data-container="body" class="btn btn-question" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">

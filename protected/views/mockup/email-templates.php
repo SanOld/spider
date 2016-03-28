@@ -72,7 +72,7 @@
 													<td>Comes to TA user which responsible for financing plan if there are comments on the Financing plan</td>
 													<td>24.03.2010, 16:04 von Markus Prill</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -83,7 +83,7 @@
 													<td>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat</td>
 													<td>02.09.2011, 14:24 von Anita Reindl</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -94,7 +94,7 @@
 													<td>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui </td>
 													<td>24.03.2010, 16:04 von Frank Kiepert</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -105,7 +105,7 @@
 													<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</td>
 													<td>02.09.2011, 14:24 von Undine Zeibig</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -116,7 +116,7 @@
 													<td>Comes to TA user which responsible for financing plan if there are comments on the Financing plan</td>
 													<td>24.03.2010, 16:04 von Brigitte Bollinger</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -127,7 +127,7 @@
 													<td>Comes to TA user which responsible for financing plan if there are comments on the Financing plan</td>
 													<td>02.09.2011, 14:24 von Werner Munk</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -138,7 +138,7 @@
 													<td>Comes to TA user which responsible for financing plan if there are comments on the Financing plan</td>
 													<td>02.09.2011, 14:24 von Sabina Kästner</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -149,7 +149,7 @@
 													<td>Comes to TA user which responsible for financing plan if there are comments on the Financing plan</td>
 													<td>24.03.2010, 16:04 von Markus Prill</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -160,7 +160,7 @@
 													<td>Comes to TA user which responsible for financing plan if there are comments on the Financing plan</td>
 													<td>24.03.2010, 16:04 von Anita Reindl</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht"><i class="ion-document-text"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -171,7 +171,9 @@
 													<td>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui </td>
 													<td>02.09.2011, 14:24 von Frank Kiepert</td>
 													<td class="text-center">
-														<a class="btn document" href="email-view.php" title="Ansicht"><i class="ion-document-text"></i></a>
+														<a class="btn edit-btn" data-target="#modal-3" data-toggle="modal" title="Ansicht">
+															<i class="ion-document-text"></i>
+														</a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
 															<i class="ion-edit"></i>
 														</a>
@@ -209,6 +211,66 @@
 		</div> -->
 
 <!--End Add Doc templ  -->
+
+<!--View Doc-->
+
+		<div id="modal-3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-width-full">
+				<div class="panel panel-color panel-primary">
+					<div class="panel-heading clearfix"> 
+						<h3 class="m-0 pull-left">Druck-Template bearbeiten - FV_2013_Sonderkündigung</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
+					</div>
+
+                  
+                  <div class="panel-body edit-user doc-template">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            Zwischen<br/>
+                            der<br/>
+                            Stiftung Sozialpädagogisches Institut Berlin<br/>
+                            Programmagentur “Jugendsozialarbeit an Berliner Schulen”<br/>
+                            Schicklerstraße 5-7 in 10179 Berlin<br/>
+
+                            - nachstehend Programmagentur SPI genannt -<br/>
+                            und dem Träger<br/>
+
+                            <strong>{TRAEGER}</strong> mit der Kennziffer <strong>{KENNZIFFER}</strong><br/>
+
+                            - nachstehend Förderungsempfänger genannt -<br/>
+                            wird folgender<br/>
+                            <h3>FÖRDERVERTRAG (Weiterleitungsvertrag)</h3>
+                            geschlossen.<br/>
+
+                            <h4>§ 1 Grundsätzliche Regelungen</h4>
+
+                            (1) Die Programmagentur SPI ist vom Land Berlin, vertreten durch die Senatsverwaltung für Bildung, Jugend und Wissenschaft beauftragt worden, das Programm „Jugendsozialarbeit an Berliner Schulen“ umzusetzen. Das Programm wird durch Mittel des Berliner Landeshaushalts finanziert.<br/>
+
+                            (2) Zur Umsetzung des Programms entwickeln die freien Träger der Kinder- und Jugendhilfe zusammen mit einer Schule bzw. mehreren Schulen (betrifft Jugendsozialarbeit mit besonderen Aufgaben) konkrete auf die jeweilige Schule bezogene Konzepte. Dazu werden Kooperationsverträge zwischen den Schulen und den freien Trägern der Kinder- und Jugendhilfe abgeschlossen.<br/>
+
+                            (3) Die freien Träger verpflichten sich, das Gender-Mainstreaming-Prinzip anzuwenden, d. h. bei der Planung, Durchführung und Begleitung der Maßnahme sind Auswirkungen auf die Gleichstellung von Frauen und Männern aktiv zu berücksichtigen und in der Berichterstattung darzustellen.<br/>
+
+                            <h4>§ 2 Vertragsgegenstand und -bestandteile</h4>
+
+                            (1) Gegenstand dieses privatrechtlichen Vertrages ist die Weitergabe von Zuwendungen des Landes Berlin durch die Programmagentur SPI an die Förderungsempfänger auf der Grundlage entsprechender Bewilligungsbescheide der Senatsverwaltung für Bildung, Jugend und Wissenschaft.<br/>
+
+                            (2) Bestandteile dieses Vertrages sind – in ihrer jeweils geltenden Fassung – insbesondere:<br/>
+                            Antrag des Förderungsempfängers inkl. Finanzplan,
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group group-btn m-t-15">
+                        <div class="col-lg-10 text-right pull-right">
+                            <button class="btn w-lg custom-btn" data-dismiss="modal">Schließen</button>
+                        </div>
+                    </div>
+                  </div>
+				</div>
+				
+			</div>
+		</div>
+
+<!-- End View Doc -->
 
 <!--Edit Doc templ  -->
 

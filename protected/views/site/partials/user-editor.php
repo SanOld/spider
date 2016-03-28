@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-lg-2 control-label">Benutzer-Typ</label>
+          <label class="col-lg-2 control-label">Benutzerrollen</label>
 
           <div ng-if="isCurrentUser || !isInsert" class="col-lg-10">
             <span class="no-edit-text">{{type_name}}</span>
@@ -48,7 +48,7 @@
                 </ui-select-choices>
               </ui-select>
 								<span ng-show="fieldError('type_id')">
-									<label ng-show="form.type_id.$error.required" class="error">Benutzer-Typ erforderlich</label>
+									<label ng-show="form.type_id.$error.required" class="error">Benutzerrollen erforderlich</label>
 								</span>
             </div>
           </div>

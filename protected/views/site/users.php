@@ -31,7 +31,7 @@ $this->breadcrumbs = array('Benutzerliste');
 									</div>
 									<div class="col-lg-2">
 										<div class="form-group">
-											<label>Benutzer-Typ</label>
+											<label>Benutzerrollen</label>
 											<ui-select ng-change="updateGrid()" ng-model="filter.type_id">
 												<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 												<ui-select-choices repeat="item.id as item in userTypes | filter: $select.search">

@@ -15,7 +15,8 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   Hint,
                   BankDetails,
                   FinanceSource,
-                  Request, RequestStatus');
+                  Request, RequestStatus,
+                  SystemModel');
 
 class BaseController extends Controller {
   private $method = false;
@@ -71,6 +72,9 @@ class BaseController extends Controller {
     if(!$auth ->isActive() || !$auth ->checkToken()) {
       $error = $auth->getAuthError();
       response('401', $error);
+    } else {
+      $session_params = 'SET @user_id='.$auth->user['id'].';';
+      Yii::app ()->db->createCommand ($session_params)->execute();
     }
 
     $this -> model -> user = $auth -> user;
@@ -89,7 +93,24 @@ class BaseController extends Controller {
           $this -> model ->select($_GET);
           break;
         case 'post' :
-          $this -> model ->insert($_POST);
+          if($_GET['model'] == 'SystemModel') {
+            if($auth->user['type'] == 'a') {
+              switch($_POST['run']) {
+                case 'startAllTablesAudit':$this -> model ->startAllTablesAudit();
+                  break;
+                case 'updateTablesAudit':$this -> model ->updateTablesAudit();
+                  break;
+              }
+              
+            } else {
+              response('403', array ( 'result'      => false
+                                    , 'system_code' => 'ERR_PERMISSION'
+                                    , 'code'        => '403'
+                                    ));
+            }
+          } else {
+            $this -> model ->insert($_POST);
+          }
           break;
         case 'put' :
           $post_vars = array ();

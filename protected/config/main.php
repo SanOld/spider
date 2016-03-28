@@ -52,8 +52,8 @@ return array(
 			'urlFormat'=>'path',
             'showScriptName'=> false,
 			'rules'=>array(
+				'/api/test'           => '/site/page/view/resttest',
 				'/<page:[\w\-]+>'     => '/site',
-				'/api/test'        => '/site/page/view/resttest',
 				'/api/upload-file/<model:\w+>/' => '/base/uploadFile',
 				'/api/<model:\w+>' => '/base',
 				'/api/<model:\w+>/<id:\d+>' => '/base',

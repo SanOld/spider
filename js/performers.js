@@ -1,7 +1,7 @@
 spi.controller('PerformerController', function ($scope, $rootScope, network, GridService, HintService) {
   $rootScope._m = 'performer';
   $scope.filter = {};
-  $scope.checks = [{id: 1, name: 'Checked'}, {id: 0, name: 'Not checked'}];
+  $scope.checks = [{id: 1, name: 'Überprüft'}, {id: 0, name: 'Nicht überprüft'}];
 
   var grid = GridService();
   $scope.tableParams = grid('performer', $scope.filter, {sorting: {name: 'asc'}});
@@ -27,6 +27,19 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
       controller: 'EditPerformerController'
     });
   };
+  
+  try {
+    var id = /id=(\d+)/.exec(location.hash)[1];
+    if(id) {
+      
+    network.get('performer', {'id': id}, function (result, response) {
+      if (result && response.result.length) {
+        $scope.openEdit(response.result[0], !$scope.canEdit(id))
+      }
+    });
+      
+    }
+  } catch(e) {}
 
   $scope.canCreate = function () {
     return $rootScope.canEdit() && network.user['type'] != 't';

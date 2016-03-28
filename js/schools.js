@@ -40,6 +40,19 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
     $scope.filter = grid.resetFilter();
   };
 
+  try {
+    var id = /id=(\d+)/.exec(location.hash)[1];
+    if(id) {
+      
+    network.get('school', {'id': id}, function (result, response) {
+      if (result && response.result.length) {
+        $scope.openEdit(response.result[0], !$scope.canEdit(id))
+      }
+    });
+      
+    }
+  } catch(e) {}
+
   $scope.openEdit = function (row, modeView) {
     grid.openEditor({
       data: row,
