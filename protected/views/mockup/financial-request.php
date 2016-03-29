@@ -803,7 +803,7 @@
 						<hr />
 						<div class="row m-t-30">
 							<div class="col-lg-10">
-								<h4 class="m-t-0">Kommentare</h4>
+								<h4 class="m-t-0">Prüfnotiz</h4>
 								<textarea class="form-control custom-height-textarea2" placeholder="Tragen Sie den Text hier ein"></textarea>
 							</div>
 							<div class="col-lg-2 m-t-30 m-b-5">

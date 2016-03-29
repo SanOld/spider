@@ -11,7 +11,7 @@
     <div class="panel-body p-t-0">
       <form novalidate name="form">
         <uib-tabset>
-          <uib-tab heading="General">
+          <uib-tab heading="Stammdaten">
             <ng-form name="formSchool" class="form-horizontal" disable-all="!canEditSchool() || modeView">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">

@@ -617,7 +617,7 @@
                                 </div>
 							</div>
 							<div class="col-lg-9">
-								<h4 class="m-t-0">Kommentare</h4>
+								<h4 class="m-t-0">Prüfnotiz</h4>
 								<textarea class="form-control custom-height-textarea2" placeholder="Tragen Sie den Text hier ein"></textarea>
 							</div>
 							<div class="col-lg-3 m-t-30">
@@ -655,7 +655,7 @@
 						<form role="form">
 							<div class="col-lg-12">
 								<div class="form-group m-t-30">
-									<h4 class="m-t-0">Kommentare</h4>
+									<h4 class="m-t-0">Prüfnotiz</h4>
 									<textarea class="form-control" placeholder="Tragen Sie den Text hier ein"></textarea>
 								</div>
 							</div>

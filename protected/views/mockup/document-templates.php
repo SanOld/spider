@@ -71,7 +71,7 @@
 											<thead>
 												<tr>
 													<th>Name</th>
-													<th>Typ</th>
+													<th>Dokument-Typ</th>
 													<th>Letzte Änderung</th>
 													<th>
 														<span>Ansicht</span>
@@ -336,6 +336,10 @@
 												<tr>
 													<td>ZEITRAUM</td>
 													<td>Laufzeit laut förderfähigem Antrag (Beginn und Ende).</td>
+												</tr>
+												<tr>
+													<td>JAHR</td>
+													<td>Förderjahr des Antrags.</td>
 												</tr>
 											</tbody>
 										</table>

@@ -16,7 +16,7 @@ $this->pageTitle = 'Forgot Password | ' . Yii::app()->name;
                     <div class="col-lg-12 wrap-line" ng-class="{'wrap-line error': fieldError(), 'wrap-line success': !fieldError()}">
                         <input type="email" ng-model="email" name="email" class="form-control" placeholder="Geben Sie die Email Adresse ein" name="email" autofocus required>
                         <span ng-show="fieldError()">
-                            <label ng-show="form.email.$error.email || form.email.$error.required" class="error">Bitte geben Sie eine Email Adresse ein, um das Passwort zurückzusetzen</label>
+                            <label ng-show="form.email.$error.email || form.email.$error.required" class="error">Bitte geben Sie Ihre Email-Adresse ein, um Ihr Passwort zurückzusetzen</label>
                             <label ng-show="error && form.email.$pristine" class="error">Email-Adresse nicht im System vorhanden oder nicht aktiv</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>

@@ -355,8 +355,7 @@
                 <input class="form-control" name="password_repeat" ng-model="password_repeat" type="password" value=""
                        ng-pattern="user.password" ng-required="isInsert || user.password.length">
 								<span ng-show="fieldError('password_repeat')">
-									<label ng-show="form.password_repeat.$error.required" class="error">Passwort bestätigen is
-                    required</label>
+									<label ng-show="form.password_repeat.$error.required" class="error">Passwort bestätigen erforderlich</label>
 									<label ng-show="form.password_repeat.$error.pattern" class="error">Passwords are not equal</label>
 									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</span>

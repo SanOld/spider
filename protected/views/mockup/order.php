@@ -99,6 +99,9 @@
 														<div class="col-lg-12">
 															<h3 class="panel-title">
 																Träger
+                                                                <div class="btn-row">
+                                                                  <a class="btn m-t-5" href="performer#id=2" target="_blank" >Überprüft</a>
+                                                                </div>
 															</h3>
 															<hr/>
 															<strong>Gesellschaft für Sport und Jugendsozialarbeit gGmbH (GSJ) (bis 2008: Verein für Sport und Jugendsozialarbeit e.V.)</strong>
@@ -151,7 +154,10 @@
 															<div class="panel-collapse collapse in" id="projectOne"> 
 																<div class="panel-body">
 																	<div class="row m-b-30 row-holder-dl">
-																		<div class="col-lg-12 m-b-10">
+																		<div class="col-lg-12">
+                                                                          <div class="btn-row m-b-15">
+                                                                            <a class="btn" href="school#id=4" target="_blank" >Überprüft</a>
+                                                                          </div>
 																			<dl class="custom-dl">
 																				<dt>Ansprechpartner(in):</dt>
 																				<dd>Mr Frank Kiepert-Petersen</dd>
@@ -196,7 +202,10 @@
 															<div class="panel-collapse collapse" id="projectTwo"> 
 																<div class="panel-body">
 																	<div class="row m-b-30 row-holder-dl">
-																		<div class="col-lg-12 m-b-10">
+																		<div class="col-lg-12">
+                                                                            <div class="btn-row m-b-15">
+                                                                              <a class="btn" href="school#id=4" target="_blank" >Überprüft</a>
+                                                                            </div>
 																			<dl class="custom-dl">
 																				<dt>Ansprechpartner(in):</dt>
 																				<dd>Mr Frank Kiepert-Petersen</dd>
@@ -241,7 +250,10 @@
 															<div class="panel-collapse collapse" id="projectThree"> 
 																<div class="panel-body">
 																	<div class="row m-b-30 row-holder-dl">
-																		<div class="col-lg-12 m-b-10">
+																		<div class="col-lg-12">
+                                                                            <div class="btn-row m-b-15">
+                                                                              <a class="btn" href="school#id=4" target="_blank" >Überprüft</a>
+                                                                            </div>
 																			<dl class="custom-dl">
 																				<dt>Ansprechpartner(in):</dt>
 																				<dd>Mr Frank Kiepert-Petersen</dd>
@@ -301,6 +313,9 @@
 													</div>
 													<h3 class="panel-title">
 														Angaben zum Jugendamt
+                                                        <div class="btn-row m-b-10">
+                                                          <a class="btn m-t-5" href="districts#id=1" target="_blank" >Überprüft</a>
+                                                        </div>
 													</h3>
 													<hr/>
 													<div class="row row-holder-dl">

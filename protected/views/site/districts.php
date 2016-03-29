@@ -75,7 +75,7 @@ $this->breadcrumbs = array('Bezirk');
     <div class="panel-body p-t-0">
       <form novalidate name="form">
         <uib-tabset>
-          <uib-tab heading="Allgemein">
+          <uib-tab heading="Stammdaten">
             <ng-form name="formDistrict" class="form-horizontal" disable-all="!canEditDistrict() || modeView">
               <div class="row m-t-30">
                 <div ng-class="isInsert ? 'col-lg-12' : 'col-lg-9'">
