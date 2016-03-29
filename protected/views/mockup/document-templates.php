@@ -256,10 +256,10 @@
 									<div class="row m-t-30">
 										<div class="m-b-15 clearfix">
 											<label class="col-lg-1 control-label">Name</label>
-											<div class="col-lg-7">
+											<div class="col-lg-6">
 												<input class="form-control" type="text" value="FV_2013_Sonderkündigung">
 											</div>
-											<label class="col-lg-1 control-label label-type">Dokument-Typ</label>
+											<label class="col-lg-2 control-label label-type">Dokument-Typ</label>
 											<div class="col-lg-3">
 												<select class="form-control">
 													<option>Alles anzeigen</option>
