@@ -64,9 +64,9 @@ $this->breadcrumbs = array('Hilfetexte');
 <script type="text/ng-template" id="editTemplate.html">
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
-			<h3 ng-if="isInsert" class="m-0 pull-left">Hilfetext hinzufügen</h3>
+			<h3 ng-if="isInsert" class="m-0 pull-left">Hilfetext hinzufügen/bearbeiten</h3>
 			<h3 ng-if="!isInsert && !modeView" class="m-0 pull-left">Hilf bearbeiten</h3>
-			<h3 ng-if="!isInsert && modeView" class="m-0 pull-left">Hilfetext hinzufügen/bearbeiten</h3>
+			<h3 ng-if="!isInsert && modeView" class="m-0 pull-left">Hilf ansicht</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body">
