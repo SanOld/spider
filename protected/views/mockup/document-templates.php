@@ -259,12 +259,15 @@
 											<div class="col-lg-7">
 												<input class="form-control" type="text" value="FV_2013_Sonderkündigung">
 											</div>
-											<label class="col-lg-1 control-label label-type">Typ</label>
+											<label class="col-lg-1 control-label label-type">Dokument-Typ</label>
 											<div class="col-lg-3">
 												<select class="form-control">
-													<option>Typ 1</option>
-													<option>Typ 2</option>
-													<option>Typ 3</option>
+													<option>Alles anzeigen</option>
+                                                    <option>Fördervertrag</option>
+                                                    <option>Zielvereinbarung</option>
+                                                    <option>Antrag</option>
+                                                    <option>Mittelabruf</option>
+                                                    <option>Verwendungsnachweis</option>
 												</select>
 											</div>
 										</div>
