@@ -32,7 +32,7 @@ spi.run(function(ngTableDefaults, $templateCache) {
 });
 
 spi.config(function($uibTooltipProvider, NotificationProvider, uiSelectConfig) {
-    $uibTooltipProvider.options({trigger: 'focus', placement: 'top', appendToBody: 'true'});
+    $uibTooltipProvider.options({trigger: 'click', placement: 'top', appendToBody: 'true'});
     NotificationProvider.setOptions({
         delay: 5000,
         startTop: 10,

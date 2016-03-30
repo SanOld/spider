@@ -179,8 +179,8 @@ var wow = new WOW(
 wow.init();
 
 jQuery(document).ready(function() {
-    $.browser.safari = ($.browser.webkit && !(/chrome/.test(navigator.userAgent.toLowerCase())));
-    if ($.browser.safari) {
+    var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+    if (isSafari) {
         var detectedSafari = $('body').addClass('safari');
     }
 //     if($('.md-modal').height() > $(window).height()) {
