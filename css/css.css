@@ -941,6 +941,9 @@ body .nav.nav-tabs + .tab-content {
 	font-size:21px;
 	color:#202020;
 }
+body.safari .box-overview strong {
+	width:61px;
+}
 .overview h2 {
 	font-size:21px;
 	font-weight:600;
