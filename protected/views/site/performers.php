@@ -14,7 +14,7 @@ $this->breadcrumbs = array('Träger');
 					<h1 class="panel-title col-lg-6">Träger</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-						<!--<button class="btn w-lg custom-btn" ng-if="canCreate()" ng-click="openEdit()">Träger hinzufügen</button>-->
+						<button class="btn w-lg custom-btn" ng-if="canCreate()" ng-click="openEdit()">Träger hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body agency-edit">

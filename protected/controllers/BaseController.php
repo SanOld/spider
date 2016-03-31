@@ -16,7 +16,8 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   BankDetails,
                   FinanceSource,
                   Request, RequestStatus,
-                  SystemModel');
+                  SystemModel,
+                  Audit');
 
 class BaseController extends Controller {
   private $method = false;

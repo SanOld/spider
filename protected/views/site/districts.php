@@ -16,7 +16,7 @@ $this->breadcrumbs = array('Bezirk');
 
           <div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-            <!--<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Bezirk hinzufügen</button>-->
+            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Bezirk hinzufügen</button>
           </div>
         </div>
         <div class="panel-body districts">
