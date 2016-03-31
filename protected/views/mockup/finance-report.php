@@ -33,8 +33,8 @@
 								<h1 class="panel-title col-lg-6">Belege</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-modal="">Beleg hinzufügen</button>
 									<button class="btn w-lg custom-btn" data-modal="">Import aus DATEV</button>
+									<button class="btn w-lg custom-btn" data-modal="">Beleg hinzufügen</button>
 								</div>
 							</div>
 							<div class="panel-body finacing-edit">
