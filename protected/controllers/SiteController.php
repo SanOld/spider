@@ -10,7 +10,7 @@ class SiteController extends Controller
                           'performers'      => array(),
                           'schools'         => array(),
                           'requests'        => array(),
-                          'projects'         => array(),
+                          'projects'        => array(),
                           'dashboard'       => array(),
                           'forgot-password' => array('layout' => 'mainWithoutLogin'),
                           'reset-password'  => array('layout' => 'mainWithoutLogin'),
@@ -56,6 +56,14 @@ class SiteController extends Controller
         }
 		$this->render(safe($pageInfo,'render',$page));
 	}
+    
+    public function demo()
+    {
+      if(Yii::app()->params['hideDemo']) {
+        echo(' style="display:none;" ');
+      }
+    }
+
 
 	public function actionError()
 	{

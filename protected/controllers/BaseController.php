@@ -138,6 +138,13 @@ class BaseController extends Controller {
     }
   }
 
+  public function demo()
+  {
+    if(Yii::app()->params['hideDemo']) {
+      echo(' style="display:none;" ');
+    }
+  }
+  
   protected function sendPermissionError() {
     response ( '403', array (
       'result' => false,

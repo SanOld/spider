@@ -14,7 +14,6 @@ $this->breadcrumbs = array('Schule');
 					<h1 class="panel-title col-lg-6">Schule</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-						<button <?php $this->demo(); ?>  class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Schule hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body schoole-user">
