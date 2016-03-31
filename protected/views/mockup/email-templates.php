@@ -354,28 +354,28 @@
 			
 											<tbody>
 												<tr>
-													<td>KENNZIFFER</td>
-													<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </td>
-												</tr>
-												<tr>
-													<td>TRAEGER</td>
-													<td>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</td>
-												</tr>
-												<tr>
-													<td>ZEITRAUM</td>
-													<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </td>
+													<td>AUFLAGEN</td>
+													<td>Bei der Antragsabnahme können Auflagen durch die Programmagentur hinzugefügt bzw. formuliert werden.</td>
 												</tr>
 												<tr>
 													<td>FOERDERSUMME</td>
-													<td>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </td>
+													<td>Die Fördersumme aus dem förderfähigen Antrag.</td>
 												</tr>
 												<tr>
-													<td>AUFLAGEN</td>
-													<td>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</td>
+													<td>KENNZIFFER</td>
+													<td>Die Kennziffer des Projekts wird aus dem Antrag übernommen.</td>
 												</tr>
 												<tr>
-													<td>KONTONUMMER</td>
-													<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </td>
+													<td>TRAEGER</td>
+													<td>Name und Adresse des antragsstellenden Trägers.</td>
+												</tr>
+												<tr>
+													<td>ZEITRAUM</td>
+													<td>Laufzeit laut förderfähigem Antrag (Beginn und Ende).</td>
+												</tr>
+												<tr>
+													<td>JAHR</td>
+													<td>Förderjahr des Antrags.</td>
 												</tr>
 											</tbody>
 										</table>
