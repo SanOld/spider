@@ -9,7 +9,7 @@
 					<li><a href="summary.php">Finanzübersicht</a></li>
                     <li><a href="financial-request.php">Mittelabrufe</a></li>
 					<li><a href="finance-report.php">Belege</a></li>
-					<li <?php $this->demo(); ?> ><a ng-if="canShow('finance_source')" href="/finance-source">Fördertöpfe</a></li>
+					<li><a ng-if="canShow('finance_source')" href="/finance-source">Fördertöpfe</a></li>
 				</ul>
 			</li>
 			<li class="dropdown">
