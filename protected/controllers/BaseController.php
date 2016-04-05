@@ -17,6 +17,7 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   FinanceSource,
                   Request, RequestStatus,
                   SystemModel,
+                  AuditTables,
                   Audit');
 
 class BaseController extends Controller {

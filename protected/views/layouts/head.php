@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/non-responsive.css">
 <!---->
 <!--<!-- Bootstrap core CSS -->
-<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet">
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet">
+<!--<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet">-->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-reset.css" rel="stylesheet">
 
 <!--Animation css-->
@@ -40,6 +41,8 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/helper.css" rel="stylesheet">
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/sweet-alert.css" rel="stylesheet">
 
+<!--<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/angular-datepicker.min.css" rel="stylesheet">-->
+
 <!-- DataTables -->
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 <!--ng-table-->
@@ -55,7 +58,7 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/html5shiv.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/respond.min.js"></script>
 <![endif]-->
-
+<!--<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/angular-datepicker.min.js"></script>-->
 <?php
 
 $baseUrl = Yii::app()->getBaseUrl(true);
@@ -63,14 +66,17 @@ $cs = Yii::app()->clientScript;
 
 $cs->registerScriptFile($baseUrl . '/js/lib/jquery.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
-$cs->registerScriptFile($baseUrl . '/js/lib/angular.min.js');
+//$cs->registerScriptFile($baseUrl . '/js/lib/angular.min.js');
+//$cs->registerScriptFile($baseUrl . '/js/lib/angular-animate.min.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-animate.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-locale_de-de.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-local-storage.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-sanitize.min.js');
-$cs->registerScriptFile($baseUrl . '/js/lib/angular-animate.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ng-iban.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/select.js');
-$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.1.2.min.js');
+//$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.1.2.min.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.3.0.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/mask.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ng-table.js');
 

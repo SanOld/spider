@@ -1,76 +1,42 @@
-spi.controller('UserController', function ($scope, $rootScope, network, GridService, HintService, Utils) {
-  if (!$rootScope._m) {
-    $rootScope._m = 'user';
-  }
-  $scope.filter = {is_active: 1};
-
-  if ($scope.page) {
-    $scope.filter['type'] = $scope.page; // t - performer, d - district, s - school
-    $scope.filter['relation_id'] = $scope.relationId;
-  }
-
-  $scope.statuses = [
-    {id: 1, name: 'Aktiv'},
-    {id: 0, name: 'Nicht aktiv'}
-  ];
-
-  network.get('user_type', angular.merge({filter: 1}, $scope.filter['type'] ? {type: $scope.filter['type']} : {}), function (result, response) {
-    if (result) {
-      $scope.userTypes = response.result;
-
-      var rowTA = null;
-      for (var i = 0; i < $scope.userTypes.length; i++) {
-        if ($scope.userTypes[i].type == 't') {
-          rowTA = $scope.userTypes[i];
-          break;
-        }
-      }
-      if(rowTA) {
-        $scope.userTypes.splice(i+1, 0, {id: rowTA.id+'_1', name: rowTA.name + ' (F)', 'type': rowTA.type});
-        rowTA.id += '_0'
-      }
-    }
-  });
-
-  HintService('user', function (result) {
-    $scope._hint = result;
-  });
-
-  var grid = GridService();
-  $scope.tableParams = grid('user', $scope.filter, {sorting: {name: 'asc'}});
-
-  $scope.resetFilter = function () {
-    $scope.filter = grid.resetFilter();
-  };
+spi.controller('AuditController', function ($scope, $rootScope, network, GridService, HintService) {
+  $rootScope._m = 'audit';
+  $scope.filter = {};
+  $scope.customData = [];
+  $scope.types = [{'code': 'INS', 'name': 'Added'},
+                  {'code': 'UPD', 'name': 'Changed'},
+                  {'code': 'DEL', 'name': 'Deleted'}];
+//  var grid = GridService();
+//  $scope.tableParams = grid('audit', $scope.filter, {sorting: {event_date: 'asc'}, 'custom':true});
 
   $scope.updateGrid = function () {
-    var rowType = Utils.getRowById($scope.userTypes, $scope.filter.type_id);
-    if(rowType.type == 't') {
-      $scope.filter.is_finansist = rowType.id.split('_')[1];
-    } else {
-      delete $scope.filter.is_finansist;
-    }
-    grid.reload();
-  };
-
-  $scope.openEdit = function (row, modeView) {
-    grid.openEditor({
-      data: row,
-      hint: $scope._hint,
-      modeView: !!modeView,
-      controller: 'UserEditController',
-      template: 'editUserTemplate.html'
+//    $scope.filter['limit'] = params.count();
+//    $scope.filter['page'] = params.page();
+    $scope.filter['order'] = 'event_date';
+    var params = angular.copy($scope.filter);
+    try {
+      params['event_date'] =  params['date'].ymd();
+    } catch(e){}
+    delete params['date'];
+    network.get('audit', params, function (result, response) {
+      if (result) {
+        $scope.customData = response;
+      }
+    });
+    network.get('AuditTables', {}, function (result, response) {
+      if (result) {
+        $scope.tables = response.result;
+      }
     });
   };
 
-  $scope.canCreate = function () {
-    return $rootScope.canEdit();
+  HintService('audit', function (result) {
+    $scope._hint = result;
+  });
+
+  $scope.resetFilter = function () {
+//    $scope.filter = grid.resetFilter();
   };
-
-  $scope.canEdit = function(id) {
-    return $rootScope.canEdit() || id == network.user.id;
-  }
-
+  
+  $scope.updateGrid();
+  
 });
-
-

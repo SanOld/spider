@@ -55,3 +55,4 @@ DELIMITER ;
 
 
 ALTER TABLE `spi_page` ADD COLUMN `is_system` TINYINT(1) NOT NULL DEFAULT 0 AFTER `is_real_page`;
+ALTER TABLE `spi_audit_setting` ADD COLUMN `name` VARCHAR(45) NULL;

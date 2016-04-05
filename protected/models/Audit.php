@@ -5,11 +5,12 @@ require_once ('utils/utils.php');
 class Audit extends BaseModel {
   public $table = 'spi_audit_event';
   public $post = array();
-  public $select_all = ' * ';
+  public $operations = array('INS' => 'Added', 'UPD' => 'Changed', 'DEL' => 'Deleted');
+  public $select_all = ' tbl.*, usr.first_name, usr.last_name';
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    
-    $where = ' 1=1 ';
+    $command->leftJoin('spi_user usr', 'usr.id=tbl.user_id ');
+    $where = ' 1=1 AND user_id IS NOT NULL';
     $conditions = array();
 
     if ($where) {
@@ -25,27 +26,30 @@ class Audit extends BaseModel {
                                       -> from('spi_audit_data aud')
                                       -> where('aud.event_id=:id', array(':id' => $row['id']))
                                       -> queryAll();
+      $row['user_name'] = $row['first_name'].' '.$row['last_name'];
+      $row['operation_name'] = $this->operations[$row['event_type']];
+      $row['date_formated'] = date('d.m.y',strtotime($row['event_date']));
     }
     return $result;
   }
 
 
-//  protected function getParamCommand($command, array $params, array $logic = array()) {
-//    parent::getParamCommand($command, $params);
-//    $params = array_change_key_case($params, CASE_UPPER);
-//
-//    if(safe($params, 'RIGHT') && safe($params, 'TYPE_ID')) {
-//      $command->select('tbl.*, utr.id right_id, IFNULL(utr.can_view, 0) can_view, IFNULL(utr.can_edit, 0) can_edit, IFNULL(utr.can_show, 0) can_show');
-//      $command->leftJoin('spi_user_type_right utr', 'tbl.id=utr.page_id AND utr.type_id=:type_id', array(':type_id' => $params['TYPE_ID']));
-//    }
-//    if(!safe($params, 'ALL')) {
-//      $command->andWhere('tbl.is_real_page = 1');
-//    }
-//    if(!safe($params, 'SYSTEM')) {
-//      $command->andWhere('tbl.is_system = 0');
-//    }
-//    return $command;
-//  }
+  protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
+    $params = array_change_key_case($params, CASE_UPPER);
+
+    if(safe($params, 'EVENT_TYPE')) {
+      $command->andWhere('tbl.event_type = :et', array(':et' => safe($params, 'EVENT_TYPE')));
+    }
+    if(safe($params, 'EVENT_DATE')) {
+      $command->andWhere('tbl.event_date = :ed', array(':ed' => safe($params, 'EVENT_DATE')));
+    }
+    if(safe($params, 'TABLE_NAME')) {
+      $command->andWhere('tbl.table_name = :tn', array(':tn' => safe($params, 'TABLE_NAME')));
+    }
+    
+    return $command;
+  }
   
   protected function checkPermission($user, $action, $data) {
     switch ($action) {

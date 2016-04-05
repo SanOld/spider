@@ -2415,6 +2415,6 @@ form .form-control:disabled:-ms-input-placeholder{
 .audit-page #tab-history .thead .arrow-box {
 	cursor:pointer;
 }
-.audit-page #tab-history .row-holder {
+/*.audit-page #tab-history .row-holder {
 	display:none;
-}
+}*/
