@@ -6,7 +6,11 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
                   {'code': 'UPD', 'name': 'Changed'},
                   {'code': 'DEL', 'name': 'Deleted'}];
 //  var grid = GridService();
-//  $scope.tableParams = grid('audit', $scope.filter, {sorting: {event_date: 'asc'}, 'custom':true});
+//  $scope.tableParams = grid('audit', $scope.filter, {sorting: {event_date: 'asc'}});
+//
+//  $scope.updateGrid = function () {
+//    grid.reload();
+//  };
 
   $scope.updateGrid = function () {
 //    $scope.filter['limit'] = params.count();
