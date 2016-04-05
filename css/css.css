@@ -1653,10 +1653,6 @@ body > .select2-container {
 .alert-danger p {
 	color:#202020;
 }
-.changes-content {
-	border:1px solid #ddd;
-	margin-bottom:7px;
-}
 .changes-content strong {
 	font-size:15px;
 	font-weight:600;
@@ -1667,11 +1663,40 @@ body > .select2-container {
 	color:#707070;
 }
 .changes-content .heading-changes {
+	border: 1px solid #ddd;
 	font-size:17px;
 	font-weight:600;
 	padding:20px;
 	position:relative;
 	cursor:pointer;
+	margin: 0 0 -1px;
+}
+.audit-page #datatable td {
+    border-bottom: 1px solid #ddd;
+    border-top: 0 none;
+    padding: 10px 20px !important;
+    position:relative;
+}
+.audit-page #datatable td:after,
+.audit-page #datatable td:before {
+    background: #fff;
+    content: "";
+    height: 10px;
+    position: absolute;
+    left: -1px;
+    top: 0;
+    width: 100%;
+}
+.audit-page #datatable td:before {
+	top:auto;
+	bottom: 0;
+}
+.audit-page #datatable td:first-child:after,
+.audit-page #datatable td:first-child:before {
+	left:0;
+}
+.audit-page #datatable tr:hover {
+    background-color: transparent;
 }
 #tab-history .alert {
 	border-radius: 0;
@@ -2423,4 +2448,17 @@ body.safari .form-horizontal label {
 }
 body.safari .cr-styled input[type=radio] + i {
 	font-size: 12px;
+}
+.audit-page #datatable tr td:last-child,
+.audit-page #datatable tr th:last-child {
+	text-align:left;
+} 
+.audit-page table.dataTable {
+	margin:0 !important;
+}
+.holder-th {
+	position:relative;
+}
+.audit-page #datatable th {
+	border-right: 0;
 }
