@@ -287,7 +287,7 @@ form .alert-danger {
 	margin-left: 15px;
 }
 body.safari .navbar-default.header-nav .navbar-nav > li > a {
-	padding: 12px 29px 15px;
+	padding: 12px 28px 15px;
 }
 .top-menu.profile-box li > a:hover,
 .top-menu.profile-box li > a:focus,
@@ -2417,4 +2417,10 @@ form .form-control:disabled:-ms-input-placeholder{
 }
 .audit-page #tab-history .row-holder {
 	display:none;
+}
+body.safari .form-horizontal label {
+	font-weight:400;
+}
+body.safari .cr-styled input[type=radio] + i {
+	font-size: 12px;
 }
