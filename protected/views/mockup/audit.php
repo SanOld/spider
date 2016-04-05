@@ -82,364 +82,130 @@
 											<div class="heading-changes">
 												District
 											</div>
-											<div class="content-changes">
-												<div class="thead delete">
-													<div class="col-lg-4 p-l-0">
-														<strong>Delete</strong>
-														<span>Bearbeitet von Mustermann am 11.12.2015</span>
-													</div>
-													<div class="col-lg-4">
-														<span class="after">Früher</span>
-													</div>
-													<div class="col-lg-4">
-														<span class="before">Nachher</span>
-													</div>
-													<i class="ion-chevron-down arrow-box"></i>
-												</div>
-												<div class="row-holder">
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
+											<table id="datatable" class="table table-hover table-bordered table-history">
+												<thead class="thead delete">
+													<tr>
+														<th>
+															<strong>Veränderungen</strong>
+															<span>Bearbeitet von Mustermann am 11.12.2015</span>
+														</th>
+														<th><span class="after">Früher</span></th>
+														<th>
+															<div class="holder-th">
+																<span class="before">Nachher</span>
+																<i class="ion-chevron-down arrow-box"></i>
+															</div>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><div>
 															<strong>id</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>026</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Name</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>John Doe</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Address</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>Gieseler Str.4, 10713 </dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>PLZ</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>10713</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Phone</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>(030) 8540-56-67</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Email</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>m.werner@mail.com</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Contact</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt>Select:</dt>
-																<dd>Werner Munk</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="content-changes">
-												<div class="thead">
-													<div class="col-lg-4 p-l-0">
-														<strong>Veränderungen</strong>
-														<span>Bearbeitet von Mustermann am 11.12.2015</span>
-													</div>
-													<div class="col-lg-4">
-														<span class="after">Früher</span>
-													</div>
-													<div class="col-lg-4">
-														<span class="before">Nachher</span>
-													</div>
-													<i class="ion-chevron-down arrow-box"></i>
-												</div>
-												<div class="row-holder">
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Kontoinhaber</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>Herr Mustermann</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>Frau Schmidt</dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Address</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>Gieseler Str.4</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>Gieseler Str.4, 10713 </dd>
-															</dl>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="content-changes">
-												<div class="thead">
-													<div class="col-lg-4 p-l-0">
-														<strong>Veränderungen</strong>
-														<span>Bearbeitet von Mustermann am 11.12.2015</span>
-													</div>
-													<div class="col-lg-4">
-														<span class="after">Früher</span>
-													</div>
-													<div class="col-lg-4">
-														<span class="before">Nachher</span>
-													</div>
-													<i class="ion-chevron-down arrow-box"></i>
-												</div>
-												<div class="row-holder">
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Kontoinhaber</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>Herr Mustermann</dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>Frau Schmidt</dd>
-															</dl>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="content-changes">
-												<div class="thead insert">
-													<div class="col-lg-4 p-l-0">
-														<strong>Insert</strong>
-														<span>Bearbeitet von Mustermann am 11.12.2015</span>
-													</div>
-													<div class="col-lg-4">
-														<span class="after">Früher</span>
-													</div>
-													<div class="col-lg-4">
-														<span class="before">Nachher</span>
-													</div>
-													<i class="ion-chevron-down arrow-box"></i>
-												</div>
-												<div class="row-holder">
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>id</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>026</dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Name</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>John Doe</dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Address</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>Gieseler Str.4, 10713 </dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>PLZ</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>10713</dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Phone</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>(030) 8540-56-67</dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Email</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd>m.werner@mail.com</dd>
-															</dl>
-														</div>
-													</div>
-													<div class="custom-row">
-														<div class="col-lg-4 p-l-0">
-															<strong>Contact</strong>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt></dt>
-																<dd></dd>
-															</dl>
-														</div>
-														<div class="col-lg-4">
-															<dl class="custom-dl">
-																<dt>Select:</dt>
-																<dd>Werner Munk</dd>
-															</dl>
-														</div>
-													</div>
-												</div>
-												</div>
-											</div>
+														</div></td>
+														<td>
+															<div>026</div>
+														</td>
+														<td>
+															<div></div>
+														</td>
+													</tr>
+													<tr>
+														<td><strong>id</strong></td>
+														<td>026</td>
+														<td></td>
+													</tr>
+													<tr>
+														<td><strong>id</strong></td>
+														<td>026</td>
+														<td></td>
+													</tr>
+												</tbody>
+												<thead class="thead">
+													<tr>
+														<th>
+															<strong>Veränderungen</strong>
+															<span>Bearbeitet von Mustermann am 11.12.2015</span>
+														</th>
+														<th><span class="after">Früher</span></th>
+														<th>
+															<div class="holder-th">
+																<span class="before">Nachher</span>
+																<i class="ion-chevron-down arrow-box"></i>
+															</div>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><strong>Kontoinhaber</strong></td>
+														<td>Herr Mustermann</td>
+														<td>Frau Schmidt</td>
+													</tr>
+													<tr>
+														<td><strong>Address</strong></td>
+														<td>Gieseler Str.4, 10713</td>
+														<td>Gieseler Str.4</td>
+													</tr>
+													
+												</tbody>
+												<thead class="thead">
+													<tr>
+														<th>
+															<strong>Veränderungen</strong>
+															<span>Bearbeitet von Mustermann am 11.12.2015</span>
+														</th>
+														<th><span class="after">Früher</span></th>
+														<th>
+															<div class="holder-th">
+																<span class="before">Nachher</span>
+																<i class="ion-chevron-down arrow-box"></i>
+															</div>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><strong>Kontoinhaber</strong></td>
+														<td>Herr Mustermann</td>
+														<td>Frau Schmidt</td>
+													</tr>
+													<tr>
+														<td><strong>Address</strong></td>
+														<td>Gieseler Str.4, 10713</td>
+														<td>Gieseler Str.4</td>
+													</tr>
+													
+												</tbody>
+												<thead class="thead insert">
+													<tr>
+														<th>
+															<strong>Insert</strong>
+															<span>Bearbeitet von Mustermann am 11.12.2015</span>
+														</th>
+														<th><span class="after">Früher</span></th>
+														<th>
+															<div class="holder-th">
+																<span class="before">Nachher</span>
+																<i class="ion-chevron-down arrow-box"></i>
+															</div>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><strong>id</strong></td>
+														<td></td>
+														<td>026</td>
+													</tr>
+													<tr>
+														<td><strong>Name</strong></td>
+														<td></td>
+														<td>John Doe</td>
+													</tr>
+													
+												</tbody>
+											</table>
 										</div>
 									</div>
 								</div>
@@ -464,6 +230,16 @@
 					$(this).parent().toggleClass('open');
 					$(this).parent().next().slideToggle();
 				})
+
+				var table = $('.audit-page #datatable').DataTable({
+					"bSort" : false,
+					"paging":   true,
+			        "info":     false,
+			        "bLengthChange": false,
+			        "columnDefs": [
+						{ "width": "40%", "orderable": false,  "targets": [0] }
+					]
+				});
 
 			});
 		
