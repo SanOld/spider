@@ -16,7 +16,7 @@ $this->breadcrumbs = array('Audit');
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
           </div>
         </div>
-        <div class="panel-body">
+        <div id="tab-history" class="panel-body">
           <div class="row">
             <div class="col-lg-12">
               <div class="row datafilter">
@@ -163,7 +163,7 @@ $this->breadcrumbs = array('Audit');
                 </tr>
               </table>-->
 
-              <table id="tab-history" ng-table="tableParams">
+              <table id="datatable" ng-table="tableParams" class="table-bordered">
                 <colgroup>
                   <col width="60%" />
                   <col width="20%" />

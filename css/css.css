@@ -1687,6 +1687,10 @@ body > .select2-container {
     top: 0;
     width: 100%;
 }
+.audit-page #datatable tr.thead td:after, 
+.audit-page #datatable tr.thead td:before {
+	background: transparent;
+}
 .audit-page #datatable td:before {
 	top:auto;
 	bottom: 0;
@@ -1697,6 +1701,12 @@ body > .select2-container {
 }
 .audit-page #datatable tr:hover {
     background-color: transparent;
+}
+.audit-page #datatable {
+	width:100%;
+}
+.audit-page #datatable thead {
+	display:none;
 }
 #tab-history .alert {
 	border-radius: 0;
@@ -2461,4 +2471,7 @@ body.safari .cr-styled input[type=radio] + i {
 }
 .audit-page #datatable th {
 	border-right: 0;
+}
+tr.thead > td {
+    border-right-width: 0 !important;
 }
