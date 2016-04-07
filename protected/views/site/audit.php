@@ -67,7 +67,7 @@ $this->breadcrumbs = array('Audit');
                   </div>
                 </form>
               </div>
-              <div class="row">
+<!--              <div class="row">
                 <div id="tab-history" class="col-lg-12">
                   <div class="changes-content">
                     <div class="heading-changes">
@@ -109,7 +109,7 @@ $this->breadcrumbs = array('Audit');
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>-->
 <!--              <div class="row" id="datatable" ng-cloak ng-table="tableParams">
                 <div id="tab-history" class="col-lg-12">
                   <div class="changes-content">
@@ -162,6 +162,40 @@ $this->breadcrumbs = array('Audit');
                   <td data-title="'User'" sortable="'user_name'">{{row.user_name}}</td>
                 </tr>
               </table>-->
+
+              <table id="tab-history" ng-table="tableParams">
+                <colgroup>
+                  <col width="60%" />
+                  <col width="20%" />
+                  <col width="20%" />
+                </colgroup>
+                <tr class="ng-table-group thead" ng-repeat-start="group in $groups" ng-class="{'open':group.data[0].showDetails, 'delete': group.data[0].event_type == 'DEL', 'insert':  group.data[0].event_type == 'INS'}">
+                  <td>
+                    <strong>{{group.data[0].operation_name}}</strong>
+                    <span>Bearbeitet {{group.data[0].user_name}} am {{group.data[0].date_formated}}</span> 
+                  </td>
+                  <td>
+                    <span class="after">Früher</span>
+                  </td>
+                  <td>
+                    <span class="before">Nachher</span>
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                      <i class="ion-chevron-down arrow-box"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr ng-hide="group.$hideRows" ng-repeat="field in group.data[0].data" ng-repeat-end>
+                  <td sortable="'column_name'" data-title="'Country'">
+                    {{field.column_name}}
+                  </td>
+                  <td sortable="'old_value'" data-title="'Früher'" >
+                    {{field.old_value}}
+                  </td>
+                  <td sortable="'new_value'" data-title="'Nachher'">
+                    {{field.new_value}}
+                  </td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
