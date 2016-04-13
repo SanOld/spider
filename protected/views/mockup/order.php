@@ -1258,7 +1258,7 @@
 																	<div class="form-group m-b-0">
 																		<label class="col-lg-2 control-label bold-label">
 																			Sonstige Einnahmen
-																			<button data-trigger="focus" aria-describedby="popover332715" data-original-title="" type="button" class="has-hint btn btn-question" data-container="body" title="" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+																			<button data-trigger="focus" aria-describedby="popover332715" data-original-title="" type="button" class="has-hint btn btn-question shot-fix" data-container="body" title="" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
 																				<i class="fa fa-question"></i>
 																			</button>
 																		</label>
