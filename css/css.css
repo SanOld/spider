@@ -2501,7 +2501,7 @@ body.safari .w-lg {
     min-width: 155px;
 }
 body.safari .container {
-	width:1300px;
+	width:1300px !important;
 }
 body.safari #accordion-account .panel {
 	padding: 10px 0px;
@@ -2509,4 +2509,12 @@ body.safari #accordion-account .panel {
 body.safari #accordion-account .panel-heading,
 body.safari #accordion-account .panel-collapse {
 	padding: 0 30px;
+}
+body.safari .holder-radio .cr-styled input[type=radio]:checked + i:before {top:-1px;}
+.holder-label label {
+	width:18px;
+	height:18px;
+}
+body.safari .edit-summary .group-btn button:not(#sa-warning) {
+  min-width:175px;
 }

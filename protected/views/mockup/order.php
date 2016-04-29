@@ -1687,143 +1687,197 @@
 																				<span class="col-lg-1">kein Ziel</span>
 																			</div>
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios1"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1">
-																					<input type="radio" value="option1" name="example-radios1"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1">
-																					<input type="radio" value="option1" name="example-radios1" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Verbesserung der (vorberuflichen) Handlungskompetenzen</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios2"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios2"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios2" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Verbesserung aller Übergänge in Schule (Kita-GS-Sek I-Sek II) und in Ausbildung</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios3"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios3" checked=""> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios3"> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Abbau von Schuldistanz; Reintegration in den schulischen Alltag</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios4"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios4"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios4" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Stärkung der sozialen Kompetenzen und des Selbstvertrauens</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios5"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios5"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios5" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Gewaltprävention und -intervention</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios6"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios6"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios6" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Gesundheitsförderung </p>
 																			</div>
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios7"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios7"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios7" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Förderung sportlicher, kultureller und sportlicher Interessen</p>
 																			</div>
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios8"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios8"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios8" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Einbindung der Eltern und Stärkung der Erziehungskompetenzen</p>
 																			</div>
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios9"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios9"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios9" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Sonstiges (Bezug in extra Textfeld benennen)</p>
 																			</div>
 																			<div class="col-lg-8 pull-right textarea-box">
@@ -1840,98 +1894,134 @@
 																				<span class="col-lg-1">kein Ziel</span>
 																			</div>
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios01"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1">
-																					<input type="radio" value="option1" name="example-radios01"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1">
-																					<input type="radio" value="option1" name="example-radios01" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Zusammenarbeit im Tandem oder Tridem</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios02"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios02"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios02" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Mitarbeit in schulischen Gremien, Treffen mit Schulleitung, Mitwirkung in AGs</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios03"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios03"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios03" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Öffnung der Schule in den Sozialraum</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios04"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios04"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios04" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Einbindung des Sozialraums bzw. Angebote Dritter in die Schule</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios05"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios05"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios05" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Mitarbeit in regionalen Arbeitsgemeinschaften / Netzwerken</p>
 																			</div>
 
 																			<div class="row">
-																				<label class="cr-styled col-lg-2">
-																					<input type="radio" value="option1" name="example-radios06"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios06"> 
-																					<i class="fa"></i>
-																				</label>
-																				<label class="cr-styled col-lg-1 ">
-																					<input type="radio" value="option1" name="example-radios06" checked=""> 
-																					<i class="fa"></i>
-																				</label>
+																				<div class="label-holder col-lg-2">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1"> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
+																				<div class="label-holder col-lg-1">
+																					<label class="cr-styled">
+																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<i class="fa"></i>
+																					</label>
+																				</div>
 																				<p class="col-lg-8">Gemeinsame Handlungs- und Bildungskonzepte </p>
 																			</div>
 																			<div class="col-lg-8 pull-right textarea-box">
