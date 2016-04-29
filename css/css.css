@@ -2492,9 +2492,21 @@ body.safari .cr-styled input[type=radio] + i {
 tr.thead > td {
     border-right-width: 0 !important;
 }
+
+/*Safari*/
 body.safari button.shot-fix {
 	margin: 0 0 0 3px;
 }
 body.safari .w-lg {
     min-width: 155px;
+}
+body.safari .container {
+	width:1300px;
+}
+body.safari #accordion-account .panel {
+	padding: 10px 0px;
+}
+body.safari #accordion-account .panel-heading,
+body.safari #accordion-account .panel-collapse {
+	padding: 0 30px;
 }
