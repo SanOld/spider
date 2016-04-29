@@ -1733,19 +1733,19 @@
 																			<div class="row">
 																				<div class="label-holder col-lg-2">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios4"> 
+																						<input type="radio" value="option1" name="example-radios3"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios4"> 
+																						<input type="radio" value="option1" name="example-radios3"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios4" checked=""> 
+																						<input type="radio" value="option1" name="example-radios3" checked=""> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
