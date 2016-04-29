@@ -815,11 +815,11 @@
 							</div>
 						</div>
 						<div class="form-group group-btn row m-t-30">
-							<div class="col-lg-8 text-left">
+							<div class="col-lg-7 text-left">
 								<a class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></a>
 								<button class="btn btn-icon btn-danger btn-lg" data-dismiss="modal">Mittelabrufe schließen</button>
 							</div>
-							<div class="col-lg-4 text-right">
+							<div class="col-lg-5 text-right">
 								<button class="btn w-lg cancel-btn btn-lg">Abbrechen</button>
 								<button class="btn w-lg custom-btn btn-lg">Speichern</button>
 							</div>

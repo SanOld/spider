@@ -1711,19 +1711,19 @@
 																			<div class="row">
 																				<div class="label-holder col-lg-2">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios2"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios2"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<input type="radio" value="option1" name="example-radios2" checked=""> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
@@ -1733,19 +1733,19 @@
 																			<div class="row">
 																				<div class="label-holder col-lg-2">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios4"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios4"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<input type="radio" value="option1" name="example-radios4" checked=""> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
@@ -1755,19 +1755,19 @@
 																			<div class="row">
 																				<div class="label-holder col-lg-2">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios4"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios4"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<input type="radio" value="option1" name="example-radios4" checked=""> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
@@ -1777,19 +1777,19 @@
 																			<div class="row">
 																				<div class="label-holder col-lg-2">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios5"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios5"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<input type="radio" value="option1" name="example-radios5" checked=""> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
@@ -1799,19 +1799,19 @@
 																			<div class="row">
 																				<div class="label-holder col-lg-2">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios6"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios6"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<input type="radio" value="option1" name="example-radios6" checked=""> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
@@ -1820,19 +1820,19 @@
 																			<div class="row">
 																				<div class="label-holder col-lg-2">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios7"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios7"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<input type="radio" value="option1" name="example-radios7" checked=""> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
@@ -1841,19 +1841,19 @@
 																			<div class="row">
 																				<div class="label-holder col-lg-2">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios8"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios8"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<input type="radio" value="option1" name="example-radios8" checked=""> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
@@ -1862,19 +1862,19 @@
 																			<div class="row">
 																				<div class="label-holder col-lg-2">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios9"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1"> 
+																						<input type="radio" value="option1" name="example-radios9"> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
 																				<div class="label-holder col-lg-1">
 																					<label class="cr-styled">
-																						<input type="radio" value="option1" name="example-radios1" checked=""> 
+																						<input type="radio" value="option1" name="example-radios9" checked=""> 
 																						<i class="fa"></i>
 																					</label>
 																				</div>
