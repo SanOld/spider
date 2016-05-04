@@ -176,7 +176,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope.fieldError = function (innerForm, field) {
     var form = innerForm ? $scope.form[innerForm] : $scope.form;
     if (!form || !form[field]) return false;
-    return ($scope.submited || form[field].$touched) && form[field].$invalid  || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
+    return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid  || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
   };
 
   $scope.submitFormPerformer = function () {
