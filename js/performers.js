@@ -49,6 +49,10 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
     return $rootScope.canEdit() || id == network.user.relation_id;
   };
 
+  $scope.isOwn = function(id) {
+    return id == network.user.relation_id;
+  };
+  
 });
 
 
