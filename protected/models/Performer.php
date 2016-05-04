@@ -5,7 +5,7 @@ require_once ('utils/utils.php');
 class Performer extends BaseModel {
   public $table = 'spi_performer';
   public $post = array();
-  public $select_all = " tbl.*, CONCAT_WS(\", \", NULLIF(tbl.city, \"\"), NULLIF(tbl.plz, \"\"), NULLIF(tbl.address, \"\")) AS address, CONCAT(checked_date, '%d.%m.%Y') checked_date_formatted, DATE_FORMAT(checked_date, '%d.%m.%Y') checked_date_formatted, CONCAT(usp.first_name, ' ', usp.last_name) representative_user";
+  public $select_all = " tbl.*, CONCAT_WS(\", \", NULLIF(tbl.city, \"\"), NULLIF(tbl.plz, \"\"), NULLIF(tbl.address, \"\")) full_address, CONCAT(checked_date, '%d.%m.%Y') checked_date_formatted, DATE_FORMAT(checked_date, '%d.%m.%Y') checked_date_formatted, CONCAT(usp.first_name, ' ', usp.last_name) representative_user";
   protected function getCommand() {
     if($this->user['can_edit']) {
       $this->select_all .=  ", CONCAT(usc.first_name, ' ', usc.last_name) checked_name";

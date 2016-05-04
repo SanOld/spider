@@ -42,7 +42,7 @@ $this->breadcrumbs = array('Bezirk');
                      class="table dataTable table-hover table-bordered table-edit">
                 <tr ng-repeat="row in $data">
                   <td data-title="'Name'" sortable="'name'">{{row.name}}</td>
-                  <td data-title="'Adresse'" sortable="'address'">{{row.address}}</td>
+                  <td data-title="'Adresse'" sortable="'full_address'">{{row.full_address}}</td>
                   <td data-title="'Ansprechpartner(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
                   <td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
                   <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
