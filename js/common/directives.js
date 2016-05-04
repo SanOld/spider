@@ -36,11 +36,11 @@ spi.directive("qqFileUpload", function (Notification) {
         sizeLimit: scope.setting.sizeLimit || 10520000,
         allowedExtensions: scope.setting.allowedExtensions || ['doc', 'docx', 'pdf'],
         messages: {
-          typeError: "Unfortunately the file(s) you selected weren't the type we were expecting. Only {extensions} files are allowed.",
-          sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-          minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-          emptyError: "{file} is empty, please select files again without it.",
-          onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+          typeError: "Unfortunately the file(s) you selected weren't the type we were expecting. Only {extensions} files are allowed",
+          sizeError: "{file} is too large, maximum file size is {sizeLimit}",
+          minSizeError: "{file} is too small, minimum file size is {minSizeLimit}",
+          emptyError: "{file} is empty, please select files again without it",
+          onLeave: "The files are being uploaded, if you leave now the upload will be cancelled"
         },
         showMessage: function (message) {
           Notification.error({title: 'File upload error', message: message});

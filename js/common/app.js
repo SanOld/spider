@@ -18,17 +18,17 @@ spi.run(function(ngTableDefaults, $templateCache) {
     $templateCache.put("uib/template/popover/popover.html",'<div class="popover {{placement}}" ng-class="{ in: isOpen(), fade: animation() }"> <div class="arrow" style="left: 50%;"></div><i ng-click="$parent.isOpen = false" class="ion-close-round"></i><div class="popover-content" ng-bind="content"></div>');
     $templateCache.put("angular-ui-notification.html",'<div class=\"ui-notification\"><div class="image"><i class="fa" ng-class="{\'fa-check\': t == \'s\', \'fa-exclamation\': t == \'e\', \'fa-question\': t == \'i\', \'fa-warning\': t == \'w\', \'ion-ios7-information \': t == \'p\'}"></i></div><div class="text-wrapper"><div class="title" ng-show=\"title\" ng-bind-html=\"title\"></div><div class="text" ng-bind-html=\"message\"></div></div></div>');
     $templateCache.put("uib/template/tabs/tabset.html",
-        "<div>\n" +
-        "  <div class=\"row\"><ul class=\"row nav nav-{{type || 'tabs'}}\" ng-class=\"{'nav-stacked': vertical, 'nav-justified': justified}\" ng-transclude></ul></div>\n" +
-        "  <div class=\"tab-content\">\n" +
-        "    <div class=\"tab-pane\" \n" +
-        "         ng-repeat=\"tab in tabs\" \n" +
-        "         ng-class=\"{active: tab.active}\"\n" +
-        "         uib-tab-content-transclude=\"tab\">\n" +
-        "    </div>\n" +
-        "  </div>\n" +
-        "</div>\n" +
-        "");
+      "<div>\n" +
+      "  <div class=\"row\"><ul class=\"row nav nav-{{tabset.type || 'tabs'}}\" ng-class=\"{'nav-stacked': vertical, 'nav-justified': justified}\" ng-transclude></ul></div>\n" +
+      "  <div class=\"tab-content\">\n" +
+      "    <div class=\"tab-pane\"\n" +
+      "         ng-repeat=\"tab in tabset.tabs\"\n" +
+      "         ng-class=\"{active: tabset.active === tab.index}\"\n" +
+      "         uib-tab-content-transclude=\"tab\">\n" +
+      "    </div>\n" +
+      "  </div>\n" +
+      "</div>\n" +
+      "");
 });
 
 spi.config(function($uibTooltipProvider, NotificationProvider, uiSelectConfig) {

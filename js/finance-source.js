@@ -79,9 +79,7 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
             } else {
                 network.put('finance_source/' + data.id, $scope.finance, callback);
             }
-        } else {
-            $scope.tabs[0].active = true;
-        }
+        } 
     };
 
 

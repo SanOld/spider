@@ -96,8 +96,8 @@ $this->breadcrumbs = array('Träger');
 		</div>
 
 			<form novalidate name="form">
-			<uib-tabset>
-              <uib-tab heading="Stammdaten" active="tabs[0].active" ng-click="tabs[0].active = true">
+			<uib-tabset active="tabActive">
+              <uib-tab index="0" heading="Stammdaten" active="tabs[0].active" ng-click="tabs[0].active = true">
                 <div ng-class="isInsert ? 'row' : 'holder-tab'">
                   <div ng-class="isInsert || !isFinansist ? 'col-lg-12' : 'col-lg-8'">
                     <h3 class="subheading">Allgemeine Information</h3>
@@ -374,7 +374,7 @@ $this->breadcrumbs = array('Träger');
                 </div>
               </uib-tab>
 
-				<uib-tab heading="Profil" active="tabs[1].active" ng-click="tabs[1].active = true">
+				<uib-tab index="1" heading="Profil" active="tabs[1].active" ng-click="tabs[1].active = true">
 					<div class="holder-tab">
 						<div class="panel-body">
               <span disable-all="!canEditPerformer() || modeView">
@@ -827,7 +827,7 @@ $this->breadcrumbs = array('Träger');
           </div>
         </uib-tab>-->
 
-				<uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 't'; relationId = performerId" ng-if="canView('user')">
+				<uib-tab index="2" heading="Benutzer" ng-if="!isInsert" ng-init="page = 't'; relationId = performerId" ng-if="canView('user')">
 					<div class="holder-tab" ng-controller="UserController">
 						<div class="panel-body edit-user agency-tab-user">
 							<div>
@@ -874,7 +874,7 @@ $this->breadcrumbs = array('Träger');
 					</div>
 				</uib-tab>
 
-        <uib-tab heading="Projekte (mockup)" ng-if="!isInsert">
+        <uib-tab index="3" heading="Projekte (mockup)" ng-if="!isInsert">
           <div class="holder-tab">
             <div class="holder-tab">
               <div class="panel-body edit-user">
