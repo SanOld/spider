@@ -116,7 +116,7 @@
                 </ui-select-choices>
               </ui-select>
 								<span ng-show="fieldError('relation_id')">
-									<label ng-show="form.type_id.$error.required" class="error">Akteur erforderlich</label>
+									<label ng-show="form.relation_id.$error.required" class="error">Akteur erforderlich</label>
 								</span>
             </div>
           </div>
@@ -326,8 +326,7 @@
             <div ng-if="isCurrentUser" class="col-lg-4">
               <label>Altes Passwort</label>
 
-              <div
-                ng-class="{'wrap-line error': fieldError('old_password')}">
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('old_password')}">
                 <input class="form-control" name="old_password" ng-model="user.old_password" type="password" value="">
 								  <span ng-show="fieldError('old_password')">
                     <label ng-show="error.old_password.error" class="error">Old password is wrong</label>
@@ -338,7 +337,7 @@
             <div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
               <label>Passwort</label>
 
-              <div ng-class="{'wrap-line error': fieldError('password')}">
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password')}">
                 <input class="form-control" name="password" ng-model="user.password" type="password" value=""
                        ng-minlength="3" ng-required="isInsert">
 								  <span ng-show="fieldError('password')">
@@ -351,7 +350,7 @@
             <div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
               <label>Passwort bestätigen</label>
 
-              <div ng-class="{'wrap-line error': fieldError('password_repeat')}">
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password_repeat')}">
                 <input class="form-control" name="password_repeat" ng-model="password_repeat" type="password" value=""
                        ng-pattern="user.password" ng-required="isInsert || user.password.length">
 								<span ng-show="fieldError('password_repeat')">
