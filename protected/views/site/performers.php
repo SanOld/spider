@@ -110,7 +110,7 @@ $this->breadcrumbs = array('Träger');
                             <div spi-hint text="_hint.short_name" class="has-hint"></div>
                             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'short_name')}">
                               <input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value="" required ng-disabled="!canEdit()"/>
-                              <span ng-show="fieldError('formPerformer', 'short_name')">
+                              <span ng-class="{hide: !fieldError('formPerformer', 'short_name')}" class="hide">
                                 <label ng-show="form.formPerformer.short_name.$error.required" class="error">Name is required</label>
                                 <label ng-show="error.short_name.dublicate" class="error">This Name already exists</label>
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -124,7 +124,7 @@ $this->breadcrumbs = array('Träger');
                             <div spi-hint text="_hint.name" class="has-hint"></div>
                             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'name')}">
                               <input class="form-control" name="name" ng-model="performer.name" type="text" value="" required ng-disabled="!canEdit()">
-                              <span ng-show="fieldError('formPerformer', 'name')">
+                              <span ng-class="{hide: !fieldError('formPerformer', 'name')}" class="hide">
                                 <label ng-show="formPerformer.name.$error.required" class="error">Kurzname is required</label>
                                 <label ng-show="error.name.dublicate" class="error">This Kurzname already exists</label>
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -170,7 +170,7 @@ $this->breadcrumbs = array('Träger');
                               <div spi-hint text="_hint.phone" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'phone')}">
                                 <input name="phone" ng-model="performer.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
-                                <span ng-show="fieldError('formPerformer', 'phone')">
+                                <span ng-class="{hide: !fieldError('formPerformer', 'phone')}" class="hide">
                                   <label ng-show="form.formPerformer.phone.$error.pattern" class="error">Telefon must not contain letters</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
@@ -183,7 +183,7 @@ $this->breadcrumbs = array('Träger');
                               <div spi-hint text="_hint.fax" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'fax')}">
                                 <input class="form-control" name="fax" ng-model="performer.fax" type="text" value="" ng-pattern="/^[^A-Za-z]*$/" />
-                                <span ng-show="fieldError('formPerformer', 'fax')">
+                                <span ng-class="{hide: !fieldError('formPerformer', 'fax')}" class="hide">
                                   <label ng-show="form.formPerformer.fax.$error.pattern" class="error">Fax must not contain letters</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
@@ -196,7 +196,7 @@ $this->breadcrumbs = array('Träger');
                               <div spi-hint text="_hint.email" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'email')}">
                                 <input class="form-control" name="email" ng-model="performer.email" type="email" value=""/>
-                                <span ng-show="fieldError('formPerformer', 'email')">
+                                <span ng-class="{hide: !fieldError('formPerformer', 'email')}" class="hide">
                                   <label ng-show="form.formPerformer.email.$error.email" class="error">Enter a valid email</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
@@ -209,7 +209,7 @@ $this->breadcrumbs = array('Träger');
                               <div spi-hint text="_hint.homepage" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'homepage')}">
                                 <input class="form-control" name="homepage" ng-model="performer.homepage" type="text" ng-pattern="/^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/" value=""/>
-                                <span ng-show="fieldError('formPerformer', 'homepage')">
+                                <span ng-class="{hide: !fieldError('formPerformer', 'homepage')}" class="hide">
                                   <label ng-show="form.formPerformer.homepage.$error.pattern" class="error">Enter a valid webseite</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
@@ -318,7 +318,7 @@ $this->breadcrumbs = array('Träger');
                               <div spi-hint text="_hint.iban" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
                                 <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
-                                <span ng-show="fieldError('formBank{{$index}}', 'iban')">
+                                <span ng-class="{hide: !fieldError('formBank{{$index}}', 'iban')}" class="hide">
                                   <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN is required</label>
                                   <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">It doesn't seems real IBAN</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>

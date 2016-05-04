@@ -80,7 +80,7 @@ $this->breadcrumbs = array('Fördertöpfe');
               <div spi-hint text="_hint.programm" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('programm')}">
                 <input name="programm" ng-model="finance.programm" class="form-control" type="text" value="" required>
-                <span ng-show="fieldError('programm')">
+                <span ng-class="{hide: !fieldError('programm')}" class="hide">
                     <label ng-show="formFinances.programm.$error.required" class="error">Programm is
                       required</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
