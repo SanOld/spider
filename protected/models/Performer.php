@@ -98,16 +98,16 @@ class Performer extends BaseModel {
   protected function doBeforeUpdate($post, $id) {
     $post = $this->checkFields($post);
 
-    if($id == safe($this->user, 'relation_id')) {
+    $row = Yii::app() -> db -> createCommand() -> select('*')
+      -> from($this -> table)
+      -> where('id = :id', array(':id' => $id))
+      -> queryRow();
+    if($id == safe($this->user, 'relation_id') && array_diff($post, $row)) {
       $post['is_checked'] = 0;
       $post['checked_by'] = null;
     }
 
     if(!$this->user['can_edit']) {
-      $row = Yii::app() -> db -> createCommand() -> select('*')
-        -> from($this -> table)
-        -> where('id = :id', array(':id' => $id))
-        -> queryRow();
       $errorField = '';
       if($row['name'] != $post['name']) {
         $errorField = 'Kurzname';
