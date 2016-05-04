@@ -2406,28 +2406,28 @@ tfoot th.align-right {
   text-align: center;
   padding: 10px 6px;
 }
-form .form-control:disabled,
-ng-form .form-control:disabled{
-  border-style: none;
-  overflow: auto;
-  resize: none;
-  background-color: Transparent;
-  padding-left: 0;
-  color: #202020;
-  cursor: default;
-}
-form .form-control:disabled::-webkit-input-placeholder {
-  color:Transparent !important;
-}
-form .form-control:disabled:-moz-placeholder {
-  color:Transparent !important;
-}
-form .form-control:disabled::-moz-placeholder {
-  color:Transparent !important;
-}
-form .form-control:disabled:-ms-input-placeholder{
-  color:Transparent !important;
-}
+/*form .form-control:disabled,*/
+/*ng-form .form-control:disabled{*/
+  /*border-style: none;*/
+  /*overflow: auto;*/
+  /*resize: none;*/
+  /*background-color: Transparent;*/
+  /*padding-left: 0;*/
+  /*color: #202020;*/
+  /*cursor: default;*/
+/*}*/
+/*form .form-control:disabled::-webkit-input-placeholder {*/
+  /*color:Transparent !important;*/
+/*}*/
+/*form .form-control:disabled:-moz-placeholder {*/
+  /*color:Transparent !important;*/
+/*}*/
+/*form .form-control:disabled::-moz-placeholder {*/
+  /*color:Transparent !important;*/
+/*}*/
+/*form .form-control:disabled:-ms-input-placeholder{*/
+  /*color:Transparent !important;*/
+/*}*/
 #user_right_form .wrap-paging {
   display: none;
 }
