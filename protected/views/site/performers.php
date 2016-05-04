@@ -26,7 +26,7 @@ $this->breadcrumbs = array('Träger');
 									<input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control" placeholder="Eingegeben">
 								</div>
 							</div>
-							<div class="col-lg-3">
+							<div ng-class="canEdit() ? 'col-lg-3' : 'col-lg-5'">
 								<div class="form-group">
 									<div class="form-group">
 										<label>Suche nach Bankverbindung</label>
@@ -34,7 +34,7 @@ $this->breadcrumbs = array('Träger');
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-2">
+							<div class="col-lg-2" ng-if="canEdit()">
 								<div class="form-group">
 									<div class="form-group">
 										<label>Überprüft</label>
@@ -61,7 +61,7 @@ $this->breadcrumbs = array('Träger');
 									<td data-title="'Ansprechpartner(in)'" sortable="'representative_user'">{{row.representative_user}}</td>
 									<td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}">{{row.email}}</a></td>
 									<td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
-									<td data-title="'Überprüft'" sortable="'is_checked'" class="text-center">
+									<td ng-if="canEdit()" data-title="'Überprüft'" sortable="'is_checked'" class="text-center">
 										<i ng-if="+row.is_checked" class="ion-checkmark"></i>
 										<span ng-if="!+row.is_checked">-</span>
 									</td>
@@ -75,7 +75,7 @@ $this->breadcrumbs = array('Träger');
 							</table>
 						</div>
 					</div>
-					<div class="notice">
+					<div class="notice" ng-if="canEdit()">
 						<span class="color-notice"></span>
 						Nicht überprüfte Agenturen
 					</div>
