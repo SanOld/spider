@@ -168,7 +168,8 @@ spi.directive("spiOnFocusLarge", function () {
     restrict: 'A',
     scope: {
       spiSave: '=',
-      spiCancel: '='
+      spiCancel: '=',
+      ngModel: '='
     },
     link: function (scope, element, attrs, ctrl) {
       var defaultText = element.val();
@@ -181,7 +182,7 @@ spi.directive("spiOnFocusLarge", function () {
         defaultText = element.val();
       });
       scope.$watch('spiCancel', function(val) {
-        element.val(defaultText);
+        scope.ngModel = defaultText;
         element.removeClass('animate');
       });
     }
