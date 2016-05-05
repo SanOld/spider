@@ -178,6 +178,7 @@ spi.directive("spiOnFocusLarge", function () {
       });
       scope.$watch('spiSave', function(val) {
         element.removeClass('animate');
+        defaultText = element.val();
       });
       scope.$watch('spiCancel', function(val) {
         element.val(defaultText);
