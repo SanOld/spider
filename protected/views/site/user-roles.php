@@ -64,7 +64,7 @@ $this->breadcrumbs = array('Benutzerrollen');
 							<label>Akteur-Typ</label>
               <div>
                 <span ng-if="!isInsert" ng-bind="relation_name"></span>
-                <span spi-hint text="_hint.type" class="has-hint"></span>
+                <span spi-hint text="_hint.type" class="{{isInsert ? 'has-hint' : ''}}"></span>
                 <div ng-if="isInsert" class="wrap-hint">
                   <select  name="user_type_type" ng-model="user_type.type" class="type-user form-control" ng-options="r.id as r.name for r in relations"></select>
                 </div>

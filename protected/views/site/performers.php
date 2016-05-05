@@ -221,8 +221,8 @@ $this->breadcrumbs = array('Träger');
                       <div class="row holder-three-blocks" ng-if="!isInsert">
                         <div class="col-lg-4">
                           <h4>Vertretungsberechtigte Person</h4>
-                          <div spi-hint text="_hint.representative_user_id" class="has-hint"></div>
                           <span ng-if="!canEdit() || modeView" ng-bind="representativeUser.name || '-'"></span>
+                          <span spi-hint text="_hint.representative_user_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="canEdit() && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" ng-model="performer.representative_user_id" name="representative_user_id">
                               <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
@@ -244,8 +244,8 @@ $this->breadcrumbs = array('Träger');
                         </div>
                         <div class="col-lg-4">
                           <h4>Ansprechperson für Antragsbearbeitung</h4>
-                          <div spi-hint text="_hint.application_processing_user_id" class="has-hint"></div>
                           <span ng-if="!canEdit() || modeView" ng-bind="applicationProcessingUser.name || '-'"></span>
+                          <span spi-hint text="_hint.application_processing_user_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="canEdit() && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" ng-model="performer.application_processing_user_id" theme="select2" name="application_processing_user_id">
                               <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
@@ -267,8 +267,8 @@ $this->breadcrumbs = array('Träger');
                         </div>
                         <div class="col-lg-4">
                           <h4>Ansprechperson für die Finanzplanbearbeitung</h4>
-                          <div spi-hint text="_hint.budget_processing_user_id" class="has-hint"></div>
                           <span ng-if="!canEdit() || modeView" ng-bind="budgetProcessingUser.name || '-'"></span>
+                          <span spi-hint text="_hint.budget_processing_user_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="canEdit() && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
                               <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>

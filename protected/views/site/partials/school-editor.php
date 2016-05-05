@@ -191,8 +191,8 @@
                 </div>
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
                   <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
-                  <div spi-hint text="_hint.contact_id" class="has-hint"></div>
                   <span ng-if="!canEdit() || modeView" ng-bind="contactUser.name || '-'"></span>
+                  <span spi-hint text="_hint.contact_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="canEdit() && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(school.contact_id)"
                                ng-model="school.contact_id" name="contact_id">
