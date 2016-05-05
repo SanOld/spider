@@ -1277,10 +1277,10 @@ body > .select2-container {
 }
 .holder-textarea {
 	height: 70px;
-	position: relative;
+	/*position: relative;*/
 }
 #profile textarea.animate-textarea {
-	position:absolute;
+	/*position:absolute;*/
 }
 #profile textarea.textarea-1 {
 	top:0;
@@ -1299,10 +1299,12 @@ body > .select2-container {
 	right:0;
 }
 #profile textarea.animate-textarea.animate {
-	height: 480px !important;
+	bottom: auto;
+	height: 500px !important;
 	position: absolute;
 	width: 1095px !important;
 	z-index: 3;
+	top: 0;
 	-webkit-transition:all .3s ease 0s;
 	-ms-transition:all .3s ease 0s;
 	transition:all .3s ease 0s;
