@@ -18,7 +18,7 @@ $this->breadcrumbs = array('Träger');
 					</div>
 				</div>
 				<div class="panel-body agency-edit">
-					<div class="row datafilter">
+					<div class="row datafilter" ng-if="!isPerformer">
 						<form>
 							<div class="col-lg-5">
 								<div class="form-group">
@@ -375,7 +375,7 @@ $this->breadcrumbs = array('Träger');
               </uib-tab>
 
 				<uib-tab index="1" heading="Profil" active="tabs[1].active" ng-click="tabs[1].active = true">
-					<div class="holder-tab">
+					<div class="holder-tab" id="profile">
 						<div class="panel-body">
               <span disable-all="!canEditPerformer() || modeView">
 							<div class="col-lg-6">
@@ -384,7 +384,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.company_overview" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea spi-on-focus-large name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
 								</div>
@@ -393,7 +393,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.diversity" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea spi-on-focus-large name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
 								</div>
@@ -416,7 +416,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.further_education" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea spi-on-focus-large name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
 									  </div>
 									</div>
 								</div>
@@ -425,7 +425,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.quality_standards" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea spi-on-focus-large name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
 									  </div>
 									</div>
 								</div>

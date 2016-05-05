@@ -163,6 +163,23 @@ spi.directive('disableAll', function ($timeout) {
   }
 });
 
+spi.directive("spiOnFocusLarge", function () {
+  return {
+    restrict: 'A',
+    // scope: {
+    //   text: '=',
+    //   class: '@'
+    // },
+    link: function (scope, element, attrs, ctrl) {
+      element.bind('focus',function () {
+        element.addClass('animate');
+      }).bind('blur', function () {
+        element.removeClass('animate');
+      });
+    }
+  };
+});
+
 spi.filter('nl2br', ['$sce', function ($sce) {
   return function (text) {
     return text ? $sce.trustAsHtml(text.replace(/\n/g, '<br/>')) : '';

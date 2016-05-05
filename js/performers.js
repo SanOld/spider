@@ -2,6 +2,7 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
   $rootScope._m = 'performer';
   $scope.filter = {};
   $scope.checks = [{id: 1, name: 'Überprüft'}, {id: 0, name: 'Nicht überprüft'}];
+  $scope.isPerformer = network.user.type == 't';
 
   var grid = GridService();
   $scope.tableParams = grid('performer', $scope.filter, {sorting: {name: 'asc'}});
