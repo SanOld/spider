@@ -384,7 +384,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.company_overview" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea spi-on-focus-large name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
 								</div>
@@ -393,7 +393,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.diversity" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea spi-on-focus-large name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
 								</div>
@@ -416,7 +416,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.further_education" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea spi-on-focus-large name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
 									  </div>
 									</div>
 								</div>
@@ -425,7 +425,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.quality_standards" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea spi-on-focus-large name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
 									  </div>
 									</div>
 								</div>
@@ -456,7 +456,12 @@ $this->breadcrumbs = array('Träger');
               </span>
 						</div>
 					</div>
-					<hr>
+          <div class="clearfix" ng-show="isTextareaShow"><div class="col-lg-4 col-lg-offset-8 text-right button-textarea">
+              <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Abbrechen</button>
+              <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false">Speichern</button>
+            </div>
+          </div>
+          <hr>
 					<div class="group-btn clearfix m-t-20">
 						<div class="pull-left" ng-if="!isInsert && canDelete() && !modeView">
 							<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>

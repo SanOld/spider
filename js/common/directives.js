@@ -166,14 +166,21 @@ spi.directive('disableAll', function ($timeout) {
 spi.directive("spiOnFocusLarge", function () {
   return {
     restrict: 'A',
-    // scope: {
-    //   text: '=',
-    //   class: '@'
-    // },
+    scope: {
+      spiSave: '=',
+      spiCancel: '='
+    },
     link: function (scope, element, attrs, ctrl) {
+      var defaultText = element.val();
       element.bind('focus',function () {
+        defaultText = element.val();
         element.addClass('animate');
-      }).bind('blur', function () {
+      });
+      scope.$watch('spiSave', function(val) {
+        element.removeClass('animate');
+      });
+      scope.$watch('spiCancel', function(val) {
+        element.val(defaultText);
         element.removeClass('animate');
       });
     }

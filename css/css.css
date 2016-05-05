@@ -1299,10 +1299,10 @@ body > .select2-container {
 	right:0;
 }
 #profile textarea.animate-textarea.animate {
-	height: 182px !important;
+	height: 480px !important;
 	position: absolute;
-	width: 1110px !important;
-	z-index: 1;
+	width: 1095px !important;
+	z-index: 3;
 	-webkit-transition:all .3s ease 0s;
 	-ms-transition:all .3s ease 0s;
 	transition:all .3s ease 0s;
@@ -2523,4 +2523,9 @@ body.safari .edit-summary .group-btn button:not(#sa-warning) {
 body.safari .box-overview span {width: 135px;}
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
+}
+.button-textarea .custom-btn {
+	font-size: 14px;
+	margin: 0 0 0 6px;
+	text-transform: none;
 }
