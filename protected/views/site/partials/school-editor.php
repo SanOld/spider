@@ -176,7 +176,7 @@
                           <div spi-hint text="_hint.homepage" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('homepage')}">
                             <input name="homepage" ng-model="school.homepage" type="text" value=""
-                                   ng-pattern="/^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/"
+                                   ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/"
                                    class="form-control">
                             <span ng-class="{hide: !fieldError('homepage')}" class="hide">
                               <label ng-show="form.formSchool.homepage.$error.pattern" class="error">Enter a valid

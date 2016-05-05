@@ -208,7 +208,7 @@ $this->breadcrumbs = array('Träger');
                             <div class="col-lg-9">
                               <div spi-hint text="_hint.homepage" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'homepage')}">
-                                <input class="form-control" name="homepage" ng-model="performer.homepage" type="text" ng-pattern="/^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/" value=""/>
+                                <input class="form-control" name="homepage" ng-model="performer.homepage" type="text" ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/" value=""/>
                                 <span ng-class="{hide: !fieldError('formPerformer', 'homepage')}" class="hide">
                                   <label ng-show="form.formPerformer.homepage.$error.pattern" class="error">Enter a valid webseite</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
