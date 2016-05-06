@@ -363,7 +363,6 @@ $this->breadcrumbs = array('Träger');
                   </div>
                 </div>
                 <hr>
-                
                 <div class="group-btn clearfix m-t-20">
                   <div class="pull-left" ng-if="!isInsert && canDelete() && !modeView">
                     <button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
