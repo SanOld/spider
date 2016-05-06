@@ -61,7 +61,7 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
 
     $scope.fieldError = function(field) {
         var form = $scope.formFinances;
-        return ($scope.submited || form[field].$touched) && form[field].$invalid;
+        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
     };
 
     $scope.submitFormFinances = function () {
@@ -79,8 +79,6 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
             } else {
                 network.put('finance_source/' + data.id, $scope.finance, callback);
             }
-        } else {
-            $scope.tabs[0].active = true;
         }
     };
 

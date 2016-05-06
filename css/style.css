@@ -1977,6 +1977,7 @@ ul.p-social-link li a {
 }
 .select2 .ui-select-choices-row:hover {
   background-color: #3996e5;
+  color: #fff;
 }
 .select2 * {
   -webkit-transition: none !important;

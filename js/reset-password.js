@@ -1,7 +1,7 @@
 spi.controller('ResetPasswordController', function($scope, network) {
 
     $scope.fieldError = function(field) {
-        return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;
+        return $scope.form[field] && ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;
     };
 
     $scope.submitForm = function () {

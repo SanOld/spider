@@ -47,7 +47,7 @@
                   <span ng-bind-html="type.name | highlight: $select.search"></span>
                 </ui-select-choices>
               </ui-select>
-								<span ng-show="fieldError('type_id')">
+								<span ng-class="{hide: !fieldError('type_id')}" class="hide">
 									<label ng-show="form.type_id.$error.required" class="error">Benutzerrollen erforderlich</label>
 								</span>
             </div>
@@ -86,7 +86,7 @@
               <span ng-if="modeView || !canEdit()" class="no-edit-text">{{user.sex == '1' ? 'Herr' : 'Frau'}}</span>
               <span spi-hint text="_hint.sex"></span>
             </div>
-            <div ng-show="fieldError('sex')">
+            <div ng-class="{hide: !fieldError('sex')}" class="hide">
               <label class="error" ng-show="form.sex.$error.required">Anrede erforderlich</label>
             </div>
           </div>
@@ -115,8 +115,8 @@
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
                 </ui-select-choices>
               </ui-select>
-								<span ng-show="fieldError('relation_id')">
-									<label ng-show="form.type_id.$error.required" class="error">Akteur erforderlich</label>
+								<span ng-class="{hide: !fieldError('relation_id')}" class="hide">
+									<label ng-show="form.relation_id.$error.required" class="error">Akteur erforderlich</label>
 								</span>
             </div>
           </div>
@@ -183,7 +183,7 @@
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('first_name')}">
               <input class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name"
                      value="" ng-minlength="2" ng-maxlength="45" required>
-                <span ng-show="fieldError('first_name')">
+                <span ng-class="{hide: !fieldError('first_name')}" class="hide">
                 <label ng-show="form.first_name.$error.required" class="error">Vorname erforderlich</label>
                 <label ng-show="form.first_name.$error.minlength" class="error">Vorname is too short</label>
                 <label ng-show="form.first_name.$error.maxlength" class="error">Vorname is too long</label>
@@ -199,7 +199,7 @@
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('last_name')}">
               <input class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
                      ng-minlength="2" ng-maxlength="45" required>
-              <span ng-show="fieldError('last_name')">
+              <span ng-class="{hide: !fieldError('last_name')}" class="hide">
                 <label ng-show="form.last_name.$error.required" class="error">Nachname erforderlich</label>
                 <label ng-show="form.last_name.$error.minlength" class="error">Nachname is too short</label>
                 <label ng-show="form.last_name.$error.maxlength" class="error">Nachname is too long</label>
@@ -272,7 +272,7 @@
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('login')}">
                   <input class="form-control" type="text" name="login" ng-model="user.login" id="login" value=""
                          ng-disabled="isCurrentUser && !isAdmin" ng-minlength="3" ng-maxlength="45" required>
-									<span ng-show="fieldError('login')">
+									<span ng-class="{hide: !fieldError('login')}" class="hide">
 										<label ng-show="form.login.$error.required" class="error">Benutzername erforderlich</label>
 										<label ng-show="form.login.$error.minlength" class="error">Benutzername is too short</label>
 										<label ng-show="form.login.$error.maxlength" class="error">Benutzername is too long</label>
@@ -290,7 +290,7 @@
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                   <input class="form-control" type="email" name="email" ng-model="user.email" id="email" value=""
                          ng-maxlength="45" required>
-									<span ng-show="fieldError('email')">
+									<span ng-class="{hide: !fieldError('email')}" class="hide">
 										<label ng-show="form.email.$error.required" class="error">Email erforderlich</label>
 										<label ng-show="form.email.$error.email" class="error">Enter a valid email</label>
 										<label ng-show="form.email.$error.maxlength" class="error">Username is too long</label>
@@ -308,7 +308,7 @@
                 <div spi-hint text="_hint.phone" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
                   <input class="form-control" type="text" name="phone" ng-model="user.phone"  value="" ng-pattern="/^[^A-Za-z]*$/">
-                  <span ng-show="fieldError('phone')">
+                  <span ng-class="{hide: !fieldError('phone')}" class="hide">
 										<label ng-show="form.phone.$error.pattern" class="error">Telefon must not contain letters</label>
 										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 									</span>
@@ -326,10 +326,9 @@
             <div ng-if="isCurrentUser" class="col-lg-4">
               <label>Altes Passwort</label>
 
-              <div
-                ng-class="{'wrap-line error': fieldError('old_password')}">
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('old_password')}">
                 <input class="form-control" name="old_password" ng-model="user.old_password" type="password" value="">
-								  <span ng-show="fieldError('old_password')">
+								  <span ng-class="{hide: !fieldError('old_password')}" class="hide">
                     <label ng-show="error.old_password.error" class="error">Old password is wrong</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								  </span>
@@ -338,10 +337,10 @@
             <div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
               <label>Passwort</label>
 
-              <div ng-class="{'wrap-line error': fieldError('password')}">
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password')}">
                 <input class="form-control" name="password" ng-model="user.password" type="password" value=""
                        ng-minlength="3" ng-required="isInsert">
-								  <span ng-show="fieldError('password')">
+								  <span ng-class="{hide: !fieldError('password')}" class="hide">
                     <label ng-show="form.password.$error.required" class="error">Passwort erforderlich</label>
                     <label ng-show="form.password.$error.minlength" class="error">Passwort is too short</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -351,10 +350,10 @@
             <div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
               <label>Passwort bestätigen</label>
 
-              <div ng-class="{'wrap-line error': fieldError('password_repeat')}">
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password_repeat')}">
                 <input class="form-control" name="password_repeat" ng-model="password_repeat" type="password" value=""
                        ng-pattern="user.password" ng-required="isInsert || user.password.length">
-								<span ng-show="fieldError('password_repeat')">
+								<span ng-class="{hide: !fieldError('password_repeat')}" class="hide">
 									<label ng-show="form.password_repeat.$error.required" class="error">Passwort bestätigen erforderlich</label>
 									<label ng-show="form.password_repeat.$error.pattern" class="error">Passwords are not equal</label>
 									<span class="glyphicon glyphicon-remove form-control-feedback"></span>

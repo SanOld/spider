@@ -76,7 +76,8 @@ $cs->registerScriptFile($baseUrl . '/js/lib/angular-sanitize.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ng-iban.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/select.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.1.2.min.js');
-$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.3.0.js');
+//$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.3.2.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.3.2.min.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/mask.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ng-table.js');
 
