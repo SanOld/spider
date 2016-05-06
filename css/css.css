@@ -1277,10 +1277,10 @@ body > .select2-container {
 }
 .holder-textarea {
 	height: 70px;
-	position: relative;
+	/*position: relative;*/
 }
 #profile textarea.animate-textarea {
-	position:absolute;
+	/*position:absolute;*/
 }
 #profile textarea.textarea-1 {
 	top:0;
@@ -1299,10 +1299,12 @@ body > .select2-container {
 	right:0;
 }
 #profile textarea.animate-textarea.animate {
-	height: 182px !important;
+	bottom: auto;
+	height: 500px !important;
 	position: absolute;
-	width: 1110px !important;
-	z-index: 1;
+	width: 1095px !important;
+	z-index: 3;
+	top: 0;
 	-webkit-transition:all .3s ease 0s;
 	-ms-transition:all .3s ease 0s;
 	transition:all .3s ease 0s;
@@ -2406,28 +2408,28 @@ tfoot th.align-right {
   text-align: center;
   padding: 10px 6px;
 }
-form .form-control:disabled,
-ng-form .form-control:disabled{
-  border-style: none;
-  overflow: auto;
-  resize: none;
-  background-color: Transparent;
-  padding-left: 0;
-  color: #202020;
-  cursor: default;
-}
-form .form-control:disabled::-webkit-input-placeholder {
-  color:Transparent !important;
-}
-form .form-control:disabled:-moz-placeholder {
-  color:Transparent !important;
-}
-form .form-control:disabled::-moz-placeholder {
-  color:Transparent !important;
-}
-form .form-control:disabled:-ms-input-placeholder{
-  color:Transparent !important;
-}
+/*form .form-control:disabled,*/
+/*ng-form .form-control:disabled{*/
+  /*border-style: none;*/
+  /*overflow: auto;*/
+  /*resize: none;*/
+  /*background-color: Transparent;*/
+  /*padding-left: 0;*/
+  /*color: #202020;*/
+  /*cursor: default;*/
+/*}*/
+/*form .form-control:disabled::-webkit-input-placeholder {*/
+  /*color:Transparent !important;*/
+/*}*/
+/*form .form-control:disabled:-moz-placeholder {*/
+  /*color:Transparent !important;*/
+/*}*/
+/*form .form-control:disabled::-moz-placeholder {*/
+  /*color:Transparent !important;*/
+/*}*/
+/*form .form-control:disabled:-ms-input-placeholder{*/
+  /*color:Transparent !important;*/
+/*}*/
 #user_right_form .wrap-paging {
   display: none;
 }
@@ -2520,7 +2522,14 @@ body.safari #accordion-account .panel-collapse {
 body.safari .edit-summary .group-btn button:not(#sa-warning) {
   min-width:175px;
 }
-body.safari .box-overview span {width: 135px;}
 body.safari #finance .btn-group.btn-toggle .btn {
 	padding:5px 8px;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+.button-textarea .custom-btn {
+	font-size: 14px;
+	margin: 0 0 0 6px;
+	text-transform: none;
 }
