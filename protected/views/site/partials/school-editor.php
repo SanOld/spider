@@ -212,7 +212,7 @@
                     <dt>Telefon</dt>
                     <dd ng-bind="contactUser.phone || '-'"></dd>
                     <dt>Email</dt>
-                    <dd ng-bind="contactUser.email || '-'"></dd>
+                    <dd class="truncate-email"><span ng-bind="contactUser.email || '-'"></span><i uib-popover="{{contactUser.email}}" class="fa fa-info-circle"></i></dd>
                   </dl>
                 </div>
               </div>

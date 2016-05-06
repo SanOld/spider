@@ -239,7 +239,7 @@ $this->breadcrumbs = array('Träger');
                             <dt>Telefon</dt>
                             <dd ng-bind="(representativeUser.phone) || '-'"></dd>
                             <dt>Email</dt>
-                            <dd class="truncate-email"><span ng-bind="representativeUser.email || '-'"></span><i uib-popover="{{representativeUser.email}}" popover-trigger="mouseenter" class="fa fa-info-circle"></i></dd>
+                            <dd class="truncate-email"><span ng-bind="representativeUser.email || '-'"></span><i uib-popover="{{representativeUser.email}}" class="fa fa-info-circle"></i></dd>
                           </dl>
                         </div>
                         <div class="col-lg-4">
@@ -262,7 +262,7 @@ $this->breadcrumbs = array('Träger');
                             <dt>Telefon</dt>
                             <dd ng-bind="(applicationProcessingUser.phone) || '-'"></dd>
                             <dt>Email</dt>
-                            <dd class="truncate-email"><span ng-bind="applicationProcessingUser.email || '-'"></span><i tooltip-trigger="mouseenter" tooltip-placement="auto top" uib-tooltip="{{applicationProcessingUser.email}}" class="fa fa-info-circle"></i></dd>
+                            <dd class="truncate-email"><span ng-bind="applicationProcessingUser.email || '-'"></span><i uib-popover="{{applicationProcessingUser.email}}" class="fa fa-info-circle"></i></dd>
                           </dl>
                         </div>
                         <div class="col-lg-4">
@@ -285,7 +285,7 @@ $this->breadcrumbs = array('Träger');
                             <dt>Telefon</dt>
                             <dd ng-bind="(budgetProcessingUser.phone) || '-'"></dd>
                             <dt>Email</dt>
-                            <dd class="truncate-email"><span ng-bind="budgetProcessingUser.email || '-'"></span><i class="fa fa-info-circle"></i></dd>
+                            <dd class="truncate-email"><span ng-bind="budgetProcessingUser.email || '-'"></span><i uib-popover="{{budgetProcessingUser.email}}" class="fa fa-info-circle"></i></dd>
                           </dl>
                         </div>
                       </div>
