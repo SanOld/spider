@@ -2521,3 +2521,6 @@ body.safari .edit-summary .group-btn button:not(#sa-warning) {
   min-width:175px;
 }
 body.safari .box-overview span {width: 135px;}
+body.safari #finance .btn-group.btn-toggle .btn {
+	padding:5px 8px;
+}
