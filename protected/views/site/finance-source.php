@@ -7,14 +7,14 @@ $this->breadcrumbs = array('Fördertöpfe');
 <div ng-controller="FinanceSourceController" ng-cloak class="wraper container-fluid">
   <div class="row">
     <div class="container center-block">
-      <div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>
+      <div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
-          <h1 class="panel-title col-lg-6">Fördertöpfe</h1>
+          <h1 class="panel-title col-lg-6">Fördertöpf hinzufügen</h1>
 
           <div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Fördertopf hinzufügen</button>
+            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Schule hinzufügen</button>
           </div>
         </div>
         <div class="panel-body schoole-user">
@@ -46,9 +46,9 @@ $this->breadcrumbs = array('Fördertöpfe');
 <script type="text/ng-template" id="editTemplate.html">
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
-      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Fördertopf bearbeiten</h3>
-      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Fördertopf ansicht</h3>
-      <h3 class="m-0 pull-left" ng-if="isInsert">Fördertopf hinzufügen</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Fördertöpf bearbeiten</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Fördertöpf ansicht</h3>
+      <h3 class="m-0 pull-left" ng-if="isInsert">Fördertöpf hinzufügen</h3>
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
     <div class="panel-body">
@@ -80,7 +80,7 @@ $this->breadcrumbs = array('Fördertöpfe');
               <div spi-hint text="_hint.programm" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('programm')}">
                 <input name="programm" ng-model="finance.programm" class="form-control" type="text" value="" required>
-                <span ng-class="{hide: !fieldError('programm')}" class="hide">
+                <span ng-show="fieldError('programm')">
                     <label ng-show="formFinances.programm.$error.required" class="error">Programm is
                       required</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>

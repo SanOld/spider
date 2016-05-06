@@ -74,7 +74,7 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, mo
   });
 
   $scope.fieldError = function (field) {
-    return $scope.form[field] && ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid || ($scope.error && $scope.error[field] != undefined && $scope.form[field].$pristine);
+    return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid || ($scope.error && $scope.error[field] != undefined && $scope.form[field].$pristine);
   };
 
   $scope.submitForm = function () {

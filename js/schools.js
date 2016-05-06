@@ -145,7 +145,7 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
 
   $scope.fieldError = function (field) {
     var form = $scope.form.formSchool;
-    return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
+    return ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
   };
 
   $scope.submitFormSchool = function () {

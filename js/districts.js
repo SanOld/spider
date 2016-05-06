@@ -86,7 +86,7 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, mo
 
   $scope.fieldError = function (field) {
     var form = $scope.form.formDistrict;
-    return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
+    return ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
   };
 
   $scope.submitFormDistrict = function () {

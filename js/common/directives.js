@@ -2,10 +2,10 @@ spi.directive("spiHintMain", function () {
   return {
     restrict: 'A',
     scope: {
-      header: '=',
+      title: '=',
       text: '='
     },
-    template: '<div ng-if="header && text" class="hint-details alert alert-info m-0 clearfix"  ng-init="isCollapsed = 1"> <div class="heading-alert"> <strong ng-bind="header"></strong> <span ng-click="isCollapsed = !isCollapsed" class="show-link pull-right"> <span ng-show="isCollapsed">Zeigen</span> <span ng-hide="isCollapsed">Ausblenden</span> <span class="caret" ng-class="{\'open\': !isCollapsed}"></span> </span> </div> <div uib-collapse="isCollapsed"> <p ng-bind-html="text | nl2br"></p> </div> </div>'
+    template: '<div ng-if="title && text" class="hint-details alert alert-info m-0 clearfix"  ng-init="isCollapsed = 1"> <div class="heading-alert"> <strong ng-bind="title"></strong> <span ng-click="isCollapsed = !isCollapsed" class="show-link pull-right"> <span ng-show="isCollapsed">Zeigen</span> <span ng-hide="isCollapsed">Ausblenden</span> <span class="caret" ng-class="{\'open\': !isCollapsed}"></span> </span> </div> <div uib-collapse="isCollapsed"> <p ng-bind-html="text | nl2br"></p> </div> </div>'
   };
 });
 
@@ -36,11 +36,11 @@ spi.directive("qqFileUpload", function (Notification) {
         sizeLimit: scope.setting.sizeLimit || 10520000,
         allowedExtensions: scope.setting.allowedExtensions || ['doc', 'docx', 'pdf'],
         messages: {
-          typeError: "Unfortunately the file(s) you selected weren't the type we were expecting. Only {extensions} files are allowed",
-          sizeError: "{file} is too large, maximum file size is {sizeLimit}",
-          minSizeError: "{file} is too small, minimum file size is {minSizeLimit}",
-          emptyError: "{file} is empty, please select files again without it",
-          onLeave: "The files are being uploaded, if you leave now the upload will be cancelled"
+          typeError: "Unfortunately the file(s) you selected weren't the type we were expecting. Only {extensions} files are allowed.",
+          sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+          minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+          emptyError: "{file} is empty, please select files again without it.",
+          onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
         },
         showMessage: function (message) {
           Notification.error({title: 'File upload error', message: message});
@@ -161,32 +161,6 @@ spi.directive('disableAll', function ($timeout) {
 
     }
   }
-});
-
-spi.directive("spiOnFocusLarge", function () {
-  return {
-    restrict: 'A',
-    scope: {
-      spiSave: '=',
-      spiCancel: '=',
-      ngModel: '='
-    },
-    link: function (scope, element, attrs, ctrl) {
-      var defaultText = element.val();
-      element.bind('focus',function () {
-        defaultText = element.val();
-        element.addClass('animate');
-      });
-      scope.$watch('spiSave', function(val) {
-        element.removeClass('animate');
-        defaultText = element.val();
-      });
-      scope.$watch('spiCancel', function(val) {
-        scope.ngModel = defaultText;
-        element.removeClass('animate');
-      });
-    }
-  };
 });
 
 spi.filter('nl2br', ['$sce', function ($sce) {

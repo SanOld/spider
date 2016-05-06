@@ -8,7 +8,7 @@ $this->breadcrumbs = array('Schule');
 <div ng-controller="SchoolController" ng-cloak class="wraper container-fluid">
 	<div class="row">
 		<div class="container center-block">
-			<div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>
+			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
 					<h1 class="panel-title col-lg-6">Schule</h1>

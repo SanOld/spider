@@ -8,7 +8,7 @@ $this->breadcrumbs = array('Träger');
 <div ng-controller="PerformerController" ng-cloak class="wraper container-fluid">
 	<div class="row">
 		<div class="container center-block">
-			<div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>
+			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
 					<h1 class="panel-title col-lg-6">Träger</h1>
@@ -18,7 +18,7 @@ $this->breadcrumbs = array('Träger');
 					</div>
 				</div>
 				<div class="panel-body agency-edit">
-					<div class="row datafilter" ng-if="!isPerformer">
+					<div class="row datafilter">
 						<form>
 							<div class="col-lg-5">
 								<div class="form-group">
@@ -26,7 +26,7 @@ $this->breadcrumbs = array('Träger');
 									<input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control" placeholder="Eingegeben">
 								</div>
 							</div>
-							<div ng-class="canEdit() ? 'col-lg-3' : 'col-lg-5'">
+							<div class="col-lg-3">
 								<div class="form-group">
 									<div class="form-group">
 										<label>Suche nach Bankverbindung</label>
@@ -34,7 +34,7 @@ $this->breadcrumbs = array('Träger');
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-2" ng-if="canEdit()">
+							<div class="col-lg-2">
 								<div class="form-group">
 									<div class="form-group">
 										<label>Überprüft</label>
@@ -55,13 +55,13 @@ $this->breadcrumbs = array('Träger');
 					<div class="row">
 						<div class="col-lg-12">
 							<table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
-								<tr ng-repeat="row in $data" ng-class="{'disable': !+row.is_checked && !isOwn(row.id)}">
+								<tr ng-repeat="row in $data" ng-class="{'disable': !+row.is_checked}">
 									<td data-title="'Name'" sortable="'name'">{{row.name}}</td>
-									<td data-title="'Adresse'" sortable="'full_address'">{{row.full_address}}</td>
+									<td data-title="'Adresse'" sortable="'address'">{{row.address}}</td>
 									<td data-title="'Ansprechpartner(in)'" sortable="'representative_user'">{{row.representative_user}}</td>
 									<td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}">{{row.email}}</a></td>
 									<td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
-									<td ng-if="canEdit()" data-title="'Überprüft'" sortable="'is_checked'" class="text-center">
+									<td data-title="'Überprüft'" sortable="'is_checked'" class="text-center">
 										<i ng-if="+row.is_checked" class="ion-checkmark"></i>
 										<span ng-if="!+row.is_checked">-</span>
 									</td>
@@ -75,7 +75,7 @@ $this->breadcrumbs = array('Träger');
 							</table>
 						</div>
 					</div>
-					<div class="notice" ng-if="canEdit()">
+					<div class="notice">
 						<span class="color-notice"></span>
 						Nicht überprüfte Agenturen
 					</div>
@@ -96,8 +96,8 @@ $this->breadcrumbs = array('Träger');
 		</div>
 
 			<form novalidate name="form">
-			<uib-tabset active="tabActive">
-              <uib-tab index="0" heading="Stammdaten" active="tabs[0].active" ng-click="tabs[0].active = true">
+			<uib-tabset>
+              <uib-tab heading="Stammdaten" active="tabs[0].active" ng-click="tabs[0].active = true">
                 <div ng-class="isInsert ? 'row' : 'holder-tab'">
                   <div ng-class="isInsert || !isFinansist ? 'col-lg-12' : 'col-lg-8'">
                     <h3 class="subheading">Allgemeine Information</h3>
@@ -110,7 +110,7 @@ $this->breadcrumbs = array('Träger');
                             <div spi-hint text="_hint.short_name" class="has-hint"></div>
                             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'short_name')}">
                               <input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value="" required ng-disabled="!canEdit()"/>
-                              <span ng-class="{hide: !fieldError('formPerformer', 'short_name')}" class="hide">
+                              <span ng-show="fieldError('formPerformer', 'short_name')">
                                 <label ng-show="form.formPerformer.short_name.$error.required" class="error">Name is required</label>
                                 <label ng-show="error.short_name.dublicate" class="error">This Name already exists</label>
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -124,7 +124,7 @@ $this->breadcrumbs = array('Träger');
                             <div spi-hint text="_hint.name" class="has-hint"></div>
                             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'name')}">
                               <input class="form-control" name="name" ng-model="performer.name" type="text" value="" required ng-disabled="!canEdit()">
-                              <span ng-class="{hide: !fieldError('formPerformer', 'name')}" class="hide">
+                              <span ng-show="fieldError('formPerformer', 'name')">
                                 <label ng-show="formPerformer.name.$error.required" class="error">Kurzname is required</label>
                                 <label ng-show="error.name.dublicate" class="error">This Kurzname already exists</label>
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -170,7 +170,7 @@ $this->breadcrumbs = array('Träger');
                               <div spi-hint text="_hint.phone" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'phone')}">
                                 <input name="phone" ng-model="performer.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
-                                <span ng-class="{hide: !fieldError('formPerformer', 'phone')}" class="hide">
+                                <span ng-show="fieldError('formPerformer', 'phone')">
                                   <label ng-show="form.formPerformer.phone.$error.pattern" class="error">Telefon must not contain letters</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
@@ -183,7 +183,7 @@ $this->breadcrumbs = array('Träger');
                               <div spi-hint text="_hint.fax" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'fax')}">
                                 <input class="form-control" name="fax" ng-model="performer.fax" type="text" value="" ng-pattern="/^[^A-Za-z]*$/" />
-                                <span ng-class="{hide: !fieldError('formPerformer', 'fax')}" class="hide">
+                                <span ng-show="fieldError('formPerformer', 'fax')">
                                   <label ng-show="form.formPerformer.fax.$error.pattern" class="error">Fax must not contain letters</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
@@ -196,7 +196,7 @@ $this->breadcrumbs = array('Träger');
                               <div spi-hint text="_hint.email" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'email')}">
                                 <input class="form-control" name="email" ng-model="performer.email" type="email" value=""/>
-                                <span ng-class="{hide: !fieldError('formPerformer', 'email')}" class="hide">
+                                <span ng-show="fieldError('formPerformer', 'email')">
                                   <label ng-show="form.formPerformer.email.$error.email" class="error">Enter a valid email</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
@@ -208,8 +208,8 @@ $this->breadcrumbs = array('Träger');
                             <div class="col-lg-9">
                               <div spi-hint text="_hint.homepage" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'homepage')}">
-                                <input class="form-control" name="homepage" ng-model="performer.homepage" type="text" ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/" value=""/>
-                                <span ng-class="{hide: !fieldError('formPerformer', 'homepage')}" class="hide">
+                                <input class="form-control" name="homepage" ng-model="performer.homepage" type="text" ng-pattern="/^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/" value=""/>
+                                <span ng-show="fieldError('formPerformer', 'homepage')">
                                   <label ng-show="form.formPerformer.homepage.$error.pattern" class="error">Enter a valid webseite</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
@@ -221,8 +221,8 @@ $this->breadcrumbs = array('Träger');
                       <div class="row holder-three-blocks" ng-if="!isInsert">
                         <div class="col-lg-4">
                           <h4>Vertretungsberechtigte Person</h4>
+                          <div spi-hint text="_hint.representative_user_id" class="has-hint"></div>
                           <span ng-if="!canEdit() || modeView" ng-bind="representativeUser.name || '-'"></span>
-                          <span spi-hint text="_hint.representative_user_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="canEdit() && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" ng-model="performer.representative_user_id" name="representative_user_id">
                               <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
@@ -244,8 +244,8 @@ $this->breadcrumbs = array('Träger');
                         </div>
                         <div class="col-lg-4">
                           <h4>Ansprechperson für Antragsbearbeitung</h4>
+                          <div spi-hint text="_hint.application_processing_user_id" class="has-hint"></div>
                           <span ng-if="!canEdit() || modeView" ng-bind="applicationProcessingUser.name || '-'"></span>
-                          <span spi-hint text="_hint.application_processing_user_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="canEdit() && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" ng-model="performer.application_processing_user_id" theme="select2" name="application_processing_user_id">
                               <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
@@ -267,8 +267,8 @@ $this->breadcrumbs = array('Träger');
                         </div>
                         <div class="col-lg-4">
                           <h4>Ansprechperson für die Finanzplanbearbeitung</h4>
+                          <div spi-hint text="_hint.budget_processing_user_id" class="has-hint"></div>
                           <span ng-if="!canEdit() || modeView" ng-bind="budgetProcessingUser.name || '-'"></span>
-                          <span spi-hint text="_hint.budget_processing_user_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="canEdit() && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
                               <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
@@ -318,7 +318,7 @@ $this->breadcrumbs = array('Träger');
                               <div spi-hint text="_hint.iban" class="has-hint"></div>
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
                                 <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
-                                <span ng-class="{hide: !fieldError('formBank{{$index}}', 'iban')}" class="hide">
+                                <span ng-show="fieldError('formBank{{$index}}', 'iban')">
                                   <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN is required</label>
                                   <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">It doesn't seems real IBAN</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -374,8 +374,8 @@ $this->breadcrumbs = array('Träger');
                 </div>
               </uib-tab>
 
-				<uib-tab index="1" heading="Profil" active="tabs[1].active" ng-click="tabs[1].active = true">
-					<div class="holder-tab" id="profile">
+				<uib-tab heading="Profil" active="tabs[1].active" ng-click="tabs[1].active = true">
+					<div class="holder-tab">
 						<div class="panel-body">
               <span disable-all="!canEditPerformer() || modeView">
 							<div class="col-lg-6">
@@ -384,7 +384,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.company_overview" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
 								</div>
@@ -393,7 +393,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.diversity" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
 								</div>
@@ -416,7 +416,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.further_education" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
 									  </div>
 									</div>
 								</div>
@@ -425,7 +425,7 @@ $this->breadcrumbs = array('Träger');
 									<div class="holder-textarea">
                     <div spi-hint text="_hint.quality_standards" class="has-hint"></div>
                     <div class="wrap-hint">
-										  <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
+										  <textarea name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
 									  </div>
 									</div>
 								</div>
@@ -456,12 +456,7 @@ $this->breadcrumbs = array('Träger');
               </span>
 						</div>
 					</div>
-          <div class="clearfix" ng-show="isTextareaShow"><div class="col-lg-4 col-lg-offset-8 text-right button-textarea">
-              <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Abbrechen</button>
-              <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false">Speichern</button>
-            </div>
-          </div>
-          <hr>
+					<hr>
 					<div class="group-btn clearfix m-t-20">
 						<div class="pull-left" ng-if="!isInsert && canDelete() && !modeView">
 							<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
@@ -832,7 +827,7 @@ $this->breadcrumbs = array('Träger');
           </div>
         </uib-tab>-->
 
-				<uib-tab index="2" heading="Benutzer" ng-if="!isInsert" ng-init="page = 't'; relationId = performerId" ng-if="canView('user')">
+				<uib-tab heading="Benutzer" ng-if="!isInsert" ng-init="page = 't'; relationId = performerId" ng-if="canView('user')">
 					<div class="holder-tab" ng-controller="UserController">
 						<div class="panel-body edit-user agency-tab-user">
 							<div>
@@ -879,7 +874,7 @@ $this->breadcrumbs = array('Träger');
 					</div>
 				</uib-tab>
 
-        <uib-tab index="3" heading="Projekte (mockup)" ng-if="!isInsert">
+        <uib-tab heading="Projekte (mockup)" ng-if="!isInsert">
           <div class="holder-tab">
             <div class="holder-tab">
               <div class="panel-body edit-user">

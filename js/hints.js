@@ -108,7 +108,7 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
   }
 
   $scope.fieldError = function (field) {
-    return $scope.form[field] && ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;
+    return ($scope.submited || $scope.form[field].$touched) && $scope.form[field].$invalid;
   };
 
   $scope.submitForm = function (formData) {

@@ -60,7 +60,7 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
           trueFilter[k] = filter[k];
         }
       }
-      return angular.equals({}, trueFilter);
+      return angular.equals(defaultFilter, trueFilter);
     }
 
     function grid(data, defFilter, params) {
@@ -85,7 +85,7 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
     };
     grid.resetFilter = function () {
       if (!filterEquals()) {
-        filter = {};
+        filter = angular.copy(defaultFilter);
         grid.reload();
       }
       return filter;
