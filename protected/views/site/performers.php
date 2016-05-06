@@ -354,8 +354,8 @@ $this->breadcrumbs = array('Träger');
                             </div>
                           </div>
                           <div class="clearfix" ng-if="!modeView">
-                            <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">Hinzufügen</button>
-                            <button class="btn pull-right w-sm cancel-btn" ng-if="canEditBankInfo()" ng-click="removeBankDetails(bank, $index)">Löschen</button>
+                            <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">Löschen</button>
+                            <button class="btn pull-right w-sm cancel-btn" ng-if="canEditBankInfo()" ng-click="removeBankDetails(bank, $index)">Hinzufügen</button>
                           </div>
                         </ng-form>
                       </div>
