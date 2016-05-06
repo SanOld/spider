@@ -239,7 +239,7 @@ $this->breadcrumbs = array('Träger');
                             <dt>Telefon</dt>
                             <dd ng-bind="(representativeUser.phone) || '-'"></dd>
                             <dt>Email</dt>
-                            <dd ng-bind="representativeUser.email || '-'"></dd>
+                            <dd class="truncate-email"><span ng-bind="applicationProcessingUser.email || '-'"></span><i class="fa fa-info-circle"></i></dd>
                           </dl>
                         </div>
                         <div class="col-lg-4">
@@ -262,7 +262,7 @@ $this->breadcrumbs = array('Träger');
                             <dt>Telefon</dt>
                             <dd ng-bind="(applicationProcessingUser.phone) || '-'"></dd>
                             <dt>Email</dt>
-                            <dd ng-bind="applicationProcessingUser.email || '-'"></dd>
+                            <dd class="truncate-email"><span ng-bind="applicationProcessingUser.email || '-'"></span><i class="fa fa-info-circle"></i></dd>
                           </dl>
                         </div>
                         <div class="col-lg-4">
@@ -285,7 +285,7 @@ $this->breadcrumbs = array('Träger');
                             <dt>Telefon</dt>
                             <dd ng-bind="(budgetProcessingUser.phone) || '-'"></dd>
                             <dt>Email</dt>
-                            <dd ng-bind="budgetProcessingUser.email || '-'"></dd>
+                            <dd class="truncate-email"><span ng-bind="applicationProcessingUser.email || '-'"></span><i class="fa fa-info-circle"></i></dd>
                           </dl>
                         </div>
                       </div>

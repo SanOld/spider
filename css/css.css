@@ -2496,6 +2496,19 @@ body.safari .cr-styled input[type=radio] + i {
 tr.thead > td {
     border-right-width: 0 !important;
 }
+.truncate-email span {
+	width: 100px;
+  	margin: 0 5px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align:top;
+    display:inline-block;
+}
+.truncate-email .fa {
+	margin:3px 0 0;
+	color:#dedede;
+}
 
 /*Safari*/
 body.safari button.shot-fix {
