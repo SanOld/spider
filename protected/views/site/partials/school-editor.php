@@ -38,7 +38,7 @@
 
                         <div class="col-lg-8">
                           <div spi-hint text="_hint.district_id" class="has-hint"></div>
-                          <span ng-if="!canEdit() || modeView" ng-bind="districtName"></span>
+                          <span class="valign-field" ng-if="!canEdit() || modeView" ng-bind="districtName"></span>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}" ng-if="canEdit() && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-model="school.district_id"
                                        name="district_id" required>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="col-lg-5 col-lg-offset-1">
                       <div class="form-group">
-                        <label class="col-lg-3 control-label">Schul-Nr.</label>
+                        <label class="col-lg-3 control-label p-r-0">Schul-Nr.</label>
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.number" class="has-hint"></div>
@@ -108,7 +108,7 @@
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.type_id" class="has-hint"></div>
-                          <span ng-if="!canEdit() || modeView" ng-bind="schoolName"></span>
+                          <span class="valign-field" ng-if="!canEdit() || modeView" ng-bind="schoolName"></span>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}" ng-if="canEdit() && !modeView">
                             <ui-select ng-change="setNumber(school.type_id)" ng-disabled="!$select.items.length" ng-model="school.type_id" name="type_id"
                                        required>
