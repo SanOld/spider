@@ -239,7 +239,7 @@ $this->breadcrumbs = array('Träger');
                             <dt>Telefon</dt>
                             <dd ng-bind="(representativeUser.phone) || '-'"></dd>
                             <dt>Email</dt>
-                            <dd class="truncate-email"><span ng-bind="applicationProcessingUser.email || '-'"></span><i class="fa fa-info-circle"></i></dd>
+                            <dd class="truncate-email"><span ng-bind="representativeUser.email || '-'"></span><i class="fa fa-info-circle"></i></dd>
                           </dl>
                         </div>
                         <div class="col-lg-4">
@@ -285,7 +285,7 @@ $this->breadcrumbs = array('Träger');
                             <dt>Telefon</dt>
                             <dd ng-bind="(budgetProcessingUser.phone) || '-'"></dd>
                             <dt>Email</dt>
-                            <dd class="truncate-email"><span ng-bind="applicationProcessingUser.email || '-'"></span><i class="fa fa-info-circle"></i></dd>
+                            <dd class="truncate-email"><span ng-bind="budgetProcessingUser.email || '-'"></span><i class="fa fa-info-circle"></i></dd>
                           </dl>
                         </div>
                       </div>
@@ -457,8 +457,8 @@ $this->breadcrumbs = array('Träger');
 						</div>
 					</div>
           <div class="clearfix" ng-show="isTextareaShow"><div class="col-lg-4 col-lg-offset-8 text-right button-textarea">
-              <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Löschen</button>
-              <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false">Hinzufügen</button>
+              <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Hinzufügen</button>
+              <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false">Löschen</button>
             </div>
           </div>
           <hr>
