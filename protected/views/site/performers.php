@@ -354,8 +354,8 @@ $this->breadcrumbs = array('Träger');
                             </div>
                           </div>
                           <div class="clearfix" ng-if="!modeView">
-                            <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">Löschen</button>
-                            <button class="btn pull-right w-sm cancel-btn" ng-if="canEditBankInfo()" ng-click="removeBankDetails(bank, $index)">Hinzufügen</button>
+                            <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">Hinzufügen</button>
+                            <button class="btn pull-right w-sm cancel-btn" ng-if="canEditBankInfo()" ng-click="removeBankDetails(bank, $index)">Löschen</button>
                           </div>
                         </ng-form>
                       </div>
@@ -457,8 +457,8 @@ $this->breadcrumbs = array('Träger');
 						</div>
 					</div>
           <div class="clearfix" ng-show="isTextareaShow"><div class="col-lg-4 col-lg-offset-8 text-right button-textarea">
-              <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Hinzufügen</button>
-              <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false">Löschen</button>
+              <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Löschen</button>
+              <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false">Hinzufügen</button>
             </div>
           </div>
           <hr>
