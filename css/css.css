@@ -2523,6 +2523,9 @@ body.safari .edit-summary .group-btn button:not(#sa-warning) {
   min-width:175px;
 }
 body.safari .box-overview span {width: 135px;}
+body.safari #finance .btn-group.btn-toggle .btn {
+	padding:5px 8px;
+}
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
 }
