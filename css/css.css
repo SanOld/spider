@@ -2555,3 +2555,6 @@ body.safari #finance .btn-group.btn-toggle .btn {
 	margin: 0 0 0 6px;
 	text-transform: none;
 }
+.tooltip-inner {
+	max-width: 350px !important;
+}
