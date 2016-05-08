@@ -123,7 +123,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 
     $scope.fieldError = function(field) {
         var form = $scope.formProjects;
-        return ($scope.submited || form[field].$touched) && form[field].$invalid;
+        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
     };
     $scope.updateCode = function() {
         $scope.project.code = $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase() + $scope.newCode;

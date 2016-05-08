@@ -2,6 +2,7 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
   $rootScope._m = 'performer';
   $scope.filter = {};
   $scope.checks = [{id: 1, name: 'Überprüft'}, {id: 0, name: 'Nicht überprüft'}];
+  $scope.isPerformer = network.user.type == 't';
 
   var grid = GridService();
   $scope.tableParams = grid('performer', $scope.filter, {sorting: {name: 'asc'}});
@@ -31,13 +32,13 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
   try {
     var id = /id=(\d+)/.exec(location.hash)[1];
     if(id) {
-      
+
     network.get('performer', {'id': id}, function (result, response) {
       if (result && response.result.length) {
         $scope.openEdit(response.result[0], !$scope.canEdit(id))
       }
     });
-      
+
     }
   } catch(e) {}
 
@@ -49,6 +50,10 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
     return $rootScope.canEdit() || id == network.user.relation_id;
   };
 
+  $scope.isOwn = function(id) {
+    return id == network.user.relation_id;
+  };
+  
 });
 
 
@@ -60,7 +65,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope._hint = hint;
   $scope.modeView = modeView;
   $scope.isFinansist = network.user.type == 'a' || (network.user.type == 't' && parseInt(network.user.is_finansist));
-  $scope.tabs = [{active: true}];
+  $scope.tabActive = 0;
 
   $scope.canEditPerformer = function() {
     return $rootScope.canEdit() || data.id == network.user.relation_id;
@@ -176,7 +181,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope.fieldError = function (innerForm, field) {
     var form = innerForm ? $scope.form[innerForm] : $scope.form;
     if (!form || !form[field]) return false;
-    return ($scope.submited || form[field].$touched) && form[field].$invalid  || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
+    return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid  || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
   };
 
   $scope.submitFormPerformer = function () {
@@ -187,7 +192,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
       var form = $scope.form['formBank'+i];
       form.$setPristine();
       if (form.$invalid) {
-        $scope.tabs[0].active = true;
+        $scope.tabActive = 0;
         $location.hash('formBank'+i);
         $timeout(function() {
           $anchorScroll();
@@ -224,7 +229,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
           network.put('performer/' + data.id, $scope.performer, callback);
         }
       } else {
-        $scope.tabs[0].active = true;
+        $scope.tabActive = 0;
       }
     }
   };
@@ -256,7 +261,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
         }, !bulk);
       }
     } else {
-      $scope.tabs[0].active = true;
+      $scope.tabActive = 0;
       $location.hash('formBank'+index);
       $timeout(function() {
         $anchorScroll();

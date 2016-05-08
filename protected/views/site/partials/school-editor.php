@@ -25,7 +25,7 @@
                           <div spi-hint text="_hint.name" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                             <input name="name" ng-model="school.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
-                            <span ng-show="fieldError('name')">
+                            <span ng-class="{hide: !fieldError('name')}" class="hide">
                               <label ng-show="form.formSchool.name.$error.required" class="error">Name is required</label>
                               <label ng-show="error.name.dublicate" class="error">This Name already exists</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -38,7 +38,7 @@
 
                         <div class="col-lg-8">
                           <div spi-hint text="_hint.district_id" class="has-hint"></div>
-                          <span ng-if="!canEdit() || modeView" ng-bind="districtName"></span>
+                          <span class="valign-field" ng-if="!canEdit() || modeView" ng-bind="districtName"></span>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}" ng-if="canEdit() && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-model="school.district_id"
                                        name="district_id" required>
@@ -50,7 +50,7 @@
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                               </ui-select-choices>
                             </ui-select>
-                            <span ng-show="fieldError('district_id')">
+                            <span ng-class="{hide: !fieldError('district_id')}" class="hide">
                               <label ng-show="form.formSchool.district_id.$error.required" class="error">Bezirk is
                                 required</label>
                             </span>
@@ -89,13 +89,13 @@
                     </div>
                     <div class="col-lg-5 col-lg-offset-1">
                       <div class="form-group">
-                        <label class="col-lg-3 control-label">Schul-Nr.</label>
+                        <label class="col-lg-3 control-label p-r-0">Schul-Nr.</label>
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.number" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('number')}">
                             <input name="number" ng-model="school.number" class="form-control" type="text" value="" required  ng-disabled="!canEdit()">
-                            <span ng-show="fieldError('number')">
+                            <span ng-class="{hide: !fieldError('number')}" class="hide">
                               <label ng-show="form.formSchool.number.$error.required" class="error">Schul-Nr. is
                                 required</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -108,7 +108,7 @@
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.type_id" class="has-hint"></div>
-                          <span ng-if="!canEdit() || modeView" ng-bind="schoolName"></span>
+                          <span class="valign-field" ng-if="!canEdit() || modeView" ng-bind="schoolName"></span>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}" ng-if="canEdit() && !modeView">
                             <ui-select ng-change="setNumber(school.type_id)" ng-disabled="!$select.items.length" ng-model="school.type_id" name="type_id"
                                        required>
@@ -120,7 +120,7 @@
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                               </ui-select-choices>
                             </ui-select>
-                            <span ng-show="fieldError('type_id')">
+                            <span ng-class="{hide: !fieldError('type_id')}" class="hide">
                               <label ng-show="form.formSchool.type_id.$error.required" class="error">Schultyp is
                                 required</label>
                             </span>
@@ -134,7 +134,7 @@
                           <div spi-hint text="_hint.phone" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
                             <input name="phone" ng-model="school.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
-                            <span ng-show="fieldError('phone')">
+                            <span ng-class="{hide: !fieldError('phone')}" class="hide">
                               <label ng-show="form.formSchool.phone.$error.pattern" class="error">Telefon must not contain letters</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
@@ -148,7 +148,7 @@
                           <div spi-hint text="_hint.fax" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('fax')}">
                             <input name="fax" ng-model="school.fax" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
-                            <span ng-show="fieldError('fax')">
+                            <span ng-class="{hide: !fieldError('fax')}" class="hide">
                               <label ng-show="form.formSchool.fax.$error.pattern" class="error">Fax must not contain letters</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
@@ -162,7 +162,7 @@
                           <div spi-hint text="_hint.email" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                             <input name="email" ng-model="school.email" type="email" value="" class="form-control">
-                            <span ng-show="fieldError('email')">
+                            <span ng-class="{hide: !fieldError('email')}" class="hide">
                               <label ng-show="form.formSchool.email.$error.email" class="error">Enter a valid email</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
@@ -176,9 +176,9 @@
                           <div spi-hint text="_hint.homepage" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('homepage')}">
                             <input name="homepage" ng-model="school.homepage" type="text" value=""
-                                   ng-pattern="/^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/"
+                                   ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/"
                                    class="form-control">
-                            <span ng-show="fieldError('homepage')">
+                            <span ng-class="{hide: !fieldError('homepage')}" class="hide">
                               <label ng-show="form.formSchool.homepage.$error.pattern" class="error">Enter a valid
                                 webseite</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -191,8 +191,8 @@
                 </div>
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
                   <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
-                  <div spi-hint text="_hint.contact_id" class="has-hint"></div>
                   <span ng-if="!canEdit() || modeView" ng-bind="contactUser.name || '-'"></span>
+                  <span spi-hint text="_hint.contact_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="canEdit() && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(school.contact_id)"
                                ng-model="school.contact_id" name="contact_id">
@@ -212,7 +212,7 @@
                     <dt>Telefon</dt>
                     <dd ng-bind="contactUser.phone || '-'"></dd>
                     <dt>Email</dt>
-                    <dd ng-bind="contactUser.email || '-'"></dd>
+                    <dd class="truncate-email"><span ng-bind="contactUser.email || '-'"></span><i uib-tooltip="{{contactUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i></dd>
                   </dl>
                 </div>
               </div>

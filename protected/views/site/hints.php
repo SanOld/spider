@@ -7,7 +7,7 @@ $this->breadcrumbs = array('Hilfetexte');
 <div ng-controller="HintsController" class="wraper container-fluid" ng-cloak>
 	<div class="row">
 		<div class="container center-block">
-			<div spi-hint-main title="_hint.header.title" text="_hint.header.text"></div>
+			<div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
 					<h1 class="panel-title col-lg-6">Hilfetexte</h1>
@@ -86,7 +86,7 @@ $this->breadcrumbs = array('Hilfetexte');
 									<span ng-bind-html="item.name | highlight: $select.search"></span>
 								</ui-select-choices>
 							</ui-select>
-							<span ng-show="fieldError('page_id')">
+							<span ng-class="{hide: !fieldError('page_id')}" class="hide">
 								<label ng-show="form.page_id.$error.required" class="error">Seite is required</label>
 							</span>
 						</div>
@@ -107,7 +107,7 @@ $this->breadcrumbs = array('Hilfetexte');
 									<span ng-bind-html="item.name | highlight: $select.search"></span>
 								</ui-select-choices>
 							</ui-select>
-							<span ng-show="fieldError('position_id')">
+							<span ng-class="{hide: !fieldError('position_id')}" class="hide">
 								<label ng-show="form.position_id.$error.required" class="error">Position is required</label>
 							</span>
 						</div>
@@ -118,8 +118,8 @@ $this->breadcrumbs = array('Hilfetexte');
 					<div class="col-lg-10">
 						<span spi-hint text="_hint.title" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('title')}">
-							<textarea ng-model="hint.title" ng-minlength="3" name="title" class="form-control" rows="5" required></textarea>
-							<span ng-show="fieldError('title')">
+							<textarea ng-model="hint.title" ng-minlength="3" maxlength="255" name="title" class="form-control" rows="5" required></textarea>
+							<span ng-class="{hide: !fieldError('title')}" class="hide">
 								<label ng-show="form.title.$error.required" class="error">Titel is required</label>
 								<label ng-show="form.title.$error.minlength" class="error">Titel is too short</label>
 							</span>
@@ -131,8 +131,8 @@ $this->breadcrumbs = array('Hilfetexte');
 					<div class="col-lg-10">
 						<span spi-hint text="_hint.description" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
-							<textarea ng-model="hint.description" name="description" ng-minlength="3" class="form-control" rows="7" required></textarea>
-							<span ng-show="fieldError('description')">
+							<textarea ng-model="hint.description" name="description" ng-minlength="3" maxlength="{{!showTitle ? 255 : 65000}}" class="form-control" rows="7" required></textarea>
+							<span ng-class="{hide: !fieldError('description')}" class="hide">
 								<label ng-show="form.description.$error.required" class="error">Hilfetext is required</label>
 								<label ng-show="form.description.$error.minlength" class="error">Hilfetext is too short</label>
 							</span>

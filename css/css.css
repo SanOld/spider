@@ -732,11 +732,11 @@ table.dataTable thead .sorting_desc:after {
 	position:relative;
 }
 .holder-radio .cr-styled input[type=radio]:checked + i:before {
-	left: 2px;
 	overflow: hidden;
-	position: absolute;
-	top: -2px;
 	width: 11px;
+	display:block;
+	margin:-2px auto 0;
+
 }
 .dataTables_scrollBody  table.dataTable thead .sorting:after,
 .dataTables_scrollBody  table.dataTable thead .sorting_asc:after,
@@ -1189,9 +1189,11 @@ table.dataTable thead > tr > th.sorting_disabled {
 	padding:0;
 }
 .holder-radio label {
-	display:block;
-	margin: 0 0 10px;
-	padding:0;
+	display: block;
+	margin: 0 auto 10px;
+	padding: 0;
+	width: 18px;
+	height: 18px;
 }
 .holder-radio p {
 	text-align:left;
@@ -1275,10 +1277,10 @@ body > .select2-container {
 }
 .holder-textarea {
 	height: 70px;
-	position: relative;
+	/*position: relative;*/
 }
 #profile textarea.animate-textarea {
-	position:absolute;
+	/*position:absolute;*/
 }
 #profile textarea.textarea-1 {
 	top:0;
@@ -1297,10 +1299,12 @@ body > .select2-container {
 	right:0;
 }
 #profile textarea.animate-textarea.animate {
-	height: 182px !important;
+	bottom: auto;
+	height: 500px !important;
 	position: absolute;
-	width: 1110px !important;
-	z-index: 1;
+	width: 1095px !important;
+	z-index: 3;
+	top: 0;
 	-webkit-transition:all .3s ease 0s;
 	-ms-transition:all .3s ease 0s;
 	transition:all .3s ease 0s;
@@ -1578,6 +1582,10 @@ body > .select2-container {
 	font-size:13px;
 	display:block;
 }
+body.safari .box-finance .sum strong {
+	font-size:12px;
+	font-weight:500;
+}
 #accordion-account .panel-heading .sum span,
 .box-finance .sum span {
 	font-size:20px;
@@ -1590,19 +1598,25 @@ body > .select2-container {
 	margin: 0 35px 0 0;
 	width: 300px;
 	font-size:19px;
+	position:relative;
+	padding: 0 7px 0 0;
+	vertical-align:middle;
 }
 #accordion-account .panel {
-	padding: 10px 30px;
+	padding: 10px 0;
 	position:relative;
 }
 #accordion-account .panel:before {
 	content: "";
 	background: #f3f3f3;
-	height:68px;
+	height:74px;
 	width:100%;
 	position:absolute;
 	top:0;
 	left:0;
+}
+#accordion-account .panel .panel-heading {
+	padding:0 30px;
 }
 #accordion-account .panel-heading {
 	background:none;
@@ -1611,6 +1625,13 @@ body > .select2-container {
 }
 #accordion-account .panel-body {
 	border: 0;
+	padding: 20px 30px 0;
+}
+#accordion-account .no-btn {
+    margin: -13px 0 0;
+    position: absolute;
+    right: -15px;
+    top: 50%;
 }
 #finance .has-hint.btn-question {
 	float:none;
@@ -1806,7 +1827,7 @@ body > .select2-container {
 	display: inline-block;
 	padding: 0 0 0 40px;
 	margin: 0 18px 0 0;
-	width: 74%;
+	width: 73%;
 }
 .holder-doc-print p {
 	color:#707070;
@@ -2387,28 +2408,28 @@ tfoot th.align-right {
   text-align: center;
   padding: 10px 6px;
 }
-form .form-control:disabled,
-ng-form .form-control:disabled{
-  border-style: none;
-  overflow: auto;
-  resize: none;
-  background-color: Transparent;
-  padding-left: 0;
-  color: #202020;
-  cursor: default;
-}
-form .form-control:disabled::-webkit-input-placeholder {
-  color:Transparent !important;
-}
-form .form-control:disabled:-moz-placeholder {
-  color:Transparent !important;
-}
-form .form-control:disabled::-moz-placeholder {
-  color:Transparent !important;
-}
-form .form-control:disabled:-ms-input-placeholder{
-  color:Transparent !important;
-}
+/*form .form-control:disabled,*/
+/*ng-form .form-control:disabled{*/
+  /*border-style: none;*/
+  /*overflow: auto;*/
+  /*resize: none;*/
+  /*background-color: Transparent;*/
+  /*padding-left: 0;*/
+  /*color: #202020;*/
+  /*cursor: default;*/
+/*}*/
+/*form .form-control:disabled::-webkit-input-placeholder {*/
+  /*color:Transparent !important;*/
+/*}*/
+/*form .form-control:disabled:-moz-placeholder {*/
+  /*color:Transparent !important;*/
+/*}*/
+/*form .form-control:disabled::-moz-placeholder {*/
+  /*color:Transparent !important;*/
+/*}*/
+/*form .form-control:disabled:-ms-input-placeholder{*/
+  /*color:Transparent !important;*/
+/*}*/
 #user_right_form .wrap-paging {
   display: none;
 }
@@ -2474,4 +2495,66 @@ body.safari .cr-styled input[type=radio] + i {
 }
 tr.thead > td {
     border-right-width: 0 !important;
+}
+.truncate-email span {
+	width: 100px;
+  	margin: 0 5px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align:top;
+    display:inline-block;
+}
+.truncate-email .fa {
+	margin:3px 0 0;
+	color:#dedede;
+	cursor:pointer;
+}
+.valign-field {
+    display: inline-block;
+    padding: 7px 0 0;
+}
+.schoole-contact .truncate-email span {
+	width:150px;
+}
+
+/*Safari*/
+body.safari button.shot-fix {
+	margin: 0 0 0 3px;
+}
+body.safari .w-lg {
+    min-width: 155px;
+}
+body.safari .container {
+	width:1300px !important;
+}
+body.safari #accordion-account .panel {
+	padding: 10px 0px;
+}
+body.safari #accordion-account .panel-heading,
+body.safari #accordion-account .panel-collapse {
+	padding: 0 30px;
+}
+.holder-label label {
+	width:18px;
+	height:18px;
+	margin:0 auto;
+}
+body.safari .edit-summary .group-btn button:not(#sa-warning) {
+  min-width:175px;
+}
+body.safari .box-overview span {width: 135px;}
+body.safari #finance .btn-group.btn-toggle .btn {
+	padding:5px 8px;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+.button-textarea .custom-btn {
+	font-size: 14px;
+	margin: 0 0 0 6px;
+	text-transform: none;
+}
+.tooltip-inner {
+	max-width: 350px !important;
 }
