@@ -325,8 +325,13 @@
                 }
 
                 function applyPaging(data, params) {
-                    var pagedData = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
-                    params.total(data.length); // set total for recalc pagination
+                    var pagedData = [];
+                    if(data.length > (params.page() - 1) * params.count()) {
+                      pagedData = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                    } else {
+                      pagedData = data;
+                    }
+                    params.total(params.settings().total || data.length); // set total for recalc pagination
                     return pagedData;
                 }
 

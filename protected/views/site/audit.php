@@ -67,93 +67,7 @@ $this->breadcrumbs = array('Audit');
                   </div>
                 </form>
               </div>
-<!--              <div class="row">
-                <div id="tab-history" class="col-lg-12">
-                  <div class="changes-content">
-                    <div class="heading-changes">
-                      {{section}}
-                    </div>
-                    <div class="content-changes" ng-repeat="row in customData.result">
-                      <div class="thead" ng-class="{'open':row.showDetails, 'delete': row.event_type == 'DEL', 'insert':  row.event_type == 'INS'}">
-                        <div class="col-lg-4 p-l-0">
-                          <strong>{{row.operation_name}}</strong>
-                          <span>Bearbeitet {{row.user_name}} am {{row.date_formated}}</span> 
-                        </div>
-                        <div class="col-lg-4">
-                          <span class="after">Früher</span>
-                        </div>
-                        <div class="col-lg-4">
-                          <span class="before">Nachher</span>
-                        </div>
-                        <i ng-click="row.showDetails = !row.showDetails" class="ion-chevron-down arrow-box"></i>
-                      </div>
-                      <div class="row-holder" ng-show="row.showDetails">
-                        <div class="custom-row" ng-repeat="field in row.data">
-                          <div class="col-lg-4 p-l-0">
-                            <strong>{{field.column_name}}</strong>
-                          </div>
-                          <div class="col-lg-4">
-                            <dl class="custom-dl">
-                              <dt></dt>
-                              <dd>{{field.old_value}}</dd>
-                            </dl>
-                          </div>
-                          <div class="col-lg-4">
-                            <dl class="custom-dl">
-                              <dt></dt>
-                              <dd>{{field.new_value}}</dd>
-                            </dl>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>-->
-<!--              <div class="row" id="datatable" ng-cloak ng-table="tableParams">
-                <div id="tab-history" class="col-lg-12">
-                  <div class="changes-content">
-                    <div class="heading-changes">
-                      {{section}}
-                    </div>
-                    <div class="content-changes" ng-repeat="row in $data">
-                      <div class="thead" ng-class="{'open':row.showDetails, 'delete': row.event_type == 'DEL', 'insert':  row.event_type == 'INS'}">
-                        <div class="col-lg-4 p-l-0">
-                          <strong>{{row.operation_name}}</strong>
-                          <span>Bearbeitet {{row.user_name}} am {{row.date_formated}}</span> 
-                        </div>
-                        <div class="col-lg-4">
-                          <span class="after">Früher</span>
-                        </div>
-                        <div class="col-lg-4">
-                          <span class="before">Nachher</span>
-                        </div>
-                        <i ng-click="row.showDetails = !row.showDetails" class="ion-chevron-down arrow-box"></i>
-                      </div>
-                      <div class="row-holder" ng-show="row.showDetails">
-                        <div class="custom-row" ng-repeat="field in row.data">
-                          <div class="col-lg-4 p-l-0">
-                            <strong>{{field.column_name}}</strong>
-                          </div>
-                          <div class="col-lg-4">
-                            <dl class="custom-dl">
-                              <dt></dt>
-                              <dd>{{field.old_value}}</dd>
-                            </dl>
-                          </div>
-                          <div class="col-lg-4">
-                            <dl class="custom-dl">
-                              <dt></dt>
-                              <dd>{{field.new_value}}</dd>
-                            </dl>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>-->
-              
+
 <!--              <table id="datatable" ng-cloak ng-table="tableParams"
                      class="table dataTable table-hover table-bordered table-edit">
                 <tr ng-repeat="row in $data">
@@ -161,8 +75,9 @@ $this->breadcrumbs = array('Audit');
                   <td data-title="'Darw'" sortable="'event_date'">{{row.date_formated}}</td>
                   <td data-title="'User'" sortable="'user_name'">{{row.user_name}}</td>
                 </tr>
-              </table>-->
-
+              </table>
+              -->
+              
               <table id="datatable" ng-table="tableParams" class="table-bordered">
                 <colgroup>
                   <col width="60%" />

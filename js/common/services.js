@@ -29,7 +29,7 @@ spi.service('configs', function () {
   }
 });
 
-spi.service("GridService", function (network, NgTableParams, $uibModal, Notification) {
+spi.service("GridService", function (network, NgTableParams, $uibModal, Notification,$timeout) {
   return function () {
     var tableParams;
     var defaultFilter = {};
@@ -70,11 +70,12 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
       var dataset = typeof(data) === 'object' ? {dataset: data} : {
         getData: function ($defer, params) {
           getData(data, params, filter, function (response) {
-            tableParams.total(response.count);
+            params.total(response.count);
             $defer.resolve(response.result);
           });
         }
       };
+      dataset.groupOptions = {isExpanded: false}
       tableParams = new NgTableParams(params, dataset);
       return tableParams;
     }
