@@ -122,16 +122,14 @@ $this->breadcrumbs = array('Projekte');
                               <tr ng-repeat="row in $data" >
                                 <td data-title="'Kennziffer'" sortable="'code'">{{row.code}}</td>
                                 <td data-title="'Schule'" >
-                                  <a href="#" ng-repeat="school in row">{{school.name}}</a><br/>
+                                  <a href="#" ng-repeat="school in row.schools">{{school.name}}</a><br/>
                                 </td>
                                 <td data-title="'Träger'" sortable="'performer_name'"><a href="#">{{row.performer_name}}</a></td>
                                 <td data-title="'Bezirk'" sortable="'district_name'">{{row.district_name}}</td>
                                 <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-                                  <a class="btn pull-left edit-btn" ng-click="openEdit(row, 1)">
-                                    <i class="ion-eye"></i>
-                                  </a>
-                                  <a class="btn pull-right edit-btn" ng-click="openEdit(row)">
-                                    <i class="ion-edit"></i>
+                                  <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit(row.id)) || row.is_old != 0">
+                                    <i class="ion-eye"  ng-if="!canEdit(row.id) || row.is_old != 0"></i>
+                                    <i class="ion-edit" ng-if="canEdit(row.id) && row.is_old == 0"></i>
                                   </a>
                                 </td>
                               </tr>
@@ -163,7 +161,7 @@ $this->breadcrumbs = array('Projekte');
                       <div class="col-lg-4">
                           <div spi-hint text="_hint.code" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('code')}">
-                            <input name="code" ng-model="project.code" class="form-control" type="text" value="" required>
+                            <input name="code" ng-model="project.code" class="form-control" type="text" value="" required ng-disabled="!isInsert">
                             <span ng-class="{hide: !fieldError('code')}" class="hide">
                                 <label ng-show="formFinances.code.$error.required" class="error">Code is
                                   required</label>
@@ -171,11 +169,40 @@ $this->breadcrumbs = array('Projekte');
                             </span>
                           </div>
                       </div>
+                      <label class="col-lg-2 control-label">Rate</label>
+                      <div class="col-lg-4">
+                          <div spi-hint text="_hint.rate" class="has-hint"></div>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('rate')}">
+                            <input name="rate" ng-model="project.rate" class="form-control" type="text" value="" required ng-change="checkRate(project)" ng-disabled="!isInsert">
+                            <span ng-class="{hide: !fieldError('rate')}" class="hide">
+                                <label ng-show="formFinances.rate.$error.required" class="error">Rate is
+                                  required</label>
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="m-b-15 clearfix">
+                      <label class="col-lg-2 control-label">Project Type</label>
+                      <div class="col-lg-4">
+                        <div spi-hint text="_hint.project_type_id" class="has-hint"></div>
+                        <div class="wrap-hint">
+                          <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.type_id"
+                                     name="type_id" required on-select="updateCode();">
+                            <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                              {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item.id as item in projectTypes | filter: $select.search">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </div>
                       <label class="col-lg-2 control-label">Schultyp</label>
                       <div class="col-lg-4">
                         <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
                         <div class="wrap-hint">
-                          <ui-select ng-disabled="!$select.items.length" ng-model="project.school_type_id"
+                          <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.school_type_id"
                                      name="school_type_id" required on-select="updateSchools();updateCode();">
                             <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
                               {{$select.selected.fullName}}
@@ -185,17 +212,14 @@ $this->breadcrumbs = array('Projekte');
                             </ui-select-choices>
                           </ui-select>
                         </div>
-<!--                          <select class="form-control">
-                              <option>S (Förderschulen)</option>
-                          </select>-->
                       </div>
                   </div>
-                  <div class="m-b-15 clearfix">
+<!--                  <div class="m-b-15 clearfix">
                       <label class="col-lg-2 control-label">Programm</label>
                       <div class="col-lg-10">
                         <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
                         <div class="wrap-hint">
-                          <ui-select ng-disabled="!$select.items.length" ng-model="project.finance_programm_id"
+                          <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.finance_programm_id"
                                      name="finance_programm_id" required>
                             <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
                               {{$select.selected.programm}}
@@ -205,33 +229,28 @@ $this->breadcrumbs = array('Projekte');
                             </ui-select-choices>
                           </ui-select>
                         </div>
-<!--                          <select class="form-control">
+                          <select class="form-control">
                               <option>Schulsozialarbeit</option>
-                              <option>Zusatzprogramm A</option>
-                              <option>Zusatzprogramm B</option>
+                              <option>Zusatzprojekte</option>
                               <option>Bonusprogramm</option>
-                          </select>-->
+                          </select>
                       </div>
-                  </div>
-                  <div class="m-b-15 clearfix">
+                  </div>-->
+                  <!--<div class="m-b-15 clearfix">
                       <label class="col-lg-2 control-label">Fördertopf</label>
                       <div class="col-lg-10">
                         <div spi-hint text="_hint.code" class="has-hint"></div>
                         <div class="wrap-hint">
                           <input name="code" ng-model1="project.finance_source_type" ng-value="finance_source_type[project.finance_programm_id]" class="form-control" type="text" value="" disabled="disabled">
                         </div>
-<!--                          <select class="form-control">
-                              <option>LM</option>
-                              <option>BP</option>
-                          </select>-->
                       </div>
-                  </div>
+                  </div>-->
                   <div class="m-b-15 clearfix">
                       <label class="col-lg-2 control-label p-r-0">Träger</label>
                       <div class="col-lg-10">
                         <div spi-hint text="_hint.performer_id" class="has-hint"></div>
                         <div class="wrap-hint">
-                          <ui-select ng-disabled="!$select.items.length" ng-model="project.performer_id"
+                          <ui-select ng-disabled="!$select.items.length || project.is_old==1" ng-model="project.performer_id"
                                      name="performer_id" required>
                             <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
                               {{$select.selected.name}}
@@ -252,7 +271,7 @@ $this->breadcrumbs = array('Projekte');
                       <div class="col-lg-10">
                           <div spi-hint text="_hint.district_id" class="has-hint"></div>
                           <div class="wrap-hint">
-                            <ui-select ng-disabled="!$select.items.length" ng-model="project.district_id"
+                            <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.district_id"
                                        name="district_id" required on-select="updateSchools()">
                               <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
                                 {{$select.selected.name}}
@@ -273,9 +292,9 @@ $this->breadcrumbs = array('Projekte');
                           <div spi-hint text="_hint.schools" class="has-hint"></div>
                   
                           <div class="wrap-hint">
-                            <ui-select multiple ng-disabled="!$select.items.length" ng-model="project.schools"
+                            <ui-select ng-disabled="project.is_old==1" multiple ng-model="project.schools"
                                        name="schools" required>
-                              <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                              <ui-select-match placeholder="{{placeholderFN($select.items)}}">
                                 {{$item.name}}
                               </ui-select-match>
                               <ui-select-choices repeat="item.id as item in schools | filter: $select.search">

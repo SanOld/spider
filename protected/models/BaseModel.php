@@ -340,6 +340,7 @@ class BaseModel extends CFormModel {
         $missed = $this->checkRequired($params);
         if (!$missed) {
           $results = $this->doInsert($params, $post);
+//          print_r($results);
           $results = $this->doAfterInsert($results, $params, $post);
           if ($multiInsert && $results['code'] == '200') {
             return $results;

@@ -94,7 +94,7 @@ class Project extends BaseModel {
     foreach($results['result'] as &$row) {
 //      $relation = $this->getSchools($row['id']);
       $schools = Yii::app() -> db -> createCommand() 
-        -> select('scl.*') -> from('spi_project_scool prs')
+        -> select('scl.*') -> from('spi_project_school prs')
         -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
         -> where('project_id=:id', array(
         ':id' => $row['id'] 
@@ -115,8 +115,14 @@ class Project extends BaseModel {
         ':id' => $row['district_id'] 
       )) -> queryRow();
       $row['district'] = $district;
-      $row['district_name'] = $performer['name'];
+      $row['district_name'] = $district['name'];
     }
+//    //get_next_id
+//    Yii::app() -> db -> createCommand() 
+//    ->select('MAX(id)')
+//    ->from($this -> table)
+//    ->limit('1');
+//    $results['maxId'] = $command->queryScalar();
     return $results;
   }
 
@@ -149,9 +155,21 @@ class Project extends BaseModel {
   }
   protected function doBeforeUpdate($post, $id) {
     $params = $post;
-    unset($params['finance_programm_id']);
-    unset($params['finance_source_type']);
-    if($params) {
+    unset($params['schools']);
+    unset($params['performer_id']);
+    $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id=:id ', array(
+        ':id' => $id
+    )) -> queryRow();
+    
+    $canUpdate = true;
+    foreach ($params as $key => $val) {
+      if($val != $row[$key]) {
+        $canUpdate = false;
+        break;
+      }
+    }
+    //TODO: если изменен список школ или исполнитель - создаем новый проект
+    if(!$canUpdate) {
       return array (
               'code' => '400',
               'result' => false,
@@ -159,17 +177,28 @@ class Project extends BaseModel {
             );
     }
     
-    return array(
-        'result' => true,
-        'params' => $post 
-    );
+    unset($row['id']);
+    $row['schools'] = safe($post,'schools');
+    $row['performer_id'] = $post['performer_id'];
+    $code = explode('\\', $row['code']);
+    
+    $row['code'] = count($code)==1?$code[0].'\\2':$code[0].'\\'.($code[1]+1);
+    Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
+      ':id' => $id 
+    ));
+    
+    $this->insert($row);
+    
+//    return array(
+//        'result' => true,
+//        'params' => $oldRow 
+//    );
   }
   protected function doAfterInsert($result, $params, $post) {
-    //TODO: добавить школы к проекту
-    return array(
-        'result' => true,
-        'params' => $post 
-    );
+    foreach($post['schools'] as $school_id) {
+      Yii::app ()->db->createCommand()->insert('spi_project_school', array('project_id' => $result['id'], 'school_id' => $school_id));
+    }
+    return $result;
   }
 
 //  protected function doBeforeUpdate($post, $id) {
