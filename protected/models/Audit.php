@@ -5,7 +5,7 @@ require_once ('utils/utils.php');
 class Audit extends BaseModel {
   public $table = 'spi_audit_event';
   public $post = array();
-  public $operations = array('INS' => 'Added', 'UPD' => 'Changed', 'DEL' => 'Deleted');
+  public $operations = array('INS' => 'Hinzugefügt', 'UPD' => 'Bearbeitet', 'DEL' => 'Gelöscht');
   public $select_all = ' tbl.*, usr.first_name, usr.last_name';
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
