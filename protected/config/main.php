@@ -54,6 +54,7 @@ return array(
 			'rules'=>array(
 				'/api/test'           => '/site/page/view/resttest',
 				'/<page:[\w\-]+>'     => '/site',
+				'/<page:[\w\-]+>/<id:\d+>' => '/site',
 				'/api/upload-file/<model:\w+>/' => '/base/uploadFile',
 				'/api/<model:\w+>' => '/base',
 				'/api/<model:\w+>/<id:\d+>' => '/base',

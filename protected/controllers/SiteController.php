@@ -10,6 +10,7 @@ class SiteController extends Controller
                           'performers'      => array(),
                           'schools'         => array(),
                           'requests'        => array(),
+                          'request'         => array(),
                           'projects'        => array(),
                           'dashboard'       => array(),
                           'forgot-password' => array('layout' => 'mainWithoutLogin'),
@@ -41,28 +42,43 @@ class SiteController extends Controller
 		return true;
 	}
 
-	public function actionIndex()
-	{
-        $page = safe($_GET,'page','index');
-        $pageInfo = safe($this->path,$page);
-        
-        if($page == 'reset-password') {
-          $params = array_change_key_case($_GET, CASE_UPPER);
-          if(!isset($params['RECOVERY_TOKEN']))
-            $this->redirect('/');
-        }
-        if(safe($pageInfo,'layout')) {
-          $this->layout = $pageInfo['layout'];
-        }
+	public function actionIndex() {
+		$page = safe($_GET,'page','index');
+		$pageInfo = safe($this->path,$page);
+		if($page == 'reset-password') {
+			$params = array_change_key_case($_GET, CASE_UPPER);
+			if(!isset($params['RECOVERY_TOKEN']))
+				$this->redirect('/');
+		} else if($page == 'request') {
+			$id = safe($_GET, 'id');
+			if(!$id || !$this->validID($page, $id)) {
+				// TEMP: after creating page need uncomment!
+//				$this->redirect('/dashboard');
+			}
+		}
+		if(safe($pageInfo,'layout')) {
+			$this->layout = $pageInfo['layout'];
+		}
 		$this->render(safe($pageInfo,'render',$page));
 	}
+
+	protected function validID($page, $id) {
+		switch ($page) {
+			case 'request':
+				return (bool)Yii::app()->db->createCommand()->select('id')
+					->from('spi_request')
+					->where('id=:id', array(':id'=>$id))
+					->queryScalar();
+				break;
+		}
+		return false;
+	}
     
-    public function demo()
-    {
-      if(Yii::app()->params['hideDemo']) {
-        echo(' style="display:none;" ');
-      }
-    }
+	public function demo() {
+		if(Yii::app()->params['hideDemo']) {
+			echo(' style="display:none;" ');
+		}
+	}
 
 
 	public function actionError()
