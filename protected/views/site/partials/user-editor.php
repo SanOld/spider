@@ -352,7 +352,7 @@
 
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password_repeat')}">
                 <input class="form-control" name="password_repeat" ng-model="password_repeat" type="password" value=""
-                       ng-pattern="user.password" ng-required="isInsert || user.password.length">
+                       ng-pattern="user.password.length ? user.password : '^$'" ng-required="isInsert || user.password.length">
 								<span ng-class="{hide: !fieldError('password_repeat')}" class="hide">
 									<label ng-show="form.password_repeat.$error.required" class="error">Passwort bestätigen erforderlich</label>
 									<label ng-show="form.password_repeat.$error.pattern" class="error">Passwords are not equal</label>
