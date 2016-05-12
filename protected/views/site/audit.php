@@ -87,7 +87,7 @@ $this->breadcrumbs = array('Audit');
                 <tr class="ng-table-group thead" ng-repeat-start="group in $groups" ng-class="{'open':group.$hideRows, 'delete': group.data[0].event_type == 'DEL', 'insert':  group.data[0].event_type == 'INS'}">
                   <td>
                     <strong>{{group.data[0].operation_name}}</strong>
-                    <span>Bearbeitet {{group.data[0].user_name}} am {{group.data[0].date_formated}}</span> 
+                    <span>von {{group.data[0].user_name}} am {{group.data[0].date_formated}}</span> 
                   </td>
                   <td>
                     <span class="after">Früher</span>

@@ -28,7 +28,7 @@ class Audit extends BaseModel {
                                       -> queryAll();
       $row['user_name'] = $row['first_name'].' '.$row['last_name'];
       $row['operation_name'] = $this->operations[$row['event_type']];
-      $row['date_formated'] = date('d.m.y',strtotime($row['event_date']));
+      $row['date_formated'] = date('d.m.y H:i:s',strtotime($row['event_date']));
     }
     return $result;
   }

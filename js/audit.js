@@ -2,11 +2,11 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
   $rootScope._m = 'audit';
   $scope.filter = {};
   $scope.customData = [];
-  $scope.types = [{'code': 'INS', 'name': 'Added'},
-                  {'code': 'UPD', 'name': 'Changed'},
-                  {'code': 'DEL', 'name': 'Deleted'}];
+  $scope.types = [{'code': 'INS', 'name': 'Hinzugefügt'},
+                  {'code': 'UPD', 'name': 'Bearbeitet'},
+                  {'code': 'DEL', 'name': 'Gelöscht'}];
   var grid = GridService();
-  $scope.tableParams = grid('audit', $scope.filter, {group: "id", sorting: {event_date: 'asc'}});
+  $scope.tableParams = grid('audit', $scope.filter, {group: "id", sorting: {event_date: 'desc'}});
 
   $scope.updateGrid = function () {
     grid.reload();
