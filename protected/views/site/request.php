@@ -1597,7 +1597,7 @@ $this->breadcrumbs = array('Anträge');
 									</div>
 									<div id="collapse-1" class="panel-collapse collapse">
 										<div class="panel-body">
-											<img src="images/screen-goals2.gif" style="width:100%" alt="image description" />
+											<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
 										</div>
 									</div>
 								</div>
@@ -2055,16 +2055,16 @@ $this->breadcrumbs = array('Anträge');
 
 													</div>
 													<div id="goal-2" class="tab-pane">
-														<img src="images/screen-goals.gif" width="800" alt="image description" />
+														<img src="/images/screen-goals.gif" width="800" alt="image description" />
 													</div>
 													<div id="goal-3" class="tab-pane">
-														<img src="images/screen-goals.gif" width="800" alt="image description" />
+														<img src="/images/screen-goals.gif" width="800" alt="image description" />
 													</div>
 													<div id="goal-4" class="tab-pane">
-														<img src="images/screen-goals.gif" width="800" alt="image description" />
+														<img src="/images/screen-goals.gif" width="800" alt="image description" />
 													</div>
 													<div id="goal-5" class="tab-pane">
-														<img src="images/screen-goals.gif" width="800" alt="image description" />
+														<img src="/images/screen-goals.gif" width="800" alt="image description" />
 													</div>
 												</div>
 											</div>
@@ -2082,7 +2082,7 @@ $this->breadcrumbs = array('Anträge');
 									</div>
 									<div id="collapse-3" class="panel-collapse collapse">
 										<div class="panel-body">
-											<img src="images/screen-goals2.gif" style="width:100%" alt="image description" />
+											<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
 										</div>
 									</div>
 								</div>
@@ -2096,7 +2096,7 @@ $this->breadcrumbs = array('Anträge');
 									</div>
 									<div id="collapse-4" class="panel-collapse collapse">
 										<div class="panel-body">
-											<img src="images/screen-goals2.gif" style="width:100%" alt="image description" />
+											<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
 										</div>
 									</div>
 								</div>
@@ -2110,7 +2110,7 @@ $this->breadcrumbs = array('Anträge');
 									</div>
 									<div id="collapse-5" class="panel-collapse collapse">
 										<div class="panel-body">
-											<img src="images/screen-goals2.gif" style="width:100%" alt="image description" />
+											<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
 										</div>
 									</div>
 								</div>
