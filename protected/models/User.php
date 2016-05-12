@@ -246,6 +246,11 @@ class User extends BaseModel {
       );
     }
 
+    if(isset($param['PASSWORD']) && !$param['PASSWORD']) {
+      unset($param['PASSWORD']);
+      unset($post['password']);
+    }
+
     if (isset($param['PASSWORD']) && $this->user['id'] == $row['id'] && md5($param['OLD_PASSWORD']) != $row['password']) {
       return array(
         'code' => '409',
