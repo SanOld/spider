@@ -6,7 +6,7 @@ $this->breadcrumbs = array('Anträge');
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/request.js"></script>
 
-<div class="wraper container-fluid">
+<div class="wraper container-fluid" ng-controller="RequestController">
 	<div class="row">
 		<div class="container center-block">
 			<div class="panel panel-default" ng-cloak>
