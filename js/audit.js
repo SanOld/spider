@@ -11,6 +11,23 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
   $scope.updateGrid = function () {
     grid.reload();
   };
+  
+  network.get('page', {'order':'name'}, function (result, response) {
+      if(result) {
+        var key = -1;
+        $.each(response.result, function(k,val){
+          if(val.name == 'Audit') {
+            key = k;
+            return false;
+          }
+        });
+        
+        if(result != -1) {
+          response.result.splice(key,1)
+        }
+        $scope.tables = response.result;
+      }
+  });
 
 //  $scope.updateGrid = function () {
 ////    $scope.filter['limit'] = params.count();

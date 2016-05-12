@@ -26,7 +26,7 @@
 									<li><a ng-if="canView('user_type')" href="/user-roles">Benutzerrollen</a></li>
 								</ul>
 							</li>
-							<li><a href="projects-list.php">Projekte</a></li>
+							<li><a href="projects">Projekte</a></li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 								<ul class="dropdown-menu">
@@ -42,7 +42,7 @@
 									<li><a href="/hints">Hilfetexte</a></li>
 									<li><a href="email-templates.php">Email-Vorlagen</a></li>
 									<li><a href="#" style="color: #aaa;">Email-Sendebericht</a></li>
-									<li><a href="#" style="color: #aaa;">Audit</a></li>
+									<li><a href="audit">Audit</a></li>
 								</ul>
 							</li>
 							<li><a href="#">Kontakt</a></li>

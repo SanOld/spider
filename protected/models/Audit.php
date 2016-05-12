@@ -45,7 +45,7 @@ class Audit extends BaseModel {
       $command->andWhere('tbl.event_date = :ed', array(':ed' => safe($params, 'EVENT_DATE')));
     }
     if(safe($params, 'TABLE_NAME')) {
-      $command->andWhere('tbl.table_name = :tn', array(':tn' => safe($params, 'TABLE_NAME')));
+      $command->andWhere('tbl.table_name = :tn', array(':tn' => 'spi_'.safe($params, 'TABLE_NAME')));
     }
     
     return $command;

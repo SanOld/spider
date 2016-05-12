@@ -33,7 +33,7 @@ $this->breadcrumbs = array('Audit');
                         <label>Choose section</label>
                         <ui-select ng-change="updateGrid()" class="type-user" ng-model="filter.table_name">
                             <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                            <ui-select-choices repeat="item.table_name as item in tables | filter: $select.search">
+                            <ui-select-choices repeat="item.code as item in tables | filter: $select.search">
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                             </ui-select-choices>
                         </ui-select>
@@ -84,7 +84,7 @@ $this->breadcrumbs = array('Audit');
                   <col width="20%" />
                   <col width="20%" />
                 </colgroup>
-                <tr class="ng-table-group thead" ng-repeat-start="group in $groups" ng-class="{'open':group.data[0].showDetails, 'delete': group.data[0].event_type == 'DEL', 'insert':  group.data[0].event_type == 'INS'}">
+                <tr class="ng-table-group thead" ng-repeat-start="group in $groups" ng-class="{'open':group.$hideRows, 'delete': group.data[0].event_type == 'DEL', 'insert':  group.data[0].event_type == 'INS'}">
                   <td>
                     <strong>{{group.data[0].operation_name}}</strong>
                     <span>Bearbeitet {{group.data[0].user_name}} am {{group.data[0].date_formated}}</span> 

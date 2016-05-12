@@ -389,7 +389,7 @@
 														</div>
 													</div>
 													<div class="col-lg-8">
-														<h4>Auflage vom Senat</h4>
+														<h4>Auflage</h4>
 														<textarea class="form-control custom-height-textarea" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
 													</div>
 												</div>
