@@ -317,7 +317,6 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     $uibModalInstance.dismiss('cancel');
   };
 
-
   $scope.types = [{id: 0, name: 'Performer'}, {id: 1, name: 'Performer (F)'}];
 
   $scope.canEditBankInfo = function() {
@@ -340,5 +339,13 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     }
     return result;
   }
+
+  $scope.saveText = function (name) {
+    if($scope.performer[name] != undefined) {
+      var params = {};
+      params[name] = $scope.performer[name];
+      network.put('performer/' + data.id, params);
+    }
+  };
 
 });

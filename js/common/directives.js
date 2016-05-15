@@ -169,21 +169,27 @@ spi.directive("spiOnFocusLarge", function () {
     scope: {
       spiSave: '=',
       spiCancel: '=',
+      callback: '&spiCallback',
       ngModel: '='
     },
-    link: function (scope, element, attrs, ctrl) {
+    link: function (scope, element, attr) {
       var defaultText = element.val();
       element.bind('focus',function () {
         defaultText = element.val();
         element.addClass('animate');
       });
       scope.$watch('spiSave', function(val) {
-        element.removeClass('animate');
-        defaultText = element.val();
+        if(element.hasClass('animate')) {
+          element.removeClass('animate');
+          defaultText = element.val();
+          scope.callback();
+        }
       });
       scope.$watch('spiCancel', function(val) {
-        scope.ngModel = defaultText;
-        element.removeClass('animate');
+        if(element.hasClass('animate')) {
+          scope.ngModel = defaultText;
+          element.removeClass('animate');
+        }
       });
     }
   };
