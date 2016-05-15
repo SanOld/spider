@@ -75,7 +75,7 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
           });
         }
       };
-      dataset.groupOptions = {isExpanded: false}
+      dataset.groupOptions = {isExpanded: false, defaultSort: 'desc'}
       tableParams = new NgTableParams(params, dataset);
       return tableParams;
     }
