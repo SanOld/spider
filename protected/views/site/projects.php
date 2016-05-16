@@ -291,8 +291,8 @@ $this->breadcrumbs = array('Projekte');
                       <div class="col-lg-10">
                           <div spi-hint text="_hint.schools" class="has-hint"></div>
                   
-                          <div class="wrap-hint">
-                            <ui-select ng-disabled="project.is_old==1" multiple ng-model="project.schools"
+                          <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length}">
+                            <ui-select ng-disabled="project.is_old==1 || !schools.length" multiple ng-model="project.schools"
                                        name="schools" required>
                               <ui-select-match placeholder="{{placeholderFN($select.items)}}">
                                 {{$item.name}}

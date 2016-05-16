@@ -690,7 +690,7 @@
                 container = ctrl.searchInput.parent().parent()[0],
                 calculateContainerWidth = function() {
                   // Return the container width only if the search input is visible
-                  return container.clientWidth * !!input.offsetParent;
+                  return container.clientWidth;// * !!input.offsetParent; // update by STomilkin for projects page (school multiselect update bug)
                 },
                 updateIfVisible = function(containerWidth) {
                   if (containerWidth === 0) {
