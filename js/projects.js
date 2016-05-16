@@ -65,7 +65,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.modeView = modeView;
 //    $scope.projectSchools = [];
     $scope.projectSchoolsID = {};
-//    $scope.finance_source_type = {};
     
     $timeout(function () {
         $scope.$digest();
@@ -79,8 +78,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             type_id: data.type_id,
             is_old: data.is_old,
             schools: [],
-//            finance_source_type: data.finance_source_type,
-//            finance_programm_id: data.finance_programm_id,
             performer_id: data.performer_id,
             district_id: data.district_id,
         };
@@ -117,16 +114,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         }
     });
     
-    
-//    network.get('finance_source', {}, function (result, response) {
-//        if(result) {
-//            $scope.programms = response.result;
-//            angular.forEach($scope.programms, function(val){
-//              $scope.finance_source_type[val.id] = val.finance_source_type == 'l'?'LM':'BP';
-//            })
-//            console.log($scope.finance_source_type);
-//        }
-//    });
     network.get('performer', {}, function (result, response) {
         if(result) {
             $scope.performers = response.result;
