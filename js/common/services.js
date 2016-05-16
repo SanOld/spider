@@ -194,6 +194,10 @@ spi.factory('Utils', function (SweetAlert) {
     },
     deleteSuccess: function() {
       SweetAlert.swal("Gelöscht!", "Ihre Datrei ist erfolgreich gelöscht!", "success");
+    },
+    getIdByPath: function() {
+      var id = +location.pathname.split('/').pop();
+      return !isNaN(id) ? id : 0;
     }
   };
 });

@@ -84,8 +84,8 @@ class User extends BaseModel {
         $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR (tbl.type_id IN(1,2)) '.
           'OR (tbl.relation_id IN (SELECT performer_id FROM spi_project WHERE id IN('.
           'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "t") '.
-          'OR (tbl.relation_id IN(SELECT district_id FROM spi_school WHERE id = :relation_id) OR (tbl.relation_id IN (SELECT district_id FROM spi_project WHERE id IN('.
-          'SELECT project_id FROM spi_project_school WHERE school_id = :relation_id))) AND tbl.type = "d") ',
+          'OR (tbl.relation_id IN(SELECT district_id FROM spi_school WHERE id = :relation_id) AND tbl.type = "d") '.
+          'OR (tbl.relation_id IN (SELECT district_id FROM spi_project WHERE id IN(SELECT project_id FROM spi_project_school WHERE school_id = :relation_id)) AND tbl.type = "d")',
           array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
         break;
       case DISTRICT:
@@ -244,6 +244,11 @@ class User extends BaseModel {
         'silent' => true,
         'system_code' => 'ERR_DUPLICATED_EMAIL'
       );
+    }
+
+    if(isset($param['PASSWORD']) && !$param['PASSWORD']) {
+      unset($param['PASSWORD']);
+      unset($post['password']);
     }
 
     if (isset($param['PASSWORD']) && $this->user['id'] == $row['id'] && md5($param['OLD_PASSWORD']) != $row['password']) {

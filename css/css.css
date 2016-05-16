@@ -1152,7 +1152,8 @@ table.dataTable thead > tr > th.sorting_disabled {
 .tab-pane > div h4.panel-title a.collapsed {
 	color:#00529e;
 }
-.order-tabs {
+.order-tabs,
+.request-order-nav .tab-content {
 	margin:0 -30px;
 }
 #accordion-order .panel-collapse .panel-body,
