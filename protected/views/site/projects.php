@@ -214,37 +214,6 @@ $this->breadcrumbs = array('Projekte');
                         </div>
                       </div>
                   </div>
-<!--                  <div class="m-b-15 clearfix">
-                      <label class="col-lg-2 control-label">Programm</label>
-                      <div class="col-lg-10">
-                        <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
-                        <div class="wrap-hint">
-                          <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.finance_programm_id"
-                                     name="finance_programm_id" required>
-                            <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
-                              {{$select.selected.programm}}
-                            </ui-select-match>
-                            <ui-select-choices repeat="item.id as item in programms | filter: $select.search">
-                              <span ng-bind-html="item.programm | highlight: $select.search"></span>
-                            </ui-select-choices>
-                          </ui-select>
-                        </div>
-                          <select class="form-control">
-                              <option>Schulsozialarbeit</option>
-                              <option>Zusatzprojekte</option>
-                              <option>Bonusprogramm</option>
-                          </select>
-                      </div>
-                  </div>-->
-                  <!--<div class="m-b-15 clearfix">
-                      <label class="col-lg-2 control-label">Fördertopf</label>
-                      <div class="col-lg-10">
-                        <div spi-hint text="_hint.code" class="has-hint"></div>
-                        <div class="wrap-hint">
-                          <input name="code" ng-model1="project.finance_source_type" ng-value="finance_source_type[project.finance_programm_id]" class="form-control" type="text" value="" disabled="disabled">
-                        </div>
-                      </div>
-                  </div>-->
                   <div class="m-b-15 clearfix">
                       <label class="col-lg-2 control-label p-r-0">Träger</label>
                       <div class="col-lg-10">
@@ -260,10 +229,6 @@ $this->breadcrumbs = array('Projekte');
                             </ui-select-choices>
                           </ui-select>
                         </div>
-<!--                          <select class="form-control">
-                              <option>Stadtteilzentrum Steglitz e.V.</option>
-                              <option>Arbeit und Bildung e.V.</option>
-                          </select>-->
                       </div>
                   </div>
                   <div class="m-b-15 clearfix">
@@ -281,9 +246,6 @@ $this->breadcrumbs = array('Projekte');
                               </ui-select-choices>
                             </ui-select>
                           </div>
-<!--                          <select class="form-control">
-                              <option>Bezirk Neukolln</option>
-                          </select>-->
                       </div>
                   </div>
                   <div class="m-b-15 clearfix">
@@ -291,8 +253,8 @@ $this->breadcrumbs = array('Projekte');
                       <div class="col-lg-10">
                           <div spi-hint text="_hint.schools" class="has-hint"></div>
                   
-                          <div class="wrap-hint">
-                            <ui-select ng-disabled="project.is_old==1" multiple ng-model="project.schools"
+                          <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length}">
+                            <ui-select ng-disabled="project.is_old==1 || !schools.length" multiple ng-model="project.schools"
                                        name="schools" required>
                               <ui-select-match placeholder="{{placeholderFN($select.items)}}">
                                 {{$item.name}}

@@ -195,8 +195,10 @@ class Project extends BaseModel {
 //    );
   }
   protected function doAfterInsert($result, $params, $post) {
-    foreach($post['schools'] as $school_id) {
-      Yii::app ()->db->createCommand()->insert('spi_project_school', array('project_id' => $result['id'], 'school_id' => $school_id));
+    if($result['result']) {
+      foreach($post['schools'] as $school_id) {
+        Yii::app ()->db->createCommand()->insert('spi_project_school', array('project_id' => $result['id'], 'school_id' => $school_id));
+      }
     }
     return $result;
   }

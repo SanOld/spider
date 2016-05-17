@@ -65,7 +65,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.modeView = modeView;
 //    $scope.projectSchools = [];
     $scope.projectSchoolsID = {};
-//    $scope.finance_source_type = {};
     
     $timeout(function () {
         $scope.$digest();
@@ -79,8 +78,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             type_id: data.type_id,
             is_old: data.is_old,
             schools: [],
-//            finance_source_type: data.finance_source_type,
-//            finance_programm_id: data.finance_programm_id,
             performer_id: data.performer_id,
             district_id: data.district_id,
         };
@@ -117,16 +114,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         }
     });
     
-    
-//    network.get('finance_source', {}, function (result, response) {
-//        if(result) {
-//            $scope.programms = response.result;
-//            angular.forEach($scope.programms, function(val){
-//              $scope.finance_source_type[val.id] = val.finance_source_type == 'l'?'LM':'BP';
-//            })
-//            console.log($scope.finance_source_type);
-//        }
-//    });
     network.get('performer', {}, function (result, response) {
         if(result) {
             $scope.performers = response.result;
@@ -165,14 +152,15 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
     };
     $scope.placeholderFN = function(items) {
-        return items.lengt || true ? '(No items available)' :'(Please choose)'; // ??? not working
+        return items.lengt && false ? '(No items available)' :'(Please choose)'; // ??? not working
     };
     $scope.updateCode = function() {
       try {
         $scope.project.code = $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase() + $scope.newCode;
       } catch(e){}
     };
-    $scope.updateSchools = function() {
+    $scope.updateSchools = function(isInit) {
+      isInit = isInit || false;
         var schoolParams = {};
         if($scope.project.school_type_id) {
           schoolParams['type_id'] = $scope.project.school_type_id;
@@ -182,14 +170,18 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         }
         network.get('school', schoolParams, function (result, response) {
             if(result) {
-                $scope.schools = response.result;
-                $scope.project.schools = [];
-                $.each($scope.schools, function(){
-                  if($scope.projectSchoolsID[this.id]) {
-                    $scope.project.schools.push(this);
-                  }
-                })
+              $timeout(function(){
                 
+                $scope.schools = response.result;
+                if(isInit) {
+                  $scope.project.schools = [];
+                  $.each($scope.schools, function(){
+                    if($scope.projectSchoolsID[this.id]) {
+                      $scope.project.schools.push(this);
+                    }
+                  })
+                }
+              })
 //                $scope.project.schools = $scope.projectSchools
 //                $scope.projectSchools = [];
                 
@@ -198,7 +190,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //        $scope.project.schools = [];
     };
     
-    $scope.updateSchools();
+    $scope.updateSchools(true);
 
     $scope.submitFormProjects = function () {
       console.log($scope.project);
