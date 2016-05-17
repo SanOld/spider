@@ -8,9 +8,9 @@
     <td data-title="'Telefon'" sortable="'phone'" ng-bind="::row.phone"></td>
     <td data-title="'Status'" sortable="'status_name'" ng-bind="::row.status_name"></td>
     <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-      <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit(row.id))">
-        <i class="ion-eye"  ng-if="!canEdit(row.id)"></i>
-        <i class="ion-edit" ng-if="canEdit(row.id)"></i>
+      <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit(row))">
+        <i class="ion-eye"  ng-if="!canEdit(row)"></i>
+        <i class="ion-edit" ng-if="canEdit(row)"></i>
       </a>
     </td>
   </tr>
