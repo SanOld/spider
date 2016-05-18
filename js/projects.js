@@ -152,7 +152,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
     };
     $scope.placeholderFN = function(items) {
-        return items.lengt && false ? '(No items available)' :'(Please choose)'; // ??? not working
+        return items.lengt && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; // ??? not working
     };
     $scope.updateCode = function() {
       try {

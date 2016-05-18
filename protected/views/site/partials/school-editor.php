@@ -26,8 +26,8 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                             <input name="name" ng-model="school.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                             <span ng-class="{hide: !fieldError('name')}" class="hide">
-                              <label ng-show="form.formSchool.name.$error.required" class="error">Name is required</label>
-                              <label ng-show="error.name.dublicate" class="error">This Name already exists</label>
+                              <label ng-show="form.formSchool.name.$error.required" class="error">Name ist erforderlich</label>
+                              <label ng-show="error.name.dublicate" class="error">Dieser Name existiert bereits</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -43,7 +43,7 @@
                             <ui-select ng-disabled="!$select.items.length" ng-model="school.district_id"
                                        name="district_id" required>
                               <ui-select-match
-                                placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                                placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                                 {{$select.selected.name}}
                               </ui-select-match>
                               <ui-select-choices repeat="item.id as item in districts | filter: $select.search">
@@ -113,7 +113,7 @@
                             <ui-select ng-change="setNumber(school.type_id)" ng-disabled="!$select.items.length" ng-model="school.type_id" name="type_id"
                                        required>
                               <ui-select-match
-                                placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                                placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                                 {{$select.selected.name}}
                               </ui-select-match>
                               <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search">
@@ -163,7 +163,7 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                             <input name="email" ng-model="school.email" type="email" value="" class="form-control">
                             <span ng-class="{hide: !fieldError('email')}" class="hide">
-                              <label ng-show="form.formSchool.email.$error.email" class="error">Enter a valid email</label>
+                              <label ng-show="form.formSchool.email.$error.email" class="error">Geben Sie eine gültige E-Mail</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -179,8 +179,7 @@
                                    ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/"
                                    class="form-control">
                             <span ng-class="{hide: !fieldError('homepage')}" class="hide">
-                              <label ng-show="form.formSchool.homepage.$error.pattern" class="error">Enter a valid
-                                webseite</label>
+                              <label ng-show="form.formSchool.homepage.$error.pattern" class="error">Geben Sie eine gültige Website</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -196,7 +195,7 @@
                   <div class="wrap-hint" ng-if="canEdit() && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(school.contact_id)"
                                ng-model="school.contact_id" name="contact_id">
-                      <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">
+                      <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">
                         {{$select.selected.name}}
                       </ui-select-match>
                       <ui-select-choices repeat="item.id as item in users | filter: $select.search">

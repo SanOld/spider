@@ -88,8 +88,8 @@ $this->breadcrumbs = array('Bezirk');
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                         <input name="name" ng-model="district.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                         <span ng-class="{hide: !fieldError('name')}">
-                          <label ng-show="form.formDistrict.name.$error.required" class="error">Name is required</label>
-                          <label ng-show="error.name.dublicate" class="error">This name already exists</label>
+                          <label ng-show="form.formDistrict.name.$error.required" class="error">Name ist erforderlich</label>
+                          <label ng-show="error.name.dublicate" class="error">Dieser Name existiert bereits</label>
                         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -166,8 +166,7 @@ $this->breadcrumbs = array('Bezirk');
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                             <input name="email" ng-model="district.email" type="email" value="" class="form-control">
                             <span ng-class="{hide: !fieldError('email')}" class="hide">
-                            <label ng-show="form.formDistrict.email.$error.email" class="error">Enter a valid
-                              email</label>
+                            <label ng-show="form.formDistrict.email.$error.email" class="error">Geben Sie eine gültige E-Mail</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -183,8 +182,7 @@ $this->breadcrumbs = array('Bezirk');
                                    ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/"
                                    class="form-control">
                             <span ng-class="{hide: !fieldError('homepage')}" class="hide">
-                              <label ng-show="form.formDistrict.homepage.$error.pattern" class="error">Enter a valid
-                                webseite</label>
+                              <label ng-show="form.formDistrict.homepage.$error.pattern" class="error">Geben Sie eine gültige Website</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -200,7 +198,7 @@ $this->breadcrumbs = array('Bezirk');
                   <div class="wrap-hint" ng-if="canEdit() && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(district.contact_id)"
                                ng-model="district.contact_id" name="contact_id">
-                      <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">
+                      <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">
                         {{$select.selected.name}}
                       </ui-select-match>
                       <ui-select-choices repeat="item.id as item in users | filter: $select.search">

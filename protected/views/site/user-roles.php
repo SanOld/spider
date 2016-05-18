@@ -53,9 +53,9 @@ $this->breadcrumbs = array('Benutzerrollen');
 							<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('user_type_name')}">
               	<input class="form-control" placeholder="Benutzerdefinierter Typ" name="user_type_name" ng-model="user_type.name" type="text" value="" ng-minlength="2" ng-maxlength="255" required>
 								<span ng-class="{hide: !fieldError('user_type_name')}" class="hide">
-									<label ng-show="form.user_type_name.$error.required" class="error">Benutzerrollen is required</label>
-									<label ng-show="form.user_type_name.$error.minlength" class="error">Benutzerrollen is too short</label>
-									<label ng-show="form.user_type_name.$error.maxlength" class="error">Benutzerrollen is too long</label>
+									<label ng-show="form.user_type_name.$error.required" class="error">Benutzerrollen ist erforderlich</label>
+									<label ng-show="form.user_type_name.$error.minlength" class="error">Benutzerrollen ist zu kurz</label>
+									<label ng-show="form.user_type_name.$error.maxlength" class="error">Benutzerrollen ist zu lang</label>
 									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</span>
 							</div>

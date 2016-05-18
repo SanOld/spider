@@ -63,7 +63,7 @@ $this->breadcrumbs = array('Fördertöpfe');
               <div class="wrap-hint" ng-if="canEdit() && !modeView">
                 <ui-select ng-disabled="!$select.items.length" ng-model="finance.finance_source_type"
                            name="finance_source_type" required>
-                  <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                  <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                     {{$select.selected.name}}
                   </ui-select-match>
                   <ui-select-choices repeat="item.id as item in types | filter: $select.search">

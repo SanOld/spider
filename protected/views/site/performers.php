@@ -111,8 +111,8 @@ $this->breadcrumbs = array('Träger');
                             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'short_name')}">
                               <input class="form-control" name="short_name" ng-model="performer.short_name" type="text" value="" required ng-disabled="!canEdit()"/>
                               <span ng-class="{hide: !fieldError('formPerformer', 'short_name')}" class="hide">
-                                <label ng-show="form.formPerformer.short_name.$error.required" class="error">Name is required</label>
-                                <label ng-show="error.short_name.dublicate" class="error">This Name already exists</label>
+                                <label ng-show="form.formPerformer.short_name.$error.required" class="error">Name ist erforderlich</label>
+                                <label ng-show="error.short_name.dublicate" class="error">Dieser Name existiert bereits</label>
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                               </span>
                             </div>
@@ -125,7 +125,7 @@ $this->breadcrumbs = array('Träger');
                             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'name')}">
                               <input class="form-control" name="name" ng-model="performer.name" type="text" value="" required ng-disabled="!canEdit()">
                               <span ng-class="{hide: !fieldError('formPerformer', 'name')}" class="hide">
-                                <label ng-show="formPerformer.name.$error.required" class="error">Kurzname is required</label>
+                                <label ng-show="formPerformer.name.$error.required" class="error">Kurzname ist erforderlich</label>
                                 <label ng-show="error.name.dublicate" class="error">This Kurzname already exists</label>
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                               </span>
@@ -197,7 +197,7 @@ $this->breadcrumbs = array('Träger');
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'email')}">
                                 <input class="form-control" name="email" ng-model="performer.email" type="email" value=""/>
                                 <span ng-class="{hide: !fieldError('formPerformer', 'email')}" class="hide">
-                                  <label ng-show="form.formPerformer.email.$error.email" class="error">Enter a valid email</label>
+                                  <label ng-show="form.formPerformer.email.$error.email" class="error">Geben Sie eine gültige E-Mail</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
                               </div>
@@ -210,7 +210,7 @@ $this->breadcrumbs = array('Träger');
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'homepage')}">
                                 <input class="form-control" name="homepage" ng-model="performer.homepage" type="text" ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/" value=""/>
                                 <span ng-class="{hide: !fieldError('formPerformer', 'homepage')}" class="hide">
-                                  <label ng-show="form.formPerformer.homepage.$error.pattern" class="error">Enter a valid webseite</label>
+                                  <label ng-show="form.formPerformer.homepage.$error.pattern" class="error">Geben Sie eine gültige Website</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
                               </div>
@@ -225,7 +225,7 @@ $this->breadcrumbs = array('Träger');
                           <span spi-hint text="_hint.representative_user_id" class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" ng-model="performer.representative_user_id" name="representative_user_id">
-                              <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
+                              <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
                               <ui-select-choices repeat="item.id as item in users | filter: $select.search">
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                               </ui-select-choices>
@@ -248,7 +248,7 @@ $this->breadcrumbs = array('Träger');
                           <span spi-hint text="_hint.application_processing_user_id" class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" ng-model="performer.application_processing_user_id" theme="select2" name="application_processing_user_id">
-                              <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
+                              <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
                               <ui-select-choices repeat="item.id as item in users | filter: $select.search">
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                               </ui-select-choices>
@@ -271,7 +271,7 @@ $this->breadcrumbs = array('Träger');
                           <span spi-hint text="_hint.budget_processing_user_id" class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
                             <ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
-                              <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(No chosen)'}}">{{$select.selected.name}}</ui-select-match>
+                              <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
                               <ui-select-choices repeat="item.id as item in users | filter:{is_finansist: '1'} | filter: $select.search">
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                               </ui-select-choices>
@@ -319,8 +319,8 @@ $this->breadcrumbs = array('Träger');
                               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
                                 <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
                                 <span ng-class="{hide: !fieldError('formBank{{$index}}', 'iban')}" class="hide">
-                                  <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN is required</label>
-                                  <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">It doesn't seems real IBAN</label>
+                                  <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN ist erforderlich</label>
+                                  <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">IBAN scheint nicht wirklich zu sein.</label>
                                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </span>
                               </div>

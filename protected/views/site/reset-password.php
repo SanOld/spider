@@ -15,8 +15,8 @@ $this->pageTitle = 'Passwort zurücksetzen | ' . Yii::app()->name;
                 <div class="col-lg-12 wrap-line" ng-class="{'wrap-line error': fieldError('password'), 'wrap-line success': !fieldError('password')}">
                     <input class="form-control" type="password" ng-model="password" name="password" ng-minlength="3" autofocus required>
                     <span ng-show="fieldError('password')">
-                        <label ng-show="form.password.$error.required" class="error">Neues Passwort is required</label>
-                        <label ng-show="form.password.$error.minlength" class="error">Neues Passwort is too short</label>
+                        <label ng-show="form.password.$error.required" class="error">Neues Passwort ist erforderlich</label>
+                        <label ng-show="form.password.$error.minlength" class="error">Neues Passwort ist zu kurz</label>
                         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								    </span>
                     <span ng-show="form.password.$dirty && form.password.$valid && !fieldError('password')" class="glyphicon glyphicon-ok form-control-feedback"></span>
@@ -27,9 +27,9 @@ $this->pageTitle = 'Passwort zurücksetzen | ' . Yii::app()->name;
                 <div class="col-lg-12 wrap-line" ng-class="{'wrap-line error': fieldError('password_repeat'), 'wrap-line success': !fieldError('password_repeat')}">
                     <input class="form-control" type="password" ng-model="password_repeat" name="password_repeat" ng-pattern="password" ng-minlength="3" required>
                     <span ng-show="fieldError('password_repeat') || error">
-                      <label ng-show="form.password_repeat.$error.required" class="error">Ein neues Passwort bestätigen repeat is required</label>
-                      <label ng-show="form.password_repeat.$error.passwordVerify" class="error">Passwords are not equal</label>
-                      <label ng-show="error && form.$pristine" class="error">There is no user with this recovery token</label>
+                      <label ng-show="form.password_repeat.$error.required" class="error">Ein neues Passwort bestätigen repeat ist erforderlich</label>
+                      <label ng-show="form.password_repeat.$error.passwordVerify" class="error">Passwörter sind nicht gleich</label>
+                      <label ng-show="error && form.$pristine" class="error">Es gibt keinen Benutzer mit diesem Wiederherstellung -Token</label>
                       <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                     </span>
                     <span ng-show="form.password_repeat.$dirty && form.password_repeat.$valid && !fieldError('password_repeat')" class="glyphicon glyphicon-ok form-control-feedback"></span>

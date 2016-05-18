@@ -140,7 +140,7 @@ class User extends BaseModel {
           'code' => '409',
           'result' => false,
           'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
-          'message' => 'Insert failed: Field relation required for this user type.'
+          'message' => 'Einfügung ist fehlgeschlagen: Feldbeziehung ist für diesen Benutzertyp erforderlich'
         );
       }
     }
@@ -184,7 +184,7 @@ class User extends BaseModel {
         'code' => '409',
         'result' => false,
         'system_code' => 'ERR_UPDATE_FORBIDDEN',
-        'message' => 'Update failed: The finansist can not be change.'
+        'message' => 'Update fehlgeschlagen: Finanzielle Rechte können nicht geändert werden'
       );
     }
 
@@ -203,7 +203,7 @@ class User extends BaseModel {
         'code' => '409',
         'result' => false,
         'system_code' => 'ERR_UPDATE_FORBIDDEN',
-        'message' => 'Update failed: The relation can not be change.'
+        'message' => 'Update fehlgeschlagen: Die Beziehung kann nicht geändert werden'
       );
     }
 
@@ -212,7 +212,7 @@ class User extends BaseModel {
         'code' => '409',
         'result' => false,
         'system_code' => 'ERR_UPDATE_FORBIDDEN',
-        'message' => 'Update failed: The username can not be change.'
+        'message' => 'Update fehlgeschlagen: Der Benutzername kann nicht geändert werden'
       );
     }
 

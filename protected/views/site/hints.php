@@ -81,13 +81,13 @@ $this->breadcrumbs = array('Hilfetexte');
 						<span spi-hint text="_hint.page_id" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('page_id')}">
 							<ui-select ng-change="changePage()" ng-model="hint.page_id" name="page_id" required>
-								<ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
+								<ui-select-match placeholder="(Bitte wählen Sie)">{{$select.selected.name}}</ui-select-match>
 								<ui-select-choices repeat="item.id as item in pages | filter: $select.search">
 									<span ng-bind-html="item.name | highlight: $select.search"></span>
 								</ui-select-choices>
 							</ui-select>
 							<span ng-class="{hide: !fieldError('page_id')}" class="hide">
-								<label ng-show="form.page_id.$error.required" class="error">Seite is required</label>
+								<label ng-show="form.page_id.$error.required" class="error">Seite ist erforderlich</label>
 							</span>
 						</div>
 					</div>
@@ -102,13 +102,13 @@ $this->breadcrumbs = array('Hilfetexte');
 						<span spi-hint text="_hint.position_id" class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('position_id')}">
 							<ui-select ng-disabled="!$select.items.length" ng-change="changePosition(hint.position_id)" ng-model="hint.position_id" name="position_id" required>
-								<ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">{{$select.selected.name}}</ui-select-match>
+								<ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">{{$select.selected.name}}</ui-select-match>
 								<ui-select-choices repeat="item.id as item in positions | filter: $select.search">
 									<span ng-bind-html="item.name | highlight: $select.search"></span>
 								</ui-select-choices>
 							</ui-select>
 							<span ng-class="{hide: !fieldError('position_id')}" class="hide">
-								<label ng-show="form.position_id.$error.required" class="error">Position is required</label>
+								<label ng-show="form.position_id.$error.required" class="error">Position ist erforderlich</label>
 							</span>
 						</div>
 					</div>
@@ -120,8 +120,8 @@ $this->breadcrumbs = array('Hilfetexte');
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('title')}">
 							<textarea ng-model="hint.title" ng-minlength="3" maxlength="255" name="title" class="form-control" rows="5" required></textarea>
 							<span ng-class="{hide: !fieldError('title')}" class="hide">
-								<label ng-show="form.title.$error.required" class="error">Titel is required</label>
-								<label ng-show="form.title.$error.minlength" class="error">Titel is too short</label>
+								<label ng-show="form.title.$error.required" class="error">Titel ist erforderlich</label>
+								<label ng-show="form.title.$error.minlength" class="error">Titel ist zu kurz</label>
 							</span>
 						</div>
 					</div>
@@ -133,8 +133,8 @@ $this->breadcrumbs = array('Hilfetexte');
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
 							<textarea ng-model="hint.description" name="description" ng-minlength="3" maxlength="{{!showTitle ? 255 : 65000}}" class="form-control" rows="7" required></textarea>
 							<span ng-class="{hide: !fieldError('description')}" class="hide">
-								<label ng-show="form.description.$error.required" class="error">Hilfetext is required</label>
-								<label ng-show="form.description.$error.minlength" class="error">Hilfetext is too short</label>
+								<label ng-show="form.description.$error.required" class="error">Hilfetext ist erforderlich</label>
+								<label ng-show="form.description.$error.minlength" class="error">Hilfetext ist zu kurz</label>
 							</span>
 						</div>
 					</div>
