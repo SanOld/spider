@@ -65,7 +65,7 @@ spi.directive('disableAll', function ($timeout) {
     restrict: 'A',
     link: function (scope, element, attrs) {
       var _disableElements = ['input', 'button[uib-btn-radio]', 'textarea', 'select'];
-      var _skipClasses = ['cancel-btn', 'document-link', 'btn-question', 'fa-question'];
+      var _skipClasses = ['cancel-btn', 'document-link', 'btn-question', 'fa-question', 'fa-info-circle'];
 
       scope.$watch(attrs.disableAll, function (isDisabled) {
         if(isDisabled) {
@@ -77,7 +77,7 @@ spi.directive('disableAll', function ($timeout) {
 
       var disable = function(element) {
         angular.element(element).addClass('disable-all');
-        element.addEventListener('click', preventDefault, true);
+        // element.addEventListener('click', preventDefault, true);
         for(var i = 0; i < _disableElements.length; i++) {
           disableElements(angular.element(element).find(_disableElements[i]));
         }
