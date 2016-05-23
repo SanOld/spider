@@ -26,7 +26,7 @@ $this->breadcrumbs = array('Projekte');
                                     <div class="col-lg-3 col-width-type">
                                         <div class="form-group">
                                             <label>Suche nach Kennziffer</label>
-                                            <input type="search" class="form-control" placeholder="Stichwort eingegeben">
+                                            <input ng-change="updateGrid()" ng-model="filter.code" type="search" class="form-control" placeholder="Stichwort eingegeben">
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-width-type">

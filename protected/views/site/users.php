@@ -46,7 +46,7 @@ $this->breadcrumbs = array('Benutzerliste');
 											<input ng-change="updateGrid()" type="text" ng-model="filter.relation_name" placeholder="Stichwort eingeben" class="search-relation form-control">
 										</div>
 									</div>
-									<div class="col-lg-2">
+									<div class="col-lg-2" ng-if="canByType(['a','p'])">
 										<div class="form-group">
 											<label>Status</label>
 											<ui-select ng-change="updateGrid()" ng-model="filter.is_active">

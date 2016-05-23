@@ -84,7 +84,7 @@ $this->breadcrumbs = array('Audit');
                   <col width="20%" />
                   <col width="20%" />
                 </colgroup>
-                <tr class="ng-table-group thead" ng-repeat-start="group in $groups" ng-class="{'open':group.$hideRows, 'delete': group.data[0].event_type == 'DEL', 'insert':  group.data[0].event_type == 'INS'}">
+                <tr ng-click="group.$hideRows = !group.$hideRows" class="ng-table-group thead" ng-repeat-start="group in $groups" ng-class="{'open':group.$hideRows, 'delete': group.data[0].event_type == 'DEL', 'insert':  group.data[0].event_type == 'INS'}">
                   <td>
                     <strong>{{group.data[0].operation_name}}</strong>
                     <span>von {{group.data[0].user_name}} am {{group.data[0].date_formated}}</span> 
@@ -94,7 +94,7 @@ $this->breadcrumbs = array('Audit');
                   </td>
                   <td>
                     <span class="before">Nachher</span>
-                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                    <a href="">
                       <i class="ion-chevron-down arrow-box"></i>
                     </a>
                   </td>

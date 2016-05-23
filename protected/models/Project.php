@@ -12,72 +12,30 @@ class Project extends BaseModel {
     return $command;
   }
 
-//  protected function getParamCommand($command, array $params, array $logic = array()) {
-//    $params = array_change_key_case($params, CASE_UPPER);
-//    $command = $this->setLikeWhere($command,
-//          array('tbl.first_name', 'tbl.last_name', 'tbl.login', 'tbl.email'),
-//          safe($params, 'KEYWORD'));
-//    if (safe($params, 'RELATION_NAME')) {
-//      $value = $params['RELATION_NAME'];
-//      $where = array();
-//      $search_param = array();
-//      foreach(explode(',', USER_TYPES) as $type) {
-//        $relation = $this->getRelationByType($type);
-//        if($relation && safe($relation, 'code')) {
-//          $command->leftJoin($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id');
-//          $where[] = "({$relation['prefix']}.name like :value AND ust.type = '".$type."')";
-//          $search_param[":value"] = '%' . $value . '%';
-//        }
-//      }
-//      if($where && $search_param) {
-//        $where = implode(' OR ', $where);
-//        $command -> andWhere($where, $search_param);
-//      }
+  protected function getParamCommand($command, array $params, array $logic = array()) {
+    $params = array_change_key_case($params, CASE_UPPER);
+    
+    if (safe($params, 'CODE')) {
+      $command->andWhere("tbl.code = :code", array(':code' => $params['CODE']));
+    }
+    if (safe($params, 'SCHOOL_TYPE_ID')) {
+      $command->andWhere("tbl.school_type_id = :school_type_id", array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
+    }
+    if (isset($params['SCHOOL_ID'])) {
+      $command -> andWhere("tbl.district_id = :district_id", array(':district_id' => $params['DISTRICT_ID']));
+    }
+//    if (isset($params['school_id'])) {
+//      //$command -> andWhere("tbl.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
 //    }
-//    if (safe($params, 'TYPE')) {
-//      $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
-//    }
-//    if (safe($params, 'TYPE_ID')) {
-//      $command->andWhere("tbl.type_id = :type_id", array(':type_id' => $params['TYPE_ID']));
-//    }
-//    if (isset($params['IS_FINANSIST'])) {
-//      $command -> andWhere("tbl.is_finansist = :is_finansist", array(':is_finansist' => $params['IS_FINANSIST']));
-//    }
-//    if (isset($params['IS_ACTIVE'])) {
-//      $command -> andWhere("tbl.is_active = :is_active", array(':is_active' => $params['IS_ACTIVE']));
-//    }
-//    if(safe($params, 'ORDER') == 'relation_name') {
-//      $fields = array();
-//      foreach(explode(',', USER_TYPES) as $type) {
-//        $relation = $this->getRelationByType($type);
-//        if($relation && safe($relation, 'code')) {
-//          $command->leftJoin($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-//          $fields[] = "IFNULL(".$relation['prefix'].".name, '')";
-//        }
-//      }
-//      if($fields) {
-//        $command->select($this->select_all.", CONCAT(".implode(',', $fields).") relation_name");
-//      }
-//
-//    }
-//    if (safe($params, 'SCHOOL_ID')) {
-//      $type = 's';
-//      $relation = $this->getRelationByType($type);
-//      if($relation && safe($relation, 'code')) {
-//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['SCHOOL_ID']));
-//      }
-//    }
-//    if (safe($params, 'DISTRICT_ID')) {
-//      $type = 'd';
-//      $relation = $this->getRelationByType($type);
-//      if($relation && safe($relation, 'code')) {
-//        $command->join($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-//        $command->andWhere("tbl.relation_id = :relation_id", array(':relation_id' => $params['DISTRICT_ID']));
-//      }
-//    }
-//    return $command;
-//  }
+    if (safe($params, 'SCHOOL_ID')) {
+
+        $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
+        $command->join('spi_school sch', 'sch.id=sps.school_id');
+        $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
+    }
+    
+    return $command;
+  }
 
 //  protected function calcResults($result) {
 //    foreach($result['result'] as &$row) {
