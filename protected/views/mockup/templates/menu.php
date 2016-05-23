@@ -38,7 +38,7 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Systemverwaltung</a>
 								<ul class="dropdown-menu">
-									<li><a href="document-templates.php">Druck-Templates</a></li>
+                  <li><a ng-if="canView('document-templates')" href="/document-templates">Druck-Templates</a></li>
 									<li><a href="/hints">Hilfetexte</a></li>
 									<li><a href="email-templates.php">Email-Vorlagen</a></li>
 									<li><a href="#" style="color: #aaa;">Email-Sendebericht</a></li>

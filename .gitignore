@@ -1,3 +1,5 @@
 /protected/runtime/
 /protected/config/database.php
+protected/config/database.php
 /assets/
+/nbproject/
