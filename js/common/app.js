@@ -7,7 +7,8 @@ var spi = angular.module('spi', [
     //'ui.mask',
     'ngAnimate',
     'ui-notification',
-    'mm.iban'
+    'mm.iban',
+    'summernote'
 ]);
 
 spi.run(function(ngTableDefaults, $templateCache) {
