@@ -60,60 +60,12 @@ spi.directive("qqFileUpload", function (Notification) {
   };
 });
 
-
-//spi.filter('tel', function () {
-//  return function (tel) {
-//    if (!tel) {
-//      return '';
-//    }
-//
-//    var value = tel.toString().trim().replace(/^\+/, '');
-//
-//    if (value.match(/[^0-9]/)) {
-//      return tel;
-//    }
-//
-//    var country, city, number;
-//
-//    switch (value.length) {
-//      case 10: // +1PPP####### -> C (PPP) ###-####
-//        country = 1;
-//        city = value.slice(0, 3);
-//        number = value.slice(3);
-//        break;
-//
-//      case 11: // +CPPP####### -> CCC (PP) ###-####
-//        country = value[0];
-//        city = value.slice(1, 4);
-//        number = value.slice(4);
-//        break;
-//
-//      case 12: // +CCCPP####### -> CCC (PP) ###-####
-//        country = value.slice(0, 3);
-//        city = value.slice(3, 5);
-//        number = value.slice(5);
-//        break;
-//
-//      default:
-//        return tel;
-//    }
-//
-//    if (country == 1) {
-//      country = "";
-//    }
-//
-//    number = number.slice(0, 3) + '-' + number.slice(3);
-//
-//    return (country + " (" + city + ") " + number).trim();
-//  };
-//});
-
 spi.directive('disableAll', function ($timeout) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
       var _disableElements = ['input', 'button[uib-btn-radio]', 'textarea', 'select'];
-      var _skipClasses = ['cancel-btn', 'document-link'];
+      var _skipClasses = ['cancel-btn', 'document-link', 'btn-question', 'fa-question', 'fa-info-circle'];
 
       scope.$watch(attrs.disableAll, function (isDisabled) {
         if(isDisabled) {
@@ -125,7 +77,7 @@ spi.directive('disableAll', function ($timeout) {
 
       var disable = function(element) {
         angular.element(element).addClass('disable-all');
-        element.addEventListener('click', preventDefault, true);
+        // element.addEventListener('click', preventDefault, true);
         for(var i = 0; i < _disableElements.length; i++) {
           disableElements(angular.element(element).find(_disableElements[i]));
         }
@@ -149,7 +101,7 @@ spi.directive('disableAll', function ($timeout) {
           for (var j = 0; j < elements[i].classList.length; j++) {
             if(_skipClasses.indexOf(elements[i].classList[i]) !== -1){
               shouldDisable = false;
-              continue;
+              break;
             }
           }
           if (shouldDisable && elements[i].disabled === false) {

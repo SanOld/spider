@@ -42,7 +42,7 @@
 
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
               <ui-select ng-change="reloadRelation()" ng-model="user.type_id" name="type_id" required>
-                <ui-select-match placeholder="(Please choose)">{{$select.selected.name}}</ui-select-match>
+                <ui-select-match placeholder="(Bitte wählen Sie)">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="type.id as type in userTypes | filter: $select.search">
                   <span ng-bind-html="type.name | highlight: $select.search"></span>
                 </ui-select-choices>
@@ -108,7 +108,7 @@
 
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('relation_id')}">
               <ui-select ng-disabled="!$select.items.length" ng-model="user.relation_id" name="relation_id" required>
-                <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                   {{$select.selected.name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in relations | filter: $select.search">
@@ -185,8 +185,8 @@
                      value="" ng-minlength="2" ng-maxlength="45" required>
                 <span ng-class="{hide: !fieldError('first_name')}" class="hide">
                 <label ng-show="form.first_name.$error.required" class="error">Vorname erforderlich</label>
-                <label ng-show="form.first_name.$error.minlength" class="error">Vorname is too short</label>
-                <label ng-show="form.first_name.$error.maxlength" class="error">Vorname is too long</label>
+                <label ng-show="form.first_name.$error.minlength" class="error">Vorname ist zu kurz</label>
+                <label ng-show="form.first_name.$error.maxlength" class="error">Vorname ist zu lang</label>
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
             </div>
@@ -201,8 +201,8 @@
                      ng-minlength="2" ng-maxlength="45" required>
               <span ng-class="{hide: !fieldError('last_name')}" class="hide">
                 <label ng-show="form.last_name.$error.required" class="error">Nachname erforderlich</label>
-                <label ng-show="form.last_name.$error.minlength" class="error">Nachname is too short</label>
-                <label ng-show="form.last_name.$error.maxlength" class="error">Nachname is too long</label>
+                <label ng-show="form.last_name.$error.minlength" class="error">Nachname ist zu kurz</label>
+                <label ng-show="form.last_name.$error.maxlength" class="error">Nachname ist zu lang</label>
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
             </div>
@@ -238,8 +238,8 @@
                          value="" ng-minlength="2" ng-maxlength="45" required>
                     <span ng-show="fieldError('first_name')">
                     <label ng-show="form.first_name.$error.required" class="error">Vorname erforderlich</label>
-                    <label ng-show="form.first_name.$error.minlength" class="error">Vorname is too short</label>
-                    <label ng-show="form.first_name.$error.maxlength" class="error">Vorname is too long</label>
+                    <label ng-show="form.first_name.$error.minlength" class="error">Vorname ist zu kurz</label>
+                    <label ng-show="form.first_name.$error.maxlength" class="error">Vorname ist zu lang</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                   </span>
                 </div>
@@ -254,8 +254,8 @@
                          ng-minlength="2" ng-maxlength="45" required>
                   <span ng-show="fieldError('last_name')">
                     <label ng-show="form.last_name.$error.required" class="error">Nachname erforderlich</label>
-                    <label ng-show="form.last_name.$error.minlength" class="error">Nachname is too short</label>
-                    <label ng-show="form.last_name.$error.maxlength" class="error">Nachname is too long</label>
+                    <label ng-show="form.last_name.$error.minlength" class="error">Nachname ist zu kurz</label>
+                    <label ng-show="form.last_name.$error.maxlength" class="error">Nachname ist zu lang</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                   </span>
                 </div>
@@ -274,9 +274,9 @@
                          ng-disabled="isCurrentUser && !isAdmin" ng-minlength="3" ng-maxlength="45" required>
 									<span ng-class="{hide: !fieldError('login')}" class="hide">
 										<label ng-show="form.login.$error.required" class="error">Benutzername erforderlich</label>
-										<label ng-show="form.login.$error.minlength" class="error">Benutzername is too short</label>
-										<label ng-show="form.login.$error.maxlength" class="error">Benutzername is too long</label>
-                    <label ng-show="error.login.dublicate" class="error">This Username already registered</label>
+										<label ng-show="form.login.$error.minlength" class="error">Benutzername ist zu kurz</label>
+										<label ng-show="form.login.$error.maxlength" class="error">Benutzername ist zu lang</label>
+                    <label ng-show="error.login.dublicate" class="error">Dieser Benutzername bereits registriert</label>
 										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 									</span>
                 </div>
@@ -292,8 +292,8 @@
                          ng-maxlength="45" required>
 									<span ng-class="{hide: !fieldError('email')}" class="hide">
 										<label ng-show="form.email.$error.required" class="error">Email erforderlich</label>
-										<label ng-show="form.email.$error.email" class="error">Enter a valid email</label>
-										<label ng-show="form.email.$error.maxlength" class="error">Username is too long</label>
+										<label ng-show="form.email.$error.email" class="error">Geben Sie eine gültige E-Mail</label>
+										<label ng-show="form.email.$error.maxlength" class="error">Username ist zu lang</label>
 										<label ng-show="error.email.dublicate" class="error">This email already registered</label>
 										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 									</span>
@@ -329,7 +329,7 @@
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('old_password')}">
                 <input class="form-control" name="old_password" ng-model="user.old_password" type="password" value="">
 								  <span ng-class="{hide: !fieldError('old_password')}" class="hide">
-                    <label ng-show="error.old_password.error" class="error">Old password is wrong</label>
+                    <label ng-show="error.old_password.error" class="error">Altes Passwort ist falsch</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								  </span>
               </div>
@@ -342,7 +342,7 @@
                        ng-minlength="3" ng-required="isInsert">
 								  <span ng-class="{hide: !fieldError('password')}" class="hide">
                     <label ng-show="form.password.$error.required" class="error">Passwort erforderlich</label>
-                    <label ng-show="form.password.$error.minlength" class="error">Passwort is too short</label>
+                    <label ng-show="form.password.$error.minlength" class="error">Passwort ist zu kurz</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								  </span>
               </div>
@@ -355,7 +355,7 @@
                        ng-pattern="user.password.length ? user.password : '^$'" ng-required="isInsert || user.password.length">
 								<span ng-class="{hide: !fieldError('password_repeat')}" class="hide">
 									<label ng-show="form.password_repeat.$error.required" class="error">Passwort bestätigen erforderlich</label>
-									<label ng-show="form.password_repeat.$error.pattern" class="error">Passwords are not equal</label>
+									<label ng-show="form.password_repeat.$error.pattern" class="error">Passwörter sind nicht gleich</label>
 									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</span>
               </div>

@@ -99,7 +99,7 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
             params.data = response.result[0];
             openModal(params, callback);
           } else {
-            Notification.error({title: 'The row not found!', message: 'Please update page.'});
+            Notification.error({title: 'Zeile nicht gefunden', message: 'Bitte die Seite aktualisieren'});
           }
         });
       } else {

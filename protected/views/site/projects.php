@@ -189,7 +189,7 @@ $this->breadcrumbs = array('Projekte');
                         <div class="wrap-hint">
                           <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.type_id"
                                      name="type_id" required on-select="updateCode();">
-                            <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                            <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                               {{$select.selected.name}}
                             </ui-select-match>
                             <ui-select-choices repeat="item.id as item in projectTypes | filter: $select.search">
@@ -204,7 +204,7 @@ $this->breadcrumbs = array('Projekte');
                         <div class="wrap-hint">
                           <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.school_type_id"
                                      name="school_type_id" required on-select="updateSchools();updateCode();">
-                            <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                            <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                               {{$select.selected.fullName}}
                             </ui-select-match>
                             <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search">
@@ -221,7 +221,7 @@ $this->breadcrumbs = array('Projekte');
                         <div class="wrap-hint">
                           <ui-select ng-disabled="!$select.items.length || project.is_old==1" ng-model="project.performer_id"
                                      name="performer_id" required>
-                            <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                            <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                               {{$select.selected.name}}
                             </ui-select-match>
                             <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
@@ -238,7 +238,7 @@ $this->breadcrumbs = array('Projekte');
                           <div class="wrap-hint">
                             <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.district_id"
                                        name="district_id" required on-select="updateSchools()">
-                              <ui-select-match placeholder="{{$select.disabled ? '(No items available)' :'(Please choose)'}}">
+                              <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                                 {{$select.selected.name}}
                               </ui-select-match>
                               <ui-select-choices repeat="item.id as item in districts | filter: $select.search">

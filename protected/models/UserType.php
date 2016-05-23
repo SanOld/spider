@@ -208,7 +208,7 @@ class UserType extends BaseModel {
       'code' => '409',
       'result'=> false,
       'system_code'=> 'ERR_DEPENDENT_RECORD',
-      'message' => 'Delete this role is not possible. You must first delete users with this role.'
+      'message' => 'Diese Rolle zu löschen ist nicht möglich. Sie müssen zuerst Benutzer mit dieser Rolle löschen'
     );
   }
 

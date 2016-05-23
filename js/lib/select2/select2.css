@@ -736,7 +736,7 @@ html[dir="rtl"] .select2-container-multi .select2-search-choice-close {
 }
 
 .select2-empty-list .select2-container-multi .select2-choices:after {
-  content: "(No items available)";
+  content: "(keine Items sind verfügbar)";
   color: #999 !important;
   line-height: 30px;
   padding: 0px 0 0 4px !important;

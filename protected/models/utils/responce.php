@@ -30,83 +30,75 @@ function response($code, $data, $method = '') {
   function responseText($data, $method = '') {
     $code = $data ['system_code'];
     $methods = array (
-        'get' => 'Select',
-        'post' => 'Insert',
-        'put' => 'Update',
-        'patch' => 'Update',
-        'delete' => 'Delete'
+        'get' => 'Wählen',
+        'post' => 'Einfügen',
+        'put' => 'Aktualisieren',
+        'patch' => 'Aktualisieren',
+        'delete' => 'Löschen'
     );
-
-    
 
     $methodsDone = array (
-        'get' => 'selected',
-        'post' => 'added',
-        'put' => 'updated',
-        'patch' => 'updated',
-        'delete' => 'deleted'
+        'get'    => 'ausgewählt',
+        'post'   => 'hinzugefügt',
+        'put'    => 'aktualisiert',
+        'patch'  => 'aktualisiert',
+        'delete' => 'gelöscht'
     );
 
-    
-
     $message = '';
-    
     switch ($code) {
       case 'SUCCESSFUL' :
-            $message = 'Successfully ' . $methodsDone[$method];
+            $message = 'Erfolgreich ' . $methodsDone[$method];
         break;
       case 'ERR_NOT_EXISTS' :
-            $message = $methods [$method] . ' failed: This record not exists';
+            $message = $methods [$method] . ' fehlgeschlagen: Dieser Datensatz existiert nicht';
         break;
       case 'ERR_DUPLICATED' :
-            $message = $methods [$method] . ' failed: This record already exists';
+            $message = $methods [$method] . ' fehlgeschlagen: Dieser Datensatz existiert schon';
         break;
       case 'ERR_DUPLICATED_EMAIL' :
-            $message = $methods [$method] . ' failed: This email already registered';
+            $message = $methods [$method] . ' fehlgeschlagen: Diese E-mail ist schon registriert';
         break;
       case 'ERR_DEPENDENT_RECORD' :
-            $message = $methods [$method] . ' failed: You cannot delete this entry. There are related records exists: ' . $data ['table'] . '.';
+            $message = $methods [$method] . ' fehlgeschlagen: Es existieren ähnliche Datensätze: ' . $data ['table'] . '.';
         break;
       case 'ERR_INVALID_QUERY' :
-            $message = $methods [$method] . ' failed: Invalid query';
+            $message = $methods [$method] . ' fehlgeschlagen: Ungültige Abfrage';
         break;
       case 'ERR_QUERY' :
-            $message = $methods [$method] . ' failed: Query error';
+            $message = $methods [$method] . ' fehlgeschlagen: Query Fehler';
         break;
       case 'ERR_PERMISSION' :
-            $message = $methods [$method] . ' failed: You are not allowed to perform this operation';
+            $message = $methods [$method] . ' fehlgeschlagen: Sie sind nicht zur Durchführung dieser Operation berechtigt';
         break;
       case 'ERR_ACCOUNT_PERMISSION' :
-            $message = $methods [$method] . ' failed: You are not allowed to perform operation with another account';
+            $message = $methods [$method] . ' fehlgeschlagen: Sie sind nicht berechtigt, die Operation mit anderem Account durchzuführen';
         break;
       case 'ERR_MISSED_REQUIRED_PARAMETERS' :
-            $message = $methods [$method] . ' failed: A required parameter was not specified for this request';
+            $message = $methods [$method] . ' fehlgeschlagen: Ein erforderlicher Parameter wurde für diese Anforderung nicht spezifiziert';
         break;
       case 'ERR_ID_NOT_SPECIFIED' :
-            $message = $methods [$method] . ' failed: Id is not specified';
+            $message = $methods [$method] . ' fehlgeschlagen: ID ist nicht angegeben';
         break;
       case 'ERR_UPDATE_FORBIDDEN' :
-            $message = $methods [$method] . ' failed: You can\'t update this params';
+            $message = $methods [$method] . ' fehlgeschlagen: Sie können diese Parameter nicht aktualisieren';
         break;
       default :
             $text = array (
-                'LOGIN_SUCCESSFUL' => 'Authentication is successful',
-                'ERR_OUT_OF_DATE' => 'Token is out of date',
-                'ERR_METHOD_NOT_ALLOWED' => 'Method not allowed',
-                'ERR_INVALID_TOKEN' => 'Invalid token',
-                'ERR_TOKEN_MISSED' => 'Auth Error',
-                'ERR_RECOVERY_EMAIL' => 'Not valid email',
-                'ERR_SEND_EMAIL' => 'Email sending error',
-                'ERR_ACTIVATION_ACCAUNT' => 'Account activation error',
-                'ERR_USER_DISABLED' => 'Your account is disabled',
-                'ERR_AUTH_FAILED' => 'Authentication is failed',
-                'ERR_ACCOUNT_CREATION' => 'Account creation error',
-                'ERR_SERVICE' => 'Invalid service call',
+                'LOGIN_SUCCESSFUL' => 'die Authentifizierung ist erfolgreich',
+                'ERR_OUT_OF_DATE' => 'Token abgelaufen',
+                'ERR_METHOD_NOT_ALLOWED' => 'Methode nicht erlaubt',
+                'ERR_INVALID_TOKEN' => 'ungültiges Token ',
+                'ERR_TOKEN_MISSED' => 'Auth Fehler',
+                'ERR_RECOVERY_EMAIL' => 'Email-Adresse nicht gültig',
+                'ERR_SEND_EMAIL' => 'E-Mail-Sendefehler',
+                'ERR_ACTIVATION_ACCAUNT' => 'Accountaktivierungsfehler',
+                'ERR_USER_DISABLED' => 'Ihr Account ist deaktiviert',
+                'ERR_AUTH_FAILED' => 'Die Authentifizierung fehlgeschlagen',
+                'ERR_ACCOUNT_CREATION' => 'Accounterstellungsfehler',
+                'ERR_SERVICE' => 'Ungültiger Serviceabruf',
             );
             $message = isset ( $text [$code] ) ? $text [$code] : $code;
     }
-    
     return $message;
   }
-  
-  
