@@ -38,7 +38,7 @@
 			<li ng-class="{'active': ['hint'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Systemverwaltung</a>
 				<ul class="dropdown-menu">
-					<li><a href="document-templates.php">Druck-Templates</a></li>
+          <li><a ng-if="canShow('document_templates')" href="/document-templates">Druck-Templates</a></li>
 					<li><a ng-if="canShow('hint')" href="/hints">Hilfetexte</a></li>
 					<li><a href="email-templates.php">Email-Vorlagen</a></li>
 					<li><a href="#" style="color: #aaa;">Email-Sendebericht</a></li>

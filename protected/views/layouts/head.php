@@ -52,7 +52,9 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/modal-effect/css/component.css" rel="stylesheet">
 
 <!--bootstrap-wysihtml5-->
-<link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/summernote/summernote.css" rel="stylesheet" />
+<!--<link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/summernote/summernote.css" rel="stylesheet" />-->
+
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/angular-summernote-master/summernote/summernote.css" rel="stylesheet" />
 
 <!--[if lt IE 9]>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/html5shiv.js"></script>
@@ -89,6 +91,13 @@ $cs->registerScriptFile($baseUrl . '/js/lib/jquery.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/sweet-alert.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/file-uploader.js');
 $cs->registerScriptFile($baseUrl . '/js/assets/angular-ui-notification/angular-ui-notification.min.js');
+
+//$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/summernote/summernote.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/summernote/summernote.min.js');
+//$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/summernote/lang/summernote-de-DE.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/summernote/lang/summernote-de-DE.min.js');
+//$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/angular-summernote.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/angular-summernote.min.js');
 
 //$cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/modal-effect/js/classie.js');
