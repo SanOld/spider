@@ -1,4 +1,3 @@
-START TRANSACTION;
 
 CREATE TABLE `spi_document_template_placeholder` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -61,50 +60,6 @@ ENGINE=InnoDB
 AUTO_INCREMENT=1
 ;
 
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2013_Sonderkündigung', 1, '2016-05-18 12:51:31', 1, 
-    '<b>Zwischen</b><br>
-    der<br>
-    Stiftung Sozialpädagogisches Institut Berlin<br>
-    Programmagentur “Jugendsozialarbeit an Berliner Schulen”<br>
-    Schicklerstraße 5-7 in 10179 Berlin<br>
-
-    - nachstehend Programmagentur SPI genannt -<br>
-    und dem Träger<br>
-
-    <strong>{TRAEGER}</strong> mit der Kennziffer <strong>{KENNZIFFER}</strong><br>
-
-    - nachstehend Förderungsempfänger genannt -<br>
-    wird folgender<br>
-    <h3>FÖRDERVERTRAG (Weiterleitungsvertrag)</h3>
-    geschlossen.<br>
-
-    <h4>§ 1 Grundsätzliche Regelungen</h4>
-
-    (1) Die Programmagentur SPI ist vom Land Berlin, vertreten durch die Senatsverwaltung für Bildung, Jugend und Wissenschaft beauftragt worden, das Programm „Jugendsozialarbeit an Berliner Schulen“ umzusetzen. Das Programm wird durch Mittel des Berliner Landeshaushalts finanziert.<br>
-
-    (2) Zur Umsetzung des Programms entwickeln die freien Träger der Kinder- und Jugendhilfe zusammen mit einer Schule bzw. mehreren Schulen (betrifft Jugendsozialarbeit mit besonderen Aufgaben) konkrete auf die jeweilige Schule bezogene Konzepte. Dazu werden Kooperationsverträge zwischen den Schulen und den freien Trägern der Kinder- und Jugendhilfe abgeschlossen.<br>
-
-    (3) Die freien Träger verpflichten sich, das Gender-Mainstreaming-Prinzip anzuwenden, d. h. bei der Planung, Durchführung und Begleitung der Maßnahme sind Auswirkungen auf die Gleichstellung von Frauen und Männern aktiv zu berücksichtigen und in der Berichterstattung darzustellen.<br>
-
-    <h4>§ 2 Vertragsgegenstand und -bestandteile</h4>
-
-    (1) Gegenstand dieses privatrechtlichen Vertrages ist die Weitergabe von Zuwendungen des Landes Berlin durch die Programmagentur SPI an die Förderungsempfänger auf der Grundlage entsprechender Bewilligungsbescheide der Senatsverwaltung für Bildung, Jugend und Wissenschaft.<br>
-
-    (2) Bestandteile dieses Vertrages sind – in ihrer jeweils geltenden Fassung – insbesondere:<br>
-    Antrag des Förderungsempfängers inkl. Finanzplan,'
-);
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2013_Z010', 1, '2016-05-18 12:51:31', 1, 'text');
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2014_Bonus', 3, '2016-05-18 12:51:31', 1, 'text');
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2014_LM', 2, '2016-05-18 12:51:31', 3, 'text');
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2014_Sonderkündigung', 2, '2016-05-18 12:51:31', 7, 'text');
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2014_Z010', 3, '2016-05-18 12:51:31', 3, 'text');
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2015_Bonus', 2, '2016-05-18 12:51:31', 5, 'text');
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2015_LM', 1, '2016-05-18 12:51:31', 1, 'text');
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2015_S', 1, '2016-05-18 12:51:31', 1, 'text');
-INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2015_S', 1, '2016-05-18 12:51:31', 1, 'text');
-
-
-
 INSERT INTO `spi_page` (`code`, `name`, `is_real_page`) VALUES ('document_templates', 'Druck-Templates', '1');
 SELECT @e:=id FROM `spi_page` WHERE `code`= 'document_templates';
 
@@ -130,5 +85,3 @@ INSERT INTO spi_user_type_right (`type_id`, `page_id`, `can_show`, `can_view`, `
 INSERT INTO spi_user_type_right (`type_id`, `page_id`, `can_show`, `can_view`, `can_edit`) VALUE (4, @e, 0, 0, 0);
 INSERT INTO spi_user_type_right (`type_id`, `page_id`, `can_show`, `can_view`, `can_edit`) VALUE (5, @e, 0, 0, 0);
 INSERT INTO spi_user_type_right (`type_id`, `page_id`, `can_show`, `can_view`, `can_edit`) VALUE (6, @e, 0, 0, 0);
-
-COMMIT;
