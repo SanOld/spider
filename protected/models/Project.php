@@ -16,24 +16,44 @@ class Project extends BaseModel {
     $params = array_change_key_case($params, CASE_UPPER);
     
     if (safe($params, 'CODE')) {
-      $command->andWhere("tbl.code = :code", array(':code' => $params['CODE']));
+//      $command->andWhere("tbl.code = :code", array(':code' => $params['CODE']));
+      $command = $this->setLikeWhere($command,'tbl.code',safe($params, 'CODE'));
+
     }
     if (safe($params, 'SCHOOL_TYPE_ID')) {
       $command->andWhere("tbl.school_type_id = :school_type_id", array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
     }
-    if (isset($params['SCHOOL_ID'])) {
+    if (isset($params['DISTRICT_ID'])) {
       $command -> andWhere("tbl.district_id = :district_id", array(':district_id' => $params['DISTRICT_ID']));
     }
-//    if (isset($params['school_id'])) {
-//      //$command -> andWhere("tbl.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
-//    }
+    if (isset($params['PERFORMER_ID'])) {
+      $command -> andWhere("tbl.performer_id = :performer_id", array(':performer_id' => $params['PERFORMER_ID']));
+    }
     if (safe($params, 'SCHOOL_ID')) {
-
         $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
-        $command->join('spi_school sch', 'sch.id=sps.school_id');
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
     
+    $command = $this->setWhereByRole($command, $params);
+    $command -> group('tbl.id');
+    return $command;
+  }
+  
+  protected function setWhereByRole($command, $params) {
+    switch($this->user['type']) {
+      case SCHOOL:
+        if (!safe($params, 'SCHOOL_ID')) {
+          $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
+        }
+        $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
+        break;
+      case DISTRICT:
+        $command->andWhere("tbl.district_id = :district_id", array(':district_id' => $this->user['relation_id']));
+        break;
+      case TA:
+        $command->andWhere("tbl.performer_id = :performer_id", array(':performer_id' => $this->user['relation_id']));
+        break;
+    }
     return $command;
   }
 

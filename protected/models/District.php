@@ -29,6 +29,7 @@ class District extends BaseModel {
         $command->andWhere('prj.performer_id = :performer_id', array(':performer_id' => $this->user['relation_id']));
         break;
     }
+    $command -> group('tbl.id');
     return $command;
   }
 
