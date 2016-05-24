@@ -13,6 +13,9 @@
 .edit-user .datafilter form .col-lg-4.add{
 	width:19% !important;
 }
+.edit-user .datafilter form .col-lg-6.add {
+    width: 35.4% !important;
+}
 .edit-user .datafilter form .col-lg-3.add2{
 	width:31% !important;
 }
@@ -33,4 +36,10 @@
 }
 .modal-dialog.modal-custom-width{
   width:550px !important;
+}
+.col-lg-3.col-width-type {
+    width: 29.7%!important;
+}
+.col-lg-5.col-width-type {
+    width: 46.5%!important;
 }

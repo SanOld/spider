@@ -75,7 +75,7 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
           });
         }
       };
-      dataset.groupOptions = {isExpanded: false, defaultSort: 'desc'}
+      dataset.groupOptions = {isExpanded: false, defaultSort: 'desc'}//event_date
       tableParams = new NgTableParams(params, dataset);
       return tableParams;
     }

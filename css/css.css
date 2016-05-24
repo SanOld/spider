@@ -2434,6 +2434,10 @@ tfoot th.align-right {
 #user_right_form .wrap-paging {
   display: none;
 }
+.audit-page .ng-table-group.thead {
+    cursor: pointer;
+}
+
 .audit-page .content-changes {
     display: block;
 }
@@ -2446,8 +2450,14 @@ tfoot th.align-right {
 .audit-page #tab-history .thead.delete {
 	background: #f2dedf;
 }
+.audit-page #tab-history .thead.delete:hover {
+	background: #ebcccd;
+}
 .audit-page #tab-history .thead.insert {
 	background: #e0efd8;
+}
+.audit-page #tab-history .thead.insert:hover {
+    background: #d1e9c4;
 }
 .audit-page #tab-history .thead strong {
 	font-size:17px;
