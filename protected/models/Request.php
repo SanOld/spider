@@ -5,7 +5,10 @@ require_once ('utils/utils.php');
 class Request extends BaseModel {
   public $table = 'spi_request';
   public $post = array();
-  public $select_all = "tbl.*, prf.name performer_name, prj.code, fns.programm, rqs.name status_name, rqs.code status_code";
+  public $select_all = "tbl.*
+                      , prf.name performer_name
+                      , rqs.name status_name
+                      , rqs.code status_code"; // , prj.code, fns.programm
   protected function getCommand() {
     if(safe($_GET, 'list') == 'year') {
       $command = Yii::app() -> db -> createCommand()->select('year')->from($this -> table)->group('year');
@@ -14,7 +17,7 @@ class Request extends BaseModel {
       $command -> join( 'spi_request_status rqs', 'tbl.status_id           = rqs.id' );
       $command -> join( 'spi_performer prf',      'tbl.performer_id        = prf.id' );
       $command -> join( 'spi_project prj',        'tbl.project_id          = prj.id' );
-      $command -> join( 'spi_finance_source fns', 'prj.finance_programm_id = fns.id' );
+//      $command -> join( 'spi_finance_source fns', 'prj.finance_programm_id = fns.id' );
       $command -> where(' 1=1 ', array());
     }
 
