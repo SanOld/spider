@@ -7,6 +7,6 @@ return array(
   'connectionString' => 'mysql:host=localhost;dbname=spider',
   'emulatePrepare' => true,
   'username' => 'root',
-  'password' => 'root',
+  'password' => '',
   'charset' => 'utf8',
 );
