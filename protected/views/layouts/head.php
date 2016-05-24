@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=1280">
 <meta name="description" content="">
 <meta name="author" content="">
+<base href="/">
 
 <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/angular-ui-notification/angular-ui-notification.min.css" />
@@ -79,7 +80,7 @@ $cs->registerScriptFile($baseUrl . '/js/lib/ng-iban.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/select.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.1.2.min.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.3.2.js');
-$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.3.2.min.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap/ui-bootstrap-tpls-1.3.3.min.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/mask.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ng-table.js');
 

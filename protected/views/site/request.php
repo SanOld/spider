@@ -18,8 +18,8 @@ $this->breadcrumbs = array('Anträge');
 				</div>
 
 				<uib-tabset class="panel-body request-order-nav" active="tabActive">
-					<uib-tab class="project" index="0" heading="Projektdaten" active="tabs[0].active" ng-click="tabs[0].active = true">
-						<div class="tab-pane active" id="project">
+					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
+						<div class="tab-pane active" id="project" ng-controller="RequestProjectDataController">
 							<div class="panel-group panel-group-joined m-0">
 								<div class="panel panel-default">
 									<div class="panel-heading">
@@ -364,8 +364,8 @@ $this->breadcrumbs = array('Anträge');
 
 						</div>
 					</uib-tab>
-					<uib-tab class="finance" index="1" heading="Finanzplan" active="tabs[0].active" ng-click="tabs[0].active = true">
-						<div class="tab-pane" id="finance">
+					<uib-tab class="finance" index="'finance-plan'" select="setTab('finance-plan')" heading="Finanzplan">
+						<div class="tab-pane" id="finance" ng-controller="RequestFinancePlanController">
 							<div class="panel-group panel-group-joined m-0">
 								<div class="panel panel-default">
 									<div class="clearfix">
@@ -1313,8 +1313,8 @@ $this->breadcrumbs = array('Anträge');
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab class="concepts" index="2" heading="Konzept" active="tabs[0].active" ng-click="tabs[0].active = true">
-						<div class="tab-pane" id="concepts">
+					<uib-tab class="concepts" index="'school-concepts'" select="setTab('school-concepts')" heading="Konzept">
+						<div class="tab-pane" id="concepts" ng-controller="RequestSchoolConceptController">
 							<div class="panel-group panel-group-joined" id="accordion-concepts">
 								<div class="panel panel-default">
 									<div class="panel-heading">
@@ -1584,8 +1584,8 @@ $this->breadcrumbs = array('Anträge');
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab class="schools-goals" index="3" heading="Entwicklungsziele" active="tabs[0].active" ng-click="tabs[0].active = true">
-						<div class="tab-pane" id="schools-goals">
+					<uib-tab class="schools-goals" index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
+						<div class="tab-pane" id="schools-goals" ng-controller="RequestSchoolGoalController">
 							<div class="panel-group panel-group-joined" id="accordion-order">
 								<div class="panel panel-default">
 									<div class="panel-heading">
