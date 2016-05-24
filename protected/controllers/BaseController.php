@@ -19,7 +19,8 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   SystemModel,
                   AuditTables,
                   Audit,
-                  DocumentTemplate, DocumentTemplateType, DocumentTemplatePlaceholder');
+                  DocumentTemplate, DocumentTemplateType, DocumentTemplatePlaceholder,
+                  EmailTemplate');
 
 class BaseController extends Controller {
   private $method = false;
