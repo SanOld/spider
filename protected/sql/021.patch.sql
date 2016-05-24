@@ -9,6 +9,7 @@ CREATE TABLE `spi_document_template_placeholder` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
+AUTO_INCREMENT=1
 ;
 
 
@@ -29,6 +30,7 @@ CREATE TABLE `spi_document_template_type` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
+AUTO_INCREMENT=1
 ;
 
 INSERT INTO `spider`.`spi_document_template_type` (`name`) VALUES ('Alles anzeigen');
@@ -45,7 +47,7 @@ CREATE TABLE `spi_document_template` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
 	`type_id` INT(11) NOT NULL,
-	`last_change` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`last_change` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`user_id` INT(11) NOT NULL,
 	`text` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
@@ -56,6 +58,7 @@ CREATE TABLE `spi_document_template` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
+AUTO_INCREMENT=1
 ;
 
 INSERT INTO `spider`.`spi_document_template` (`name`, `type_id`, `last_change`, `user_id`, `text`) VALUES ('FV_2013_Sonderkündigung', 1, '2016-05-18 12:51:31', 1, 

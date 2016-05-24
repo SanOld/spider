@@ -41,7 +41,7 @@
                   </div>
                   <div class="m-b-15 clearfix wrap-summernote" >
                       <div class="col-sm-12">
-                        <div spi-hint text="_hint.document_type" class="has-hint"></div>
+                        <div spi-hint text="_hint.text" class="has-hint"></div>
                         <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                           <div class="">
                             <summernote config="options" ng-model="document.text"></summernote>

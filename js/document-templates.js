@@ -115,7 +115,6 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
           ['help', ['help']]
       ]
   };
-console.log($scope);
   $scope.submitDocumentTemplate = function () {
     $scope.error = false;
     $scope.submited = true;
