@@ -12,12 +12,12 @@ AUTO_INCREMENT=1
 ;
 
 
-INSERT INTO `spider`.`spi_document_template_placeholder` (`name`, `text`) VALUES ('AUFLAGEN', 'Bei der Antragsabnahme können Auflagen durch die Programmagentur hinzugefügt bzw. formuliert werden.');
-INSERT INTO `spider`.`spi_document_template_placeholder` (`name`, `text`) VALUES ('FOERDERSUMME', 'Die Fördersumme aus dem förderfähigen Antrag.');
-INSERT INTO `spider`.`spi_document_template_placeholder` (`name`, `text`) VALUES ('JAHR', 'Förderjahr des Antrags.');
-INSERT INTO `spider`.`spi_document_template_placeholder` (`name`, `text`) VALUES ('KENNZIFFER', 'Die Kennziffer des Projekts wird aus dem Antrag übernommen.');
-INSERT INTO `spider`.`spi_document_template_placeholder` (`name`, `text`) VALUES ('TRAEGER', 'Name und Adresse des antragsstellenden Trägers.');
-INSERT INTO `spider`.`spi_document_template_placeholder` (`name`, `text`) VALUES ('ZEITRAUM', 'Laufzeit laut förderfähigem Antrag (Beginn und Ende).');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('AUFLAGEN', 'Bei der Antragsabnahme können Auflagen durch die Programmagentur hinzugefügt bzw. formuliert werden.');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('FOERDERSUMME', 'Die Fördersumme aus dem förderfähigen Antrag.');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('JAHR', 'Förderjahr des Antrags.');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('KENNZIFFER', 'Die Kennziffer des Projekts wird aus dem Antrag übernommen.');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('TRAEGER', 'Name und Adresse des antragsstellenden Trägers.');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('ZEITRAUM', 'Laufzeit laut förderfähigem Antrag (Beginn und Ende).');
 
 
 
@@ -32,12 +32,12 @@ ENGINE=InnoDB
 AUTO_INCREMENT=1
 ;
 
-INSERT INTO `spider`.`spi_document_template_type` (`name`) VALUES ('Alles anzeigen');
-INSERT INTO `spider`.`spi_document_template_type` (`name`) VALUES ('Fördervertrag');
-INSERT INTO `spider`.`spi_document_template_type` (`name`) VALUES ('Zielvereinbarung');
-INSERT INTO `spider`.`spi_document_template_type` (`name`) VALUES ('Antrag');
-INSERT INTO `spider`.`spi_document_template_type` (`name`) VALUES ('Mittelabruf');
-INSERT INTO `spider`.`spi_document_template_type` (`name`) VALUES ('Verwendungsnachweis');
+INSERT INTO `spi_document_template_type` (`name`) VALUES ('Alles anzeigen');
+INSERT INTO `spi_document_template_type` (`name`) VALUES ('Fördervertrag');
+INSERT INTO `spi_document_template_type` (`name`) VALUES ('Zielvereinbarung');
+INSERT INTO `spi_document_template_type` (`name`) VALUES ('Antrag');
+INSERT INTO `spi_document_template_type` (`name`) VALUES ('Mittelabruf');
+INSERT INTO `spi_document_template_type` (`name`) VALUES ('Verwendungsnachweis');
 
 
 
@@ -73,10 +73,10 @@ INSERT INTO spi_page_position (`page_id`, `code`, `name`) VALUE (@e, 'header', '
 SELECT @id4:=LAST_INSERT_ID() FROM  `spi_page_position`;
 
 
-INSERT INTO `spider`.`spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES (@e, @id1, '', 'Example');
-INSERT INTO `spider`.`spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES (@e, @id2, '', 'Test message for temlate document type. Druck-Template bearbeiten');
-INSERT INTO `spider`.`spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES (@e, @id3, '', 'Test message for temlate text. Druck-Template bearbeiten');
-INSERT INTO `spider`.`spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES (@e, @id4, 'Druck-Templates', 'Test message for temlate text. Druck-Template bearbeiten');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES (@e, @id1, '', 'Example');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES (@e, @id2, '', 'Test message for temlate document type. Druck-Template bearbeiten');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES (@e, @id3, '', 'Test message for temlate text. Druck-Template bearbeiten');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES (@e, @id4, 'Druck-Templates', 'Test message for temlate text. Druck-Template bearbeiten');
 
 
 INSERT INTO spi_user_type_right (`type_id`, `page_id`, `can_show`, `can_view`, `can_edit`) VALUE (1, @e, 1, 1, 1);
