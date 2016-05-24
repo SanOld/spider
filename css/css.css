@@ -2572,9 +2572,6 @@ body.safari #finance .btn-group.btn-toggle .btn {
 .radio-inline .btn.btn-question {
 	vertical-align:top;
 }
-.contact-block address {
-	font-size:17px;
-}
 .contact-block address > strong {
 	font-size:19px;
 	font-weight:600;
@@ -2603,4 +2600,5 @@ body.safari #finance .btn-group.btn-toggle .btn {
 }
 .contact-block {
     min-height: 430px;
+    font-size:17px;
 }
