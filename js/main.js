@@ -6,7 +6,7 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
     return !model || !$scope._r[model] ? 1 : $scope._r[model].show;
   };
   $scope.canByType = function (types) {
-    return types[$scope.user.type] || false;
+    return types.indexOf($scope.user.type) != -1;
   };
 
   $rootScope.canView = function (model) {
