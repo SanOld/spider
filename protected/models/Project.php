@@ -5,7 +5,8 @@ require_once ('utils/utils.php');
 class Project extends BaseModel {
   public $table = 'spi_project';
   public $post = array();
-  public $select_all = "*, (SELECT short_name FROM spi_performer prf WHERE prf.id=tbl.performer_id) AS `performer_name`, (SELECT name FROM spi_district dst WHERE dst.id=tbl.district_id) AS `district_name`";
+  public $params = array();
+  public $select_all = "tbl.*, (SELECT short_name FROM spi_performer prf WHERE prf.id=tbl.performer_id) AS `performer_name`, (SELECT name FROM spi_district dst WHERE dst.id=tbl.district_id) AS `district_name`";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command -> where(' 1=1 ', array());
@@ -33,16 +34,16 @@ class Project extends BaseModel {
         $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
-    
-    $command = $this->setWhereByRole($command, $params);
+    $this->params = $params;
+    $command = $this->setWhereByRole($command);
     $command -> group('tbl.id');
     return $command;
   }
   
-  protected function setWhereByRole($command, $params) {
+  protected function setWhereByRole($command) {
     switch($this->user['type']) {
       case SCHOOL:
-        if (!safe($params, 'SCHOOL_ID')) {
+        if (!safe($this->params, 'SCHOOL_ID')) {
           $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
         }
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));

@@ -38,9 +38,9 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
-//  protected function setWhereByRole($command, $params = array()) {
-//    return $command;
-//  }
+  protected function setWhereByRole($command) {
+    return $command;
+  }
   protected function getCommandFilter() {
     $command = Yii::app()->db->createCommand()->select ('tbl.id, tbl.name')
       ->from($this->table  . ' tbl');
