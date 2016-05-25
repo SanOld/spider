@@ -5,7 +5,7 @@ require_once ('utils/utils.php');
 class UserType extends BaseModel {
   public $table = 'spi_user_type';
   public $post = array();
-  public $select_all = ' * ';
+  public $select_all = ' tbl.* , (SELECT name FROM spi_user_type typ WHERE typ.type=tbl.type AND typ.default=1 LIMIT 1) AS `relation_name`';
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
 
@@ -30,6 +30,9 @@ class UserType extends BaseModel {
       $command->andWhere("tbl.type = :type", array(':type' => $params['TYPE']));
     } else if($this->user['relation_id']) {
       $command = $this->setWhereByRole($command);
+    }
+    if (safe($params, 'DEFAULT')) {
+      $command->andWhere("tbl.default = :def", array(':def' => $params['DEFAULT']));
     }
     if(safe($params, 'USER_CREATE')) {
       switch($this->user['type']) {
@@ -83,16 +86,16 @@ class UserType extends BaseModel {
     return $command;
   }
 
-  protected function doAfterSelect($results) {
-    foreach($results['result'] as &$row) {
-      if(safe($row, 'type')) {
-        $relation = $this->getRelationByType($row['type']);
-        $row['relation_name'] = $relation['name'];
-        $row['relation_code'] = safe($relation, 'code', '');
-      }
-    }
-    return $results;
-  }
+//  protected function doAfterSelect($results) {
+//    foreach($results['result'] as &$row) {
+//      if(safe($row, 'type')) {
+//        $relation = $this->getRelationByType($row['type']);
+//        $row['relation_name'] = $relation['name'];
+//        $row['relation_code'] = safe($relation, 'code', '');
+//      }
+//    }
+//    return $results;
+//  }
 
   protected function doBeforeInsert($post) {
     $this->post = $post;
@@ -126,6 +129,7 @@ class UserType extends BaseModel {
           'page_id'  => $right['page_id'],
           'can_view' => $right['can_view'],
           'can_edit' => $right['can_edit'],
+          'can_show' => $right['can_show'],
         ));
       }
     }
@@ -171,12 +175,15 @@ class UserType extends BaseModel {
         if(!safe($right, 'id')) {
           continue;
         }
+        print_r($right);
         Yii::app ()->db->createCommand()->update('spi_user_type_right', array(
           'can_view' => $right['can_view'],
           'can_edit' => $right['can_edit'],
+          'can_show' => $right['can_show'],
         ), 'id=:id', array (':id' => $right['id']));
       }
     }
+    die;
     return $result;
   }
 

@@ -44,9 +44,9 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, mo
     $scope.relation_name = data.relation_name;
     $scope.user_type = {name: data.name};
   } else {
-    network.get('relation', {fitler: 1}, function (result, response) {
+    network.get('user_type', {'default': 1}, function (result, response) {
       if (result) {
-        $scope.relations = response;
+        $scope.relations = response.result;
         $scope.user_type = {type: 'a'};
       }
     });

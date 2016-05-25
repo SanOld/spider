@@ -36,9 +36,9 @@ class BaseController extends Controller {
           $res = $auth->login($_GET);
           response($res['code'], $res);
           break;
-        case 'relation':
-          response(200, $this->getRelation());
-          break;
+//        case 'relation':
+//          response(200, $this->getRelation());
+//          break;
         case 'forgot_password':
           $auth = new Auth();
           if($user = $auth->checkEmail(post('email'))) {
@@ -159,14 +159,14 @@ class BaseController extends Controller {
     return strtoupper(str_replace('_', '', $model));
   }
 
-  function getRelation() {
-    return array(
-      array('id' => 'a', 'code' => 'no_relation', 'name' => 'Keine Verbindung'),
-      array('id' => 'd', 'code' => 'district',    'name' => 'Bezirk'),
-      array('id' => 't', 'code' => 'performer',   'name' => 'Träger Agentur'),
-      array('id' => 's', 'code' => 'school',      'name' => 'Schule'),
-    );
-  }
+//  function getRelation() {
+//    return array(
+//      array('id' => 'a', 'code' => 'no_relation', 'name' => 'Keine Verbindung'),
+//      array('id' => 'd', 'code' => 'district',    'name' => 'Bezirk'),
+//      array('id' => 't', 'code' => 'performer',   'name' => 'Träger Agentur'),
+//      array('id' => 's', 'code' => 'school',      'name' => 'Schule'),
+//    );
+//  }
 
   protected function checkAuth() {
     $headers = getallheaders ();
