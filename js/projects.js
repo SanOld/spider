@@ -156,7 +156,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     };
     $scope.updateCode = function() {
       try {
-        $scope.project.code = $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase() + $scope.newCode;
+        var isBonus = $scope.project.type_id == '3'?'B':'';
+        $scope.project.code = isBonus + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase() + $scope.newCode;
       } catch(e){}
     };
     $scope.updateSchools = function(isInit) {
