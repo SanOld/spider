@@ -751,7 +751,8 @@ table.dataTable thead .sorting_desc:after {
 	font-weight:600;
 	color:#202020;
 }
-.agency-edit .ion-checkmark {
+.agency-edit .ion-checkmark,
+.wrap-message .ion-checkmark {
 	color:#369E00;
 	font-size:21px;
 }
@@ -2601,4 +2602,58 @@ body.safari #finance .btn-group.btn-toggle .btn {
 .contact-block {
     min-height: 430px;
     font-size:17px;
+}
+
+/*404 page */
+
+.unknown-page h1 {
+	font-size:300px;
+	font-weight:300 !important;
+	line-height: 0.9;
+}
+.unknown-page h2 {
+	font-size:25px;
+	font-weight:300 !important;
+	margin-bottom: 25px;
+}
+.unknown-page ul {
+	font-size:17px;
+}
+.unknown-page ul li {
+	position:relative;
+	padding-left: 8px;
+    padding-right: 8px;
+}
+.unknown-page ul li:before {
+	content: "";
+	display:inline-block;
+	width:2px;
+	height:17px;
+	background:#a4a4a4;
+	left: -2px;
+    position: absolute;
+    top: 4px;
+}
+.unknown-page ul li:first-child:before {
+	content: "";
+	background: none;
+}
+
+/*end 404 page */
+.holder-has-email .truncate-email span {
+	width: 115px;
+}
+.wrap-title,
+.wrap-message {
+    display: inline-block;
+}
+.wrap-message {
+	margin: 0 0 0 25px;
+}
+.wrap-message i {
+	margin: 0 10px 0 0;
+}
+.wrap-message .ion-close {
+    color: #ff0000;
+    font-size: 21px;
 }

@@ -218,9 +218,10 @@ $this->breadcrumbs = array('Träger');
                           </div>
                         </div>
                       </div>
+                      <hr/>
                       <div class="row holder-three-blocks" ng-if="!isInsert">
-                        <div class="col-lg-4">
-                          <h4>Vertretungsberechtigte Person</h4>
+                        <div class="col-lg-6">
+                          <h4>Ansprechpartner(in)</h4>
                           <span ng-if="(!canEdit() && !isFinansist) || modeView" ng-bind="representativeUser.name || '-'"></span>
                           <span spi-hint text="_hint.representative_user_id" class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
                           <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
@@ -231,6 +232,9 @@ $this->breadcrumbs = array('Träger');
                               </ui-select-choices>
                             </ui-select>
                           </div>
+                         
+                        </div>
+                        <div class="col-lg-5 col-lg-offset-1 holder-has-email">
                           <dl ng-if="representativeUser">
                             <dt>Funktion</dt>
                             <dd ng-bind="representativeUser.function || '-'"></dd>
@@ -240,52 +244,6 @@ $this->breadcrumbs = array('Träger');
                             <dd ng-bind="(representativeUser.phone) || '-'"></dd>
                             <dt>Email</dt>
                             <dd class="truncate-email"><span ng-bind="representativeUser.email || '-'"></span><i uib-tooltip="{{representativeUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i></dd>
-                          </dl>
-                        </div>
-                        <div class="col-lg-4">
-                          <h4>Ansprechperson für Antragsbearbeitung</h4>
-                          <span ng-if="(!canEdit() && !isFinansist) || modeView" ng-bind="applicationProcessingUser.name || '-'"></span>
-                          <span spi-hint text="_hint.application_processing_user_id" class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
-                          <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
-                            <ui-select ng-disabled="!$select.items.length" ng-change="changeApplicationProcessingUser(performer.application_processing_user_id)" ng-model="performer.application_processing_user_id" theme="select2" name="application_processing_user_id">
-                              <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
-                              <ui-select-choices repeat="item.id as item in users | filter: $select.search">
-                                <span ng-bind-html="item.name | highlight: $select.search"></span>
-                              </ui-select-choices>
-                            </ui-select>
-                          </div>
-                          <dl ng-if="applicationProcessingUser">
-                            <dt>Funktion</dt>
-                            <dd ng-bind="applicationProcessingUser.function || '-'"></dd>
-                            <dt>Titel</dt>
-                            <dd ng-bind="applicationProcessingUser.title || '-'"></dd>
-                            <dt>Telefon</dt>
-                            <dd ng-bind="(applicationProcessingUser.phone) || '-'"></dd>
-                            <dt>Email</dt>
-                            <dd class="truncate-email"><span ng-bind="applicationProcessingUser.email || '-'"></span><i uib-tooltip="{{applicationProcessingUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i></dd>
-                          </dl>
-                        </div>
-                        <div class="col-lg-4">
-                          <h4>Ansprechperson für die Finanzplanbearbeitung</h4>
-                          <span ng-if="(!canEdit() && !isFinansist) || modeView" ng-bind="budgetProcessingUser.name || '-'"></span>
-                          <span spi-hint text="_hint.budget_processing_user_id" class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
-                          <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
-                            <ui-select ng-disabled="!$select.items.length" ng-change="changeBudgetProcessingUser(performer.budget_processing_user_id)" append-to-body="true" ng-model="performer.budget_processing_user_id" theme="select2" name="budget_processing_user_id">
-                              <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
-                              <ui-select-choices repeat="item.id as item in users | filter:{is_finansist: '1'} | filter: $select.search">
-                                <span ng-bind-html="item.name | highlight: $select.search"></span>
-                              </ui-select-choices>
-                            </ui-select>
-                          </div>
-                          <dl ng-if="budgetProcessingUser">
-                            <dt>Funktion</dt>
-                            <dd ng-bind="budgetProcessingUser.function || '-'"></dd>
-                            <dt>Titel</dt>
-                            <dd ng-bind="budgetProcessingUser.title || '-'"></dd>
-                            <dt>Telefon</dt>
-                            <dd ng-bind="(budgetProcessingUser.phone) || '-'"></dd>
-                            <dt>Email</dt>
-                            <dd class="truncate-email"><span ng-bind="budgetProcessingUser.email || '-'"></span><i uib-tooltip="{{budgetProcessingUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i></dd>
                           </dl>
                         </div>
                       </div>
