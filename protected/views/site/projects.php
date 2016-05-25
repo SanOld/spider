@@ -122,7 +122,7 @@ $this->breadcrumbs = array('Projekte');
                               <tr ng-repeat="row in $data" >
                                 <td data-title="'Kennziffer'" sortable="'code'">{{row.code}}</td>
                                 <td data-title="'Schule'" >
-                                  <a href="/schools#id={{school.id}}" ng-repeat="school in row.schools">{{school.name}}</a><br/>
+                                  <a href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td">{{school.name}}</a>
                                 </td>
                                 <td data-title="'Träger'" sortable="'performer_name'"><a href="/performers#id={{row.performer_id}}">{{row.performer_name}}</a></td>
                                 <td data-title="'Bezirk'" sortable="'district_name'"><a href="/districts#id={{row.district_id}}">{{row.district_name}}</a></td>
