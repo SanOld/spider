@@ -237,7 +237,7 @@ $this->breadcrumbs = array('Projekte');
                           <div spi-hint text="_hint.district_id" class="has-hint"></div>
                           <div class="wrap-hint">
                             <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.district_id"
-                                       name="district_id" required on-select="updateSchools()">
+                                       name="district_id" on-select="updateSchools()">
                               <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                                 {{$select.selected.name}}
                               </ui-select-match>
@@ -255,7 +255,7 @@ $this->breadcrumbs = array('Projekte');
                   
                           <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length}">
                             <ui-select ng-disabled="project.is_old==1 || !schools.length" multiple ng-model="project.schools"
-                                       name="schools" required>
+                                       name="schools">
                               <ui-select-match placeholder="{{placeholderFN($select.items)}}">
                                 {{$item.name}}
                               </ui-select-match>

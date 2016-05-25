@@ -243,7 +243,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
               }
             }
         } else {
-            $scope.tabs[0].active = true;
+//            $scope.tabs[0].active = true;
         }
     };
 

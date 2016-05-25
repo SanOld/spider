@@ -120,14 +120,14 @@ class Project extends BaseModel {
         );
       }
 
-      if(!safe($post,'schools')) {
-        return array (
-                'code' => '400',
-                'result' => false,
-                'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
-                'required' => 'schools'
-              );
-      }
+//      if(!safe($post,'schools')) {//есть проекты без школы и дистрикта
+//        return array (
+//                'code' => '400',
+//                'result' => false,
+//                'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
+//                'required' => 'schools'
+//              );
+//      }
       unset($post['schools']);
 
       return array(
@@ -187,7 +187,7 @@ class Project extends BaseModel {
 //    );
   }
   protected function doAfterInsert($result, $params, $post) {
-    if($result['result']) {
+    if($result['result'] && safe($post,'schools')) {
       foreach($post['schools'] as $school_id) {
         Yii::app ()->db->createCommand()->insert('spi_project_school', array('project_id' => $result['id'], 'school_id' => $school_id));
       }
