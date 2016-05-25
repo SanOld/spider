@@ -1,5 +1,5 @@
-UPDATE spi_request_status SET name = 'Unbearbeitet' WHERE id = 1;
-UPDATE spi_request_status SET name = 'Nur Leserecht' WHERE id = 2;
-UPDATE spi_request_status SET name = 'Bitte bearbeiten' WHERE id = 3;
-UPDATE spi_request_status SET name = 'Förderfähig' WHERE id = 4;
-UPDATE spi_request_status SET name = 'Genehmigt' WHERE id = 5;
+INSERT INTO spi_request_status (id, code, name) VALUES (1, 'o', 'Unbearbeitet');
+INSERT INTO spi_request_status (id, code, name) VALUES (2, 'd', 'Nur Leserecht');
+INSERT INTO spi_request_status (id, code, name) VALUES (3, 'p', 'Bitte bearbeiten');
+INSERT INTO spi_request_status (id, code, name) VALUES (4, 'b', 'Förderfähig');
+INSERT INTO spi_request_status (id, code, name) VALUES (5, 'a', 'Genehmigt');
