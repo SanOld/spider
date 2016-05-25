@@ -105,11 +105,21 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.reloadRelation = function () {
     $scope.relations = [];
     var type = Utils.getRowById($scope.userTypes, $scope.user.type_id);
-    $scope.isRelation = type && type.relation_code;
+    
+    var relation_code = false
+    switch(type.type) {
+      case 't': relation_code = 'performer';
+        break;
+      case 's':  relation_code = 'school';
+        break;
+      case 'd':  relation_code = 'district';
+        break;
+    }
+    $scope.isRelation = relation_code;
     $scope.isPerformer = type && type.type == 't';
     if ($scope.isRelation) {
       $scope.isRelation = true;
-      network.get(type.relation_code, {filter: 1}, function (result, response) {
+      network.get(relation_code, {filter: 1}, function (result, response) {
         if (result) {
           $scope.relations = response.result;
         }
