@@ -2569,3 +2569,36 @@ body.safari #finance .btn-group.btn-toggle .btn {
 .tooltip-inner {
 	max-width: 350px !important;
 }
+.radio-inline .btn.btn-question {
+	vertical-align:top;
+}
+.contact-block address > strong {
+	font-size:19px;
+	font-weight:600;
+	display:block;
+}
+.contact-block address > span {display:block;}
+.contact-phone .dl-horizontal dt {
+	font-weight:500;
+	text-align:left;
+	width:70px;
+}
+.contact-phone .dl-horizontal dd {
+	margin-left:70px;
+}
+.contact-block li.address {
+	background:url(../images/ico-map.png) no-repeat 0 3px;
+}
+.contact-block li.contact-phone {
+	background:url(../images/ico-phone.png) no-repeat 0 3px;
+}
+.contact-block li.contact-email {
+	background:url(../images/ico-email.png) no-repeat 6px 3px;
+}
+.contact-block ul li {
+    padding: 0 0 0 50px;
+}
+.contact-block {
+    min-height: 430px;
+    font-size:17px;
+}

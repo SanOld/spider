@@ -18,7 +18,9 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   Request, RequestStatus,
                   SystemModel,
                   AuditTables,
-                  Audit');
+                  Audit,
+                  DocumentTemplate, DocumentTemplateType, DocumentTemplatePlaceholder,
+                  EmailTemplate');
 
 class BaseController extends Controller {
   private $method = false;
@@ -65,7 +67,7 @@ class BaseController extends Controller {
         response('405', array('sestem_code' => 'ERR_SERVICE'));
       }
     }
-    
+
     $this -> model = CActiveRecord::model($modelFor);
     $headers = getallheaders ();
     $this -> method = strtolower($_SERVER['REQUEST_METHOD']);
@@ -103,7 +105,7 @@ class BaseController extends Controller {
                 case 'updateTablesAudit':$this -> model ->updateTablesAudit();
                   break;
               }
-              
+
             } else {
               response('403', array ( 'result'      => false
                                     , 'system_code' => 'ERR_PERMISSION'
@@ -145,7 +147,7 @@ class BaseController extends Controller {
       echo(' style="display:none;" ');
     }
   }
-  
+
   protected function sendPermissionError() {
     response ( '403', array (
       'result' => false,
@@ -165,12 +167,12 @@ class BaseController extends Controller {
       array('id' => 's', 'code' => 'school',      'name' => 'Schule'),
     );
   }
-  
+
   protected function checkAuth() {
     $headers = getallheaders ();
     if (isset ( $headers ['Authorization'] ) && $headers ['Authorization']) {
       $auth = new Auth($headers['Authorization']);
-      
+
       $this->user = $auth->getUser();
       if ($this->user && $this->user['is_enabled'] == 0){
         return array (
@@ -183,26 +185,26 @@ class BaseController extends Controller {
         return array (
             'result' => $this->user,
             'system_code' => 'SUCCESSFUL',
-            'code' => '200' 
+            'code' => '200'
         );
       } elseif ($auth->isTokenExists()) {
         return array (
             'result' => false,
             'system_code' => 'ERR_OUT_OF_DATE',
-            'code' => '401' 
+            'code' => '401'
         );
       } else {
         return array (
             'result' => false,
             'system_code' => 'ERR_INVALID_TOKEN',
-            'code' => '403' 
+            'code' => '403'
         );
       }
     } else {
       return array (
           'result' => false,
           'system_code' => 'ERR_TOKEN_MISSED',
-          'code' => '403' 
+          'code' => '403'
       );
     }
   }

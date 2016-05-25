@@ -145,17 +145,17 @@ $this->breadcrumbs = array('Anträge');
 									<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
 									<td data-title="'Prüfstatus'">
                     <div class="col-lg-4">
-                      <a class="request-button edit-btn" href="/order#tab_finance" title="Finanzplan">
+                      <a class="request-button edit-btn" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
                         <span class="cell-finplan select-decline"></span>
                       </a>
                     </div>
                     <div class="col-lg-4">
-                      <a class="request-button edit-btn" href="/order#tab_concepts" title="Schulkonzept">
+                      <a class="request-button edit-btn" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
                         <span class="cell-finplan select-decline"></span>
                       </a>
                     </div>
                     <div  class="col-lg-4">
-                      <a class="request-button edit-btn" href="/order#tab_schools-goals" title="Entwicklungsziele">
+                      <a class="request-button edit-btn" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
                         <span class="cell-finplan select-decline"></span>
                       </a>
                     </div>
@@ -164,7 +164,7 @@ $this->breadcrumbs = array('Anträge');
 									<td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change_unix | date : 'dd.MM.yyyy'}}</td>
 									<td data-title="'Ansicht / Bearbeiten'">
 										<a ng-if="row.status_code == 'a' || row.status_code == 'b'" class="btn document" href="" ng-click="openPrint(row)" title="Drucken"><i class="ion-printer"></i></a>
-										<a ng-if="canEdit()" class="btn edit-btn" href="order?id={{row.id}}" title="Bearbeiten">
+										<a ng-if="canEdit()" class="btn edit-btn" href="/request/{{row.id}}" title="Bearbeiten">
 											<i class="ion-edit"></i>
 										</a>
 									</td>

@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=1280">
 <meta name="description" content="">
 <meta name="author" content="">
+<base href="/">
 
 <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/angular-ui-notification/angular-ui-notification.min.css" />
@@ -52,7 +53,9 @@
 <link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/modal-effect/css/component.css" rel="stylesheet">
 
 <!--bootstrap-wysihtml5-->
-<link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/summernote/summernote.css" rel="stylesheet" />
+<!--<link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/summernote/summernote.css" rel="stylesheet" />-->
+
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/angular-summernote-master/summernote/summernote.css" rel="stylesheet" />
 
 <!--[if lt IE 9]>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/html5shiv.js"></script>
@@ -77,7 +80,7 @@ $cs->registerScriptFile($baseUrl . '/js/lib/ng-iban.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/select.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.1.2.min.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.3.2.js');
-$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap-tpls-1.3.2.min.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/ui-bootstrap/ui-bootstrap-tpls-1.3.3.min.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/mask.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/ng-table.js');
 
@@ -89,6 +92,13 @@ $cs->registerScriptFile($baseUrl . '/js/lib/jquery.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/sweet-alert.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/file-uploader.js');
 $cs->registerScriptFile($baseUrl . '/js/assets/angular-ui-notification/angular-ui-notification.min.js');
+
+//$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/summernote/summernote.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/summernote/summernote.min.js');
+//$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/summernote/lang/summernote-de-DE.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/summernote/lang/summernote-de-DE.min.js');
+//$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/angular-summernote.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/angular-summernote.min.js');
 
 //$cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/modal-effect/js/classie.js');

@@ -7,7 +7,8 @@ var spi = angular.module('spi', [
     //'ui.mask',
     'ngAnimate',
     'ui-notification',
-    'mm.iban'
+    'mm.iban',
+    'summernote'
 ]);
 
 spi.run(function(ngTableDefaults, $templateCache) {
@@ -44,19 +45,25 @@ spi.run(function(ngTableDefaults, $templateCache) {
     "");
 });
 
-spi.config(function($uibTooltipProvider, NotificationProvider, uiSelectConfig) {
-    $uibTooltipProvider.options({trigger: 'click', placement: 'auto top', appendToBody: 'true'});
-    NotificationProvider.setOptions({
-        delay: 5000,
-        startTop: 10,
-        startRight: 10,
-        verticalSpacing: 3,
-        horizontalSpacing: 3,
-        positionX: 'right',
-        positionY: 'top'
-    });
-    uiSelectConfig.theme = 'select2';
-    uiSelectConfig.appendToBody = true;
+spi.config(function($locationProvider, $uibTooltipProvider, NotificationProvider, uiSelectConfig) {
+  $uibTooltipProvider.options({trigger: 'click', placement: 'auto top', appendToBody: 'true'});
+  NotificationProvider.setOptions({
+      delay: 5000,
+      startTop: 10,
+      startRight: 10,
+      verticalSpacing: 3,
+      horizontalSpacing: 3,
+      positionX: 'right',
+      positionY: 'top'
+  });
+  uiSelectConfig.theme = 'select2';
+  uiSelectConfig.appendToBody = true;
+  $locationProvider.html5Mode(true);
+  $('a').each(function(){
+    if (!$(this).is('[target]') && !$(this).is('[ng-href]')) {
+      $(this).attr('target', '_self');
+    }
+  });
 });
 
 
