@@ -14,7 +14,7 @@ $this->breadcrumbs = array('Anträge');
 					<h1 class="panel-title col-lg-6">Anträge</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()" title="Drucken">Drucken <i class="ion-printer"></i></a>
-						<button <?php $this->demo(); ?>  class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
+						<button <?php $this->demo(); ?> onclick="alert('ToDo')" class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body request-edit">
@@ -145,17 +145,17 @@ $this->breadcrumbs = array('Anträge');
 									<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
 									<td data-title="'Prüfstatus'">
                     <div class="col-lg-4">
-                      <a class="request-button edit-btn" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
+                      <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
                         <span class="cell-finplan select-decline"></span>
                       </a>
                     </div>
                     <div class="col-lg-4">
-                      <a class="request-button edit-btn" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
+                      <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
                         <span class="cell-finplan select-decline"></span>
                       </a>
                     </div>
                     <div  class="col-lg-4">
-                      <a class="request-button edit-btn" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
+                      <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
                         <span class="cell-finplan select-decline"></span>
                       </a>
                     </div>
@@ -172,11 +172,11 @@ $this->breadcrumbs = array('Anträge');
 							</table>
 
 							<div class="btn-row m-t-15 clearfix" ng-if="canEdit()">
-								<button class="btn m-b-5" ng-disabled="!existsSelected()">Druck-Template wählen</button>
+								<button class="btn m-b-5" ng-disabled="!existsSelected()" onclick="alert('ToDo')">Druck-Template wählen</button>
 								<button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkDuration()">Laufzeit festlegen</button>
 								<button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(4)">Förderfähig</button>
 								<button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(5)">Genehmigung</button>
-								<button class="btn m-b-5 pull-right" ng-disabled="!existsSelected()">Folgeantrag hinzufügen</button>
+								<button class="btn m-b-5 pull-right" ng-disabled="!existsSelected()" onclick="alert('ToDo')">Folgeantrag hinzufügen</button>
 							</div>
 						</div>
 					</div>
