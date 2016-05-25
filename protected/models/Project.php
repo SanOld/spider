@@ -106,6 +106,16 @@ class Project extends BaseModel {
   }
 
   protected function doBeforeInsert($post) {
+    
+    if($this->user['type'] != ADMIN) {
+      return array(
+          'code' => '403',
+          'result' => false,
+          'system_code' => 'ERR_PERMISSION', 
+          'message' => 'Only Admin can create the projects'
+      );
+    }
+    
     if(Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('code=:code ', array(
         ':code' => safe($post,'code')
     )) -> queryRow()) {

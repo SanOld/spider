@@ -162,6 +162,13 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.updateSchools = function(isInit) {
       isInit = isInit || false;
         var schoolParams = {};
+        
+        $scope.project.schools = [];
+        $scope.schools = [];
+        if(!$scope.project.school_type_id || !$scope.project.district_id) {
+          return;
+        }
+        
         if($scope.project.school_type_id) {
           schoolParams['type_id'] = $scope.project.school_type_id;
         }

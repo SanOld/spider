@@ -15,7 +15,7 @@ $this->breadcrumbs = array('Projekte');
 					<h1 class="panel-title col-lg-6">Projekte</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-						<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Projekt hinzufügen</button>
+						<button class="btn w-lg custom-btn" ng-if="canEdit() && canByType(['a'])" ng-click="openEdit()">Projekt hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body edit-project">
