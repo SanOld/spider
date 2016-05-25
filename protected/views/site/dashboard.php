@@ -15,8 +15,8 @@ $this->pageTitle = 'Startseite | ' . Yii::app()->name;
         </div>
         <div class="row text-left">
             <div class="col-lg-4">
-                <a class="box-home box-1" href="#">
-                    <h2>Trägerdaten</h2>
+                <a class="box-home box-1" href="/performers">
+                    <h2>Träger</h2>
                 </a>
             </div>
             <div class="col-lg-4">

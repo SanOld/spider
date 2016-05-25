@@ -5,7 +5,8 @@ require_once ('utils/utils.php');
 class Project extends BaseModel {
   public $table = 'spi_project';
   public $post = array();
-  public $select_all = "*";
+  public $select_all = "*, (SELECT short_name FROM spi_performer prf WHERE prf.id=tbl.performer_id) AS `performer_name`".
+                        ", (SELECT name FROM spi_district dst WHERE dst.id=tbl.district_id) AS `district_name`";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command -> where(' 1=1 ', array());
@@ -85,7 +86,7 @@ class Project extends BaseModel {
         ':id' => $row['performer_id'] 
       )) -> queryRow();
       $row['performer'] = $performer;
-      $row['performer_name'] = $performer['short_name'];
+//      $row['performer_name'] = $performer['short_name'];
       
       $district = Yii::app() -> db -> createCommand() 
         -> select('*') -> from('spi_district')
@@ -93,7 +94,7 @@ class Project extends BaseModel {
         ':id' => $row['district_id'] 
       )) -> queryRow();
       $row['district'] = $district;
-      $row['district_name'] = $district['name'];
+//      $row['district_name'] = $district['name'];
     }
 //    //get_next_id
 //    Yii::app() -> db -> createCommand() 
