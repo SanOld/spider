@@ -19,7 +19,7 @@
 				<div class="col-lg-12 animated fadeInDown text-center">
 					<div class="col-lg-12">
 						<h1>404</h1>
-						<h2>We're sorry, but the page you're looking for can't be found</h2>
+						<h2>Entschuldigung, die angeforderte Seite konnte leider nicht gefunden werden.</h2>
 						<ul class="list-inline">
 							<li><a href="/dashboard">Return to the Homepage</a></li>
 							<li><a href="/performers">Träger</a></li>
