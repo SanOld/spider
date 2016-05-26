@@ -3,6 +3,10 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
         $rootScope._m = 'project';
     }
     $scope.filter = {};
+    
+    if ($scope.page) {
+      $scope.filter['performer_id'] = $scope.performerId;
+    }
 
     network.get('performer', {}, function (result, response) {
         if(result) {
