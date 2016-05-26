@@ -56,7 +56,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
           hint: $scope._hint,
           modeView: !!modeView,
           controller: 'ProjectEditController',
-          template: 'editTemplate.html'
+          template: 'editProjectTemplate.html'
         });
     };
 

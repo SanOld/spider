@@ -99,6 +99,6 @@ $this->breadcrumbs = array('Projekte');
 	</div>
 </div>
 
-<script type="text/ng-template" id="editTemplate.html">
+<script type="text/ng-template" id="editProjectTemplate.html">
   <?php include(Yii::app()->getBasePath().'/views/site/partials/project-editor.php'); ?>
 </script>
