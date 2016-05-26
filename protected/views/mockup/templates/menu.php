@@ -45,7 +45,7 @@
 									<li><a href="audit">Audit</a></li>
 								</ul>
 							</li>
-							<li><a href="#">Kontakt</a></li>
+							<li><a href="/contact.php">Kontakt</a></li>
 						</ul>
 					</div>
 				</nav>

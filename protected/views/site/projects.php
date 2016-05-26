@@ -183,7 +183,7 @@ $this->breadcrumbs = array('Projekte');
                       </div>
                   </div>
                   <div class="m-b-15 clearfix">
-                      <label class="col-lg-2 control-label">Project Type</label>
+                      <label class="col-lg-2 control-label">Fördertopf</label>
                       <div class="col-lg-4">
                         <div spi-hint text="_hint.project_type_id" class="has-hint"></div>
                         <div class="wrap-hint">

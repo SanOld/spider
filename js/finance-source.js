@@ -36,7 +36,12 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
     $scope._hint = hint;
     $scope.modeView = modeView;
     $scope.finances = {};
-    $scope.types = Utils.getFinanceTypes();
+//    $scope.types = Utils.getFinanceTypes();
+    network.get('project_type', {}, function (result, response) {
+      if(result) {
+          $scope.types = response.result;
+      }
+    });
 
 
     if(!$scope.isInsert) {
