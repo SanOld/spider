@@ -1,4 +1,4 @@
-spi.controller('DistrictController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('DistrictController', function ($scope, $rootScope, network, GridService) {
   $rootScope._m = 'district';
   $scope.filter = {};
 
@@ -8,10 +8,6 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
   $scope.updateGrid = function () {
     grid.reload();
   };
-
-  HintService('district', function (result) {
-    $scope._hint = result;
-  });
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();

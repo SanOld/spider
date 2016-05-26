@@ -1,4 +1,4 @@
-spi.controller('UserRolesController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('UserRolesController', function ($scope, $rootScope, network, GridService) {
   $rootScope._m = 'user_type';
   var grid = GridService();
   $scope.tableParams = grid('user_type', $scope.filter, {sorting: {name: 'asc'}});
@@ -17,10 +17,6 @@ spi.controller('UserRolesController', function ($scope, $rootScope, network, Gri
       getTypes();
     });
   };
-
-  HintService('user_type', function (result) {
-    $scope._hint = result;
-  });
 
   function getTypes() {
     network.get('user_type', {}, function (result, response) {

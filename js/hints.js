@@ -1,4 +1,4 @@
-spi.controller('HintsController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('HintsController', function ($scope, $rootScope, network, GridService) {
   $rootScope._m = 'hint';
   $scope.filter = {};
 
@@ -8,8 +8,6 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
   $scope.updateGrid = function () {
     grid.reload();
   };
-
-  getHints();
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();
@@ -24,7 +22,7 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
     }, function(result) {
       if(result) {
         $scope.updateGrid();
-        getHints();
+        $scope.$parent.setHints();
       }
     });
   };
@@ -34,12 +32,6 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
       $scope.pages = response.result;
     }
   });
-
-  function getHints() {
-    HintService('hint', function (result) {
-      $scope._hint = result;
-    });
-  }
 
 });
 

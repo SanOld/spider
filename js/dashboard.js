@@ -1,8 +1,3 @@
-spi.controller('DashboardController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('DashboardController', function ($scope, $rootScope) {
   $rootScope._m = 'dashboard';
-
-  HintService('dashboard', function (result) {
-    $scope._hint = result;
-  });
-
 });

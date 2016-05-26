@@ -1,4 +1,4 @@
-spi.controller('DocumentTemplatesController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('DocumentTemplatesController', function ($scope, $rootScope, network, GridService) {
   $rootScope._m = 'document_templates';
   $scope.filter = {};
 
@@ -8,10 +8,6 @@ spi.controller('DocumentTemplatesController', function ($scope, $rootScope, netw
   $scope.updateGrid = function () {
     grid.reload();
   };
-
-  HintService('document_templates', function (result) {
-    $scope._hint = result;
-  });
 
   network.get('DocumentTemplateType', {filter: 1}, function (result, response) {
     if (result) {

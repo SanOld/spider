@@ -1,4 +1,4 @@
-spi.controller('PerformerController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('PerformerController', function ($scope, $rootScope, network, GridService) {
   $rootScope._m = 'performer';
   $scope.filter = {};
   $scope.checks = [{id: 1, name: 'Überprüft'}, {id: 0, name: 'Nicht überprüft'}];
@@ -10,10 +10,6 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
   $scope.updateGrid = function () {
     grid.reload();
   };
-
-  HintService('performer', function (result) {
-    $scope._hint = result;
-  });
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();

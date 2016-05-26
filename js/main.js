@@ -1,6 +1,5 @@
-spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService, $timeout) {
+spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService, $timeout, HintService) {
   $scope._r = localStorageService.get('rights');
-  console.log($scope._r);
 
   $scope.canByType = function (types) {
     return types.indexOf($scope.user.type) != -1;
@@ -21,7 +20,15 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
     return model && $scope._r[model] && $scope._r[model].edit;
   };
 
+  $scope.setHints = function(model) {
+    model = model || $rootScope._m;
+    HintService(model, function (result) {
+      $rootScope._hint = result;
+    });
+  };
+
   $timeout(function() {
+    $scope.setHints();
     if($rootScope._m && $rootScope._m != 'dashboard' && $scope._r[$rootScope._m] && !$scope._r[$rootScope._m].show) {
       window.location = '/dashboard';
     }

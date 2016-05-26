@@ -1,4 +1,4 @@
-spi.controller('ProjectController', function($scope, $rootScope, network, GridService, HintService) {
+spi.controller('ProjectController', function($scope, $rootScope, network, GridService) {
     if(!$rootScope._m) {
         $rootScope._m = 'project';
     }
@@ -34,11 +34,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
             $scope.schools = response.result;
         }
     });
-    
-    HintService('project', function(result) {
-        $scope._hint = result;
-    });
-
+  
     var grid = GridService();
     $scope.tableParams = grid('project', $scope.filter, {sorting: {code: 'asc'}});
 

@@ -1,4 +1,4 @@
-spi.controller('SchoolController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('SchoolController', function ($scope, $rootScope, network, GridService) {
   $rootScope._m = 'school';
   $scope.filter = {};
 
@@ -16,10 +16,6 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
   $scope.updateGrid = function () {
     grid.reload();
   };
-
-  HintService('school', function (result) {
-    $scope._hint = result;
-  });
 
   network.get('school_type', {filter: 1}, function (result, response) {
     if (result) {
