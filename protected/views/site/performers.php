@@ -850,7 +850,7 @@ $this->breadcrumbs = array('Träger');
                           <input type="search" class="form-control" placeholder="Eingegeben">
                         </div>
                       </div>
-                      <div class="col-lg-2 col-width-type">
+                      <div class="col-lg-2">
                         <div class="form-group">
                           <label>Typ</label>
                           <select class="type-user form-control">
@@ -858,7 +858,7 @@ $this->breadcrumbs = array('Träger');
                           </select>
                         </div>
                       </div>
-                      <div class="col-lg-3 col-width-type">
+                      <div class="col-lg-2">
                         <div class="form-group">
                           <label>Bezirk</label>
                           <select class="type-user form-control">
@@ -866,7 +866,7 @@ $this->breadcrumbs = array('Träger');
                           </select>
                         </div>
                       </div>
-                      <div class="col-lg-3">
+                      <div class="col-lg-2">
                         <div class="form-group">
                           <label>Schule</label>
                           <select class="type-user form-control">
