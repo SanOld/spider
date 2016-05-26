@@ -47,14 +47,14 @@
 											</li>
 											<li class="contact-phone">
 												<dl class="dl-horizontal">
-													<dt>Telefon.:</dt>
+													<dt>Telefon:</dt>
 													<dd> +49 30 2888-496-0</dd>
-													<dt>Fax.:</dt>
+													<dt>Fax:</dt>
 													<dd>+49 30 2888-496-20</dd>
 												</dl>
 											</li>
 											<li class="contact-email">
-												<a href="mailto:">Email Senden</a>
+												<a href="mailto:programmagentur@stiftung-spi.de">Email Senden</a>
 											</li>
 										</ul>
 

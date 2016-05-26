@@ -97,12 +97,20 @@
 												<div class="panel-body">
 													<div class="row">
 														<div class="col-lg-12">
-															<h3 class="panel-title">
-																Träger
-                                                                <span class="btn-row m-l-15">
-                                                                  <a class="btn" href="performers#id=2" target="_blank" >Überprüft</a>
-                                                                </span>
-															</h3>
+															<div class="clearfix">
+																<div class="wrap-title">
+																	<h3 class="panel-title">
+																		Träger
+		                                                                <span class="btn-row m-l-15">
+		                                                                  <a class="btn" href="performers#id=2" target="_blank" >Überprüft</a>
+		                                                                </span>
+																	</h3>
+																</div>
+																<div class="wrap-message">
+																	<div class="correct"><i class="ion-checkmark ng-scope"></i>Information ist überprüft und korrekt</div>
+																	<div class="error" style="display:none;"><i class="ion-close ng-scope" ng-if="+row.is_checked"></i></div>
+																</div>
+															</div>
 															<hr/>
 															<strong>Gesellschaft für Sport und Jugendsozialarbeit gGmbH (GSJ) (bis 2008: Verein für Sport und Jugendsozialarbeit e.V.)</strong>
 															<div class="row m-t-20 m-b-30 row-holder-dl">
@@ -308,6 +316,55 @@
 																<dd>(030) 2888 496</dd>
 																<dt>Email:</dt>
 																<dd><a class="visible-lg-block" href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
+															</dl>
+														</div>
+													</div>
+													<div class="row holder-three-blocks m-b-30">
+														<div class="col-lg-4">
+															<h4>Vertretungsberechtigte Person</h4>
+															<select class="form-control">
+																<option>Mr Werner Munk</option>
+																<option>Mr Werner Munk</option>
+															</select>
+															<dl>
+																<dt>Funktion</dt>
+																<dd>Some function</dd>
+																<dt>Titel</dt>
+																<dd>Some title</dd>
+																<dt>Telefon</dt>
+																<dd>(030) 2888 496</dd>
+																<dt>Email</dt>
+																<dd>admin@warenform.de </dd>
+															</dl>
+														</div>
+														<div class="col-lg-4">
+															<h4>Ansprechperson für Antragsbearbeitung</h4>
+															<select class="form-control">
+																<option>Mr Werner Munk</option>
+																<option>Mr Werner Munk</option>
+															</select>
+															<dl>
+																<dt>Titel</dt>
+																<dd>Some title</dd>
+																<dt>Telefon</dt>
+																<dd>(030) 2888 496</dd>
+																<dt>Email</dt>
+																<dd>admin@warenform.de </dd>
+															</dl>
+														</div>
+														<div class="col-lg-4">
+															<h4>Ansprechperson für die Finanzplanbearbeitung</h4>
+															<select class="form-control">
+																<option>Mr Werner Munk</option>
+																<option>Mr Werner Munk</option>
+															</select>
+															<dl>
+																<dt>Titel</dt>
+																<dd>Some title</dd>
+																<dt>Telefon</dt>
+																<dd>(030) 2888 496</dd>
+																<dt>Email</dt>
+																<dd>admin@warenform.de </dd>
 															</dl>
 														</div>
 													</div>
