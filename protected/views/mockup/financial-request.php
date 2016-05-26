@@ -26,7 +26,7 @@
 			<!-- Page Content Start -->
 			<!-- ================== -->
 			
-			<div class="wraper container-fluid">
+			<div class="wraper container-fluid finance-request">
 				<div class="row">
 					<div class="container center-block">
 						<div class="panel panel-default">

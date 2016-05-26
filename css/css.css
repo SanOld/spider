@@ -2657,3 +2657,9 @@ body.safari #finance .btn-group.btn-toggle .btn {
     color: #ff0000;
     font-size: 21px;
 }
+.box-finance.box-custom-width {
+	width:190px;
+}
+.box-finance {
+	width:140px;
+}
