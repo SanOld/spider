@@ -26,7 +26,7 @@
 					<li><a ng-if="canShow('user_type')" href="/user-roles">Benutzerrollen</a></li>
 				</ul>
 			</li>
-			<li><a href="/projects" ng-if="canShow('audit')">Projekte</a></li>
+			<li ng-if="canShow('project')"><a href="/projects">Projekte</a></li>
 			<li ng-class="{'active': ['performer', 'school', 'district'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 				<ul class="dropdown-menu">
