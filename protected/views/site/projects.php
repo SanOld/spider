@@ -122,10 +122,10 @@ $this->breadcrumbs = array('Projekte');
                               <tr ng-repeat="row in $data" >
                                 <td data-title="'Kennziffer'" sortable="'code'">{{row.code}}</td>
                                 <td data-title="'Schule'" >
-                                  <a href="#" ng-repeat="school in row.schools">{{school.name}}</a><br/>
+                                  <a href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td">{{school.name}}</a>
                                 </td>
-                                <td data-title="'Träger'" sortable="'performer_name'"><a href="#">{{row.performer_name}}</a></td>
-                                <td data-title="'Bezirk'" sortable="'district_name'">{{row.district_name}}</td>
+                                <td data-title="'Träger'" sortable="'performer_name'"><a href="/performers#id={{row.performer_id}}">{{row.performer_name}}</a></td>
+                                <td data-title="'Bezirk'" sortable="'district_name'"><a href="/districts#id={{row.district_id}}">{{row.district_name}}</a></td>
                                 <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
                                   <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit(row.id)) || row.is_old != 0">
                                     <i class="ion-eye"  ng-if="!canEdit(row.id) || row.is_old != 0"></i>
@@ -237,7 +237,7 @@ $this->breadcrumbs = array('Projekte');
                           <div spi-hint text="_hint.district_id" class="has-hint"></div>
                           <div class="wrap-hint">
                             <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.district_id"
-                                       name="district_id" required on-select="updateSchools()">
+                                       name="district_id" on-select="updateSchools()">
                               <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                                 {{$select.selected.name}}
                               </ui-select-match>
@@ -255,7 +255,7 @@ $this->breadcrumbs = array('Projekte');
                   
                           <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length}">
                             <ui-select ng-disabled="project.is_old==1 || !schools.length" multiple ng-model="project.schools"
-                                       name="schools" required>
+                                       name="schools">
                               <ui-select-match placeholder="{{placeholderFN($select.items)}}">
                                 {{$item.name}}
                               </ui-select-match>

@@ -102,14 +102,14 @@
 											<button class="btn pull-right w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
 										</div>
 										<div class="col-lg-4">
-											<label>Belegdatum</label>
+											<label>Träger</label>
 											<div class="input-group">
 			                                    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
 			                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 			                                </div>
 										</div>
 										<div class="col-lg-4">
-											<label>Buchungsdatum</label>
+											<label>Belegdatum</label>
 											<div class="input-group">
 			                                    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
 			                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -126,41 +126,41 @@
 									</form>
 								</div>
 								<div class="overview-finance m-t-20">
-									<h4>Zusammenfassung der Finanzen für G052</h4>
+									<h4>Zusammenfassung der Finanzen für G052 (01.01.2016 - 31.12.2016)</h4>
 									<div class="box-finance">
 										<span class="sum total">
 	                                    	<strong>Fördersumme</strong>
-											<span>€ 87,443.54</span>
+											<span>€ 87.443</span>
 	                                    </span>
 									</div>
 									<div class="box-finance">
 										<span class="sum requested">
-	                                    	<strong>Freimeldung</strong>
-											<span>€ 0,00</span>
+	                                    	<strong>Änderungen</strong>
+											<span>€ 0.00</span>
 	                                    </span>
 									</div>
-									<div class="box-finance">
+									<div class="box-finance box-custom-width">
 										<span class="sum refund">
-	                                    	<strong>Rückgezahlt</strong>
+	                                    	<strong>aktuelle Fördersumme</strong>
 											<span>€ 100.00</span>
 	                                    </span>
 									</div>
 									<div class="box-finance">
 										<span class="sum income">
 	                                    	<strong>Ausgezahlt</strong>
-											<span>€ 58,295.69</span>
+											<span>€ 58.295</span>
 	                                    </span>
 									</div>
 									<div class="box-finance">
 										<span class="sum spent">
-	                                    	<strong>Belege</strong>
-											<span>€ 1,000.00</span>
+	                                    	<strong>Verblieben</strong>
+											<span>€ 1.000</span>
 	                                    </span>
 									</div>
 									<div class="box-finance">
 										<span class="sum expenditure">
-	                                    	<strong>Verblieben</strong>
-											<span>€ 29,147.85</span>
+	                                    	<strong>Finanzbericht</strong>
+											<span>€ 29.147</span>
 	                                    </span>
 									</div>
 									
@@ -169,24 +169,6 @@
 									<div class="col-lg-12">
 										<table id="datatable" class="table table-hover table-bordered table-edit">
 											<thead>
-												<tr class="head-top">
-													<th>
-														<label class="cr-styled">
-															<input type="checkbox">
-															<i class="fa"></i>
-														</label>
-													</th>
-													<th></th>
-													<th></th>
-													<th>Jahr</th>
-													<th>Status</th>
-													<th>Programm</th>
-													<th>Betrag / IBAN / Typ</th>
-													<th>Bel.<br/>-Datum</th>
-													<th>Buch.<br/>-Datum</th>
-													<th>Zahl.<br/>-Datum</th>
-													<th>Druken /<br/> Bearbeiten</th>
-												</tr>
 												<tr>
 													<th>
 														<label class="cr-styled">
@@ -194,13 +176,14 @@
 															<i class="fa"></i>
 														</label>
 													</th>
-													<th colspan="2">Kennziffer / Beleg-Nr.</th>
+													<th>Kennz.</th>
 													<th>Jahr</th>
-													<th>Status</th>
-													<th>Programm</th>
-													<th>Betrag / IBAN / Typ</th>
-													<th>Bel.<br/>-Datum</th>
-													<th>Buch.<br/>-Datum</th>
+													<th>Rate</th>
+													<th>Träger </th>
+													<th>Kreditor</th>
+													<th>Beleg Typ</th>
+													<th>Beleg<br/>-Datum</th>
+													<th>Betrag</th>
 													<th>Zahl.<br/>-Datum</th>
 													<th>Druken /<br/> Bearbeiten</th>
 												</tr>
@@ -216,23 +199,15 @@
 														</label>
 													</td>
 													<td>
-														<a class="id-request" href="order.php"><span>G052</span> -</a>
+														<a class="id-request" href="order.php"><span>G052</span></a>
 													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> Jan-Feb</td>
-													<td>Bitte bearbeiten</td>
-													<td>JSA</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
-														</div>
-													</td>
+													<td>2016</td>
+													<td>Jan-Feb</td>
+													<td><a href="#">Tandem BQG</a></td>
+													<td>3148800</td>
+													<td>Mittelabruf</td>
 													<td>28.10.2015</td>
-													<td></td>
+													<td>€ 9,749.86</td>
 													<td></td>
 													<td>
 														<a class="btn document print-disable" href="#" title="Drucken"><i class="ion-printer"></i></a>
@@ -251,21 +226,13 @@
 													<td>
 														<a class="id-request" href="order.php"><span>G052</span></a>
 													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> Jan-Feb</td>
-													<td>Bitte bearbeiten </td>
-													<td>ZP_2017</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
-														</div>
-													</td>
+													<td>2016</td>
+													<td>Jan-Feb</td>
+													<td><a href="#">Tandem BQG</a></td>
+													<td>3148800</td>
+													<td>Mittelabruf</td>
 													<td>28.10.2015</td>
-													<td></td>
+													<td>€ 2,749.86</td>
 													<td></td>
 													<td>
 														<a class="btn document print-disable" href="#" title="Drucken"><i class="ion-printer"></i></a>
@@ -274,41 +241,7 @@
 														</a>
 													</td>
 												</tr>
-												<tr class="decline-row">
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a> 
-														<a data-target="#modal-1" data-toggle="modal">16-000091</a>
-													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> Jan-Feb</td>
-													<td>Abgelehnt</td>
-													<td>BP</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 862.86<span>DE65 1203 0000 1005 3670 06</span></span>
-														</div>
-													</td>
-													<td>28.10.2015</td>
-													<td></td>
-													<td></td>
-													<td>
-														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr class="approved-row">
+												<tr>
 													<td>
 														<label class="cr-styled">
 															<input type="checkbox" checked="">
@@ -317,57 +250,14 @@
 													</td>
 													<td>
 														<a class="id-request" href="order.php"><span>G052</span></a>
-														<a data-target="#modal-1" data-toggle="modal">16-000092</a>
 													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> März-Apr</td>
-													<td>Sachlich Richtig</td>
-													<td>ZP_2017</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 862.86<span>DE65 1203 0000 1005 3670 06</span></span>
-														</div>
-													</td>
+													<td>2016</td>
+													<td>Jan-Feb</td>
+													<td><a href="#">CJD Berlin</a></td>
+													<td>3148800</td>
+													<td>Mittelabruf</td>
 													<td>28.10.2015</td>
-													<td></td>
-													<td></td>
-													<td>
-														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr class="decline-row">
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-														<a data-target="#modal-1" data-toggle="modal">16-000091</a>
-													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> Jan-Feb</td>
-													<td>Abgelehnt</td>
-													<td>JSA</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 862.86<span>DE65 1203 0000 1005 3670 06</span></span>
-														</div>
-													</td>
-													<td>28.10.2015</td>
-													<td></td>
+													<td>€ 862.86</td>
 													<td></td>
 													<td>
 														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
@@ -386,21 +276,63 @@
 													<td>
 														<a class="id-request" href="order.php"><span>G052</span></a>
 													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> März-Apr</td>
-													<td>aus DATEV importiert</td>
-													<td>JSA</td>
+													<td>2016</td>
+													<td>März-Apr</td>
+													<td><a href="#">CJD Berlin</a></td>
+													<td>3148800</td>
+													<td>Freimeldung</td>
+													<td>28.10.2015</td>
+													<td>€ 862.86</td>
+													<td></td>
 													<td>
-														<div class="holder-id-request">
-															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
-														</div>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
+														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+															<i class="ion-edit"></i>
+														</a>
 													</td>
+												</tr>
+												<tr>
+													<td>
+														<label class="cr-styled">
+															<input type="checkbox" checked="">
+															<i class="fa"></i>
+														</label>
+													</td>
+													<td>
+														<a class="id-request" href="order.php"><span>G052</span></a>
+													</td>
+													<td>2016</td>
+													<td>März-Apr</td>
+													<td><a href="#">Tandem BQG</a></td>
+													<td>3148800</td>
+													<td>Freimeldung</td>
 													<td>28.10.2015</td>
+													<td>€ 862.86</td>
+													<td></td>
+													<td>
+														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
+														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
+															<i class="ion-edit"></i>
+														</a>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<label class="cr-styled">
+															<input type="checkbox" checked="">
+															<i class="fa"></i>
+														</label>
+													</td>
+													<td>
+														<a class="id-request" href="order.php"><span>G052</span></a>
+													</td>
+													<td>2016</td>
+													<td>März-Apr</td>
+													<td><a href="#">Tandem BQG</a></td>
+													<td>3148800</td>
+													<td>Freimeldung</td>
 													<td>28.10.2015</td>
+													<td>€ 2,749.86</td>
 													<td>28.10.2015</td>
 													<td>
 														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
@@ -418,23 +350,14 @@
 													</td>
 													<td>
 														<a class="id-request" href="order.php"><span>G052</span></a>
-														<a data-target="#modal-1" data-toggle="modal">16-000092</a>
 													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> März-Apr</td>
-													<td>aus DATEV importiert</td>
-													<td>BP</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
-														</div>
-													</td>
+													<td>2016</td>
+													<td>März-Apr</td>
+													<td><a href="#">CJD Berlin</a></td>
+													<td>3148800</td>
+													<td>Freimeldung</td>
 													<td>28.10.2015</td>
-													<td>28.10.2015</td>
+													<td>€ 2,749.86</td>
 													<td>28.10.2015</td>
 													<td>
 														<a class="btn document print-disable" href="#" title="Drucken"><i class="ion-printer"></i></a>
@@ -443,7 +366,7 @@
 														</a>
 													</td>
 												</tr>
-												<tr class="exported-row">
+												<tr>
 													<td>
 														<label class="cr-styled">
 															<input type="checkbox" checked="">
@@ -452,23 +375,14 @@
 													</td>
 													<td>
 														<a class="id-request" href="order.php"><span>G052</span></a>
-														<a data-target="#modal-1" data-toggle="modal">16-000092</a>
 													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> März-Apr</td>
-													<td>nach DATEV exportiert</td>
-													<td>ZP_2017</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
-														</div>
-													</td>
+													<td>2016</td>
+													<td>März-Apr</td>
+													<td><a href="#">CJD Berlin</a></td>
+													<td>3148800</td>
+													<td>Freimeldung</td>
 													<td>28.10.2015</td>
-													<td>28.10.2015</td>
+													<td>€ 9,749.86</td>
 													<td></td>
 													<td>
 														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
@@ -486,23 +400,14 @@
 													</td>
 													<td>
 														<a class="id-request" href="order.php"><span>G052</span></a>
-														<a data-target="#modal-1" data-toggle="modal">16-000089</a>
 													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> Jan-Feb</td>
-													<td>Bitte bearbeiten</td>
-													<td>JSA</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
-														</div>
-													</td>
+													<td>2016</td>
+													<td>Jan-Feb</td>
+													<td><a href="#">CJD Berlin</a></td>
+													<td>3148800</td>
+													<td>Ergänzung</td>
 													<td>28.10.2015</td>
-													<td></td>
+													<td>€ 9,749.86</td>
 													<td></td>
 													<td>
 														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
@@ -511,7 +416,7 @@
 														</a>
 													</td>
 												</tr>
-												<tr class="ready-row">
+												<tr>
 													<td>
 														<label class="cr-styled">
 															<input type="checkbox" checked="">
@@ -520,23 +425,14 @@
 													</td>
 													<td>
 														<a class="id-request" href="order.php"><span>G052</span></a>
-														<a data-target="#modal-1" data-toggle="modal">16-000092</a>
 													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> März-Apr</td>
-													<td>Bereit</td>
-													<td>JSA</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 2,749.86<span>DE65 1203 0000 1005 3670 06</span></span>
-														</div>
-													</td>
+													<td>2016</td>
+													<td>Jan-Feb</td>
+													<td><a href="#">CJD Berlin</a></td>
+													<td>3148800</td>
+													<td>Ergänzung</td>
 													<td>28.10.2015</td>
-													<td></td>
+													<td>€ 2,749.86</td>
 													<td></td>
 													<td>
 														<a class="btn document print-disable" href="#" title="Drucken"><i class="ion-printer"></i></a>
@@ -545,7 +441,7 @@
 														</a>
 													</td>
 												</tr>
-												<tr class="ready-row">
+												<tr>
 													<td>
 														<label class="cr-styled">
 															<input type="checkbox" checked="">
@@ -554,22 +450,14 @@
 													</td>
 													<td>
 														<a class="id-request" href="order.php"><span>G052</span></a>
-														<a data-target="#modal-1" data-toggle="modal">16-000092</a>
 													</td>
-													<td title="Beschreibung">
-														<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="btn edit-btn" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-															<i class="fa fa-align-left"></i>
-														</button>
-													</td>
-													<td>2016<br/> März-Apr</td>
-													<td>Bereit</td>
-													<td>BP</td>
-													<td>
-														<div class="holder-id-request">
-															<span>€ 9,749.86</span><span>DE65 1203 0000 1005 3670 06</span>
-														</div>
-													</td>
+													<td>2016</td>
+													<td>März-Apr</td>
+													<td><a href="#">CJD Berlin</a></td>
+													<td>3148800</td>
+													<td>Ergänzung</td>
 													<td>28.10.2015</td>
+													<td>€ 9,749.86</td>
 													<td></td>
 													<td></td>
 													<td>
@@ -582,10 +470,9 @@
 											</tbody>
 										</table>
 										<div class="btn-row m-t-15 clearfix">
-											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Export zu DATEV</button>
-											<button class="btn m-b-5" data-target="#modal-3" data-toggle="modal">Als importiert markieren</button>
-											<button class="btn m-b-5" data-target="#modal-4" data-toggle="modal">Sachlich richtig (Druckfreigabe)</button>
-											<button class="btn m-b-5" data-target="#modal-5" data-toggle="modal">Mittelabruf liegt korrekt vor</button>
+											<button class="btn m-b-5">Export zu DATEV</button>
+											<button class="btn m-b-5">Zahl. Datum hinzufügen</button>
+											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Druck-Template wählen</button>
 										</div>
 									</div>
 								</div>
@@ -594,24 +481,8 @@
 									In Bearbeitung
 								</div>
 								<div class="notice">
-									<span class="color-notice decline-row"></span>
-									Abgelehnt
-								</div>
-								<div class="notice">
-									<span class="color-notice approved-row"></span>
-									Sachlich Richtig
-								</div>
-								<div class="notice">
-									<span class="color-notice ready-row"></span>
-									Bereit
-								</div>
-								<div class="notice">
-									<span class="color-notice exported-row"></span>
-									nach DATEV exportiert
-								</div>
-								<div class="notice">
-									<span class="color-notice imported-row"></span>
-									aus DATEV importiert
+									<span class="color-notice open"></span>
+									Erleding
 								</div>
 							</div>
 						</div>
@@ -829,78 +700,39 @@
 			</div>
 		</div>
 
-		<!-- Set duration -->
-
-		<div id="modal-3" class="modal fade request-alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog custom-width">
-				<div class="panel panel-color panel-primary">
-					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Delay date of import</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
-					</div>
-					<div class="panel-body text-center">
-						<h3 class="m-b-30">Set delay date of import for 4 selected items</h3>
-						<div class="form-group">
-							<div class="holder-datepicker">
-                                <div class="col-lg-4 p-0 col-md-offset-4">
-                                	<div class="input-group">
-                                	    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
-                                	    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                	</div>
-                                </div>
-							</div>
-						</div>
-					</div>
-					<div class="row p-t-10 text-center">
-						<div class="form-group group-btn m-t-20">
-							<div class="col-lg-12">
-								<button class="btn w-lg cancel-btn" data-dismiss="modal">Abbrechen</button>
-								<button class="btn w-lg custom-btn" data-dismiss="modal">Speichern</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Accepted and allow printing  -->
-		<div id="modal-4" class="modal fade request-alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog custom-width">
-				<div class="panel panel-color panel-primary">
-					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Accepted and allow printing</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
-					</div> 
-					<div class="panel-body text-center">
-						<h3 class="m-b-30">Accepted and allow printing for 4 selected items</h3>
-						<div class="form-group">
-							<select class="form-control">
-								<option>Select template for print</option>
-							</select>
-						</div>
-					</div>
-					<div class="row p-t-10 text-center">
-						<div class="form-group group-btn m-t-20">
-							<div class="col-lg-12">
-								<button class="btn w-lg cancel-btn" data-dismiss="modal">Abbrechen</button>
-								<button class="btn w-lg custom-btn" data-dismiss="modal">Speichern</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<!-- Letter received and correctly  -->
-		<div id="modal-5" class="modal fade request-alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div id="modal-2" class="modal fade request-alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog custom-width">
 				<div class="panel panel-color panel-primary">
 					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Letter received and correctly</h3>
+						<h3 class="m-0 pull-left">Druck-Template wählen</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 					</div> 
 					<div class="panel-body text-center">
-						<h3 class="m-b-30">Letter received and correctly <br/>for 4 selected items</h3>
+						<h3 class="m-b-30">Vertragsvorlage für 4 Elemente auswählen</h3>
+						<div class="col-lg-12 text-left">
+							<div class="form-group">
+								<label>Document 1</label>
+								<select class="form-control">
+									<option>Document 1.doc</option>
+									<option>Document 2.doc</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Document 2</label>
+								<select class="form-control">
+									<option>Document 1.doc</option>
+									<option>Document 2.doc</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Document 3</label>
+								<select class="form-control">
+									<option>Document 1.doc</option>
+									<option>Document 2.doc</option>
+								</select>
+							</div>
+						</div>
 					</div>
 					<div class="row p-t-10 text-center">
 						<div class="form-group group-btn m-t-20">
@@ -931,10 +763,10 @@
 					"sDom": 'Rfrtlip',
 					"columnDefs": [
 						{ className:"dt-edit", "targets": [10] },
-						{ "width": "8%", "targets": [1, 3, 4] },
+						{ "width": "8%", "targets": [1, 3] },
 						{ className:"width-col", "targets": [1] },
 						{ className:"width-col2", "targets": [2] },
-						{ className:"align-right", "targets": [6] }
+						{ className:"align-right", "targets": [8] }
 					],
 					"oLanguage": {
 				      	"sLengthMenu": "_MENU_   Objekte pro Seite ",

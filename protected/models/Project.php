@@ -107,40 +107,42 @@ class Project extends BaseModel {
 
   protected function doBeforeInsert($post) {
     
-    if($this->user['type'] != ADMIN) {
+    if($this->user['type'] == ADMIN || ($this->user['type'] == PA && $post['isUpdate'])) {
+      unset($post['isUpdate']);
+      if(Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('code=:code ', array(
+          ':code' => safe($post,'code')
+      )) -> queryRow()) {
+        return array(
+            'code' => '409',
+            'result' => false,
+            'system_code' => 'ERR_DUPLICATED', 
+            'message' => 'This project already exists'
+        );
+      }
+
+//      if(!safe($post,'schools')) {//есть проекты без школы и дистрикта
+//        return array (
+//                'code' => '400',
+//                'result' => false,
+//                'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
+//                'required' => 'schools'
+//              );
+//      }
+      unset($post['schools']);
+
+      return array(
+          'result' => true,
+          'params' => $post 
+      );
+    } else {
       return array(
           'code' => '403',
           'result' => false,
           'system_code' => 'ERR_PERMISSION', 
           'message' => 'Only Admin can create the projects'
       );
-    }
     
-    if(Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('code=:code ', array(
-        ':code' => safe($post,'code')
-    )) -> queryRow()) {
-      return array(
-          'code' => '409',
-          'result' => false,
-          'system_code' => 'ERR_DUPLICATED', 
-          'message' => 'This project already exists'
-      );
     }
-    
-    if(!safe($post,'schools')) {
-      return array (
-              'code' => '400',
-              'result' => false,
-              'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS',
-              'required' => 'schools'
-            );
-    }
-    unset($post['schools']);
-    
-    return array(
-        'result' => true,
-        'params' => $post 
-    );
   }
   protected function doBeforeUpdate($post, $id) {
     $params = $post;
@@ -175,6 +177,7 @@ class Project extends BaseModel {
     Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
       ':id' => $id 
     ));
+    $row['isUpdate'] = true;
     
     $this->insert($row);
     
@@ -184,7 +187,7 @@ class Project extends BaseModel {
 //    );
   }
   protected function doAfterInsert($result, $params, $post) {
-    if($result['result']) {
+    if($result['result'] && safe($post,'schools')) {
       foreach($post['schools'] as $school_id) {
         Yii::app ()->db->createCommand()->insert('spi_project_school', array('project_id' => $result['id'], 'school_id' => $school_id));
       }
