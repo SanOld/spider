@@ -160,8 +160,50 @@ spi.controller('RequestFinancePlanController', function ($scope, network) {
   //$scope.$parent.requestID
 });
 
-spi.controller('RequestSchoolConceptController', function ($scope, network) {
-  //$scope.$parent.requestID
+spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout) {
+  $timeout(function() {
+    jQuery('.btn-toggle').click(function(){
+      $(this).find(".btn").toggleClass('active');
+      $(this).find(".btn").toggleClass('btn-default');
+      return false;
+    });
+    $('.tabs-toggle button').click(function(){
+      var tab_id = $(this).attr('data-tab');
+      $('.block-concept').removeClass('current');
+      $("#"+tab_id).addClass('current');
+    });
+    $('.changes-content .heading-changes').click(function(){
+      $(this).toggleClass('open');
+      $(this).next().slideToggle();
+    })
+  });
+
+  $scope.schoolConcepts = [];
+  network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
+    if (result) {
+      $scope.schoolConcepts = response.result;
+    }
+  });
+  
+  
+
+  $scope.submitForm = function(data, ID, action) {
+    switch (action) {
+      case 'submit':
+        data.status = 'r';
+        break;
+      case 'declare':
+        data.status = 'd';
+        break;
+      case 'accept':
+        data.status = 'a';
+        break;
+    }
+    network.put('request_school_concept/' + ID, data, function(result, response) {
+      console.log(result, response);
+    });
+  };
+
 });
 
 spi.controller('RequestSchoolGoalController', function ($scope, network) {
