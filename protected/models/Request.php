@@ -8,7 +8,9 @@ class Request extends BaseModel {
   public $select_all = "tbl.*
                       , prf.name performer_name
                       , rqs.name status_name
-                      , rqs.code status_code"; // , prj.code, fns.programm
+                      , rqs.code status_code
+                      , prj.code code
+                      , fns.programm";
   protected function getCommand() {
     if(safe($_GET, 'list') == 'year') {
       $command = Yii::app() -> db -> createCommand()->select('year')->from($this -> table)->group('year');
@@ -53,13 +55,13 @@ class Request extends BaseModel {
     } else {
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> join( 'spi_request_status rqs', 'tbl.status_id           = rqs.id' );
-      $command -> join( 'spi_performer prf',      'tbl.performer_id        = prf.id' );
+      $command -> leftJoin( 'spi_performer prf',      'tbl.performer_id        = prf.id' );
       $command -> join( 'spi_project prj',        'tbl.project_id          = prj.id' );
-//      $command -> join( 'spi_finance_source fns', 'prj.finance_programm_id = fns.id' );
+      $command -> join( 'spi_finance_source fns', 'prj.type_id = fns.project_type_id' );
       $command -> where(' 1=1 ', array());
 
     }
-
+//
 //    print_r ($command->text);
 
     return $command;
@@ -147,5 +149,30 @@ class Request extends BaseModel {
     }
 
     return $result;
+  }
+
+  protected function doBeforeUpdate($post, $id) {
+
+    if(isset($post['finance_plan'])) {
+      // ToDo: save data in property variable and save it data in method doAfterUpdate
+      unset($post['finance_plan']);
+    }
+
+    if(isset($post['school_concepts'])) {
+      // ToDo: save data in property variable and save it data in method doAfterUpdate
+      unset($post['school_concepts']);
+    }
+
+    if(isset($post['school_goals'])) {
+      // ToDo: save data in property variable and save it data in method doAfterUpdate
+      unset($post['school_goals']);
+    }
+
+    return array (
+      'result' => true,
+      'params' => $post,
+      'post' => $post
+    );
+
   }
 }

@@ -1,4 +1,4 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, Utils, $location) {
+spi.controller('RequestController', function ($scope, $rootScope, network, Utils, $location, RequestService) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
@@ -21,9 +21,21 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $scope.requestYear = requestYear;
   };
 
+  $scope.submitRequest = function () {
+    var data = RequestService.getProjectData();
+    data['finance_plan']    = RequestService.financePlanData();
+    data['school_concepts'] = RequestService.getSchoolConceptData();
+    data['school_goals']    = RequestService.getSchoolGoalData();
+    network.put('request/' + $scope.requestID, data, function(result, response) {
+      if(result) {
+        console.log('ToDo'); // mb redirect to /requests ?
+      }
+    });
+  };
+
 });
 
-spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert) {
+spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService) {
   $scope.filter = {id: $scope.$parent.requestID};
   $scope.isInsert = !$scope.$parent.requestID;
   network.get('Request', $scope.filter, function (result, response) {
@@ -117,6 +129,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     }
   };
 
+  RequestService.getProjectData = function() {
+    return {test: 1};
+  };
+
    $scope.submitRequest = function () {
     $scope.error = false;
     $scope.submited = true;
@@ -156,11 +172,12 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
 });
 
-spi.controller('RequestFinancePlanController', function ($scope, network) {
+spi.controller('RequestFinancePlanController', function ($scope, network, RequestService) {
   //$scope.$parent.requestID
 });
 
-spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout) {
+spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService) {
+  $scope.school_concept = {};
   $timeout(function() {
     jQuery('.btn-toggle').click(function(){
       $(this).find(".btn").toggleClass('active');
@@ -184,8 +201,10 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
       $scope.schoolConcepts = response.result;
     }
   });
-  
-  
+
+  RequestService.getSchoolConceptData = function() {
+    return $scope.school_concept;
+  };
 
   $scope.submitForm = function(data, ID, action) {
     switch (action) {
@@ -206,7 +225,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
 });
 
-spi.controller('RequestSchoolGoalController', function ($scope, network) {
+spi.controller('RequestSchoolGoalController', function ($scope, network, RequestService) {
   //$scope.$parent.requestID
 });
 
