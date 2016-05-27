@@ -237,14 +237,14 @@
                   <div class="col-lg-12">
                     <div class="row datafilter">
                       <ng-form class="class-form">
-                        <div class="col-lg-7">
+                        <div class="col-lg-{{canByType(['a','p'])?7:10}}">
                           <div class="form-group">
                             <label>Suche nach Name, Benutzername oder Email</label>
                             <input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control"
                                    placeholder="Stichwort eingegeben">
                           </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" ng-if="canByType(['a','p'])">
                           <div class="form-group">
                             <label>Status</label>
                             <ui-select append-to-body="true" ng-change="updateGrid()" class=""
