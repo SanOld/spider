@@ -1385,7 +1385,7 @@ $this->breadcrumbs = array('Anträge');
 														<div class="col-lg-2" ng-if="canEdit('request_school_concept')">
 															<div class="m-t-30 text-right pull-right">
 																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id, 'accept')">AKZEPTIEREN</button>
-																<button ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id, 'declare')" class="btn w-lg btn-lg btn-danger disabled">ABLEHNEN</button>
+																<button ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 															</div>
 														</div>
 														<div class="col-lg-2" ng-if="!canEdit('request_school_concept')">
