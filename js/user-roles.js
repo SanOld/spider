@@ -33,6 +33,8 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, mo
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.modeView = modeView;
+  $scope.userIsSuperUser = network.userIsSuperUser;
+  $scope.network = network;
 
   if (!$scope.isInsert) {
     $scope.userTypeId = data.id;
@@ -86,7 +88,7 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, mo
         }
         $scope.submited = false;
       };
-      if (!$scope.default) {
+      if (!$scope.default || network.userIsSuperUser) {
         $scope.user_type.rights = $scope.user_right;
       }
       if ($scope.isInsert) {

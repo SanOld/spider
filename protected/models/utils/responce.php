@@ -45,6 +45,7 @@ function response($code, $data, $method = '') {
         'delete' => 'gelöscht'
     );
 
+    $method = $method?$method:'get';
     $message = '';
     switch ($code) {
       case 'SUCCESSFUL' :
