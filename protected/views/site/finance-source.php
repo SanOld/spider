@@ -14,7 +14,7 @@ $this->breadcrumbs = array('Fördertöpfe');
 
           <div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Fördertopf hinzufügen</button>
+            <!--<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Fördertopf hinzufügen</button>-->
           </div>
         </div>
         <div class="panel-body schoole-user">
@@ -23,7 +23,7 @@ $this->breadcrumbs = array('Fördertöpfe');
               <table id="datatable" ng-cloak ng-table="tableParams"
                      class="table dataTable table-hover table-bordered table-edit">
                 <tr ng-repeat="row in $data">
-                  <td data-title="'Fördertopf'" sortable="'finance_source_type'">{{row.finance_source_type}}</td>
+                  <td data-title="'Fördertopf'" sortable="'type_name'">{{row.type_name}}</td>
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
                   <td data-title="'Details'" sortable="'description'">{{row.description}}</td>
                   <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
@@ -61,7 +61,7 @@ $this->breadcrumbs = array('Fördertöpfe');
               <div spi-hint text="_hint.finance_source_type" class="has-hint"></div>
               <span ng-if="!canEdit() || modeView" ng-bind="sourceTypeName"></span>
               <div class="wrap-hint" ng-if="canEdit() && !modeView">
-                <ui-select ng-disabled="!$select.items.length" ng-model="finance.finance_source_type"
+                <ui-select ng-disabled="!$select.items.length || true" ng-model="finance.project_type_id"
                            name="finance_source_type" required>
                   <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                     {{$select.selected.name}}
