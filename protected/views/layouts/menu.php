@@ -2,7 +2,8 @@
 	<div class="container">
 		<ul class="nav navbar-nav">
 			<li ng-class="{'active': _m=='dashboard'}"><a href="/dashboard">Startseite</a></li>
-			<li><a href="/request-list.php">Anträge</a></li>
+			<!--<li><a href="/request-list.php">Anträge</a></li>-->
+      <li><a href="/requests">Anträge</a></li>
 			<li ng-class="{'active': ['finance_source'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 				<ul class="dropdown-menu">

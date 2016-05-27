@@ -11,7 +11,7 @@ $this->breadcrumbs = array('Anträge');
 		<div class="container center-block">
 			<div class="panel panel-default" ng-cloak>
 				<div class="panel-heading heading-noborder clearfix">
-					<h1 class="panel-title col-lg-6">Antrag 2017 (S026)</h1>
+					<h1 class="panel-title col-lg-6">Antrag {{requestYear}} ({{projectID}})</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 					</div>

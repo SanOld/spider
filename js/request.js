@@ -3,6 +3,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $rootScope._m = 'request';
   }
   $scope.requestID = Utils.getIdByPath();
+  $scope.projectID = '';
+  $scope.requestYear = '';
 
   var hash = $location.hash();
   if(hash && ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'].indexOf(hash) !== -1) {
@@ -12,15 +14,24 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $location.hash(name);
   };
 
+  $scope.setProjectID = function(projectID){
+    $scope.projectID = projectID;
+  };
+  $scope.setRequestYear = function(requestYear){
+    $scope.requestYear = requestYear;
+  };
+
 });
 
 spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert) {
-  //$scope.$parent.requestID
   $scope.filter = {id: $scope.$parent.requestID};
   $scope.isInsert = !$scope.$parent.requestID;
   network.get('Request', $scope.filter, function (result, response) {
     if (result) {
       $scope.data = response.result;
+
+      $scope.$parent.setProjectID($scope.data.code);
+      $scope.$parent.setRequestYear($scope.data.year);
 
       $scope.request = {
         id:                             response.result.id,
