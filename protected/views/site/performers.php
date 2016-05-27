@@ -38,7 +38,7 @@ $this->breadcrumbs = array('Träger');
 							<div class="col-lg-2" ng-if="canEdit()">
 								<div class="form-group">
 									<div class="form-group">
-										<label>Überprüft</label>
+										<label>Profil überprüft</label>
 										<ui-select ng-change="updateGrid()" class="" ng-model="filter.is_checked">
 											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
 											<ui-select-choices repeat="item.id as item in checks | filter: $select.search">
@@ -62,7 +62,7 @@ $this->breadcrumbs = array('Träger');
 									<td data-title="'Ansprechpartner(in)'" sortable="'representative_user'">{{row.representative_user}}</td>
 									<td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}">{{row.email}}</a></td>
 									<td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
-									<td ng-if="canEdit()" data-title="'Überprüft'" sortable="'is_checked'" class="text-center">
+									<td ng-if="canEdit()" data-title="'Profil'" sortable="'is_checked'" class="text-center">
 										<i ng-if="+row.is_checked" class="ion-checkmark"></i>
 										<span ng-if="!+row.is_checked">-</span>
 									</td>
