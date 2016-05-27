@@ -23,7 +23,7 @@ $this->breadcrumbs = array('Projekte');
 						<div class="col-lg-12">
 							<div class="row datafilter">
                                 <form action="#" class="class-form">
-                                    <div class="col-lg-{{canByType(['d','s','t'])?5:3}}">
+                                    <div class="col-lg-{{canByType(['d','s','t'])?5:3}} col-width-type">
                                         <div class="form-group">
                                             <label>Suche nach Kennziffer</label>
                                             <input ng-change="updateGrid()" ng-model="filter.code" type="search" class="form-control" placeholder="Stichwort eingegeben">

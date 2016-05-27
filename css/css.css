@@ -2663,3 +2663,6 @@ body.safari #finance .btn-group.btn-toggle .btn {
 .box-finance {
 	width:140px;
 }
+.edit-user .datafilter > div {
+	padding-right: 0;
+}
