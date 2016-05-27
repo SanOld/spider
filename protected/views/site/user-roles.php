@@ -88,13 +88,13 @@ $this->breadcrumbs = array('Benutzerrollen');
             </td>
             <td data-title="'Browser'" header-class="'text-center'" class="text-center">
               <label class="cr-styled">
-                <input type="checkbox" ng-model="user_right[$index].can_view" ng-init="user_right[$index].can_view = user_right[$index].code == 'dashboard' ? '1' : user_right[$index].can_view" ng-model="user_right[$index].can_view" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default || user_right[$index].code == 'dashboard'">
+                <input type="checkbox" ng-model="user_right[$index].can_view" ng-init="user_right[$index].can_view = user_right[$index].code == 'dashboard' ? '1' : user_right[$index].can_view" ng-model="user_right[$index].can_view" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="(default && !userIsSuperUser) || user_right[$index].code == 'dashboard'">
                 <i class="fa"></i>
               </label>
             </td>
             <td data-title="'Editieren'" header-class="'text-center'" class="text-center">
               <label class="cr-styled">
-                <input type="checkbox" ng-model="user_right[$index].can_edit" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="default">
+                <input type="checkbox" ng-model="user_right[$index].can_edit" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="(default && !userIsSuperUser)">
                 <i class="fa"></i>
               </label>
             </td>
