@@ -18,6 +18,7 @@ class Performer extends BaseModel {
     }
     $command -> where(' 1=1 ', array());
     $command = $this->setWhereByRole($command);
+    $command -> group('tbl.id');
     return $command;
   }
 
@@ -47,7 +48,7 @@ class Performer extends BaseModel {
         safe($params, 'KEYWORD'));
     if(safe($params, 'BANK_DETAILS')) {
       $command -> leftJoin('spi_bank_details bnd', 'tbl.id = bnd.performer_id');
-      $command -> group('tbl.id');
+//      $command -> group('tbl.id');
       $command = $this->setLikeWhere($command,
         array('bnd.contact_person', 'bnd.iban', 'bnd.bank_name', 'bnd.outer_id'),
         safe($params, 'BANK_DETAILS'));
