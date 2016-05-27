@@ -38,6 +38,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   network.get('request_status', {}, function (result, response) {
     if (result) {
       $scope.statuses = response.result;
+      $scope.status_finance='r';
     }
   });
 
