@@ -150,4 +150,29 @@ class Request extends BaseModel {
 
     return $result;
   }
+
+  protected function doBeforeUpdate($post, $id) {
+
+    if(isset($post['finance_plan'])) {
+      // ToDo: save data in property variable and save it data in method doAfterUpdate
+      unset($post['finance_plan']);
+    }
+
+    if(isset($post['school_concepts'])) {
+      // ToDo: save data in property variable and save it data in method doAfterUpdate
+      unset($post['school_concepts']);
+    }
+
+    if(isset($post['school_goals'])) {
+      // ToDo: save data in property variable and save it data in method doAfterUpdate
+      unset($post['school_goals']);
+    }
+
+    return array (
+      'result' => true,
+      'params' => $post,
+      'post' => $post
+    );
+
+  }
 }
