@@ -37,7 +37,7 @@
                       <input class="form-control" name="name" ng-model="performer.name" type="text" value="" required ng-disabled="!canEdit()">
                       <span ng-class="{hide: !fieldError('formPerformer', 'name')}" class="hide">
                         <label ng-show="formPerformer.name.$error.required" class="error">Kurzname ist erforderlich</label>
-                        <label ng-show="error.name.dublicate" class="error">This Kurzname already exists</label>
+                        <label ng-show="error.name.dublicate" class="error">Dieser Kurzname existiert bereits</label>
                         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                       </span>
                     </div>
