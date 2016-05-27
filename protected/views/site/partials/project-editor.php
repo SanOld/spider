@@ -70,7 +70,7 @@
           <div class="col-lg-10">
             <div spi-hint text="_hint.performer_id" class="has-hint"></div>
             <div class="wrap-hint">
-              <ui-select ng-disabled="!$select.items.length || project.is_old == 1" ng-model="project.performer_id"
+              <ui-select ng-disabled="!$select.items.length || project.is_old == 1 || !isInsert" ng-model="project.performer_id"
                          name="performer_id" required>
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
                   {{$select.selected.name}}
@@ -105,7 +105,7 @@
             <div spi-hint text="_hint.schools" class="has-hint"></div>
 
             <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length}">
-              <ui-select ng-disabled="project.is_old == 1 || !schools.length" multiple ng-model="project.schools"
+              <ui-select ng-disabled="project.is_old == 1 || !schools.length || !isInsert" multiple ng-model="project.schools"
                          name="schools">
                 <ui-select-match placeholder="{{placeholderFN($select.items)}}">
                   {{$item.name}}
