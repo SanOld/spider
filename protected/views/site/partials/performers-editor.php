@@ -154,7 +154,7 @@
                     <dt>Telefon</dt>
                     <dd ng-bind="(representativeUser.phone) || '-'"></dd>
                     <dt>Email</dt>
-                    <dd class="truncate-email"><span ng-bind="representativeUser.email || '-'"></span><i uib-tooltip="{{representativeUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i></dd>
+                    <dd class="truncate-email"><a href="mailto:{{representativeUser.email}}"><span ng-bind="representativeUser.email || '-'"></span></a><i uib-tooltip="{{representativeUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i></dd>
                   </dl>
                 </div>
               </div>
@@ -395,13 +395,13 @@
               <div class="col-lg-12">
                 <div class="row datafilter">
                   <form action="#" class="class-form">
-                    <div class="col-lg-{{canByType(['d','s','t'])?5:3}}">
+                    <div class="col-lg-{{canByType(['d','s','t'])?5:3}} col-width-type">
                       <div class="form-group">
                         <label>Suche nach Kennziffer</label>
                         <input ng-change="updateGrid()" ng-model="filter.code" type="search" class="form-control" placeholder="Stichwort eingegeben">
                       </div>
                     </div>
-                    <div class="col-lg-2 col-width-type">
+                    <div class="col-lg-2">
                       <div class="form-group">
                         <label>Typ</label>
 <!--                                            <select class="type-user form-control">
@@ -415,7 +415,7 @@
                         </ui-select>
                       </div>
                     </div>
-                    <div class="col-lg-2 col-width-type" ng-if="!canByType(['d'])">
+                    <div class="col-lg-2" ng-if="!canByType(['d'])">
                       <div class="form-group">
                         <label>Bezirk</label>
 <!--                                            <select class="type-user form-control">

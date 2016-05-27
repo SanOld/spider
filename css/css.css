@@ -2508,7 +2508,8 @@ body.safari .cr-styled input[type=radio] + i {
 tr.thead > td {
     border-right-width: 0 !important;
 }
-.truncate-email span {
+.truncate-email span,
+.truncate-email a {
 	width: 100px;
   	margin: 0 5px 0 0;
     white-space: nowrap;
@@ -2641,7 +2642,7 @@ body.safari #finance .btn-group.btn-toggle .btn {
 
 /*end 404 page */
 .holder-has-email .truncate-email span {
-	width: 115px;
+	width: 180px;
 }
 .wrap-title,
 .wrap-message {

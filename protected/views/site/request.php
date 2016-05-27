@@ -19,7 +19,7 @@ $this->breadcrumbs = array('Anträge');
 
 				<uib-tabset class="panel-body request-order-nav" active="tabActive">
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
-						<div class="tab-pane active" ng-controller="RequestProjectDataController">
+						<div id="project" class="tab-pane active" ng-controller="RequestProjectDataController">
 							<div class="panel-group panel-group-joined m-0">
 								<div class="panel panel-default">
 									<div class="panel-heading">
