@@ -120,6 +120,35 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
   };
 
+  $scope.addRequest = function() {
+    var ids = [1];
+    if (ids.length) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'setRequest.html',
+        controller: 'ModalRequestAddController',
+        size: 'custom-width-request-duration',
+        resolve: {
+          ids: function () {
+            return ids;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (data) {
+        network.patch('request', {ids: ids, start_date: Utils.getSqlDate(data.start_date), due_date: Utils.getSqlDate(data.due_date)}, function(result) {
+          if(result) {
+//            grid.reload();
+          }
+        });
+      });
+
+
+    }
+  };
+
+
+
 });
 
 
@@ -144,3 +173,30 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 });
 
 
+
+spi.controller('ModalRequestAddController', function ($scope, ids, $uibModalInstance, network) {
+
+    network.get('request', {list: 'project'}, function (result, response) {
+    if (result) {
+      $scope.projects = response.result;
+    }
+  });
+
+  network.get('project', {filter: '1'}, function (result, response) {
+    if (result) {
+      $scope.projects = response.result;
+      console.log($scope.projects);
+      console.log();
+    }
+  });
+
+
+  $scope.ok = function () {
+    $uibModalInstance.close($scope.form);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+});

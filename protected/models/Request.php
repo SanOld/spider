@@ -96,6 +96,10 @@ class Request extends BaseModel {
       if(!in_array(date("Y"), $result['result'])) {
         array_push($result['result'], (int)date("Y"));
       }
+    } else if((safe($_GET, 'list') == 'project')) {
+      foreach($result['result'] as &$row) {
+        $row = array ('id'=>$row['project_id'], 'code'=>$row['code']);
+      }
     } else {
       foreach($result['result'] as &$row) {
         $row['start_date_unix'] = strtotime($row['start_date']).'000';
