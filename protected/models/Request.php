@@ -12,6 +12,44 @@ class Request extends BaseModel {
   protected function getCommand() {
     if(safe($_GET, 'list') == 'year') {
       $command = Yii::app() -> db -> createCommand()->select('year')->from($this -> table)->group('year');
+    } elseif (isset($_GET['id'])){
+      $this -> select_all = "tbl.*
+                            , prj.id project_id
+                            , prj.code code
+
+                            , prf.id performer_id
+                            , prf.name performer_name
+                            , prf.address performer_address
+                            , prf.plz performer_plz
+                            , prf.city performer_city
+                            , prf.homepage performer_homepage
+                            , prf.phone performer_phone
+                            , prf.fax performer_fax
+                            , prf.email performer_email
+                            , prf_user.function performer_contact_function
+                            , CONCAT(prf_user.title, ' ' , prf_user.first_name, ' ', prf_user.last_name) performer_contact
+
+                            , dst.id district_id
+                            , dst.name district_name
+                            , dst.address district_address
+                            , dst.plz district_plz
+                            , dst.city district_city
+                            , dst.phone district_phone
+                            , dst.fax district_fax
+                            , dst.email district_email
+                            , dst.homepage district_homepage
+                            , CONCAT(user.title, ' ' , user.first_name, ' ', user.last_name) district_contact
+
+                            ";
+      $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
+      $command -> join( 'spi_request_status rqs',     'tbl.status_id           = rqs.id' );
+      $command -> join( 'spi_performer prf',          'tbl.performer_id        = prf.id' );
+      $command -> join( 'spi_user prf_user',          'prf_user.id             = prf.representative_user_id' );
+      $command -> join( 'spi_project prj',            'tbl.project_id          = prj.id' );
+      $command -> join( 'spi_district dst',           'dst.id                  = prj.district_id' );
+      $command -> join( 'spi_user user',              'user.id                 = dst.contact_id' );
+      $command -> where(' 1=1 ', array());
+
     } else {
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> join( 'spi_request_status rqs', 'tbl.status_id           = rqs.id' );
@@ -19,7 +57,10 @@ class Request extends BaseModel {
       $command -> join( 'spi_project prj',        'tbl.project_id          = prj.id' );
 //      $command -> join( 'spi_finance_source fns', 'prj.finance_programm_id = fns.id' );
       $command -> where(' 1=1 ', array());
+
     }
+
+//    print_r ($command->text);
 
     return $command;
   }
@@ -68,4 +109,22 @@ class Request extends BaseModel {
     return $result;
   }
 
+  protected function doAfterSelect($result) {
+    if (isset($_GET['id'])){
+      $row = $result['result'][0];
+
+      $row['schools'] = Yii::app() -> db -> createCommand()
+                                      -> select("sch.*
+                                                , CONCAT(user.title, ' ' , user.first_name, ' ', user.last_name) user_name
+                                                , user.function user_function")
+                                      -> from('spi_project_school prj_sch')
+                                      -> join( 'spi_school sch', 'prj_sch.school_id = sch.id' )
+                                      -> join( 'spi_user user', 'user.id = sch.contact_id' )
+                                      -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
+                                      -> queryAll();
+      $result['result'] =  $row;
+    }
+
+    return $result;
+  }
 }
