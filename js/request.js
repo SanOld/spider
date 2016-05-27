@@ -33,6 +33,21 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     });
   };
 
+  $scope.remove = function () {
+    Utils.doConfirm(function() {
+      network.delete('request/' + $scope.requestID, function (result) {
+        if (result) {
+          Utils.deleteSuccess();
+          history.back();
+        }
+      });
+    });
+  };
+
+  $scope.cancel = function () {
+    location.href = '/requests';
+  };
+
 });
 
 spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService) {
@@ -130,44 +145,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   };
 
   RequestService.getProjectData = function() {
-    return {test: 1};
-  };
-
-   $scope.submitRequest = function () {
-    $scope.error = false;
-    $scope.submited = true;
-//    $scope.form.formDocument.$setPristine();
-//    if ($scope.form.formDocument.$valid) {
-      var callback = function (result, response) {
-        if (result) {
-          SweetAlert.swal("Gelöscht!", "Ihre Datrei ist erfolgreich gelöscht!", "success");
-        } else {
-          $scope.error = getError(response.system_code);
-        }
-        $scope.submited = false;
-      };
-      if ($scope.isInsert) {
-        network.post('Request', $scope.request, callback);
-      } else {
-        console.log($scope.request);
-        network.put('Request/' + $scope.request.id, $scope.request, callback);
-      }
-//    }
-  };
-
-  $scope.remove = function () {
-    Utils.doConfirm(function() {
-      network.delete('request/' + $scope.request.id, function (result) {
-        if (result) {
-          Utils.deleteSuccess();
-          history.back();
-        }
-      });
-    });
-  };
-
-  $scope.cancel = function () {
-    history.back();
+    return $scope.request;
   };
 
 });
