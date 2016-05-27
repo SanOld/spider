@@ -40,13 +40,13 @@ $this->breadcrumbs = array('Benutzerliste');
 											</ui-select>
 										</div>
 									</div>
-									<div class="col-lg-{{canByType(['a'])?4:6}} add">
+									<div class="col-lg-{{canByType(['a','p'])?4:6}} add">
 										<div class="form-group">
 											<label>Suche nach Akteur</label>
 											<input ng-change="updateGrid()" type="text" ng-model="filter.relation_name" placeholder="Stichwort eingeben" class="search-relation form-control">
 										</div>
 									</div>
-									<div class="col-lg-2" ng-if="canByType(['a'])">
+									<div class="col-lg-2" ng-if="canByType(['a','p'])">
 										<div class="form-group">
 											<label>Status</label>
 											<ui-select ng-change="updateGrid()" ng-model="filter.is_active">
