@@ -47,6 +47,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
     };
 
     $scope.openEdit = function (row, modeView) {
+      console.log(row);
         grid.openEditor({
           data: row,
           hint: $scope._hint,

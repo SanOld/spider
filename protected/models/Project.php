@@ -30,6 +30,9 @@ class Project extends BaseModel {
     if (isset($params['PERFORMER_ID'])) {
       $command -> andWhere("tbl.performer_id = :performer_id", array(':performer_id' => $params['PERFORMER_ID']));
     }
+    if (isset($params['ID'])) {
+      $command -> andWhere("tbl.id = :id", array(':id' => $params['ID']));
+    }
     if (safe($params, 'SCHOOL_ID')) {
         $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
