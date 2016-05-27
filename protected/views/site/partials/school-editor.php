@@ -51,8 +51,7 @@
                               </ui-select-choices>
                             </ui-select>
                             <span ng-class="{hide: !fieldError('district_id')}" class="hide">
-                              <label ng-show="form.formSchool.district_id.$error.required" class="error">Bezirk is
-                                required</label>
+                              <label ng-show="form.formSchool.district_id.$error.required" class="error">Bezirk ist erforderlich</label>
                             </span>
                           </div>
                         </div>
@@ -96,8 +95,7 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('number')}">
                             <input name="number" ng-model="school.number" class="form-control" type="text" value="" required  ng-disabled="!canEdit()">
                             <span ng-class="{hide: !fieldError('number')}" class="hide">
-                              <label ng-show="form.formSchool.number.$error.required" class="error">Schul-Nr. is
-                                required</label>
+                              <label ng-show="form.formSchool.number.$error.required" class="error">Schul-Nr. ist erforderlich</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -121,8 +119,7 @@
                               </ui-select-choices>
                             </ui-select>
                             <span ng-class="{hide: !fieldError('type_id')}" class="hide">
-                              <label ng-show="form.formSchool.type_id.$error.required" class="error">Schultyp is
-                                required</label>
+                              <label ng-show="form.formSchool.type_id.$error.required" class="error">Schultyp ist erforderlich</label>
                             </span>
                           </div>
                         </div>
@@ -135,7 +132,7 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
                             <input name="phone" ng-model="school.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-class="{hide: !fieldError('phone')}" class="hide">
-                              <label ng-show="form.formSchool.phone.$error.pattern" class="error">Telefon must not contain letters</label>
+                              <label ng-show="form.formSchool.phone.$error.pattern" class="error">Telefon darf keine Buchstaben enthalten</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -149,7 +146,7 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('fax')}">
                             <input name="fax" ng-model="school.fax" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-class="{hide: !fieldError('fax')}" class="hide">
-                              <label ng-show="form.formSchool.fax.$error.pattern" class="error">Fax must not contain letters</label>
+                              <label ng-show="form.formSchool.fax.$error.pattern" class="error">Fax darf keine Buchstaben enthalten</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -163,7 +160,7 @@
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                             <input name="email" ng-model="school.email" type="email" value="" class="form-control">
                             <span ng-class="{hide: !fieldError('email')}" class="hide">
-                              <label ng-show="form.formSchool.email.$error.email" class="error">Geben Sie eine gültige E-Mail</label>
+                              <label ng-show="form.formSchool.email.$error.email" class="error">Bitte geben Sie eine gültige E-Mail Adresse ein</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -179,7 +176,7 @@
                                    ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/"
                                    class="form-control">
                             <span ng-class="{hide: !fieldError('homepage')}" class="hide">
-                              <label ng-show="form.formSchool.homepage.$error.pattern" class="error">Geben Sie eine gültige Website</label>
+                              <label ng-show="form.formSchool.homepage.$error.pattern" class="error">Bitte geben Sie eine gültige Website ein</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
