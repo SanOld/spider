@@ -862,6 +862,9 @@ body .nav.nav-tabs + .tab-content {
 .notice .decline-row {
 	background: #dedede;
 }
+.notice .decline-row-red {
+	background: #d63535;
+}
 .request-edit tr.decline-row,
 .finacing-edit tr.decline-row {
 	background:#e7e7e7;
