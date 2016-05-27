@@ -188,12 +188,11 @@ $this->breadcrumbs = array('Anträge');
 											</div>
 
 										</div>
-										<h3 class="panel-title">
-											Ansprechpersonen für Rückfragen zum Request
-										</h3>
-										<hr/>
-										<div class="row m-b-30 row-holder-dl">
+										<div class="row holder-three-blocks m-b-30">
 											<div class="col-lg-4">
+												<h4 class="panel-title m-b-10">
+													Ansprechpersonen für Rückfragen zum Request
+												</h4>
 												<div class="form-group">
 													<ui-select   on-select="onSelectCallback($item, $model, 1)" class="type-document" ng-model="request.request_user_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
@@ -221,14 +220,11 @@ $this->breadcrumbs = array('Anträge');
 													</ng-show>
 												</dl>
 											</div>
-										</div>
-
-										<h3 class="panel-title">
-											Ansprechpersonen für Rückfragen zum Konzept
-										</h3>
-										<hr/>
-										<div class="row m-b-30 row-holder-dl">
+											
 											<div class="col-lg-4">
+												<h4 class="panel-title m-b-10">
+													Ansprechpersonen für Rückfragen zum Konzept
+												</h4>
 												<div class="form-group">
 													<ui-select   on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
@@ -256,14 +252,11 @@ $this->breadcrumbs = array('Anträge');
 													</ng-show>
 												</dl>
 											</div>
-										</div>
-
-										<h3 class="panel-title">
-											Ansprechpersonen für Rückfragen zum Finance
-										</h3>
-										<hr/>
-										<div class="row m-b-30 row-holder-dl">
+											
 											<div class="col-lg-4">
+												<h4 class="panel-title m-b-10">
+													Ansprechpersonen für Rückfragen zum Finance
+												</h4>
 												<div class="form-group">
 													<ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="request.finance_user_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
