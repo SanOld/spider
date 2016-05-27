@@ -2604,6 +2604,10 @@ body.safari #finance .btn-group.btn-toggle .btn {
     min-height: 430px;
     font-size:17px;
 }
+.school-td {
+  width: 100%;
+  display: inline-block;
+}
 
 /*404 page */
 
