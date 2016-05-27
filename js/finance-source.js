@@ -42,18 +42,18 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
 
     if(!$scope.isInsert) {
         $scope.finance = {
-            finance_source_type: data.finance_source_type,
+            project_type_id: data.project_type_id,
             programm: data.programm,
             description: data.description
         };
-        $scope.sourceTypeName = Utils.getRowById($scope.types, data.finance_source_type, 'name');
         getFinances();
     }
-
+//
     function getFinances() {
         network.get('finance_source', {is_active: 1}, function(result, response){
             if(result) {
                 $scope.finances = response.result;
+                $scope.sourceTypeName = Utils.getRowById($scope.finances, data.project_type_id, 'name');
             }
         });
     }

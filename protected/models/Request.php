@@ -104,6 +104,27 @@ class Request extends BaseModel {
     return $result;
   }
 
+  protected function doAfterInsert($result, $params, $post) {
+    if($result['code'] == '200' && safe($result, 'id')) {
+      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+      $school_ids = Yii::app() -> db -> createCommand()
+        -> select('prs.school_id')
+        -> from('spi_project_school prs')
+        -> join('spi_request req', 'req.project_id = prs.project_id')
+        -> where('req.id=:id', array(':id' => $result['id']))
+        -> queryColumn();
+
+      foreach($school_ids as $school_id) {
+        $data = array(
+          'request_id' => $result['id'],
+          'school_id'  => $school_id,
+        );
+        $RequestSchoolConcept->insert($data);
+      }
+    }
+    return $result;
+  }
+
   protected function doAfterUpdate($result, $params, $post, $id) {
     Yii::app()->db->createCommand()->update($this->table, array('last_change' => date("Y-m-d", time())), 'id=:id', array(':id' => $id ));
     return $result;

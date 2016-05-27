@@ -14,3 +14,8 @@ INSERT INTO `spi_user_type_right` (`type_id`, `page_id`, `can_show`, `can_view`,
 
 INSERT INTO `spi_page` (`code`, `name`, `is_real_page`, `is_system`) VALUES ('project_type', 'Project types', '0', '0');
 
+truncate table spi_finance_source;
+
+INSERT INTO `spi_finance_source` (`id`, `project_type_id`, `programm`) VALUES ('1', '1', ' ');
+INSERT INTO `spi_finance_source` (`id`, `project_type_id`, `programm`) VALUES ('2', '2', ' ');
+INSERT INTO `spi_finance_source` (`id`, `project_type_id`, `programm`) VALUES ('3', '3', ' ');

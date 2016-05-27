@@ -475,14 +475,6 @@ $this->breadcrumbs = array('Anträge');
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<!-- <div class="col-lg-5 calculate m-b-30 p-r-0 pull-right">
-										<label class="col-lg-8 control-label text-right ">Recalculation</label>
-										<div class="btn-group btn-toggle col-lg-4 control-label">
-											<button class="btn btn-sm btn-default">JA</button>
-											<button class="btn btn-sm active">NEIN</button>
-										</div>
-									</div>
 									-->
 								</div>
 								<div class="row m-b-15 m-t-30">
@@ -1552,152 +1544,58 @@ $this->breadcrumbs = array('Anträge');
 												Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 											</p>
 										</div>
-										<div class="alert alert-warning">
-											<strong class="status-history">Bereit zu überprüfen</strong>
-											<span class="check-history">Überpüft von Mustermann 13.12.2015</span>
-										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-003" class="collapsed">
-										Schule am Rathaus (ISS) (11K06)
-										<span class="notice">
-											<span class="color-notice open"></span>
-										</span>
-									</a>
-								</h4>
-							</div>
-							<div id="collapse-003" class="panel-collapse collapse">
-								<div class="panel-body"></div>
-							</div>
-						</div>
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-004" class="collapsed">Theodor-Haubach-Schule (ISS) (07K04)</a>
-								</h4>
-							</div>
-							<div id="collapse-004" class="panel-collapse collapse">
-								<div class="panel-body"></div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group group-btn clearfix col-lg-12">
-						<div class="col-lg-8 text-left">
-							<button class="btn w-lg btn-info btn-lg">
-								<i class="fa fa-rotate-left"></i>
-								<span>Neu eröffnen</span>
-							</button>
-							<button class="btn w-lg btn-info btn-lg">Förderfähig</button>
-							<button class="btn w-lg btn-info btn-lg">Genehmigt</button>
-						</div>
-						<div class="col-lg-4 text-right">
-							<button class="btn w-lg cancel-btn btn-lg">Abbrechen</button>
-							<button class="btn w-lg custom-btn btn-lg">Speichern</button>
-						</div>
-					</div>
-				</div>
-			</uib-tab>
-			<uib-tab class="schools-goals" index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
-				<div class="tab-pane" ng-controller="RequestSchoolGoalController">
-					<div class="panel-group panel-group-joined" id="accordion-order">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-1" class="collapsed">Pusteblume-Grundschule (10G18)</a>
-								</h4>
-							</div>
-							<div id="collapse-1" class="panel-collapse collapse">
-								<div class="panel-body">
-									<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
-								</div>
-							</div>
-						</div>
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-2" class="collapse">
-										Posteblume-Grundshule (10G18)
-										<span class="notice">
-											<span class="color-notice inprogress-row"></span>
-										</span>
-									</a>
-								</h4>
-							</div>
-							<div id="collapse-2" class="panel-collapse collapse in">
-								<div class="panel-body">
-									<div class="tabs-vertical-env">
-										<ul class="nav tabs-vertical">
-											<li class="active">
-												<a aria-expanded="true" data-toggle="tab" href="#goal-1">Entwicklungsziel 1</a>
-											</li>
-											<li>
-												<a aria-expanded="false" data-toggle="tab" href="#goal-2">Entwicklungsziel 2</a>
-											</li>
-											<li>
-												<a aria-expanded="false" data-toggle="tab" href="#goal-3">Entwicklungsziel 3</a>
-											</li>
-											<li class="optional">
-												<a aria-expanded="false" data-toggle="tab" href="#goal-4">
-													Entwicklungsziel 4
-													<span>(optional)</span>
-												</a>
-											</li>
-											<li class="optional">
-												<a aria-expanded="false" data-toggle="tab" href="#goal-5">
-													Entwicklungsziel 5
-													<span>(optional)</span>
-												</a>
-											</li>
-										</ul>
-
-										<div class="tab-content">
-											<div id="goal-1" class="tab-pane active">
-												<div class="alert alert-warning">
-													<strong>Bereit zu überprüfen</strong>
+					</uib-tab>
+					<uib-tab class="concepts" index="'school-concepts'" select="setTab('school-concepts')" heading="Konzept">
+						<div class="tab-pane" ng-controller="RequestSchoolConceptController">
+							<div class="panel-group panel-group-joined" id="accordion-concepts">
+								<div class="panel panel-default" ng-repeat="schoolConcept in schoolConcepts">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-{{::schoolConcept.id}}" class="collapse collapsed">
+												{{::schoolConcept.name}} ({{::schoolConcept.number}})
+												<span class="notice">
+													<span ng-class="{'open': !schoolConcept.status, 'inprogress-row': schoolConcept.status == 'r', 'decline-row-red': schoolConcept.status == 'd', 'acceptable-row': schoolConcept.status == 'a'}" class="color-notice"></span>
+												</span>
+												<div class="btn-group btn-toggle pull-right tabs-toggle">
+													<button data-tab="tab-data-{{::schoolConcept.id}}" class="btn btn-sm active">DATEN</button>
+													<button data-tab="tab-history-{{::schoolConcept.id}}" class="btn btn-sm btn-default">VERLAUF</button>
 												</div>
-												<h4>Entwicklungsziel 1</h4>
-												<textarea class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
-												<h4>Angebote für Schüler/innen und Eltern</h4>
-												<div class="holder-radio">
-													<div class="p-0 text-center">
-														<div class="row">
-															<span class="col-lg-2">Schwerpunktziel</span>
-															<span class="col-lg-1">Weiteres Ziel</span>
-															<span class="col-lg-1">kein Ziel</span>
+											</a>
+										</h4>
+									</div>
+									<div id="collapse-{{::schoolConcept.id}}" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
+												<div class="alert alert-danger" ng-if="schoolConcept.status == 'd' && schoolConcept.comment" ng-bind="schoolConcept.comment"></div>
+												<ng-form>
+													<div class="form-group">
+														<label>Situation an der Schule</label>
+														<div spi-hint text="_hint.school_concept_situation" class="has-hint"></div>
+														<div class="wrap-hint">
+															<textarea ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].situation" placeholder="Tragen Sie den Text hier ein"></textarea>
 														</div>
-														<div class="row">
-															<div class="label-holder col-lg-2">
-																<label class="cr-styled">
-																	<input type="radio" value="option1" name="example-radios1">
-																	<i class="fa"></i>
-																</label>
-															</div>
-															<div class="label-holder col-lg-1">
-																<label class="cr-styled">
-																	<input type="radio" value="option1" name="example-radios1">
-																	<i class="fa"></i>
-																</label>
-															</div>
-															<div class="label-holder col-lg-1">
-																<label class="cr-styled">
-																	<input type="radio" value="option1" name="example-radios1" checked="">
-																	<i class="fa"></i>
-																</label>
-															</div>
-															<p class="col-lg-8">Verbesserung der (vorberuflichen) Handlungskompetenzen</p>
+													</div>
+													<div class="form-group">
+														<label>Angebote der Jugendsozialarbeit an der Schule</label>
+														<div spi-hint text="_hint.school_concept_offers_youth_social_work" class="has-hint"></div>
+														<div class="wrap-hint">
+															<textarea ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].offers_youth_social_work" placeholder="Tragen Sie den Text hier ein"></textarea>
 														</div>
-
-														<div class="row">
-															<div class="label-holder col-lg-2">
-																<label class="cr-styled">
-																	<input type="radio" value="option1" name="example-radios2">
-																	<i class="fa"></i>
-																</label>
+													</div>
+													<hr />
+													<div class="row">
+														<div class="col-lg-10">
+															<h4 class="m-t-0">Prüfnotiz</h4>
+															<textarea ng-init="school_concept[schoolConcept.id].comment = schoolConcept.comment" placeholder="Tragen Sie den Text hier ein" ng-model="school_concept[schoolConcept.id].comment" class="form-control comments"></textarea>
+														</div>
+														<div class="col-lg-2" ng-if="canEdit('request_school_concept')">
+															<div class="m-t-30 text-right pull-right">
+																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id, 'accept')">AKZEPTIEREN</button>
+																<button ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id, 'declare')" class="btn w-lg btn-lg btn-danger disabled">ABLEHNEN</button>
 															</div>
 															<div class="label-holder col-lg-1">
 																<label class="cr-styled">
@@ -1715,13 +1613,33 @@ $this->breadcrumbs = array('Anträge');
 																Verbesserung aller Übergänge in Schule (Kita-GS-Sek I-Sek II) und in Ausbildung
 															</p>
 														</div>
-
-														<div class="row">
-															<div class="label-holder col-lg-2">
-																<label class="cr-styled">
-																	<input type="radio" value="option1" name="example-radios3">
-																	<i class="fa"></i>
-																</label>
+														<div class="col-lg-2" ng-if="!canEdit('request_school_concept')">
+															<div class="m-t-30 text-right pull-right">
+																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id 'submit')">SUBMIT</button>
+															</div>
+														</div>
+													</div>
+												</ng-form>
+											</div>
+											<div id="tab-history-{{::schoolConcept.id}}" class="block-concept">
+												<div class="alert alert-success">
+													<strong class="status-history">Genehmigt</strong>
+													<span class="check-history">Überpüft von Mustermann 15.12.2015</span>
+												</div>
+												<div class="alert alert-warning">
+													<strong class="status-history">Bereit zu überprüfen</strong>
+													<span class="check-history">Überpüft von Mustermann 13.12.2015</span>
+												</div>
+												<div class="changes-content">
+													<div class="heading-changes">
+														Inhaltsveränderungen
+														<i class="ion-chevron-down arrow-box"></i>
+													</div>
+													<div class="content-changes">
+														<div class="thead">
+															<div class="col-lg-4">
+																<strong>Veränderungen</strong>
+																<span>Bearbeitet von Mustermann am 11.12.2015</span>
 															</div>
 															<div class="label-holder col-lg-1">
 																<label class="cr-styled">
@@ -1875,13 +1793,75 @@ $this->breadcrumbs = array('Anträge');
 														</div>
 													</div>
 												</div>
-												<h4 class="m-t-40">Interne / Externe Vernetzung</h4>
-												<div class="holder-radio">
-													<div class="p-0 text-center">
-														<div class="row">
-															<span class="col-lg-2">Schwerpunktziel</span>
-															<span class="col-lg-1">Weiteres Ziel</span>
-															<span class="col-lg-1">kein Ziel</span>
+												<div class="alert alert-danger">
+													<strong class="status-history">Ablehnen</strong>
+													<span class="check-history">Überpüft von Mustermann 13.12.2015</span>
+													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+												</div>
+												<div class="alert alert-warning">
+													<strong class="status-history">Bereit zu überprüfen</strong>
+													<span class="check-history">Überpüft von Mustermann 13.12.2015</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab class="schools-goals" index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
+						<div class="tab-pane" ng-controller="RequestSchoolGoalController">
+							<div class="panel-group panel-group-joined" id="accordion-order">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-1" class="collapsed">
+												Pusteblume-Grundschule (10G18)
+											</a>
+										</h4>
+									</div>
+									<div id="collapse-1" class="panel-collapse collapse">
+										<div class="panel-body">
+											<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-2" class="collapse">
+												Posteblume-Grundshule (10G18)
+															<span class="notice">
+																<span class="color-notice inprogress-row"></span>
+															</span>
+											</a>
+										</h4>
+									</div>
+									<div id="collapse-2" class="panel-collapse collapse in">
+										<div class="panel-body">
+											<div class="tabs-vertical-env">
+												<ul class="nav tabs-vertical">
+													<li class="active">
+														<a aria-expanded="true" data-toggle="tab" href="#goal-1">Entwicklungsziel 1</a>
+													</li>
+													<li>
+														<a aria-expanded="false" data-toggle="tab" href="#goal-2">Entwicklungsziel 2</a>
+													</li>
+													<li>
+														<a aria-expanded="false" data-toggle="tab" href="#goal-3">Entwicklungsziel 3</a>
+													</li>
+													<li class="optional">
+														<a aria-expanded="false" data-toggle="tab" href="#goal-4">Entwicklungsziel 4 <span>(optional)</span></a>
+													</li>
+													<li class="optional">
+														<a aria-expanded="false" data-toggle="tab" href="#goal-5">Entwicklungsziel 5 <span>(optional)</span></a>
+													</li>
+												</ul>
+
+												<div class="tab-content">
+													<div id="goal-1" class="tab-pane active">
+														<div class="alert alert-warning">
+															<strong>Bereit zu überprüfen</strong>
 														</div>
 														<div class="row">
 															<div class="label-holder col-lg-2">
@@ -2114,18 +2094,6 @@ $this->breadcrumbs = array('Anträge');
 								</div>
 							</div>
 						</div>
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-5" class="collapsed">Theodor-Haubach-Schule (ISS) (07K04)</a>
-								</h4>
-							</div>
-							<div id="collapse-5" class="panel-collapse collapse">
-								<div class="panel-body">
-									<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
-								</div>
-							</div>
-						</div>
 					</div>
 					<div class="form-group group-btn clearfix col-lg-12">
 						<div class="col-lg-8 text-left">
@@ -2144,6 +2112,22 @@ $this->breadcrumbs = array('Anträge');
 				</div>
 			</uib-tab>
 		</uib-tabset>
+				<br>
+				<div class="form-group group-btn row">
+					<div class="col-lg-8 text-left">
+						<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+						<button class="btn w-lg btn-info btn-lg">
+							<i class="fa fa-rotate-left"></i>
+							<span>Neu eröffnen</span>
+						</button>
+						<button class="btn w-lg btn-info btn-lg">Förderfähig</button>
+						<button class="btn w-lg btn-info btn-lg">Genehmigt</button>
+					</div>
+					<div class="col-lg-4 text-right">
+						<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
+						<button class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()">Speichern</button>
+					</div>
+				</div>
 
 	</div>
 </div>
