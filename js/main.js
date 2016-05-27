@@ -1,22 +1,24 @@
 spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService, $timeout) {
   $scope._r = localStorageService.get('rights');
+  console.log($scope._r);
 
-  $scope.canShow = function (model) {
-    model = model || $rootScope._m;
-    return !model || !$scope._r[model] ? 1 : $scope._r[model].show;
-  };
   $scope.canByType = function (types) {
     return types.indexOf($scope.user.type) != -1;
   };
 
+  $scope.canShow = function (model) {
+    model = model || $rootScope._m;
+    return model && $scope._r[model] && $scope._r[model].show;
+  };
+
   $rootScope.canView = function (model) {
     model = model || $rootScope._m;
-    return !model || !$scope._r[model] ? 1 : $scope._r[model].view;
+    return model && $scope._r[model] && $scope._r[model].view;
   };
 
   $rootScope.canEdit = function (model) {
     model = model || $rootScope._m;
-    return !model || !$scope._r[model] ? 1 : $scope._r[model].edit;
+    return model && $scope._r[model] && $scope._r[model].edit;
   };
 
   $timeout(function() {
