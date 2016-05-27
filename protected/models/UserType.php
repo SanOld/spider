@@ -170,20 +170,28 @@ class UserType extends BaseModel {
   }
 
   protected function doAfterUpdate($result, $params, $post, $id) {
-    if(safe($post, 'rights') && $result['code'] == '200' && !$this->isDefaultType($id)) {
+//    print_r($post['rights']);
+//    echo(safe($post, 'rights') && $result['code'] == '200' && (!$this->isDefaultType($id) || $this->user['is_super_user']));
+    if(safe($post, 'rights') && $result['code'] == '200' && (!$this->isDefaultType($id) || $this->user['is_super_user'])) {
       foreach($post['rights'] as $right) {
         if(!safe($right, 'id')) {
-          continue;
+          Yii::app ()->db->createCommand()->insert('spi_user_type_right', array(
+            'type_id'  => $id,
+            'page_id'  => $right['page_id'],
+            'can_view' => $right['can_view'],
+            'can_edit' => $right['can_edit'],
+            'can_show' => $right['can_show'],
+          ));
+        } else {
+          Yii::app ()->db->createCommand()->update('spi_user_type_right', array(
+            'can_view' => $right['can_view'],
+            'can_edit' => $right['can_edit'],
+            'can_show' => $right['can_show'],
+          ), 'id=:id', array (':id' => $right['id']));
         }
-        print_r($right);
-        Yii::app ()->db->createCommand()->update('spi_user_type_right', array(
-          'can_view' => $right['can_view'],
-          'can_edit' => $right['can_edit'],
-          'can_show' => $right['can_show'],
-        ), 'id=:id', array (':id' => $right['id']));
       }
     }
-    die;
+//    die;
     return $result;
   }
 
