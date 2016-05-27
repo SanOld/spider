@@ -92,11 +92,16 @@ class BaseModel extends CFormModel {
     return $result;
   }
   protected function getCountRes($command) {
-    $command->select('COUNT(*)')
+    $summ = 0;
+    $command->select('COUNT(*) cnt')
       ->order('')
       ->limit('-1')
       ->offset('');
-    return $command->queryScalar();
+    $res = $command->queryAll();
+    foreach($res as $elem) {
+      $summ += $elem['cnt'];
+    }
+    return $summ;
 
   }
   protected function doAfterSelect($result) {
