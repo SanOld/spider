@@ -1,4 +1,4 @@
-spi.controller('UserRolesController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('UserRolesController', function ($scope, $rootScope, network, GridService) {
   $rootScope._m = 'user_type';
   var grid = GridService();
   $scope.tableParams = grid('user_type', $scope.filter, {sorting: {name: 'asc'}});
@@ -18,10 +18,6 @@ spi.controller('UserRolesController', function ($scope, $rootScope, network, Gri
     });
   };
 
-  HintService('user_type', function (result) {
-    $scope._hint = result;
-  });
-
   function getTypes() {
     network.get('user_type', {}, function (result, response) {
       if (result) {
@@ -37,6 +33,8 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, mo
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.modeView = modeView;
+  $scope.userIsSuperUser = network.userIsSuperUser;
+  $scope.network = network;
 
   if (!$scope.isInsert) {
     $scope.userTypeId = data.id;
@@ -90,7 +88,7 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, mo
         }
         $scope.submited = false;
       };
-      if (!$scope.default) {
+      if (!$scope.default || network.userIsSuperUser) {
         $scope.user_type.rights = $scope.user_right;
       }
       if ($scope.isInsert) {

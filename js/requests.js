@@ -1,4 +1,4 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, GridService, HintService, Utils, SweetAlert, $uibModal) {
+spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
@@ -39,10 +39,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     if (result) {
       $scope.statuses = response.result;
     }
-  });
-
-  HintService('request', function (result) {
-    $scope._hint = result;
   });
 
   var grid = GridService();

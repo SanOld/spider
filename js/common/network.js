@@ -13,6 +13,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     $network.userIsSCHOOL   = $network.user.type_id == 4;
     $network.userIsDISTRICT = $network.user.type_id == 5;
     $network.userIsSENAT    = $network.user.type_id == 6;
+    $network.userIsSuperUser = $network.user.is_super_user == 1;
   }
 
   $network.onLogin = function () {

@@ -1,4 +1,4 @@
-spi.controller('FinanceSourceController', function($scope, $rootScope, network, GridService, HintService) {
+spi.controller('FinanceSourceController', function($scope, $rootScope, network, GridService) {
     $rootScope._m = 'finance_source';
     $scope.filter = {};
 
@@ -8,11 +8,7 @@ spi.controller('FinanceSourceController', function($scope, $rootScope, network, 
     $scope.updateGrid = function() {
         grid.reload();
     };
-
-    HintService('finance_source', function(result) {
-         $scope._hint = result;
-    });
-
+    
     $scope.resetFilter = function() {
         $scope.filter = grid.resetFilter();
     };

@@ -1,4 +1,4 @@
-spi.controller('EmailTemplatesController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('EmailTemplatesController', function ($scope, $rootScope, network, GridService) {
   $rootScope._m = 'email_templates';
   $scope.filter = {};
 
@@ -9,17 +9,11 @@ spi.controller('EmailTemplatesController', function ($scope, $rootScope, network
     grid.reload();
   };
 
-  HintService('email_templates', function (result) {
-    $scope._hint = result;
-  });
-
 //  network.get('DocumentTemplateType', {filter: 1}, function (result, response) {
 //    if (result) {
 //      $scope.documentTypes = response.result;
 //    }
 //  });
-
-
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();

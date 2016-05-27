@@ -1,4 +1,4 @@
-spi.controller('UserController', function ($scope, $rootScope, network, GridService, HintService, Utils) {
+spi.controller('UserController', function ($scope, $rootScope, network, GridService, Utils) {
   if (!$rootScope._m) {
     $rootScope._m = 'user';
   }
@@ -30,10 +30,6 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
         rowTA.id += '_0'
       }
     }
-  });
-
-  HintService('user', function (result) {
-    $scope._hint = result;
   });
 
   var grid = GridService();

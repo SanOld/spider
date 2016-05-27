@@ -1,4 +1,4 @@
-spi.controller('AuditController', function ($scope, $rootScope, network, GridService, HintService) {
+spi.controller('AuditController', function ($scope, $rootScope, network, GridService) {
   $rootScope._m = 'audit';
   $scope.filter = {};
   $scope.customData = [];
@@ -49,10 +49,7 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
 //      }
 //    });
 //  };
-
-  HintService('audit', function (result) {
-    $scope._hint = result;
-  });
+  
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();
