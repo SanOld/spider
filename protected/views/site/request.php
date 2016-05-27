@@ -26,9 +26,9 @@ $this->breadcrumbs = array('Anträge');
 										<div class="row">
 											<div class="col-lg-8 heading-title">
 												<h2 class="panel-title">
-													Projekt <strong>S026</strong>
+													Projekt <strong>{{data.code}}</strong>
 												</h2>
-												<p>Gesellschaft für Sport und Jugendsozialarbeit gGmbH (GSJ)</p>
+<!--												<p>Gesellschaft für Sport und Jugendsozialarbeit gGmbH (GSJ)</p>-->
 											</div>
 											<div class="col-lg-4">
 												<div class="heading-date">
@@ -37,12 +37,12 @@ $this->breadcrumbs = array('Anträge');
 														<i class="fa fa-calendar"></i>
 														<dl>
 															<dt>Beginn:</dt>
-															<dd>01.01.2015</dd>
+															<dd>{{request.start_date}}</dd>
 															<dt>Ende:</dt>
-															<dd>31.12.2015</dd>
+															<dd>{{request.due_date}}</dd>
 														</dl>
 														<div class="btn-row">
-															<button class="btn m-t-5" data-target="#modal-3" data-toggle="modal">Dauer ändern</button>
+															<button class="btn m-t-5" ng-click="setBulkDuration()">Dauer ändern</button>
 														</div>
 													</div>
 												</div>
@@ -55,252 +55,296 @@ $this->breadcrumbs = array('Anträge');
 											<div class="col-lg-12">
 												<h3 class="panel-title">
 													Träger
-                                                                <span class="btn-row m-l-15">
-                                                                  <a class="btn" href="performers#id=2" target="_blank" >Überprüft</a>
-                                                                </span>
+                          <span class="btn-row m-l-15">
+                            <a class="btn" href="performers#id={{data.performer_id}}" target="_blank" >Überprüft</a>
+                          </span>
 												</h3>
 												<hr/>
-												<strong>Gesellschaft für Sport und Jugendsozialarbeit gGmbH (GSJ) (bis 2008: Verein für Sport und Jugendsozialarbeit e.V.)</strong>
+                        <ng-show ng-show="data.performer_id">
+												<strong>{{data.performer_name}}</strong>
 												<div class="row m-t-20 m-b-30 row-holder-dl">
 													<div class="col-lg-12 m-b-10">
 														<dl class="custom-dl">
-															<dt>Ansprechpartner(in):</dt>
-															<dd>Mr Frank Kiepert-Petersen</dd>
-															<dt>Funktion:</dt>
-															<dd>Manager</dd>
+                              <ng-show ng-show="data.performer_contact">
+                                <dt>Ansprechpartner(in):</dt>
+                                <dd>{{data.performer_contact}}</dd>
+                              </ng-show>
+                              <ng-show ng-show="data.performer_contact_function">
+                                <dt>Funktion:</dt>
+                                <dd>{{data.performer_contact_function}}</dd>
+                              </ng-show>
 														</dl>
 													</div>
 													<div class="col-lg-6">
 														<dl class="custom-dl">
-															<dt>Adresse:</dt>
-															<dd>Hanns-Braun-Str./Friesenhaus II, 14053</dd>
-															<dt>PLZ:</dt>
-															<dd>14053</dd>
-															<dt>Stadt:</dt>
-															<dd>Berlin</dd>
-															<dt>Webseite:</dt>
-															<dd><a target="_blank" href="http://www.gsj-berlin.de">www.gsj-berlin.de</a></dd>
+                              <ng-show ng-show="data.performer_address">
+                                <dt>Adresse:</dt>
+                                <dd>{{data.performer_address}}</dd>
+                              </ng-show>
+                              <ng-show ng-show="data.performer_plz">
+                                <dt>PLZ:</dt>
+                                <dd>{{data.performer_plz}}</dd>
+                              </ng-show>
+                              <ng-show ng-show="data.performer_city">
+                                <dt>Stadt:</dt>
+                                <dd>{{data.performer_city}}</dd>
+                              </ng-show>
+                              <ng-show ng-show="data.performer_homepage">
+                                <dt>Webseite:</dt>
+                                <dd><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
+                              </ng-show>
 														</dl>
 													</div>
 													<div class="col-lg-5">
 														<dl class="custom-dl">
-															<dt>Telefon:</dt>
-															<dd>(030) 0985-111</dd>
-															<dt>Fax:</dt>
-															<dd>(030) 0985-111</dd>
-															<dt>Email:</dt>
-															<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
+                              <ng-show ng-show="data.performer_phone">
+                                <dt>Telefon:</dt>
+                                <dd>{{data.performer_phone}}</dd>
+                              </ng-show>
+                              <ng-show ng-show="data.performer_fax">
+                                <dt>Fax:</dt>
+                                <dd>{{data.performer_fax}}</dd>
+                              </ng-show>
+                              <ng-show ng-show="data.performer_email">
+                                <dt>Email:</dt>
+                                <dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
+                              </ng-show>
 														</dl>
 													</div>
 												</div>
+                        </ng-show>
 											</div>
 										</div>
 										<h3 class="panel-title m-b-15">
 											Schule(n)
 										</h3>
 										<div id="accordion-project" class="panel-group panel-group-joined">
-											<div class="panel panel-default">
+
+                      <div ng-repeat="school in data.schools" class="panel panel-default">
 												<div class="panel-heading">
 													<h4 class="panel-title">
-														<a class="collapse" href="#projectOne" data-parent="#accordion-project" data-toggle="collapse">
-															Louise-Schröder-Schule (OSZ Bürowirtschaft und Verwaltung)
+														<a class="collapse ng-binding collapsed" href="#_{{school.id}}_" data-parent="#accordion-project" data-toggle="collapse">
+                              {{school.name}}
 														</a>
 													</h4>
 												</div>
-												<div class="panel-collapse collapse in" id="projectOne">
+												<div class="panel-collapse collapse" id="_{{school.id}}_">
 													<div class="panel-body">
 														<div class="row m-b-30 row-holder-dl">
 															<div class="col-lg-12">
 																<div class="btn-row m-b-15">
-																	<a class="btn" href="schools#id=4" target="_blank" >Überprüft</a>
+																	<a class="btn" href="schools#id={{school.id}}" target="_blank" >Überprüft</a>
 																</div>
 																<dl class="custom-dl">
-																	<dt>Ansprechpartner(in):</dt>
-																	<dd>Mr Frank Kiepert-Petersen</dd>
-																	<dt>Funktion:</dt>
-																	<dd>Manager</dd>
+                                  <ng-show ng-show="school.user_name">
+                                    <dt>Ansprechpartner(in):</dt>
+                                    <dd>{{school.user_name}}</dd>
+                                  </ng-show>
+                                  <ng-show ng-show="school.user_function">
+                                    <dt>Funktion:</dt>
+                                    <dd>{{school.user_function}}</dd>
+                                  </ng-show>
 																</dl>
 															</div>
 															<div class="col-lg-5">
 																<dl class="custom-dl">
-																	<dt>Adresse:</dt>
-																	<dd>Hanns-Braun-Str./Friesenhaus II, 14053</dd>
-																	<dt>PLZ:</dt>
-																	<dd>14053</dd>
-																	<dt>Stadt:</dt>
-																	<dd>Berlin</dd>
-																	<dt>Webseite:</dt>
-																	<dd><a target="_blank" href="http://www.gsj-berlin.de">www.gsj-berlin.de</a></dd>
+                                  <ng-show ng-show="school.address">
+                                    <dt>Adresse:</dt>
+                                    <dd>{{school.address}}</dd>
+                                  </ng-show>
+                                  <ng-show ng-show="school.plz">
+                                    <dt>PLZ:</dt>
+                                    <dd>{{school.plz}}</dd>
+                                  </ng-show>
+                                  <ng-show ng-show="school.city">
+                                    <dt>Stadt:</dt>
+                                    <dd>{{school.city}}</dd>
+                                  </ng-show>
+                                  <ng-show ng-show="school.homepage">
+                                    <dt>Webseite:</dt>
+                                    <dd><a target="_blank" href="http://{{school.homepage}}">{{school.homepage}}</a></dd>
+                                  </ng-show>
 																</dl>
 															</div>
 															<div class="col-lg-4">
 																<dl class="custom-dl">
-																	<dt>Telefon:</dt>
-																	<dd>(030) 0985-111</dd>
-																	<dt>Fax:</dt>
-																	<dd>(030) 0985-111</dd>
-																	<dt>Email:</dt>
-																	<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
+                                  <ng-show ng-show="school.phone">
+                                    <dt>Telefon:</dt>
+                                    <dd>{{school.phone}}</dd>
+                                  </ng-show>
+                                  <ng-show ng-show="school.fax">
+                                    <dt>Fax:</dt>
+                                    <dd>{{school.fax}}</dd>
+                                  </ng-show>
+                                  <ng-show ng-show="school.email">
+                                    <dt>Email:</dt>
+                                    <dd><a href="mailto:{{school.email}}">{{school.email}}</a></dd>
+                                  </ng-show>
 																</dl>
 															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-											<div class="panel panel-default">
-												<div class="panel-heading">
-													<h4 class="panel-title">
-														<a href="#projectTwo" class="collapsed" data-parent="#accordion-project" data-toggle="collapse">
-															Lina Morgenstern (02K04)
-														</a>
-													</h4>
-												</div>
-												<div class="panel-collapse collapse" id="projectTwo">
-													<div class="panel-body">
-														<div class="row m-b-30 row-holder-dl">
-															<div class="col-lg-12">
-																<div class="btn-row m-b-15">
-																	<a class="btn" href="schools#id=4" target="_blank" >Überprüft</a>
-																</div>
-																<dl class="custom-dl">
-																	<dt>Ansprechpartner(in):</dt>
-																	<dd>Mr Frank Kiepert-Petersen</dd>
-																	<dt>Funktion:</dt>
-																	<dd>Manager</dd>
-																</dl>
-															</div>
-															<div class="col-lg-5">
-																<dl class="custom-dl">
-																	<dt>Adresse:</dt>
-																	<dd>Hanns-Braun-Str./Friesenhaus II, 14053</dd>
-																	<dt>PLZ:</dt>
-																	<dd>14053</dd>
-																	<dt>Stadt:</dt>
-																	<dd>Berlin</dd>
-																	<dt>Webseite:</dt>
-																	<dd><a target="_blank" href="http://www.gsj-berlin.de">www.gsj-berlin.de</a></dd>
-																</dl>
-															</div>
-															<div class="col-lg-4">
-																<dl class="custom-dl">
-																	<dt>Telefon:</dt>
-																	<dd>(030) 0985-111</dd>
-																	<dt>Fax:</dt>
-																	<dd>(030) 0985-111</dd>
-																	<dt>Email:</dt>
-																	<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
-																</dl>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="panel panel-default">
-												<div class="panel-heading">
-													<h4 class="panel-title">
-														<a class="collapsed" href="#projectThree" data-parent="#accordion-project" data-toggle="collapse">
-															Isaac-Newton-Schule (ISS) (09K04)
-														</a>
-													</h4>
-												</div>
-												<div class="panel-collapse collapse" id="projectThree">
-													<div class="panel-body">
-														<div class="row m-b-30 row-holder-dl">
-															<div class="col-lg-12">
-																<div class="btn-row m-b-15">
-																	<a class="btn" href="schools#id=4" target="_blank" >Überprüft</a>
-																</div>
-																<dl class="custom-dl">
-																	<dt>Ansprechpartner(in):</dt>
-																	<dd>Mr Frank Kiepert-Petersen</dd>
-																	<dt>Funktion:</dt>
-																	<dd>Manager</dd>
-																</dl>
-															</div>
-															<div class="col-lg-5">
-																<dl class="custom-dl">
-																	<dt>Adresse:</dt>
-																	<dd>Hanns-Braun-Str./Friesenhaus II, 14053</dd>
-																	<dt>PLZ:</dt>
-																	<dd>14053</dd>
-																	<dt>Stadt:</dt>
-																	<dd>Berlin</dd>
-																	<dt>Webseite:</dt>
-																	<dd><a target="_blank" href="http://www.gsj-berlin.de">www.gsj-berlin.de</a></dd>
-																</dl>
-															</div>
-															<div class="col-lg-4">
-																<dl class="custom-dl">
-																	<dt>Telefon:</dt>
-																	<dd>(030) 0985-111</dd>
-																	<dt>Fax:</dt>
-																	<dd>(030) 0985-111</dd>
-																	<dt>Email:</dt>
-																	<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
-																</dl>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+
 										</div>
 										<h3 class="panel-title">
+											Ansprechpersonen für Rückfragen zum Request
+										</h3>
+										<hr/>
+										<div class="row m-b-30 row-holder-dl">
+											<div class="col-lg-4">
+												<div class="form-group">
+													<ui-select   on-select="onSelectCallback($item, $model, 1)" class="type-document" ng-model="request.request_user_id">
+                          <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                          </ui-select-choices>
+                          </ui-select>
+												</div>
+												<dl class="custom-dl" ng-show="selectRequestResult">
+                          <ng-show ng-show="selectRequestResult.function">
+                            <dt>Funktion:</dt>
+                            <dd>{{selectRequestResult.function}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="selectRequestResult.title">
+													<dt>Titel:</dt>
+													<dd>{{selectRequestResult.title}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="selectRequestResult.phone">
+													<dt>Telefon:</dt>
+													<dd>{{selectRequestResult.phone}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="selectRequestResult.email">
+													<dt>Email:</dt>
+													<dd><a class="visible-lg-block" href="mailto:{{selectRequestResult.email}}">{{selectRequestResult.email}}</a></dd>
+                          </ng-show>
+												</dl>
+											</div>
+										</div>
+
+                    <h3 class="panel-title">
 											Ansprechpersonen für Rückfragen zum Konzept
 										</h3>
 										<hr/>
 										<div class="row m-b-30 row-holder-dl">
 											<div class="col-lg-4">
 												<div class="form-group">
-													<select class="form-control m-b-15">
-														<option>Mr Sascha Mase</option>
-													</select>
+													<ui-select   on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id">
+                          <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                          </ui-select-choices>
+                          </ui-select>
 												</div>
-												<dl class="custom-dl">
-													<dt>Funktion:</dt>
-													<dd>Manager</dd>
+												<dl class="custom-dl" ng-show="selectConceptResult">
+                          <ng-show ng-show="selectConceptResult.function">
+                            <dt>Funktion:</dt>
+                            <dd>{{selectConceptResult.function}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="selectConceptResult.title">
 													<dt>Titel:</dt>
-													<dd>Some title</dd>
+													<dd>{{selectConceptResult.title}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="selectConceptResult.phone">
 													<dt>Telefon:</dt>
-													<dd>(030) 2888 496</dd>
+													<dd>{{selectConceptResult.phone}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="selectConceptResult.email">
 													<dt>Email:</dt>
-													<dd><a class="visible-lg-block" href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
+													<dd><a class="visible-lg-block" href="mailto:{{selectConceptResult.email}}">{{selectConceptResult.email}}</a></dd>
+                          </ng-show>
 												</dl>
 											</div>
 										</div>
-										<h3 class="panel-title">
-											Angaben zum Jugendamt
-                                                        <span class="btn-row m-l-15">
-                                                          <a class="btn" href="districts#id=1" target="_blank" >Überprüft</a>
-                                                        </span>
+
+                    <h3 class="panel-title">
+											Ansprechpersonen für Rückfragen zum Finance
 										</h3>
 										<hr/>
-										<div class="row row-holder-dl">
+										<div class="row m-b-30 row-holder-dl">
+											<div class="col-lg-4">
+												<div class="form-group">
+													<ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="request.finance_user_id">
+                          <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                          </ui-select-choices>
+                          </ui-select>
+												</div>
+												<dl class="custom-dl" ng-show="selectFinanceResult">
+                          <ng-show ng-show="selectFinanceResult.function">
+                            <dt>Funktion:</dt>
+                            <dd>{{selectFinanceResult.function}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="selectFinanceResult.title">
+													<dt>Titel:</dt>
+													<dd>{{selectFinanceResult.title}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="selectFinanceResult.phone">
+													<dt>Telefon:</dt>
+													<dd>{{selectFinanceResult.phone}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="selectFinanceResult.email">
+													<dt>Email:</dt>
+													<dd><a class="visible-lg-block" href="mailto:{{selectFinanceResult.email}}">{{selectFinanceResult.email}}</a></dd>
+                          </ng-show>
+												</dl>
+											</div>
+										</div>
+
+
+
+										<h3 class="panel-title">
+											Angaben zum Jugendamt
+                      <span class="btn-row m-l-15">
+                        <a class="btn" href="districts#id={{data.district_id}}" target="_blank" >Überprüft</a>
+                      </span>
+										</h3>
+										<hr/>
+										<div class="row row-holder-dl" ng-show="data.district_id">
 											<div class="col-lg-12 m-b-10">
 												<dl class="custom-dl">
-													<dt>Bezirk:</dt>
-													<dd><strong>Bezirk Neukölln</strong></dd>
-													<dt>Ansprechpartner(in):</dt>
-													<dd><strong>Mr Frank Kiepert-Petersen</strong></dd>
+                          <ng-show ng-show="data.district_name">
+                            <dt>Bezirk:</dt>
+                            <dd><strong>{{data.district_name}}</strong></dd>
+                          </ng-show>
+                          <ng-show ng-show="data.district_contact">
+                            <dt>Ansprechpartner(in):</dt>
+                            <dd><strong>{{data.district_contact}}</strong></dd>
+                          </ng-show>
 												</dl>
 											</div>
 											<div class="col-lg-5">
 												<dl class="custom-dl">
-													<dt>Adresse:</dt>
-													<dd>Britzer Damm 93, 14053</dd>
-													<dt>PLZ:</dt>
-													<dd>14053</dd>
-													<dt>Stadt:</dt>
-													<dd>Berlin</dd>
+                          <ng-show ng-show="data.district_address">
+                            <dt>Adresse:</dt>
+                            <dd>{{data.district_address}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.district_plz">
+                            <dt>PLZ:</dt>
+                            <dd>{{data.district_plz}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.district_city">
+                            <dt>Stadt:</dt>
+                            <dd>{{data.district_city}}</dd>
+                          </ng-show>
 												</dl>
 											</div>
 											<div class="col-lg-4">
 												<dl class="custom-dl">
-													<dt>Telefon:</dt>
-													<dd>(030) 0985-111</dd>
-													<dt>Fax:</dt>
-													<dd>(030) 0985-111</dd>
-													<dt>Email:</dt>
-													<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
+                          <ng-show ng-show="data.district_phone">
+                            <dt>Telefon:</dt>
+                            <dd>{{data.district_phone}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.district_fax">
+                            <dt>Fax:</dt>
+                            <dd>{{data.district_fax}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.district_email">
+                            <dt>Email:</dt>
+                            <dd><a href="mailto:{{data.district_email}}">{{data.district_email}}</a></dd>
+                          </ng-show>
 												</dl>
 											</div>
 										</div>
@@ -309,7 +353,7 @@ $this->breadcrumbs = array('Anträge');
 									<div class="row">
 										<div class="col-lg-12">
 											<h4 class="m-t-0">Zusätzliche Information</h4>
-											<textarea placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
+											<textarea placeholder="Tragen Sie den Text hier ein" ng-model="request.additional_info" class="form-control"></textarea>
 										</div>
 									</div>
 									<hr />
@@ -319,44 +363,52 @@ $this->breadcrumbs = array('Anträge');
 											<div class="form-group">
 												<label class="col-lg-4 control-label">Zielvereinbarung:</label>
 												<div class="col-lg-8">
-													<select class="form-control">
-														<option>Zielvereinbarung 1.doc</option>
-														<option>Zielvereinbarung 2.doc</option>
-													</select>
+													<ui-select ng-change="" class="type-document" ng-model="request.doc_target_agreement_id">
+                          <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                          </ui-select-choices>
+                        </ui-select>
 												</div>
+
+
 											</div>
 											<div class="form-group">
 												<label class="col-lg-4 control-label">Antrag:</label>
 												<div class="col-lg-8">
-													<select class="form-control">
-														<option>Antrag 1.doc</option>
-														<option>Antrag 2.doc</option>
-													</select>
+													<ui-select ng-change="" class="type-document" ng-model="request.doc_request_id">
+                          <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                          </ui-select-choices>
+                        </ui-select>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-lg-4 control-label">Fördervertrag:</label>
 												<div class="col-lg-8">
-													<select class="form-control">
-														<option>Fördervertrag 1.doc</option>
-														<option>Fördervertrag 2.doc</option>
-													</select>
+													<ui-select ng-change="" class="type-document" ng-model="request.doc_financing_agreement_id">
+                          <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                          </ui-select-choices>
+                        </ui-select>
 												</div>
 											</div>
 										</div>
 										<div class="col-lg-8">
 											<h4>Auflage vom Senat</h4>
-											<textarea class="form-control custom-height-textarea" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
+											<textarea class="form-control custom-height-textarea" placeholder="Tragen Sie den Text hier ein" ng-model="request.senat_additional_info" class="form-control"></textarea>
 										</div>
 									</div>
 									<hr />
 									<div class="form-group group-btn row">
 										<div class="col-lg-8 text-left">
-											<button id="sa-warning" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
+											<button id="sa-warning" class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove()"><i class="fa fa-trash-o"></i></button>
 										</div>
 										<div class="col-lg-4 text-right">
-											<button class="btn w-lg cancel-btn btn-lg">Abbrechen</button>
-											<button class="btn w-lg custom-btn btn-lg">Speichern</button>
+											<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
+											<button class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()">Speichern</button>
 										</div>
 									</div>
 								</div>
@@ -2137,3 +2189,47 @@ $this->breadcrumbs = array('Anträge');
 		</div>
 	</div>
 </div>
+
+
+<script type="text/ng-template" id="setDuration.html">
+    <div class="panel panel-color panel-primary">
+      <div class="panel-heading clearfix">
+        <h3 class="m-0 pull-left">Dauer ändern</h3>
+        <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
+      </div>
+      <div class="panel-body text-center">
+        <div class="form-group">
+          <ng-form>
+          <div class="holder-datepicker text-right">
+            <div class="col-lg-3 p-0">
+              <label>Beginn</label>
+            </div>
+            <div class="col-lg-3 p-0">
+              <div class="input-group">
+                <input type="text" ng-click="dp_start_date_is_open = !dp_start_date_is_open" ng-model="form.start_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_start_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+            <div class="col-lg-3 p-0">
+              <label>Ende</label>
+            </div>
+            <div class="col-lg-3 p-0">
+              <div class="input-group">
+                <input type="text" ng-click="dp_due_date_is_open = !dp_due_date_is_open" ng-model="form.due_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_due_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+          </div>
+          </ng-form>
+        </div>
+      </div>
+      <div class="row p-t-10 text-center">
+        <div class="form-group group-btn m-t-20">
+          <div class="col-lg-12">
+            <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+            <button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date">Speichern</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</script>
