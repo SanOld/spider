@@ -14,7 +14,7 @@
     </td>
   </tr>
 </table>
-<div class="notice">
+<!-- <div class="notice">
   <span class="color-notice"></span>
   Deaktivierte Benutzer
-</div>
+</div> -->
