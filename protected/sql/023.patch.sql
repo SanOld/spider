@@ -12,3 +12,5 @@ INSERT INTO `spi_page` (`code`, `name`, `is_real_page`) VALUES ('page', 'Pages L
 INSERT INTO `spi_user_type_right` (`type_id`, `page_id`, `can_show`, `can_view`, `can_edit`) VALUES ('1', '19', '1', '1', '1');
 
 
+INSERT INTO `spi_page` (`code`, `name`, `is_real_page`, `is_system`) VALUES ('project_type', 'Project types', '0', '0');
+
