@@ -287,23 +287,21 @@ $this->breadcrumbs = array('Anträge');
       <div class="panel-body text-center">
         <h3 class="m-b-30">Header</h3>
         <div class="form-group">
-          <ng-form name="form">
-            <label class="col-lg-2 control-label label-type">Project</label>
-            <div class="col-lg-10">
-              <div spi-hint text="_hint.request_add" class="has-hint"></div>
-              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
-                <ui-select  class="type-document" ng-model="project.id">
-                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  projects | filter: $select.search">
-                      <span ng-bind-html="item.code | highlight: $select.search"></span>
-                  </ui-select-choices>
-                </ui-select>
+            <!--<ng-form  name="form1">-->
+              <label class="col-lg-2 control-label label-type">Project</label>
+              <div class="col-lg-10">
+                  <ui-select  class="type-document" ng-model="projects.selected_project">
+                    <ui-select-match placeholder="Alles anzeigen">{{$select.selected.code}}</ui-select-match>
+                    <ui-select-choices repeat="item.id as item in  projects | filter: $select.search">
+                        <span ng-bind-html="item.code | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
               </div>
-            </div> 
-          </ng-form>
-        </div>
+            <!--</ng-form >-->
+        
       </div>
-      <div class="row p-t-10 text-center">
+      </br>
+      <div class="row p-t-10 text-right">
         <div class="form-group group-btn m-t-20">
           <div class="col-lg-12">
             <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>

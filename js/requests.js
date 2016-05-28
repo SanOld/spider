@@ -136,11 +136,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       });
 
       modalInstance.result.then(function (data) {
-        network.patch('request', {ids: ids, start_date: Utils.getSqlDate(data.start_date), due_date: Utils.getSqlDate(data.due_date)}, function(result) {
-          if(result) {
-//            grid.reload();
-          }
-        });
+        console.log(data);
+//        network.post('request', {project_id: data, performer_id: 8}, function(result) {
+//          if(result) {
+//            console.log('ok');
+//          }
+//        });
       });
 
 
@@ -175,16 +176,18 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 
 spi.controller('ModalRequestAddController', function ($scope, ids, $uibModalInstance, network) {
-
+$scope.name='';
     network.get('project', {list: 'unused_project'}, function (result, response) {
     if (result) {
       $scope.projects = response.result;
     }
   });
 
+
   $scope.ok = function () {
-//    $uibModalInstance.close($scope.form);
+    $uibModalInstance.close($scope.projects.selected_project);
     $uibModalInstance.dismiss('cancel');
+
   };
 
   $scope.cancel = function () {
