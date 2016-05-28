@@ -1336,23 +1336,23 @@ $this->breadcrumbs = array('Anträge');
 						<div class="tab-pane" ng-controller="RequestSchoolConceptController">
 							<div class="panel-group panel-group-joined" id="accordion-concepts">
 								<div class="panel panel-default" ng-repeat="schoolConcept in schoolConcepts">
-									<div class="panel-heading">
+									<div class="panel-heading" ng-init="conceptTab[schoolConcept.id] = 'data'">
 										<h4 class="panel-title">
 											<a data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-{{::schoolConcept.id}}" class="collapse collapsed">
-												{{::schoolConcept.name}} ({{::schoolConcept.number}})
+												{{::schoolConcept.school_name}} ({{::schoolConcept.school_number}})
 												<span class="notice">
 													<span ng-class="{'open': !schoolConcept.status, 'inprogress-row': schoolConcept.status == 'r', 'decline-row-red': schoolConcept.status == 'd', 'acceptable-row': schoolConcept.status == 'a'}" class="color-notice"></span>
 												</span>
 												<div class="btn-group btn-toggle pull-right tabs-toggle">
-													<button data-tab="tab-data-{{::schoolConcept.id}}" class="btn btn-sm active">DATEN</button>
-													<button data-tab="tab-history-{{::schoolConcept.id}}" class="btn btn-sm btn-default">VERLAUF</button>
+													<button ng-click="conceptTab[schoolConcept.id] = 'data'" ng-class="conceptTab[schoolConcept.id] == 'data' ? 'active' : 'btn-default'" class="btn btn-sm">DATEN</button>
+													<button ng-click="conceptTab[schoolConcept.id] = 'history'" ng-class="conceptTab[schoolConcept.id] == 'history' ? 'active' : 'btn-default'" class="btn btn-sm">VERLAUF</button>
 												</div>
 											</a>
 										</h4>
 									</div>
 									<div id="collapse-{{::schoolConcept.id}}" class="panel-collapse collapse">
 										<div class="panel-body">
-											<div id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
+											<div ng-show="conceptTab[schoolConcept.id] == 'data'"  id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
 												<div class="alert alert-danger" ng-if="schoolConcept.status == 'd' && schoolConcept.comment" ng-bind="schoolConcept.comment"></div>
 												<ng-form>
 													<div class="form-group">
@@ -1371,7 +1371,7 @@ $this->breadcrumbs = array('Anträge');
 													</div>
 													<hr />
 													<div class="row">
-														<div class="col-lg-10">
+														<div class="col-lg-10" ng-if="canEdit('request_school_concept')">
 															<h4 class="m-t-0">Prüfnotiz</h4>
 															<textarea ng-init="school_concept[schoolConcept.id].comment = schoolConcept.comment" placeholder="Tragen Sie den Text hier ein" ng-model="school_concept[schoolConcept.id].comment" class="form-control comments"></textarea>
 														</div>
@@ -1382,14 +1382,14 @@ $this->breadcrumbs = array('Anträge');
 															</div>
 														</div>
 														<div class="col-lg-2" ng-if="!canEdit('request_school_concept')">
-															<div class="m-t-30 text-right pull-right">
+															<div class="text-right pull-right">
 																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id 'submit')">SUBMIT</button>
 															</div>
 														</div>
 													</div>
 												</ng-form>
 											</div>
-											<div id="tab-history-{{::schoolConcept.id}}" class="block-concept">
+											<div ng-show="conceptTab[schoolConcept.id] == 'history'" id="tab-history-{{::schoolConcept.id}}" class="block-concept current">
 												<div class="alert alert-success">
 													<strong class="status-history">Genehmigt</strong>
 													<span class="check-history">Überpüft von Mustermann 15.12.2015</span>
@@ -1399,11 +1399,11 @@ $this->breadcrumbs = array('Anträge');
 													<span class="check-history">Überpüft von Mustermann 13.12.2015</span>
 												</div>
 												<div class="changes-content">
-													<div class="heading-changes">
+													<div class="heading-changes" ng-class="{open: !isCollapsed}" ng-click="isCollapsed = !isCollapsed">
 														Inhaltsveränderungen
 														<i class="ion-chevron-down arrow-box"></i>
 													</div>
-													<div class="content-changes">
+													<div class="content-changes" uib-collapse="isCollapsed">
 														<div class="thead">
 															<div class="col-lg-4">
 																<strong>Veränderungen</strong>

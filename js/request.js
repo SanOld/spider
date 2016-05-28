@@ -155,24 +155,15 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService) {
-  $scope.school_concept = {};
   $timeout(function() {
-    jQuery('.btn-toggle').click(function(){
-      $(this).find(".btn").toggleClass('active');
-      $(this).find(".btn").toggleClass('btn-default');
+    angular.element('#accordion-concepts .btn-toggle').click(function(){
       return false;
     });
-    $('.tabs-toggle button').click(function(){
-      var tab_id = $(this).attr('data-tab');
-      $('.block-concept').removeClass('current');
-      $("#"+tab_id).addClass('current');
-    });
-    $('.changes-content .heading-changes').click(function(){
-      $(this).toggleClass('open');
-      $(this).next().slideToggle();
-    })
   });
 
+  $scope.school_concept = {};
+  $scope.conceptTab = {};
+  
   $scope.schoolConcepts = [];
   network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
