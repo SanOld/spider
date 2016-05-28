@@ -176,23 +176,15 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 spi.controller('ModalRequestAddController', function ($scope, ids, $uibModalInstance, network) {
 
-    network.get('request', {list: 'project'}, function (result, response) {
+    network.get('project', {list: 'unused_project'}, function (result, response) {
     if (result) {
       $scope.projects = response.result;
     }
   });
-
-  network.get('project', {filter: '1'}, function (result, response) {
-    if (result) {
-      $scope.projects = response.result;
-      console.log($scope.projects);
-      console.log();
-    }
-  });
-
 
   $scope.ok = function () {
-    $uibModalInstance.close($scope.form);
+//    $uibModalInstance.close($scope.form);
+    $uibModalInstance.dismiss('cancel');
   };
 
   $scope.cancel = function () {

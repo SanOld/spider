@@ -288,18 +288,18 @@ $this->breadcrumbs = array('Anträge');
         <h3 class="m-b-30">Header</h3>
         <div class="form-group">
           <ng-form name="form">
-              <label class="col-lg-2 control-label label-type">Project</label>
-                  <div class="col-lg-3">
-                    <div spi-hint text="_hint.document_type" class="has-hint"></div>
-                    <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
-                      <ui-select  class="type-document" ng-model="document.type_id">
-                        <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="item.id as item in  projects | filter: $select.search">
-                            <span ng-bind-html="item.code | highlight: $select.search"></span>
-                        </ui-select-choices>
-                      </ui-select>
-                    </div>
-                  </div> 
+            <label class="col-lg-2 control-label label-type">Project</label>
+            <div class="col-lg-10">
+              <div spi-hint text="_hint.request_add" class="has-hint"></div>
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
+                <ui-select  class="type-document" ng-model="project.id">
+                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="item.id as item in  projects | filter: $select.search">
+                      <span ng-bind-html="item.code | highlight: $select.search"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div> 
           </ng-form>
         </div>
       </div>
