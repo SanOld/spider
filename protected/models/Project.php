@@ -8,8 +8,17 @@ class Project extends BaseModel {
   public $params = array();
   public $select_all = "tbl.*, (SELECT short_name FROM spi_performer prf WHERE prf.id=tbl.performer_id) AS `performer_name`, (SELECT name FROM spi_district dst WHERE dst.id=tbl.district_id) AS `district_name`";
   protected function getCommand() {
-    $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    $command -> where(' 1=1 ', array());
+    if(safe($_GET, 'list') == 'unused_project') {
+      $this->select_all = "rqt.project_id id,tbl.code code ";
+      $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
+      $command -> leftJoin( 'spi_request rqt',  'tbl.id  = rqt.project_id' );
+      $command -> where(' rqt.project_id  IS NULL ', array());
+      
+    } else {
+      $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
+      $command -> where(' 1=1 ', array());
+       $command->andWhere("tbl.school_type_id = :school_type_id", array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
+    }
     return $command;
   }
 

@@ -14,7 +14,7 @@ $this->breadcrumbs = array('Anträge');
 					<h1 class="panel-title col-lg-6">Anträge</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()" title="Drucken">Drucken <i class="ion-printer"></i></a>
-						<button <?php $this->demo(); ?> onclick="alert('ToDo')" class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
+						<button <?php $this->demo(); ?> ng-click="addRequest()" class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body request-edit">
@@ -276,3 +276,39 @@ $this->breadcrumbs = array('Anträge');
       </div>
     </div>
 </script>
+
+
+<script type="text/ng-template" id="setRequest.html">
+    <div class="panel panel-color panel-primary">
+      <div class="panel-heading clearfix">
+        <h3 class="m-0 pull-left">Window title</h3>
+        <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
+      </div>
+      <div class="panel-body text-center">
+        <h3 class="m-b-30">Header</h3>
+        <div class="form-group">
+            <!--<ng-form  name="form1">-->
+              <label class="col-lg-2 control-label label-type">Project</label>
+              <div class="col-lg-10">
+                  <ui-select  class="type-document" ng-model="projects.selected_project">
+                    <ui-select-match placeholder="Alles anzeigen">{{$select.selected.code}}</ui-select-match>
+                    <ui-select-choices repeat="item.id as item in  projects | filter: $select.search">
+                        <span ng-bind-html="item.code | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+              </div>
+            <!--</ng-form >-->
+        
+      </div>
+      </br>
+      <div class="row p-t-10 text-right">
+        <div class="form-group group-btn m-t-20">
+          <div class="col-lg-12">
+            <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+            <button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date">Speichern</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</script>
+

@@ -120,6 +120,36 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
   };
 
+  $scope.addRequest = function() {
+    var ids = [1];
+    if (ids.length) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'setRequest.html',
+        controller: 'ModalRequestAddController',
+        size: 'custom-width-request-duration',
+        resolve: {
+          ids: function () {
+            return ids;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (data) {
+        console.log(data);
+//        network.post('request', {project_id: data, performer_id: 8}, function(result) {
+//          if(result) {
+//            console.log('ok');
+//          }
+//        });
+      });
+
+
+    }
+  };
+
+
+
 });
 
 
@@ -144,3 +174,24 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 });
 
 
+
+spi.controller('ModalRequestAddController', function ($scope, ids, $uibModalInstance, network) {
+$scope.name='';
+    network.get('project', {list: 'unused_project'}, function (result, response) {
+    if (result) {
+      $scope.projects = response.result;
+    }
+  });
+
+
+  $scope.ok = function () {
+    $uibModalInstance.close($scope.projects.selected_project);
+    $uibModalInstance.dismiss('cancel');
+
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+});
