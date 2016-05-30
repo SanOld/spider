@@ -176,54 +176,55 @@ $this->breadcrumbs = array('Anträge');
 <div class="row">
 <div class="col-lg-12">
 
-<table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
-<tr ng-repeat="row in $data" ng-class="{'accept-row': row.status_code == 'a', 'acceptable-row': row.status_code == 'b', 'inprogress-row': row.status_code == 'p', 'decline-row':  row.status_code == 'd'}">
-<td header="'headerCheckbox.html'">
-<label class="cr-styled">
-<input type="checkbox" ng-model="checkboxes.items[row.id]">
-<i class="fa"></i>
-</label>
-</td>
-<td data-title="'Kennziffer'" sortable="'code'">{{row.code}}</td>
-<td data-title="'Träger'" sortable="'performer_name'">{{row.performer_name}}</td>
-<td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
-<td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
-<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
-<td data-title="'Prüfstatus'">
-<div class="col-lg-4">
-<a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
-<span ng-show = "row.status_finance == 'a'" class="cell-finplan"></span>
-<span ng-show = "row.status_finance == 'r'" class="cell-finplan select"></span>
-<span ng-show = "row.status_finance == 'd'" class="cell-finplan select-decline"></span>
-</a>
-</div>
-<div class="col-lg-4">
-<a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
-<span ng-show = "row.status_concept == 'a'" class="cell-finplan"></span>
-<span ng-show = "row.status_concept == 'r'" class="cell-finplan select"></span>
-<span ng-show = "row.status_concept == 'd'" class="cell-finplan select-decline"></span>
-</a>
-</div>
-<div  class="col-lg-4">
-<a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
-<span ng-show = "row.status_goal == 'a'" class="cell-finplan"></span>
-<span ng-show = "row.status_goal == 'r'" class="cell-finplan select"></span>
-<span ng-show = "row.status_goal == 'd'" class="cell-finplan select-decline"></span>
-</a>
-</div>
-</td>
-<td data-title="'Abgabe'" sortable="'due_date'">{{row.due_date_unix | date : 'dd.MM.yyyy'}}</td>
-<td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change_unix | date : 'dd.MM.yyyy'}}</td>
-<td data-title="'Ansicht / Bearbeiten'">
-<a ng-if="row.status_code == 'a' || row.status_code == 'b'" class="btn document" href="" ng-click="openPrint(row)" title="Drucken">
-<i class="ion-printer"></i>
-</a>
-<a ng-if="canEdit()" class="btn edit-btn" href="/request/{{row.id}}" title="Bearbeiten">
-<i class="ion-edit"></i>
-</a>
-</td>
-</tr>
-</table>
+							<table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
+								<tr ng-repeat="row in $data" ng-class="{'accept-row': row.status_code == 'a', 'acceptable-row': row.status_code == 'b', 'inprogress-row': row.status_code == 'p', 'decline-row':  row.status_code == 'd'}">
+									<td header="'headerCheckbox.html'">
+										<label class="cr-styled">
+											<input type="checkbox" ng-model="checkboxes.items[row.id]">
+											<i class="fa"></i>
+										</label>
+									</td>
+									<td data-title="'Kennziffer'" sortable="'code'">{{row.code}}</td>
+									<td data-title="'Träger'" sortable="'performer_name'">{{row.performer_name}}</td>
+									<td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
+									<td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
+									<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
+									<td data-title="'Prüfstatus'">
+                    <div class="col-lg-4">
+                      <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
+                        <span ng-show = "row.status_finance == 'g'" class="cell-finplan"></span>
+                        <span ng-show = "row.status_finance == 'a'" class="cell-finplan"></span>
+                        <span ng-show = "row.status_finance == 'r'" class="cell-finplan select"></span>
+                        <span ng-show = "row.status_finance == 'd'" class="cell-finplan select-decline"></span>
+                      </a>
+                    </div>
+                    <div class="col-lg-4">
+                      <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
+                        <span ng-show = "row.status_concept == 'g'" class="cell-concept"></span>
+                        <span ng-show = "row.status_concept == 'a'" class="cell-concept"></span>
+                        <span ng-show = "row.status_concept == 'r'" class="cell-concept select"></span>
+                        <span ng-show = "row.status_concept == 'd'" class="cell-concept select-decline"></span>
+                      </a>
+                    </div>
+                    <div  class="col-lg-4">
+                      <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
+                        <span ng-show = "row.status_goal == 'g'" class="cell-school"></span>
+                        <span ng-show = "row.status_goal == 'a'" class="cell-school"></span>
+                        <span ng-show = "row.status_goal == 'r'" class="cell-school select"></span>
+                        <span ng-show = "row.status_goal == 'd'" class="cell-school select-decline"></span>
+                      </a>
+                    </div>
+                  </td>
+									<td data-title="'Abgabe'" sortable="'due_date'">{{row.due_date_unix | date : 'dd.MM.yyyy'}}</td>
+									<td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change_unix | date : 'dd.MM.yyyy'}}</td>
+									<td data-title="'Ansicht / Bearbeiten'">
+										<a ng-if="row.status_code == 'a' || row.status_code == 'b'" class="btn document" href="" ng-click="openPrint(row)" title="Drucken"><i class="ion-printer"></i></a>
+										<a ng-if="canEdit()" class="btn edit-btn" href="/request/{{row.id}}" title="Bearbeiten">
+											<i class="ion-edit"></i>
+										</a>
+									</td>
+								</tr>
+							</table>
 
 <div class="btn-row m-t-15 clearfix" ng-if="canEdit()">
 <button class="btn m-b-5" ng-disabled="!existsSelected()" onclick="alert('ToDo')">Druck-Template wählen</button>
