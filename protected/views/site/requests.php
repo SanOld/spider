@@ -192,6 +192,7 @@ $this->breadcrumbs = array('Anträge');
 									<td data-title="'Prüfstatus'">
                     <div class="col-lg-4">
                       <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
+                        <span ng-show = "row.status_finance == 'g'" class="cell-finplan"></span>
                         <span ng-show = "row.status_finance == 'a'" class="cell-finplan"></span>
                         <span ng-show = "row.status_finance == 'r'" class="cell-finplan select"></span>
                         <span ng-show = "row.status_finance == 'd'" class="cell-finplan select-decline"></span>
@@ -199,16 +200,18 @@ $this->breadcrumbs = array('Anträge');
                     </div>
                     <div class="col-lg-4">
                       <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
-                        <span ng-show = "row.status_concept == 'a'" class="cell-finplan"></span>
-                        <span ng-show = "row.status_concept == 'r'" class="cell-finplan select"></span>
-                        <span ng-show = "row.status_concept == 'd'" class="cell-finplan select-decline"></span>
+                        <span ng-show = "row.status_concept == 'g'" class="cell-concept"></span>
+                        <span ng-show = "row.status_concept == 'a'" class="cell-concept"></span>
+                        <span ng-show = "row.status_concept == 'r'" class="cell-concept select"></span>
+                        <span ng-show = "row.status_concept == 'd'" class="cell-concept select-decline"></span>
                       </a>
                     </div>
                     <div  class="col-lg-4">
                       <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
-                        <span ng-show = "row.status_goal == 'a'" class="cell-finplan"></span>
-                        <span ng-show = "row.status_goal == 'r'" class="cell-finplan select"></span>
-                        <span ng-show = "row.status_goal == 'd'" class="cell-finplan select-decline"></span>
+                        <span ng-show = "row.status_goal == 'g'" class="cell-school"></span>
+                        <span ng-show = "row.status_goal == 'a'" class="cell-school"></span>
+                        <span ng-show = "row.status_goal == 'r'" class="cell-school select"></span>
+                        <span ng-show = "row.status_goal == 'd'" class="cell-school select-decline"></span>
                       </a>
                     </div>
                   </td>
