@@ -105,24 +105,24 @@ class Request extends BaseModel {
   }
 
   protected function doAfterInsert($result, $params, $post) {
-    if($result['code'] == '200' && safe($result, 'id')) {
-      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
-      $RequestSchoolConcept ->user = $this->user;
-      $school_ids = Yii::app() -> db -> createCommand()
-        -> select('prs.school_id')
-        -> from('spi_project_school prs')
-        -> join('spi_request req', 'req.project_id = prs.project_id')
-        -> where('req.id=:id', array(':id' => $result['id']))
-        -> queryColumn();
-
-      foreach($school_ids as $school_id) {
-        $data = array(
-          'request_id' => $result['id'],
-          'school_id'  => $school_id,
-        );
-        $RequestSchoolConcept->insert($data);
-      }
-    }
+//    if($result['code'] == '200' && safe($result, 'id')) {
+//      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+//      $RequestSchoolConcept ->user = $this->user;
+//      $school_ids = Yii::app() -> db -> createCommand()
+//        -> select('prs.school_id')
+//        -> from('spi_project_school prs')
+//        -> join('spi_request req', 'req.project_id = prs.project_id')
+//        -> where('req.id=:id', array(':id' => $result['id']))
+//        -> queryColumn();
+//
+//      foreach($school_ids as $school_id) {
+//        $data = array(
+//          'request_id' => $result['id'],
+//          'school_id'  => $school_id,
+//        );
+//        $RequestSchoolConcept->insert($data);
+//      }
+//    }
     return $result;
   }
 

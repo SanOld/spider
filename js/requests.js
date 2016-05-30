@@ -139,14 +139,14 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         network.post('request', { project_id: data.id
                                 , performer_id: data.performer_id
                                 , year: data.year}
-                                , function(result) {
+                                , function(result, response) {
                                     if(result) {
-                                      console.log('ok');
+                                      console.log(response.id);
+                                      window.location = ' /request/' + response.id;
                                     }
                                   }
                                 );
       });
-
 
     }
   };
