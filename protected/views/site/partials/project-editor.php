@@ -57,7 +57,7 @@
           <label class="col-lg-2 control-label">Schultyp</label>
           <div class="col-lg-4">
             <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
-            <div class="wrap-hint">
+            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('school_type_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.school_type_id"
                          name="school_type_id" required on-select="updateSchools();updateCode();">
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
@@ -79,7 +79,7 @@
           <label class="col-lg-2 control-label p-r-0">Träger</label>
           <div class="col-lg-10">
             <div spi-hint text="_hint.performer_id" class="has-hint"></div>
-            <div class="wrap-hint">
+            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('school_type_id')}">
               <ui-select ng-disabled="!$select.items.length || project.is_old == 1" ng-model="project.performer_id"
                          name="performer_id" required>
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
@@ -124,7 +124,7 @@
           <div class="col-lg-10">
             <div spi-hint text="_hint.schools" class="has-hint"></div>
 
-            <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length}" ng-show="schoolTypeCode == 's'">
+            <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length, 'wrap-line error': fieldError('school_type_id')}" ng-show="schoolTypeCode == 's'">
               <ui-select ng-disabled="project.is_old == 1 || !schools.length" multiple ng-model="project.schools" required
                          name="schools">
                 <ui-select-match placeholder="{{placeholderFN($select.items)}}">
