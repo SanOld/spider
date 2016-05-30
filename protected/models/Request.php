@@ -62,8 +62,6 @@ class Request extends BaseModel {
       $command -> where(' 1=1 ', array());
 
     }
-//
-//    print_r ($command->text);
 
     return $command;
   }
@@ -110,7 +108,7 @@ class Request extends BaseModel {
   protected function doAfterInsert($result, $params, $post) {
     if($result['code'] == '200' && safe($result, 'id')) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
-      $RequestSchoolConcept->user = $this->user;
+      $RequestSchoolConcept ->user = $this->user;
       $school_ids = Yii::app() -> db -> createCommand()
         -> select('prs.school_id')
         -> from('spi_project_school prs')

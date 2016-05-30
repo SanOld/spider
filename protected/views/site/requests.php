@@ -288,6 +288,15 @@ $this->breadcrumbs = array('Anträge');
         <h3 class="m-b-30">Header</h3>
         <div class="form-group">
             <!--<ng-form  name="form1">-->
+              <label class="col-lg-2 control-label label-type">Year</label>
+              <div class="col-lg-10 p-0">
+                <div class="input-group">
+                  <input type="text" ng-change="getProjects()" ng-click="dp_year_date_is_open = !dp_year_date_is_open" ng-model="year" uib-datepicker-popup="yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_year_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_year_date_is_open = !dp_year_date_is_open"></i></span>
+                </div>
+              </div>
+              </br>
+              </br>
               <label class="col-lg-2 control-label label-type">Project</label>
               <div class="col-lg-10">
                   <ui-select  class="type-document" ng-model="projects.selected_project">
@@ -298,7 +307,6 @@ $this->breadcrumbs = array('Anträge');
                   </ui-select>
               </div>
             <!--</ng-form >-->
-        
       </div>
       </br>
       <div class="row p-t-10 text-right">
