@@ -141,6 +141,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
                                 , year: data.year}
                                 , function(result, response) {
                                     if(result) {
+                                      console.log(response.id);
                                       window.location = ' /request/' + response.id;
                                     }
                                   }
@@ -149,6 +150,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
     }
   };
+
+
 
 });
 
@@ -184,9 +187,10 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
     datepickerMode: 'year',
     minMode: 'year',
     yearRows: 1,
-    yearColumns: 5,
+    yearColumns: 3,
+    dateFormat: 'yy'
     //    maxDate: (Default: null) - Defines the maximum available date. Requires a Javascript Date object.
-    minDate:  $scope.year//(Default: null) - Defines the minimum available date. Requires a Javascript Date object.
+    //    minDate:  (Default: null) - Defines the minimum available date. Requires a Javascript Date object.
   };
 
   $scope.getProjects = function() {
