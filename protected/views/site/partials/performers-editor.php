@@ -143,9 +143,6 @@
                       </ui-select-choices>
                     </ui-select>
                   </div>
-
-                </div>
-                <div class="col-lg-5 col-lg-offset-1 holder-has-email">
                   <dl ng-if="representativeUser">
                     <dt>Funktion</dt>
                     <dd ng-bind="representativeUser.function || '-'"></dd>
