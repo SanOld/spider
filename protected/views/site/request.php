@@ -35,12 +35,16 @@ $this->breadcrumbs = array('Anträge');
 													<strong>Beginn und Ende der Maßnahme:</strong>
 													<div class="holder-head-date custom-dl  m-t-10">
 														<i class="fa fa-calendar"></i>
-														<dl>
-															<dt>Beginn:</dt>
-															<dd>{{request.start_date}}</dd>
-															<dt>Ende:</dt>
-															<dd>{{request.due_date}}</dd>
-														</dl>
+														<div class="wrap-data">
+															<div>
+																<span>Beginn:</span>
+																<em>{{request.start_date}}</em>
+															</div>
+															<div>
+																<span>Ende:</span>
+																<em>{{request.due_date}}</em>
+															</div>
+														</div>
 														<div class="btn-row">
 															<button class="btn m-t-5" ng-click="setBulkDuration()">Dauer ändern</button>
 														</div>
@@ -63,7 +67,7 @@ $this->breadcrumbs = array('Anträge');
 												<ng-show ng-show="data.performer_id">
 													<strong>{{data.performer_name}}</strong>
 													<div class="row m-t-20 m-b-30 row-holder-dl">
-														<div class="col-lg-12 m-b-10">
+														<div class="col-lg-12 m-b-0">
 															<dl class="custom-dl">
 																<ng-show ng-show="data.performer_contact">
 																	<dt>Ansprechpartner(in):</dt>

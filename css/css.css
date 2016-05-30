@@ -48,8 +48,8 @@ body {
 	height: 100%;
 	-webkit-font-smoothing: antialiased;
 }
-form label {
-	font-weight:500;
+label {
+	font-weight:500 !important;
 }
 strong {
 	font-weight:600 !important;
@@ -1943,9 +1943,22 @@ div.dataTables_length select {
 	text-align:left !important;
 	width:500px !important;
 }
-.holder-head-date.custom-dl > dl {
+.holder-head-date.custom-dl > div.wrap-data {
 	float: left;
 	width: 180px;
+}
+.holder-head-date.custom-dl > div.wrap-data > div{
+	    width: 100%;
+    overflow: hidden;
+}
+.holder-head-date.custom-dl > div.wrap-data span{
+	color: #707070;
+    float: left;
+    font-weight: 300;
+    width: 75px;
+}
+.holder-head-date.custom-dl > div.wrap-data em {
+	font-style:normal;
 }
 .project-modal.custom-width {
 	width: 770px !important;
