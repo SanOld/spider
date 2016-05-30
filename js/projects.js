@@ -61,11 +61,13 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
 
 spi.controller('ProjectEditController', function ($scope, $uibModalInstance, modeView, data, network, hint, $timeout, Utils, SweetAlert) {
     $scope.isInsert = !data.id;
+    $scope.schoolError = false;
     $scope.newCode = 0;
     $scope._hint = hint;
     $scope.modeView = modeView;
 //    $scope.projectSchools = [];
     $scope.projectSchoolsID = {};
+    $scope.schoolTypeCode = '';
     
     $timeout(function () {
         $scope.$digest();
@@ -79,6 +81,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             type_id: data.type_id,
             is_old: data.is_old,
             schools: [],
+            school: {},
             performer_id: data.performer_id,
             district_id: data.district_id,
         };
@@ -106,6 +109,9 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
               val['fullName'] = '('+val.code.toUpperCase()+') '+val.name;
               $scope.schoolTypesId[val.id] = val;
             })
+            if($scope.project.school_type_id) {
+              $scope.schoolTypeCode = $scope.schoolTypesId[$scope.project.school_type_id].code;
+            }
         }
     });
     
@@ -159,13 +165,15 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       try {
         var isBonus = $scope.project.type_id == '3'?'B':'';
         $scope.project.code = isBonus + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase() + $scope.newCode;
+        $scope.schoolTypeCode = $scope.schoolTypesId[$scope.project.school_type_id].code;
       } catch(e){}
     };
     $scope.updateSchools = function(isInit) {
       isInit = isInit || false;
         var schoolParams = {};
         
-        $scope.project.schools = [];
+        delete $scope.project.school;
+        delete $scope.project.schools;
         $scope.schools = [];
         if(!$scope.project.school_type_id || !$scope.project.district_id) {
           return;
@@ -183,12 +191,16 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 
                 $scope.schools = response.result;
                 if(isInit) {
-                  $scope.project.schools = [];
+                  var schools = [];
+                  $scope.project.school = $scope.schools[0];
                   $.each($scope.schools, function(){
                     if($scope.projectSchoolsID[this.id]) {
-                      $scope.project.schools.push(this);
+                      schools.push(this);
                     }
                   })
+                  if(schools.length) {
+                    $scope.project.schools = schools;
+                  }
                 }
               })
 //                $scope.project.schools = $scope.projectSchools
@@ -212,6 +224,35 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 }
                 $scope.submited = false;
             };
+            
+            
+            if($scope.schoolTypeCode != 's') {
+              $scope.project.schools = [$scope.project.school];
+              delete $scope.project.school;
+            }
+            
+            if(!$scope.project.schools.length && $scope.schoolTypeCode != 'z') {
+//              if($scope.schoolTypeCode != 's') {
+//                SweetAlert.swal({
+//                  title: "Школа не выбрана",
+//                  text: "Для проекта этого типа должны быть указана хотябы одна школа",
+//                  type: "warning",
+//                  confirmButtonText: "ОК",
+//                  closeOnConfirm: true
+//                });
+//              } else {
+//                SweetAlert.swal({
+//                  title: "Школа не выбрана",
+//                  text: "Для проекта этого типа должны быть указана школа",
+//                  type: "warning",
+//                  confirmButtonText: "ОК",
+//                  closeOnConfirm: true
+//                });
+//              }
+              $scope.schoolError = true;
+              return false;
+            }
+            
             if ($scope.isInsert) {
                 network.post('project', $scope.project, callback);
             } else {

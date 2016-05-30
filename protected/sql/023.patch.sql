@@ -19,3 +19,6 @@ truncate table spi_finance_source;
 INSERT INTO `spi_finance_source` (`id`, `project_type_id`, `programm`) VALUES ('1', '1', ' ');
 INSERT INTO `spi_finance_source` (`id`, `project_type_id`, `programm`) VALUES ('2', '2', ' ');
 INSERT INTO `spi_finance_source` (`id`, `project_type_id`, `programm`) VALUES ('3', '3', ' ');
+
+
+INSERT INTO `spi_school_type` (`code`, `name`) VALUES ('z', 'Zusatzprojekte');

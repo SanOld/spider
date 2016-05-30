@@ -14,7 +14,7 @@
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('code')}">
               <input name="code" ng-model="project.code" class="form-control" type="text" value="" required ng-disabled="!isInsert">
               <span ng-class="{hide: !fieldError('code')}" class="hide">
-                <label ng-show="formFinances.code.$error.required" class="error">Code is
+                <label ng-show="formProjects.code.$error.required" class="error">Code is
                   required</label>
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
@@ -26,7 +26,7 @@
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('rate')}">
               <input name="rate" ng-model="project.rate" class="form-control" type="text" value="" required ng-change="checkRate(project)" ng-disabled="!isInsert">
               <span ng-class="{hide: !fieldError('rate')}" class="hide">
-                <label ng-show="formFinances.rate.$error.required" class="error">Rate is
+                <label ng-show="formProjects.rate.$error.required" class="error">Rate is
                   required</label>
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
@@ -47,6 +47,11 @@
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
                 </ui-select-choices>
               </ui-select>
+              <span ng-class="{hide: !fieldError('project_type_id')}" class="hide">
+                  <label class="error">Fördertopf is
+                    required</label>
+                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </span>
             </div>
           </div>
           <label class="col-lg-2 control-label">Schultyp</label>
@@ -62,6 +67,11 @@
                   <span ng-bind-html="item.fullName | highlight: $select.search"></span>
                 </ui-select-choices>
               </ui-select>
+              <span ng-class="{hide: !fieldError('school_type_id')}" class="hide">
+                  <label class="error">Schultyp is
+                    required</label>
+                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </span>
             </div>
           </div>
         </div>
@@ -79,6 +89,11 @@
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
                 </ui-select-choices>
               </ui-select>
+              <span ng-class="{hide: !fieldError('performer_id')}" class="hide">
+                  <label class="error">Träger is
+                    required</label>
+                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </span>
             </div>
           </div>
         </div>
@@ -96,6 +111,11 @@
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
                 </ui-select-choices>
               </ui-select>
+              <span ng-class="{hide: !fieldError('district_id')}" class="hide">
+                  <label class="error">Bezirk is
+                    required</label>
+                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </span>
             </div>
           </div>
         </div>
@@ -104,8 +124,8 @@
           <div class="col-lg-10">
             <div spi-hint text="_hint.schools" class="has-hint"></div>
 
-            <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length}">
-              <ui-select ng-disabled="project.is_old == 1 || !schools.length" multiple ng-model="project.schools"
+            <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length}" ng-show="schoolTypeCode == 's'">
+              <ui-select ng-disabled="project.is_old == 1 || !schools.length" multiple ng-model="project.schools" required
                          name="schools">
                 <ui-select-match placeholder="{{placeholderFN($select.items)}}">
                   {{$item.name}}
@@ -114,6 +134,27 @@
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
                 </ui-select-choices>
               </ui-select>
+              <span ng-class="{hide: !fieldError('schools')}" class="hide">
+                  <label class="error">School is
+                    required</label>
+                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </span>
+            </div>
+            <div class="wrap-hint" ng-hide="schoolTypeCode == 's'">
+              <ui-select ng-disabled="!$select.items.length || project.is_old == 1" ng-model="project.school" ng-required="schoolTypeCode != 'z'"
+                         name="school">
+                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
+                  {{$select.selected.name}}
+                </ui-select-match>
+                <ui-select-choices repeat="item.id as item in schools | filter: $select.search">
+                  <span ng-bind-html="item.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <span ng-class="{hide: !fieldError('school')}" class="hide">
+                  <label class="error">School is
+                    required</label>
+                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </span>
             </div>
 
           </div>

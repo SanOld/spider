@@ -12,15 +12,17 @@ class SystemModel extends BaseModel
                    AND table_name NOT IN(SELECT table_name FROM spi_audit_setting )";
       $tables = Yii::app ()->db->createCommand ( $query )->queryAll ();
       
-      $tables_names = array();
-      foreach($tables as $table) {
-        $tables_names[] = "('{$table['table_name']}')";
+      if($tables) {
+        $tables_names = array();
+        foreach($tables as $table) {
+          $tables_names[] = "('{$table['table_name']}')";
+        }
+
+        $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES'.implode(', ',$tables_names);
+        Yii::app()->db
+                  ->createCommand($insert)
+                  ->execute();
       }
-      
-      $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES'.implode(', ',$tables_names);
-      Yii::app()->db
-                ->createCommand($insert)
-                ->execute();
     }
     public function updateTablesAudit() {
       $operations =  array( array('code' => 'INS', 'from' => 'new', 'when' => 'AFTER INSERT', 'message' => 'Created', 'system_code' => 'insert')
