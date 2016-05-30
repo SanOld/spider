@@ -220,7 +220,7 @@ $this->breadcrumbs = array('Anträge');
 													</ng-show>
 												</dl>
 											</div>
-											
+
 											<div class="col-lg-4">
 												<h4 class="panel-title m-b-10">
 													Ansprechpersonen für Rückfragen zum Konzept
@@ -252,7 +252,7 @@ $this->breadcrumbs = array('Anträge');
 													</ng-show>
 												</dl>
 											</div>
-											
+
 											<div class="col-lg-4">
 												<h4 class="panel-title m-b-10">
 													Ansprechpersonen für Rückfragen zum Finance

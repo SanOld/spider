@@ -8,27 +8,29 @@ class Project extends BaseModel {
   public $params = array();
   public $select_all = "tbl.*, (SELECT short_name FROM spi_performer prf WHERE prf.id=tbl.performer_id) AS `performer_name`, (SELECT name FROM spi_district dst WHERE dst.id=tbl.district_id) AS `district_name`";
   protected function getCommand() {
-    if(safe($_GET, 'list') == 'unused_project') {
-      $this->select_all = "rqt.project_id id,tbl.code code ";
-      $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-      $command -> leftJoin( 'spi_request rqt',  'tbl.id  = rqt.project_id' );
-      $command -> where(' rqt.project_id  IS NULL ', array());
-      
-    } else {
-      $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-      $command -> where(' 1=1 ', array());
-       $command->andWhere("tbl.school_type_id = :school_type_id", array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
-    }
+
+    $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
+    $command -> where(' 1=1 ', array());
+
     return $command;
   }
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
     $params = array_change_key_case($params, CASE_UPPER);
-    
+
+    if(safe($params, 'LIST') == 'unused_project') {
+      $this->select_all = "tbl.id id, tbl.performer_id performer_id, tbl.code code ";
+      $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
+      $command -> leftJoin( 'spi_request rqt',  'tbl.id  = rqt.project_id' );
+      $command -> where(' rqt.project_id  IS NULL ', array());
+      $command -> orWhere(' rqt.year <> :year', array(':year' => $params['YEAR']));
+      $command->andWhere(' tbl.id NOT IN (SELECT project_id FROM spi_request WHERE year=:year )', array(':year' => $params['YEAR']));
+
+    }
+
     if (safe($params, 'CODE')) {
 //      $command->andWhere("tbl.code = :code", array(':code' => $params['CODE']));
       $command = $this->setLikeWhere($command,'tbl.code',safe($params, 'CODE'));
-
     }
     if (safe($params, 'SCHOOL_TYPE_ID')) {
       $command->andWhere("tbl.school_type_id = :school_type_id", array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
@@ -51,7 +53,7 @@ class Project extends BaseModel {
     $command -> group('tbl.id');
     return $command;
   }
-  
+
   protected function setWhereByRole($command) {
     switch($this->user['type']) {
       case SCHOOL:
@@ -82,34 +84,45 @@ class Project extends BaseModel {
 //  }
 
   protected function doAfterSelect($results) {
-    foreach($results['result'] as &$row) {
-//      $relation = $this->getSchools($row['id']);
-      $schools = Yii::app() -> db -> createCommand() 
-        -> select('scl.*') -> from('spi_project_school prs')
-        -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
-        -> where('project_id=:id', array(
-        ':id' => $row['id'] 
-      )) -> queryAll();
-      $row['schools'] = $schools;
-      
-      $performer = Yii::app() -> db -> createCommand() 
-        -> select('*') -> from('spi_performer')
-        -> where('id=:id', array(
-        ':id' => $row['performer_id'] 
-      )) -> queryRow();
-      $row['performer'] = $performer;
-//      $row['performer_name'] = $performer['short_name'];
-      
-      $district = Yii::app() -> db -> createCommand() 
-        -> select('*') -> from('spi_district')
-        -> where('id=:id', array(
-        ':id' => $row['district_id'] 
-      )) -> queryRow();
-      $row['district'] = $district;
-//      $row['district_name'] = $district['name'];
+    if(safe($_GET, 'list') == 'unused_project'){
+      foreach($results['result'] as &$row) {
+         $row[$row['id']] = array(
+            'id' => $row['id']
+          , 'code' => $row['code']
+          , 'performer_id' => $row['performer_id']
+          );
+
+      }
+    } else {
+      foreach($results['result'] as &$row) {
+  //      $relation = $this->getSchools($row['id']);
+        $schools = Yii::app() -> db -> createCommand()
+          -> select('scl.*') -> from('spi_project_school prs')
+          -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
+          -> where('project_id=:id', array(
+          ':id' => $row['id']
+        )) -> queryAll();
+        $row['schools'] = $schools;
+
+        $performer = Yii::app() -> db -> createCommand()
+          -> select('*') -> from('spi_performer')
+          -> where('id=:id', array(
+          ':id' => $row['performer_id']
+        )) -> queryRow();
+        $row['performer'] = $performer;
+  //      $row['performer_name'] = $performer['short_name'];
+
+        $district = Yii::app() -> db -> createCommand()
+          -> select('*') -> from('spi_district')
+          -> where('id=:id', array(
+          ':id' => $row['district_id']
+        )) -> queryRow();
+        $row['district'] = $district;
+  //      $row['district_name'] = $district['name'];
+      }
     }
 //    //get_next_id
-//    Yii::app() -> db -> createCommand() 
+//    Yii::app() -> db -> createCommand()
 //    ->select('MAX(id)')
 //    ->from($this -> table)
 //    ->limit('1');
@@ -118,7 +131,7 @@ class Project extends BaseModel {
   }
 
   protected function doBeforeInsert($post) {
-    
+
     if($this->user['type'] == ADMIN || ($this->user['type'] == PA && $post['isUpdate'])) {
       unset($post['isUpdate']);
       if(Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('code=:code ', array(
@@ -127,7 +140,7 @@ class Project extends BaseModel {
         return array(
             'code' => '409',
             'result' => false,
-            'system_code' => 'ERR_DUPLICATED', 
+            'system_code' => 'ERR_DUPLICATED',
             'message' => 'This project already exists'
         );
       }
@@ -144,16 +157,16 @@ class Project extends BaseModel {
 
       return array(
           'result' => true,
-          'params' => $post 
+          'params' => $post
       );
     } else {
       return array(
           'code' => '403',
           'result' => false,
-          'system_code' => 'ERR_PERMISSION', 
+          'system_code' => 'ERR_PERMISSION',
           'message' => 'Only Admin can create the projects'
       );
-    
+
     }
   }
   protected function doBeforeUpdate($post, $id) {
@@ -163,7 +176,7 @@ class Project extends BaseModel {
     $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id=:id ', array(
         ':id' => $id
     )) -> queryRow();
-    
+
     $canUpdate = true;
     foreach ($params as $key => $val) {
       if($val != $row[$key]) {
@@ -179,23 +192,23 @@ class Project extends BaseModel {
               'system_code' => 'ERR_UPDATE_FORBIDDEN',
             );
     }
-    
+
     unset($row['id']);
     $row['schools'] = safe($post,'schools');
     $row['performer_id'] = $post['performer_id'];
     $code = explode('\\', $row['code']);
-    
+
     $row['code'] = count($code)==1?$code[0].'\\2':$code[0].'\\'.($code[1]+1);
     Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
-      ':id' => $id 
+      ':id' => $id
     ));
     $row['isUpdate'] = true;
-    
+
     $this->insert($row);
-    
+
 //    return array(
 //        'result' => true,
-//        'params' => $oldRow 
+//        'params' => $oldRow
 //    );
   }
   protected function doAfterInsert($result, $params, $post) {
@@ -220,8 +233,8 @@ class Project extends BaseModel {
 //    }
 //
 //    if (Yii::app() -> db -> createCommand()
-//        -> select('*') 
-//        -> from($this -> table) 
+//        -> select('*')
+//        -> from($this -> table)
 //        -> where('id!=:id ' . 'AND login=:login',
 //                  array(
 //                  ':id' => $id,
@@ -230,15 +243,15 @@ class Project extends BaseModel {
 //      return array(
 //          'code' => '409',
 //          'result' => false,
-//          'system_code' => 'ERR_DUPLICATED', 
+//          'system_code' => 'ERR_DUPLICATED',
 //          'message' => 'This Username already registered'
 //      );
 //    }
-//    
-//    if (isset($param['EMAIL']) && $param['EMAIL'] && Yii::app() -> db -> createCommand() 
+//
+//    if (isset($param['EMAIL']) && $param['EMAIL'] && Yii::app() -> db -> createCommand()
 //        -> select('*')
-//        -> from($this -> table) 
-//        -> where('email = :email AND id!=:id', 
+//        -> from($this -> table)
+//        -> where('email = :email AND id!=:id',
 //                  array(
 //                  ':email' => $param['EMAIL'],
 //                  ':id' => $id))
@@ -249,10 +262,10 @@ class Project extends BaseModel {
 //          'system_code' => 'ERR_DUPLICATED_EMAIL'
 //      );
 //    }
-//    
+//
 //    return array(
 //        'result' => true,
-//        'params' => $post 
+//        'params' => $post
 //    );
 //  }
 

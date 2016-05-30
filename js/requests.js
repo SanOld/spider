@@ -136,14 +136,17 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       });
 
       modalInstance.result.then(function (data) {
-        console.log(data);
-//        network.post('request', {project_id: data, performer_id: 8}, function(result) {
-//          if(result) {
-//            console.log('ok');
-//          }
-//        });
+        network.post('request', { project_id: data.id
+                                , performer_id: data.performer_id
+                                , year: data.year}
+                                , function(result, response) {
+                                    if(result) {
+                                      console.log(response.id);
+                                      window.location = ' /request/' + response.id;
+                                    }
+                                  }
+                                );
       });
-
 
     }
   };
@@ -175,17 +178,45 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 
 
-spi.controller('ModalRequestAddController', function ($scope, ids, $uibModalInstance, network) {
-$scope.name='';
-    network.get('project', {list: 'unused_project'}, function (result, response) {
-    if (result) {
-      $scope.projects = response.result;
-    }
-  });
+spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance, network) {
 
+  $scope.year = new Date();
+  $scope.selectedYear = $scope.year.getFullYear();
+
+  $scope.dateOptions = {
+    datepickerMode: 'year',
+    minMode: 'year',
+    yearRows: 1,
+    yearColumns: 3,
+    dateFormat: 'yy'
+    //    maxDate: (Default: null) - Defines the maximum available date. Requires a Javascript Date object.
+    //    minDate:  (Default: null) - Defines the minimum available date. Requires a Javascript Date object.
+  };
+
+  $scope.getProjects = function() {
+    $scope.selectedYear = $scope.year.getFullYear();
+    network.get('project', {list: 'unused_project', year: $scope.selectedYear}, function (result, response) {
+      if (result) {
+        $scope.projects = response.result;
+        if($scope.projects.length > 0){
+          $scope.projects.selected_project = $scope.projects[0].id;
+        }
+      }
+    });
+  };
+
+  $scope.getProjects();
 
   $scope.ok = function () {
-    $uibModalInstance.close($scope.projects.selected_project);
+
+    for (var item  in $scope.projects) {
+      if ($scope.projects[item].id == $scope.projects.selected_project){
+        $scope.projects[item].year = $scope.selectedYear;
+        var data = $scope.projects[item] ;
+      }
+    }
+
+    $uibModalInstance.close(data);
     $uibModalInstance.dismiss('cancel');
 
   };
