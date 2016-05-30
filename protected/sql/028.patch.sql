@@ -8,3 +8,5 @@ ALTER TABLE `spi_page` ADD UNIQUE INDEX `unq_code` (`code`);
 ALTER TABLE `spi_request_school_concept`
 DROP `school_name`,
 DROP `school_number`;
+
+ALTER TABLE `spi_audit_event` CHANGE `table_name` `table_name` VARCHAR(50)  CHARACTER SET utf8  COLLATE utf8_general_ci  NOT NULL  DEFAULT '';

@@ -5,6 +5,7 @@ require_once ('utils/utils.php');
 class Request extends BaseModel {
   public $table = 'spi_request';
   public $post = array();
+  public $school_concepts = array();
   public $select_all = "tbl.*
                       , prf.name performer_name
                       , rqs.name status_name
@@ -109,6 +110,7 @@ class Request extends BaseModel {
   protected function doAfterInsert($result, $params, $post) {
     if($result['code'] == '200' && safe($result, 'id')) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+      $RequestSchoolConcept->user = $this->user;
       $school_ids = Yii::app() -> db -> createCommand()
         -> select('prs.school_id')
         -> from('spi_project_school prs')
@@ -129,6 +131,13 @@ class Request extends BaseModel {
 
   protected function doAfterUpdate($result, $params, $post, $id) {
     Yii::app()->db->createCommand()->update($this->table, array('last_change' => date("Y-m-d", time())), 'id=:id', array(':id' => $id ));
+    if($this->school_concepts) {
+      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+      $RequestSchoolConcept->user = $this->user;
+      foreach ($this->school_concepts as $id=>$data) {
+        $RequestSchoolConcept->update($id, $data);
+      }
+    }
     return $result;
   }
 
@@ -159,7 +168,7 @@ class Request extends BaseModel {
     }
 
     if(isset($post['school_concepts'])) {
-      // ToDo: save data in property variable and save it data in method doAfterUpdate
+      $this->school_concepts = $post['school_concepts'];
       unset($post['school_concepts']);
     }
 

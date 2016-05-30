@@ -154,7 +154,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   //$scope.$parent.requestID
 });
 
-spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService) {
+spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
   $timeout(function() {
     angular.element('#accordion-concepts .btn-toggle').click(function(){
       return false;
@@ -163,7 +163,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   $scope.school_concept = {};
   $scope.conceptTab = {};
-  
+
   $scope.schoolConcepts = [];
   network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
@@ -175,7 +175,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     return $scope.school_concept;
   };
 
-  $scope.submitForm = function(data, ID, action) {
+  $scope.submitForm = function(data, concept, action) {
     switch (action) {
       case 'submit':
         data.status = 'r';
@@ -187,11 +187,39 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         data.status = 'a';
         break;
     }
-    network.put('request_school_concept/' + ID, data, function(result, response) {
-      console.log(result, response);
+
+    network.put('request_school_concept/' + concept.id, data, function(result){
+      if(result) {
+        concept.status = data.status;
+      }
     });
   };
 
+  $scope.openComparePopup = function(history, change) {
+    $uibModal.open({
+      animation: true,
+      templateUrl: 'conceptCompareTemplate.html',
+      controller: 'СonceptCompareController',
+      size: 'width-full',
+      resolve: {
+        history: function () {
+          return {
+            user_name: history.user_name,
+            date: history.date,
+            name: change.name,
+            old:  change.old,
+            new:  change.new
+          };
+        }
+      }
+    });
+
+  }
+
+});
+
+spi.controller('СonceptCompareController', function($scope, history) {
+  $scope.history = history;
 });
 
 spi.controller('RequestSchoolGoalController', function ($scope, network, RequestService) {

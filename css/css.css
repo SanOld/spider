@@ -1734,12 +1734,15 @@ body.safari .box-finance .sum strong {
 .audit-page #datatable thead {
 	display:none;
 }
-#tab-history .alert {
+#tab-history .alert,
+.tab-history.block-concept .alert{
 	border-radius: 0;
 	padding:20px;
 	margin-bottom:7px;
 }
-#tab-history .thead {
+#tab-history .thead,
+.tab-history.block-concept .thead
+{
 	border-top:2px solid #ddd;
 	background: #f3f3f3;
 }

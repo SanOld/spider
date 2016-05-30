@@ -1352,7 +1352,7 @@ $this->breadcrumbs = array('Anträge');
 									</div>
 									<div id="collapse-{{::schoolConcept.id}}" class="panel-collapse collapse">
 										<div class="panel-body">
-											<div ng-show="conceptTab[schoolConcept.id] == 'data'"  id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
+											<div ng-class="{current: conceptTab[schoolConcept.id] == 'data'}" id="tab-data-{{::schoolConcept.id}}" class="block-concept">
 												<div class="alert alert-danger" ng-if="schoolConcept.status == 'd' && schoolConcept.comment" ng-bind="schoolConcept.comment"></div>
 												<ng-form>
 													<div class="form-group">
@@ -1377,37 +1377,29 @@ $this->breadcrumbs = array('Anträge');
 														</div>
 														<div class="col-lg-2" ng-if="canEdit('request_school_concept')">
 															<div class="m-t-30 text-right pull-right">
-																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id, 'accept')">AKZEPTIEREN</button>
-																<button ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+																<button ng-hide="schoolConcept.status == 'a'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept')">AKZEPTIEREN</button>
+																<button ng-hide="schoolConcept.status == 'd'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 															</div>
 														</div>
-														<div class="col-lg-2" ng-if="!canEdit('request_school_concept')">
+														<div class="col-lg-2" ng-if="!canEdit('request_school_concept') && schoolConcept.status != 'r'">
 															<div class="text-right pull-right">
-																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept.id 'submit')">SUBMIT</button>
+																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SUBMIT</button>
 															</div>
 														</div>
 													</div>
 												</ng-form>
 											</div>
-											<div ng-show="conceptTab[schoolConcept.id] == 'history'" id="tab-history-{{::schoolConcept.id}}" class="block-concept current">
-												<div class="alert alert-success">
-													<strong class="status-history">Genehmigt</strong>
-													<span class="check-history">Überpüft von Mustermann 15.12.2015</span>
-												</div>
-												<div class="alert alert-warning">
-													<strong class="status-history">Bereit zu überprüfen</strong>
-													<span class="check-history">Überpüft von Mustermann 13.12.2015</span>
-												</div>
-												<div class="changes-content">
-													<div class="heading-changes" ng-class="{open: !isCollapsed}" ng-click="isCollapsed = !isCollapsed">
+											<div ng-class="{current: conceptTab[schoolConcept.id] == 'history'}" id="tab-history-{{::schoolConcept.id}}" class="tab-history block-concept">
+												<div ng-repeat-start="history in schoolConcept.histories" ng-if="::history.changes" class="changes-content">
+													<div class="heading-changes" ng-class="{open: history.isCollapsed}" ng-click="history.isCollapsed = !history.isCollapsed">
 														Inhaltsveränderungen
 														<i class="ion-chevron-down arrow-box"></i>
 													</div>
-													<div class="content-changes" uib-collapse="isCollapsed">
+													<div class="content-changes" uib-collapse="!history.isCollapsed">
 														<div class="thead">
 															<div class="col-lg-4">
 																<strong>Veränderungen</strong>
-																<span>Bearbeitet von Mustermann am 11.12.2015</span>
+																<span>Bearbeitet von {{::history.user_name}} am {{::history.date}}</span>
 															</div>
 															<div class="col-lg-4">
 																Früher
@@ -1417,130 +1409,26 @@ $this->breadcrumbs = array('Anträge');
 															</div>
 														</div>
 														<div class="row-holder">
-															<div class="custom-row">
+															<div ng-repeat="change in history.changes" class="custom-row">
 																<div class="col-lg-4 ">
-																	<strong>Kontoinhaber</strong>
-																</div>
-																<div class="col-lg-4">
-																	<dl class="custom-dl">
-																		<dt></dt>
-																		<dd>Herr Mustermann</dd>
-																	</dl>
-																</div>
-																<div class="col-lg-4">
-																	<dl class="custom-dl">
-																		<dt></dt>
-																		<dd>Frau Schmidt</dd>
-																	</dl>
-																</div>
-															</div>
-														</div>
-														<div class="thead">
-															<div class="col-lg-4">
-																<strong>Veränderungen</strong>
-																<span>Bearbeitet von Mustermann am 11.12.2015</span>
-															</div>
-															<div class="col-lg-4">
-																Früher
-															</div>
-															<div class="col-lg-4">
-																Nachher
-															</div>
-														</div>
-														<div class="row-holder">
-															<div class="custom-row">
-																<div class="col-lg-4 ">
-																	<strong>Situation in der Schule</strong>
+																	<strong ng-bind="::change.name"></strong>
 																	<div class="btn-row m-t-10">
-																		<button class="btn w-xs" data-target="#modal-1" data-toggle="modal">
+																		<button class="btn w-xs" ng-click="openComparePopup(history, change)">
 																			<span>Vergleichen</span>
 																			<i class="ion-arrow-swap"></i>
 																		</button>
 																	</div>
 																</div>
-																<div class="col-lg-4">
-																	...  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem enim ad ...
-																</div>
-																<div class="col-lg-4">
-																	...  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat . Ut enim ad minim ...
-																</div>
-															</div>
-															<div class="custom-row">
-																<div class="col-lg-4">
-																	<strong>Gesundheitsförderung</strong>
-																</div>
-																<div class="col-lg-4">
-																	<dl class="custom-dl">
-																		<dt></dt>
-																		<dd>Kein Ziel</dd>
-																	</dl>
-																</div>
-																<div class="col-lg-4">
-																	<dl class="custom-dl">
-																		<dt></dt>
-																		<dd>Weiteres Ziel</dd>
-																	</dl>
-																</div>
-															</div>
-															<div class="custom-row">
-																<div class="col-lg-4 ">
-																	<strong>Kontoinhaber</strong>
-																</div>
-																<div class="col-lg-4">
-																	<dl class="custom-dl">
-																		<dt></dt>
-																		<dd>Herr Mustermann</dd>
-																	</dl>
-																</div>
-																<div class="col-lg-4">
-																	<dl class="custom-dl">
-																		<dt></dt>
-																		<dd>Herr Mustermann</dd>
-																	</dl>
-																</div>
-															</div>
-														</div>
-														<div class="thead">
-															<div class="col-lg-4">
-																<strong>Veränderungen</strong>
-																<span>Bearbeitet von Mustermann am 11.12.2015</span>
-															</div>
-															<div class="col-lg-4">
-																Früher
-															</div>
-															<div class="col-lg-4">
-																Nachher
-															</div>
-														</div>
-														<div class="row-holder">
-															<div class="custom-row">
-																<div class="col-lg-4 ">
-																	<strong>Vorname</strong>
-																</div>
-																<div class="col-lg-4">
-																	<dl class="custom-dl">
-																		<dt></dt>
-																		<dd>Dohn</dd>
-																	</dl>
-																</div>
-																<div class="col-lg-4">
-																	<dl class="custom-dl">
-																		<dt></dt>
-																		<dd>Frau Schmidt</dd>
-																	</dl>
-																</div>
+																<div class="col-lg-4" ng-bind="::change.old"></div>
+																<div class="col-lg-4" ng-bind="::change.new"></div>
 															</div>
 														</div>
 													</div>
 												</div>
-												<div class="alert alert-danger">
-													<strong class="status-history">Ablehnen</strong>
-													<span class="check-history">Überpüft von Mustermann 13.12.2015</span>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-												</div>
-												<div class="alert alert-warning">
-													<strong class="status-history">Bereit zu überprüfen</strong>
-													<span class="check-history">Überpüft von Mustermann 13.12.2015</span>
+												<div ng-repeat-end class="alert" ng-class="{'alert-success': history.status_code == 'a', 'alert-warning': history.status_code == 'r', 'alert-danger': history.status_code == 'd'}">
+													<strong class="status-history" ng-bind="::history.status_name">Genehmigt</strong>
+													<span class="check-history">Überpüft von {{::history.user_name}} {{::history.date}}</span>
+													<p ng-bind="::history.comment"></p>
 												</div>
 											</div>
 										</div>
@@ -2143,6 +2031,70 @@ $this->breadcrumbs = array('Anträge');
 				<div class="col-lg-12">
 					<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
 					<button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date">Speichern</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+
+<script type="text/ng-template" id="conceptCompareTemplate.html">
+	<div class="panel panel-color panel-primary">
+		<div class="panel-heading clearfix">
+			<h3 class="m-0 pull-left">Vergleichen</h3>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
+		</div>
+		<div class="panel-body">
+			<div class="heading-compare">
+				<strong>Veränderungen</strong>
+				<span>Bearbeitet von {{::history.user_name}} am {{::history.date}}</span>
+				<p>Bereich: <strong ng-bind="::history.name"></strong></p>
+			</div>
+			<hr />
+			<div class="row compare-box">
+				<div class="col-lg-6">
+					<strong class="title">Früher</strong>
+					<div class="ready">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+					</div>
+					<div class="no-status">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+					</div>
+					<div class="decline">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+					</div>
+					<div class="no-status">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+					</div>
+					<div class="approve">
+
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<strong class="title">Nachher</strong>
+					<div class="ready">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+					</div>
+					<div class="no-status">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+					</div>
+					<div class="decline">
+
+					</div>
+					<div class="no-status">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+					</div>
+					<div class="approve">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+					</div>
+				</div>
+			</div>
+			<hr />
+		</div>
+		<div class="row">
+			<div class="form-group group-btn">
+				<div class="col-lg-12">
+					<button class="btn w-lg custom-btn pull-right" data-dismiss="modal">SCHLIEßEN</button>
 				</div>
 			</div>
 		</div>
