@@ -5,7 +5,7 @@
     <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
   </div>
   <div class="panel-body">
-    <ng-form name="formProjects" class="form-horizontal" >
+    <ng-form name="formProjects" class="form-horizontal" disable-all="modeView">
       <div class="row">
         <div class="m-b-15 clearfix">
           <label class="col-lg-2 control-label">Kennziffer</label>
