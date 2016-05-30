@@ -37,7 +37,7 @@
             <div spi-hint text="_hint.type_id" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.type_id"
-                         name="type_id" required on-select="updateCode();">
+                         name="type_id" required on-select="updateCode(); updateSchools();">
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
                   {{$select.selected.name}}
                 </ui-select-match>
@@ -92,13 +92,13 @@
             </div>
           </div>
         </div>
-        <div class="m-b-15 clearfix">
+        <div class="m-b-15 clearfix" ng-hide="project.type_id == '3'">
           <label class="col-lg-2 control-label">Bezirk</label>
           <div class="col-lg-10">
             <div spi-hint text="_hint.district_id" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert" ng-model="project.district_id"
-                         name="district_id" on-select="updateSchools()" ng-required="schoolTypeCode != 'z'">
+                         name="district_id" on-select="updateSchools()" ng-required="schoolTypeCode != 'z' && project.type_id != '3'">
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
                   {{$select.selected.name}}
                 </ui-select-match>
