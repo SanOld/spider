@@ -30,7 +30,7 @@ $this->breadcrumbs = array('Audit');
                   <div class="col-lg-3">
                     <div class="form-group">
                       <div class="form-group">
-                        <label>Choose section</label>
+                        <label>Seite</label>
                         <ui-select ng-change="updateGrid()" class="type-user" ng-model="filter.table_name">
                             <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                             <ui-select-choices repeat="item.code as item in tables | filter: $select.search">
@@ -41,10 +41,10 @@ $this->breadcrumbs = array('Audit');
                     </div>
                   </div>
                   <div class="col-lg-2">
-                    <label>Date</label>
+                    <label>Datum</label>
                     <div class="input-group">
                       <input uib-datepicker-popup="dd.MM.yyyy" is-open="popup.opened" datepicker-options="dateOptions"
-                             ng-change="updateGrid()" ng-model="filter.date" type="text" id="audit-date" class="form-control datepicker" placeholder="All dates">
+                             ng-change="updateGrid()" ng-model="filter.date" type="text" id="audit-date" class="form-control datepicker" placeholder="Alle Daten">
                       <span class="input-group-addon" ng-click="popup.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>

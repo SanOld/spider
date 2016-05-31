@@ -20,8 +20,8 @@
                   <div class="clearfix">
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label class="col-lg-4 control-label">Name</label>
-                        <div class="col-lg-8">
+                        <label class="col-lg-3 control-label">Name</label>
+                        <div class="col-lg-9">
                           <div spi-hint text="_hint.name" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                             <input name="name" ng-model="school.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
@@ -34,9 +34,9 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-lg-4 control-label">Bezirk</label>
+                        <label class="col-lg-3 control-label">Bezirk</label>
 
-                        <div class="col-lg-8">
+                        <div class="col-lg-9">
                           <div spi-hint text="_hint.district_id" class="has-hint"></div>
                           <span class="valign-field" ng-if="!canEdit() || modeView" ng-bind="districtName"></span>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}" ng-if="canEdit() && !modeView">
@@ -57,18 +57,18 @@
                         </div>
                       </div>
                       <div class="form-group" ng-if="!(modeView && !school.address)">
-                        <label class="col-lg-4 control-label">Adresse</label>
-                        <div class="col-lg-8">
+                        <label class="col-lg-3 control-label">Adresse</label>
+                        <div class="col-lg-9">
                           <div spi-hint text="_hint.address" class="has-hint"></div>
                           <div class="wrap-hint">
-                            <textarea name="address" ng-model="school.address" class="form-control"></textarea>
+                            <textarea name="address" ng-model="school.address" class="form-control scoole-textarea"></textarea>
                           </div>
                         </div>
                       </div>
                       <div class="form-group" ng-if="!(modeView && !school.plz)">
-                        <label class="col-lg-4 control-label">PLZ</label>
+                        <label class="col-lg-3 control-label">PLZ</label>
 
-                        <div class="col-lg-8">
+                        <div class="col-lg-9">
                           <div spi-hint text="_hint.plz" class="has-hint"></div>
                           <div class="wrap-hint">
                             <input name="plz" ng-model="school.plz" type="text" value="" class="form-control">
@@ -76,9 +76,9 @@
                         </div>
                       </div>
                       <div class="form-group" ng-if="!(modeView && !school.city)">
-                        <label class="col-lg-4 control-label">Stadt</label>
+                        <label class="col-lg-3 control-label">Stadt</label>
 
-                        <div class="col-lg-8">
+                        <div class="col-lg-9">
                           <div spi-hint text="_hint.city" class="has-hint"></div>
                           <div class="wrap-hint">
                             <input name="city" ng-model="school.city" type="text" value="Berlin" class="form-control">
@@ -86,7 +86,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-5 col-lg-offset-1">
+                    <div class="col-lg-6">
                       <div class="form-group">
                         <label class="col-lg-3 control-label p-r-0">Schul-Nr.</label>
 

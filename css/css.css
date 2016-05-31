@@ -798,6 +798,9 @@ body .nav.nav-tabs + .tab-content {
 	height: 70px !important;
 	min-height: inherit;
 }
+.modal-width-full textarea.scoole-textarea {
+	height: 83px !important;
+}
 .modal-width-full .custom-field textarea.form-control {
 	min-height: 375px;
 }
@@ -1091,6 +1094,9 @@ table.dataTable thead > tr > th.sorting_disabled {
 }
 .request-alert #datatable th.dt-body-center {
 	padding:10px 0;
+}
+.form-control.datepicker {
+	font-size: 13px;
 }
 .holder-datepicker {
 	overflow:hidden;
@@ -2628,8 +2634,7 @@ body.safari #finance .btn-group.btn-toggle .btn {
     font-size:17px;
 }
 .school-td {
-  width: 100%;
-  display: inline-block;
+  display:block;
 }
 
 /*404 page */
