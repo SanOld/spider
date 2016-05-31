@@ -159,7 +159,7 @@
         </div>
         <div class="col-lg-10 text-right pull-right">
           <button class="btn w-lg cancel-btn" data-dismiss="modal" ng-click="cancel()">Abbrechen</button>
-          <button class="btn w-lg custom-btn" data-dismiss="modal" ng-click="submitFormProjects()">Speichern</button>
+          <button ng-if="canEdit() && !modeView" class="btn w-lg custom-btn" data-dismiss="modal" ng-click="submitFormProjects()">Speichern</button>
         </div>
       </div>
     </ng-form>
