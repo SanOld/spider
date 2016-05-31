@@ -57,7 +57,7 @@ $this->breadcrumbs = array('Träger');
 						<div class="col-lg-12">
 							<table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
 								<tr ng-repeat="row in $data" ng-class="{'disable': !+row.is_checked && !isOwn(row.id)}">
-									<td data-title="'Name'" sortable="'name'">{{row.name}}</td>
+									<td data-title="'Name'" sortable="'short_name'">{{row.short_name}}</td>
 									<td data-title="'Adresse'" sortable="'full_address'">{{row.full_address}}</td>
 									<td data-title="'Ansprechpartner(in)'" sortable="'representative_user'">{{row.representative_user}}</td>
 									<td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}">{{row.email}}</a></td>
