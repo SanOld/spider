@@ -80,9 +80,9 @@ $this->breadcrumbs = array('Audit');
               
               <table id="datatable" ng-table="tableParams" class="table-bordered">
                 <colgroup>
-                  <col width="60%" />
-                  <col width="20%" />
-                  <col width="20%" />
+                  <col width="40%" />
+                  <col width="30%" />
+                  <col width="30%" />
                 </colgroup>
                 <tr ng-click="group.$hideRows = !group.$hideRows" class="ng-table-group thead" ng-repeat-start="group in $groups" ng-class="{'open':group.$hideRows, 'delete': group.data[0].event_type == 'DEL', 'insert':  group.data[0].event_type == 'INS'}">
                   <td>

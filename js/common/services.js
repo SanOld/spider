@@ -188,7 +188,7 @@ spi.factory('Utils', function (SweetAlert) {
     doConfirm: function(callback) {
       SweetAlert.swal({
         title: "Sind Sie sicher?",
-        text: "Diese Datei wird nicht weidererstellt!",
+        text: "Diese Datei wird nicht wiederhergestellt!",
         type: "warning",
         confirmButtonText: "JA, LÖSCHEN!",
         showCancelButton: true,
@@ -201,7 +201,7 @@ spi.factory('Utils', function (SweetAlert) {
       });
     },
     deleteSuccess: function() {
-      SweetAlert.swal("Gelöscht!", "Ihre Datrei ist erfolgreich gelöscht!", "success");
+      SweetAlert.swal("Gelöscht!", "Ihre Datei ist erfolgreich gelöscht!", "success");
     },
     getIdByPath: function() {
       var id = +location.pathname.split('/').pop();
