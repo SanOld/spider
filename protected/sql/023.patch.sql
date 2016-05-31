@@ -22,3 +22,15 @@ INSERT INTO `spi_finance_source` (`id`, `project_type_id`, `programm`) VALUES ('
 
 
 INSERT INTO `spi_school_type` (`code`, `name`) VALUES ('z', 'Zusatzprojekte');
+
+
+
+
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('15', 'header', 'Header');
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('15', 'code', 'Kennziffer');
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('15', 'rate', 'Rate');
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('15', 'type_id', 'Fördertopf');
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('15', 'school_type_id', 'Schultyp');
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('15', 'performer_id', 'Träger');
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('15', 'district_id', 'Bezirk');
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('15', 'schools', 'Schule');

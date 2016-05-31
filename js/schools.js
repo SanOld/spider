@@ -194,5 +194,8 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
   $scope.canEditSchool = function() {
     return $rootScope.canEdit() || data.id == network.user.relation_id;
   }
+  $scope.canByType = function(types) {
+    return types.indexOf(network.user.type) != -1;
+  }
 
 });
