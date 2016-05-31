@@ -30,6 +30,7 @@ class School extends BaseModel {
       case TA:
         $command->join('spi_project prj', 'tbl.district_id = prj.district_id');
         $command->andWhere('prj.performer_id = :performer_id', array(':performer_id' => $this->user['relation_id']));
+        $command->group('tbl.id');
         break;
     }
     return $command;
