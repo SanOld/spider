@@ -86,7 +86,7 @@ $this->breadcrumbs = array('Projekte');
                                         </div>
                                     </div>
                                     <div class="col-lg-2 reset-btn-width">
-                                        <button class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
+                                        <button ng-click="resetFilter()" class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
                                     </div>
                                 </form>
 							</div>
