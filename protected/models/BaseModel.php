@@ -97,8 +97,9 @@ class BaseModel extends CFormModel {
       ->limit('-1')
       ->offset('');
     $res = $command->queryAll();
-    if(count($res) == 1) {
-      return $res;
+    if(count($res) === 1) {
+//      return print_r($res,1);
+      return safe($res[0],'cnt',1);
     } else {
       return count($res);
     }
