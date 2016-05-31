@@ -18,7 +18,7 @@
 				
 			<div class="container">
 				<ul class="breadcrumb p-0">
-					<li><a href="/">Home</a></li>
+					<li><a href="/dashboard">Home</a></li>
 					<li class="active">Email-Vorlagen</li>
 				</ul>
 			</div>
