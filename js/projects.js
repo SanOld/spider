@@ -184,7 +184,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           delete $scope.project.district_id;
         }
         
-        if($scope.project.school_type_id) {
+        if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
           schoolParams['type_id'] = $scope.project.school_type_id;
         }
         if($scope.project.district_id) {
