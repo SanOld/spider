@@ -24,7 +24,7 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Benutzer</a>
 				<ul class="dropdown-menu">
 					<li><a ng-if="canShow('user')" href="/users">Benutzerliste</a></li>
-					<li><a ng-if="canShow('user_type')" href="/user-roles">Benutzerrollen</a></li>
+					<li ng-if="canShow('user_type')"><a href="/user-roles">Benutzerrollen</a></li>
 				</ul>
 			</li>
 			<li ng-if="canShow('project')"><a href="/projects">Projekte</a></li>

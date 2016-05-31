@@ -25,7 +25,7 @@ $this->breadcrumbs = array('Fördertöpfe');
                 <tr ng-repeat="row in $data">
                   <td data-title="'Fördertopf'" sortable="'type_name'">{{row.type_name}}</td>
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
-                  <td data-title="'Details'" sortable="'description'">{{row.description}}</td>
+                  <td data-title="'Beschreibung'" sortable="'description'">{{row.description}}</td>
                   <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
                     <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit())">
                       <i class="ion-eye"  ng-if="!canEdit()"></i>
@@ -81,15 +81,14 @@ $this->breadcrumbs = array('Fördertöpfe');
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('programm')}">
                 <input name="programm" ng-model="finance.programm" class="form-control" type="text" value="" required>
                 <span ng-class="{hide: !fieldError('programm')}" class="hide">
-                    <label ng-show="formFinances.programm.$error.required" class="error">Programm is
-                      required</label>
+                    <label ng-show="formFinances.programm.$error.required" class="error">Programm ist erforderlich</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                 </span>
               </div>
             </div>
           </div>
           <div class="m-b-15 clearfix">
-            <label class="col-lg-3 control-label">Details</label>
+            <label class="col-lg-3 control-label">Beschreibung</label>
 
             <div class="col-lg-9">
               <div spi-hint text="_hint.description" class="has-hint"></div>

@@ -1110,9 +1110,6 @@ table.dataTable thead > tr > th.sorting_disabled {
 .address-row {
 	margin: 0 0 15px;
 }
-.address-row .form-group {
-	margin-bottom: 5px;
-}
 .holder-three-blocks h4 {
 	font-size:17px;
 }
@@ -1258,6 +1255,7 @@ body .nav.nav-tabs.tab-color > li.active > a,
 	padding: 0 0 0 8px !important;
 	line-height: 31px !important;
 	background: #f7f7f7 !important;
+	height: 33px !important;
 }
 .select2-container-multi .select2-choices {
 	background: #f7f7f7 !important;
@@ -2704,4 +2702,14 @@ body.safari #finance .btn-group.btn-toggle .btn {
 
 .edit-user .datafilter > div {
 	padding-right: 0;
+}
+.sweet-alert.showSweetAlert h2 {
+    margin-top: 25px;
+}
+.table-bordered tbody tr td {
+	width:366.66px !important;
+}
+.custom-field span[ng-bind="relation_name"] {
+	display: inline-block;
+    padding: 4px 0 0;
 }
