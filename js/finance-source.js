@@ -53,7 +53,7 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
         network.get('finance_source', {is_active: 1}, function(result, response){
             if(result) {
                 $scope.finances = response.result;
-                $scope.sourceTypeName = Utils.getRowById($scope.finances, data.project_type_id, 'name');
+                $scope.sourceTypeName = Utils.getRowById($scope.finances, data.project_type_id, 'type_name');
             }
         });
     }

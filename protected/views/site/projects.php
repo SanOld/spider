@@ -22,7 +22,7 @@ $this->breadcrumbs = array('Projekte');
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="row datafilter">
-                                <form action="#" class="class-form">
+                                <form action="javascript:;" class="class-form">
                                     <div class="col-lg-{{canByType(['d','s','t'])?4:2}}">
                                         <div class="form-group">
                                             <label>Suche nach Kennziffer</label>

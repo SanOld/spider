@@ -214,7 +214,7 @@
               </div>
               <hr/>
               <div class="form-group group-btn m-t-15">
-                <div class="col-lg-2" ng-if="!isInsert && canEdit() && !modeView">
+                <div class="col-lg-2" ng-if="!isInsert && canEdit() && !modeView && canByType(['a'])">
                   <a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i
                       class="fa fa-trash-o"></i></a>
                 </div>

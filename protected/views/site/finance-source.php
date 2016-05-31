@@ -100,9 +100,9 @@ $this->breadcrumbs = array('Fördertöpfe');
           </div>
         </div>
         <div class="form-group group-btn m-t-15">
-          <div class="col-lg-2">
+<!--          <div class="col-lg-2">
             <a ng-click="remove()" ng-if="canEdit() && !modeView" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></a>
-          </div>
+          </div>-->
           <div class="col-lg-10 text-right pull-right">
             <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
             <button class="btn w-lg custom-btn" ng-if="canEdit() && !modeView" ng-click="submitFormFinances()">Speichern</button>

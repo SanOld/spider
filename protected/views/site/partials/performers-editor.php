@@ -230,7 +230,7 @@
         </div>
         <hr>
         <div class="group-btn clearfix m-t-20">
-          <div class="pull-left" ng-if="!isInsert && canDelete() && !modeView">
+          <div class="pull-left" ng-if="!isInsert && canDelete() && !modeView && canByType(['a'])">
             <button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
           </div>
           <div class="pull-right">
