@@ -2691,6 +2691,12 @@ body.safari #finance .btn-group.btn-toggle .btn {
 .box-finance {
 	width:140px;
 }
+
+.select2[disabled] .select2-choices ,
+.select2[disabled] .select2-choice {
+  cursor: not-allowed!important;
+}
+
 .edit-user .datafilter > div {
 	padding-right: 0;
 }
