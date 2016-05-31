@@ -18,7 +18,7 @@
 					
 			<div class="container">
 				<ul class="breadcrumb p-0">
-					<li><a href="#">Home</a></li>
+					<li><a href="/">Home</a></li>
 					<li><a href="#">Sachbericht</a></li>
 					<li class="active">Sachbericht 2015</li>
 				</ul>

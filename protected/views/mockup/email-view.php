@@ -18,7 +18,7 @@
 				
 			<div class="container">
 				<ul class="breadcrumb p-0">
-					<li><a href="#">Home</a></li>
+					<li><a href="/">Home</a></li>
 					<li><a href="#">EMail-Vorlagen</a></li>
 					<li class="active">FV_2014_Sonderkündigung</li>
 				</ul>
