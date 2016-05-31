@@ -61,7 +61,7 @@ $this->breadcrumbs = array('Benutzerrollen');
             </div>
           </div>
           <div class="form-group col-lg-6">
-            <label class="m-b-10">Akteur-Typ</label>
+            <label>Akteur-Typ</label>
             <div>
               <span ng-if="!isInsert" ng-bind="relation_name"></span>
               <span spi-hint text="_hint.type" class="{{isInsert ? 'has-hint' : ''}}"></span>
