@@ -79,7 +79,7 @@ spi.directive('disableAll', function ($timeout) {
         angular.element(element).addClass('disable-all');
         // element.addEventListener('click', preventDefault, true);
         for(var i = 0; i < _disableElements.length; i++) {
-          disableElements(angular.element(element).find(_disableElements[i]));
+          disableElements(angular.element(element).find(_disableElements[i]), _disableElements[i] == 'textarea');
         }
       };
 
@@ -94,7 +94,7 @@ spi.directive('disableAll', function ($timeout) {
         return false;
       };
 
-      var disableElements = function(elements) {
+      var disableElements = function(elements, readonly) {
         var len = elements.length;
         for (var i = 0; i < len; i++) {
           var shouldDisable = true;
@@ -105,7 +105,11 @@ spi.directive('disableAll', function ($timeout) {
             }
           }
           if (shouldDisable && elements[i].disabled === false) {
-            elements[i].disabled = true;
+            if(readonly) {
+              elements[i].readOnly = true;
+            } else {
+              elements[i].disabled = true;
+            }
             elements[i].disabledIf = true;
           }
         }

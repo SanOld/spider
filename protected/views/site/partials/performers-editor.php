@@ -250,7 +250,7 @@
                   <div class="holder-textarea">
                     <div spi-hint text="_hint.company_overview" class="has-hint"></div>
                     <div class="wrap-hint">
-                      <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('company_overview')" name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-focus="isTextareaShow = true; canSave = (canEditPerformer() && !modeView)" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('company_overview')" name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -259,7 +259,7 @@
                   <div class="holder-textarea">
                     <div spi-hint text="_hint.diversity" class="has-hint"></div>
                     <div class="wrap-hint">
-                      <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('diversity')" name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-focus="isTextareaShow = true; canSave = (canEditPerformer() && !modeView)" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('diversity')" name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -282,7 +282,7 @@
                   <div class="holder-textarea">
                     <div spi-hint text="_hint.further_education" class="has-hint"></div>
                     <div class="wrap-hint">
-                      <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('further_education')" name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-focus="isTextareaShow = true; canSave = (canEditPerformer() && !modeView)" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('further_education')" name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -291,7 +291,7 @@
                   <div class="holder-textarea">
                     <div spi-hint text="_hint.quality_standards" class="has-hint"></div>
                     <div class="wrap-hint">
-                      <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('quality_standards')" name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-focus="isTextareaShow = true; canSave = (canEditPerformer() && !modeView)" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('quality_standards')" name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -324,7 +324,7 @@
         </div>
         <div class="clearfix" ng-show="isTextareaShow"><div class="col-lg-4 col-lg-offset-8 text-right button-textarea">
             <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Löschen</button>
-            <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false">Hinzufügen</button>
+            <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false" ng-show="canSave">Hinzufügen</button>
           </div>
         </div>
         <hr>
