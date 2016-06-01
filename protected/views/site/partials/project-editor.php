@@ -56,7 +56,7 @@
             <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('school_type_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.school_type_id"
-                         name="school_type_id" required on-select="updateSchools();updateCode();">
+                         name="school_type_id" required on-select="updateSchools();updateCode();getDistricts();">
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
                   {{$select.selected.fullName}}
                 </ui-select-match>
@@ -79,10 +79,10 @@
               <ui-select ng-disabled="!$select.items.length || project.is_old == 1 || modeView" ng-model="project.performer_id"
                          name="performer_id" required>
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
-                  {{$select.selected.name}}
+                  {{$select.selected.short_name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
-                  <span ng-bind-html="item.name | highlight: $select.search"></span>
+                  <span ng-bind-html="item.short_name | highlight: $select.search"></span>
                 </ui-select-choices>
               </ui-select>
               <span ng-class="{hide: !fieldError('performer_id')}" class="hide">

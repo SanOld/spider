@@ -126,17 +126,28 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             $scope.performers = response.result;
         }
     });
-    network.get('district', {}, function (result, response) {
-        if(result) {
-            $scope.districts = response.result;
-        }
-    });
+    
+    
+    
+    $scope.getDistricts = function() {
+      var params = {};
+      delete $scope.project.district_id;
+      if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
+        params['school_type_id'] = $scope.project.school_type_id;
+      }
+      network.get('district', params, function (result, response) {
+          if(result) {
+              $scope.districts = response.result;
+          }
+      });
+    }
+    $scope.getDistricts();
     
     
     function getProjects() {
         network.get('project', {}, function(result, response){
             if(result) {
-                $scope.projects = response.result;
+              $scope.projects = response.result;
             }
         });
     }
