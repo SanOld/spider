@@ -45,12 +45,12 @@ class Request extends BaseModel {
 
                             ";
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-      $command -> join( 'spi_request_status rqs',     'tbl.status_id           = rqs.id' );
-      $command -> join( 'spi_performer prf',          'tbl.performer_id        = prf.id' );
+      $command -> join(     'spi_request_status rqs',     'tbl.status_id           = rqs.id' );
+      $command -> join(     'spi_performer prf',          'tbl.performer_id        = prf.id' );
       $command -> leftJoin( 'spi_user prf_user',          'prf_user.id             = prf.representative_user_id' );
-      $command -> join( 'spi_project prj',            'tbl.project_id          = prj.id' );
-      $command -> join( 'spi_district dst',           'dst.id                  = prj.district_id' );
-      $command -> join( 'spi_user user',              'user.id                 = dst.contact_id' );
+      $command -> join(     'spi_project prj',            'tbl.project_id          = prj.id' );
+      $command -> leftJoin( 'spi_district dst',           'dst.id                  = prj.district_id' );
+      $command -> leftJoin( 'spi_user user',              'user.id                 = dst.contact_id' );
       $command -> where(' 1=1 ', array());
 
     } else {
@@ -151,7 +151,7 @@ class Request extends BaseModel {
                                                 , user.function user_function")
                                       -> from('spi_project_school prj_sch')
                                       -> join( 'spi_school sch', 'prj_sch.school_id = sch.id' )
-                                      -> join( 'spi_user user', 'user.id = sch.contact_id' )
+                                      -> leftJoin( 'spi_user user', 'user.id = sch.contact_id' )
                                       -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
                                       -> queryAll();
       $result['result'] =  $row;
