@@ -47,7 +47,7 @@ class Request extends BaseModel {
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> join( 'spi_request_status rqs',     'tbl.status_id           = rqs.id' );
       $command -> join( 'spi_performer prf',          'tbl.performer_id        = prf.id' );
-      $command -> join( 'spi_user prf_user',          'prf_user.id             = prf.representative_user_id' );
+      $command -> leftJoin( 'spi_user prf_user',          'prf_user.id             = prf.representative_user_id' );
       $command -> join( 'spi_project prj',            'tbl.project_id          = prj.id' );
       $command -> join( 'spi_district dst',           'dst.id                  = prj.district_id' );
       $command -> join( 'spi_user user',              'user.id                 = dst.contact_id' );
@@ -84,6 +84,7 @@ class Request extends BaseModel {
     if(safe($params, 'STATUS_ID')) {
       $command -> andWhere('rqs.id = :status_id', array(':status_id' => $params['STATUS_ID']));
     }
+//        print_r ($command->text);
     return $command;
   }
 
@@ -140,6 +141,7 @@ class Request extends BaseModel {
   }
 
   protected function doAfterSelect($result) {
+
     if (isset($_GET['id'])){
       $row = $result['result'][0];
 
