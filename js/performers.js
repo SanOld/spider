@@ -319,7 +319,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   };
 
   $scope.canDelete = function() {
-    return $rootScope.canEdit() && !(network.user['type'] == 'a' && network.userIsPA);
+    return $rootScope.canEdit() && network.user['type'] == 'a';
   };
 //  $scope.canByType = function(types) {
 //    return types.indexOf(network.user.type) != -1;
