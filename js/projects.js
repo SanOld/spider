@@ -331,6 +331,10 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       })
       return $(a).not(b).length === 0 && $(b).not(a).length === 0
     };
+    
+    $scope.canByType = function(types) {
+      return types.indexOf(network.user.type) != -1;
+    }
 
 });
 

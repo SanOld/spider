@@ -60,7 +60,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope.bank_details = [];
   $scope._hint = hint;
   $scope.modeView = modeView;
-  $scope.isFinansist = network.user.type == 'a' || (network.user.type == 't' && parseInt(network.user.is_finansist));
+  $scope.isFinansist = network.user.type == 'a' || network.user.type == 'p' || (network.user.type == 't' && parseInt(network.user.is_finansist));
   $scope.tabActive = 0;
 
   $scope.canEditPerformer = function() {
