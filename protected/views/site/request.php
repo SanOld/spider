@@ -60,7 +60,7 @@ $this->breadcrumbs = array('Anträge');
 												<h3 class="panel-title">
 													Träger
                           <span class="btn-row m-l-15">
-                            <a class="btn" href="performers#id={{data.performer_id}}" target="_blank" >Überprüft</a>
+                            <a class="btn" href="performers#id={{data.performer_id}}" target="_blank" >Bearbeiten</a>
                           </span>
 												</h3>
 												<hr/>
@@ -137,7 +137,7 @@ $this->breadcrumbs = array('Anträge');
 														<div class="row m-b-30 row-holder-dl">
 															<div class="col-lg-12">
 																<div class="btn-row m-b-15">
-																	<a class="btn" href="schools#id={{school.id}}" target="_blank" >Überprüft</a>
+																	<a class="btn" href="schools#id={{school.id}}" target="_blank" >Bearbeiten</a>
 																</div>
 																<dl class="custom-dl">
 																	<ng-show ng-show="school.user_name">
@@ -295,7 +295,7 @@ $this->breadcrumbs = array('Anträge');
 										<h3 class="panel-title">
 											Angaben zum Jugendamt
                       <span class="btn-row m-l-15">
-                        <a class="btn" href="districts#id={{data.district_id}}" target="_blank" >Überprüft</a>
+                        <a class="btn" href="districts#id={{data.district_id}}" target="_blank" >Bearbeiten</a>
                       </span>
 										</h3>
 										<hr/>
