@@ -175,6 +175,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     return $scope.school_concept;
   };
 
+
   $scope.submitForm = function(data, concept, action) {
     switch (action) {
       case 'submit':
@@ -222,8 +223,115 @@ spi.controller('СonceptCompareController', function($scope, history) {
   $scope.history = history;
 });
 
-spi.controller('RequestSchoolGoalController', function ($scope, network, RequestService) {
-  //$scope.$parent.requestID
+spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, $timeout, $apply) {
+
+  $scope.userType = network.user.type;
+  $scope.schoolGoals = [];
+  $scope.activeTab = 0;
+  $scope.tabStatus = 'g';
+
+  network.get('request_school_goal', {request_id: $scope.$parent.requestID}, function (result, response) {
+    if (result) {
+      $scope.schoolGoals = response.result;
+
+
+      $scope.schoolGoals['10'].status = 'qqqqqqq';
+      
+      $scope.$apply();
+      $timeout(function(){
+        console.log($scope.schoolGoals);
+      })
+
+
+
+    }
+  });
+
+  $scope.paPriority = {r: 1, d: 2, g: 3, a: 4 };
+  $scope.taPriority = {d: 1, g: 2, r: 3, a: 4 };
+
+  $scope.checkSchoolStatus = function(){
+    switch($scope.userType){
+      case 'a':
+      case 'p':
+        for (var school in $scope.schoolGoals) {
+          var schools = $scope.schoolGoals
+          for (var goal in schools[school]) {
+            var goals = schools[school];
+            if($scope.paPriority[goals[goal].status] < $scope.paPriority[schools[school].status]){
+              $scope.schoolGoals[school].status = goals[goal].status;
+              console.log('school: '+ school+  'status: ' + $scope.schoolGoals[school].status);
+            }
+          }
+        }
+        break;
+      default :
+        for (var school in $scope.schoolGoals) {
+          var schools = $scope.schoolGoals
+          for (var goal in schools[school]) {
+            var goals = schools[school];
+            if($scope.taPriority[goals[goal].status] < $scope.taPriority[schools[school].status]){
+              $scope.schoolGoals[school].status = goals[goal].status;
+            }
+          }
+        }
+      break;
+    }
+    console.log($scope.schoolGoals);
+    $scope.checkTabStatus();
+  }
+
+
+    $scope.checkTabStatus = function(){
+    switch($scope.userType){
+      case 'a':
+      case 'p':
+        for (var school in $scope.schoolGoals) {
+          var schools = $scope.schoolGoals;
+          if($scope.paPriority[schools[school].status] < $scope.paPriority[$scope.tabStatus]){
+            $scope.tabStatus = schools[school].status;
+          }
+        }
+        break;
+      default :
+        for (var school in $scope.schoolGoals) {
+          var schools = $scope.schoolGoals;
+          if(taPriority[schools[school].status] < taPriority[$scope.tabStatus]){
+              $scope.tabStatus = schools[school].status;
+            }
+        }
+      break;
+    }
+  }
+
+  $scope.activateTab = function(id){
+    $scope.activeTab = id;
+  }
+
+  $scope.getActivateTab = function(){
+    return $scope.activeTab;
+  }
+
+  $scope.submitForm = function( goal, action ) {
+    switch (action) {
+      case 'submit':
+        goal.status = 'r';
+        break;
+      case 'declare':
+        goal.status = 'd';
+        break;
+      case 'accept':
+        goal.status = 'a';
+        break;
+    }
+
+    network.put('request_school_goal/' + goal.id, goal, function(result){
+      if(result) {
+        $scope.checkSchoolStatus();
+      }
+    });
+  };
+
 });
 
 spi.controller('ModalDurationController', function ($scope, start_date, due_date,  $uibModalInstance) {

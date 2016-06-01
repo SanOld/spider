@@ -100,6 +100,8 @@ $cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/summernote
 //$cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/angular-summernote.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-summernote-master/angular-summernote.min.js');
 
+$cs->registerScriptFile($baseUrl . '/js/lib/accordion.js');
+
 //$cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/modal-effect/js/classie.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/modal-effect/js/modalEffects.js');
