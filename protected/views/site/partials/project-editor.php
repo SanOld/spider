@@ -75,7 +75,7 @@
           <label class="col-lg-2 control-label p-r-0">Träger</label>
           <div class="col-lg-10">
             <div spi-hint text="_hint.performer_id" class="has-hint"></div>
-            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('school_type_id')}">
+            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('performer_id')}">
               <ui-select ng-disabled="!$select.items.length || project.is_old == 1 || modeView" ng-model="project.performer_id"
                          name="performer_id" required>
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
