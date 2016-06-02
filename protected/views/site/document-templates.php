@@ -7,7 +7,7 @@ $this->breadcrumbs = array('Druck-templates');
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/document-templates.js"></script>
 
 			<!-- Page Content Start -->
-<div ng-controller="DocumentTemplatesController" class="wraper container-fluid" ng-if="canEdit()" ng-cloak>
+<div ng-controller="DocumentTemplatesController" class="wraper container-fluid" ng-cloak>
 	<div class="row">
 		<div class="container center-block edit-user doc-template">
 			<div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>
