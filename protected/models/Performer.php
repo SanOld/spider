@@ -110,9 +110,9 @@ class Performer extends BaseModel {
 
     if(!$this->user['can_edit']) {
       $errorField = '';
-      if($row['name'] != $post['name']) {
+      if(safe($post,'name') && $row['name'] != $post['name']) {
         $errorField = 'Kurzname';
-      } else if($row['short_name'] != $post['short_name']) {
+      } else if(safe($post,'short_name') && $row['short_name'] != $post['short_name']) {
         $errorField = 'Name';
       }
       if($errorField) {
@@ -138,33 +138,33 @@ class Performer extends BaseModel {
       unset($post['budget_processing_user_id']);
     }
 
-    if (Yii::app() -> db -> createCommand()
-      -> select('id')
-      -> from($this -> table)
-      -> where('id != :id AND name=:name',
-        array(':id' => $id, ':name' => $post['name']))
-      -> queryScalar()) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'silent' => true,
-        'system_code' => 'ERR_DUPLICATED'
-      );
-    }
+//    if (Yii::app() -> db -> createCommand()
+//      -> select('id')
+//      -> from($this -> table)
+//      -> where('id != :id AND name=:name',
+//        array(':id' => $id, ':name' => $post['name']))
+//      -> queryScalar()) {
+//      return array(
+//        'code' => '409',
+//        'result' => false,
+//        'silent' => true,
+//        'system_code' => 'ERR_DUPLICATED'
+//      );
+//    }
 
-    if (Yii::app() -> db -> createCommand()
-      -> select('id')
-      -> from($this -> table)
-      -> where('id != :id AND short_name=:short_name',
-        array(':id' => $id, ':short_name' => $post['short_name']))
-      -> queryScalar()) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'silent' => true,
-        'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
-      );
-    }
+//    if (Yii::app() -> db -> createCommand()
+//      -> select('id')
+//      -> from($this -> table)
+//      -> where('id != :id AND short_name=:short_name',
+//        array(':id' => $id, ':short_name' => $post['short_name']))
+//      -> queryScalar()) {
+//      return array(
+//        'code' => '409',
+//        'result' => false,
+//        'silent' => true,
+//        'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
+//      );
+//    }
 
     return array(
       'result' => true,
