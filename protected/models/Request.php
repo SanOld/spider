@@ -6,6 +6,7 @@ class Request extends BaseModel {
   public $table = 'spi_request';
   public $post = array();
   public $school_concepts = array();
+  public $school_goals = array();
   public $select_all = "tbl.*
                       , prf.name performer_name
                       , rqs.name status_name
@@ -124,7 +125,32 @@ class Request extends BaseModel {
         );
         $RequestSchoolConcept->insert($data, true);
       }
+
+
+      $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+      $RequestSchoolGoal ->user = $this->user;
+
+      foreach($school_ids as $school_id) {
+        for ($i=1; $i<=5; $i++){
+          $opt = 0;
+          if ($i > 3){$opt = 1;}
+          $data = array(
+            'request_id' => $result['id'],
+            'school_id'  => $school_id,
+            'goal_id'  => $i,
+            'option'  => $opt,
+            'name' => 'Entwicklungsziel ' . $i
+          );
+          $RequestSchoolGoal->insert($data, true);
+        }
+      }
+
     }
+
+
+
+
+
     return $result;
   }
 
@@ -135,6 +161,14 @@ class Request extends BaseModel {
       $RequestSchoolConcept->user = $this->user;
       foreach ($this->school_concepts as $id=>$data) {
         $RequestSchoolConcept->update($id, $data);
+      }
+    }
+
+    if($this->school_goals) {
+      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolGoal');
+      $RequestSchoolConcept->user = $this->user;
+      foreach ($this->school_goals as $id=>$data) {
+        $RequestSchoolGoal->update($id, $data);
       }
     }
     return $result;
@@ -173,7 +207,7 @@ class Request extends BaseModel {
     }
 
     if(isset($post['school_goals'])) {
-      // ToDo: save data in property variable and save it data in method doAfterUpdate
+      $this->school_goals = $post['school_goals'];
       unset($post['school_goals']);
     }
 

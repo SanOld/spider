@@ -17,6 +17,8 @@ $this->breadcrumbs = array('Anträge');
 					</div>
 				</div>
 
+
+
 				<uib-tabset class="panel-body request-order-nav" active="tabActive">
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<div id="project" class="tab-pane active" ng-controller="RequestProjectDataController">
@@ -192,6 +194,7 @@ $this->breadcrumbs = array('Anträge');
 											</div>
 
 										</div>
+
 										<div class="row holder-three-blocks m-b-30">
 											<div class="col-lg-4">
 												<h4 class="panel-title m-b-10">
@@ -1442,61 +1445,44 @@ $this->breadcrumbs = array('Anträge');
 						</div>
 					</uib-tab>
 					<uib-tab class="schools-goals" index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
+
 						<div class="tab-pane" ng-controller="RequestSchoolGoalController">
-							<div class="panel-group panel-group-joined" id="accordion-order">
-								<div class="panel panel-default">
+              <span class="notice">
+                <span ng-class="{'open': tabStatus == 'g', 'inprogress-row': tabStatus == 'r', 'decline-row-red': tabStatus == 'd', 'acceptable-row': tabStatus == 'a'}" class="color-notice"></span>
+              </span>
+              <div id="accordion-order" class="panel-group panel-group-joined">
+
+								<div ng-repeat="school in schoolGoals track by $index" class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-1" class="collapsed">
-												Pusteblume-Grundschule (10G18)
+											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding collapsed" aria-expanded="false">
+												{{school.school_name}} ({{school.school_number}})
+												<span class="notice">
+													<span ng-class="{'open': school.status == 'g', 'inprogress-row': school.status == 'r', 'decline-row-red': school.status == 'd', 'acceptable-row': school.status == 'a'}" class="color-notice"></span>
+												</span>
 											</a>
 										</h4>
 									</div>
-									<div id="collapse-1" class="panel-collapse collapse">
-										<div class="panel-body">
-											<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
-										</div>
-									</div>
-								</div>
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-2" class="collapse">
-												Posteblume-Grundshule (10G18)
-															<span class="notice">
-																<span class="color-notice inprogress-row"></span>
-															</span>
-											</a>
-										</h4>
-									</div>
-									<div id="collapse-2" class="panel-collapse collapse in">
+									<div id="collapse_{{$index}}" class="panel-collapse collapse"  >
 										<div class="panel-body">
 											<div class="tabs-vertical-env">
-												<ul class="nav tabs-vertical">
-													<li class="active">
-														<a aria-expanded="true" data-toggle="tab" href="#goal-1">Entwicklungsziel 1</a>
-													</li>
-													<li>
-														<a aria-expanded="false" data-toggle="tab" href="#goal-2">Entwicklungsziel 2</a>
-													</li>
-													<li>
-														<a aria-expanded="false" data-toggle="tab" href="#goal-3">Entwicklungsziel 3</a>
-													</li>
-													<li class="optional">
-														<a aria-expanded="false" data-toggle="tab" href="#goal-4">Entwicklungsziel 4 <span>(optional)</span></a>
-													</li>
-													<li class="optional">
-														<a aria-expanded="false" data-toggle="tab" href="#goal-5">Entwicklungsziel 5 <span>(optional)</span></a>
-													</li>
+												<ul class="nav tabs-vertical" >
+
+                          <li  ng-repeat="goal in school.goals" ng-click="activateTab(goal.id) "  ng-class="getActivateTab() == goal.id ? 'active' : '' " >
+                            <a  data-toggle="tab" href="#goal-{{::goal.id}}">{{::goal.name}}<span ng-if="goal.option == 1">(optional)</span></a>
+                          </li>
+
 												</ul>
 
-												<div class="tab-content">
-													<div id="goal-1" class="tab-pane active">
-														<div class="alert alert-warning">
-															<strong>Bereit zu überprüfen</strong>
+												<div class="tab-content" >
+													<div ng-repeat="goal in school.goals"  disable-all="readonly(goal)"  id="goal_{{goal.id}}" class="tab-pane "  ng-class="getActivateTab() == goal.id ? 'active' : ''" >
+
+														<div ng-hide="goal.status == 'g'" class="alert" ng-class="{'alert-warning': goal.status == 'r', 'alert-danger': goal.status == 'd', 'alert-success': goal.status == 'a'}" ng-bind="goal.notice">
+															<strong ng-if="goal.status == 'r'">Bereit zu überprüfen</strong>
 														</div>
-														<h4>Entwicklungsziel 1</h4>
-														<textarea class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
+
+														<h4>{{::goal.name}}</h4>
+                            <textarea  ng-model="goal.description" class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
 														<h4>Angebote für Schüler/innen und Eltern</h4>
 														<div class="holder-radio">
 															<div class="p-0 text-center">
@@ -1506,201 +1492,201 @@ $this->breadcrumbs = array('Anträge');
 																	<span class="col-lg-1">kein Ziel</span>
 																</div>
 																<div class="row">
-																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                  <div class="label-holder col-lg-2">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.capacity">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.capacity">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.capacity" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Verbesserung der (vorberuflichen) Handlungskompetenzen</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios2">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios2">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios2" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.transition">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.transition">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.transition" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Verbesserung aller Übergänge in Schule (Kita-GS-Sek I-Sek II) und in Ausbildung</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios3">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios3">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios3" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.reintegration">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.reintegration">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.reintegration" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Abbau von Schuldistanz; Reintegration in den schulischen Alltag</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios4">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios4">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios4" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.social_skill">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.social_skill">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.social_skill" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Stärkung der sozialen Kompetenzen und des Selbstvertrauens</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios5">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios5">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios5" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.prevantion_violence">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.prevantion_violence">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.prevantion_violence" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Gewaltprävention und -intervention</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios6">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios6">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios6" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.health">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.health">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.health" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Gesundheitsförderung </p>
 																</div>
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios7">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios7">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios7" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.sport">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.sport">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.sport" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Förderung sportlicher, kultureller und sportlicher Interessen</p>
 																</div>
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios8">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios8">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios8" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.parent_skill">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.parent_skill">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.parent_skill" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Einbindung der Eltern und Stärkung der Erziehungskompetenzen</p>
 																</div>
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios9">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios9">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios9" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.other_goal">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.other_goal">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.other_goal" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Sonstiges (Bezug in extra Textfeld benennen)</p>
 																</div>
 																<div class="col-lg-8 pull-right textarea-box">
-																	<textarea placeholder="Tragen Sie den Text hier ein here" class="form-control"></textarea>
+																	<textarea placeholder="Tragen Sie den Text hier ein here" ng-model="goal.other_description" class="form-control"></textarea>
 																</div>
 															</div>
 														</div>
@@ -1714,142 +1700,142 @@ $this->breadcrumbs = array('Anträge');
 																</div>
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.cooperation">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.cooperation">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.cooperation" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Zusammenarbeit im Tandem oder Tridem</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.participation">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.participation">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.participation" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Mitarbeit in schulischen Gremien, Treffen mit Schulleitung, Mitwirkung in AGs</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.social_area">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.social_area">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.social_area" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Öffnung der Schule in den Sozialraum</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.third_part">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.third_part">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.third_part" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Einbindung des Sozialraums bzw. Angebote Dritter in die Schule</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.regional">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.regional">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.regional" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Mitarbeit in regionalen Arbeitsgemeinschaften / Netzwerken</p>
 																</div>
 
 																<div class="row">
 																	<div class="label-holder col-lg-2">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
-																	<div class="label-holder col-lg-1">
-																		<label class="cr-styled">
-																			<input type="radio" value="option1" name="example-radios1" checked="">
-																			<i class="fa"></i>
-																		</label>
-																	</div>
+                                    <label class="cr-styled">
+                                      <input type="radio" value="1" ng-model="goal.concept">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="2" ng-model="goal.concept">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
+                                  <div class="label-holder col-lg-1">
+                                    <label class="cr-styled">
+                                      <input type="radio" value="0" ng-model="goal.concept" checked="">
+                                      <i class="fa"></i>
+                                    </label>
+                                  </div>
 																	<p class="col-lg-8">Gemeinsame Handlungs- und Bildungskonzepte </p>
 																</div>
 																<div class="col-lg-8 pull-right textarea-box">
-																	<textarea placeholder="Tragen Sie den Text hier ein here" class="form-control"></textarea>
+																	<textarea ng-model="goal.network_text" placeholder="Tragen Sie den Text hier ein here"  class="form-control"></textarea>
 																</div>
 															</div>
 														</div>
 														<h4 class="m-t-40">Umsetzung</h4>
-														<textarea class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
+														<textarea ng-model="goal.implementation" class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
 														<h4 class="m-t-40">Indikatoren und Zielwerte</h4>
 														<p class="">Formulierung von Indikatoren und Zielwerten zur Messung der Zielerreichung</p>
 														<div class="form-horizontal m-t-15">
@@ -1858,7 +1844,7 @@ $this->breadcrumbs = array('Anträge');
 																	1.
 																</label>
 																<div class="col-lg-11">
-																	<input type="text" value="" class="form-control">
+																	<input type="text" ng-model="goal.indicator_1" value="" class="form-control">
 																</div>
 															</div>
 															<div class="form-group">
@@ -1866,7 +1852,7 @@ $this->breadcrumbs = array('Anträge');
 																	2.
 																</label>
 																<div class="col-lg-11">
-																	<input type="text" value="" class="form-control">
+																	<input type="text" ng-model="goal.indicator_2" value="" class="form-control">
 																</div>
 															</div>
 															<div class="form-group">
@@ -1874,7 +1860,7 @@ $this->breadcrumbs = array('Anträge');
 																	3.
 																</label>
 																<div class="col-lg-11">
-																	<input type="text" value="" class="form-control">
+																	<input type="text" ng-model="goal.indicator_3" value="" class="form-control">
 																</div>
 															</div>
 															<div class="form-group">
@@ -1882,7 +1868,7 @@ $this->breadcrumbs = array('Anträge');
 																	4.
 																</label>
 																<div class="col-lg-11">
-																	<input type="text" value="" class="form-control">
+																	<input type="text" ng-model="goal.indicator_4" value="" class="form-control">
 																</div>
 															</div>
 															<div class="form-group">
@@ -1890,88 +1876,39 @@ $this->breadcrumbs = array('Anträge');
 																	5.
 																</label>
 																<div class="col-lg-11">
-																	<input type="text" value="" class="form-control">
+																	<input type="text" ng-model="goal.indicator_5" value="" class="form-control">
 																</div>
 															</div>
 														</div>
 														<hr />
 														<div class="row">
-															<div class="col-lg-9">
+															<div ng-hide=" (userType != 'a' && userType != 'p') || goal.status == 'a' " class="col-lg-9">
 																<h4 class="m-t-0">Prüfnotiz</h4>
-																<textarea placeholder="Tragen Sie den Text hier ein here" class="form-control"></textarea>
+																<textarea  ng-model="goal.notice" placeholder="Tragen Sie den Text hier ein here" class="form-control"></textarea>
 															</div>
 
 															<div class="col-lg-3">
 																<div class="m-t-30 text-right pull-right">
-																	<button class="btn w-lg btn-lg btn-success m-b-10">AKZEPTIEREN</button>
-																	<button class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+                                  <button ng-hide="userType != 't' || goal.status == 'a' || goal.status == 'r'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( school, goal, 'submit')">SENDEN</button>
+																  <button ng-hide="goal.status == 'a' || (userType != 'a' && userType != 'p') " class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( school, goal, 'accept')">AKZEPTIEREN</button>
+                                  <button ng-hide="goal.status == 'd' || goal.status == 'a' || (userType != 'a' && userType != 'p') " ng-class="{disabled: !goal.notice}" ng-click="submitForm( school, goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 																</div>
 															</div>
 														</div>
 
 
 													</div>
-													<div id="goal-2" class="tab-pane">
-														<img src="/images/screen-goals.gif" width="800" alt="image description" />
-													</div>
-													<div id="goal-3" class="tab-pane">
-														<img src="/images/screen-goals.gif" width="800" alt="image description" />
-													</div>
-													<div id="goal-4" class="tab-pane">
-														<img src="/images/screen-goals.gif" width="800" alt="image description" />
-													</div>
-													<div id="goal-5" class="tab-pane">
-														<img src="/images/screen-goals.gif" width="800" alt="image description" />
-													</div>
 												</div>
+
 											</div>
 
 										</div>
 									</div>
 								</div>
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-3" class="collapsed">
-												Posteblume-Grundshule (07G19)
-											</a>
-										</h4>
-									</div>
-									<div id="collapse-3" class="panel-collapse collapse">
-										<div class="panel-body">
-											<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
-										</div>
-									</div>
-								</div>
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-4" class="collapsed">
-												Schule am Rathaus (ISS) (11K06)
-											</a>
-										</h4>
-									</div>
-									<div id="collapse-4" class="panel-collapse collapse">
-										<div class="panel-body">
-											<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
-										</div>
-									</div>
-								</div>
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-5" class="collapsed">
-												Theodor-Haubach-Schule (ISS) (07K04)
-											</a>
-										</h4>
-									</div>
-									<div id="collapse-5" class="panel-collapse collapse">
-										<div class="panel-body">
-											<img src="/images/screen-goals2.gif" style="width:100%" alt="image description" />
-										</div>
-									</div>
-								</div>
+
 							</div>
+
+
 						</div>
 					</uib-tab>
 				</uib-tabset>
