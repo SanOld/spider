@@ -1447,38 +1447,42 @@ $this->breadcrumbs = array('Anträge');
 					<uib-tab class="schools-goals" index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
 
 						<div class="tab-pane" ng-controller="RequestSchoolGoalController">
-
+              <span class="notice">
+                <span ng-class="{'open': tabStatus == 'g', 'inprogress-row': tabStatus == 'r', 'decline-row-red': tabStatus == 'd', 'acceptable-row': tabStatus == 'a'}" class="color-notice"></span>
+              </span>
               <div id="accordion-order" class="panel-group panel-group-joined">
 
-								<div ng-repeat="school in schoolGoals" class="panel panel-default">
+								<div ng-repeat="school in schoolGoals track by $index" class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse-{{$index}}" class="collapse">
-												{{::school.school_name}} ({{::school.school_number}})  {{school.status}}
+											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding collapsed" aria-expanded="false">
+												{{school.school_name}} ({{school.school_number}})
 												<span class="notice">
-													<span ng-class="{'open': school.status = 'g', 'inprogress-row': school.status == 'r', 'decline-row-red': school.status == 'd', 'acceptable-row': school.status == 'a'}" class="color-notice"></span>
+													<span ng-class="{'open': school.status == 'g', 'inprogress-row': school.status == 'r', 'decline-row-red': school.status == 'd', 'acceptable-row': school.status == 'a'}" class="color-notice"></span>
 												</span>
 											</a>
 										</h4>
 									</div>
-									<div id="collapse-{{$index}}" class="panel-collapse collapse">
+									<div id="collapse_{{$index}}" class="panel-collapse collapse"  >
 										<div class="panel-body">
 											<div class="tabs-vertical-env">
 												<ul class="nav tabs-vertical" >
 
-                          <li  ng-repeat="goal in school" ng-click="activateTab(goal.id) "  ng-class="getActivateTab() == goal.id ? 'active' : '' " >
-                            <a aria-expanded="{{$index == 1}}" data-toggle="tab" href="#goal-{{::goal.id}}">{{::goal.name}}<span ng-if="goal.goal_id == '4' || goal.goal_id == '5'">(optional)</span></a>
+                          <li  ng-repeat="goal in school.goals" ng-click="activateTab(goal.id) "  ng-class="getActivateTab() == goal.id ? 'active' : '' " >
+                            <a  data-toggle="tab" href="#goal-{{::goal.id}}">{{::goal.name}}<span ng-if="goal.option == 1">(optional)</span></a>
                           </li>
 
 												</ul>
 
-												<div class="tab-content">
-													<div ng-repeat="goal in school"  id="goal-{{goal.id}}" class="tab-pane"  ng-class="getActivateTab() == goal.id ? 'active' : '' ">
-														<div class="alert alert-warning">
-															<strong>Bereit zu überprüfen</strong>
+												<div class="tab-content" >
+													<div ng-repeat="goal in school.goals"  disable-all="readonly(goal)"  id="goal_{{goal.id}}" class="tab-pane "  ng-class="getActivateTab() == goal.id ? 'active' : ''" >
+
+														<div ng-hide="goal.status == 'g'" class="alert" ng-class="{'alert-warning': goal.status == 'r', 'alert-danger': goal.status == 'd', 'alert-success': goal.status == 'a'}" ng-bind="goal.notice">
+															<strong ng-if="goal.status == 'r'">Bereit zu überprüfen</strong>
 														</div>
+
 														<h4>{{::goal.name}}</h4>
-														<textarea class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
+                            <textarea  ng-model="goal.description" class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
 														<h4>Angebote für Schüler/innen und Eltern</h4>
 														<div class="holder-radio">
 															<div class="p-0 text-center">
@@ -1878,16 +1882,16 @@ $this->breadcrumbs = array('Anträge');
 														</div>
 														<hr />
 														<div class="row">
-															<div ng-hide=" userType != 'a' && userType != 'p'" class="col-lg-9">
+															<div ng-hide=" (userType != 'a' && userType != 'p') || goal.status == 'a' " class="col-lg-9">
 																<h4 class="m-t-0">Prüfnotiz</h4>
 																<textarea  ng-model="goal.notice" placeholder="Tragen Sie den Text hier ein here" class="form-control"></textarea>
 															</div>
 
 															<div class="col-lg-3">
 																<div class="m-t-30 text-right pull-right">
-                                  <button ng-hide="userType != 't'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( goal, 'submit')">SENDEN</button>
-																  <button ng-hide="goal.status == 'a' || (userType != 'a' && userType != 'p') " class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( goal, 'accept')">AKZEPTIEREN</button>
-                                  <button ng-hide="goal.status == 'd' || (userType != 'a' && userType != 'p') " ng-class="{disabled: !goal.notice}" ng-click="submitForm( goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+                                  <button ng-hide="userType != 't' || goal.status == 'a' || goal.status == 'r'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( school, goal, 'submit')">SENDEN</button>
+																  <button ng-hide="goal.status == 'a' || (userType != 'a' && userType != 'p') " class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( school, goal, 'accept')">AKZEPTIEREN</button>
+                                  <button ng-hide="goal.status == 'd' || goal.status == 'a' || (userType != 'a' && userType != 'p') " ng-class="{disabled: !goal.notice}" ng-click="submitForm( school, goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 																</div>
 															</div>
 														</div>
@@ -2036,26 +2040,4 @@ $this->breadcrumbs = array('Anträge');
 			</div>
 		</div>
 	</div>
-</script>
-
-<script type="text/ng-template" id="optionTemplate.html">
-
-    <div class="label-holder col-lg-2">
-      <label class="cr-styled">
-        <input type="radio" value="1" ng-model="qqq">
-        <i class="fa"></i>
-      </label>
-    </div>
-    <div class="label-holder col-lg-1">
-      <label class="cr-styled">
-        <input type="radio" value="2" ng-model="qqq">
-        <i class="fa"></i>
-      </label>
-    </div>
-    <div class="label-holder col-lg-1">
-      <label class="cr-styled">
-        <input type="radio" value="0" ng-model="qqq" checked="">
-        <i class="fa"></i>
-      </label>
-    </div>
 </script>

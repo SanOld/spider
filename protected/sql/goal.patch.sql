@@ -30,6 +30,7 @@ CREATE TABLE `spi_request_school_goal` (
 	`indicator_5` VARCHAR(255) NULL DEFAULT NULL,
 	`notice` TEXT NULL,
 	`status` VARCHAR(1) NOT NULL DEFAULT 'g' COMMENT 'r - ready for review, d - decline, a - accept, g - do not filled',
+        `option` TINYINT(1) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`id`),
 	INDEX `FK1_school` (`school_id`),
 	INDEX `request_id` (`request_id`),

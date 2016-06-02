@@ -4,7 +4,7 @@ require_once ('utils/utils.php');
 
 class RequestSchoolGoal extends BaseModel {
   public $table = 'spi_request_school_goal';
-  public $select_all = "tbl.*, scl.name school_name, scl.number school_number, scl.id school_id";
+  public $select_all = "tbl.*, scl.name school_name, scl.number school_number";
 
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
@@ -30,10 +30,15 @@ class RequestSchoolGoal extends BaseModel {
   protected function doAfterSelect($result) {
     $schools = array();
     foreach($result['result'] as &$row) {
-      $schools[$row['school_id']][$row['goal_id']] = $row;
+
+
       $schools[$row['school_id']]['school_name'] = $row['school_name'];
       $schools[$row['school_id']]['school_number'] = $row['school_number'];
-      $schools[$row['school_id']]['status'] = 'g';
+      $schools[$row['school_id']]['status'] = '';
+      unset ($row['school_name']);
+      unset ($row['school_number']);
+
+      $schools[$row['school_id']]['goals'][$row['goal_id']] = $row;
     }
     $result['result'] = $schools;
 

@@ -131,10 +131,13 @@ class Request extends BaseModel {
 
       foreach($school_ids as $school_id) {
         for ($i=1; $i<=5; $i++){
+          $opt = 0;
+          if ($i > 3){$opt = 1;}
           $data = array(
             'request_id' => $result['id'],
             'school_id'  => $school_id,
             'goal_id'  => $i,
+            'option'  => $opt,
             'name' => 'Entwicklungsziel ' . $i
           );
           $RequestSchoolGoal->insert($data, true);
