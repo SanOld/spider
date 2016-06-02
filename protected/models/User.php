@@ -261,6 +261,14 @@ class User extends BaseModel {
     }
 
     unset($post['old_password']);
+    
+    
+    if(isset($post['is_finansist']) && safe($post, 'is_finansist') != safe($row, 'is_finansist')) {
+      $post['auth_token'] = '';
+    }
+    
+
+    
 
     return array(
         'result' => true,

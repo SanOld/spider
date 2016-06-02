@@ -107,6 +107,10 @@ class Performer extends BaseModel {
       $post['is_checked'] = 0;
       $post['checked_by'] = null;
     }
+    
+    if(safe($post, 'is_finansist') && safe($post, 'is_finansist') != safe($row, 'is_finansist')) {
+      $post['auth_token'] = '';
+    }
 
     if(!$this->user['can_edit']) {
       $errorField = '';
@@ -171,7 +175,7 @@ class Performer extends BaseModel {
       'params' => $post
     );
   }
-
+  
   protected function doBeforeDelete($id) {
     $userId = Yii::app() -> db -> createCommand() -> select('id') -> from('spi_user')
       -> where('relation_id=:relation_id AND type="t"', array(':relation_id' => $id))
