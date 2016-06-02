@@ -43,7 +43,7 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
   };
 
   $scope.canEdit = function(id) {
-    return $rootScope.canEdit() || network.user.type == 'p' || (id == network.user.relation_id && network.user.type == 't' && parseInt(network.user.is_finansist));
+    return $rootScope.canEdit() || network.user.type == 'p' || (id == network.user.relation_id && network.user.type == 't');
   };
 
   $scope.isOwn = function(id) {
