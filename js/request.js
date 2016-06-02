@@ -26,7 +26,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
 spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert) {
   $scope.filter = {id: $scope.$parent.requestID};
   $scope.isInsert = !$scope.$parent.requestID;
-  network.get('Request', $scope.filter, function (result, response) {
+  network.get('request', $scope.filter, function (result, response) {
     if (result) {
       $scope.data = response.result;
 
@@ -61,7 +61,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   });
 
 
-  network.get('DocumentTemplateType', {filter: 1}, function (result, response) {
+  network.get('document_template_type', {filter: 1}, function (result, response) {
     if (result) {
       $scope.documentTypes = response.result;
     }
