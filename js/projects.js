@@ -129,9 +129,11 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     
     
     
-    $scope.getDistricts = function() {
+    $scope.getDistricts = function(isInit) {
       var params = {};
-      delete $scope.project.district_id;
+      if(!isInit) {
+        delete $scope.project.district_id;
+      }
       if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
         params['school_type_id'] = $scope.project.school_type_id;
       }
@@ -141,7 +143,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           }
       });
     }
-    $scope.getDistricts();
+    $scope.getDistricts(true);
     
     
     function getProjects() {
