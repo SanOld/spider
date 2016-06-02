@@ -246,8 +246,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             
             if($scope.schoolTypeCode != 's') {
               $scope.project.schools = [$scope.project.school];
-              delete $scope.project.school;
             }
+            delete $scope.project.school;
             
             if(!$scope.project.schools.length && $scope.schoolTypeCode != 'z') {
 //              if($scope.schoolTypeCode != 's') {
