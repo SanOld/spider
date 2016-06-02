@@ -132,7 +132,7 @@
               <hr/>
               <div class="row holder-three-blocks" ng-if="!isInsert">
                 <div class="col-lg-6">
-                  <h4>Ansprechpartner(in)</h4>
+                  <h4>General</h4>
                   <span ng-if="(!canEdit() && !isFinansist) || modeView" ng-bind="representativeUser.name || '-'"></span>
                   <span spi-hint text="_hint.representative_user_id" class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
