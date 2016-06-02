@@ -170,8 +170,8 @@
                     <!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">Kontoinhaber</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">Kontoinhaber</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.contact_person" class="has-hint"></div>
                       <div class="wrap-hint">
                         <input class="form-control" name="contact_person" ng-model="bank.contact_person" type="text" value=""/>
@@ -179,8 +179,8 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">IBAN</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">IBAN</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.iban" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
                         <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
@@ -193,8 +193,8 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">Kreditor</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">Kreditor</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.bank_name" class="has-hint"></div>
                       <div class="wrap-hint">
                         <input class="form-control" type="text" name="bank_name" ng-model="bank.bank_name" value=""/>
@@ -202,8 +202,8 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">Konto</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">Konto</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.outer_id" class="has-hint"></div>
                       <div class="wrap-hint">
                         <input class="form-control" type="text" name="outer_id" ng-model="bank.outer_id" value=""/>
@@ -211,8 +211,8 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">Beschreibung</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">Beschreibung</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.description" class="has-hint"></div>
                       <div class="wrap-hint">
                         <textarea name="description" ng-model="bank.description" class="form-control"></textarea>
