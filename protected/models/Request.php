@@ -31,7 +31,7 @@ class Request extends BaseModel {
                             , prf.fax performer_fax
                             , prf.email performer_email
                             , prf_user.function performer_contact_function
-                            , CONCAT(prf_user.title, ' ' , prf_user.first_name, ' ', prf_user.last_name) performer_contact
+                            , CONCAT(IF(prf_user.sex = 1, 'Herr', 'Frau' ), ' ' , prf_user.first_name, ' ', prf_user.last_name) performer_contact
 
                             , dst.id district_id
                             , dst.name district_name
@@ -42,7 +42,7 @@ class Request extends BaseModel {
                             , dst.fax district_fax
                             , dst.email district_email
                             , dst.homepage district_homepage
-                            , CONCAT(user.title, ' ' , user.first_name, ' ', user.last_name) district_contact
+                            , CONCAT(IF(user.sex = 1, 'Herr', 'Frau' ), ' ' , user.first_name, ' ', user.last_name) district_contact
 
                             ";
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');

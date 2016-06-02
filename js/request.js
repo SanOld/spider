@@ -78,10 +78,16 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
         if (result) {
           $scope.performerUsers = response.result;
+
+          for (var key in $scope.performerUsers){
+            if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
+            if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
+          }
           $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
           $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
           $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
         }
+
       });
 
     }

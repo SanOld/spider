@@ -214,8 +214,8 @@ $this->breadcrumbs = array('Anträge');
 														<dd>{{selectRequestResult.function}}</dd>
 													</ng-show>
 													<ng-show ng-show="selectRequestResult.title">
-														<dt>Titel:</dt>
-														<dd>{{selectRequestResult.title}}</dd>
+														<dt>Anrede:</dt>
+														<dd>{{selectRequestResult.gender}}</dd>
 													</ng-show>
 													<ng-show ng-show="selectRequestResult.phone">
 														<dt>Telefon:</dt>
@@ -246,8 +246,8 @@ $this->breadcrumbs = array('Anträge');
 														<dd>{{selectConceptResult.function}}</dd>
 													</ng-show>
 													<ng-show ng-show="selectConceptResult.title">
-														<dt>Titel:</dt>
-														<dd>{{selectConceptResult.title}}</dd>
+														<dt>Anrede:</dt>
+														<dd>{{selectConceptResult.gender}}</dd>
 													</ng-show>
 													<ng-show ng-show="selectConceptResult.phone">
 														<dt>Telefon:</dt>
@@ -278,8 +278,8 @@ $this->breadcrumbs = array('Anträge');
 														<dd>{{selectFinanceResult.function}}</dd>
 													</ng-show>
 													<ng-show ng-show="selectFinanceResult.title">
-														<dt>Titel:</dt>
-														<dd>{{selectFinanceResult.title}}</dd>
+														<dt>Anrede:</dt>
+														<dd>{{selectFinanceResult.gender}}</dd>
 													</ng-show>
 													<ng-show ng-show="selectFinanceResult.phone">
 														<dt>Telefon:</dt>
