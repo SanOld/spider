@@ -186,7 +186,7 @@
                         <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
                         <span ng-class="{hide: !fieldError('formBank{{$index}}', 'iban')}" class="hide">
                           <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN ist erforderlich</label>
-                          <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">IBAN scheint nicht wirklich zu sein.</label>
+                          <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">Bitte IBAN prüfen.</label>
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -220,7 +220,7 @@
                     </div>
                   </div>
                   <div class="clearfix" ng-if="!modeView">
-                    <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">Hinzufügen</button>
+                    <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">OK</button>
                     <button class="btn pull-right w-sm cancel-btn" ng-if="canEditBankInfo()" ng-click="removeBankDetails(bank, $index)">Löschen</button>
                   </div>
                 </ng-form>
