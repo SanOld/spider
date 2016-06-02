@@ -187,13 +187,13 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         delete $scope.project.schools;
         $scope.schools = [];
 
-        if(!($scope.project.school_type_id && ($scope.project.type_id == '3' || $scope.project.district_id))) {
-          return;
-        }
+//        if(!($scope.project.school_type_id && ($scope.project.type_id == '3' || $scope.project.district_id))) {
+//          return;
+//        }
         
-        if($scope.project.type_id == '3') {
-          delete $scope.project.district_id;
-        }
+//        if($scope.project.type_id == '3') {
+//          delete $scope.project.district_id;
+//        }
         
         if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
           schoolParams['type_id'] = $scope.project.school_type_id;
