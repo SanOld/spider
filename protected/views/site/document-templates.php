@@ -49,7 +49,7 @@ $this->breadcrumbs = array('Druck-templates');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Name'" sortable="'name'">{{row.name}}</td>
 							<td data-title="'Dokument-Typ'" sortable="'type_name'">{{row.type_name}}</td>
-							<td data-title="'Letzte Änderung'">{{row.last_change}} {{row.user_name}}</td>
+							<td data-title="'Letzte Änderung'">{{row.last_change_unix | date : 'dd.MM.yyyy'}} {{row.user_name}}</td>
               <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="text-center dt-edit" style="width: 183px;">
                 <a class="btn edit-btn" ng-click="openTemplate(row, !canEdit())">
                   <i class="ion-document-text" ng-if="canView()"></i>
