@@ -153,7 +153,7 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
         if (result) {
           $uibModalInstance.close();
         } else {
-          $scope.error = getError(response.system_code);
+          $scope.error = getError(response);
         }
         $scope.submited = false;
       };
@@ -181,12 +181,20 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
     $uibModalInstance.dismiss('cancel');
   };
 
-  function getError(code) {
+  function getError(response) {
     var result = false;
-    switch (code) {
-      case 'ERR_DUPLICATED':
-        result = {name: {dublicate: true}};
-        break;
+    var countFields = response.field.length;   
+    switch (response.system_code) {
+      case 'ERR_DUPLICATED':  
+        if (countFields > 1){                 
+          result = {name: {dublicate: true},
+                    number: {dublicate: true}  
+                    };
+        }else if(response.field[0] == 'number'){
+          result = {number: {dublicate: true}};
+        }else{
+          result = {name: {dublicate: true}};   
+        }
     }
     return result;
   }

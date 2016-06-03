@@ -7,7 +7,7 @@ $this->breadcrumbs = array('Email-Vorlagen');
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/email-templates.js"></script>
 
 			<!-- Page Content Start -->
-<div ng-controller="EmailTemplatesController" class="wraper container-fluid" ng-if="canEdit()" ng-cloak>
+<div ng-controller="EmailTemplatesController" class="wraper container-fluid"  ng-cloak>
 	<div class="row">
 		<div class="container center-block edit-user doc-template">
 			<div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>

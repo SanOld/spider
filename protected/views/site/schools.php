@@ -33,7 +33,7 @@ $this->breadcrumbs = array('Schule');
 											<label>Schultyp</label>
 											<ui-select ng-change="updateGrid()" class="type-user" ng-model="filter.type_id">
 												<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-												<ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search">
+												<ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search | orderBy: 'name'">
 													<span ng-bind-html="item.name | highlight: $select.search"></span>
 												</ui-select-choices>
 											</ui-select>
@@ -44,7 +44,7 @@ $this->breadcrumbs = array('Schule');
 											<label>Bezirk</label>
 											<ui-select ng-change="updateGrid()" class="type-user" ng-model="filter.district_id">
 												<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-												<ui-select-choices repeat="item.id as item in districts | filter: $select.search">
+												<ui-select-choices repeat="item.id as item in districts | filter: $select.search | orderBy: 'name'">
 													<span ng-bind-html="item.name | highlight: $select.search"></span>
 												</ui-select-choices>
 											</ui-select>
@@ -57,6 +57,7 @@ $this->breadcrumbs = array('Schule');
 							</div>
 
               <?php include(Yii::app()->getBasePath().'/views/site/partials/schools-table.php'); ?>
+         
 						</div>
 					</div>
 				</div>

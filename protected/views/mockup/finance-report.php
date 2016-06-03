@@ -17,7 +17,7 @@
 				
 			<div class="container">
 				<ul class="breadcrumb p-0">
-					<li><a href="/dashboard">Home</a></li>
+					<li><a href="/dashboard">Startseite</a></li>
 					<li class="active">Belege</li>
 				</ul>
 			</div>

@@ -36,7 +36,7 @@
 				<div class="panel panel-color panel-primary">
 					<form id="recover-password" method="post" action="success-alert.html" role="form" class="text-center cmxform form-horizontal">
 						<h3 class="m-t-20">Ihr Passwort vergessen?</h3>
-						<p class="m-b-10">Bitte geben Sie eine Email Adresse ein, um das Passwort zurückzusetzen</p>
+						<p class="m-b-10">Bitte geben Sie eine E-mail Adresse ein, um das Passwort zurückzusetzen</p>
 						<div class="alert alert-danger">
 							Bitte geben Sie die markierten Felder korrekt ein.
 						</div>

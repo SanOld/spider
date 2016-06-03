@@ -1,19 +1,14 @@
 spi.controller('EmailTemplatesController', function ($scope, $rootScope, network, GridService) {
-  $rootScope._m = 'email_templates';
+  $rootScope._m = 'email_template';
   $scope.filter = {};
 
   var grid = GridService();
-  $scope.tableParams = grid('EmailTemplate', $scope.filter, {sorting: {name: 'asc'}});
+  $scope.tableParams = grid('email_template', $scope.filter, {sorting: {name: 'asc'}});
 
   $scope.updateGrid = function () {
     grid.reload();
   };
 
-//  network.get('DocumentTemplateType', {filter: 1}, function (result, response) {
-//    if (result) {
-//      $scope.documentTypes = response.result;
-//    }
-//  });
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();
@@ -76,7 +71,7 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
 //  });
 
   var grid = GridService();
-  $scope.tableParams = grid('DocumentTemplatePlaceholder', $scope.filter, {sorting: {name: 'asc'}});
+  $scope.tableParams = grid('document_template_placeholder', $scope.filter, {sorting: {name: 'asc'}});
 
   $scope.options = {
   height: 200,                 // set editor height
@@ -114,16 +109,16 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
         $scope.submited = false;
       };
       if ($scope.isInsert) {
-        network.post('EmailTemplate', $scope.document, callback);
+        network.post('email_template', $scope.document, callback);
       } else {
-        network.put('EmailTemplate/' + data.id, $scope.document, callback);
+        network.put('email_template/' + data.id, $scope.document, callback);
       }
     }
   };
 
   $scope.remove = function () {
     Utils.doConfirm(function() {
-      network.delete('EmailTemplate/' + data.id, function (result) {
+      network.delete('email_template/' + data.id, function (result) {
         if (result) {
           Utils.deleteSuccess();
           $uibModalInstance.close();

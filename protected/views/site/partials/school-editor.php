@@ -46,7 +46,7 @@
                                 placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                                 {{$select.selected.name}}
                               </ui-select-match>
-                              <ui-select-choices repeat="item.id as item in districts | filter: $select.search">
+                              <ui-select-choices repeat="item.id as item in districts | filter: $select.search | orderBy: 'name'">
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                               </ui-select-choices>
                             </ui-select>
@@ -96,6 +96,7 @@
                             <input name="number" ng-model="school.number" class="form-control" type="text" value="" required  ng-disabled="!canEdit()">
                             <span ng-class="{hide: !fieldError('number')}" class="hide">
                               <label ng-show="form.formSchool.number.$error.required" class="error">Schul-Nr. ist erforderlich</label>
+                              <label ng-show="error.number.dublicate" class="error">Dieser number existiert bereits</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -114,7 +115,7 @@
                                 placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                                 {{$select.selected.name}}
                               </ui-select-match>
-                              <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search">
+                              <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search | orderBy: 'name'">
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                               </ui-select-choices>
                             </ui-select>
@@ -195,7 +196,7 @@
                       <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">
                         {{$select.selected.name}}
                       </ui-select-match>
-                      <ui-select-choices repeat="item.id as item in users | filter: $select.search">
+                      <ui-select-choices repeat="item.id as item in users | filter: $select.search | orderBy: 'name'">
                         <span ng-bind-html="item.name | highlight: $select.search"></span>
                       </ui-select-choices>
                     </ui-select>
@@ -249,7 +250,7 @@
                               <ui-select-match allow-clear="true" placeholder="Alles anzeigen">
                                 {{$select.selected.name}}
                               </ui-select-match>
-                              <ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
+                              <ui-select-choices repeat="item.id as item in statuses | filter: $select.search | orderBy: 'name'">
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                               </ui-select-choices>
                             </ui-select>

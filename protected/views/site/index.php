@@ -64,7 +64,7 @@ $this->pageTitle = 'Login | ' . Yii::app()->name;
             10179 Berlin
             <p class="m-t-10">Tel.: +49 30 2888-496-0<br />
                 Fax.: +49 30 2888-496-20</p>
-            <p class="m-t-10"><a target="_blank" href="mailto:programmagentur@stiftung-spi.de">Email Senden</a><br/>
+            <p class="m-t-10"><a target="_blank" href="mailto:programmagentur@stiftung-spi.de">E-mail senden</a><br/>
                 <a target="_blank" href="http://www.spi-programmagentur.de">www.spi-programmagentur.de</a></p>
         </address>
     </div>
