@@ -1,7 +1,7 @@
 <table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
   <tr ng-repeat="row in $data" >
     <td data-title="'Kennziffer'" sortable="'code'">{{row.code}}</td>
-    <td data-title="'Schule'">
+    <td data-title="'Schule'" sortable="'school_name'">
       <a href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
     </td>
     <td data-title="'Träger'" sortable="'performer_name'"><a href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a></td>
