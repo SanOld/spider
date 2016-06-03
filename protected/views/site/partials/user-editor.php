@@ -321,7 +321,7 @@
         <div class="row" ng-if="!modeView && (isCurrentUser || canEdit())">
           <div class="form-custom-box clearfix">
             <div class="col-lg-12">
-              <h4>Passwort</h4>
+              <h4>Passwort ändern (change password)</h4>
             </div>
             <div ng-if="isCurrentUser" class="col-lg-4">
               <label>Altes Passwort</label>
@@ -335,7 +335,7 @@
               </div>
             </div>
             <div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
-              <label>Passwort</label>
+              <label>Neues Passwort</label>
 
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password')}">
                 <input class="form-control" name="password" ng-model="user.password" type="password" value=""
@@ -348,7 +348,7 @@
               </div>
             </div>
             <div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
-              <label>Passwort bestätigen</label>
+              <label>Neues Passwort bestätigen</label>
 
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password_repeat')}">
                 <input class="form-control" name="password_repeat" ng-model="password_repeat" type="password" value=""
