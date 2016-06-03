@@ -29,7 +29,7 @@
                     <label class="col-lg-2 control-label label-type">Dokument-Typ</label>
                     <div class="col-lg-3">
                       <div spi-hint text="_hint.document_type" class="has-hint"></div>
-                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
+                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
                         <ui-select  class="type-document" ng-model="document.type_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                           <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | orderBy: 'name'">
@@ -42,7 +42,7 @@
                   <div class="m-b-15 clearfix wrap-summernote" >
                       <div class="col-sm-12">
                         <div spi-hint text="_hint.text" class="has-hint"></div>
-                        <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('text')}">
                           <div class="">
                             <summernote config="options" ng-model="document.text"></summernote>
                           </div>

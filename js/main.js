@@ -69,12 +69,18 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.model = 'user';
   $scope.isInsert = true;
   $scope.isAdmin = network.userIsADMIN;
+  $scope.userIsPA = network.userIsPA;
   $scope.modeView = modeView;
+  $scope.emailFormat = /^[a-z]+[a-z0-9._\-]+@[a-z0-9\-]+\.[a-z.]{2,5}$/;
+  
   $scope.user = {
     is_active: 1,
-    is_finansist: 0
+    is_finansist: 0,
+    is_system: 0
   };
-
+  $scope.loaded_is_system = 1;
+  
+  
   if (!hint) {
     HintService($scope.model, function (result) {
       $scope._hint = result;
@@ -99,8 +105,10 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
       login: data.login,
       email: data.email,
       phone: data.phone,
-      type_id: data.type_id
+      type_id: data.type_id,
+      is_system: data.is_system*1
     };
+    $scope.loaded_is_system = data.is_system*1;
     $scope.isCurrentUser = network.user.id == data.id;
     $scope.isPerformer = data.type == 't';
   } else {

@@ -44,7 +44,7 @@ class Performer extends BaseModel {
     parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,
-        array('tbl.city', 'tbl.plz', 'tbl.address', 'tbl.email', "CONCAT(usp.first_name, ' ', usp.last_name)"),
+        array('tbl.city', 'tbl.plz', 'tbl.address', 'tbl.email', "CONCAT(usp.first_name, ' ', usp.last_name)", 'tbl.name', 'tbl.short_name'),
         safe($params, 'KEYWORD'));
     if(safe($params, 'BANK_DETAILS')) {
       $command -> leftJoin('spi_bank_details bnd', 'tbl.id = bnd.performer_id');
