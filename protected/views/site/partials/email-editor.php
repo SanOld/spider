@@ -32,11 +32,24 @@
                     <div class="col-lg-6">
                       <div spi-hint text="_hint.description" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
-                        <input class="form-control" type="text" name="name" ng-model="document.description" value="{{document.description}}" required ng-disabled="!canEdit()">
+                        <input class="form-control" type="text" name="description" ng-model="document.description" value="{{document.description}}" required ng-disabled="!canEdit()">
 
                         <span ng-class="{hide: !fieldError('name')}" class="hide">
-                                <label ng-show="form.formDocument.name.$error.required" class="error">Name is required</label>
-                                <label ng-show="error.name.dublicate" class="error">This Name already exists</label>
+                                <label ng-show="form.formDocument.name.$error.required" class="error">Description is required</label>
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="m-b-15 clearfix">
+                    <label class="col-lg-1 control-label">Thema</label>
+                    <div class="col-lg-6">
+                      <div spi-hint text="_hint.description" class="has-hint"></div>
+                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('subject')}">
+                        <input class="form-control" type="text" name="subject" ng-model="document.subject" value="{{document.subject}}" required ng-disabled="!canEdit()">
+
+                        <span ng-class="{hide: !fieldError('name')}" class="hide">
+                                <label ng-show="form.formDocument.name.$error.required" class="error">Subject is required</label>
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>

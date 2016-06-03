@@ -9,6 +9,7 @@ CREATE TABLE `spi_email_template` (
 	`last_change` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`user_id` INT(11) NOT NULL,
 	`text` TEXT NOT NULL,
+        `subject` VARCHAR(255) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `FK_spi_email_template_spi_user` (`user_id`),
 	CONSTRAINT `FK_spi_email_template_spi_user` FOREIGN KEY (`user_id`) REFERENCES `spi_user` (`id`)
