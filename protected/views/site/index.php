@@ -18,8 +18,8 @@ $this->pageTitle = 'Login | ' . Yii::app()->name;
             <div class="form-group has-feedback">
                 <label class="col-xs-12" for="username">Benutzername</label>
                 <div class="col-xs-12 wrap-line"  ng-class="{'error': fieldError('login'), 'success': fieldSuccess('login')}">
-                    <input class="form-control" ng-model="user.login" type="text" id="username" name="login" autofocus required>
-                    <label ng-show="fieldError('login')" class="error" for="username">Bitte Benutzername eingeben</label>
+                    <input class="form-control" ng-model="user.login" type="text" id="username" name="login" required>
+                    <label ng-show="fieldError('login') && form.$submitted" class="error" for="username">Bitte Benutzername eingeben</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>
                 </div>
@@ -28,7 +28,7 @@ $this->pageTitle = 'Login | ' . Yii::app()->name;
                 <label class="col-xs-12" for="password">Passwort</label>
                 <div class="col-xs-12 wrap-line"  ng-class="{'error': fieldError('password'), 'success': fieldSuccess('password')}">
                     <input class="form-control" ng-model="user.password" type="password" id="password" name="password" required>
-                    <label ng-show="fieldError('password')" class="error" for="password">Bitte geben Sie ein Passwort</label>
+                    <label ng-show="fieldError('password') && form.$submitted" class="error" for="password">Bitte geben Sie ein Passwort</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>
                 </div>
