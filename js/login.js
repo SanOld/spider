@@ -10,7 +10,7 @@ spi.controller('LoginController', function ($scope, network, localStorageService
   }
 
   $scope.fieldError = function (field) {
-    return $scope.form[field] && $scope.submited && $scope.form[field].$touched && $scope.form[field].$invalid;
+    return $scope.form[field] && $scope.submited && $scope.form[field].$invalid;
   };
 
   $scope.fieldSuccess = function (field) {
