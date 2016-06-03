@@ -5,18 +5,18 @@ class Email {
   static $from = 'info@spider.com';
 
   static function doRecovery($user, $recoveryLink) {
-    $message = $this->prepareMessage('send_password', array( '{NAME}' => $user['first_name'] . ' '. $user['last_name']
+    return $this->prepareMessage('send_password', array( '{NAME}' => $user['first_name'] . ' '. $user['last_name']
                                                            , '{LINK}' => $recoveryLink
                                                            ));
     
 //    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
 //    $message .= '<br><br>We have received request for recovery your account password.';
 //    $message .= '<br>If you have sent it, please follow this <a target="_blank" href="'.$recoveryLink.'">link</a>, for update your password.';
-    return self::send($user['email'], self::$from, 'Recovery confirmation from SPIder', $message);
+    
   }
 
   static function doWelcome($user) {
-    $message = $this->prepareMessage('registration_email', array( '{NAME}'      => $user['first_name'] . ' '. $user['last_name']
+    return $this->prepareMessage('registration_email', array( '{NAME}'      => $user['first_name'] . ' '. $user['last_name']
                                                                 , '{SITE_URL}'  => Yii::app()->getBaseUrl(true)
                                                                 , '{LOGIN}'     => $user['login']
                                                                 , '{PASSWORD}'  => $user['password']
@@ -25,7 +25,7 @@ class Email {
 //    $message .= '<br><br>You get access to <a target="_blank" href="'.Yii::app()->getBaseUrl(true).'">SPIder</a>.';
 //    $message .= '<br>Login: '.$user['login'];
 //    $message .= '<br>Password: '.$user['password'];
-    return self::send($user['email'], self::$from, 'Welcome to SPIder', $message, '', false);
+//    return self::send($user['email'], self::$from, 'Welcome to SPIder', $message, '', false);
   }
 
   static function doUpdatePassword($user, $newPassword) {
@@ -36,16 +36,17 @@ class Email {
     return self::send($user['email'], self::$from, 'SPIder: Password changed', $message, '', false);
   }
   static function prepareMessage($code, $params) {
-    $message = Yii::app() -> db -> createCommand() -> select('text') -> from('spi_email_template') -> where('system_come=:system_come ', array(
+    $row = Yii::app() -> db -> createCommand() -> select('text, subject') -> from('spi_email_template') -> where('system_come=:system_come ', array(
         ':system_come' => $code
-    )) ->queryScalar();
+    )) ->queryRow();
     $data = array();
     $placeholders = array();
     foreach($params as $key=>$val){
       $data[] = $val;
       $placeholders[] = $key;
     }
-    return str_replace($placeholders, $data, $message);
+    $message = str_replace($placeholders, $data, $row['text']);
+    return self::send($user['email'], self::$from, $row['subject'], $message);
   }
 
   static function send($to, $from, $subject, $message, $frwd = '', $showResults = true, $addAttachment = false) {
