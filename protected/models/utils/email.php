@@ -10,7 +10,7 @@ class Email {
     )) ->queryScalar();
     $placeholders = array('{NAME}', '{LINK}');
     $data = array($user['first_name'] . ' '. $user['last_name'], $recoveryLink);
-    $message = str_replace($placeholders, $replace, $message);
+    $message = str_replace($placeholders, $data, $message);
 //    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
 //    $message .= '<br><br>We have received request for recovery your account password.';
 //    $message .= '<br>If you have sent it, please follow this <a target="_blank" href="'.$recoveryLink.'">link</a>, for update your password.';
