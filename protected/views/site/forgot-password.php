@@ -28,6 +28,11 @@ $this->pageTitle = 'Forgot Password | ' . Yii::app()->name;
                         <button ng-click="submitForm()" class="btn btn-block btn-lg btn-purple w-md custom-btn" type="submit">SENDEN</button>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                      <a href="/" class="btn btn-block btn-lg w-md cancel-btn"style="text-transform: uppercase;color: rgb(32, 32, 32);">Abbrechen</a>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

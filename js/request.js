@@ -77,6 +77,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           senat_additional_info:          response.result.senat_additional_info,
           start_date:                     response.result.start_date,
           due_date:                       response.result.due_date,
+          start_date_unix:                response.result.start_date_unix,
+          due_date_unix:                  response.result.due_date_unix,
           performer_id:                   response.result.performer_id
         };
 
@@ -131,7 +133,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       size: 'custom-width-request-duration',
       resolve: {
         ids: function () {
-          return [$scope.request.id];
+          ids = [$scope.request.id];
+          return ids;
         },
         start_date: function () {
           return $scope.request.start_date;
@@ -145,8 +148,12 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
     if ($scope.request.id) {
       modalInstance.result.then(function (data) {
+        $scope.request.start_date_unix = new Date(data.start_date);
+        $scope.request.due_date_unix = new Date(data.due_date);
+
         var start = Utils.getSqlDate(new Date(data.start_date));
         var end   = Utils.getSqlDate(new Date(data.due_date));
+
         network.patch('request', {ids: ids, start_date: start, due_date: end}, function(result) {
           $scope.request.start_date = start;
           $scope.request.due_date = end;

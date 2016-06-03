@@ -192,26 +192,17 @@ $this->breadcrumbs = array('Anträge');
 									<td data-title="'Prüfstatus'">
                     <div class="col-lg-4 p-0">
                       <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
-                        <span ng-show = "row.status_finance == 'g'" class="cell-finplan"></span>
-                        <span ng-show = "row.status_finance == 'a'" class="cell-finplan"></span>
-                        <span ng-show = "row.status_finance == 'r'" class="cell-finplan select"></span>
-                        <span ng-show = "row.status_finance == 'd'" class="cell-finplan select-decline"></span>
+                        <span ng-class = "{'cell-finplan gray': row.status_finance == 'g', 'cell-finplan': row.status_finance == 'a', 'cell-finplan select': row.status_finance == 'r', 'cell-finplan select-decline': row.status_finance == 'd' }"></span>
                       </a>
                     </div>
                     <div class="col-lg-4 p-0">
                       <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
-                        <span ng-show = "row.status_concept == 'g'" class="cell-concept"></span>
-                        <span ng-show = "row.status_concept == 'a'" class="cell-concept"></span>
-                        <span ng-show = "row.status_concept == 'r'" class="cell-concept select"></span>
-                        <span ng-show = "row.status_concept == 'd'" class="cell-concept select-decline"></span>
+                        <span ng-class = "{'cell-concept gray': row.status_concept == 'g', 'cell-concept': row.status_concept == 'a', 'cell-concept select': row.status_concept == 'r', 'cell-concept select-decline': row.status_concept == 'd' }"></span>
                       </a>
                     </div>
                     <div  class="col-lg-4 p-0">
                       <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
-                        <span ng-show = "row.status_goal == 'g'" class="cell-school"></span>
-                        <span ng-show = "row.status_goal == 'a'" class="cell-school"></span>
-                        <span ng-show = "row.status_goal == 'r'" class="cell-school select"></span>
-                        <span ng-show = "row.status_goal == 'd'" class="cell-school select-decline"></span>
+                        <span ng-class = "{'cell-school gray': row.status_goal == 'g', 'cell-school': row.status_goal == 'a', 'cell-school select': row.status_goal == 'r', 'cell-school select-decline': row.status_goal == 'd' }"></span>
                       </a>
                     </div>
                   </td>
@@ -242,6 +233,14 @@ $this->breadcrumbs = array('Anträge');
 </div>
 </div>
 <div class="clearfix square-legend">
+<div class="notice">
+<div class="legends">
+<span class="cell-finplan gray"></span>
+<span class="cell-concept gray"></span>
+<span class="cell-school gray"></span>
+</div>
+ Unbearbeitet
+</div>
 <div class="notice">
 <div class="legends">
 <span class="cell-finplan select"></span>

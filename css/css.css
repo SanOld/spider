@@ -2001,6 +2001,13 @@ div.dataTables_length select {
 	height: 30px;
 	margin: 0 auto;
 }
+
+.cell-finplan.gray,
+.cell-concept.gray,
+.cell-school.gray {
+	background-position: 4px -112px;
+}
+
 .cell-finplan.select,
 .cell-concept.select,
 .cell-school.select {
@@ -2020,6 +2027,14 @@ div.dataTables_length select {
 .cell-concept.select-decline {
 	background-position: 5px -77px;
 }
+
+.cell-concept.gray {
+	background-position: 5px -119px;
+}
+.cell-school.gray {
+	background-position: 5px -117px;
+}
+
 .cell-finplan {
 	background: url('../images/icon-finplan.png') no-repeat 3px 3px;
 }
