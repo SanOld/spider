@@ -267,8 +267,9 @@ class User extends BaseModel {
       $post['auth_token'] = '';
     }
     
-
-    
+    if(safe($post, 'is_system')) {
+      $post['password'] = '';
+    }
 
     return array(
         'result' => true,

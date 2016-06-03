@@ -34,7 +34,7 @@ class Auth {
       }
 
       $this->user = Yii::app()->db->createCommand()
-                 ->select('usr.id, usr.type, usr.type_id, usr.relation_id, usr.login, usr.is_finansist, usr.sex, usr.title, usr.function, usr.first_name, usr.last_name, usr.email, usr.phone, usr.is_active, usr.auth_token, usr.auth_token_created_at, ust.name type_name, usr.is_super_user')
+                 ->select('usr.id, usr.type, usr.type_id, usr.relation_id, usr.login, usr.is_finansist, usr.sex, usr.title, usr.function, usr.first_name, usr.last_name, usr.email, usr.phone, usr.is_active, usr.auth_token, usr.auth_token_created_at, ust.name type_name, usr.is_super_user, usr.is_system')
                  ->from('spi_user usr')
                  ->join('spi_user_type ust', 'usr.type_id=ust.id')
                  ->where('login=:user AND usr.password=MD5(:pass)',
@@ -66,7 +66,7 @@ class Auth {
 
 
       
-      if($this->user && $this->user['is_active']==1) {
+      if($this->user && $this->user['is_active']==1 && $this->user['is_system'] !=1 ) {
         $authToken = $this->user['auth_token'];
         $auth = new Auth($authToken, $this->user);
         if($authToken && $auth->checkToken()) {
@@ -108,7 +108,7 @@ class Auth {
         $res = array( 'result'      => false
                     , 'code'        => '401'
                     );
-        if($this->user && $this->user['is_active']==0) {
+        if($this->user && ($this->user['is_active']==0 || $this->user['is_system'] ==1)) {
           $res['system_code'] = 'ERR_USER_DISABLED';
         } else {
           $res['system_code'] = 'ERR_AUTH_FAILED';
