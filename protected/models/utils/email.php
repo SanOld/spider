@@ -5,9 +5,15 @@ class Email {
   static $from = 'info@spider.com';
 
   static function doRecovery($user, $recoveryLink) {
-    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
-    $message .= '<br><br>We have received request for recovery your account password.';
-    $message .= '<br>If you have sent it, please follow this <a target="_blank" href="'.$recoveryLink.'">link</a>, for update your password.';
+    $message = Yii::app() -> db -> createCommand() -> select('text') -> from('spi_email_template') -> where('id=:id ', array(
+        ':name' => 'send_password'
+    )) ->queryScalar();
+    $placeholders = array('{name}', '{link}');
+    $data = array($user['first_name'] . ' '. $user['last_name'], $recoveryLink);
+    $message = str_replace($placeholders, $replace, $message);
+//    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
+//    $message .= '<br><br>We have received request for recovery your account password.';
+//    $message .= '<br>If you have sent it, please follow this <a target="_blank" href="'.$recoveryLink.'">link</a>, for update your password.';
     return self::send($user['email'], self::$from, 'Recovery confirmation from SPIder', $message);
   }
 
