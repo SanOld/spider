@@ -6,10 +6,14 @@ class Project extends BaseModel {
   public $table = 'spi_project';
   public $post = array();
   public $params = array();
-  public $select_all = "tbl.*, (SELECT short_name FROM spi_performer prf WHERE prf.id=tbl.performer_id) AS `performer_name`, (SELECT name FROM spi_district dst WHERE dst.id=tbl.district_id) AS `district_name`";
+  public $select_all = "tbl.*, 
+          (SELECT short_name FROM spi_performer prf WHERE prf.id=tbl.performer_id) AS `performer_name`,
+          (SELECT name FROM spi_district dst WHERE dst.id=tbl.district_id) AS `district_name`,
+          (SELECT name FROM spi_school scl WHERE scl.id=sps.school_id) AS `school_name`";
   protected function getCommand() {
 
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
+    $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
     $command -> where(' 1=1 ', array());
 
     return $command;
@@ -45,9 +49,8 @@ class Project extends BaseModel {
       $command -> andWhere("tbl.id = :id", array(':id' => $params['ID']));
     }
     if (safe($params, 'SCHOOL_ID')) {
-        $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
-    }
+    }    
     $this->params = $params;
     $command = $this->setWhereByRole($command);
     $command -> group('tbl.id');
@@ -95,14 +98,14 @@ class Project extends BaseModel {
       }
     } else {
       foreach($results['result'] as &$row) {
-  //      $relation = $this->getSchools($row['id']);
+  //    $relation = $this->getSchools($row['id']);    
         $schools = Yii::app() -> db -> createCommand()
           -> select('scl.*') -> from('spi_project_school prs')
           -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
           -> where('project_id=:id', array(
           ':id' => $row['id']
         )) -> queryAll();
-        $row['schools'] = $schools;       
+        $row['schools'] = $schools;
               
         $performer = Yii::app() -> db -> createCommand()
           -> select('*') -> from('spi_performer')
