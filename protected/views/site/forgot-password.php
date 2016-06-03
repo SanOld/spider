@@ -30,7 +30,7 @@ $this->pageTitle = 'Forgot Password | ' . Yii::app()->name;
                 </div>
                 <div class="form-group">
                     <div class="col-lg-12">
-                      <a href="/" class="btn btn-block btn-lg w-md cancel-btn"style="text-transform: uppercase;">Abbrechen</a>
+                      <a href="/" class="btn btn-block btn-lg w-md cancel-btn"style="text-transform: uppercase;color: rgb(32, 32, 32);">Abbrechen</a>
                     </div>
                 </div>
             </form>
