@@ -227,8 +227,8 @@ info@stiftung-spi.de<br>
 [FAX] +49(0)30 459 793-66<br>' 
 );
 
-INSERT INTO `spi_page` (`code`, `name`, `is_real_page`) VALUES ('email_templates', 'Email-Vorlagen', '1');
-SELECT @e:=id FROM `spi_page` WHERE `code`= 'email_templates';
+INSERT INTO `spi_page` (`code`, `name`, `is_real_page`) VALUES ('email_template', 'Email-Vorlagen', '1');
+SELECT @e:=id FROM `spi_page` WHERE `code`= 'email_template';
 
 INSERT INTO spi_page_position (`page_id`, `code`, `name`) VALUE (@e, 'name', 'Name');
 SELECT @id1:=LAST_INSERT_ID() FROM  `spi_page_position`;

@@ -126,17 +126,30 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             $scope.performers = response.result;
         }
     });
-    network.get('district', {}, function (result, response) {
-        if(result) {
-            $scope.districts = response.result;
-        }
-    });
+    
+    
+    
+    $scope.getDistricts = function(isInit) {
+      var params = {};
+      if(!isInit) {
+        delete $scope.project.district_id;
+      }
+      if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
+        params['school_type_id'] = $scope.project.school_type_id;
+      }
+      network.get('district', params, function (result, response) {
+          if(result) {
+              $scope.districts = response.result;
+          }
+      });
+    }
+    $scope.getDistricts(true);
     
     
     function getProjects() {
         network.get('project', {}, function(result, response){
             if(result) {
-                $scope.projects = response.result;
+              $scope.projects = response.result;
             }
         });
     }
@@ -176,15 +189,15 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         delete $scope.project.schools;
         $scope.schools = [];
 
-        if(!($scope.project.school_type_id && ($scope.project.type_id == '3' || $scope.project.district_id))) {
+        if(!$scope.project.school_type_id || !$scope.project.district_id) {
           return;
         }
         
-        if($scope.project.type_id == '3') {
-          delete $scope.project.district_id;
-        }
+//        if($scope.project.type_id == '3') {
+//          delete $scope.project.district_id;
+//        }
         
-        if($scope.project.school_type_id) {
+        if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
           schoolParams['type_id'] = $scope.project.school_type_id;
         }
         if($scope.project.district_id) {
@@ -233,8 +246,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             
             if($scope.schoolTypeCode != 's') {
               $scope.project.schools = [$scope.project.school];
-              delete $scope.project.school;
             }
+            delete $scope.project.school;
             
             if(!$scope.project.schools.length && $scope.schoolTypeCode != 'z') {
 //              if($scope.schoolTypeCode != 's') {
@@ -320,6 +333,10 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       })
       return $(a).not(b).length === 0 && $(b).not(a).length === 0
     };
+    
+    $scope.canByType = function(types) {
+      return types.indexOf(network.user.type) != -1;
+    }
 
 });
 

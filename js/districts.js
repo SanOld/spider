@@ -37,7 +37,7 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
   };
 
   $scope.canEdit = function(id) {
-    return $rootScope.canEdit() || id == network.user.relation_id;
+    return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 'd');
   }
 });
 

@@ -43,7 +43,7 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
   };
 
   $scope.canEdit = function(id) {
-    return $rootScope.canEdit() || id == network.user.relation_id;
+    return $rootScope.canEdit() || network.user.type == 'p' || (id == network.user.relation_id && network.user.type == 't');
   };
 
   $scope.isOwn = function(id) {
@@ -60,7 +60,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope.bank_details = [];
   $scope._hint = hint;
   $scope.modeView = modeView;
-  $scope.isFinansist = network.user.type == 'a' || (network.user.type == 't' && parseInt(network.user.is_finansist));
+  $scope.isFinansist = network.user.type == 'a' || network.user.type == 'p' || (network.user.type == 't' && parseInt(network.user.is_finansist));
   $scope.tabActive = 0;
 
   $scope.canEditPerformer = function() {
@@ -319,7 +319,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   };
 
   $scope.canDelete = function() {
-    return $rootScope.canEdit() && !(network.user['type'] == 'a' && network.userIsPA);
+    return $rootScope.canEdit() && network.user['type'] == 'a';
   };
 //  $scope.canByType = function(types) {
 //    return types.indexOf(network.user.type) != -1;

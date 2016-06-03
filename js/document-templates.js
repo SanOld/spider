@@ -1,15 +1,15 @@
 spi.controller('DocumentTemplatesController', function ($scope, $rootScope, network, GridService) {
-  $rootScope._m = 'document_templates';
+  $rootScope._m = 'document_template';
   $scope.filter = {};
 
   var grid = GridService();
-  $scope.tableParams = grid('DocumentTemplate', $scope.filter, {sorting: {name: 'asc'}});
+  $scope.tableParams = grid('document_template', $scope.filter, {sorting: {name: 'asc'}});
 
   $scope.updateGrid = function () {
     grid.reload();
   };
 
-  network.get('DocumentTemplateType', {filter: 1}, function (result, response) {
+  network.get('document_template_type', {filter: 1}, function (result, response) {
     if (result) {
       $scope.documentTypes = response.result;
     }
@@ -81,14 +81,14 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
 //    });
   }
 
-  network.get('DocumentTemplateType', {filter: 1}, function (result, response) {
+  network.get('document_template_type', {filter: 1}, function (result, response) {
     if (result) {
       $scope.documentTypes = response.result;
     }
   });
 
   var grid = GridService();
-  $scope.tableParams = grid('DocumentTemplatePlaceholder', $scope.filter, {sorting: {name: 'asc'}});
+  $scope.tableParams = grid('document_template_placeholder', $scope.filter, {sorting: {name: 'asc'}});
 
   $scope.options = {
   height: 200,                 // set editor height
@@ -125,16 +125,16 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
         $scope.submited = false;
       };
       if ($scope.isInsert) {
-        network.post('DocumentTemplate', $scope.document, callback);
+        network.post('document_template', $scope.document, callback);
       } else {
-        network.put('DocumentTemplate/' + data.id, $scope.document, callback);
+        network.put('document_template/' + data.id, $scope.document, callback);
       }
     }
   };
 
   $scope.remove = function () {
     Utils.doConfirm(function() {
-      network.delete('DocumentTemplate/' + data.id, function (result) {
+      network.delete('document_template/' + data.id, function (result) {
         if (result) {
           Utils.deleteSuccess();
           $uibModalInstance.close();

@@ -6,6 +6,7 @@ class Request extends BaseModel {
   public $table = 'spi_request';
   public $post = array();
   public $school_concepts = array();
+  public $school_goals = array();
   public $select_all = "tbl.*
                       , prf.name performer_name
                       , rqs.name status_name
@@ -30,7 +31,7 @@ class Request extends BaseModel {
                             , prf.fax performer_fax
                             , prf.email performer_email
                             , prf_user.function performer_contact_function
-                            , CONCAT(prf_user.title, ' ' , prf_user.first_name, ' ', prf_user.last_name) performer_contact
+                            , CONCAT(IF(prf_user.sex = 1, 'Herr', 'Frau' ), ' ' , prf_user.first_name, ' ', prf_user.last_name) performer_contact
 
                             , dst.id district_id
                             , dst.name district_name
@@ -41,16 +42,16 @@ class Request extends BaseModel {
                             , dst.fax district_fax
                             , dst.email district_email
                             , dst.homepage district_homepage
-                            , CONCAT(user.title, ' ' , user.first_name, ' ', user.last_name) district_contact
+                            , CONCAT(IF(user.sex = 1, 'Herr', 'Frau' ), ' ' , user.first_name, ' ', user.last_name) district_contact
 
                             ";
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-      $command -> join( 'spi_request_status rqs',     'tbl.status_id           = rqs.id' );
-      $command -> join( 'spi_performer prf',          'tbl.performer_id        = prf.id' );
-      $command -> join( 'spi_user prf_user',          'prf_user.id             = prf.representative_user_id' );
-      $command -> join( 'spi_project prj',            'tbl.project_id          = prj.id' );
-      $command -> join( 'spi_district dst',           'dst.id                  = prj.district_id' );
-      $command -> join( 'spi_user user',              'user.id                 = dst.contact_id' );
+      $command -> join(     'spi_request_status rqs',     'tbl.status_id           = rqs.id' );
+      $command -> join(     'spi_performer prf',          'tbl.performer_id        = prf.id' );
+      $command -> leftJoin( 'spi_user prf_user',          'prf_user.id             = prf.representative_user_id' );
+      $command -> join(     'spi_project prj',            'tbl.project_id          = prj.id' );
+      $command -> leftJoin( 'spi_district dst',           'dst.id                  = prj.district_id' );
+      $command -> leftJoin( 'spi_user user',              'user.id                 = dst.contact_id' );
       $command -> where(' 1=1 ', array());
 
     } else {
@@ -84,6 +85,7 @@ class Request extends BaseModel {
     if(safe($params, 'STATUS_ID')) {
       $command -> andWhere('rqs.id = :status_id', array(':status_id' => $params['STATUS_ID']));
     }
+//        print_r ($command->text);
     return $command;
   }
 
@@ -123,7 +125,32 @@ class Request extends BaseModel {
         );
         $RequestSchoolConcept->insert($data, true);
       }
+
+
+      $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+      $RequestSchoolGoal ->user = $this->user;
+
+      foreach($school_ids as $school_id) {
+        for ($i=1; $i<=5; $i++){
+          $opt = 0;
+          if ($i > 3){$opt = 1;}
+          $data = array(
+            'request_id' => $result['id'],
+            'school_id'  => $school_id,
+            'goal_id'  => $i,
+            'option'  => $opt,
+            'name' => 'Entwicklungsziel ' . $i
+          );
+          $RequestSchoolGoal->insert($data, true);
+        }
+      }
+
     }
+
+
+
+
+
     return $result;
   }
 
@@ -136,10 +163,19 @@ class Request extends BaseModel {
         $RequestSchoolConcept->update($id, $data);
       }
     }
+
+    if($this->school_goals) {
+      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolGoal');
+      $RequestSchoolConcept->user = $this->user;
+      foreach ($this->school_goals as $id=>$data) {
+        $RequestSchoolGoal->update($id, $data);
+      }
+    }
     return $result;
   }
 
   protected function doAfterSelect($result) {
+
     if (isset($_GET['id'])){
       $row = $result['result'][0];
 
@@ -149,7 +185,7 @@ class Request extends BaseModel {
                                                 , user.function user_function")
                                       -> from('spi_project_school prj_sch')
                                       -> join( 'spi_school sch', 'prj_sch.school_id = sch.id' )
-                                      -> join( 'spi_user user', 'user.id = sch.contact_id' )
+                                      -> leftJoin( 'spi_user user', 'user.id = sch.contact_id' )
                                       -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
                                       -> queryAll();
       $result['result'] =  $row;
@@ -171,7 +207,7 @@ class Request extends BaseModel {
     }
 
     if(isset($post['school_goals'])) {
-      // ToDo: save data in property variable and save it data in method doAfterUpdate
+      $this->school_goals = $post['school_goals'];
       unset($post['school_goals']);
     }
 

@@ -132,7 +132,7 @@
               <hr/>
               <div class="row holder-three-blocks" ng-if="!isInsert">
                 <div class="col-lg-6">
-                  <h4>Ansprechpartner(in)</h4>
+                  <h4>General</h4>
                   <span ng-if="(!canEdit() && !isFinansist) || modeView" ng-bind="representativeUser.name || '-'"></span>
                   <span spi-hint text="_hint.representative_user_id" class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
@@ -170,8 +170,8 @@
                     <!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">Kontoinhaber</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">Kontoinhaber</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.contact_person" class="has-hint"></div>
                       <div class="wrap-hint">
                         <input class="form-control" name="contact_person" ng-model="bank.contact_person" type="text" value=""/>
@@ -179,22 +179,22 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">IBAN</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">IBAN</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.iban" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
                         <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
                         <span ng-class="{hide: !fieldError('formBank{{$index}}', 'iban')}" class="hide">
                           <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN ist erforderlich</label>
-                          <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">IBAN scheint nicht wirklich zu sein.</label>
+                          <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">Bitte IBAN prüfen.</label>
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">Kreditor</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">Kreditor</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.bank_name" class="has-hint"></div>
                       <div class="wrap-hint">
                         <input class="form-control" type="text" name="bank_name" ng-model="bank.bank_name" value=""/>
@@ -202,8 +202,8 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">Konto</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">Konto</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.outer_id" class="has-hint"></div>
                       <div class="wrap-hint">
                         <input class="form-control" type="text" name="outer_id" ng-model="bank.outer_id" value=""/>
@@ -211,8 +211,8 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-lg-5 p-r-0 control-label">Beschreibung</label>
-                    <div class="col-lg-7">
+                    <label class="col-lg-4 p-r-0 control-label">Beschreibung</label>
+                    <div class="col-lg-8 p-l-0">
                       <div spi-hint text="_hint.description" class="has-hint"></div>
                       <div class="wrap-hint">
                         <textarea name="description" ng-model="bank.description" class="form-control"></textarea>
@@ -220,7 +220,7 @@
                     </div>
                   </div>
                   <div class="clearfix" ng-if="!modeView">
-                    <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">Hinzufügen</button>
+                    <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">OK</button>
                     <button class="btn pull-right w-sm cancel-btn" ng-if="canEditBankInfo()" ng-click="removeBankDetails(bank, $index)">Löschen</button>
                   </div>
                 </ng-form>
@@ -250,7 +250,7 @@
                   <div class="holder-textarea">
                     <div spi-hint text="_hint.company_overview" class="has-hint"></div>
                     <div class="wrap-hint">
-                      <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('company_overview')" name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-focus="isTextareaShow = true; canSave = (canEditPerformer() && !modeView)" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('company_overview')" name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -259,7 +259,7 @@
                   <div class="holder-textarea">
                     <div spi-hint text="_hint.diversity" class="has-hint"></div>
                     <div class="wrap-hint">
-                      <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('diversity')" name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-focus="isTextareaShow = true; canSave = (canEditPerformer() && !modeView)" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('diversity')" name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -282,7 +282,7 @@
                   <div class="holder-textarea">
                     <div spi-hint text="_hint.further_education" class="has-hint"></div>
                     <div class="wrap-hint">
-                      <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('further_education')" name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-focus="isTextareaShow = true; canSave = (canEditPerformer() && !modeView)" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('further_education')" name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -291,7 +291,7 @@
                   <div class="holder-textarea">
                     <div spi-hint text="_hint.quality_standards" class="has-hint"></div>
                     <div class="wrap-hint">
-                      <textarea ng-focus="isTextareaShow = true" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('quality_standards')" name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-focus="isTextareaShow = true; canSave = (canEditPerformer() && !modeView)" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText('quality_standards')" name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -324,7 +324,7 @@
         </div>
         <div class="clearfix" ng-show="isTextareaShow"><div class="col-lg-4 col-lg-offset-8 text-right button-textarea">
             <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Löschen</button>
-            <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false">Hinzufügen</button>
+            <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false" ng-show="canSave">Hinzufügen</button>
           </div>
         </div>
         <hr>

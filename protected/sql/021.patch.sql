@@ -60,8 +60,8 @@ ENGINE=InnoDB
 AUTO_INCREMENT=1
 ;
 
-INSERT INTO `spi_page` (`code`, `name`, `is_real_page`) VALUES ('document_templates', 'Druck-Templates', '1');
-SELECT @e:=id FROM `spi_page` WHERE `code`= 'document_templates';
+INSERT INTO `spi_page` (`code`, `name`, `is_real_page`) VALUES ('document_template', 'Druck-Templates', '1');
+SELECT @e:=id FROM `spi_page` WHERE `code`= 'document_template';
 
 INSERT INTO spi_page_position (`page_id`, `code`, `name`) VALUE (@e, 'name', 'Name');
 SELECT @id1:=LAST_INSERT_ID() FROM  `spi_page_position`;

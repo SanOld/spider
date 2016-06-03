@@ -190,7 +190,7 @@ $this->breadcrumbs = array('Anträge');
 									<td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
 									<td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
 									<td data-title="'Prüfstatus'">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 p-0">
                       <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
                         <span ng-show = "row.status_finance == 'g'" class="cell-finplan"></span>
                         <span ng-show = "row.status_finance == 'a'" class="cell-finplan"></span>
@@ -198,7 +198,7 @@ $this->breadcrumbs = array('Anträge');
                         <span ng-show = "row.status_finance == 'd'" class="cell-finplan select-decline"></span>
                       </a>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 p-0">
                       <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
                         <span ng-show = "row.status_concept == 'g'" class="cell-concept"></span>
                         <span ng-show = "row.status_concept == 'a'" class="cell-concept"></span>
@@ -206,7 +206,7 @@ $this->breadcrumbs = array('Anträge');
                         <span ng-show = "row.status_concept == 'd'" class="cell-concept select-decline"></span>
                       </a>
                     </div>
-                    <div  class="col-lg-4">
+                    <div  class="col-lg-4 p-0">
                       <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
                         <span ng-show = "row.status_goal == 'g'" class="cell-school"></span>
                         <span ng-show = "row.status_goal == 'a'" class="cell-school"></span>
@@ -328,22 +328,21 @@ Abgelehnt
 <script type="text/ng-template" id="setRequest.html">
 	<div class="panel panel-color panel-primary">
 	  	<div class="panel-heading clearfix">
-			<h3 class="m-0 pull-left">Window title</h3>
+			<h3 class="m-0 pull-left">Antrag hinzufügen</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 	  	</div>
 	  	<div class="panel-body text-center">
-			<h3 class="m-b-30">Header</h3>
 			<div class="row text-left">
 				<!--<ng-form  name="form1">-->
 			 	<div class="form-group col-lg-6">
-					<label>Year</label>
+					<label>Jahr</label>
 					<div class="input-group">
 					  	<input type="text" ng-change="getProjects()" ng-click="dp_year_date_is_open = !dp_year_date_is_open" ng-model="year" uib-datepicker-popup="yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_year_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
 					  	<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_year_date_is_open = !dp_year_date_is_open"></i></span>
 					</div>
 			 	</div>
 				<div class="form-group col-lg-6">
-					<label>Project</label>
+					<label>Projekt</label>
 					<ui-select  class="type-document" ng-model="projects.selected_project">
 						<ui-select-match placeholder="Alles anzeigen">{{$select.selected.code}}</ui-select-match>
 						<ui-select-choices repeat="item.id as item in  projects | filter: $select.search">
