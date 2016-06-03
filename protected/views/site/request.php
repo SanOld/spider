@@ -40,11 +40,11 @@ $this->breadcrumbs = array('Anträge');
 														<div class="wrap-data">
 															<div>
 																<span>Beginn:</span>
-																<em>{{request.start_date}}</em>
+																<em>{{request.start_date_unix | date : 'dd.MM.yyyy'}}</em>
 															</div>
 															<div>
 																<span>Ende:</span>
-																<em>{{request.due_date}}</em>
+																<em>{{request.due_date_unix | date : 'dd.MM.yyyy'}} </em>
 															</div>
 														</div>
 														<div class="btn-row">
