@@ -5,8 +5,8 @@ class Email {
   static $from = 'info@spider.com';
 
   static function doRecovery($user, $recoveryLink) {
-    $message = Yii::app() -> db -> createCommand() -> select('text') -> from('spi_email_template') -> where('name=:name ', array(
-        ':name' => 'send_password'
+    $message = Yii::app() -> db -> createCommand() -> select('text') -> from('spi_email_template') -> where('system_come=:system_come ', array(
+        ':system_come' => 'send_password'
     )) ->queryScalar();
     $placeholders = array('{NAME}', '{LINK}');
     $data = array($user['first_name'] . ' '. $user['last_name'], $recoveryLink);
