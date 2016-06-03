@@ -30,6 +30,14 @@ class EmailTemplate extends BaseModel {
     return $command;
   }
 
+  protected function calcResults($result) {
+
+    foreach($result['result'] as &$row) {
+      $row['last_change_unix'] = strtotime($row['last_change']).'000';
+    }
+
+    return $result;
+  }
   protected function doBeforeInsert($post) {
 
     $post['user_id'] = $this->user['id'];
