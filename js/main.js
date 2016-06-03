@@ -71,6 +71,8 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.isAdmin = network.userIsADMIN;
   $scope.userIsPA = network.userIsPA;
   $scope.modeView = modeView;
+  $scope.emailFormat = /^[a-z]+[a-z0-9._\-]+@[a-z0-9\-]+\.[a-z.]{2,5}$/;
+  
   $scope.user = {
     is_active: 1,
     is_finansist: 0,

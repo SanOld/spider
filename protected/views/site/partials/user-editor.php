@@ -305,7 +305,7 @@
                 <div spi-hint text="_hint.email" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                   <input class="form-control" type="email" name="email" ng-model="user.email" id="email" value=""
-                         ng-maxlength="45" required>
+                         ng-maxlength="45" required ng-pattern="emailFormat">
 									<span ng-class="{hide: !fieldError('email')}" class="hide">
 										<label ng-show="form.email.$error.required" class="error">Email erforderlich</label>
 										<label ng-show="form.email.$error.email" class="error">Geben Sie eine gültige E-Mail</label>
