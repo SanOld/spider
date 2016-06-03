@@ -138,7 +138,7 @@
                   <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" ng-model="performer.representative_user_id" name="representative_user_id">
                       <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
-                      <ui-select-choices repeat="item.id as item in users | filter: $select.search">
+                      <ui-select-choices repeat="item.id as item in users | filter: $select.search | orderBy: 'name'">
                         <span ng-bind-html="item.name | highlight: $select.search"></span>
                       </ui-select-choices>
                     </ui-select>
@@ -356,7 +356,7 @@
                         <label>Benutzerrollen</label>
                         <ui-select ng-change="updateGrid()" ng-model="filter.type_id" theme="select2">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                          <ui-select-choices repeat="item.id as item in userTypes | filter: $select.search">
+                          <ui-select-choices repeat="item.id as item in userTypes | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
                           </ui-select-choices>
                         </ui-select>
@@ -367,7 +367,7 @@
                         <label>Status</label>
                         <ui-select append-to-body="true" ng-change="updateGrid()" class="" ng-model="filter.is_active" theme="select2">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                          <ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
+                          <ui-select-choices repeat="item.id as item in statuses | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
                           </ui-select-choices>
                         </ui-select>
@@ -406,7 +406,7 @@
                         </select>-->
                         <ui-select ng-change="updateGrid()" ng-model="filter.school_type_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                          <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search">
+                          <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
                           </ui-select-choices>
                         </ui-select>
@@ -420,7 +420,7 @@
                         </select>-->
                         <ui-select ng-change="updateGrid()" ng-model="filter.district_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                          <ui-select-choices repeat="item.id as item in districts | filter: $select.search">
+                          <ui-select-choices repeat="item.id as item in districts | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
                           </ui-select-choices>
                         </ui-select>
@@ -434,7 +434,7 @@
                         </select>-->
                         <ui-select ng-change="updateGrid()" ng-model="filter.school_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                          <ui-select-choices repeat="item.id as item in schools | filter: $select.search">
+                          <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
                           </ui-select-choices>
                         </ui-select>
@@ -445,7 +445,7 @@
                         <label>Träger</label>
                         <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                          <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
+                          <ui-select-choices repeat="item.id as item in performers | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
                           </ui-select-choices>
                         </ui-select>

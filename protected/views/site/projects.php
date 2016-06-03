@@ -22,73 +22,73 @@ $this->breadcrumbs = array('Projekte');
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="row datafilter">
-                                <form action="javascript:;" class="class-form">
-                                    <div class="col-lg-{{canByType(['d','s','t'])?4:2}}">
-                                        <div class="form-group">
-                                            <label>Suche nach Kennziffer</label>
-                                            <input ng-change="updateGrid()" ng-model="filter.code" type="search" class="form-control" placeholder="Stichwort eingegeben">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <div class="form-group">
-                                            <label>Typ</label>
+                <form action="javascript:;" class="class-form">
+                    <div class="col-lg-{{canByType(['d','s','t'])?4:2}}">
+                        <div class="form-group">
+                            <label>Suche nach Kennziffer</label>
+                            <input ng-change="updateGrid()" ng-model="filter.code" type="search" class="form-control" placeholder="Stichwort eingegeben">
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>Typ</label>
 <!--                                            <select class="type-user form-control">
-                                                <option>Alles anzeigen</option>
-                                            </select>-->
-                                            <ui-select ng-change="updateGrid()" ng-model="filter.school_type_id">
-                                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search">
-                                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2" ng-if="!canByType(['d'])">
-                                        <div class="form-group">
-                                            <label>Bezirk</label>
+                                <option>Alles anzeigen</option>
+                            </select>-->
+                            <ui-select ng-change="updateGrid()" ng-model="filter.school_type_id">
+                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search | orderBy: 'name'">
+                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2" ng-if="!canByType(['d'])">
+                        <div class="form-group">
+                            <label>Bezirk</label>
 <!--                                            <select class="type-user form-control">
-                                                <option>Alles anzeigen</option>
-                                            </select>-->
-                                            <ui-select ng-change="updateGrid()" ng-model="filter.district_id">
-                                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="item.id as item in districts | filter: $select.search">
-                                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2" ng-if="!canByType(['s'])">
-                                        <div class="form-group">
-                                            <label>Schule</label>
+                                <option>Alles anzeigen</option>
+                            </select>-->
+                            <ui-select ng-change="updateGrid()" ng-model="filter.district_id">
+                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="item.id as item in districts | filter: $select.search | orderBy: 'name'">
+                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2" ng-if="!canByType(['s'])">
+                        <div class="form-group">
+                            <label>Schule</label>
 <!--                                            <select class="type-user form-control">
-                                                <option>Alles anzeigen</option>
-                                            </select>-->
-                                            <ui-select ng-change="updateGrid()" ng-model="filter.school_id">
-                                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="item.id as item in schools | filter: $select.search">
-                                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2" ng-if="!canByType(['t'])">
-                                        <div class="form-group">
-                                            <label>Träger</label>
-                                            <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
-                                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
-                                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                                                </ui-select-choices>
-                                            </ui-select>
+                                <option>Alles anzeigen</option>
+                            </select>-->
+                            <ui-select ng-change="updateGrid()" ng-model="filter.school_id">
+                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'name'">
+                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2" ng-if="!canByType(['t'])">
+                        <div class="form-group">
+                            <label>Träger</label>
+                            <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
+                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="item.id as item in performers | filter: $select.search | orderBy: 'name'">
+                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
 <!--                                            <select class="type-user form-control">
-                                                <option>Alles anzeigen</option>
-                                            </select>-->
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 reset-btn-width">
-                                        <button ng-click="resetFilter()" class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
-                                    </div>
-                                </form>
+                                <option>Alles anzeigen</option>
+                            </select>-->
+                        </div>
+                    </div>
+                    <div class="col-lg-2 reset-btn-width">
+                        <button ng-click="resetFilter()" class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
+                    </div>
+                </form>
 							</div>
 							<?php include(Yii::app()->getBasePath().'/views/site/partials/project-table.php'); ?>
 						</div>

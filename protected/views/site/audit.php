@@ -33,7 +33,7 @@ $this->breadcrumbs = array('Audit');
                         <label>Seite</label>
                         <ui-select ng-change="updateGrid()" class="type-user" ng-model="filter.table_name">
                             <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                            <ui-select-choices repeat="item.code as item in tables | filter: $select.search">
+                            <ui-select-choices repeat="item.code as item in tables | filter: $select.search | orderBy: 'name'">
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                             </ui-select-choices>
                         </ui-select>
@@ -54,7 +54,7 @@ $this->breadcrumbs = array('Audit');
                         <label>Typ</label>
                         <ui-select ng-change="updateGrid()" class="type-user" ng-model="filter.event_type">
                             <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                            <ui-select-choices repeat="item.code as item in types | filter: $select.search">
+                            <ui-select-choices repeat="item.code as item in types | filter: $select.search | orderBy: 'name'">
                                 <span ng-bind-html="item.name | highlight: $select.search"></span>
                             </ui-select-choices>
                         </ui-select>

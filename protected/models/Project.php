@@ -102,8 +102,8 @@ class Project extends BaseModel {
           -> where('project_id=:id', array(
           ':id' => $row['id']
         )) -> queryAll();
-        $row['schools'] = $schools;
-
+        $row['schools'] = $schools;       
+              
         $performer = Yii::app() -> db -> createCommand()
           -> select('*') -> from('spi_performer')
           -> where('id=:id', array(

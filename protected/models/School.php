@@ -52,23 +52,34 @@ class School extends BaseModel {
   }
 
   protected function doBeforeInsert($post) {
-    if (Yii::app() -> db -> createCommand()
-      -> select('id')
+    $field = array();
+    $result = Yii::app() -> db -> createCommand()
+      -> select('id, name, number')
       -> from($this -> table)
-      -> where('name=:name AND district_id = :district_id AND number = :number', array(
+      -> where('district_id = :district_id AND (name=:name OR number=:number)', array(
         ':name'        => $post['name'],
         ':district_id' => $post['district_id'],
-        ':number'      => $post['number'],
+        ':number'      => $post['number']
       ))
-      -> queryScalar()) {
+      -> queryAll();   
+    if ($result) {      
+      foreach ($result as $row){
+        if( $row['name'] == $post['name'] && $row['number'] == $post['number'] ){
+          $field = array ('name', 'number');
+        }elseif ($row['name'] == $post['name']) {
+          $field = array ('name');
+        }else {
+          $field = array ('number');
+        }
+      }
       return array(
-        'code' => '409',
+        'code' => '409',  
         'result' => false,
         'silent' => true,
+        'field'    => $field,
         'system_code' => 'ERR_DUPLICATED'
-      );
-    }
-
+      );  
+    }  
     return array(
       'result' => true,
       'params' => $post
@@ -107,20 +118,34 @@ class School extends BaseModel {
 
     }
 
-    if (Yii::app() -> db -> createCommand()
-      -> select('id')
+    $field = array();
+    $result = Yii::app() -> db -> createCommand()
+      -> select('id, name, number')
       -> from($this -> table)
-      -> where('id != :id AND name=:name AND district_id = :district_id AND number = :number',
-        array(':id' => $id, ':name' => $post['name'], ':district_id' => $post['district_id'], ':number'      => $post['number']))
-      -> queryScalar()) {
+      -> where('district_id = :district_id AND (name=:name OR number=:number)', array(
+        ':name'        => $post['name'],
+        ':district_id' => $post['district_id'],
+        ':number'      => $post['number']
+      ))
+      -> queryAll();   
+    if ($result) {
+      foreach ($result as $row){
+        if( $row['name'] == $post['name'] && $row['number'] == $post['number'] ){
+          $field = array ('name', 'number');
+        }elseif ($row['name'] == $post['name']) {
+          $field = array ('name');
+        }else {
+          $field = array ('number');
+        }
+      }
       return array(
-        'code' => '409',
+        'code' => '409',  
         'result' => false,
         'silent' => true,
+        'field'    => $field,
         'system_code' => 'ERR_DUPLICATED'
-      );
-    }
-
+      );  
+    }  
     return array(
       'result' => true,
       'params' => $post

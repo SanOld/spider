@@ -41,7 +41,7 @@ $this->breadcrumbs = array('Träger');
 										<label>Profil überprüft</label>
 										<ui-select ng-change="updateGrid()" class="" ng-model="filter.is_checked">
 											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-											<ui-select-choices repeat="item.id as item in checks | filter: $select.search">
+											<ui-select-choices repeat="item.id as item in checks | filter: $select.search | orderBy: 'name'">
 												<span ng-bind-html="item.name | highlight: $select.search"></span>
 											</ui-select-choices>
 										</ui-select>

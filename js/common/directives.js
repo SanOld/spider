@@ -152,5 +152,3 @@ spi.filter('nl2br', ['$sce', function ($sce) {
     return text ? $sce.trustAsHtml(text.replace(/\n/g, '<br/>')) : '';
   };
 }]);
-
-

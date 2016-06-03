@@ -32,7 +32,7 @@
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                         <ui-select  class="type-document" ng-model="document.type_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                          <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search">
+                          <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | orderBy: 'name'">
                               <span ng-bind-html="item.name | highlight: $select.search"></span>
                           </ui-select-choices>
                         </ui-select>

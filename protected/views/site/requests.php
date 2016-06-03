@@ -42,7 +42,7 @@ $this->breadcrumbs = array('Anträge');
 										<label>Fördertopf</label>
 										<ui-select ng-change="updateGrid()" ng-model="filter.finance_type">
 											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-											<ui-select-choices ui-disable-choice="true" repeat="item.id as item in financeTypes | filter: $select.search">
+											<ui-select-choices ui-disable-choice="true" repeat="item.id as item in financeTypes | filter: $select.search | orderBy: 'name'">
 												<span ng-bind="item.name"></span>
 											</ui-select-choices>
 										</ui-select>
@@ -55,7 +55,7 @@ $this->breadcrumbs = array('Anträge');
 										<label>Programm</label>
 										<ui-select ng-change="updateGrid()" ng-model="filter.program_id">
 											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.programm}}</ui-select-match>
-											<ui-select-choices ui-disable-choice="true" repeat="item.id as item in programs | filter: $select.search">
+											<ui-select-choices ui-disable-choice="true" repeat="item.id as item in programs | filter: $select.search | orderBy: 'programm'">
 												<span ng-bind="item.programm"></span>
 											</ui-select-choices>
 										</ui-select>
@@ -81,7 +81,7 @@ $this->breadcrumbs = array('Anträge');
 										<label>Status</label>
 										<ui-select ng-change="updateGrid()" ng-model="filter.status_id">
 											<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-											<ui-select-choices repeat="item.id as item in statuses | filter: $select.search">
+											<ui-select-choices repeat="item.id as item in statuses | filter: $select.search | orderBy: 'name'">
 												<span ng-bind="item.name"></span>
 											</ui-select-choices>
 										</ui-select>

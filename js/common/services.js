@@ -180,7 +180,7 @@ spi.factory('Utils', function (SweetAlert) {
       return false;
     },
     getFinanceTypes: function () {
-      return [{id: 'l', name: 'LM'}, {id: 'b', name: 'BP'}, {id: 'b', name: 'BP'}];
+      return [ {id: 'l', name: 'LM'}, {id: 'b', name: 'BP'}, {id: 'b', name: 'BP'}];
     },
     getSqlDate: function(d) {
       return d.getFullYear()+'-'+((d.getMonth()+1) < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1)+'-'+(d.getDate() < 10 ? '0'+d.getDate() : d.getDate());

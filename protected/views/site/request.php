@@ -200,7 +200,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="form-group">
 													<ui-select   on-select="onSelectCallback($item, $model, 1)" class="type-document" ng-model="request.request_user_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search">
+														<ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -232,7 +232,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="form-group">
 													<ui-select   on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search">
+														<ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -264,7 +264,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="form-group">
 													<ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="request.finance_user_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search">
+														<ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -362,7 +362,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="col-lg-8">
 													<ui-select ng-change="" class="type-document" ng-model="request.doc_target_agreement_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search">
+														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -375,7 +375,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="col-lg-8">
 													<ui-select ng-change="" class="type-document" ng-model="request.doc_request_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search">
+														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -386,7 +386,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="col-lg-8">
 													<ui-select ng-change="" class="type-document" ng-model="request.doc_financing_agreement_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search">
+														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
