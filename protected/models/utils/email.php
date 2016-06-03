@@ -8,7 +8,7 @@ class Email {
     $message = Yii::app() -> db -> createCommand() -> select('text') -> from('spi_email_template') -> where('name=:name ', array(
         ':name' => 'send_password'
     )) ->queryScalar();
-    $placeholders = array('{name}', '{link}');
+    $placeholders = array('{NAME}', '{LINK}');
     $data = array($user['first_name'] . ' '. $user['last_name'], $recoveryLink);
     $message = str_replace($placeholders, $replace, $message);
 //    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
