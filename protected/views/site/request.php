@@ -1484,13 +1484,13 @@ $this->breadcrumbs = array('Anträge');
 														<h4>{{::goal.name}}</h4>
                             <textarea  ng-model="goal.description" class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
 														<h4>Angebote für Schüler/innen und Eltern</h4>
-                            <span  ng-if="goal.offer_field_count >= 3" >
+                            <span  ng-if="goal.offer_field_count > 3" >
                                 <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus</label>
                             </span>
 														<div class="holder-radio">
 															<div class="p-0 text-center">
 																<div class="row">
-																	<span class="col-lg-2">Schwerpunktziel</span>
+																	<span class="col-lg-2">Schwerpunktziel {{goal.offer_field_count}}</span>
 																	<span class="col-lg-1">Weiteres Ziel</span>
 																	<span class="col-lg-1">kein Ziel</span>
 																</div>
@@ -1694,13 +1694,13 @@ $this->breadcrumbs = array('Anträge');
 															</div>
 														</div>
 														<h4 class="m-t-40">Interne / Externe Vernetzung</h4>
-                            <span  ng-if="goal.net_field_count >= 3" >
+                            <span  ng-if="goal.net_field_count > 3" >
                                 <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus</label>
                             </span>
 														<div class="holder-radio">
 															<div class="p-0 text-center">
 																<div class="row">
-																	<span class="col-lg-2">Schwerpunktziel</span>
+																	<span class="col-lg-2">Schwerpunktziel {{goal.net_field_count}}</span>
 																	<span class="col-lg-1">Weiteres Ziel</span>
 																	<span class="col-lg-1">kein Ziel</span>
 																</div>
