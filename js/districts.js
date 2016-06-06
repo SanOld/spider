@@ -15,13 +15,13 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
   
   try {
     var id = /id=(\d+)/.exec(location.hash)[1];
-    if(id) {
-      
-    network.get('district', {'id': id}, function (result, response) {
-      if (result && response.result.length) {
-        $scope.openEdit(response.result[0], !$scope.canEdit(id))
-      }
-    });
+    if(location.pathname.indexOf('districts') != -1 && id) {
+
+      network.get('district', {'id': id}, function (result, response) {
+        if (result && response.result.length) {
+          $scope.openEdit(response.result[0], !$scope.canEdit(id))
+        }
+      });
       
     }
   } catch(e) {}

@@ -38,7 +38,7 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
 
   try {
     var id = /id=(\d+)/.exec(location.hash)[1];
-    if(id) {
+    if(location.pathname.indexOf('schools') != -1 && id) {
       
     network.get('school', {'id': id}, function (result, response) {
       if (result && response.result.length) {
