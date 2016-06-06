@@ -122,10 +122,11 @@ class School extends BaseModel {
     $result = Yii::app() -> db -> createCommand()
       -> select('id, name, number')
       -> from($this -> table)
-      -> where('district_id = :district_id AND (name=:name OR number=:number)', array(
+      -> where('district_id = :district_id AND ((name!=:name AND number=:number) OR (name=:name AND number!=:number) OR (name=:name AND number=:number)) AND id!=:id', array(
         ':name'        => $post['name'],
         ':district_id' => $post['district_id'],
-        ':number'      => $post['number']
+        ':number'      => $post['number'],
+        ':id'          => $id  
       ))
       -> queryAll();   
     if ($result) {
@@ -134,7 +135,7 @@ class School extends BaseModel {
           $field = array ('name', 'number');
         }elseif ($row['name'] == $post['name']) {
           $field = array ('name');
-        }else {
+        }elseif ($row['number'] == $post['number']) {
           $field = array ('number');
         }
       }
