@@ -27,14 +27,12 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
   
   try {
     var id = /id=(\d+)/.exec(location.hash)[1];
-    if(id) {
-
-    network.get('performer', {'id': id}, function (result, response) {
-      if (result && response.result.length) {
-        $scope.openEdit(response.result[0], !$scope.canEdit(id))
-      }
-    });
-
+    if(location.pathname.indexOf('performers') != -1 && id) {
+      network.get('performer', {'id': id}, function (result, response) {
+        if (result && response.result.length) {
+          $scope.openEdit(response.result[0], !$scope.canEdit(id))
+        }
+      });
     }
   } catch(e) {}
 

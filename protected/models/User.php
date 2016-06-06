@@ -8,6 +8,24 @@ class User extends BaseModel {
   public $post = array();
   public $select_all = "CONCAT(tbl.last_name, ' ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
   protected function getCommand() {
+    switch($this->user['type']) {
+      case SCHOOL:
+        $this->select_all .= ', (SELECT name FROM spi_school WHERE id = '.$this->user['relation_id'].') AS relation_name';
+        break;
+      case DISTRICT:
+        $this->select_all .= ', (SELECT name FROM spi_district WHERE id = '.$this->user['relation_id'].') AS relation_name';
+        break;
+      case TA:
+        $this->select_all .= ', (SELECT short_name FROM spi_performer WHERE id = '.$this->user['relation_id'].') AS relation_name';
+        break;
+      case SENAT:
+        $this->select_all .= ', "Senat" AS relation_name';
+        break;
+      case ADMIN:
+      case PA:
+        $this->select_all .= ', "Stiftung SPI" AS relation_name';
+        break;
+    }
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command -> join('spi_user_type ust', 'tbl.type_id = ust.id');
     $command -> where(' 1=1 ', array());
@@ -267,7 +285,7 @@ class User extends BaseModel {
       $post['auth_token'] = '';
     }
     
-    if(safe($post, 'is_system')) {
+    if(safe($post, 'is_virtual')) {
       $post['password'] = '';
     }
 

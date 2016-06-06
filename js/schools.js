@@ -38,7 +38,7 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
 
   try {
     var id = /id=(\d+)/.exec(location.hash)[1];
-    if(id) {
+    if(location.pathname.indexOf('schools') != -1 && id) {
       
     network.get('school', {'id': id}, function (result, response) {
       if (result && response.result.length) {
@@ -61,7 +61,7 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
   };
 
   $scope.canEdit = function(id) {
-    return $rootScope.canEdit() || id == network.user.relation_id;
+    return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 's');
   }
 
 

@@ -24,7 +24,7 @@
 
             <div class="holder-box">
               <span class="username" ng-bind="user.login">&nbsp;</span>
-              <span class="organization" ng-bind="(user.first_name+' '+user.last_name)">&nbsp;</span>
+              <span class="organization" ng-bind="user.relation_name">&nbsp;</span>
             </div>
             <span class="caret"></span>
           </a>

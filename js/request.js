@@ -286,10 +286,10 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.delGoalsCount = function(goal, type){
     switch(type){
       case 'net':
-        if(goal.net_field_count > 0){goal.net_field_count = +goal.net_field_count - 1;}
+        if(+goal.net_field_count > 0){goal.net_field_count = +goal.net_field_count - 1;}
         break;
       case 'offer':
-        if(goal.offer_field_count > 0){goal.offer_field_count = +goal.offer_field_count - 1;}
+        if(+goal.offer_field_count > 0){goal.offer_field_count = +goal.offer_field_count - 1;}
         break;
     }
 
