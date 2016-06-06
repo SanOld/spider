@@ -1,0 +1,1 @@
+ALTER TABLE `spi_user` CHANGE COLUMN `is_system` `is_virtual` TINYINT(1) NOT NULL DEFAULT '0' ;

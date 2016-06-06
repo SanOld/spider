@@ -76,9 +76,9 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.user = {
     is_active: 1,
     is_finansist: 0,
-    is_system: 0
+    is_virtual: 0
   };
-  $scope.loaded_is_system = 1;
+  $scope.loaded_is_virtual = 1;
   
   
   if (!hint) {
@@ -106,9 +106,9 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
       email: data.email,
       phone: data.phone,
       type_id: data.type_id,
-      is_system: data.is_system*1
+      is_virtual: data.is_virtual*1
     };
-    $scope.loaded_is_system = data.is_system*1;
+    $scope.loaded_is_virtual = data.is_virtual*1;
     $scope.isCurrentUser = network.user.id == data.id;
     $scope.isPerformer = data.type == 't';
   } else {

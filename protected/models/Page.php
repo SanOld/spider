@@ -32,7 +32,7 @@ class Page extends BaseModel {
       $command->andWhere('tbl.is_real_page = 1');
     }
     if(!safe($params, 'SYSTEM')) {
-      $command->andWhere('tbl.is_system = 0');
+      $command->andWhere('tbl.is_virtual = 0');
     }
     return $command;
   }

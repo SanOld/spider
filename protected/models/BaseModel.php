@@ -6,12 +6,12 @@ define ( 'ACTION_UPDATE', 2 );
 define ( 'ACTION_INSERT', 3 );
 define ( 'ACTION_DELETE', 4 );
 
-define ( 'PA', 'p' );
-define ( 'TA', 't' );
-define ( 'ADMIN', 'a' );
-define ( 'SCHOOL', 's' );
-define ( 'DISTRICT', 'd' );
-define ( 'SENAT', 'g' );
+//define ( 'PA', 'p' );
+//define ( 'TA', 't' );
+//define ( 'ADMIN', 'a' );
+//define ( 'SCHOOL', 's' );
+//define ( 'DISTRICT', 'd' );
+//define ( 'SENAT', 'g' );
 
 define ( 'USER_TYPES', 'a,t,s,d' );
 

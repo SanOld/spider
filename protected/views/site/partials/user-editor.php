@@ -29,19 +29,19 @@
             <span spi-hint text="_hint.is_active"></span>
           </div>
           <div class="form-group">
-            <label class="col-lg-2 control-label">System User</label>
+            <label class="col-lg-2 control-label">Virtuelle Benutzer</label>
 
             <div class="col-lg-4">
               <div class="btn-group btn-toggle" ng-if="!(modeView || (!isAdmin && !userIsPA))">
-                <button class="btn btn-sm" ng-class="{'btn-default': user.is_system != 1}" ng-model="user.is_system"
+                <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 1}" ng-model="user.is_virtual"
                         uib-btn-radio="1">JA
                 </button>
-                <button class="btn btn-sm" ng-class="{'btn-default': user.is_system != 0}" ng-model="user.is_system"
+                <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 0}" ng-model="user.is_virtual"
                         uib-btn-radio="0">NEIN
                 </button>
               </div>
-              <span ng-if="modeView || (!isAdmin && !userIsPA)" class="no-edit-text">{{user.is_system ? 'Ja' : 'Nein'}}</span>
-              <span spi-hint text="_hint.is_system"></span>
+              <span ng-if="modeView || (!isAdmin && !userIsPA)" class="no-edit-text">{{user.is_virtual ? 'Ja' : 'Nein'}}</span>
+              <span spi-hint text="_hint.is_virtual"></span>
             </div>
           </div>
         </div>
@@ -334,7 +334,7 @@
           </div>
         </div>
 
-        <div class="row" ng-if="!modeView && (isCurrentUser || canEdit()) && user.is_system != 1">
+        <div class="row" ng-if="!modeView && (isCurrentUser || canEdit()) && user.is_virtual != 1">
           <div class="form-custom-box clearfix">
             <div class="col-lg-12">
               <h4>Passwort ändern</h4>
@@ -355,7 +355,7 @@
 
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password')}">
                 <input class="form-control" name="password" ng-model="user.password" type="password" value=""
-                       ng-minlength="3" ng-required="isInsert && user.is_system != 1 || (loaded_is_system == 1 && user.is_system == 0 )">
+                       ng-minlength="3" ng-required="isInsert && user.is_virtual != 1 || (loaded_is_virtual == 1 && user.is_virtual == 0 )">
 								  <span ng-class="{hide: !fieldError('password')}" class="hide">
                     <label ng-show="form.password.$error.required" class="error">Passwort erforderlich</label>
                     <label ng-show="form.password.$error.minlength" class="error">Passwort ist zu kurz</label>

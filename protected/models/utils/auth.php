@@ -1,4 +1,12 @@
 <?php
+
+define ( 'PA', 'p' );
+define ( 'TA', 't' );
+define ( 'ADMIN', 'a' );
+define ( 'SCHOOL', 's' );
+define ( 'DISTRICT', 'd' );
+define ( 'SENAT', 'g' );
+
 class Auth {
   public $token = '';
   public $user = array();
@@ -32,15 +40,44 @@ class Auth {
         $login = $get['login'];
         $password = $get['password'];
       }
-
+      
+      $select = 'usr.id, usr.type, usr.type_id, usr.relation_id, usr.login, usr.is_finansist, usr.sex, usr.title, usr.function, usr.first_name, usr.last_name, usr.email, usr.phone, usr.is_active, usr.auth_token, usr.auth_token_created_at, ust.name type_name, usr.is_super_user, usr.is_virtual';
       $this->user = Yii::app()->db->createCommand()
-                 ->select('usr.id, usr.type, usr.type_id, usr.relation_id, usr.login, usr.is_finansist, usr.sex, usr.title, usr.function, usr.first_name, usr.last_name, usr.email, usr.phone, usr.is_active, usr.auth_token, usr.auth_token_created_at, ust.name type_name, usr.is_super_user, usr.is_system')
+                 ->select($select)
                  ->from('spi_user usr')
                  ->join('spi_user_type ust', 'usr.type_id=ust.id')
                  ->where('login=:user AND usr.password=MD5(:pass)',
                           array( ':user'=>$login, ':pass'=>$password)
                         )
                  ->queryRow();
+      
+      $nameTable = '';
+      $relation_name = '';
+      switch($this->user['type']) {
+        case SCHOOL:
+          $nameTable = 'spi_school';
+          break;
+        case DISTRICT:
+          $nameTable = 'spi_district';
+          break;
+        case TA:
+          $nameTable = 'spi_performer';
+          break;
+        case SENAT:
+          $relation_name = 'Senat';
+          break;
+        case ADMIN:
+        case PA:
+          $relation_name = 'Stiftung SPI';
+          break;
+      }
+      
+      if($nameTable) {
+        $relation_name = Yii::app()->db->createCommand()->select('name')->from($nameTable)->where('id=:id',
+                            array( ':id'=>$this->user['relation_id']))
+                          ->queryScalar();
+      }
+      $this->user['relation_name'] = $relation_name;
 //      if($this->user['relation_id']) {
 //        $table = '';
 //        switch($this->user['type']) {
@@ -66,7 +103,7 @@ class Auth {
 
 
       
-      if($this->user && $this->user['is_active']==1 && $this->user['is_system'] !=1 ) {
+      if($this->user && $this->user['is_active']==1 && $this->user['is_virtual'] !=1 ) {
         $authToken = $this->user['auth_token'];
         $auth = new Auth($authToken, $this->user);
         if($authToken && $auth->checkToken()) {
@@ -108,7 +145,7 @@ class Auth {
         $res = array( 'result'      => false
                     , 'code'        => '401'
                     );
-        if($this->user && ($this->user['is_active']==0 || $this->user['is_system'] ==1)) {
+        if($this->user && ($this->user['is_active']==0 || $this->user['is_virtual'] ==1)) {
           $res['system_code'] = 'ERR_USER_DISABLED';
         } else {
           $res['system_code'] = 'ERR_AUTH_FAILED';
