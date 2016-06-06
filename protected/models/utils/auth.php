@@ -51,17 +51,19 @@ class Auth {
                         )
                  ->queryRow();
       
-      $nameTable = '';
+      $name_table = '';
+      $name_field = 'name';
       $relation_name = '';
       switch($this->user['type']) {
         case SCHOOL:
-          $nameTable = 'spi_school';
+          $name_table = 'spi_school';
           break;
         case DISTRICT:
-          $nameTable = 'spi_district';
+          $name_table = 'spi_district';
           break;
         case TA:
-          $nameTable = 'spi_performer';
+          $name_field = 'short_name';
+          $name_table = 'spi_performer';
           break;
         case SENAT:
           $relation_name = 'Senat';
@@ -72,8 +74,8 @@ class Auth {
           break;
       }
       
-      if($nameTable) {
-        $relation_name = Yii::app()->db->createCommand()->select('name')->from($nameTable)->where('id=:id',
+      if($name_table) {
+        $relation_name = Yii::app()->db->createCommand()->select($name_field)->from($name_table)->where('id=:id',
                             array( ':id'=>$this->user['relation_id']))
                           ->queryScalar();
       }
