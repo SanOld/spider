@@ -51,6 +51,7 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
       name:         data.name,
       description:  data.description,
       text:         data.text,
+      subject:         data.subject
     };
 
   } else {
@@ -59,7 +60,8 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
       id: '',
       name:         '',
       description:  '',
-      text:         ''
+      text:         '',
+      subject:      ''
     };
 
   }
