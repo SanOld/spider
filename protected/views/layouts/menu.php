@@ -36,7 +36,9 @@
 					<li><a ng-if="canShow('district')" href="/districts">Bezirk</a></li>
 				</ul>
 			</li>
-			<li ng-class="{'active': ['hint'].indexOf(_m) !== -1}" class="dropdown">
+			<li ng-class="{'active': ['hint'].indexOf(_m) !== -1}" 
+                ng-if="canShow('document_template') || canShow('email_template') || canShow('audit') || canShow('hint')"
+                class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Systemverwaltung</a>
 				<ul class="dropdown-menu">
           <li><a ng-if="canShow('document_template')" href="/document-templates">Druck-Templates</a></li>

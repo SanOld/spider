@@ -36,7 +36,7 @@
 									<li><a href="/districts">Bezirk</a></li>
 								</ul>
 							</li>
-							<li class="dropdown">
+							<li class="dropdown" ng-if="canView('document_template') || canView('email_template') || canView('audit') || canView('hint')">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Systemverwaltung</a>
 								<ul class="dropdown-menu">
                   <li><a ng-if="canView('document-templates')" href="/document-templates">Druck-Templates</a></li>
