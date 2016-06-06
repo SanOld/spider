@@ -155,16 +155,9 @@
                   </dl>
                 </div>
               </div>
-              <hr>
-              <div class="group-btn clearfix m-t-20">
+              <div class="group-btn clearfix m-t-20 hidden">
                 <div class="pull-right">                  
-                  <button class="btn w-lg custom-btn" ng-if="canEditPerformer() && !modeView" ng-click="submitFormPerformer()">Speichern</button>                 
-                </div>
-                <div class="pull-right">                  
-                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-                </div>
-                <div class="pull-left" ng-if="!isInsert && canDelete() && !modeView">
-                  <button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+                  <button class="btn w-lg custom-btn" ng-if="canEditPerformer() && !modeView" ng-click="submitFormPerformer()">Speichern</button>
                 </div>
               </div>
             </ng-form>
@@ -240,6 +233,18 @@
             </div>
           </div>
         </div>
+        <hr/>
+        <div class="group-btn clearfix m-t-20">
+                <div class="pull-right">                  
+                  <button class="btn w-lg custom-btn" ng-if="canEditPerformer() && !modeView" ng-click="submitFormPerformer()">Speichern</button>                 
+                </div>
+                <div class="pull-right">                  
+                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+                </div>
+                <div class="pull-left" ng-if="!isInsert && canDelete() && !modeView">
+                  <button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
       </uib-tab>
 
       <uib-tab index="1" heading="Profil" active="tabs[1].active" ng-click="tabs[1].active = true">
