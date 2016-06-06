@@ -61,7 +61,7 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
   };
 
   $scope.canEdit = function(id) {
-    return $rootScope.canEdit() || id == network.user.relation_id;
+    return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 's');
   }
 
 
