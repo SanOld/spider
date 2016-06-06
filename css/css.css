@@ -2728,3 +2728,6 @@ body.safari #finance .btn-group.btn-toggle .btn {
 	display: inline-block;
     padding: 4px 0 0;
 }
+.wrap-summernote .modal .modal-dialog .modal-content {
+	padding:20px;
+}
