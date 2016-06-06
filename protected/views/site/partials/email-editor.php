@@ -44,7 +44,7 @@
                   <div class="m-b-15 clearfix">
                     <label class="col-lg-1 control-label">Thema</label>
                     <div class="col-lg-6">
-                      <div spi-hint text="_hint.thema" class="has-hint"></div>
+                      <div spi-hint text="_hint.subject" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('subject')}">
                         <input class="form-control" type="text" name="subject" ng-model="document.subject" value="{{document.subject}}" required ng-disabled="!canEdit()">
 
