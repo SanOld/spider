@@ -2730,4 +2730,14 @@ body.safari #finance .btn-group.btn-toggle .btn {
 }
 .wrap-summernote .modal .modal-dialog .modal-content {
 	padding:20px;
+	border: 1px solid #DDD;
+}
+.wrap-summernote .modal .modal-dialog .modal-content .modal-body {
+	padding:15px;
+}
+.note-editor .note-statusbar {
+	margin: 0 -30px -20px;
+}
+.note-editor.note-frame .note-editing-area {
+	margin: 0 -30px 0;
 }
