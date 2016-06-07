@@ -170,6 +170,9 @@ body.bg {
 .table-edit .btn i {
 	color:#3796e8;
 }
+.table-edit .btn.disabled i {
+	color:#999;
+}
 .table-edit .btn.document i {
 	font-size:22px;
 }
@@ -755,6 +758,13 @@ label.error {
 	font-weight:600;
 	color:#202020;
 }
+
+.icon-no-icon {
+  display: inline-block;
+  width: 17px;
+}
+.request-edit-page .ion-checkmark,
+.request-edit .ion-checkmark,
 .agency-edit .ion-checkmark,
 .wrap-message .ion-checkmark {
 	color:#369E00;
@@ -880,16 +890,16 @@ body .nav.nav-tabs + .tab-content {
 .finacing-edit tr.decline-row:hover {
 	background:#cacaca;
 }
-.notice .inprogress-row,
+.notice .in_progress-row,
 .notice .inprogress-square {
 	background: #ffd667;
 }
-.request-edit tr.inprogress-row,
-.finacing-edit tr.inprogress-row {
+.request-edit tr.in_progress-row,
+.finacing-edit tr.in_progress-row {
 	background: #fef5de;
 }
-.request-edit tr.inprogress-row:hover,
-.finacing-edit tr.inprogress-row:hover {
+.request-edit tr.in_progress-row:hover,
+.finacing-edit tr.in_progress-row:hover {
 	background: #fcf0cc;
 }
 .notice .acceptable-row,
@@ -1037,6 +1047,9 @@ table.dataTable thead > tr > th.sorting_disabled {
 	height:30px;
 	opacity: .8;
 }
+.btn.document {
+  border: 1px solid #999;
+}
 .center-block.edit-btn,
 .table-edit button.edit-btn {
 	display:block;
@@ -1157,6 +1170,11 @@ table.dataTable thead > tr > th.sorting_disabled {
 	font-size:18px;
 	line-height: 23px;
 }
+.tab-pane > div .holder-three-blocks h4.panel-title {
+	font-size:17px;
+}
+
+
 .tab-pane > div h4.panel-title a {
 	color:#202020;
 }
@@ -1280,7 +1298,7 @@ body > .select2-container {
 	overflow: hidden;
 }
 .sweet-overlay {
-	z-index:1050 !important;
+	z-index:1060 !important;
 }
 .custom-scroll {
 	border: 1px solid #ccc;
@@ -1993,29 +2011,21 @@ div.dataTables_length select {
 .custom-height-textarea {
 	height: 130px !important;
 }
-.cell-finplan,
-.cell-concept,
-.cell-school {
+.status-icon {
 	width: 30px;
 	display:block;
 	height: 30px;
 	margin: 0 auto;
 }
 
-.cell-finplan.gray,
-.cell-concept.gray,
-.cell-school.gray {
-	background-position: 4px -112px;
+.status-icon.unfinished {
+	background-position: 3px -112px;
 }
 
-.cell-finplan.select,
-.cell-concept.select,
-.cell-school.select {
+.status-icon.in_progress {
 	background-position: 4px -35px;
 }
-.cell-finplan.select-decline,
-.cell-concept.select-decline,
-.cell-school.select-decline {
+.status-icon.rejected {
 	background-position: 4px -76px;
 }
 .cell-finplan.select {
@@ -2727,4 +2737,36 @@ body.safari #finance .btn-group.btn-toggle .btn {
 .custom-field span[ng-bind="relation_name"] {
 	display: inline-block;
     padding: 4px 0 0;
+}
+.wrap-summernote .modal .modal-dialog .modal-content {
+	padding:20px;
+	border: 1px solid #DDD;
+}
+.wrap-summernote .modal .modal-dialog .modal-content .modal-body {
+	padding:15px;
+}
+.note-editor .note-statusbar {
+	margin: 0 -30px -20px;
+}
+.note-editor.note-frame .note-editing-area {
+	margin: 0 -30px 0;
+}
+/*<img src="images/icon-user-{{row.performer_is_checked == '1'?'':'un'}}checked.png" />*/
+
+.performer-icon {
+  background: url(../images/icon-user-checked.png) no-repeat 1px 50%;
+  padding-left: 30px;
+  display: inline-block;
+  line-height: 24px;
+}
+.performer-icon .unchecked{
+  background:url(../images/icon-user-unchecked.png) no-repeat 1px 50%;
+}
+
+.modal-custom-width-request-duration.modal-dialog {
+    left: 50%;
+    margin: -125px 0 0 -300px !important;
+    position: absolute;
+    top: 50%;
+    width: auto;
 }

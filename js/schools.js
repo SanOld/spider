@@ -100,12 +100,6 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
     });
   }
 
-  $scope.setNumber = function (typeId) {
-    if ($scope.isInsert) {
-      $scope.school.number = Utils.getRowById($scope.schoolTypes, typeId, 'code') + next_id;
-    }
-  };
-
   network.get('school_type', {filter: 1}, function (result, response) {
     if (result) {
       $scope.schoolTypes = response.result;

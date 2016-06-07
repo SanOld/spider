@@ -398,7 +398,7 @@ class BaseModel extends CFormModel {
       ));
     }
   }
-  public function delete($id) {
+  public function delete($id, $multiple = false) {
     $this->id = $id;
     $this->method = 'delete';
     if ($this->checkPermission($this->user, ACTION_DELETE, $id)) {
@@ -407,18 +407,39 @@ class BaseModel extends CFormModel {
         if ($result ['result']) {
           $results = $this->doDelete($id);
           $results = $this->doAfterDelete($results, $id);
-          response($results ['code'], $results, $this->method);
+          if($multiple) {
+            return $results;
+          } else {
+            response($results ['code'], $results, $this->method);
+          }
         } else {
-          response($result ['code'], $result, $this->method);
+          if($multiple) {
+            return $result;
+          } else {
+            response($result ['code'], $result, $this->method);
+          }
         }
       } else {
-        response('405', array('result' => false, 'system_code' => 'ERR_ID_NOT_SPECIFIED'), $this->method);
+        if($multiple) {
+          return array('result' => false, 'system_code' => 'ERR_ID_NOT_SPECIFIED');
+        } else {
+          response('405', array('result' => false, 'system_code' => 'ERR_ID_NOT_SPECIFIED'), $this->method);
+        }
+        
       }
     } else {
-      response('403', array(
-        'result' => false,
-        'system_code' => 'ERR_PERMISSION'
-      ));
+      if($multiple) {
+          return array(
+            'result' => false,
+            'system_code' => 'ERR_PERMISSION'
+          );
+        } else {
+          response('403', array(
+            'result' => false,
+            'system_code' => 'ERR_PERMISSION'
+          ));
+        }
+      
     }
   }
   function setPagination($command, $get) {

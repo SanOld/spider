@@ -40,6 +40,7 @@ return array(
 			'Mailer'=>'smtp',
 			'Port'=>25,
 			'SMTPAuth'=>false,
+      'CharSet' => 'UTF-8'
 		),
 		'user'=>array(
 			// enable cookie-based authentication
@@ -47,7 +48,7 @@ return array(
 		),
 
 		// uncomment the following to enable URLs in path-format
-		
+
 		'urlManager'=>array(
 			'urlFormat'=>'path',
             'showScriptName'=> false,
@@ -65,7 +66,7 @@ return array(
 				'/<name:[^.]*>.php*'      => '/mockup',
 			),
 		),
-		
+
 
 		// database settings are configured in database.php
 		'db'=>require(dirname(__FILE__).'/db.php'),

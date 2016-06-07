@@ -16,7 +16,7 @@ class User extends BaseModel {
         $this->select_all .= ', (SELECT name FROM spi_district WHERE id = '.$this->user['relation_id'].') AS relation_name';
         break;
       case TA:
-        $this->select_all .= ', (SELECT name FROM spi_performer WHERE id = '.$this->user['relation_id'].') AS relation_name';
+        $this->select_all .= ', (SELECT short_name FROM spi_performer WHERE id = '.$this->user['relation_id'].') AS relation_name';
         break;
       case SENAT:
         $this->select_all .= ', "Senat" AS relation_name';

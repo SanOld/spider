@@ -8,7 +8,8 @@ class Request extends BaseModel {
   public $school_concepts = array();
   public $school_goals = array();
   public $select_all = "tbl.*
-                      , prf.name performer_name
+                      , prf.short_name performer_name
+                      , prf.is_checked performer_is_checked
                       , rqs.name status_name
                       , rqs.code status_code
                       , prj.code code
@@ -22,7 +23,8 @@ class Request extends BaseModel {
                             , prj.code code
 
                             , prf.id performer_id
-                            , prf.name performer_name
+                            , prf.is_checked performer_is_checked
+                            , prf.short_name performer_name
                             , prf.address performer_address
                             , prf.plz performer_plz
                             , prf.city performer_city
@@ -107,6 +109,40 @@ class Request extends BaseModel {
     return $result;
   }
 
+  
+  protected function doBeforeInsert($post) {
+    if($this->user['type'] == ADMIN || ($this->user['type'] == PA)) {
+      
+      if(Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('project_id=:project_id AND year=:year', array(
+          ':project_id' => safe($post,'project_id'),
+          ':year' => safe($post,'year')
+      )) -> queryRow()) {
+        return array(
+            'code' => '409',
+            'result' => false,
+            'system_code' => 'ERR_DUPLICATED',
+            'message' => 'This project already exists'
+        );
+      }
+      
+      $post['performer_id'] = Yii::app() -> db -> createCommand() 
+                              -> select('performer_id') -> from('spi_project') 
+                              -> where('id=:id ', array(':id' => safe($post,'project_id')))
+                              ->queryScalar();
+      return array(
+          'result' => true,
+          'params' => $post
+      );
+    } else {
+      return array(
+          'code' => '403',
+          'result' => false,
+          'system_code' => 'ERR_PERMISSION',
+          'message' => 'Only Admin can create the projects'
+      );
+
+    }
+  }
   protected function doAfterInsert($result, $params, $post) {
     if($result['code'] == '200' && safe($result, 'id')) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
@@ -161,8 +197,8 @@ class Request extends BaseModel {
     }
 
     if($this->school_goals) {
-      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolGoal');
-      $RequestSchoolConcept->user = $this->user;
+      $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+      $RequestSchoolGoal->user = $this->user;
       foreach ($this->school_goals as $id=>$data) {
         $RequestSchoolGoal->update($id, $data);
       }
@@ -191,7 +227,19 @@ class Request extends BaseModel {
   }
 
   protected function doBeforeUpdate($post, $id) {
-
+    
+    unset($post['start_date_unix']);
+    unset($post['due_date_unix']);
+    if(isset($post['doc_target_agreement_id']) && !$post['doc_target_agreement_id']) {
+      $post['doc_target_agreement_id'] = null;
+    }
+    if(isset($post['doc_financing_agreement_id']) && !$post['doc_financing_agreement_id']) {
+      $post['doc_financing_agreement_id'] = null;
+    }
+    if(isset($post['doc_request_id']) && !$post['doc_request_id']) {
+      $post['doc_request_id'] = null;
+    }
+    
     if(isset($post['finance_plan'])) {
       // ToDo: save data in property variable and save it data in method doAfterUpdate
       unset($post['finance_plan']);
@@ -213,5 +261,42 @@ class Request extends BaseModel {
       'post' => $post
     );
 
+  }
+  
+  protected function doBeforeDelete($id) {
+    $exists = Yii::app() -> db -> createCommand() -> select('tbl.id') -> from($this -> table . ' tbl') -> where('id=:id', array(
+      ':id' => $id
+    )) -> queryScalar();
+    if (!$exists) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_NOT_EXISTS'
+      );
+    }
+    
+    $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+    $RequestSchoolConcept->user = $this->user;
+    if($concepts = Yii::app() -> db -> createCommand() -> select('tbl.id') -> from('spi_request_school_concept tbl') -> where('request_id=:id', array(
+      ':id' => $id
+    )) -> queryAll()) {
+      foreach($concepts as $concept) {
+        $RequestSchoolConcept->delete($concept['id'], true);
+      }
+    }
+    
+    $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+    $RequestSchoolGoal->user = $this->user;
+    if($goals = Yii::app() -> db -> createCommand() -> select('tbl.id') -> from('spi_request_school_goal tbl') -> where('request_id=:id', array(
+      ':id' => $id
+    )) -> queryAll()) {
+      foreach($goals as $goal) {
+        $RequestSchoolGoal->delete($goal['id'], true);
+      }
+    }
+
+    return array(
+      'result' => true
+    );
   }
 }
