@@ -2772,3 +2772,6 @@ body.safari #finance .btn-group.btn-toggle .btn {
     top: 50%;
     width: auto;
 }
+.table-requests thead tr th:nth-child(3) {
+	width:270px;
+}
