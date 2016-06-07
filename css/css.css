@@ -1170,6 +1170,11 @@ table.dataTable thead > tr > th.sorting_disabled {
 	font-size:18px;
 	line-height: 23px;
 }
+.tab-pane > div .holder-three-blocks h4.panel-title {
+	font-size:17px;
+}
+
+
 .tab-pane > div h4.panel-title a {
 	color:#202020;
 }

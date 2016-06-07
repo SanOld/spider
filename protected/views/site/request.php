@@ -11,7 +11,7 @@ $this->breadcrumbs = array('Anträge');
 		<div class="container center-block request-edit-page">
 			<div class="panel panel-default" ng-cloak>
 				<div class="panel-heading heading-noborder clearfix">
-					<h1 class="panel-title col-lg-6">Antrag {{requestYear}} ({{projectID}})</h1>
+                  <h1 class="panel-title col-lg-6">Antrag {{requestYear}} <span ng-show="projectID">({{projectID}})</span></h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 					</div>
@@ -366,7 +366,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="col-lg-8">
 													<ui-select ng-change="" class="type-document" ng-model="request.doc_target_agreement_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_id:'1'} | orderBy: 'name'">
+														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'goal_agreement'} | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -379,7 +379,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="col-lg-8">
 													<ui-select ng-change="" class="type-document" ng-model="request.doc_request_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_id:'2'} | orderBy: 'name'">
+														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'request'} | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -390,7 +390,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="col-lg-8">
 													<ui-select ng-change="" class="type-document" ng-model="request.doc_financing_agreement_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_id:'3'} | orderBy: 'name'">
+														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'funding_agreement'} | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -1942,7 +1942,7 @@ $this->breadcrumbs = array('Anträge');
 				</uib-tabset>
 				<br>
 				<div class="form-group group-btn row">
-					<div class="col-lg-8 text-left">
+					<div class="col-lg-6 text-left">
 						<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
 						<button class="btn w-lg btn-info btn-lg">
 							<i class="fa fa-rotate-left"></i>
@@ -1951,9 +1951,10 @@ $this->breadcrumbs = array('Anträge');
 						<button class="btn w-lg btn-info btn-lg">Förderfähig</button>
 						<button class="btn w-lg btn-info btn-lg">Genehmigt</button>
 					</div>
-					<div class="col-lg-4 text-right">
+					<div class="col-lg-6 text-right">
 						<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
 						<button class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()">Speichern</button>
+						<button class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur liste">Anwenden</button>
 					</div>
 				</div>
 

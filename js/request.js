@@ -21,14 +21,15 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $scope.requestYear = requestYear;
   };
 
-  $scope.submitRequest = function () {
+  $scope.submitRequest = function (close) {
+    close = close || false;
     var data = RequestService.getProjectData();
     data['finance_plan']    = RequestService.financePlanData();
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
-      if(result) {
-        console.log('ToDo'); // mb redirect to /requests ?
+      if(result && close) {
+        location.href = '/requests';
       }
     });
   };
