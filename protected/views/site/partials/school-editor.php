@@ -219,6 +219,11 @@
                   <a ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4"><i
                       class="fa fa-trash-o"></i></a>
                 </div>
+                <div class="group-btn clearfix m-t-20 hidden">
+                  <div class="pull-right">                  
+                    <button ng-if="canEditSchool() && !modeView" class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
+                  </div>
+                </div>
                 <div class="col-lg-10 text-right pull-right">
                   <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
                   <button ng-if="canEditSchool() && !modeView" class="btn w-lg custom-btn" ng-click="submitFormSchool()">Speichern</button>
