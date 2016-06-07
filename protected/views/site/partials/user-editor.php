@@ -15,7 +15,11 @@
       <form novalidate class="form-horizontal" name="form" disable-all="!canEdit() || modeView">
         <div class="form-group">
           <label class="col-lg-2 control-label">Status</label>
-
+          <div class="group-btn clearfix m-t-20 hidden">
+            <div class="pull-right">                  
+              <button class="btn w-lg custom-btn" ng-if="canEdit() && !modeView" ng-click="submitForm(user)">Speichern</button>  
+            </div>
+          </div>         
           <div class="col-lg-4">
             <div ng-if="!isCurrentUser && !modeView" class="btn-group btn-toggle">
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 1}" ng-model="user.is_active"
