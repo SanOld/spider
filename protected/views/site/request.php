@@ -956,7 +956,7 @@ $this->breadcrumbs = array('Anträge');
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab class="concepts" index="'school-concepts'" select="setTab('school-concepts')" heading="Konzept">
+					<uib-tab class="concepts {{conceptStatus}}" index="'school-concepts'" select="setTab('school-concepts')" heading="Konzept">
 						<div class="tab-pane" ng-controller="RequestSchoolConceptController">
 							<div class="panel-group panel-group-joined" id="accordion-concepts">
 								<div class="panel panel-default" ng-repeat="schoolConcept in schoolConcepts">
@@ -967,7 +967,7 @@ $this->breadcrumbs = array('Anträge');
 												<span class="notice">
 													<span class="color-notice {{schoolConcept.status}}-row"></span>
 												</span>
-												<div class="btn-group btn-toggle pull-right tabs-toggle">
+												<div ng-if="schoolConcept.histories.length" class="btn-group btn-toggle pull-right tabs-toggle">
 													<button ng-click="conceptTab[schoolConcept.id] = 'data'; $event.preventDefault(); $event.stopPropagation();" ng-class="conceptTab[schoolConcept.id] == 'data' ? 'active' : 'btn-default'" class="btn btn-sm">DATEN</button>
 													<button ng-click="conceptTab[schoolConcept.id] = 'history'; $event.preventDefault(); $event.stopPropagation();" ng-class="conceptTab[schoolConcept.id] == 'history' ? 'active' : 'btn-default'" class="btn btn-sm">VERLAUF</button>
 												</div>
