@@ -111,10 +111,10 @@ class Request extends BaseModel {
     return $result;
   }
 
-  
+
   protected function doBeforeInsert($post) {
     if($this->user['type'] == ADMIN || ($this->user['type'] == PA)) {
-      
+
       if(Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('project_id=:project_id AND year=:year', array(
           ':project_id' => safe($post,'project_id'),
           ':year' => safe($post,'year')
@@ -126,9 +126,9 @@ class Request extends BaseModel {
             'message' => 'This project already exists'
         );
       }
-      
-      $post['performer_id'] = Yii::app() -> db -> createCommand() 
-                              -> select('performer_id') -> from('spi_project') 
+
+      $post['performer_id'] = Yii::app() -> db -> createCommand()
+                              -> select('performer_id') -> from('spi_project')
                               -> where('id=:id ', array(':id' => safe($post,'project_id')))
                               ->queryScalar();
       return array(
@@ -194,7 +194,7 @@ class Request extends BaseModel {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
       $RequestSchoolConcept->user = $this->user;
       foreach ($this->school_concepts as $id=>$data) {
-        $RequestSchoolConcept->update($id, $data);
+        $RequestSchoolConcept->update($id, $data, true);
       }
     }
 
@@ -202,7 +202,7 @@ class Request extends BaseModel {
       $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
       $RequestSchoolGoal->user = $this->user;
       foreach ($this->school_goals as $id=>$data) {
-        $RequestSchoolGoal->update($id, $data);
+        $RequestSchoolGoal->update($id, $data, true);
       }
     }
     return $result;
@@ -229,7 +229,7 @@ class Request extends BaseModel {
   }
 
   protected function doBeforeUpdate($post, $id) {
-    
+
     unset($post['start_date_unix']);
     unset($post['due_date_unix']);
     if(isset($post['doc_target_agreement_id']) && !$post['doc_target_agreement_id']) {
@@ -241,7 +241,7 @@ class Request extends BaseModel {
     if(isset($post['doc_request_id']) && !$post['doc_request_id']) {
       $post['doc_request_id'] = null;
     }
-    
+
     if(isset($post['finance_plan'])) {
       // ToDo: save data in property variable and save it data in method doAfterUpdate
       unset($post['finance_plan']);
@@ -264,7 +264,7 @@ class Request extends BaseModel {
     );
 
   }
-  
+
   protected function doBeforeDelete($id) {
     $exists = Yii::app() -> db -> createCommand() -> select('tbl.id') -> from($this -> table . ' tbl') -> where('id=:id', array(
       ':id' => $id
@@ -276,7 +276,7 @@ class Request extends BaseModel {
         'system_code' => 'ERR_NOT_EXISTS'
       );
     }
-    
+
     $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
     $RequestSchoolConcept->user = $this->user;
     if($concepts = Yii::app() -> db -> createCommand() -> select('tbl.id') -> from('spi_request_school_concept tbl') -> where('request_id=:id', array(
@@ -286,7 +286,7 @@ class Request extends BaseModel {
         $RequestSchoolConcept->delete($concept['id'], true);
       }
     }
-    
+
     $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
     $RequestSchoolGoal->user = $this->user;
     if($goals = Yii::app() -> db -> createCommand() -> select('tbl.id') -> from('spi_request_school_goal tbl') -> where('request_id=:id', array(

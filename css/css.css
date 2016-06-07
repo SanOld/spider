@@ -1363,18 +1363,67 @@ body > .select2-container {
 	top:15px;
 	position: absolute;
 }
-.request-order-nav li.finance a:before {
+/*.request-order-nav li.finance a:before {
 	background: url('../images/ico-finance.png') no-repeat 0 50% #f3f3f3 ;
 }
 .request-order-nav li.concepts a:before{
 	background: url('../images/ico-concept.png') no-repeat 0 50% #f3f3f3 ;
+}*/
+/*.request-order-nav li.schools-goals a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+}*/
+.request-order-nav li.finance.unfinished a:before {
+    background: url('../images/ico-finance.png') no-repeat 3px 6px;
+    background-position: 3px -75px;
 }
-.request-order-nav li.schools-goals a:before {
-	background: url('../images/ico-goal.png') no-repeat 0 50% #f3f3f3 ;
+.request-order-nav li.finance.in_progress a:before {
+    background: url('../images/ico-finance.png') no-repeat 3px 6px;
+    background-position: 3px 23px;
 }
-.request-order-nav li.active a:before {
-	background-color: #fff;
+.request-order-nav li.finance.accepted a:before {
+    background: url('../images/ico-finance.png') no-repeat 3px 6px;
+    background-position: 3px 0px;
 }
+.request-order-nav li.finance.rejected a:before {
+    background: url('../images/ico-finance.png') no-repeat 3px 6px;
+    background-position: 3px -48px;
+}
+
+.request-order-nav li.concepts.unfinished a:before {
+    background: url('../images/ico-concept.png') no-repeat 3px 6px;
+    background-position: 3px -75px;
+}
+.request-order-nav li.concepts.in_progress a:before {
+    background: url('../images/ico-concept.png') no-repeat 3px 6px;
+    background-position: 3px 23px;
+}
+.request-order-nav li.concepts.accepted a:before {
+    background: url('../images/ico-concept.png') no-repeat 3px 6px;
+    background-position: 3px 0px;
+}
+.request-order-nav li.concepts.rejected a:before {
+    background: url('../images/ico-concept.png') no-repeat 3px 6px;
+    background-position: 3px -48px;
+}
+
+
+.request-order-nav li.schools-goals.unfinished a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+    background-position: 3px -75px;
+}
+.request-order-nav li.schools-goals.in_progress a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+    background-position: 3px 23px;
+}
+.request-order-nav li.schools-goals.accepted a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+    background-position: 3px 0px;
+}
+.request-order-nav li.schools-goals.rejected a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+    background-position: 3px -48px;
+}
+
 #project h2.panel-title {
 	font-weight:300 !important;
 	font-size:30px;
@@ -2040,10 +2089,10 @@ div.dataTables_length select {
 	background-position: 5px -77px;
 }
 
-.cell-concept.gray {
+.cell-concept.unfinished {
 	background-position: 5px -119px;
 }
-.cell-school.gray {
+.cell-school.unfinished {
 	background-position: 5px -117px;
 }
 
