@@ -27,13 +27,13 @@ class BaseModel extends CFormModel {
   public $filePath = '';
   public $uploadPath = '';
   public $outerPath = '';
-  
+
   // ------------ select ----------------
   protected function getCommand() {
     $command = Yii::app ()->db->createCommand ()->select ( '*' )->from ( $this->table );
     if ($this->id !== false) {
       $command->where ( 'id=:id', array (
-          ':id' => $this->id 
+          ':id' => $this->id
       ) );
     }
     return $command;
@@ -75,13 +75,13 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
-  
+
   protected function doSelect($command) {
     $commandClone = clone($command);
     $res = $command->queryAll();
     $result = array (
         'system_code' => 'SUCCESSFUL',
-        'code' => '200' 
+        'code' => '200'
     );
     if ($this->id !== false) {
       $result ['result'] = isset ( $res [0] ) ? $res [0] : array ();//TODO
@@ -107,13 +107,13 @@ class BaseModel extends CFormModel {
   protected function doAfterSelect($result) {
     return $result;
   }
-  
+
   // ------------ insert ----------------
   protected function doBeforeInsert($post) {
     return array (
         'result' => true,
         'params' => $post,
-        'post' => $post 
+        'post' => $post
     );
   }
   protected function doInsert($params, $post, $table = false) {
@@ -126,13 +126,13 @@ class BaseModel extends CFormModel {
             'code' => '200',
             'result' => true,
             'id' => Yii::app()->db->getLastInsertID(),
-            'system_code' => 'SUCCESSFUL' 
+            'system_code' => 'SUCCESSFUL'
         );
       } else {
         return array (
             'code' => '409',
             'result' => false,
-            'system_code' => 'ERR_QUERY' 
+            'system_code' => 'ERR_QUERY'
         );
       }
     } catch (CDbException $e) {
@@ -142,35 +142,35 @@ class BaseModel extends CFormModel {
           'system_code' => 'ERR_QUERY',
           'db_message' => $e->errorInfo//TODO comment on production
       );
-    }  
+    }
   }
   protected function doAfterInsert($result, $params, $post) {
     return $result;
   }
-  
+
   // ------------ update ----------------
   protected function doBeforeUpdate($post, $id) {
     return array (
         'result' => true,
         'params' => $post,
-        'post' => $post 
+        'post' => $post
     );
   }
   protected function doUpdate($params, $post, $id) {
     try{
       if (Yii::app ()->db->createCommand ()->update ( $this->table, $params, 'id=:id', array (
-          ':id' => $id 
+          ':id' => $id
       ))>=0) {
         return array (
             'code' => '200',
             'result' => true,
-            'system_code' => 'SUCCESSFUL' 
+            'system_code' => 'SUCCESSFUL'
         );
       } else {
         return array (
             'code' => '409',
             'result' => false,
-            'system_code' => 'ERR_QUERY' 
+            'system_code' => 'ERR_QUERY'
         );
       }
     } catch (CDbException $e) {
@@ -180,13 +180,13 @@ class BaseModel extends CFormModel {
           'system_code' => 'ERR_QUERY',
           'db_message' => $e->errorInfo//TODO comment on production
       );
-    }  
+    }
   }
-  
+
   protected function doAfterUpdate($result, $params, $post, $id) {
     return $result;
   }
-  
+
   // ------------ delete ----------------
   protected function doBeforeDelete($id) {
     $row = Yii::app() -> db -> createCommand() -> select('id') -> from($this -> table . ' tbl') -> where('id=:id', array(
@@ -207,18 +207,18 @@ class BaseModel extends CFormModel {
   protected function doDelete($id) {
     try{
       if (Yii::app ()->db->createCommand ()->delete ( $this->table, 'id=:id', array (
-          ':id' => $id 
+          ':id' => $id
       ) )) {
         return array (
             'code' => '200',
             'result' => true,
-            'system_code' => 'SUCCESSFUL' 
+            'system_code' => 'SUCCESSFUL'
         );
       } else {
         return array (
             'code' => '409',
             'result' => false,
-            'system_code' => 'ERR_QUERY' 
+            'system_code' => 'ERR_QUERY'
         );
       }
     } catch (CDbException $e) {
@@ -230,7 +230,7 @@ class BaseModel extends CFormModel {
             'result' => false,
             'system_code' => 'ERR_QUERY'
             );
-      } 
+      }
     }
   }
   protected function getForeignKeyError($e) {
@@ -244,8 +244,8 @@ class BaseModel extends CFormModel {
     return $result;
   }
   protected function getRequired() {
-    $query = "SELECT `COLUMN_NAME` 
-                  FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+    $query = "SELECT `COLUMN_NAME`
+                  FROM `INFORMATION_SCHEMA`.`COLUMNS`
                  WHERE `TABLE_NAME`='" . $this->table . "'
                    AND `IS_NULLABLE`='NO'
                    AND `COLUMN_DEFAULT` IS NULL
@@ -266,7 +266,7 @@ class BaseModel extends CFormModel {
     foreach ( $required as $field ) {
       $res [] = array (
           'colname' => $field ['COLUMN_NAME'],
-          'coltype' => $field ['DATA_TYPE'] 
+          'coltype' => $field ['DATA_TYPE']
       );
     }
     return $res;
@@ -275,9 +275,9 @@ class BaseModel extends CFormModel {
     $required = $this->getRequired ();
     if ($this->method == 'put') {
       $row = Yii::app ()->db->createCommand ()->select ( '*' )->from ( $this->table )->where ( 'id=:id ', array (
-          ':id' => $this->id 
+          ':id' => $this->id
       ) )->queryRow ();
-      
+
       foreach ( $row as $name => $field ) {
         $fields [$name] = isset ( $fields [$name] ) ? $fields [$name] : $field;
       }
@@ -369,7 +369,7 @@ class BaseModel extends CFormModel {
       ));
     }
   }
-  public function update($id, $post) {
+  public function update($id, $post, $multiInsert = false) {
     $this->id = $id;
     $this->method = 'put';
     if ($this->checkPermission($this->user, ACTION_UPDATE, $post)) {
@@ -381,12 +381,20 @@ class BaseModel extends CFormModel {
           if (!$missed && !empty($params)) {
             $results = $this->doUpdate($params, $post, $id);
             $results = $this->doAfterUpdate($results, $params, $post, $id);
-            response($results ['code'], $results, $this->method);
+            if ($multiInsert && $results['code'] == '200') {
+              return $results;
+            } else {
+              response($results ['code'], $results, $this->method);
+            }
           } else {
             response('400', array('result' => false, 'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS', 'required' => $missed), $this->method);
           }
         } else {
-          response($result ['code'], $result, $this->method);
+          if ($multiInsert && $results['code'] == '200') {
+            return $results;
+          } else {
+            response($results ['code'], $results, $this->method);
+          }
         }
       } else {
         response('405', array('result' => false, 'system_code' => 'ERR_ID_NOT_SPECIFIED'), $this->method);
@@ -425,7 +433,7 @@ class BaseModel extends CFormModel {
         } else {
           response('405', array('result' => false, 'system_code' => 'ERR_ID_NOT_SPECIFIED'), $this->method);
         }
-        
+
       }
     } else {
       if($multiple) {
@@ -439,7 +447,7 @@ class BaseModel extends CFormModel {
             'system_code' => 'ERR_PERMISSION'
           ));
         }
-      
+
     }
   }
   function setPagination($command, $get) {
@@ -517,7 +525,7 @@ class BaseModel extends CFormModel {
         'code' => '200',
         'next_id' => $next_id
     );
-    
+
     return $result;
   }
   protected function calcResults($result) {

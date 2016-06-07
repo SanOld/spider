@@ -6,12 +6,26 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.projectID = '';
   $scope.requestYear = '';
 
+  $scope.financeStatus = '';
+  $scope.conceptStatus = '';
+  $scope.goalsStatus = '';
+
   var hash = $location.hash();
   if(hash && ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'].indexOf(hash) !== -1) {
     $scope.tabActive = $location.hash();
   }
   $scope.setTab = function(name) {
     $location.hash(name);
+  };
+
+  $scope.setFinanceStatus = function(financeStatus){
+    $scope.financeStatus = financeStatus;
+  };
+  $scope.setConceptStatus = function(conceptStatus){
+    $scope.conceptStatus = conceptStatus;
+  };
+  $scope.setGoalsStatus = function(goalsStatus){
+    $scope.goalsStatus = goalsStatus;
   };
 
   $scope.setProjectID = function(projectID){
@@ -29,7 +43,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result && close) {
-        location.href = '/requests';
+//        location.href = '/requests';
       }
     });
   };
@@ -208,6 +222,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   };
 
 
+
   $scope.submitForm = function(data, concept, action) {
     switch (action) {
       case 'submit':
@@ -261,9 +276,8 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.schoolGoals = [];
   $scope.activeTab = 0;
   $scope.tabStatus = '';
-  $scope.paPriority = {r: 1, d: 2, g: 3, a: 4 };
-  $scope.taPriority = {d: 1, g: 2, r: 3, a: 4 };
-
+  $scope.paPriority = {'in_progress': 1, 'rejected': 2, 'unfinished': 3, 'accepted': 4 };
+  $scope.taPriority = {'rejected': 1, 'unfinished': 2, 'in_progress': 3, 'accepted': 4 };
 
   network.get('request_school_goal', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
@@ -324,7 +338,6 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         }
       break;
     }
-
     $scope.checkTabStatus();
   }
 
@@ -336,7 +349,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
           if($scope.paPriority[schools[school].status] < $scope.paPriority[$scope.tabStatus] || $scope.tabStatus == ''){
-            $scope.tabStatus = schools[school].status;
+            $scope.$parent.setGoalsStatus(schools[school].status);
           }
         }
         break;
@@ -344,7 +357,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
           if($scope.taPriority[schools[school].status] < $scope.taPriority[$scope.tabStatus] || $scope.tabStatus == ''){
-              $scope.tabStatus = schools[school].status;
+              $scope.$parent.setGoalsStatus(schools[school].status);
             }
         }
       break;
@@ -359,16 +372,17 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return $scope.activeTab;
   }
 
+
   $scope.submitForm = function( school, goal, action ) {
     switch (action) {
       case 'submit':
-        goal.status = 'r';
+        goal.status = 'in_progress';
         break;
       case 'declare':
-        goal.status = 'd';
+        goal.status = 'rejected';
         break;
       case 'accept':
-        goal.status = 'a';
+        goal.status = 'accepted';
         break;
     }
 
@@ -381,12 +395,13 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   };
 
   RequestService.getSchoolGoalData = function(){
-    var data = [];
+    var data = {};
     if(angular.isObject($scope.schoolGoals)){
       for (var school in $scope.schoolGoals){
         if(angular.isObject($scope.schoolGoals[school])){
           var goals = $scope.schoolGoals[school].goals;
           for(var goal in goals){
+            delete goals[goal].groups;
             data[goals[goal].id]=(goals[goal]);
           }
         }
@@ -396,21 +411,22 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return data;
   };
 
+
   $scope.readonly = function(goal){
     switch(goal.status){
-      case 'g':
+      case 'unfinished':
         if($scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
-      case 'r':
+      case 'in_progress':
         if($scope.userType == 'a'){return false;}
         return true;
         break;
-      case 'd':
+      case 'rejected':
         if($scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
-      case 'a':
+      case 'accepted':
         return true;
       break;
     }

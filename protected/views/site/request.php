@@ -1445,21 +1445,18 @@ $this->breadcrumbs = array('Anträge');
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab class="schools-goals" index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
+					<uib-tab  class="schools-goals {{goalsStatus}}"  index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele {{goalsStatus}}">
 
 						<div class="tab-pane" ng-controller="RequestSchoolGoalController">
-              <span class="notice">
-                <span ng-class="{'open': tabStatus == 'g', 'inprogress-row': tabStatus == 'r', 'decline-row-red': tabStatus == 'd', 'acceptable-row': tabStatus == 'a'}" class="color-notice"></span>
-              </span>
               <div id="accordion-order" class="panel-group panel-group-joined">
 
 								<div ng-repeat="school in schoolGoals track by $index" class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
 											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding collapsed" aria-expanded="false">
-												{{school.school_name}} ({{school.school_number}})
+												{{school.school_name}} ({{school.school_number}}) {{school.status}}
 												<span class="notice">
-													<span ng-class="{'open': school.status == 'g', 'inprogress-row': school.status == 'r', 'decline-row-red': school.status == 'd', 'acceptable-row': school.status == 'a'}" class="color-notice"></span>
+													<span ng-class="{{school.status}}" class="color-notice"></span>
 												</span>
 											</a>
 										</h4>
@@ -1478,8 +1475,8 @@ $this->breadcrumbs = array('Anträge');
 												<div class="tab-content" >
 													<div ng-repeat="goal in school.goals"  disable-all="readonly(goal)"  id="goal_{{goal.id}}" class="tab-pane "  ng-class="getActivateTab() == goal.id ? 'active' : ''" >
 
-														<div ng-hide="goal.status == 'g'" class="alert" ng-class="{'alert-warning': goal.status == 'r', 'alert-danger': goal.status == 'd', 'alert-success': goal.status == 'a'}" ng-bind="goal.notice">
-															<strong ng-if="goal.status == 'r'">Bereit zu überprüfen</strong>
+														<div ng-hide="goal.status == 'unfinished'" class="alert" ng-class="{{goal.status}}" ng-bind="goal.notice">
+															<strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen</strong>
 														</div>
 
 														<h4>{{::goal.name}}</h4>
@@ -1910,16 +1907,17 @@ $this->breadcrumbs = array('Anträge');
 														</div>
 														<hr />
 														<div class="row">
-															<div ng-hide=" (userType != 'a' && userType != 'p') || goal.status == 'a' " class="col-lg-9">
+															<div ng-hide=" (userType != 'a' && userType != 'p') || goal.status == 'accepted' " class="col-lg-9">
 																<h4 class="m-t-0">Prüfnotiz</h4>
 																<textarea  ng-model="goal.notice" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
 															</div>
 
 															<div class="col-lg-3">
+
 																<div class="m-t-30 text-right pull-right">
-                                  <button ng-hide="userType != 't' || goal.status == 'a' || goal.status == 'r'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( school, goal, 'submit')">SENDEN</button>
-																  <button ng-hide="goal.status == 'a' || (userType != 'a' && userType != 'p') " class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( school, goal, 'accept')">AKZEPTIEREN</button>
-                                  <button ng-hide="goal.status == 'd' || goal.status == 'a' || (userType != 'a' && userType != 'p') " ng-class="{disabled: !goal.notice}" ng-click="submitForm( school, goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+                                  <button ng-hide="userType != 't' || goal.status == 'a' || goal.status == 'in_progress'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( school, goal, 'submit')">SENDEN</button>
+																  <button ng-hide="goal.status == 'accepted' || (userType != 'a' && userType != 'p') " class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( school, goal, 'accept')">AKZEPTIEREN</button>
+                                  <button ng-hide="goal.status == 'rejected' || goal.status == 'accepted' || (userType != 'a' && userType != 'p') " ng-class="{disabled: !goal.notice}" ng-click="submitForm( school, goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 																</div>
 															</div>
 														</div>
