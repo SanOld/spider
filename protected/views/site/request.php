@@ -1980,7 +1980,7 @@ $this->breadcrumbs = array('Anträge');
 						<div class="col-lg-4 p-0">
 							<div class="input-group">
 								<input type="text" ng-click="dp_start_date_is_open = !dp_start_date_is_open" ng-model="form.start_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_start_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
-								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_start_date_is_open = !dp_start_date_is_open"></i></span>
+								<span class="input-group-addon" ng-click="dp_start_date_is_open = !dp_start_date_is_open"><i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
 						</div>
 						<div class="col-lg-2 p-0">
@@ -1989,7 +1989,7 @@ $this->breadcrumbs = array('Anträge');
 						<div class="col-lg-4 p-0">
 							<div class="input-group">
 								<input type="text" ng-click="dp_due_date_is_open = !dp_due_date_is_open" ng-model="form.due_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_due_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
-								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_due_date_is_open = !dp_due_date_is_open"></i></span>
+								<span class="input-group-addon" ng-click="dp_due_date_is_open = !dp_due_date_is_open"><i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
 						</div>
 					</div>
