@@ -94,7 +94,7 @@ $this->breadcrumbs = array('Anträge');
           <div class="row">
             <div class="col-lg-12">
 
-              <table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
+              <table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit table-requests">
                 <tr ng-repeat="row in $data" ng-class="row.status_code+'-row'">
                   <td header="'headerCheckbox.html'">
                     <label class="cr-styled">
@@ -132,10 +132,13 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="'Abgabe'" sortable="'due_date'">{{row.due_date_unix| date : 'dd.MM.yyyy'}}</td>
                   <td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change_unix| date : 'dd.MM.yyyy'}}</td>
                   <td data-title="'Ansicht / Bearbeiten'">
-                    <a ng-if="row.status_code == 'a' || row.status_code == 'b'" class="btn document" href="" ng-click="openPrint(row)" title="Drucken"><i class="ion-printer"></i></a>
-                    <a ng-if="row.status_code != 'a' && row.status_code != 'b'" class="btn document disabled" href="javascript:;" title="Drucken"><i class="ion-printer"></i></a>
-                    <a ng-if="canEdit()" class="btn edit-btn" href="/request/{{row.id}}" title="Bearbeiten">
+                    <a ng-if="row.status_code == 'acceptable' || row.status_code == 'accept'" class="btn document" href="" ng-click="openPrint(row)" title="Drucken"><i class="ion-printer"></i></a>
+                    <a ng-if="row.status_code != 'acceptable' && row.status_code != 'accept'" class="btn document disabled" href="javascript:;" title="Drucken"><i class="ion-printer"></i></a>
+                    <a ng-if="canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}" title="Bearbeiten">
                       <i class="ion-edit"></i>
+                    </a>
+                    <a ng-if="!canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}" title="Aussicht">
+                      <i class="ion-eye"></i>
                     </a>
                   </td>
                 </tr>

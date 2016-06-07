@@ -21,392 +21,8 @@ $this->breadcrumbs = array('Anträge');
 
 				<uib-tabset class="panel-body request-order-nav" active="tabActive">
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
-						<div id="project" class="tab-pane active" ng-controller="RequestProjectDataController">
-							<div class="panel-group panel-group-joined m-0">
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-lg-8 heading-title">
-												<h2 class="panel-title">
-													Projekt <strong>{{data.code}}</strong>
-												</h2>
-												<!--												<p>Gesellschaft für Sport und Jugendsozialarbeit gGmbH (GSJ)</p>-->
-											</div>
-											<div class="col-lg-4">
-												<div class="heading-date">
-													<strong>Beginn und Ende der Maßnahme:</strong>
-													<div class="holder-head-date custom-dl  m-t-10">
-														<i class="fa fa-calendar"></i>
-														<div class="wrap-data">
-															<div>
-																<span>Beginn:</span>
-																<em>{{request.start_date_unix | date : 'dd.MM.yyyy'}}</em>
-															</div>
-															<div>
-																<span>Ende:</span>
-																<em>{{request.due_date_unix | date : 'dd.MM.yyyy'}} </em>
-															</div>
-														</div>
-														<div class="btn-row">
-															<button class="btn m-t-5" ng-click="setBulkDuration()">Dauer ändern</button>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="row">
-											<div class="col-lg-12">
-												<h3 class="panel-title">
-													Träger
-                          <span class="btn-row m-l-15">
-                            <a class="btn" href="performers#id={{data.performer_id}}" target="_blank" ng-click="setUpdater()" >Bearbeiten</a>
-                          </span>
-												</h3>
-												<hr/>
-												<ng-show ng-show="data.performer_id">
-													<strong>{{data.performer_name}}</strong>
-                                                    <i ng-if="+data.performer_is_checked" class="ion-checkmark"></i>
-													<div class="row m-t-20 m-b-30 row-holder-dl">
-														<div class="col-lg-12 m-b-0">
-															<dl class="custom-dl">
-																<ng-show ng-show="data.performer_contact">
-																	<dt>Ansprechpartner(in):</dt>
-																	<dd>{{data.performer_contact}}</dd>
-																</ng-show>
-																<ng-show ng-show="data.performer_contact_function">
-																	<dt>Funktion:</dt>
-																	<dd>{{data.performer_contact_function}}</dd>
-																</ng-show>
-															</dl>
-														</div>
-														<div class="col-lg-6">
-															<dl class="custom-dl">
-																<ng-show ng-show="data.performer_address">
-																	<dt>Adresse:</dt>
-																	<dd>{{data.performer_address}}</dd>
-																</ng-show>
-																<ng-show ng-show="data.performer_plz">
-																	<dt>PLZ:</dt>
-																	<dd>{{data.performer_plz}}</dd>
-																</ng-show>
-																<ng-show ng-show="data.performer_city">
-																	<dt>Stadt:</dt>
-																	<dd>{{data.performer_city}}</dd>
-																</ng-show>
-																<ng-show ng-show="data.performer_homepage">
-																	<dt>Webseite:</dt>
-																	<dd><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
-																</ng-show>
-															</dl>
-														</div>
-														<div class="col-lg-5">
-															<dl class="custom-dl">
-																<ng-show ng-show="data.performer_phone">
-																	<dt>Telefon:</dt>
-																	<dd>{{data.performer_phone}}</dd>
-																</ng-show>
-																<ng-show ng-show="data.performer_fax">
-																	<dt>Fax:</dt>
-																	<dd>{{data.performer_fax}}</dd>
-																</ng-show>
-																<ng-show ng-show="data.performer_email">
-																	<dt>Email:</dt>
-																	<dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
-																</ng-show>
-															</dl>
-														</div>
-													</div>
-												</ng-show>
-											</div>
-										</div>
-										<h3 class="panel-title m-b-15">
-											Schule{{data.schools.length > 1?'n':''}}
-										</h3>
-										<div id="accordion-project" class="panel-group panel-group-joined">
-
-											<div ng-repeat="school in data.schools" class="panel panel-default">
-												<div class="panel-heading">
-													<h4 class="panel-title">
-														<a class="collapse ng-binding collapsed" href="#_{{school.id}}_" data-parent="#accordion-project" data-toggle="collapse">
-															{{school.name}}
-														</a>
-													</h4>
-												</div>
-												<div class="panel-collapse collapse" id="_{{school.id}}_">
-													<div class="panel-body">
-														<div class="row m-b-30 row-holder-dl">
-															<div class="col-lg-12">
-																<div class="btn-row m-b-15">
-																	<a class="btn" href="schools#id={{school.id}}" target="_blank" ng-click="setUpdater()"  >Bearbeiten</a>
-																</div>
-																<dl class="custom-dl">
-																	<ng-show ng-show="school.user_name">
-																		<dt>Ansprechpartner(in):</dt>
-																		<dd>{{school.user_name}}</dd>
-																	</ng-show>
-																	<ng-show ng-show="school.user_function">
-																		<dt>Funktion:</dt>
-																		<dd>{{school.user_function}}</dd>
-																	</ng-show>
-																</dl>
-															</div>
-															<div class="col-lg-5">
-																<dl class="custom-dl">
-																	<ng-show ng-show="school.address">
-																		<dt>Adresse:</dt>
-																		<dd>{{school.address}}</dd>
-																	</ng-show>
-																	<ng-show ng-show="school.plz">
-																		<dt>PLZ:</dt>
-																		<dd>{{school.plz}}</dd>
-																	</ng-show>
-																	<ng-show ng-show="school.city">
-																		<dt>Stadt:</dt>
-																		<dd>{{school.city}}</dd>
-																	</ng-show>
-																	<ng-show ng-show="school.homepage">
-																		<dt>Webseite:</dt>
-																		<dd><a target="_blank" href="http://{{school.homepage}}">{{school.homepage}}</a></dd>
-																	</ng-show>
-																</dl>
-															</div>
-															<div class="col-lg-4">
-																<dl class="custom-dl">
-																	<ng-show ng-show="school.phone">
-																		<dt>Telefon:</dt>
-																		<dd>{{school.phone}}</dd>
-																	</ng-show>
-																	<ng-show ng-show="school.fax">
-																		<dt>Fax:</dt>
-																		<dd>{{school.fax}}</dd>
-																	</ng-show>
-																	<ng-show ng-show="school.email">
-																		<dt>Email:</dt>
-																		<dd><a href="mailto:{{school.email}}">{{school.email}}</a></dd>
-																	</ng-show>
-																</dl>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-
-										</div>
-
-										<div class="row holder-three-blocks m-b-30">
-											<div class="col-lg-4">
-												<h4 class="panel-title m-b-10">
-													Ansprechperson für Rückfragen zum Antrag
-												</h4>
-												<div class="form-group">
-													<ui-select   on-select="onSelectCallback($item, $model, 1)" class="type-document" ng-model="request.request_user_id">
-														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
-															<span ng-bind-html="item.name | highlight: $select.search"></span>
-														</ui-select-choices>
-													</ui-select>
-												</div>
-												<dl class="custom-dl" ng-show="selectRequestResult">
-													<ng-show ng-show="selectRequestResult.function">
-														<dt>Funktion:</dt>
-														<dd>{{selectRequestResult.function}}</dd>
-													</ng-show>
-													<ng-show ng-show="selectRequestResult.title">
-														<dt>Anrede:</dt>
-														<dd>{{selectRequestResult.gender}}</dd>
-													</ng-show>
-													<ng-show ng-show="selectRequestResult.phone">
-														<dt>Telefon:</dt>
-														<dd>{{selectRequestResult.phone}}</dd>
-													</ng-show>
-													<ng-show ng-show="selectRequestResult.email">
-														<dt>Email:</dt>
-														<dd><a class="visible-lg-block" href="mailto:{{selectRequestResult.email}}">{{selectRequestResult.email}}</a></dd>
-													</ng-show>
-												</dl>
-											</div>
-
-											<div class="col-lg-4">
-												<h4 class="panel-title m-b-10">
-													Ansprechperson für Rückfragen zum Konzept
-												</h4>
-												<div class="form-group">
-													<ui-select   on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id">
-														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
-															<span ng-bind-html="item.name | highlight: $select.search"></span>
-														</ui-select-choices>
-													</ui-select>
-												</div>
-												<dl class="custom-dl" ng-show="selectConceptResult">
-													<ng-show ng-show="selectConceptResult.function">
-														<dt>Funktion:</dt>
-														<dd>{{selectConceptResult.function}}</dd>
-													</ng-show>
-													<ng-show ng-show="selectConceptResult.title">
-														<dt>Anrede:</dt>
-														<dd>{{selectConceptResult.gender}}</dd>
-													</ng-show>
-													<ng-show ng-show="selectConceptResult.phone">
-														<dt>Telefon:</dt>
-														<dd>{{selectConceptResult.phone}}</dd>
-													</ng-show>
-													<ng-show ng-show="selectConceptResult.email">
-														<dt>Email:</dt>
-														<dd><a class="visible-lg-block" href="mailto:{{selectConceptResult.email}}">{{selectConceptResult.email}}</a></dd>
-													</ng-show>
-												</dl>
-											</div>
-
-											<div class="col-lg-4">
-												<h4 class="panel-title m-b-10">
-													Ansprechperson für Rückfragen zum Finanzplan
-												</h4>
-												<div class="form-group">
-													<ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="request.finance_user_id">
-														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
-															<span ng-bind-html="item.name | highlight: $select.search"></span>
-														</ui-select-choices>
-													</ui-select>
-												</div>
-												<dl class="custom-dl" ng-show="selectFinanceResult">
-													<ng-show ng-show="selectFinanceResult.function">
-														<dt>Funktion:</dt>
-														<dd>{{selectFinanceResult.function}}</dd>
-													</ng-show>
-													<ng-show ng-show="selectFinanceResult.title">
-														<dt>Anrede:</dt>
-														<dd>{{selectFinanceResult.gender}}</dd>
-													</ng-show>
-													<ng-show ng-show="selectFinanceResult.phone">
-														<dt>Telefon:</dt>
-														<dd>{{selectFinanceResult.phone}}</dd>
-													</ng-show>
-													<ng-show ng-show="selectFinanceResult.email">
-														<dt>Email:</dt>
-														<dd><a class="visible-lg-block" href="mailto:{{selectFinanceResult.email}}">{{selectFinanceResult.email}}</a></dd>
-													</ng-show>
-												</dl>
-											</div>
-										</div>
-
-
-
-										<h3 class="panel-title">
-											Angaben zum Jugendamt
-                      <span class="btn-row m-l-15">
-                        <a class="btn" href="districts#id={{data.district_id}}" target="_blank" ng-click="setUpdater()" >Bearbeiten</a>
-                      </span>
-										</h3>
-										<hr/>
-										<div class="row row-holder-dl" ng-show="data.district_id">
-											<div class="col-lg-12 m-b-10">
-												<dl class="custom-dl">
-													<ng-show ng-show="data.district_name">
-														<dt>Bezirk:</dt>
-														<dd><strong>{{data.district_name}}</strong></dd>
-													</ng-show>
-													<ng-show ng-show="data.district_contact">
-														<dt>Ansprechpartner(in):</dt>
-														<dd><strong>{{data.district_contact}}</strong></dd>
-													</ng-show>
-												</dl>
-											</div>
-											<div class="col-lg-5">
-												<dl class="custom-dl">
-													<ng-show ng-show="data.district_address">
-														<dt>Adresse:</dt>
-														<dd>{{data.district_address}}</dd>
-													</ng-show>
-													<ng-show ng-show="data.district_plz">
-														<dt>PLZ:</dt>
-														<dd>{{data.district_plz}}</dd>
-													</ng-show>
-													<ng-show ng-show="data.district_city">
-														<dt>Stadt:</dt>
-														<dd>{{data.district_city}}</dd>
-													</ng-show>
-												</dl>
-											</div>
-											<div class="col-lg-4">
-												<dl class="custom-dl">
-													<ng-show ng-show="data.district_phone">
-														<dt>Telefon:</dt>
-														<dd>{{data.district_phone}}</dd>
-													</ng-show>
-													<ng-show ng-show="data.district_fax">
-														<dt>Fax:</dt>
-														<dd>{{data.district_fax}}</dd>
-													</ng-show>
-													<ng-show ng-show="data.district_email">
-														<dt>Email:</dt>
-														<dd><a href="mailto:{{data.district_email}}">{{data.district_email}}</a></dd>
-													</ng-show>
-												</dl>
-											</div>
-										</div>
-									</div>
-									<hr/>
-									<div class="row">
-										<div class="col-lg-12">
-											<h4 class="m-t-0">Zusätzliche Information</h4>
-											<textarea placeholder="Tragen Sie den Text hier ein" ng-model="request.additional_info" class="form-control"></textarea>
-										</div>
-									</div>
-									<hr />
-									<div class="row">
-										<div class="col-lg-4 form-horizontal">
-											<h4>Druck-Template wählen</h4>
-											<div class="form-group">
-												<label class="col-lg-4 control-label">Zielvereinbarung:</label>
-												<div class="col-lg-8">
-													<ui-select ng-change="" class="type-document" ng-model="request.doc_target_agreement_id">
-														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'goal_agreement'} | orderBy: 'name'">
-															<span ng-bind-html="item.name | highlight: $select.search"></span>
-														</ui-select-choices>
-													</ui-select>
-												</div>
-
-
-											</div>
-											<div class="form-group">
-												<label class="col-lg-4 control-label">Antrag:</label>
-												<div class="col-lg-8">
-													<ui-select ng-change="" class="type-document" ng-model="request.doc_request_id">
-														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'request'} | orderBy: 'name'">
-															<span ng-bind-html="item.name | highlight: $select.search"></span>
-														</ui-select-choices>
-													</ui-select>
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-lg-4 control-label">Fördervertrag:</label>
-												<div class="col-lg-8">
-													<ui-select ng-change="" class="type-document" ng-model="request.doc_financing_agreement_id">
-														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'funding_agreement'} | orderBy: 'name'">
-															<span ng-bind-html="item.name | highlight: $select.search"></span>
-														</ui-select-choices>
-													</ui-select>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-8">
-											<h4>Auflage</h4>
-											<textarea class="form-control custom-height-textarea" placeholder="Tragen Sie den Text hier ein" ng-model="request.senat_additional_info" class="form-control"></textarea>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-					</uib-tab>
+                      <?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
+                    </uib-tab>
 					<uib-tab class="finance" index="'finance-plan'" select="setTab('finance-plan')" heading="Finanzplan">
 						<div class="tab-pane" ng-controller="RequestFinancePlanController">
 							<div class="panel-group panel-group-joined m-0">
@@ -1445,21 +1061,18 @@ $this->breadcrumbs = array('Anträge');
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab class="schools-goals" index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
+					<uib-tab  class="schools-goals {{goalsStatus}}"  index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele {{goalsStatus}}">
 
 						<div class="tab-pane" ng-controller="RequestSchoolGoalController">
-              <span class="notice">
-                <span ng-class="{'open': tabStatus == 'g', 'inprogress-row': tabStatus == 'r', 'decline-row-red': tabStatus == 'd', 'acceptable-row': tabStatus == 'a'}" class="color-notice"></span>
-              </span>
               <div id="accordion-order" class="panel-group panel-group-joined">
 
 								<div ng-repeat="school in schoolGoals track by $index" class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
 											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding collapsed" aria-expanded="false">
-												{{school.school_name}} ({{school.school_number}})
+												{{school.school_name}} ({{school.school_number}}) {{school.status}}
 												<span class="notice">
-													<span ng-class="{'open': school.status == 'g', 'inprogress-row': school.status == 'r', 'decline-row-red': school.status == 'd', 'acceptable-row': school.status == 'a'}" class="color-notice"></span>
+													<span ng-class="{{school.status}}" class="color-notice"></span>
 												</span>
 											</a>
 										</h4>
@@ -1478,39 +1091,39 @@ $this->breadcrumbs = array('Anträge');
 												<div class="tab-content" >
 													<div ng-repeat="goal in school.goals"  disable-all="readonly(goal)"  id="goal_{{goal.id}}" class="tab-pane "  ng-class="getActivateTab() == goal.id ? 'active' : ''" >
 
-														<div ng-hide="goal.status == 'g'" class="alert" ng-class="{'alert-warning': goal.status == 'r', 'alert-danger': goal.status == 'd', 'alert-success': goal.status == 'a'}" ng-bind="goal.notice">
-															<strong ng-if="goal.status == 'r'">Bereit zu überprüfen</strong>
+														<div ng-hide="goal.status == 'unfinished'" class="alert" ng-class="{{goal.status}}" ng-bind="goal.notice">
+															<strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen</strong>
 														</div>
 
 														<h4>{{::goal.name}}</h4>
                             <textarea  ng-model="goal.description" class="form-control" placeholder="Tragen Sie den Text hier ein here"></textarea>
 														<h4>Angebote für Schüler/innen und Eltern</h4>
-                            <span  ng-if="goal.offer_field_count > 3" >
+                            <span  ng-if="goal.groups.groupOffer.counter > 3" >
                                 <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus</label>
                             </span>
 														<div class="holder-radio">
 															<div class="p-0 text-center">
 																<div class="row">
-																	<span class="col-lg-2">Schwerpunktziel {{goal.offer_field_count}}</span>
+																	<span class="col-lg-2">Schwerpunktziel</span>
 																	<span class="col-lg-1">Weiteres Ziel</span>
 																	<span class="col-lg-1">kein Ziel</span>
 																</div>
 																<div class="row">
                                   <div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.capacity" ng-change="addGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="1" ng-model="goal.capacity" ng-change="checkCount('groupOffer', 'capacity', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.capacity" ng-change="delGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="2" ng-model="goal.capacity" ng-change="checkCount('groupOffer', 'capacity', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.capacity" ng-change="delGoalsCount(goal, 'offer')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.capacity" ng-change="checkCount('groupOffer', 'capacity', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1520,19 +1133,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.transition" ng-change="addGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="1" ng-model="goal.transition" ng-change="checkCount('groupOffer', 'transition', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.transition" ng-change="delGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="2" ng-model="goal.transition" ng-change="checkCount('groupOffer', 'transition', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.transition" ng-change="delGoalsCount(goal, 'offer')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.transition" ng-change="checkCount('groupOffer', 'transition', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1542,19 +1155,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.reintegration" ng-change="addGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="1" ng-model="goal.reintegration" ng-change="checkCount('groupOffer', 'reintegration', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.reintegration" ng-change="delGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="2" ng-model="goal.reintegration" ng-change="checkCount('groupOffer', 'reintegration', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.reintegration" ng-change="delGoalsCount(goal, 'offer')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.reintegration" ng-change="checkCount('groupOffer', 'reintegration', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1564,19 +1177,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.social_skill" ng-change="addGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="1" ng-model="goal.social_skill" ng-change="checkCount('groupOffer', 'social_skill', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.social_skill" ng-change="delGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="2" ng-model="goal.social_skill" ng-change="checkCount('groupOffer', 'social_skill', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.social_skill" ng-change="delGoalsCount(goal, 'offer')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.social_skill" ng-change="checkCount('groupOffer', 'social_skill', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1586,19 +1199,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.prevantion_violence" ng-change="addGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="1" ng-model="goal.prevantion_violence" ng-change="checkCount('groupOffer', 'prevantion_violence', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.prevantion_violence" ng-change="delGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="2" ng-model="goal.prevantion_violence" ng-change="checkCount('groupOffer', 'prevantion_violence', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.prevantion_violence" ng-change="delGoalsCount(goal, 'offer')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.prevantion_violence" ng-change="checkCount('groupOffer', 'prevantion_violence', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1608,19 +1221,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.health" ng-change="addGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="1" ng-model="goal.health" ng-change="checkCount('groupOffer', 'health', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.health" ng-change="delGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="2" ng-model="goal.health" ng-change="checkCount('groupOffer', 'health', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.health" ng-change="delGoalsCount(goal, 'offer')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.health" ng-change="checkCount('groupOffer', 'health', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1629,19 +1242,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.sport" ng-change="addGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="1" ng-model="goal.sport" ng-change="checkCount('groupOffer', 'sport', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.sport" ng-change="delGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="2" ng-model="goal.sport" ng-change="checkCount('groupOffer', 'sport', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.sport" ng-change="delGoalsCount(goal, 'offer')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.sport" ng-change="checkCount('groupOffer', 'sport', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1650,19 +1263,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.parent_skill" ng-change="addGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="1" ng-model="goal.parent_skill" ng-change="checkCount('groupOffer', 'parent_skill', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.parent_skill" ng-change="delGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="2" ng-model="goal.parent_skill" ng-change="checkCount('groupOffer', 'parent_skill', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.parent_skill" ng-change="delGoalsCount(goal, 'offer')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.parent_skill" ng-change="checkCount('groupOffer', 'parent_skill', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1671,56 +1284,56 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.other_goal" ng-change="addGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="1" ng-model="goal.other_goal" ng-change="checkCount('groupOffer', 'other_goal', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.other_goal" ng-change="delGoalsCount(goal, 'offer')">
+                                      <input type="radio" value="2" ng-model="goal.other_goal" ng-change="checkCount('groupOffer', 'other_goal', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.other_goal" ng-change="delGoalsCount(goal, 'offer')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.other_goal" ng-change="checkCount('groupOffer', 'other_goal', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
 																	<p class="col-lg-8">Sonstiges (Bezug in extra Textfeld benennen)</p>
 																</div>
-																<div class="col-lg-8 pull-right textarea-box">
+																<div class="col-lg-8 pull-right textarea-box" ng-show="goal.other_goal > 0">
 																	<textarea placeholder="Tragen Sie den Text hier ein" ng-model="goal.other_description" class="form-control"></textarea>
 																</div>
 															</div>
 														</div>
 														<h4 class="m-t-40">Interne / Externe Vernetzung</h4>
-                            <span  ng-if="goal.net_field_count > 3" >
+                            <span  ng-if="goal.groups.groupNet.counter > 3" >
                                 <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus</label>
                             </span>
-														<div class="holder-radio">
+                            <div class="holder-radio">
 															<div class="p-0 text-center">
 																<div class="row">
-																	<span class="col-lg-2">Schwerpunktziel {{goal.net_field_count}}</span>
+																	<span class="col-lg-2">Schwerpunktziel </span>
 																	<span class="col-lg-1">Weiteres Ziel</span>
 																	<span class="col-lg-1">kein Ziel</span>
 																</div>
-																<div class="row">
+																<div class="row" >
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.cooperation" ng-change="addGoalsCount(goal, 'net')" >
+                                      <input type="radio" value="1" ng-model="goal.cooperation" ng-change="checkCount('groupNet', 'cooperation', goal)" >
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.cooperation" ng-change="delGoalsCount(goal, 'net')">
+                                      <input type="radio" value="2" ng-model="goal.cooperation" ng-change="checkCount('groupNet', 'cooperation', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.cooperation" ng-change="delGoalsCount(goal, 'net')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.cooperation"  ng-change="checkCount('groupNet', 'cooperation', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1730,19 +1343,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.participation" ng-change="addGoalsCount(goal, 'net')" >
+                                      <input type="radio" value="1" ng-model="goal.participation" ng-change="checkCount('groupNet', 'participation', goal)" >
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.participation" ng-change="delGoalsCount(goal, 'net')">
+                                      <input type="radio" value="2" ng-model="goal.participation" ng-change="checkCount('groupNet', 'participation', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.participation" ng-change="delGoalsCount(goal, 'net')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.participation" ng-change="checkCount('groupNet', 'participation', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1752,19 +1365,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.social_area" ng-change="addGoalsCount(goal, 'net')" >
+                                      <input type="radio" value="1" ng-model="goal.social_area" ng-change="checkCount('groupNet', 'social_area', goal)" >
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.social_area" ng-change="delGoalsCount(goal, 'net')">
+                                      <input type="radio" value="2" ng-model="goal.social_area" ng-change="checkCount('groupNet', 'social_area', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.social_area" ng-change="delGoalsCount(goal, 'net')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.social_area" ng-change="checkCount('groupNet', 'social_area', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1774,19 +1387,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.third_part" ng-change="addGoalsCount(goal, 'net')" >
+                                      <input type="radio" value="1" ng-model="goal.third_part" ng-change="checkCount('groupNet', 'third_part', goal)" >
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.third_part" ng-change="delGoalsCount(goal, 'net')">
+                                      <input type="radio" value="2" ng-model="goal.third_part" ng-change="checkCount('groupNet', 'third_part', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.third_part" ng-change="delGoalsCount(goal, 'net')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.third_part" ng-change="checkCount('groupNet', 'third_part', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1796,19 +1409,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.regional" ng-change="addGoalsCount(goal, 'net')">
+                                      <input type="radio" value="1" ng-model="goal.regional" ng-change="checkCount('groupNet', 'regional', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.regional" ng-change="delGoalsCount(goal, 'net')">
+                                      <input type="radio" value="2" ng-model="goal.regional" ng-change="checkCount('groupNet', 'regional', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.regional" ng-change="delGoalsCount(goal, 'net')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.regional" ng-change="checkCount('groupNet', 'regional', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1818,19 +1431,19 @@ $this->breadcrumbs = array('Anträge');
 																<div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.concept" ng-change="addGoalsCount(goal, 'net')">
+                                      <input type="radio" value="1" ng-model="goal.concept" ng-change="checkCount('groupNet', 'concept', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.concept" ng-change="delGoalsCount(goal, 'net')">
+                                      <input type="radio" value="2" ng-model="goal.concept" ng-change="checkCount('groupNet', 'concept', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.concept" ng-change="delGoalsCount(goal, 'net')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.concept" ng-change="checkCount('groupNet', 'concept', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1839,19 +1452,19 @@ $this->breadcrumbs = array('Anträge');
                                 <div class="row">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
-                                      <input type="radio" value="1" ng-model="goal.net_other_goal" ng-change="addGoalsCount(goal, 'net')">
+                                      <input type="radio" value="1" ng-model="goal.net_other_goal" ng-change="checkCount('groupNet', 'net_other_goal', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="2" ng-model="goal.net_other_goal" ng-change="delGoalsCount(goal, 'net')">
+                                      <input type="radio" value="2" ng-model="goal.net_other_goal" ng-change="checkCount('groupNet', 'net_other_goal', goal)">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
                                   <div class="label-holder col-lg-1">
                                     <label class="cr-styled">
-                                      <input type="radio" value="0" ng-model="goal.net_other_goal" ng-change="delGoalsCount(goal, 'net')" checked="">
+                                      <input type="radio" value="0" ng-model="goal.net_other_goal" ng-change="checkCount('groupNet', 'net_other_goal', goal)" checked="">
                                       <i class="fa"></i>
                                     </label>
                                   </div>
@@ -1910,16 +1523,17 @@ $this->breadcrumbs = array('Anträge');
 														</div>
 														<hr />
 														<div class="row">
-															<div ng-hide=" (userType != 'a' && userType != 'p') || goal.status == 'a' " class="col-lg-9">
+															<div ng-hide=" (userType != 'a' && userType != 'p') || goal.status == 'accepted' " class="col-lg-9">
 																<h4 class="m-t-0">Prüfnotiz</h4>
 																<textarea  ng-model="goal.notice" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
 															</div>
 
 															<div class="col-lg-3">
+
 																<div class="m-t-30 text-right pull-right">
-                                  <button ng-hide="userType != 't' || goal.status == 'a' || goal.status == 'r'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( school, goal, 'submit')">SENDEN</button>
-																  <button ng-hide="goal.status == 'a' || (userType != 'a' && userType != 'p') " class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( school, goal, 'accept')">AKZEPTIEREN</button>
-                                  <button ng-hide="goal.status == 'd' || goal.status == 'a' || (userType != 'a' && userType != 'p') " ng-class="{disabled: !goal.notice}" ng-click="submitForm( school, goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+                                  <button ng-hide="userType != 't' || goal.status == 'a' || goal.status == 'in_progress'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( school, goal, 'submit')">SENDEN</button>
+																  <button ng-hide="goal.status == 'accepted' || (userType != 'a' && userType != 'p') " class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( school, goal, 'accept')">AKZEPTIEREN</button>
+                                  <button ng-hide="goal.status == 'rejected' || goal.status == 'accepted' || (userType != 'a' && userType != 'p') " ng-class="{disabled: !goal.notice}" ng-click="submitForm( school, goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 																</div>
 															</div>
 														</div>
@@ -1943,18 +1557,18 @@ $this->breadcrumbs = array('Anträge');
 				<br>
 				<div class="form-group group-btn row">
 					<div class="col-lg-6 text-left">
-						<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
-						<button class="btn w-lg btn-info btn-lg">
+						<button ng-show="userCan('delete')" ng-click="block()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+						<button ng-show="userCan('reopen')" class="btn w-lg btn-info btn-lg">
 							<i class="fa fa-rotate-left"></i>
 							<span>Neu eröffnen</span>
 						</button>
-						<button class="btn w-lg btn-info btn-lg">Förderfähig</button>
-						<button class="btn w-lg btn-info btn-lg">Genehmigt</button>
+						<button ng-show="userCan('changeStatus')" class="btn w-lg btn-info btn-lg">Förderfähig</button>
+						<button ng-show="userCan('changeStatus')" class="btn w-lg btn-info btn-lg">Genehmigt</button>
 					</div>
 					<div class="col-lg-6 text-right">
 						<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
-						<button class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()">Speichern</button>
-						<button class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur liste">Anwenden</button>
+						<button ng-show="userCan('save')" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()">Speichern</button>
+						<button ng-show="userCan('save')" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur liste">Anwenden</button>
 					</div>
 				</div>
 
@@ -1980,7 +1594,7 @@ $this->breadcrumbs = array('Anträge');
 						<div class="col-lg-4 p-0">
 							<div class="input-group">
 								<input type="text" ng-click="dp_start_date_is_open = !dp_start_date_is_open" ng-model="form.start_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_start_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
-								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_start_date_is_open = !dp_start_date_is_open"></i></span>
+								<span class="input-group-addon" ng-click="dp_start_date_is_open = !dp_start_date_is_open"><i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
 						</div>
 						<div class="col-lg-2 p-0">
@@ -1989,7 +1603,7 @@ $this->breadcrumbs = array('Anträge');
 						<div class="col-lg-4 p-0">
 							<div class="input-group">
 								<input type="text" ng-click="dp_due_date_is_open = !dp_due_date_is_open" ng-model="form.due_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_due_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
-								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_due_date_is_open = !dp_due_date_is_open"></i></span>
+								<span class="input-group-addon" ng-click="dp_due_date_is_open = !dp_due_date_is_open"><i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
 						</div>
 					</div>
