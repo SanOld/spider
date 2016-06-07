@@ -5,7 +5,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   var d = new Date;
   $scope.filter = {year: d.getFullYear()};
 
-  $scope.financeTypes = Utils.getFinanceTypes();
+//  $scope.financeTypes = Utils.getFinanceTypes();
   $scope.checkboxes = {
     checked: false,
     items: {}
@@ -25,6 +25,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
   network.get('finance_source', {}, function (result, response) {
     if (result) {
+      $scope.financeTypes = response.result;
       $scope.programs = response.result;
     }
   });
@@ -125,7 +126,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     if (ids.length) {
       var modalInstance = $uibModal.open({
         animation: true,
-        templateUrl: 'setRequest.html',
+        templateUrl: 'createRequest.html',
         controller: 'ModalRequestAddController',
         size: 'custom-width-request-duration',
         resolve: {
@@ -136,8 +137,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       });
 
       modalInstance.result.then(function (data) {
-        network.post('request', { project_id: data.id
-                                , performer_id: data.performer_id
+        network.post('request', { project_id: data.project_id
                                 , year: data.year}
                                 , function(result, response) {
                                     if(result) {
@@ -176,45 +176,43 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 
 spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance, network) {
-
-  $scope.year = new Date();
-  $scope.selectedYear = $scope.year.getFullYear();
-
+  var d = new Date();
+  $scope.year = new Date(d.setFullYear(d.getFullYear() + 1));
+  $scope.request = {};
   $scope.dateOptions = {
     datepickerMode: 'year',
     minMode: 'year',
     yearRows: 1,
     yearColumns: 5,
-    //    maxDate: (Default: null) - Defines the maximum available date. Requires a Javascript Date object.
-    minDate:  $scope.year//(Default: null) - Defines the minimum available date. Requires a Javascript Date object.
+    minDate:  new Date()//(Default: null) - Defines the minimum available date. Requires a Javascript Date object.
   };
 
   $scope.getProjects = function() {
-    $scope.selectedYear = $scope.year.getFullYear();
-    network.get('project', {list: 'unused_project', year: $scope.selectedYear}, function (result, response) {
-      if (result) {
-        $scope.projects = response.result;
-        if($scope.projects.length > 0){
-          $scope.projects.selected_project = $scope.projects[0].id;
+    $scope.request.year = $scope.year.getFullYear();
+    if($scope.request.year) {
+      network.get('project', {list: 'unused_project', year: $scope.request.year}, function (result, response) {
+        if (result) {
+          $scope.projects = response.result;
         }
-      }
-    });
+      });
+    }
   };
+  
+    
+  $scope.fieldError = function(field) {
+      var form = $scope.createRequest;
+      return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
+  };
+
 
   $scope.getProjects();
 
   $scope.ok = function () {
-
-    for (var item  in $scope.projects) {
-      if ($scope.projects[item].id == $scope.projects.selected_project){
-        $scope.projects[item].year = $scope.selectedYear;
-        var data = $scope.projects[item] ;
-      }
+    $scope.createRequest.$setPristine();
+    if ($scope.createRequest.$valid) {
+      $uibModalInstance.close($scope.request);
+      $uibModalInstance.dismiss('cancel');
     }
-
-    $uibModalInstance.close(data);
-    $uibModalInstance.dismiss('cancel');
-
   };
 
   $scope.cancel = function () {

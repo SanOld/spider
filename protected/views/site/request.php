@@ -8,7 +8,7 @@ $this->breadcrumbs = array('Anträge');
 
 <div class="wraper container-fluid" ng-controller="RequestController">
 	<div class="row">
-		<div class="container center-block">
+		<div class="container center-block request-edit-page">
 			<div class="panel panel-default" ng-cloak>
 				<div class="panel-heading heading-noborder clearfix">
 					<h1 class="panel-title col-lg-6">Antrag {{requestYear}} ({{projectID}})</h1>
@@ -68,6 +68,7 @@ $this->breadcrumbs = array('Anträge');
 												<hr/>
 												<ng-show ng-show="data.performer_id">
 													<strong>{{data.performer_name}}</strong>
+                                                    <i ng-if="+data.performer_is_checked" class="ion-checkmark"></i>
 													<div class="row m-t-20 m-b-30 row-holder-dl">
 														<div class="col-lg-12 m-b-0">
 															<dl class="custom-dl">
@@ -122,7 +123,7 @@ $this->breadcrumbs = array('Anträge');
 											</div>
 										</div>
 										<h3 class="panel-title m-b-15">
-											Schule(n)
+											Schule{{data.schools.length > 1?'n':''}}
 										</h3>
 										<div id="accordion-project" class="panel-group panel-group-joined">
 
@@ -198,7 +199,7 @@ $this->breadcrumbs = array('Anträge');
 										<div class="row holder-three-blocks m-b-30">
 											<div class="col-lg-4">
 												<h4 class="panel-title m-b-10">
-													Ansprechpersonen für Rückfragen zum Request
+													Ansprechperson für Rückfragen zum Antrag
 												</h4>
 												<div class="form-group">
 													<ui-select   on-select="onSelectCallback($item, $model, 1)" class="type-document" ng-model="request.request_user_id">
@@ -230,7 +231,7 @@ $this->breadcrumbs = array('Anträge');
 
 											<div class="col-lg-4">
 												<h4 class="panel-title m-b-10">
-													Ansprechpersonen für Rückfragen zum Konzept
+													Ansprechperson für Rückfragen zum Konzept
 												</h4>
 												<div class="form-group">
 													<ui-select   on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id">
@@ -262,7 +263,7 @@ $this->breadcrumbs = array('Anträge');
 
 											<div class="col-lg-4">
 												<h4 class="panel-title m-b-10">
-													Ansprechpersonen für Rückfragen zum Finance
+													Ansprechperson für Rückfragen zum Finanzplan
 												</h4>
 												<div class="form-group">
 													<ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="request.finance_user_id">
@@ -365,7 +366,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="col-lg-8">
 													<ui-select ng-change="" class="type-document" ng-model="request.doc_target_agreement_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | orderBy: 'name'">
+														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_id:'1'} | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -378,7 +379,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="col-lg-8">
 													<ui-select ng-change="" class="type-document" ng-model="request.doc_request_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | orderBy: 'name'">
+														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_id:'2'} | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -389,7 +390,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="col-lg-8">
 													<ui-select ng-change="" class="type-document" ng-model="request.doc_financing_agreement_id">
 														<ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | orderBy: 'name'">
+														<ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_id:'3'} | orderBy: 'name'">
 															<span ng-bind-html="item.name | highlight: $select.search"></span>
 														</ui-select-choices>
 													</ui-select>
@@ -1978,7 +1979,7 @@ $this->breadcrumbs = array('Anträge');
 						<div class="col-lg-4 p-0">
 							<div class="input-group">
 								<input type="text" ng-click="dp_start_date_is_open = !dp_start_date_is_open" ng-model="form.start_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_start_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
-								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_start_date_is_open = !dp_start_date_is_open"></i></span>
 							</div>
 						</div>
 						<div class="col-lg-2 p-0">
@@ -1987,7 +1988,7 @@ $this->breadcrumbs = array('Anträge');
 						<div class="col-lg-4 p-0">
 							<div class="input-group">
 								<input type="text" ng-click="dp_due_date_is_open = !dp_due_date_is_open" ng-model="form.due_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_due_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
-								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_due_date_is_open = !dp_due_date_is_open"></i></span>
 							</div>
 						</div>
 					</div>
