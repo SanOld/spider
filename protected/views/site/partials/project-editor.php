@@ -157,6 +157,11 @@
         <div class="col-lg-2" ng-if="canEdit() && canByType(['a'])">
           <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove()"><i class="fa fa-trash-o"></i></a>
         </div>
+        <div class="group-btn clearfix m-t-20 hidden">
+          <div class="pull-right">                  
+            <button ng-if="canEdit() && !modeView" class="btn w-lg custom-btn" data-dismiss="modal" ng-click="submitFormProjects()">Speichern</button>
+          </div> 
+        </div>
         <div class="col-lg-10 text-right pull-right">
           <button class="btn w-lg cancel-btn" data-dismiss="modal" ng-click="cancel()">Abbrechen</button>
           <button ng-if="canEdit() && !modeView" class="btn w-lg custom-btn" data-dismiss="modal" ng-click="submitFormProjects()">Speichern</button>

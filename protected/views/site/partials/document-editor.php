@@ -50,7 +50,11 @@
                       </div>
                   </div>
                 </div>
-
+                <div class="group-btn clearfix m-t-20 hidden">
+                  <div class="pull-right">                  
+                    <button class="btn w-lg custom-btn" ng-click="submitDocumentTemplate()" data-dismiss="modal">Speichern</button>
+                  </div>
+                </div>      
                 </ng-form>
 
                 <hr />

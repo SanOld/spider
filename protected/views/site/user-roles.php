@@ -106,6 +106,11 @@ $this->breadcrumbs = array('Benutzerrollen');
             <div class="col-lg-2" ng-if="canEdit() && !isInsert && !default && !modeView">
               <button ng-click="remove(userTypeId)" class="btn btn-icon btn-danger btn-lg sweet-4"><i class="fa fa-trash-o"></i></button>
             </div>
+            <div class="group-btn clearfix m-t-20 hidden">
+              <div class="pull-right">                  
+                <button class="btn w-lg custom-btn" ng-if="canEdit() && !modeView" ng-click="submitForm()">Speichern</button>
+              </div>
+            </div>
             <div class="col-lg-6 text-right pull-right">
               <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
               <button class="btn w-lg custom-btn" ng-if="canEdit() && !modeView" ng-click="submitForm()">Speichern</button>
