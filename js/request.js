@@ -263,6 +263,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.paPriority = {r: 1, d: 2, g: 3, a: 4 };
   $scope.taPriority = {d: 1, g: 2, r: 3, a: 4 };
 
+
   network.get('request_school_goal', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
       $scope.schoolGoals = response.result;
@@ -271,29 +272,30 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   });
 
 
-  $scope.addGoalsCount = function(goal, type){
-    switch(type){
-      case 'net':
-        goal.net_field_count = +goal.net_field_count + 1;
+  $scope.checkCount = function(group, key, goal){
+    if (!('groups' in goal)){goal.groups = {};}
+    if (!(group in goal.groups)){
+      goal.groups[group] = {};
+      goal.groups[group].counter = 0;
+    }
+    var currentGroup = goal.groups[group];
+
+    if (!(key in currentGroup)){currentGroup[key] = goal[key]}
+
+    switch(goal[key]){
+      case '1':
+        currentGroup.counter++;
         break;
-      case 'offer':
-        goal.offer_field_count = +goal.offer_field_count + 1;
+      case '0':
+        if(currentGroup[key] == '1'){currentGroup.counter--;}
+        break;
+      case '2':
+        if(currentGroup[key] == '1'){currentGroup.counter--;}
         break;
     }
-
+    currentGroup[key] = goal[key];
   }
 
-  $scope.delGoalsCount = function(goal, type){
-    switch(type){
-      case 'net':
-        if(+goal.net_field_count > 0){goal.net_field_count = +goal.net_field_count - 1;}
-        break;
-      case 'offer':
-        if(+goal.offer_field_count > 0){goal.offer_field_count = +goal.offer_field_count - 1;}
-        break;
-    }
-
-  }
 
   $scope.checkSchoolStatus = function(){
     switch($scope.userType){
@@ -369,6 +371,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         break;
     }
 
+    if ('groups' in goal){delete goal.groups;}
     network.put('request_school_goal/' + goal.id, goal, function(result){
       if(result) {
         $scope.checkSchoolStatus();
