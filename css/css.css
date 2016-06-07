@@ -2733,9 +2733,9 @@ body.safari #finance .btn-group.btn-toggle .btn {
 .sweet-alert.showSweetAlert h2 {
     margin-top: 25px;
 }
-.table-bordered tbody tr td {
+/*.table-bordered tbody tr td {
 	width:366.66px !important;
-}
+}*/
 .custom-field span[ng-bind="relation_name"] {
 	display: inline-block;
     padding: 4px 0 0;
