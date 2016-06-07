@@ -26,6 +26,13 @@ class Request extends BaseModel {
 
                             , prf.id performer_id
                             , prf.is_checked performer_is_checked
+                            , CONCAT( 'Überpüft von ',
+                                (SELECT CONCAT (u.first_name, ' ', u.last_name) name 
+                                   FROM spi_user u
+                                  WHERE u.id = prf.checked_by), ' ',
+                                  DATE_FORMAT(prf.checked_date,'%d.%m.%Y')
+                                  
+                              ) performer_checked_by
                             , prf.short_name performer_name
                             , prf.address performer_address
                             , prf.plz performer_plz

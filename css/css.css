@@ -2089,12 +2089,12 @@ div.dataTables_length select {
 	background-position: 5px -77px;
 }
 
-.cell-concept.unfinished {
+/*.cell-concept.unfinished {
 	background-position: 5px -119px;
 }
 .cell-school.unfinished {
 	background-position: 5px -117px;
-}
+}*/
 
 .cell-finplan {
 	background: url('../images/icon-finplan.png') no-repeat 3px 3px;

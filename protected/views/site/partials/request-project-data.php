@@ -17,11 +17,13 @@
                   <div class="wrap-data">
                     <div>
                       <span>Beginn:</span>
-                      <em>{{request.start_date_unix| date : 'dd.MM.yyyy'}}</em>
+                      <em ng-if="request.start_date">{{request.start_date_unix| date : 'dd.MM.yyyy'}}</em>
+                      <em ng-if="!request.start_date">-</em>
                     </div>
                     <div>
                       <span>Ende:</span>
-                      <em>{{request.due_date_unix| date : 'dd.MM.yyyy'}} </em>
+                      <em ng-if="request.due_date">{{request.due_date_unix| date : 'dd.MM.yyyy'}} </em>
+                      <em ng-if="!request.due_date">-</em>
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
@@ -45,7 +47,10 @@
               <hr/>
               <ng-show ng-show="data.performer_id">
                 <strong>{{data.performer_name}}</strong>
-                <i ng-if="+data.performer_is_checked" class="ion-checkmark"></i>
+                <span ng-if="+data.performer_is_checked">
+                  <i class="ion-checkmark"></i>
+                  {{data.performer_checked_by}}
+                </span>
                 <div class="row m-t-20 m-b-30 row-holder-dl">
                   <div class="col-lg-12 m-b-0">
                     <dl class="custom-dl">
