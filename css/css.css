@@ -864,7 +864,7 @@ body .nav.nav-tabs + .tab-content {
 	vertical-align:top;
 	margin: 0 30px 0 0;
 }
-.notice .color-notice,
+.notice .color-notice.unfinished-row,
 .notice .approval-row {
 	background: #d3d3d3;
 	border-radius:100%;
@@ -873,15 +873,45 @@ body .nav.nav-tabs + .tab-content {
 	display:inline-block;
 	margin: 0 10px 0 0;
 }
+
+.notice .color-notice.rejected-row {
+	background: #d63535;
+	border-radius:100%;
+	height:11px;
+	width:11px;
+	display:inline-block;
+	margin: 0 10px 0 0;
+}
+.notice .color-notice.in_progress-row {
+	background: #ffd667;
+	border-radius:100%;
+	height:11px;
+	width:11px;
+	display:inline-block;
+	margin: 0 10px 0 0;
+}
+
+.notice .color-notice.accepted-row {
+	background: #dff0d8;
+	border-radius:100%;
+	height:11px;
+	width:11px;
+	display:inline-block;
+	margin: 0 10px 0 0;
+}
+
 .notice .color-notice.open {
 	background:#f5f5f5;
 }
+
 .notice .decline-row {
 	background: #dedede;
 }
+
 .notice .decline-row-red {
 	background: #d63535;
 }
+
 .request-edit tr.decline-row,
 .finacing-edit tr.decline-row {
 	background:#e7e7e7;
@@ -890,6 +920,7 @@ body .nav.nav-tabs + .tab-content {
 .finacing-edit tr.decline-row:hover {
 	background:#cacaca;
 }
+.notice  .color-notice.in_progress-row,
 .notice .in_progress-row,
 .notice .inprogress-square {
 	background: #ffd667;
@@ -906,6 +937,7 @@ body .nav.nav-tabs + .tab-content {
 .notice .acceptable-square {
 	background: #a1e187;
 }
+.notice .color-notice.accepted-row,
 .request-edit tr.acceptable-row {
 	background: #dff0d8;
 }
@@ -1409,11 +1441,11 @@ body > .select2-container {
 
 .request-order-nav li.schools-goals.unfinished a:before {
     background: url('../images/icon-school.png') no-repeat 3px 6px;
-    background-position: 3px -75px;
+    background-position: 3px -95px;
 }
 .request-order-nav li.schools-goals.in_progress a:before {
     background: url('../images/icon-school.png') no-repeat 3px 6px;
-    background-position: 3px 23px;
+    background-position: 3px -35px;
 }
 .request-order-nav li.schools-goals.accepted a:before {
     background: url('../images/icon-school.png') no-repeat 3px 6px;
@@ -1421,7 +1453,7 @@ body > .select2-container {
 }
 .request-order-nav li.schools-goals.rejected a:before {
     background: url('../images/icon-school.png') no-repeat 3px 6px;
-    background-position: 3px -48px;
+    background-position: 3px -65px;
 }
 
 #project h2.panel-title {

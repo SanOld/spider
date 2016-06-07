@@ -72,9 +72,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.cancel = function () {
     location.href = '/requests';
   };
-  
+
   $scope.userCan = function(type) {
-    
+
     var results = false;
     var user = network.user.type;
     var status = 'none';
@@ -401,7 +401,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       case 'p':
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
-          if($scope.paPriority[schools[school].status] < $scope.paPriority[$scope.tabStatus] || $scope.tabStatus == ''){
+          if($scope.paPriority[schools[school].status] < $scope.paPriority[$scope.$parent.goalsStatus] || $scope.$parent.goalsStatus == ''){
             $scope.$parent.setGoalsStatus(schools[school].status);
           }
         }
@@ -409,7 +409,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       default :
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
-          if($scope.taPriority[schools[school].status] < $scope.taPriority[$scope.tabStatus] || $scope.tabStatus == ''){
+          if($scope.taPriority[schools[school].status] < $scope.taPriority[$scope.$parent.goalsStatus] || $scope.$parent.goalsStatus == ''){
               $scope.$parent.setGoalsStatus(schools[school].status);
             }
         }
@@ -417,8 +417,9 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     }
   }
 
-  $scope.activateTab = function(id){
+  $scope.activateTab = function(id, index, item){
     $scope.activeTab = id;
+    if(!index){angular.element(item).click()}
   }
 
   $scope.getActivateTab = function(){
