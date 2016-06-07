@@ -1069,27 +1069,28 @@ $this->breadcrumbs = array('Anträge');
 								<div ng-repeat="school in schoolGoals track by $index" class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding collapsed" aria-expanded="false">
+											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding " ng-class="$index > 0 ? 'collapsed' : ''" aria-expanded="{{$index > 0}}">
 												{{school.school_name}} ({{school.school_number}}) {{school.status}}
 												<span class="notice">
-													<span ng-class="{{school.status}}" class="color-notice"></span>
+													<span  class="color-notice {{school.status}}-row"></span>
 												</span>
 											</a>
 										</h4>
 									</div>
-									<div id="collapse_{{$index}}" class="panel-collapse collapse"  >
+
+									<div id="collapse_{{$index}}" class="panel-collapse" ng-class="$index > 0 ? 'collapse' : 'collapse in'"  >
 										<div class="panel-body">
 											<div class="tabs-vertical-env">
 												<ul class="nav tabs-vertical" >
 
-                          <li  ng-repeat="goal in school.goals" ng-click="activateTab(goal.id) "  ng-class="getActivateTab() == goal.id ? 'active' : '' " >
-                            <a  data-toggle="tab" href="#goal-{{::goal.id}}">{{::goal.name}}<span ng-if="goal.option == 1">(optional)</span></a>
+                          <li  ng-repeat="goal in school.goals" ng-click="activateTab(goal.id) "  ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
+                            <a  data-toggle="tab" href="#goal_{{::goal.id}}" >{{::goal.name}}<span ng-if="goal.option == 1">(optional)</span></a>
                           </li>
 
 												</ul>
-
+<!---->
 												<div class="tab-content" >
-													<div ng-repeat="goal in school.goals"  disable-all="readonly(goal)"  id="goal_{{goal.id}}" class="tab-pane "  ng-class="getActivateTab() == goal.id ? 'active' : ''" >
+													<div ng-repeat="goal in school.goals"  disable-all="readonly(goal)"  id="goal_{{goal.id}}" class="tab-pane {{$index == 0 ? 'active' : ''}}" >
 
 														<div ng-hide="goal.status == 'unfinished'" class="alert" ng-class="{{goal.status}}" ng-bind="goal.notice">
 															<strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen</strong>
