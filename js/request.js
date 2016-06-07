@@ -58,6 +58,32 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.cancel = function () {
     location.href = '/requests';
   };
+  
+  $scope.userCan = function(type) {
+    
+    var results = false;
+    var user = network.user.type;
+    var status = 'none';
+    var request = RequestService.getProjectData();
+    if(request) {
+      status = request.status_code;
+      switch(type) {
+        case 'reopen':;
+          results = (user == 'a' && (status == 'accept' || status == 'decline'));
+          break;
+        case 'delete':;
+          results = (user == 'a' && status != 'accept' && status != 'decline');
+          break;
+        case 'changeStatus':;
+          results = ((user == 'a' || user == 'p') && status != 'accept' && status != 'decline');
+        break;
+        case 'save':;
+          results = ((user == 'a' || user == 'p' || user == 't') && status != 'accept' && status != 'decline');
+          break;
+      }
+    }
+    return results;
+  }
 
 });
 
@@ -66,7 +92,23 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   $scope.isInsert = !$scope.$parent.requestID;
   $scope.udater = 0;
 
-
+  $scope.userCan = function(type) {
+    var user = network.user.type;
+    var results = false;
+    if($scope.request) {
+      switch(type) {
+        case 'dates':;
+        case 'additional_info':;
+        case 'templates':;
+          results = ((user == 'a' || user == 'p') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
+          break;
+        case 'users':;
+          results = ((user == 'a' || user == 'p' || user == 't') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
+          break
+      }
+    }
+    return results;
+  }
 
   $scope.getData = function() {
     network.get('request', $scope.filter, function (result, response) {
@@ -90,7 +132,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           due_date:                       response.result.due_date,
           start_date_unix:                response.result.start_date_unix,
           due_date_unix:                  response.result.due_date_unix,
-          performer_id:                   response.result.performer_id
+          performer_id:                   response.result.performer_id,
+          status_code:                    response.result.status_code
         };
 
         network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {

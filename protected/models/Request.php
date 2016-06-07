@@ -21,6 +21,8 @@ class Request extends BaseModel {
       $this -> select_all = "tbl.*
                             , prj.id project_id
                             , prj.code code
+                            
+                            , rqs.code status_code
 
                             , prf.id performer_id
                             , prf.is_checked performer_is_checked
