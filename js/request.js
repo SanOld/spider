@@ -254,7 +254,7 @@ spi.controller('СonceptCompareController', function($scope, history) {
   $scope.history = history;
 });
 
-spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, $timeout) {
+spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, $window) {
 
   $scope.userType = network.user.type;
   $scope.schoolGoals = [];
@@ -377,6 +377,12 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         $scope.checkSchoolStatus();
       }
     });
+  };
+
+  RequestService.getSchoolGoalData = function(){
+    console.log($scope.schoolGoals);
+    $window.stop();
+    return $scope.schoolGoals;
   };
 
   $scope.readonly = function(goal){
