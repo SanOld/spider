@@ -6,12 +6,26 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.projectID = '';
   $scope.requestYear = '';
 
+  $scope.financeStatus = '';
+  $scope.conceptStatus = '';
+  $scope.goalsStatus = '';
+
   var hash = $location.hash();
   if(hash && ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'].indexOf(hash) !== -1) {
     $scope.tabActive = $location.hash();
   }
   $scope.setTab = function(name) {
     $location.hash(name);
+  };
+
+  $scope.setFinanceStatus = function(financeStatus){
+    $scope.financeStatus = financeStatus;
+  };
+  $scope.setConceptStatus = function(conceptStatus){
+    $scope.conceptStatus = conceptStatus;
+  };
+  $scope.setGoalsStatus = function(goalsStatus){
+    $scope.goalsStatus = goalsStatus;
   };
 
   $scope.setProjectID = function(projectID){
@@ -29,11 +43,21 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result && close) {
-        location.href = '/requests';
+//        location.href = '/requests';
       }
     });
   };
 
+  $scope.block = function () {
+    Utils.doConfirm(function() {
+      network.put('request/' + $scope.requestID,{'status_id':2}, function (result) {
+        if (result) {
+          Utils.deleteSuccess();
+          location.href = '/requests';
+        }
+      });
+    });
+  };
   $scope.remove = function () {
     Utils.doConfirm(function() {
       network.delete('request/' + $scope.requestID, function (result) {
@@ -49,6 +73,32 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     location.href = '/requests';
   };
 
+  $scope.userCan = function(type) {
+
+    var results = false;
+    var user = network.user.type;
+    var status = 'none';
+    var request = RequestService.getProjectData();
+    if(request) {
+      status = request.status_code;
+      switch(type) {
+        case 'reopen':;
+          results = (user == 'a' && (status == 'accept' || status == 'decline'));
+          break;
+        case 'delete':;
+          results = (user == 'a' && status != 'accept' && status != 'decline');
+          break;
+        case 'changeStatus':;
+          results = ((user == 'a' || user == 'p') && status != 'accept' && status != 'decline');
+        break;
+        case 'save':;
+          results = ((user == 'a' || user == 'p' || user == 't') && status != 'accept' && status != 'decline');
+          break;
+      }
+    }
+    return results;
+  }
+
 });
 
 spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService) {
@@ -56,7 +106,23 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   $scope.isInsert = !$scope.$parent.requestID;
   $scope.udater = 0;
 
-
+  $scope.userCan = function(type) {
+    var user = network.user.type;
+    var results = false;
+    if($scope.request) {
+      switch(type) {
+        case 'dates':;
+        case 'additional_info':;
+        case 'templates':;
+          results = ((user == 'a' || user == 'p') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
+          break;
+        case 'users':;
+          results = ((user == 'a' || user == 'p' || user == 't') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
+          break
+      }
+    }
+    return results;
+  }
 
   $scope.getData = function() {
     network.get('request', $scope.filter, function (result, response) {
@@ -80,7 +146,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           due_date:                       response.result.due_date,
           start_date_unix:                response.result.start_date_unix,
           due_date_unix:                  response.result.due_date_unix,
-          performer_id:                   response.result.performer_id
+          performer_id:                   response.result.performer_id,
+          status_code:                    response.result.status_code
         };
 
         network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
@@ -210,6 +277,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
 
+
   $scope.submitForm = function(data, concept, action) {
     switch (action) {
       case 'submit':
@@ -270,14 +338,14 @@ spi.controller('СonceptCompareController', function($scope, history, $uibModalI
 
 });
 
-spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, $timeout) {
+spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, $window) {
 
   $scope.userType = network.user.type;
   $scope.schoolGoals = [];
   $scope.activeTab = 0;
   $scope.tabStatus = '';
-  $scope.paPriority = {r: 1, d: 2, g: 3, a: 4 };
-  $scope.taPriority = {d: 1, g: 2, r: 3, a: 4 };
+  $scope.paPriority = {'in_progress': 1, 'rejected': 2, 'unfinished': 3, 'accepted': 4 };
+  $scope.taPriority = {'rejected': 1, 'unfinished': 2, 'in_progress': 3, 'accepted': 4 };
 
   network.get('request_school_goal', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
@@ -287,29 +355,30 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   });
 
 
-  $scope.addGoalsCount = function(goal, type){
-    switch(type){
-      case 'net':
-        goal.net_field_count = +goal.net_field_count + 1;
+  $scope.checkCount = function(group, key, goal){
+    if (!('groups' in goal)){goal.groups = {};}
+    if (!(group in goal.groups)){
+      goal.groups[group] = {};
+      goal.groups[group].counter = 0;
+    }
+    var currentGroup = goal.groups[group];
+
+    if (!(key in currentGroup)){currentGroup[key] = goal[key]}
+
+    switch(goal[key]){
+      case '1':
+        currentGroup.counter++;
         break;
-      case 'offer':
-        goal.offer_field_count = +goal.offer_field_count + 1;
+      case '0':
+        if(currentGroup[key] == '1'){currentGroup.counter--;}
+        break;
+      case '2':
+        if(currentGroup[key] == '1'){currentGroup.counter--;}
         break;
     }
-
+    currentGroup[key] = goal[key];
   }
 
-  $scope.delGoalsCount = function(goal, type){
-    switch(type){
-      case 'net':
-        if(+goal.net_field_count > 0){goal.net_field_count = +goal.net_field_count - 1;}
-        break;
-      case 'offer':
-        if(+goal.offer_field_count > 0){goal.offer_field_count = +goal.offer_field_count - 1;}
-        break;
-    }
-
-  }
 
   $scope.checkSchoolStatus = function(){
     switch($scope.userType){
@@ -337,7 +406,6 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         }
       break;
     }
-
     $scope.checkTabStatus();
   }
 
@@ -348,43 +416,46 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       case 'p':
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
-          if($scope.paPriority[schools[school].status] < $scope.paPriority[$scope.tabStatus] || $scope.tabStatus == ''){
-            $scope.tabStatus = schools[school].status;
+          if($scope.paPriority[schools[school].status] < $scope.paPriority[$scope.$parent.goalsStatus] || $scope.$parent.goalsStatus == ''){
+            $scope.$parent.setGoalsStatus(schools[school].status);
           }
         }
         break;
       default :
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
-          if($scope.taPriority[schools[school].status] < $scope.taPriority[$scope.tabStatus] || $scope.tabStatus == ''){
-              $scope.tabStatus = schools[school].status;
+          if($scope.taPriority[schools[school].status] < $scope.taPriority[$scope.$parent.goalsStatus] || $scope.$parent.goalsStatus == ''){
+              $scope.$parent.setGoalsStatus(schools[school].status);
             }
         }
       break;
     }
   }
 
-  $scope.activateTab = function(id){
+  $scope.activateTab = function(id, index, item){
     $scope.activeTab = id;
+    if(!index){angular.element(item).click()}
   }
 
   $scope.getActivateTab = function(){
     return $scope.activeTab;
   }
 
+
   $scope.submitForm = function( school, goal, action ) {
     switch (action) {
       case 'submit':
-        goal.status = 'r';
+        goal.status = 'in_progress';
         break;
       case 'declare':
-        goal.status = 'd';
+        goal.status = 'rejected';
         break;
       case 'accept':
-        goal.status = 'a';
+        goal.status = 'accepted';
         break;
     }
 
+    if ('groups' in goal){delete goal.groups;}
     network.put('request_school_goal/' + goal.id, goal, function(result){
       if(result) {
         $scope.checkSchoolStatus();
@@ -392,21 +463,39 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     });
   };
 
+  RequestService.getSchoolGoalData = function(){
+    var data = {};
+    if(angular.isObject($scope.schoolGoals)){
+      for (var school in $scope.schoolGoals){
+        if(angular.isObject($scope.schoolGoals[school])){
+          var goals = $scope.schoolGoals[school].goals;
+          for(var goal in goals){
+            delete goals[goal].groups;
+            data[goals[goal].id]=(goals[goal]);
+          }
+        }
+      }
+    }
+
+    return data;
+  };
+
+
   $scope.readonly = function(goal){
     switch(goal.status){
-      case 'g':
+      case 'unfinished':
         if($scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
-      case 'r':
+      case 'in_progress':
         if($scope.userType == 'a'){return false;}
         return true;
         break;
-      case 'd':
+      case 'rejected':
         if($scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
-      case 'a':
+      case 'accepted':
         return true;
       break;
     }

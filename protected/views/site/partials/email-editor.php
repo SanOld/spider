@@ -66,7 +66,11 @@
                       </div>
                   </div>
                 </div>
-
+                <div class="group-btn clearfix m-t-20 hidden">
+                  <div class="pull-right">                  
+                    <button class="btn w-lg custom-btn" ng-click="submitEmailTemplate()" data-dismiss="modal">Speichern</button>
+                  </div>
+                </div>
                 </ng-form>
 
                 <hr />
@@ -85,14 +89,14 @@
         </uib-tab>
 
 				<uib-tab index="1" heading="Platzhalter" active="tabs[1].active" ng-click="tabs[1].active = true">
-            <div>
-              <table id="placeholder" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
-                <tr ng-repeat="row in $data">
-                  <td data-title="'Platzhalter'" sortable="'name'">{{row.name}}</td>
-                  <td data-title="'Beschreibung'" sortable="'type_name'">{{row.text}}</td>
-                </tr>
-              </table>
-            </div>
+          <div>
+            <table id="placeholder" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
+              <tr ng-repeat="row in $data">
+                <td data-title="'Platzhalter'" sortable="'name'">{{row.name}}</td>
+                <td data-title="'Beschreibung'" sortable="'type_name'">{{row.text}}</td>
+              </tr>
+            </table>
+          </div>
 				</uib-tab>
 
 			</uib-tabset>

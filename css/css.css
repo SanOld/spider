@@ -864,7 +864,7 @@ body .nav.nav-tabs + .tab-content {
 	vertical-align:top;
 	margin: 0 30px 0 0;
 }
-.notice .color-notice,
+.notice .color-notice.unfinished-row,
 .notice .approval-row {
 	background: #d3d3d3;
 	border-radius:100%;
@@ -873,9 +873,37 @@ body .nav.nav-tabs + .tab-content {
 	display:inline-block;
 	margin: 0 10px 0 0;
 }
+
+.notice .color-notice.rejected-row {
+	background: #d63535;
+	border-radius:100%;
+	height:11px;
+	width:11px;
+	display:inline-block;
+	margin: 0 10px 0 0;
+}
+.notice .color-notice.in_progress-row {
+	background: #ffd667;
+	border-radius:100%;
+	height:11px;
+	width:11px;
+	display:inline-block;
+	margin: 0 10px 0 0;
+}
+
+.notice .color-notice.accepted-row {
+	background: #dff0d8;
+	border-radius:100%;
+	height:11px;
+	width:11px;
+	display:inline-block;
+	margin: 0 10px 0 0;
+}
+
 .notice .color-notice.open {
 	background:#f5f5f5;
 }
+
 .notice .decline-row {
 	background: #dedede;
 }
@@ -883,6 +911,7 @@ body .nav.nav-tabs + .tab-content {
 .notice .rejected-row{
 	background: #d63535;
 }
+
 .request-edit tr.decline-row,
 .finacing-edit tr.decline-row {
 	background:#e7e7e7;
@@ -891,6 +920,7 @@ body .nav.nav-tabs + .tab-content {
 .finacing-edit tr.decline-row:hover {
 	background:#cacaca;
 }
+.notice  .color-notice.in_progress-row,
 .notice .in_progress-row,
 .notice .inprogress-square {
 	background: #ffd667;
@@ -907,6 +937,7 @@ body .nav.nav-tabs + .tab-content {
 .notice .acceptable-square {
 	background: #a1e187;
 }
+.notice .color-notice.accepted-row,
 .request-edit tr.acceptable-row {
 	background: #dff0d8;
 }
@@ -1364,18 +1395,67 @@ body > .select2-container {
 	top:15px;
 	position: absolute;
 }
-.request-order-nav li.finance a:before {
+/*.request-order-nav li.finance a:before {
 	background: url('../images/ico-finance.png') no-repeat 0 50% #f3f3f3 ;
 }
 .request-order-nav li.concepts a:before{
 	background: url('../images/ico-concept.png') no-repeat 0 50% #f3f3f3 ;
+}*/
+/*.request-order-nav li.schools-goals a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+}*/
+.request-order-nav li.finance.unfinished a:before {
+    background: url('../images/ico-finance.png') no-repeat 3px 6px;
+    background-position: 3px -75px;
 }
-.request-order-nav li.schools-goals a:before {
-	background: url('../images/ico-goal.png') no-repeat 0 50% #f3f3f3 ;
+.request-order-nav li.finance.in_progress a:before {
+    background: url('../images/ico-finance.png') no-repeat 3px 6px;
+    background-position: 3px 23px;
 }
-.request-order-nav li.active a:before {
-	background-color: #fff;
+.request-order-nav li.finance.accepted a:before {
+    background: url('../images/ico-finance.png') no-repeat 3px 6px;
+    background-position: 3px 0px;
 }
+.request-order-nav li.finance.rejected a:before {
+    background: url('../images/ico-finance.png') no-repeat 3px 6px;
+    background-position: 3px -48px;
+}
+
+.request-order-nav li.concepts.unfinished a:before {
+    background: url('../images/ico-concept.png') no-repeat 3px 6px;
+    background-position: 3px -75px;
+}
+.request-order-nav li.concepts.in_progress a:before {
+    background: url('../images/ico-concept.png') no-repeat 3px 6px;
+    background-position: 3px 23px;
+}
+.request-order-nav li.concepts.accepted a:before {
+    background: url('../images/ico-concept.png') no-repeat 3px 6px;
+    background-position: 3px 0px;
+}
+.request-order-nav li.concepts.rejected a:before {
+    background: url('../images/ico-concept.png') no-repeat 3px 6px;
+    background-position: 3px -48px;
+}
+
+
+.request-order-nav li.schools-goals.unfinished a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+    background-position: 3px -95px;
+}
+.request-order-nav li.schools-goals.in_progress a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+    background-position: 3px -35px;
+}
+.request-order-nav li.schools-goals.accepted a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+    background-position: 3px 0px;
+}
+.request-order-nav li.schools-goals.rejected a:before {
+    background: url('../images/icon-school.png') no-repeat 3px 6px;
+    background-position: 3px -65px;
+}
+
 #project h2.panel-title {
 	font-weight:300 !important;
 	font-size:30px;
@@ -2019,15 +2099,17 @@ div.dataTables_length select {
 	margin: 0 auto;
 }
 
-.status-icon.unfinished {
-	background-position: 3px -112px;
+.status-icon.accepted {
+    background-position: 2px -1px;
 }
-
 .status-icon.in_progress {
-	background-position: 4px -35px;
+    background-position: 2px -31px;
 }
 .status-icon.rejected {
-	background-position: 4px -76px;
+    background-position: 2px -61px;
+}
+.status-icon.unfinished {
+    background-position: 2px -91px;
 }
 .cell-finplan.select {
 	background-position: 3px -38px;
@@ -2039,12 +2121,12 @@ div.dataTables_length select {
 	background-position: 5px -77px;
 }
 
-.cell-concept.gray {
+/*.cell-concept.unfinished {
 	background-position: 5px -119px;
 }
-.cell-school.gray {
+.cell-school.unfinished {
 	background-position: 5px -117px;
-}
+}*/
 
 .cell-finplan {
 	background: url('../images/icon-finplan.png') no-repeat 3px 3px;
@@ -2732,9 +2814,9 @@ body.safari #finance .btn-group.btn-toggle .btn {
 .sweet-alert.showSweetAlert h2 {
     margin-top: 25px;
 }
-.table-bordered tbody tr td {
+/*.table-bordered tbody tr td {
 	width:366.66px !important;
-}
+}*/
 .custom-field span[ng-bind="relation_name"] {
 	display: inline-block;
     padding: 4px 0 0;
@@ -2770,6 +2852,9 @@ body.safari #finance .btn-group.btn-toggle .btn {
     position: absolute;
     top: 50%;
     width: auto;
+}
+.table-requests thead tr th:nth-child(3) {
+	width:200px;
 }
 .alert-accepted {
 	border: none;
