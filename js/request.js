@@ -34,6 +34,16 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     });
   };
 
+  $scope.block = function () {
+    Utils.doConfirm(function() {
+      network.put('request/' + $scope.requestID,{'status_id':2}, function (result) {
+        if (result) {
+          Utils.deleteSuccess();
+          location.href = '/requests';
+        }
+      });
+    });
+  };
   $scope.remove = function () {
     Utils.doConfirm(function() {
       network.delete('request/' + $scope.requestID, function (result) {

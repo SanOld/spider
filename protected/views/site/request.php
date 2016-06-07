@@ -1943,7 +1943,7 @@ $this->breadcrumbs = array('Anträge');
 				<br>
 				<div class="form-group group-btn row">
 					<div class="col-lg-6 text-left">
-						<button ng-click="remove()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+						<button ng-click="block()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
 						<button class="btn w-lg btn-info btn-lg">
 							<i class="fa fa-rotate-left"></i>
 							<span>Neu eröffnen</span>
