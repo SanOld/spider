@@ -46,6 +46,11 @@ class DocumentTemplate extends BaseModel {
   protected function doBeforeInsert($post) {
 
     $post['user_id'] = $this->user['id'];
+    
+            
+    $post['type_code'] = Yii::app() -> db -> createCommand() -> select('code') -> from('spi_document_template_type') -> where('id=:id ', array(
+        ':id' => $post['type_id']
+    )) ->queryScalar();
 
     return array(
       'result' => true,
@@ -57,7 +62,13 @@ class DocumentTemplate extends BaseModel {
 
     $post['user_id'] = $this->user['id'];
     $post['last_change'] = date('c', time());
-
+    
+    if(safe($post,'type_id')) {
+      $post['type_code'] = Yii::app() -> db -> createCommand() -> select('code') -> from('spi_document_template_type') -> where('id=:id ', array(
+          ':id' => $post['type_id']
+      )) -> queryRow();
+    }
+    
     return array(
       'result' => true,
       'params' => $post

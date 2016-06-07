@@ -29,3 +29,16 @@ UPDATE `spi_request` SET `status_goal`='unfinished' WHERE `status_goal`='a';
 ALTER TABLE `spi_request` 
 CHANGE COLUMN `doc_target agreement_id` `doc_target_agreement_id` INT(11) NULL DEFAULT NULL ,
 CHANGE COLUMN `doc_financing agreement_id` `doc_financing_agreement_id` INT(11) NULL DEFAULT NULL ;
+
+
+TRUNCATE TABLE `spi_document_template`;
+TRUNCATE TABLE `spi_document_template_type`;
+ALTER TABLE `spi_document_template_type` ADD COLUMN `code` VARCHAR(45) NOT NULL AFTER `id`;
+INSERT INTO `spi_document_template_type` (`id`, `name`, `code`) VALUES ('1', 'Fördervertrag', 'funding_agreement');
+INSERT INTO `spi_document_template_type` (`id`, `name`, `code`) VALUES ('2', 'Zielvereinbarung', 'goal_agreement');
+INSERT INTO `spi_document_template_type` (`id`, `name`, `code`) VALUES ('3', 'Antrag', 'request');
+INSERT INTO `spi_document_template_type` (`id`, `name`, `code`) VALUES ('4', 'Mittelabruf', 'financing_request');
+INSERT INTO `spi_document_template_type` (`id`, `name`, `code`) VALUES ('5', 'Verwendungsnachweis', 'spending_report');
+
+ALTER TABLE `spi_document_template` ADD COLUMN `type_code` VARCHAR(45) NOT NULL AFTER `type_id`;
+
