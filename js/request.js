@@ -310,8 +310,10 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     network.put('request_school_concept/' + concept.id, data, function(result){
       if(result) {
         concept.status = data.status;
-        if(action != 'reject') {
+        if(data.status != 'rejected') {
           $scope.school_concept[concept.id].comment = '';
+        } else {
+          concept.comment = data.comment;
         }
         $scope.setBestStatusByUserType();
       }
