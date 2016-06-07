@@ -1045,8 +1045,8 @@ $this->breadcrumbs = array('Anträge');
 																		</button>
 																	</div>
 																</div>
-																<div class="col-lg-4" ng-bind="::change.old"></div>
-																<div class="col-lg-4" ng-bind="::change.new"></div>
+																<div class="col-lg-4" ng-bind="::change.old | limitTo: 120"></div>
+																<div class="col-lg-4" ng-bind="::change.new | limitTo: 120"></div>
 															</div>
 														</div>
 													</div>

@@ -102,11 +102,9 @@ class RequestSchoolConcept extends BaseModel {
   }
 
   protected function doBeforeUpdate($post, $id) {
-
     if(in_array(safe($post, 'status'), array('accepted', 'in_progress'))) {
       $post['comment'] = null;
     }
-
     return array (
       'result' => true,
       'params' => $post,
@@ -114,8 +112,7 @@ class RequestSchoolConcept extends BaseModel {
     );
 
   }
-
-
+  
   protected function doAfterUpdate($result, $params, $post, $id) {
     if($result['result'] && safe($post, 'status')) {
       $request_id = Yii::app()->db->createCommand()
@@ -135,7 +132,7 @@ class RequestSchoolConcept extends BaseModel {
       ->select('status')
       ->from($this -> table)
       ->where('request_id=:request_id', array(':request_id' => $request_id))
-      ->order("FIELD(status, 'd', 'r', 'a')")
+      ->order("FIELD(status, 'rejected', 'unfinished', 'in_progress', 'accepted')")
       ->queryScalar();
   }
 

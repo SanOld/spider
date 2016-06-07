@@ -281,14 +281,12 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     for(var i=0; i<$scope.schoolConcepts.length; i++) {
       statuses.push($scope.schoolConcepts[i].status);
     }
-
     for(var j=0; j<priorities.length; j++) {
       if(statuses.indexOf(priorities[j]) !== -1) {
         bestStatus = priorities[j];
         break;
       }
     }
-
     $scope.$parent.setConceptStatus(bestStatus);
   };
 
@@ -320,6 +318,10 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     });
   };
 
+  $scope.doCutText = function(newText, oldText, isNew) {
+    // TODO: return cut text for history audit
+  };
+
   $scope.openComparePopup = function(history, change) {
     $uibModal.open({
       animation: true,
@@ -338,7 +340,6 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         }
       }
     });
-
   }
 
 });
