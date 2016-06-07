@@ -26,7 +26,6 @@ class RequestSchoolConcept extends BaseModel {
     foreach($result['result'] as &$row) {
       $row['histories'] = $this->getHistoriesById($row['id']);
     }
-//    print_r($result);exit;
     return $result;
   }
 
@@ -46,23 +45,23 @@ class RequestSchoolConcept extends BaseModel {
         ->andWhere("aev.event_type = 'UPD'")
         ->order("aev.event_date DESC")
         ->queryAll();
-    $result = array();
+    $items = array();
     foreach($rows as $row) {
       $id = $row['id'];
-      if(!isset($result[$id])) $result[$id] = array();
-      $result[$id]['date']      = $row['date'];
-      $result[$id]['user_name'] = $row['user_name'];
+      if(!isset($items[$id])) $items[$id] = array();
+      $items[$id]['date']      = $row['date'];
+      $items[$id]['user_name'] = $row['user_name'];
       switch($row['column_name']) {
         case 'status':
-          $result[$id]['status_code'] = $row['new_value'];
-          $result[$id]['status_name'] = $this->getStatusByCode($row['new_value']);
+          $items[$id]['status_code'] = $row['new_value'];
+          $items[$id]['status_name'] = $this->getStatusByCode($row['new_value']);
           break;
         case 'comment':
-          $result[$id]['comment'] = $row['new_value'];
+          $items[$id]['comment'] = $row['new_value'];
           break;
         default:
-          if(!isset($result[$id]['changes'])) $result[$id]['changes'] = array();
-          $result[$id]['changes'][] = array(
+          if(!isset($items[$id]['changes'])) $items[$id]['changes'] = array();
+          $items[$id]['changes'][] = array(
             'code' => $row['column_name'],
             'name' => $this->getFieldNameByColumnName($row['column_name']),
             'old'  => $row['old_value'],
@@ -70,6 +69,10 @@ class RequestSchoolConcept extends BaseModel {
           );
           break;
       }
+    }
+    $result = array();
+    foreach($items as $item) {
+      $result[] = $item;
     }
     return $result;
   }
@@ -88,15 +91,30 @@ class RequestSchoolConcept extends BaseModel {
 
   private function getStatusByCode($code) {
     switch ($code) {
-      case 'd':
+      case 'rejected':
         return 'Ablehnen';
-      case 'r':
+      case 'in_progress':
         return 'Bereit zu überprüfen';
-      case 'a':
+      case 'accepted':
         return 'Genehmigt';
     }
     return '';
   }
+
+  protected function doBeforeUpdate($post, $id) {
+
+    if(in_array(safe($post, 'status'), array('accepted', 'in_progress'))) {
+      $post['comment'] = null;
+    }
+
+    return array (
+      'result' => true,
+      'params' => $post,
+      'post' => $post
+    );
+
+  }
+
 
   protected function doAfterUpdate($result, $params, $post, $id) {
     if($result['result'] && safe($post, 'status')) {

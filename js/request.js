@@ -187,11 +187,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
-  $timeout(function() {
-    angular.element('#accordion-concepts .btn-toggle').click(function(){
-      return false;
-    });
-  });
+  // $timeout(function() {
+  //   $('.changes-content .heading-changes').click(function(){
+  //     $(this).toggleClass('open');
+  //     $(this).next().slideToggle();
+  //   })
+  // });
 
   $scope.school_concept = {};
   $scope.conceptTab = {};
@@ -212,19 +213,22 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   $scope.submitForm = function(data, concept, action) {
     switch (action) {
       case 'submit':
-        data.status = 'r';
+        data.status = 'in_progress';
         break;
-      case 'declare':
-        data.status = 'd';
+      case 'reject':
+        data.status = 'rejected';
         break;
       case 'accept':
-        data.status = 'a';
+        data.status = 'accepted';
         break;
     }
 
     network.put('request_school_concept/' + concept.id, data, function(result){
       if(result) {
         concept.status = data.status;
+        if(action != 'reject') {
+          school_concept[concept.id].comment = '';
+        }
       }
     });
   };
@@ -253,12 +257,10 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 });
 
 spi.controller('СonceptCompareController', function($scope, history, $uibModalInstance) {
-
-  var diff = new diff_match_patch();
-  var diffs = diff.diff_main(history.old, history.new);
-  diff.diff_cleanupSemantic(diffs);
-
-  $scope.compareText = diff.diff_prettyHtml(diffs);
+  var diffMatch = new diff_match_patch();
+  var diffs = diffMatch.diff_main(history.old, history.new);
+  diffMatch.diff_cleanupSemantic(diffs);
+  $scope.compareText = diffMatch.diff_prettyHtml(diffs).replace(/&para;/g,'');
 
   $scope.history = history;
 

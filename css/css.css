@@ -879,7 +879,8 @@ body .nav.nav-tabs + .tab-content {
 .notice .decline-row {
 	background: #dedede;
 }
-.notice .decline-row-red {
+.notice .decline-row-red,
+.notice .rejected-row{
 	background: #d63535;
 }
 .request-edit tr.decline-row,
@@ -2769,4 +2770,25 @@ body.safari #finance .btn-group.btn-toggle .btn {
     position: absolute;
     top: 50%;
     width: auto;
+}
+.alert-accepted {
+	border: none;
+	color: #3c763d;
+	background-color: #dff0d8;
+}
+.alert-in_progress {
+	border: none;
+	color: #8a6d3b;
+	background-color: #fcf8e3;
+}
+.alert-rejected {
+	border: none;
+	color: #a94442;
+	background-color: #f2dede;
+}
+.compare-box ins {
+	color: #3c763d;
+}
+.compare-box del {
+	color: #a94442;
 }

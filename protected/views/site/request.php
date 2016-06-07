@@ -1346,50 +1346,52 @@ $this->breadcrumbs = array('Anträge');
 								<div class="panel panel-default" ng-repeat="schoolConcept in schoolConcepts">
 									<div class="panel-heading" ng-init="conceptTab[schoolConcept.id] = 'data'">
 										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-{{::schoolConcept.id}}" class="collapse collapsed">
+											<a data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-{{::schoolConcept.id}}" ng-class="{collapsed: schoolConcepts.length > 1}" class="collapse">
 												{{::schoolConcept.school_name}} ({{::schoolConcept.school_number}})
 												<span class="notice">
-													<span ng-class="{'open': !schoolConcept.status, 'inprogress-row': schoolConcept.status == 'r', 'decline-row-red': schoolConcept.status == 'd', 'acceptable-row': schoolConcept.status == 'a'}" class="color-notice"></span>
+													<span class="color-notice {{schoolConcept.status}}-row"></span>
 												</span>
 												<div class="btn-group btn-toggle pull-right tabs-toggle">
-													<button ng-click="conceptTab[schoolConcept.id] = 'data'" ng-class="conceptTab[schoolConcept.id] == 'data' ? 'active' : 'btn-default'" class="btn btn-sm">DATEN</button>
-													<button ng-click="conceptTab[schoolConcept.id] = 'history'" ng-class="conceptTab[schoolConcept.id] == 'history' ? 'active' : 'btn-default'" class="btn btn-sm">VERLAUF</button>
+													<button ng-click="conceptTab[schoolConcept.id] = 'data'; $event.preventDefault(); $event.stopPropagation();" ng-class="conceptTab[schoolConcept.id] == 'data' ? 'active' : 'btn-default'" class="btn btn-sm">DATEN</button>
+													<button ng-click="conceptTab[schoolConcept.id] = 'history'; $event.preventDefault(); $event.stopPropagation();" ng-class="conceptTab[schoolConcept.id] == 'history' ? 'active' : 'btn-default'" class="btn btn-sm">VERLAUF</button>
 												</div>
 											</a>
 										</h4>
 									</div>
-									<div id="collapse-{{::schoolConcept.id}}" class="panel-collapse collapse">
+									<div id="collapse-{{::schoolConcept.id}}" class="panel-collapse collapse" ng-class="{in: schoolConcepts.length == 1}">
 										<div class="panel-body">
-											<div ng-class="{current: conceptTab[schoolConcept.id] == 'data'}" id="tab-data-{{::schoolConcept.id}}" class="block-concept">
-												<div class="alert alert-danger" ng-if="schoolConcept.status == 'd' && schoolConcept.comment" ng-bind="schoolConcept.comment"></div>
-												<ng-form>
+											<div ng-class="{current: conceptTab[schoolConcept.id] == 'data'}" id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
+												<div class="alert alert-danger" ng-if="schoolConcept.status == 'rejected' && schoolConcept.comment" ng-bind="schoolConcept.comment"></div>
+												<ng-form disable-all="schoolConcept.status == 'accepted'">
 													<div class="form-group">
 														<label>Situation an der Schule</label>
 														<div spi-hint text="_hint.school_concept_situation" class="has-hint"></div>
 														<div class="wrap-hint">
-															<textarea ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].situation" placeholder="Tragen Sie den Text hier ein"></textarea>
+															<textarea ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].situation" placeholder="Tragen Sie den Text hier ein" ng-readonly="canAccept || schoolConcept.status == 'in_progress' || schoolConcept.status == 'accepted'"></textarea>
 														</div>
 													</div>
 													<div class="form-group">
 														<label>Angebote der Jugendsozialarbeit an der Schule</label>
 														<div spi-hint text="_hint.school_concept_offers_youth_social_work" class="has-hint"></div>
 														<div class="wrap-hint">
-															<textarea ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].offers_youth_social_work" placeholder="Tragen Sie den Text hier ein"></textarea>
+															<textarea ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].offers_youth_social_work" placeholder="Tragen Sie den Text hier ein" ng-readonly="canAccept || schoolConcept.status == 'in_progress' || schoolConcept.status == 'accepted'"></textarea>
 														</div>
 													</div>
 													<hr />
-													<div class="row">
-														<div class="col-lg-10" ng-if="canAccept">
-															<h4 class="m-t-0">Prüfnotiz</h4>
-															<textarea ng-init="school_concept[schoolConcept.id].comment = schoolConcept.comment" placeholder="Tragen Sie den Text hier ein" ng-model="school_concept[schoolConcept.id].comment" class="form-control comments"></textarea>
+													<div class="row" ng-if="schoolConcept.status != 'accepted'">
+														<div class="col-lg-10">
+															<span ng-if="canAccept && schoolConcept.status != 'rejected'">
+																<h4 class="m-t-0">Prüfnotiz</h4>
+																<textarea ng-init="school_concept[schoolConcept.id].comment = schoolConcept.comment" placeholder="Tragen Sie den Text hier ein" ng-model="school_concept[schoolConcept.id].comment" class="form-control comments"></textarea>
+															</span>
 														</div>
 														<div class="col-lg-2" ng-if="canAccept">
 															<div class="m-t-30 text-right pull-right">
-																<button ng-hide="schoolConcept.status == 'a'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept')">AKZEPTIEREN</button>
-																<button ng-hide="schoolConcept.status == 'd'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+																<button ng-hide="schoolConcept.status == 'accepted'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept')">AKZEPTIEREN</button>
+																<button ng-hide="schoolConcept.status == 'rejected'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'reject')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 															</div>
 														</div>
-														<div class="col-lg-2" ng-if="!canAccept && schoolConcept.status != 'r'">
+														<div class="col-lg-2" ng-if="!canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
 															<div class="text-right pull-right">
 																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SUBMIT</button>
 															</div>
@@ -1399,7 +1401,7 @@ $this->breadcrumbs = array('Anträge');
 											</div>
 											<div ng-class="{current: conceptTab[schoolConcept.id] == 'history'}" id="tab-history-{{::schoolConcept.id}}" class="tab-history block-concept">
 												<div ng-repeat-start="history in schoolConcept.histories" ng-if="::history.changes" class="changes-content">
-													<div class="heading-changes" ng-class="{open: history.isCollapsed}" ng-click="history.isCollapsed = !history.isCollapsed">
+													<div class="heading-changes" ng-click="history.isCollapsed = !history.isCollapsed" data-toggle="collapse" ng-class="{open: history.isCollapsed}">
 														Inhaltsveränderungen
 														<i class="ion-chevron-down arrow-box"></i>
 													</div>
@@ -1433,7 +1435,7 @@ $this->breadcrumbs = array('Anträge');
 														</div>
 													</div>
 												</div>
-												<div ng-repeat-end class="alert" ng-class="{'alert-success': history.status_code == 'a', 'alert-warning': history.status_code == 'r', 'alert-danger': history.status_code == 'd'}">
+												<div ng-repeat-end class="alert alert-{{history.status_code}}">
 													<strong class="status-history" ng-bind="::history.status_name">Genehmigt</strong>
 													<span class="check-history">Überpüft von {{::history.user_name}} {{::history.date}}</span>
 													<p ng-bind="::history.comment"></p>
@@ -2009,14 +2011,6 @@ $this->breadcrumbs = array('Anträge');
 
 
 <script type="text/ng-template" id="conceptCompareTemplate.html">
-	<style>
-		ins {
-		  color: green;
-		}
-		del {
-		  color: red;
-		}
-	</style>
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
 			<h3 class="m-0 pull-left">Vergleichen</h3>
