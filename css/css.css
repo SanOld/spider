@@ -2018,15 +2018,17 @@ div.dataTables_length select {
 	margin: 0 auto;
 }
 
-.status-icon.unfinished {
-	background-position: 3px -112px;
+.status-icon.accepted {
+    background-position: 2px -1px;
 }
-
 .status-icon.in_progress {
-	background-position: 4px -35px;
+    background-position: 2px -31px;
 }
 .status-icon.rejected {
-	background-position: 4px -76px;
+    background-position: 2px -61px;
+}
+.status-icon.unfinished {
+    background-position: 2px -91px;
 }
 .cell-finplan.select {
 	background-position: 3px -38px;
@@ -2731,9 +2733,9 @@ body.safari #finance .btn-group.btn-toggle .btn {
 .sweet-alert.showSweetAlert h2 {
     margin-top: 25px;
 }
-.table-bordered tbody tr td {
+/*.table-bordered tbody tr td {
 	width:366.66px !important;
-}
+}*/
 .custom-field span[ng-bind="relation_name"] {
 	display: inline-block;
     padding: 4px 0 0;
@@ -2769,4 +2771,7 @@ body.safari #finance .btn-group.btn-toggle .btn {
     position: absolute;
     top: 50%;
     width: auto;
+}
+.table-requests thead tr th:nth-child(3) {
+	width:200px;
 }

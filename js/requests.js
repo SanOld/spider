@@ -57,6 +57,16 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $scope.existsSelected = function() {
     return !!getSelectedIds().length;
   };
+  
+  $scope.canEdit = function(row) {
+    if(!row) {
+      $rootScope.canEdit()
+    } else {
+      return  (network.user.type == 'a' || (row.status_code != 'decline' && row.status_code != 'accept')) && $rootScope.canEdit();
+    }
+    console.log(row)
+    
+  };
 
   function getSelectedIds() {
     var ids = [];

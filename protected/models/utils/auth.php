@@ -51,35 +51,7 @@ class Auth {
                         )
                  ->queryRow();
       
-      $name_table = '';
-      $name_field = 'name';
-      $relation_name = '';
-      switch($this->user['type']) {
-        case SCHOOL:
-          $name_table = 'spi_school';
-          break;
-        case DISTRICT:
-          $name_table = 'spi_district';
-          break;
-        case TA:
-          $name_field = 'short_name';
-          $name_table = 'spi_performer';
-          break;
-        case SENAT:
-          $relation_name = 'Senat';
-          break;
-        case ADMIN:
-        case PA:
-          $relation_name = 'Stiftung SPI';
-          break;
-      }
-      
-      if($name_table) {
-        $relation_name = Yii::app()->db->createCommand()->select($name_field)->from($name_table)->where('id=:id',
-                            array( ':id'=>$this->user['relation_id']))
-                          ->queryScalar();
-      }
-      $this->user['relation_name'] = $relation_name;
+     
 //      if($this->user['relation_id']) {
 //        $table = '';
 //        switch($this->user['type']) {
@@ -106,6 +78,36 @@ class Auth {
 
       
       if($this->user && $this->user['is_active']==1 && $this->user['is_virtual'] !=1 ) {
+        $name_table = '';
+        $name_field = 'name';
+        $relation_name = '';
+        switch($this->user['type']) {
+          case SCHOOL:
+            $name_table = 'spi_school';
+            break;
+          case DISTRICT:
+            $name_table = 'spi_district';
+            break;
+          case TA:
+            $name_field = 'short_name';
+            $name_table = 'spi_performer';
+            break;
+          case SENAT:
+            $relation_name = 'Senat';
+            break;
+          case ADMIN:
+          case PA:
+            $relation_name = 'Stiftung SPI';
+            break;
+        }
+
+        if($name_table) {
+          $relation_name = Yii::app()->db->createCommand()->select($name_field)->from($name_table)->where('id=:id',
+                              array( ':id'=>$this->user['relation_id']))
+                            ->queryScalar();
+        }
+        $this->user['relation_name'] = $relation_name;
+        
         $authToken = $this->user['auth_token'];
         $auth = new Auth($authToken, $this->user);
         if($authToken && $auth->checkToken()) {
