@@ -381,9 +381,19 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   };
 
   RequestService.getSchoolGoalData = function(){
-    console.log($scope.schoolGoals);
-    $window.stop();
-    return $scope.schoolGoals;
+    var data = [];
+    if(angular.isObject($scope.schoolGoals)){
+      for (var school in $scope.schoolGoals){
+        if(angular.isObject($scope.schoolGoals[school])){
+          var goals = $scope.schoolGoals[school].goals;
+          for(var goal in goals){
+            data[goals[goal].id]=(goals[goal]);
+          }
+        }
+      }
+    }
+
+    return data;
   };
 
   $scope.readonly = function(goal){
