@@ -206,6 +206,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     return $scope.school_concept;
   };
 
+  $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
 
   $scope.submitForm = function(data, concept, action) {
     switch (action) {
@@ -250,8 +251,20 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
 });
 
-spi.controller('СonceptCompareController', function($scope, history) {
+spi.controller('СonceptCompareController', function($scope, history, $uibModalInstance) {
+
+  var diff = new diff_match_patch();
+  var diffs = diff.diff_main(history.old, history.new);
+  diff.diff_cleanupSemantic(diffs);
+
+  $scope.compareText = diff.diff_prettyHtml(diffs);
+
   $scope.history = history;
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
 });
 
 spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, $timeout) {

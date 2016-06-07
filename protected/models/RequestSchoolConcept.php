@@ -13,10 +13,20 @@ class RequestSchoolConcept extends BaseModel {
     return $command;
   }
 
+  protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
+    $params = array_change_key_case($params, CASE_UPPER);
+    if(safe($params, 'REQUEST_ID')) {
+      $command -> andWhere('tbl.request_id = :request_id', array(':request_id' => $params['REQUEST_ID']));
+    }
+    return $command;
+  }
+
   protected function doAfterSelect($result) {
     foreach($result['result'] as &$row) {
       $row['histories'] = $this->getHistoriesById($row['id']);
     }
+//    print_r($result);exit;
     return $result;
   }
 
@@ -34,6 +44,7 @@ class RequestSchoolConcept extends BaseModel {
         ->where('aev.table_name =:table_name', array(':table_name' => $this->table))
         ->andWhere('aev.record_id = :id', array(':id' => $concept_id))
         ->andWhere("aev.event_type = 'UPD'")
+        ->order("aev.event_date DESC")
         ->queryAll();
     $result = array();
     foreach($rows as $row) {
@@ -94,7 +105,9 @@ class RequestSchoolConcept extends BaseModel {
         ->from($this -> table)
         ->where('id=:id', array(':id' => $id))
         ->queryScalar();
-      Yii::app()->db->createCommand()->update('spi_request', array('status_concept' => $this->getCommonStatus($request_id)));
+      if($status = $this->getCommonStatus($request_id)) {
+        Yii::app()->db->createCommand()->update('spi_request', array('status_concept' => $status));
+      }
     }
     return $result;
   }

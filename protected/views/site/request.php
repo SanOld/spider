@@ -1,9 +1,9 @@
 <?php
-
 $this->pageTitle = 'Anträge | ' . Yii::app()->name;
 $this->breadcrumbs = array('Anträge');
-
 ?>
+
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/diff_match_patch.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/request.js"></script>
 
 <div class="wraper container-fluid" ng-controller="RequestController">
@@ -1378,17 +1378,17 @@ $this->breadcrumbs = array('Anträge');
 													</div>
 													<hr />
 													<div class="row">
-														<div class="col-lg-10" ng-if="canEdit('request_school_concept')">
+														<div class="col-lg-10" ng-if="canAccept">
 															<h4 class="m-t-0">Prüfnotiz</h4>
 															<textarea ng-init="school_concept[schoolConcept.id].comment = schoolConcept.comment" placeholder="Tragen Sie den Text hier ein" ng-model="school_concept[schoolConcept.id].comment" class="form-control comments"></textarea>
 														</div>
-														<div class="col-lg-2" ng-if="canEdit('request_school_concept')">
+														<div class="col-lg-2" ng-if="canAccept">
 															<div class="m-t-30 text-right pull-right">
 																<button ng-hide="schoolConcept.status == 'a'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept')">AKZEPTIEREN</button>
 																<button ng-hide="schoolConcept.status == 'd'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 															</div>
 														</div>
-														<div class="col-lg-2" ng-if="!canEdit('request_school_concept') && schoolConcept.status != 'r'">
+														<div class="col-lg-2" ng-if="!canAccept && schoolConcept.status != 'r'">
 															<div class="text-right pull-right">
 																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SUBMIT</button>
 															</div>
@@ -2007,10 +2007,18 @@ $this->breadcrumbs = array('Anträge');
 
 
 <script type="text/ng-template" id="conceptCompareTemplate.html">
+	<style>
+		ins {
+		  color: green;
+		}
+		del {
+		  color: red;
+		}
+	</style>
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
 			<h3 class="m-0 pull-left">Vergleichen</h3>
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
+			<button ng-click="cancel()" type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body">
 			<div class="heading-compare">
@@ -2019,50 +2027,13 @@ $this->breadcrumbs = array('Anträge');
 				<p>Bereich: <strong ng-bind="::history.name"></strong></p>
 			</div>
 			<hr />
-			<div class="row compare-box">
-				<div class="col-lg-6">
-					<strong class="title">Früher</strong>
-					<div class="ready">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-					</div>
-					<div class="no-status">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-					</div>
-					<div class="decline">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-					</div>
-					<div class="no-status">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-					</div>
-					<div class="approve">
-
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<strong class="title">Nachher</strong>
-					<div class="ready">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-					</div>
-					<div class="no-status">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-					</div>
-					<div class="decline">
-
-					</div>
-					<div class="no-status">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-					</div>
-					<div class="approve">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-					</div>
-				</div>
-			</div>
+			<div class="row compare-box" ng-bind-html="::compareText"></div>
 			<hr />
 		</div>
 		<div class="row">
 			<div class="form-group group-btn">
 				<div class="col-lg-12">
-					<button class="btn w-lg custom-btn pull-right" data-dismiss="modal">SCHLIEßEN</button>
+					<button ng-click="cancel()" class="btn w-lg custom-btn pull-right" data-dismiss="modal">SCHLIEßEN</button>
 				</div>
 			</div>
 		</div>
