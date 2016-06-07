@@ -21,14 +21,15 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $scope.requestYear = requestYear;
   };
 
-  $scope.submitRequest = function () {
+  $scope.submitRequest = function (close) {
+    close = close || false;
     var data = RequestService.getProjectData();
     data['finance_plan']    = RequestService.financePlanData();
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
-      if(result) {
-        console.log('ToDo'); // mb redirect to /requests ?
+      if(result && close) {
+        location.href = '/requests';
       }
     });
   };
@@ -103,7 +104,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
   $scope.getData();
 
-  network.get('document_template_type', {filter: 1}, function (result, response) {
+  network.get('document_template', {}, function (result, response) {
     if (result) {
       $scope.documentTypes = response.result;
     }
@@ -154,10 +155,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         var start = Utils.getSqlDate(new Date(data.start_date));
         var end   = Utils.getSqlDate(new Date(data.due_date));
 
-        network.patch('request', {ids: ids, start_date: start, due_date: end}, function(result) {
-          $scope.request.start_date = start;
-          $scope.request.due_date = end;
-        });
+        $scope.request.start_date = start;
+        $scope.request.due_date = end;
+//        network.patch('request', {ids: ids, start_date: start, due_date: end}, function(result) {
+//        });
       });
 
 
