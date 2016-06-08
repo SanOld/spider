@@ -281,46 +281,74 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
-  $timeout(function() {
-    angular.element('#accordion-concepts .btn-toggle').click(function(){
-      return false;
-    });
-  });
+  // $timeout(function() {
+  //   $('.changes-content .heading-changes').click(function(){
+  //     $(this).toggleClass('open');
+  //     $(this).next().slideToggle();
+  //   })
+  // });
 
   $scope.school_concept = {};
   $scope.conceptTab = {};
+  $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
 
   $scope.schoolConcepts = [];
   network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
       $scope.schoolConcepts = response.result;
+      $scope.setBestStatusByUserType();
     }
   });
+
+  $scope.setBestStatusByUserType = function() {
+    var bestStatus = 'unfinished';
+    var statuses = [];
+    var priorities = $scope.canAccept ? ['in_progress', 'rejected', 'unfinished', 'accepted'] : ['rejected', 'unfinished', 'in_progress', 'accepted'];
+
+    for(var i=0; i<$scope.schoolConcepts.length; i++) {
+      statuses.push($scope.schoolConcepts[i].status);
+    }
+    for(var j=0; j<priorities.length; j++) {
+      if(statuses.indexOf(priorities[j]) !== -1) {
+        bestStatus = priorities[j];
+        break;
+      }
+    }
+    $scope.$parent.setConceptStatus(bestStatus);
+  };
 
   RequestService.getSchoolConceptData = function() {
     return $scope.school_concept;
   };
 
-
-
   $scope.submitForm = function(data, concept, action) {
     switch (action) {
       case 'submit':
-        data.status = 'r';
+        data.status = 'in_progress';
         break;
-      case 'declare':
-        data.status = 'd';
+      case 'reject':
+        data.status = 'rejected';
         break;
       case 'accept':
-        data.status = 'a';
+        data.status = 'accepted';
         break;
     }
 
     network.put('request_school_concept/' + concept.id, data, function(result){
       if(result) {
         concept.status = data.status;
+        if(data.status != 'rejected') {
+          $scope.school_concept[concept.id].comment = '';
+        } else {
+          concept.comment = data.comment;
+        }
+        $scope.setBestStatusByUserType();
       }
     });
+  };
+
+  $scope.doCutText = function(newText, oldText, isNew) {
+    // TODO: return cut text for history audit
   };
 
   $scope.openComparePopup = function(history, change) {
@@ -341,13 +369,22 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         }
       }
     });
-
   }
 
 });
 
-spi.controller('СonceptCompareController', function($scope, history) {
+spi.controller('СonceptCompareController', function($scope, history, $uibModalInstance) {
+  var diffMatch = new diff_match_patch();
+  var diffs = diffMatch.diff_main(history.old, history.new);
+  diffMatch.diff_cleanupSemantic(diffs);
+  $scope.compareText = diffMatch.diff_prettyHtml(diffs).replace(/&para;/g,'');
+
   $scope.history = history;
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
 });
 
 spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, $window) {

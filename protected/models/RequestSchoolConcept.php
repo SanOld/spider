@@ -13,6 +13,15 @@ class RequestSchoolConcept extends BaseModel {
     return $command;
   }
 
+  protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
+    $params = array_change_key_case($params, CASE_UPPER);
+    if(safe($params, 'REQUEST_ID')) {
+      $command -> andWhere('tbl.request_id = :request_id', array(':request_id' => $params['REQUEST_ID']));
+    }
+    return $command;
+  }
+
   protected function doAfterSelect($result) {
     foreach($result['result'] as &$row) {
       $row['histories'] = $this->getHistoriesById($row['id']);
@@ -34,24 +43,25 @@ class RequestSchoolConcept extends BaseModel {
         ->where('aev.table_name =:table_name', array(':table_name' => $this->table))
         ->andWhere('aev.record_id = :id', array(':id' => $concept_id))
         ->andWhere("aev.event_type = 'UPD'")
+        ->order("aev.event_date DESC")
         ->queryAll();
-    $result = array();
+    $items = array();
     foreach($rows as $row) {
       $id = $row['id'];
-      if(!isset($result[$id])) $result[$id] = array();
-      $result[$id]['date']      = $row['date'];
-      $result[$id]['user_name'] = $row['user_name'];
+      if(!isset($items[$id])) $items[$id] = array();
+      $items[$id]['date']      = $row['date'];
+      $items[$id]['user_name'] = $row['user_name'];
       switch($row['column_name']) {
         case 'status':
-          $result[$id]['status_code'] = $row['new_value'];
-          $result[$id]['status_name'] = $this->getStatusByCode($row['new_value']);
+          $items[$id]['status_code'] = $row['new_value'];
+          $items[$id]['status_name'] = $this->getStatusByCode($row['new_value']);
           break;
         case 'comment':
-          $result[$id]['comment'] = $row['new_value'];
+          $items[$id]['comment'] = $row['new_value'];
           break;
         default:
-          if(!isset($result[$id]['changes'])) $result[$id]['changes'] = array();
-          $result[$id]['changes'][] = array(
+          if(!isset($items[$id]['changes'])) $items[$id]['changes'] = array();
+          $items[$id]['changes'][] = array(
             'code' => $row['column_name'],
             'name' => $this->getFieldNameByColumnName($row['column_name']),
             'old'  => $row['old_value'],
@@ -59,6 +69,10 @@ class RequestSchoolConcept extends BaseModel {
           );
           break;
       }
+    }
+    $result = array();
+    foreach($items as $item) {
+      $result[] = $item;
     }
     return $result;
   }
@@ -77,16 +91,28 @@ class RequestSchoolConcept extends BaseModel {
 
   private function getStatusByCode($code) {
     switch ($code) {
-      case 'd':
+      case 'rejected':
         return 'Ablehnen';
-      case 'r':
+      case 'in_progress':
         return 'Bereit zu überprüfen';
-      case 'a':
+      case 'accepted':
         return 'Genehmigt';
     }
     return '';
   }
 
+  protected function doBeforeUpdate($post, $id) {
+    if(in_array(safe($post, 'status'), array('accepted', 'in_progress'))) {
+      $post['comment'] = null;
+    }
+    return array (
+      'result' => true,
+      'params' => $post,
+      'post' => $post
+    );
+
+  }
+  
   protected function doAfterUpdate($result, $params, $post, $id) {
     if($result['result'] && safe($post, 'status')) {
       $request_id = Yii::app()->db->createCommand()
@@ -94,7 +120,9 @@ class RequestSchoolConcept extends BaseModel {
         ->from($this -> table)
         ->where('id=:id', array(':id' => $id))
         ->queryScalar();
-      Yii::app()->db->createCommand()->update('spi_request', array('status_concept' => $this->getCommonStatus($request_id)));
+      if($status = $this->getCommonStatus($request_id)) {
+        Yii::app()->db->createCommand()->update('spi_request', array('status_concept' => $status));
+      }
     }
     return $result;
   }
@@ -104,7 +132,7 @@ class RequestSchoolConcept extends BaseModel {
       ->select('status')
       ->from($this -> table)
       ->where('request_id=:request_id', array(':request_id' => $request_id))
-      ->order("FIELD(status, 'd', 'r', 'a')")
+      ->order("FIELD(status, 'rejected', 'unfinished', 'in_progress', 'accepted')")
       ->queryScalar();
   }
 
