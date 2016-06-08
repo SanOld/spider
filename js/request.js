@@ -287,7 +287,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
       angular.element(this).toggleClass('open');
       angular.element(this).next().slideToggle();
     })
-  });
+  }, 100);
 
   $scope.school_concept = {};
   $scope.conceptTab = {};
