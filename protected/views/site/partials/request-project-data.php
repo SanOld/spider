@@ -361,7 +361,7 @@
               <div class="col-lg-8">
                 <ui-select ng-change="" class="type-document" ng-model="request.doc_request_id" ng-disabled="!userCan('templates')">
                   <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'request'} | orderBy: 'name'">
+                  <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'request_agreement'} | orderBy: 'name'">
                     <span ng-bind-html="item.name | highlight: $select.search"></span>
                   </ui-select-choices>
                 </ui-select>
