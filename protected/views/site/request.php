@@ -141,7 +141,7 @@ $this->breadcrumbs = array('Anträge');
 								<div ng-repeat="school in schoolGoals track by $index" class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding " ng-class="$index > 0 ? 'collapsed' : ''" aria-expanded="{{$index > 0}}">
+											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding " ng-class="!($first && $first == $last) ? 'collapsed' : ''" aria-expanded="{{!($first && $first == $last)}}">
 												{{school.school_name}} ({{school.school_number}})
 												<span class="notice">
 													<span  class="color-notice {{school.status}}-row"></span>
@@ -150,7 +150,7 @@ $this->breadcrumbs = array('Anträge');
 										</h4>
 									</div>
 
-									<div id="collapse_{{$index}}" class="panel-collapse" ng-class="$index > 0 ? 'collapse' : 'collapse in'"  >
+									<div id="collapse_{{$index}}" class="panel-collapse" ng-class="!($first && $first == $last) ? 'collapse' : 'collapse in'"  >
 										<div class="panel-body">
 											<div class="tabs-vertical-env">
 												<ul class="nav tabs-vertical" >
