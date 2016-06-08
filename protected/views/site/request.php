@@ -77,7 +77,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 																<button ng-hide="schoolConcept.status == 'rejected'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'reject')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 															</div>
 														</div>
-														<div class="col-lg-2" ng-if="!canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
+														<div class="col-lg-2" ng-if="canFormEdit && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
 															<div class="text-right pull-right">
 																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SUBMIT</button>
 															</div>
@@ -115,8 +115,8 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 																		</button>
 																	</div>
 																</div>
-																<div class="col-lg-4" ng-bind="::change.old | limitTo: 120"></div>
-																<div class="col-lg-4" ng-bind="::change.new | limitTo: 120"></div>
+																<div class="col-lg-4" ng-bind="doCutText(change.new, change.old)"></div>
+																<div class="col-lg-4" ng-bind="doCutText(change.new, change.old, 1)"></div>
 															</div>
 														</div>
 													</div>
