@@ -164,12 +164,16 @@ $this->breadcrumbs = array('Anträge');
                           </li>
 
 												</ul>
-<!---->
 												<div class="tab-content" >
 													<div ng-repeat="goal in school.goals"    id="goal_{{goal.id}}" class="tab-pane {{$index == 0 ? 'active' : ''}}" >
                             <div disable-all="readonly(goal)">
-														<div ng-hide="goal.status == 'unfinished'" class="alert-{{goal.status}}"  ng-bind="goal.notice">
+														<div ng-hide="goal.status == 'unfinished'" class="alert-{{goal.status}}" >
 															<strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen</strong>
+                              <strong ng-if="goal.status == 'accepted'">Akzeptiert</strong>
+                              <strong ng-if="goal.status == 'rejected'">Abgelehnt
+                                <br/>
+                                {{goal.notice}}
+                              </strong>
 														</div>
 
 														<h4>{{::goal.name}}</h4>
