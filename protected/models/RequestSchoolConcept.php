@@ -53,6 +53,7 @@ class RequestSchoolConcept extends BaseModel {
     foreach($rows as $row) {
       switch($row['column_name']) {
         case 'situation':
+          if($situation) break;
           $situation = array(
             'code' => $row['column_name'],
             'name' => $this->getFieldNameByColumnName($row['column_name']),
@@ -61,6 +62,7 @@ class RequestSchoolConcept extends BaseModel {
           );
           break;
         case 'offers_youth_social_work':
+          if($offers_youth_social_work) break;
           $offers_youth_social_work = array(
             'code' => $row['column_name'],
             'name' => $this->getFieldNameByColumnName($row['column_name']),
