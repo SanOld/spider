@@ -239,6 +239,7 @@ class Request extends BaseModel {
 
     unset($post['start_date_unix']);
     unset($post['due_date_unix']);
+    unset($post['status_code']);
     if(isset($post['doc_target_agreement_id']) && !$post['doc_target_agreement_id']) {
       $post['doc_target_agreement_id'] = null;
     }

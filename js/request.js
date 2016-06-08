@@ -161,6 +161,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
             $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
             $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
             $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
+            $scope.data['users'] = $scope.performerUsers;
+            RequestService.initAll($scope.data);
           }
 
         });
@@ -176,6 +178,11 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       $scope.documentTypes = response.result;
     }
   });
+  
+  RequestService.updateFinansistPD = function(id){
+    $scope.request.finance_user_id = id;
+    $scope.selectFinanceResult = Utils.getRowById($scope.performerUsers, $scope.request.finance_user_id);
+  }
 
   $scope.onSelectCallback = function (item, model, type){
     switch (type){
@@ -187,6 +194,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         break;
       case 3:
         $scope.selectFinanceResult = item ;
+        RequestService.updateFinansistFP($scope.request.finance_user_id)
         break;
     }
   };
@@ -249,8 +257,27 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
 });
 
-spi.controller('RequestFinancePlanController', function ($scope, network, RequestService) {
-  //$scope.$parent.requestID
+spi.controller('RequestFinancePlanController', function ($scope, network, RequestService, Utils) {
+  $scope.users = [];
+  RequestService.initFinancePlan = function(data){
+    $scope.users = data.users;
+    $scope.data = data;
+    $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
+  }
+  
+  RequestService.updateFinansistFP = function(id){
+    $scope.data.finance_user_id = id;
+    $scope.selectFinanceResult = Utils.getRowById($scope.users, $scope.data.finance_user_id);
+  }
+  
+  $scope.onSelectCallback = function (item, model, type){
+    switch (type){
+      case 3:
+        $scope.selectFinanceResult = item ;
+        RequestService.updateFinansistPD($scope.data.finance_user_id)
+        break;
+    }
+  }
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
