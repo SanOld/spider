@@ -133,7 +133,7 @@ $this->breadcrumbs = array('Anträge');
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab  class="schools-goals {{goalsStatus}}"  index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele {{goalsStatus}}">
+					<uib-tab  class="schools-goals {{goalsStatus}}"  index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
 
 						<div class="tab-pane" ng-controller="RequestSchoolGoalController">
               <div id="accordion-order" class="panel-group panel-group-joined">
@@ -142,7 +142,7 @@ $this->breadcrumbs = array('Anträge');
 									<div class="panel-heading">
 										<h4 class="panel-title">
 											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding " ng-class="$index > 0 ? 'collapsed' : ''" aria-expanded="{{$index > 0}}">
-												{{school.school_name}} ({{school.school_number}}) {{school.status}}
+												{{school.school_name}} ({{school.school_number}})
 												<span class="notice">
 													<span  class="color-notice {{school.status}}-row"></span>
 												</span>
@@ -156,7 +156,11 @@ $this->breadcrumbs = array('Anträge');
 												<ul class="nav tabs-vertical" >
 
                           <li  ng-repeat="goal in school.goals" ng-click="activateTab(goal.id) "  ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
-                            <a  data-toggle="tab" href="#goal_{{::goal.id}}" >{{::goal.name}}<span ng-if="goal.option == 1">(optional)</span></a>
+                            <a  data-toggle="tab" href="#goal_{{::goal.id}}" >
+                              <span class="notice">
+                                <span  class="color-notice {{goal.status}}-row"></span>
+                              </span>
+                              {{::goal.name}}<span ng-if="goal.option == 1">(optional)</span></a>
                           </li>
 
 												</ul>
@@ -164,7 +168,7 @@ $this->breadcrumbs = array('Anträge');
 												<div class="tab-content" >
 													<div ng-repeat="goal in school.goals"  disable-all="readonly(goal)"  id="goal_{{goal.id}}" class="tab-pane {{$index == 0 ? 'active' : ''}}" >
 
-														<div ng-hide="goal.status == 'unfinished'" class="alert" ng-class="{{goal.status}}" ng-bind="goal.notice">
+														<div ng-hide="goal.status == 'unfinished'" class="alert-{{goal.status}}"  ng-bind="goal.notice">
 															<strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen</strong>
 														</div>
 
@@ -181,7 +185,8 @@ $this->breadcrumbs = array('Anträge');
 																	<span class="col-lg-1">Weiteres Ziel</span>
 																	<span class="col-lg-1">kein Ziel</span>
 																</div>
-																<div class="row">
+                                <!--init="{{checkCount('groupOffer', 'capacity', goal, 1)}}"-->
+																<div class="row" ng-init="checkCount('groupOffer', 'capacity', goal, 1)" >
                                   <div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.capacity" ng-change="checkCount('groupOffer', 'capacity', goal)">
@@ -203,7 +208,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Verbesserung der (vorberuflichen) Handlungskompetenzen</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupOffer', 'transition', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.transition" ng-change="checkCount('groupOffer', 'transition', goal)">
@@ -225,7 +230,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Verbesserung aller Übergänge in Schule (Kita-GS-Sek I-Sek II) und in Ausbildung</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupOffer', 'reintegration', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.reintegration" ng-change="checkCount('groupOffer', 'reintegration', goal)">
@@ -247,7 +252,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Abbau von Schuldistanz; Reintegration in den schulischen Alltag</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupOffer', 'social_skill', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.social_skill" ng-change="checkCount('groupOffer', 'social_skill', goal)">
@@ -269,7 +274,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Stärkung der sozialen Kompetenzen und des Selbstvertrauens</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupOffer', 'prevantion_violence', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.prevantion_violence" ng-change="checkCount('groupOffer', 'prevantion_violence', goal)">
@@ -291,7 +296,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Gewaltprävention und -intervention</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupOffer', 'health', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.health" ng-change="checkCount('groupOffer', 'health', goal)">
@@ -312,7 +317,7 @@ $this->breadcrumbs = array('Anträge');
                                   </div>
 																	<p class="col-lg-8">Gesundheitsförderung </p>
 																</div>
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupOffer', 'sport', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.sport" ng-change="checkCount('groupOffer', 'sport', goal)">
@@ -333,7 +338,7 @@ $this->breadcrumbs = array('Anträge');
                                   </div>
 																	<p class="col-lg-8">Förderung sportlicher, kultureller und sportlicher Interessen</p>
 																</div>
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupOffer', 'parent_skill', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.parent_skill" ng-change="checkCount('groupOffer', 'parent_skill', goal)">
@@ -354,7 +359,7 @@ $this->breadcrumbs = array('Anträge');
                                   </div>
 																	<p class="col-lg-8">Einbindung der Eltern und Stärkung der Erziehungskompetenzen</p>
 																</div>
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupOffer', 'other_goal', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.other_goal" ng-change="checkCount('groupOffer', 'other_goal', goal)">
@@ -391,7 +396,7 @@ $this->breadcrumbs = array('Anträge');
 																	<span class="col-lg-1">Weiteres Ziel</span>
 																	<span class="col-lg-1">kein Ziel</span>
 																</div>
-																<div class="row" >
+																<div class="row" ng-init="checkCount('groupNet', 'cooperation', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.cooperation" ng-change="checkCount('groupNet', 'cooperation', goal)" >
@@ -413,7 +418,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Zusammenarbeit im Tandem oder Tridem</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupNet', 'participation', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.participation" ng-change="checkCount('groupNet', 'participation', goal)" >
@@ -435,7 +440,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Mitarbeit in schulischen Gremien, Treffen mit Schulleitung, Mitwirkung in AGs</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupNet', 'social_area', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.social_area" ng-change="checkCount('groupNet', 'social_area', goal)" >
@@ -457,7 +462,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Öffnung der Schule in den Sozialraum</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupNet', 'third_part', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.third_part" ng-change="checkCount('groupNet', 'third_part', goal)" >
@@ -479,7 +484,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Einbindung des Sozialraums bzw. Angebote Dritter in die Schule</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupNet', 'regional', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.regional" ng-change="checkCount('groupNet', 'regional', goal)">
@@ -501,7 +506,7 @@ $this->breadcrumbs = array('Anträge');
 																	<p class="col-lg-8">Mitarbeit in regionalen Arbeitsgemeinschaften / Netzwerken</p>
 																</div>
 
-																<div class="row">
+																<div class="row" ng-init="checkCount('groupNet', 'concept', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.concept" ng-change="checkCount('groupNet', 'concept', goal)">
@@ -522,7 +527,7 @@ $this->breadcrumbs = array('Anträge');
                                   </div>
 																	<p class="col-lg-8">Gemeinsame Handlungs- und Bildungskonzepte </p>
 																</div>
-                                <div class="row">
+                                <div class="row" ng-init="checkCount('groupNet', 'net_other_goal', goal, 1)">
 																	<div class="label-holder col-lg-2">
                                     <label class="cr-styled">
                                       <input type="radio" value="1" ng-model="goal.net_other_goal" ng-change="checkCount('groupNet', 'net_other_goal', goal)">
@@ -604,9 +609,9 @@ $this->breadcrumbs = array('Anträge');
 															<div class="col-lg-3">
 
 																<div class="m-t-30 text-right pull-right">
-                                  <button ng-hide="userType != 't' || goal.status == 'a' || goal.status == 'in_progress'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( school, goal, 'submit')">SENDEN</button>
-																  <button ng-hide="goal.status == 'accepted' || (userType != 'a' && userType != 'p') " class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( school, goal, 'accept')">AKZEPTIEREN</button>
-                                  <button ng-hide="goal.status == 'rejected' || goal.status == 'accepted' || (userType != 'a' && userType != 'p') " ng-class="{disabled: !goal.notice}" ng-click="submitForm( school, goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+                                  <button ng-hide="userType != 't' || goal.status == 'a' || goal.status == 'in_progress'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( goal, 'submit')">SENDEN</button>
+																  <button ng-hide="goal.status == 'accepted' || (userType != 'a' && userType != 'p') " class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( goal, 'accept')">AKZEPTIEREN</button>
+                                  <button ng-hide="goal.status == 'rejected' || goal.status == 'accepted' || (userType != 'a' && userType != 'p') " ng-class="{disabled: !goal.notice}" ng-click="submitForm( goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 																</div>
 															</div>
 														</div>
