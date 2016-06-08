@@ -33,7 +33,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
         if(result) {
             $scope.schools = response.result;
         }
-    });
+    });   
   
     var grid = GridService();
     $scope.tableParams = grid('project', $scope.filter, {sorting: {code: 'asc'}});
@@ -232,7 +232,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.updateSchools(true);
 
     $scope.submitFormProjects = function () {
-      console.log($scope.project);
         $scope.submited = true;
         $scope.formProjects.$setPristine();
         if ($scope.formProjects.$valid) {
@@ -248,7 +247,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
               $scope.project.schools = [$scope.project.school];
             }
             delete $scope.project.school;
-            
+ 
             if(!$scope.project.schools.length && $scope.schoolTypeCode != 'z') {
 //              if($scope.schoolTypeCode != 's') {
 //                SweetAlert.swal({
@@ -272,7 +271,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             }
             
             if ($scope.isInsert) {
-                network.post('project', $scope.project, callback);
+                network.post('project', $scope.project, callback);                
+                $scope.project.school = [$scope.project.schools];                
             } else {
               
               
