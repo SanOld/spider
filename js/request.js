@@ -406,7 +406,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
   $scope.checkCount = function(group, key, goal, flag){
     var init = flag || 0;
-    
+
     if (!('groups' in goal)){
       goal.groups = {};
     }
@@ -540,7 +540,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         return true;
         break;
       case 'in_progress':
-        if($scope.userType == 'a'){return false;}
+        if($scope.userType == 'a' || $scope.userType == 'p'){return false;}
         return true;
         break;
       case 'rejected':
