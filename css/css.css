@@ -1780,6 +1780,8 @@ body.safari .box-finance .sum strong {
 
 .block-concept.current{
 	display: inherit;
+}
+.block-concept.current .concept-form-block{
 	position: relative;
 }
 .status-history {
@@ -2890,7 +2892,7 @@ body.safari #finance .btn-group.btn-toggle .btn {
 }
 #accordion-concepts textarea.animate-textarea.animate {
 	bottom: auto;
-	height: 275px !important;
+	height: 260px !important;
 	position: absolute;
 	z-index: 3;
 	top: 0;

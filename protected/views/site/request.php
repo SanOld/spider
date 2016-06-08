@@ -48,6 +48,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 										<div class="panel-body">
 											<div ng-class="{current: conceptTab[schoolConcept.id] == 'data'}" id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
 												<div class="alert alert-danger" ng-if="schoolConcept.status == 'rejected' && schoolConcept.comment" ng-bind="schoolConcept.comment"></div>
+                        <div class="concept-form-block">
 												<ng-form disable-all="schoolConcept.status == 'accepted'">
 													<div class="form-group">
 														<label>Situation an der Schule</label>
@@ -89,6 +90,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 														</div>
 													</div>
 												</ng-form>
+                        </div>
 											</div>
 											<div ng-class="{current: conceptTab[schoolConcept.id] == 'history'}" id="tab-history-{{::schoolConcept.id}}" class="tab-history block-concept">
 												<div ng-repeat-start="history in schoolConcept.histories" ng-if="::history.changes" class="changes-content">
