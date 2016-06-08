@@ -714,7 +714,9 @@ $this->breadcrumbs = array('Anträge');
 				<p>Bereich: <strong ng-bind="::history.name"></strong></p>
 			</div>
 			<hr />
-			<div class="row compare-box" ng-bind-html="::compareText"></div>
+			<div class="row compare-box">
+        <div class="col-lg-12" ng-bind-html="::compareText"></div
+      </div>
 			<hr />
 		</div>
 		<div class="row">
