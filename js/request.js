@@ -43,7 +43,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result && close) {
-//        location.href = '/requests';
+       location.href = '/requests';
       }
     });
   };
@@ -281,16 +281,18 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
-  // $timeout(function() {
-  //   $('.changes-content .heading-changes').click(function(){
-  //     $(this).toggleClass('open');
-  //     $(this).next().slideToggle();
-  //   })
-  // });
+  // TODO: Open history changes. Bad script. Need replace it to css.
+  $timeout(function() {
+    angular.element('.changes-content .heading-changes').click(function(){
+      angular.element(this).toggleClass('open');
+      angular.element(this).next().slideToggle();
+    })
+  });
 
   $scope.school_concept = {};
   $scope.conceptTab = {};
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
+  $scope.canFormEdit = network.user.type !== 'p';
 
   $scope.schoolConcepts = [];
   network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
@@ -328,6 +330,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         break;
       case 'reject':
         data.status = 'rejected';
+        if(!data.comment) return false;
         break;
       case 'accept':
         data.status = 'accepted';
@@ -536,15 +539,15 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.readonly = function(goal){
     switch(goal.status){
       case 'unfinished':
-        if($scope.userType == 'a' || $scope.userType == 't'){return false;}
+        if( $scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
       case 'in_progress':
-        if($scope.userType == 'a' || $scope.userType == 'p'){return false;}
+        if( $scope.userType == 'a' ){return false;}
         return true;
         break;
       case 'rejected':
-        if($scope.userType == 'a' || $scope.userType == 't'){return false;}
+        if( $scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
       case 'accepted':
