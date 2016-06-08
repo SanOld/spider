@@ -58,7 +58,7 @@ class RequestSchoolConcept extends BaseModel {
             'name' => $this->getFieldNameByColumnName($row['column_name']),
             'new'  => $row['new_value'],
           );
-          if(!safe($situation, 'old')) $situation['old'] = $row['old_value'];
+          if(!isset($situation['old'])) $situation['old'] = $row['old_value'];
           break;
         case 'offers_youth_social_work':
           $offers_youth_social_work = array(
@@ -66,7 +66,7 @@ class RequestSchoolConcept extends BaseModel {
             'name' => $this->getFieldNameByColumnName($row['column_name']),
             'new'  => $row['new_value'],
           );
-          if(!safe($offers_youth_social_work, 'old')) $offers_youth_social_work['old'] = $row['old_value'];
+          if(!isset($offers_youth_social_work['old'])) $offers_youth_social_work['old'] = $row['old_value'];
           break;
         case 'comment':
           $comment = $row['new_value'];
