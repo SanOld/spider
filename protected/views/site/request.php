@@ -176,8 +176,8 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
                             <div disable-all="readonly(goal)">
 														<div ng-hide="goal.status == 'unfinished'" class="alert-{{goal.status}}" >
 															<strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen</strong>
-                              <strong ng-if="goal.status == 'accepted'">Akzeptiert</strong>
-                              <strong ng-if="goal.status == 'rejected'">Abgelehnt
+                              <strong ng-if="goal.status == 'accepted'">Genehmigt</strong>
+                              <strong ng-if="goal.status == 'rejected'">Ablehnen
                                 <br/>
                                 {{goal.notice}}
                               </strong>
