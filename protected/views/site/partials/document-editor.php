@@ -20,7 +20,7 @@
                         <input class="form-control" type="text" name="name" ng-model="document.name" value="{{document.name}}" required ng-disabled="!canEdit()">
 
                         <span ng-class="{hide: !fieldError('name')}" class="hide">
-                                <label ng-show="form.formDocument.name.$error.required" class="error">Name is required</label>
+                                <label ng-show="form.formDocument.name.$error.required" class="error">Name erforderlich</label>
                                 <label ng-show="error.name.dublicate" class="error">This Name already exists</label>
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
@@ -30,12 +30,16 @@
                     <div class="col-lg-3">
                       <div spi-hint text="_hint.document_type" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
-                        <ui-select  class="type-document" ng-model="document.type_id">
+                        <ui-select  class="type-document" ng-model="document.type_id" required name="type_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                           <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | orderBy: 'name'">
                               <span ng-bind-html="item.name | highlight: $select.search"></span>
                           </ui-select-choices>
                         </ui-select>
+                        <span ng-class="{hide: !fieldError('type_id')}" class="hide">
+                            <label class="error">Dokument-Typ erforderlich</label>
+                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </span>
                       </div>
                     </div>
                   </div>

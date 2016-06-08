@@ -71,7 +71,7 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
     $scope.document = {
       id: '',
       name:         '',
-      type_id:      1,
+//      type_id:      1,
       text:         ''
     };
 //    network.get('DocumentTemplate', {get_next_id: 1}, function (result, response) {
@@ -164,15 +164,20 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
 
 });
 
-spi.controller('ShowDocumentTemplatesController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, GridService) {
+spi.controller('ShowDocumentTemplatesController', function ($scope, $rootScope, modeView, $uibModalInstance, data, $sce, hint) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.modeView = modeView;
   $scope.filter = {};
 
+  $scope.trustAsHtml = function(string) {
+    return $sce.trustAsHtml(string);
+  };
+
   if (!$scope.isInsert) {
     $scope.document = {
-      text: data.text
+      text: data.text,
+      name: data.name
     };
   } else {
     $scope.document = {

@@ -17,11 +17,13 @@
                   <div class="wrap-data">
                     <div>
                       <span>Beginn:</span>
-                      <em>{{request.start_date_unix| date : 'dd.MM.yyyy'}}</em>
+                      <em ng-if="request.start_date">{{request.start_date_unix| date : 'dd.MM.yyyy'}}</em>
+                      <em ng-if="!request.start_date">-</em>
                     </div>
                     <div>
                       <span>Ende:</span>
-                      <em>{{request.due_date_unix| date : 'dd.MM.yyyy'}} </em>
+                      <em ng-if="request.due_date">{{request.due_date_unix| date : 'dd.MM.yyyy'}} </em>
+                      <em ng-if="!request.due_date">-</em>
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
@@ -45,7 +47,10 @@
               <hr/>
               <ng-show ng-show="data.performer_id">
                 <strong>{{data.performer_name}}</strong>
-                <i ng-if="+data.performer_is_checked" class="ion-checkmark"></i>
+                <span ng-if="+data.performer_is_checked">
+                  <i class="ion-checkmark"></i>
+                  {{data.performer_checked_by}}
+                </span>
                 <div class="row m-t-20 m-b-30 row-holder-dl">
                   <div class="col-lg-12 m-b-0">
                     <dl class="custom-dl">
@@ -79,7 +84,7 @@
                       </ng-show>
                     </dl>
                   </div>
-                  <div class="col-lg-5">
+                  <div class="col-lg-6">
                     <dl class="custom-dl">
                       <ng-show ng-show="data.performer_phone">
                         <dt>Telefon:</dt>
@@ -150,7 +155,7 @@
                         </ng-show>
                       </dl>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-7">
                       <dl class="custom-dl">
                         <ng-show ng-show="school.phone">
                           <dt>Telefon:</dt>
@@ -245,7 +250,7 @@
               <div class="form-group">
                 <ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="request.finance_user_id" ng-disabled="!userCan('users')">
                   <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
+                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
                     <span ng-bind-html="item.name | highlight: $select.search"></span>
                   </ui-select-choices>
                 </ui-select>
@@ -356,7 +361,7 @@
               <div class="col-lg-8">
                 <ui-select ng-change="" class="type-document" ng-model="request.doc_request_id" ng-disabled="!userCan('templates')">
                   <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'request'} | orderBy: 'name'">
+                  <ui-select-choices repeat="item.id as item in  documentTypes | filter: $select.search | filter:{type_code:'request_agreement'} | orderBy: 'name'">
                     <span ng-bind-html="item.name | highlight: $select.search"></span>
                   </ui-select-choices>
                 </ui-select>

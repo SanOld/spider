@@ -43,7 +43,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result && close) {
-//        location.href = '/requests';
+       location.href = '/requests';
       }
     });
   };
@@ -72,9 +72,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.cancel = function () {
     location.href = '/requests';
   };
-  
+
   $scope.userCan = function(type) {
-    
+
     var results = false;
     var user = network.user.type;
     var status = 'none';
@@ -161,6 +161,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
             $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
             $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
             $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
+            $scope.data['users'] = $scope.performerUsers;
+            RequestService.initAll($scope.data);
           }
 
         });
@@ -177,6 +179,11 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     }
   });
 
+  RequestService.updateFinansistPD = function(id){
+    $scope.request.finance_user_id = id;
+    $scope.selectFinanceResult = Utils.getRowById($scope.performerUsers, $scope.request.finance_user_id);
+  }
+
   $scope.onSelectCallback = function (item, model, type){
     switch (type){
       case 1:
@@ -187,6 +194,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         break;
       case 3:
         $scope.selectFinanceResult = item ;
+        RequestService.updateFinansistFP($scope.request.finance_user_id)
         break;
     }
   };
@@ -249,51 +257,150 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
 });
 
-spi.controller('RequestFinancePlanController', function ($scope, network, RequestService) {
-  //$scope.$parent.requestID
+spi.controller('RequestFinancePlanController', function ($scope, network, RequestService, Utils) {
+  $scope.users = [];
+  RequestService.initFinancePlan = function(data){
+    $scope.users = data.users;
+    $scope.data = data;
+    $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
+  }
+
+  RequestService.updateFinansistFP = function(id){
+    $scope.data.finance_user_id = id;
+    $scope.selectFinanceResult = Utils.getRowById($scope.users, $scope.data.finance_user_id);
+  }
+
+  $scope.onSelectCallback = function (item, model, type){
+    switch (type){
+      case 3:
+        $scope.selectFinanceResult = item ;
+        RequestService.updateFinansistPD($scope.data.finance_user_id)
+        break;
+    }
+  }
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
+  // TODO: Open history changes. Need do it into css.
   $timeout(function() {
-    angular.element('#accordion-concepts .btn-toggle').click(function(){
-      return false;
-    });
+    angular.element('.changes-content .heading-changes').click(function(){
+      angular.element(this).toggleClass('open');
+      angular.element(this).next().slideToggle();
+    })
   });
 
   $scope.school_concept = {};
   $scope.conceptTab = {};
+  $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
+  $scope.canFormEdit = network.user.type === 't';
 
   $scope.schoolConcepts = [];
   network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
       $scope.schoolConcepts = response.result;
+      $scope.setBestStatusByUserType();
     }
   });
+
+  $scope.setBestStatusByUserType = function() {
+    var bestStatus = 'unfinished';
+    var statuses = [];
+    var priorities = $scope.canAccept ? ['in_progress', 'rejected', 'unfinished', 'accepted'] : ['rejected', 'unfinished', 'in_progress', 'accepted'];
+
+    for(var i=0; i<$scope.schoolConcepts.length; i++) {
+      statuses.push($scope.schoolConcepts[i].status);
+    }
+    for(var j=0; j<priorities.length; j++) {
+      if(statuses.indexOf(priorities[j]) !== -1) {
+        bestStatus = priorities[j];
+        break;
+      }
+    }
+    $scope.$parent.setConceptStatus(bestStatus);
+  };
 
   RequestService.getSchoolConceptData = function() {
     return $scope.school_concept;
   };
 
-
-
   $scope.submitForm = function(data, concept, action) {
     switch (action) {
       case 'submit':
-        data.status = 'r';
+        data.status = 'in_progress';
         break;
-      case 'declare':
-        data.status = 'd';
+      case 'reject':
+        data.status = 'rejected';
+        if(!data.comment) return false;
         break;
       case 'accept':
-        data.status = 'a';
+        data.status = 'accepted';
         break;
     }
 
     network.put('request_school_concept/' + concept.id, data, function(result){
       if(result) {
         concept.status = data.status;
+        if(data.status != 'rejected') {
+          $scope.school_concept[concept.id].comment = '';
+        } else {
+          concept.comment = data.comment;
+        }
+        $scope.setBestStatusByUserType();
       }
     });
+  };
+
+  $scope.doCutText = function(newText, oldText, isNew) {
+    var diffMatch = new diff_match_patch();
+    var diffs = diffMatch.diff_main(oldText, newText);
+
+    var fullLength = 120;
+    var beforeLength = 20;
+    var afterLength = fullLength - beforeLength;
+
+    var text  = {add: '', del: ''};
+    var pos   = {add: 0, del: 0};
+    var check = {add: false, del: false};
+
+    for(var i=0; i<diffs.length; i++) {
+      if(check.add && check.del) break;
+      switch(diffs[i][0]) {
+        case 0:
+          text.add += diffs[i][1];
+          text.del += diffs[i][1];
+          break;
+        case 1:
+          if(!check.add) {
+            pos.add = text.add.length;
+            check.add = true;
+          }
+          text.add += diffs[i][1];
+          break;
+        case -1:
+          if(!check.del) {
+            pos.del = text.del.length;
+            check.del = true;
+          }
+          text.del += diffs[i][1];
+          break;
+      }
+    }
+    var result = '';
+    var position = isNew && check.add ? pos.add : pos.del;
+    text = isNew ? newText : oldText;
+
+    if(!position) {
+      result = text.slice(0, fullLength) + (text.length > fullLength ? ' ...' : '');
+    } else {
+      if(position > beforeLength) {
+        result = '... ' + text.slice(position-beforeLength, position+afterLength);
+      } else {
+        result = text.slice(0, position) + text.slice(position, position+afterLength);
+      }
+      result += text.length > position+afterLength ? ' ...' : '';
+    }
+    return result;
+
   };
 
   $scope.openComparePopup = function(history, change) {
@@ -314,13 +421,22 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         }
       }
     });
-
   }
 
 });
 
-spi.controller('СonceptCompareController', function($scope, history) {
+spi.controller('СonceptCompareController', function($scope, history, $uibModalInstance) {
+  var diffMatch = new diff_match_patch();
+  var diffs = diffMatch.diff_main(history.old, history.new);
+  diffMatch.diff_cleanupSemantic(diffs);
+  $scope.compareText = diffMatch.diff_prettyHtml(diffs).replace(/&para;/g,'');
+
   $scope.history = history;
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
 });
 
 spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, $window) {
@@ -340,30 +456,36 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   });
 
 
-  $scope.checkCount = function(group, key, goal){
-    if (!('groups' in goal)){goal.groups = {};}
+  $scope.checkCount = function(group, key, goal, flag){
+    var init = flag || 0;
+
+    if (!('groups' in goal)){
+      goal.groups = {};
+    }
     if (!(group in goal.groups)){
       goal.groups[group] = {};
       goal.groups[group].counter = 0;
     }
     var currentGroup = goal.groups[group];
 
-    if (!(key in currentGroup)){currentGroup[key] = goal[key]}
-
-    switch(goal[key]){
-      case '1':
-        currentGroup.counter++;
-        break;
-      case '0':
-        if(currentGroup[key] == '1'){currentGroup.counter--;}
-        break;
-      case '2':
-        if(currentGroup[key] == '1'){currentGroup.counter--;}
-        break;
+    if (!(key in currentGroup)){
+      currentGroup[key] = goal[key];
     }
+
+    if(!init){
+      if (goal[key] === '1'){
+        currentGroup.counter++;
+      } else if(currentGroup[key] === '1') {
+        currentGroup.counter--;
+      }
+    } else {
+      if (goal[key] === '1'){
+        currentGroup.counter++;
+      }
+    }
+
     currentGroup[key] = goal[key];
   }
-
 
   $scope.checkSchoolStatus = function(){
     switch($scope.userType){
@@ -394,14 +516,13 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     $scope.checkTabStatus();
   }
 
-
   $scope.checkTabStatus = function(){
     switch($scope.userType){
       case 'a':
       case 'p':
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
-          if($scope.paPriority[schools[school].status] < $scope.paPriority[$scope.tabStatus] || $scope.tabStatus == ''){
+          if($scope.paPriority[schools[school].status] < $scope.paPriority[$scope.$parent.goalsStatus] || $scope.$parent.goalsStatus == ''){
             $scope.$parent.setGoalsStatus(schools[school].status);
           }
         }
@@ -409,7 +530,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       default :
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
-          if($scope.taPriority[schools[school].status] < $scope.taPriority[$scope.tabStatus] || $scope.tabStatus == ''){
+          if($scope.taPriority[schools[school].status] < $scope.taPriority[$scope.$parent.goalsStatus] || $scope.$parent.goalsStatus == ''){
               $scope.$parent.setGoalsStatus(schools[school].status);
             }
         }
@@ -417,16 +538,16 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     }
   }
 
-  $scope.activateTab = function(id){
+  $scope.activateTab = function(id, index, item){
     $scope.activeTab = id;
+//    if(!index){angular.element(item).click()}
   }
 
   $scope.getActivateTab = function(){
     return $scope.activeTab;
   }
 
-
-  $scope.submitForm = function( school, goal, action ) {
+  $scope.submitForm = function( goal, action ) {
     switch (action) {
       case 'submit':
         goal.status = 'in_progress';
@@ -464,26 +585,24 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return data;
   };
 
-
   $scope.readonly = function(goal){
     switch(goal.status){
       case 'unfinished':
-        if($scope.userType == 'a' || $scope.userType == 't'){return false;}
+        if( $scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
       case 'in_progress':
-        if($scope.userType == 'a'){return false;}
+        if( $scope.userType == 'a' ){return false;}
         return true;
         break;
       case 'rejected':
-        if($scope.userType == 'a' || $scope.userType == 't'){return false;}
+        if( $scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
       case 'accepted':
         return true;
       break;
     }
-
   }
 });
 

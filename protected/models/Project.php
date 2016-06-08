@@ -29,6 +29,7 @@ class Project extends BaseModel {
       $command -> where(' rqt.project_id  IS NULL ', array());
       $command -> orWhere(' rqt.year <> :year', array(':year' => $params['YEAR']));
       $command->andWhere(' tbl.id NOT IN (SELECT project_id FROM spi_request WHERE year=:year )', array(':year' => $params['YEAR']));
+      $command->andWhere(' tbl.is_old = 0');
 
     }
 

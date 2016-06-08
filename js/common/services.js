@@ -165,6 +165,20 @@ spi.service("RequestService", function () {
   this.financePlanData = function() {};
   this.getSchoolConceptData = function() {};
   this.getSchoolGoalData = function() {};
+  this.initProjectData = function(data) {};
+  this.initFinancePlan = function(data) {};
+  this.initSchoolConcept = function(data) {};
+  this.initSchoolGoal = function(data) {};
+  
+  this.updateFinansistPD = function(id) {};
+  this.updateFinansistFP = function(id) {};
+  this.initAll = function(data) {
+    this.initProjectData(data);
+    this.initFinancePlan(data);
+    this.initSchoolConcept(data);
+    this.initSchoolGoal(data);
+  };
+  
 });
 
 

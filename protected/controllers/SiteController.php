@@ -52,8 +52,7 @@ class SiteController extends Controller
 		} else if($page == 'request') {
 			$id = safe($_GET, 'id');
 			if(!$id || !$this->validID($page, $id)) {
-				// TEMP: after creating page need uncomment!
-//				$this->redirect('/dashboard');
+				$this->redirect('/requests');
 			}
 		}
 		if(safe($pageInfo,'layout')) {
