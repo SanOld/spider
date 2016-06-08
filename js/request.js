@@ -281,7 +281,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
-  // TODO: Open history changes. Bad script. Need replace it to css.
+  // TODO: Open history changes. Need do it into css.
   $timeout(function() {
     angular.element('.changes-content .heading-changes').click(function(){
       angular.element(this).toggleClass('open');
@@ -292,7 +292,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   $scope.school_concept = {};
   $scope.conceptTab = {};
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
-  $scope.canFormEdit = network.user.type !== 'p';
+  $scope.canFormEdit = network.user.type === 't';
 
   $scope.schoolConcepts = [];
   network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
@@ -351,7 +351,56 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   };
 
   $scope.doCutText = function(newText, oldText, isNew) {
-    // TODO: return cut text for history audit
+    var diffMatch = new diff_match_patch();
+    var diffs = diffMatch.diff_main(oldText, newText);
+
+    var fullLength = 120;
+    var beforeLength = 20;
+    var afterLength = fullLength - beforeLength;
+
+    var text  = {add: '', del: ''};
+    var pos   = {add: 0, del: 0};
+    var check = {add: false, del: false};
+
+    for(var i=0; i<diffs.length; i++) {
+      if(check.add && check.del) break;
+      switch(diffs[i][0]) {
+        case 0:
+          text.add += diffs[i][1];
+          text.del += diffs[i][1];
+          break;
+        case 1:
+          if(!check.add) {
+            pos.add = text.add.length;
+            check.add = true;
+          }
+          text.add += diffs[i][1];
+          break;
+        case -1:
+          if(!check.del) {
+            pos.del = text.del.length;
+            check.del = true;
+          }
+          text.del += diffs[i][1];
+          break;
+      }
+    }
+    var result = '';
+    var position = isNew && check.add ? pos.add : pos.del;
+    text = isNew ? newText : oldText;
+
+    if(!position) {
+      result = text.slice(0, fullLength) + (text.length > fullLength ? ' ...' : '');
+    } else {
+      if(position > beforeLength) {
+        result = '... ' + text.slice(position-beforeLength, position+afterLength);
+      } else {
+        result = text.slice(0, position) + text.slice(position, position+afterLength);
+      }
+      result += text.length > position+afterLength ? ' ...' : '';
+    }
+    return result;
+
   };
 
   $scope.openComparePopup = function(history, change) {
