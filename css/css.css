@@ -1780,6 +1780,7 @@ body.safari .box-finance .sum strong {
 
 .block-concept.current{
 	display: inherit;
+	position: relative;
 }
 .status-history {
 	font-size:17px;
@@ -2878,4 +2879,22 @@ body.safari #finance .btn-group.btn-toggle .btn {
 }
 .compare-box del {
 	color: #a94442;
+}
+#accordion-concepts textarea.textarea-1 {
+	top:0;
+	left:0;
+}
+#accordion-concepts textarea.textarea-2 {
+	top:0;
+	right:0;
+}
+#accordion-concepts textarea.animate-textarea.animate {
+	bottom: auto;
+	height: 275px !important;
+	position: absolute;
+	z-index: 3;
+	top: 0;
+	-webkit-transition: all .3s ease 0s;
+	-ms-transition: all .3s ease 0s;
+	transition: all .3s ease 0s;
 }

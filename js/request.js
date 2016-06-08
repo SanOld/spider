@@ -294,7 +294,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   $scope.school_concept = {};
   $scope.conceptTab = {};
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
-  $scope.canFormEdit = network.user.type === 't';
+  $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
 
   $scope.schoolConcepts = [];
   network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
@@ -403,6 +403,14 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     }
     return result;
 
+  };
+
+  $scope.saveText = function (conceptId, data, name) {
+    if(data[name] != undefined) {
+      var params = {};
+      params[name] = data[name];
+      network.put('request_school_concept/' + conceptId, params);
+    }
   };
 
   $scope.openComparePopup = function(history, change) {

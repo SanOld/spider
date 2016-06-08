@@ -53,17 +53,24 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 														<label>Situation an der Schule</label>
 														<div spi-hint text="_hint.school_concept_situation" class="has-hint"></div>
 														<div class="wrap-hint">
-															<textarea ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].situation" placeholder="Tragen Sie den Text hier ein" ng-disabled="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'"></textarea>
+															<textarea ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation" class="form-control custom-height animate-textarea textarea-2" ng-focus="isTextareaShow = true; canSave = !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted')" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText(schoolConcept.id, school_concept[schoolConcept.id], 'situation')" ng-model="school_concept[schoolConcept.id].situation" placeholder="Tragen Sie den Text hier ein" ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'"></textarea>
 														</div>
 													</div>
 													<div class="form-group">
 														<label>Angebote der Jugendsozialarbeit an der Schule</label>
 														<div spi-hint text="_hint.school_concept_offers_youth_social_work" class="has-hint"></div>
 														<div class="wrap-hint">
-															<textarea ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].offers_youth_social_work" placeholder="Tragen Sie den Text hier ein" ng-disabled="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'"></textarea>
+															<textarea ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" class="form-control custom-height animate-textarea textarea-2" ng-focus="isTextareaShow = true; canSave = !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted')" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText(schoolConcept.id, school_concept[schoolConcept.id], 'offers_youth_social_work')" ng-model="school_concept[schoolConcept.id].offers_youth_social_work" placeholder="Tragen Sie den Text hier ein" ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'"></textarea>
 														</div>
 													</div>
 													<hr />
+                          <div class="row" ng-show="isTextareaShow">
+                            <div class="clearfix"><div class="col-lg-4 col-lg-offset-8 text-right button-textarea">
+                                <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Löschen</button>
+                                <button class="btn w-lg cancel-btn custom-btn" ng-click="textareaSave = !textareaSave; isTextareaShow = false" ng-show="canSave">Hinzufügen</button>
+                              </div>
+                            </div>
+                          </div>
 													<div class="row" ng-if="schoolConcept.status != 'accepted'">
 														<div class="col-lg-10">
 															<span ng-if="canAccept && schoolConcept.status != 'rejected'">
@@ -71,16 +78,14 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 																<textarea ng-init="school_concept[schoolConcept.id].comment = schoolConcept.comment" placeholder="Tragen Sie den Text hier ein" ng-model="school_concept[schoolConcept.id].comment" class="form-control comments"></textarea>
 															</span>
 														</div>
-														<div class="col-lg-2" ng-if="canAccept">
-															<div class="m-t-30 text-right pull-right">
+														<div class="col-lg-2">
+															<div class="m-t-30 text-right pull-right" ng-if="canAccept">
 																<button ng-hide="schoolConcept.status == 'accepted'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept')">AKZEPTIEREN</button>
 																<button ng-hide="schoolConcept.status == 'rejected'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'reject')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 															</div>
-														</div>
-														<div class="col-lg-2" ng-if="canFormEdit && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
-															<div class="text-right pull-right">
-																<button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SUBMIT</button>
-															</div>
+                              <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
+                                <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SUBMIT</button>
+                              </div>
 														</div>
 													</div>
 												</ng-form>
