@@ -16,7 +16,8 @@ class Request extends BaseModel {
                       , fns.programm";
   protected function getCommand() {
     if(safe($_GET, 'list') == 'year') {
-      $command = Yii::app() -> db -> createCommand()->select('year')->from($this -> table)->group('year');
+      $command = Yii::app() -> db -> createCommand()->select('year')->from($this -> table . ' tbl')->group('year');
+      $command -> join('spi_project prj','tbl.project_id = prj.id' );
     } elseif (isset($_GET['id'])){
       $this -> select_all = "tbl.*
                             , prj.id project_id
@@ -97,6 +98,24 @@ class Request extends BaseModel {
       $command -> andWhere('rqs.id = :status_id', array(':status_id' => $params['STATUS_ID']));
     }
 //        print_r ($command->text);
+    $command = $this->setWhereByRole($command);
+    return $command;
+  }
+  
+  protected function setWhereByRole($command) {
+    switch($this->user['type']) {
+      case SCHOOL:
+        
+        $command->join('spi_project_school sps', 'sps.project_id=tbl.project_id');
+        $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
+        break;
+      case DISTRICT:
+        $command->andWhere("prj.district_id = :district_id", array(':district_id' => $this->user['relation_id']));
+        break;
+      case TA:
+        $command->andWhere("prj.performer_id = :performer_id", array(':performer_id' => $this->user['relation_id']));
+        break;
+    }
     return $command;
   }
 
