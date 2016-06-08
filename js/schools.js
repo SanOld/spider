@@ -68,7 +68,7 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
 });
 
 
-spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils) {
+spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils) {  
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.school = {};
@@ -159,20 +159,23 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
     }
   };
 
-
   $scope.remove = function () {
     Utils.doConfirm(function() {
-      network.delete('school/' + data.id, function (result) {
+        network.delete('school/' + data.id, function (result) {
         if (result) {
-          Utils.deleteSuccess();
-          $uibModalInstance.close();
+            Utils.deleteSuccess(); 
+            $uibModalInstance.close();
         }
       });
     });
   };
+ 
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    Utils.modalClosing($scope.form.formSchool, $uibModalInstance, event, reason);    
+  });     
 
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+  $scope.cancel = function () { 
+    Utils.modalClosing($scope.form.formSchool, $uibModalInstance);
   };
 
   function getError(response) {
@@ -183,7 +186,7 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
         if (countFields > 1){                 
           result = {name: {dublicate: true},
                     number: {dublicate: true}  
-                    };
+                   };
         }else if(response.field[0] == 'number'){
           result = {number: {dublicate: true}};
         }else{

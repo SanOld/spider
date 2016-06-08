@@ -43,7 +43,14 @@
   <?php if (isset($this->breadcrumbs) && $this->breadcrumbs): ?>
     <div class="container">
       <?php
-      $this->widget('zii.widgets.CBreadcrumbs', array('links' => $this->breadcrumbs, 'homeLink' => '<li>' . CHtml::link('Startseite', array('/dashboard')) . '</li>', 'tagName' => 'ul', 'separator' => '', 'activeLinkTemplate' => '<li><a href="{url}">{label}</a></li>', 'inactiveLinkTemplate' => '<li class="active">{label}</li>', 'htmlOptions' => array('class' => 'breadcrumb p-0'))); ?>
+      $this->widget('zii.widgets.CBreadcrumbs', 
+              array('links'                 => $this->breadcrumbs, 
+                    'homeLink'              => '<li>' . CHtml::link('Startseite', array('/dashboard')) . '</li>', 
+                    'tagName'               => 'ul', 
+                    'separator'             => '', 
+                    'activeLinkTemplate'    => '<li><a href="{url}">{label}</a></li>', 
+                    'inactiveLinkTemplate'  => '<li ng-cloak class="active">{label}</li>',
+                    'htmlOptions'           => array('class' => 'breadcrumb p-0'))); ?>
     </div>
   <?php endif; ?>
 

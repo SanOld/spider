@@ -123,8 +123,10 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
             modeView: function () {
               return params.modeView;
             }
-          }
+          }          
         });
+        
+        
 
         modalInstance.result.then(function () {
           callback ? callback(true) : tableParams.reload();
@@ -160,6 +162,7 @@ spi.service("HintService", function (network) {
 
 spi.service("RequestService", function () {
   this.getProjectData = function() {};
+  this.setRequestCode = function() {};
   this.financePlanData = function() {};
   this.getSchoolConceptData = function() {};
   this.getSchoolGoalData = function() {};
@@ -213,6 +216,53 @@ spi.factory('Utils', function (SweetAlert) {
           callback();
         }
       });
+    },    
+    doCloseConfirm: function(callback) {
+      SweetAlert.swal({
+        title: "Sind Sie sicher?",
+        text: "Änderungen werden nicht gespeichert!",
+        type: "warning",
+        confirmButtonText: "JA",
+        showCancelButton: true,
+        cancelButtonText: "Nein",
+        closeOnConfirm: true
+      }, function(isConfirm){          
+         if(isConfirm) {
+          callback();
+         }
+      });
+    },   
+    closeForm: function (formToClose){
+      var form = formToClose;      
+      result = false;   
+      for(var item in form){
+        if(form[item] && typeof form[item] == "object" && form[item]['$touched']){                 
+          result = true;
+          break;                     
+        }
+      }    
+      return result;     
+    },
+    modalClosing: function (form, $uibModalInstance, event, reason){
+      if(arguments.length > 2){
+        if(reason == undefined){
+          return true;
+        };
+        if (reason == "backdrop click" || reason == "cancel" || reason == "escape key press"){   
+          event.preventDefault();      
+        };
+      };
+      var self = this;
+      var result = self.closeForm(form);;    
+      if(result){
+        setTimeout(function(){          
+          self.doCloseConfirm(function() {
+            $uibModalInstance.close();
+          });   
+        },10);      
+      }else{
+        $uibModalInstance.close();
+      };  
     },
     deleteSuccess: function() {
       SweetAlert.swal("Gelöscht!", "Ihre Datei ist erfolgreich gelöscht!", "success");

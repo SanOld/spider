@@ -30,9 +30,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
 
   $scope.setProjectID = function(projectID){
     $scope.projectID = projectID;
+    RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
   };
   $scope.setRequestYear = function(requestYear){
     $scope.requestYear = requestYear;
+    RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
   };
 
   $scope.submitRequest = function (close) {
