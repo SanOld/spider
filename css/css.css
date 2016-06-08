@@ -864,6 +864,7 @@ body .nav.nav-tabs + .tab-content {
 	vertical-align:top;
 	margin: 0 30px 0 0;
 }
+.notice .color-notice,
 .notice .color-notice.unfinished-row,
 .notice .approval-row {
 	background: #d3d3d3;
@@ -920,7 +921,7 @@ body .nav.nav-tabs + .tab-content {
 .finacing-edit tr.decline-row:hover {
 	background:#cacaca;
 }
-.notice  .color-notice.in_progress-row,
+.notice .color-notice.in_progress-row,
 .notice .in_progress-row,
 .notice .inprogress-square {
 	background: #ffd667;
