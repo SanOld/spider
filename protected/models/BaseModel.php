@@ -375,7 +375,7 @@ class BaseModel extends CFormModel {
     if ($this->checkPermission($this->user, ACTION_UPDATE, $post)) {
       if ($id !== false && $id !== NULL) {
         $result = $this->doBeforeUpdate($post, $id);
-        if ($result ['result']) {
+        if ($result['result']) {
           $params = safe($result, 'params', $post);
           $missed = $this->checkRequired($params);
           if (!$missed && !empty($params)) {
@@ -384,16 +384,16 @@ class BaseModel extends CFormModel {
             if ($multiInsert && $results['code'] == '200') {
               return $results;
             } else {
-              response($results ['code'], $results, $this->method);
+              response($results['code'], $results, $this->method);
             }
           } else {
             response('400', array('result' => false, 'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS', 'required' => $missed), $this->method);
           }
         } else {
-          if ($multiInsert && $results['code'] == '200') {
-            return $results;
+          if ($multiInsert && $result['code'] == '200') {
+            return $result;
           } else {
-            response($results ['code'], $results, $this->method);
+            response($result['code'], $result, $this->method);
           }
         }
       } else {

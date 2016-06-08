@@ -43,18 +43,24 @@ class RequestSchoolConcept extends BaseModel {
         ->where('aev.table_name =:table_name', array(':table_name' => $this->table))
         ->andWhere('aev.record_id = :id', array(':id' => $concept_id))
         ->andWhere("aev.event_type = 'UPD'")
-        ->order("aev.event_date DESC")
+        ->order("aev.event_date")
         ->queryAll();
     $items = array();
+    $status_code = 'unfinished';
+    $status_name = 'Unvollendet';
     foreach($rows as $row) {
       $id = $row['id'];
       if(!isset($items[$id])) $items[$id] = array();
-      $items[$id]['date']      = $row['date'];
-      $items[$id]['user_name'] = $row['user_name'];
+      $items[$id]['date']        = $row['date'];
+      $items[$id]['user_name']   = $row['user_name'];
+      $items[$id]['status_code'] = $status_code;
+      $items[$id]['status_name'] = $status_name;
       switch($row['column_name']) {
         case 'status':
-          $items[$id]['status_code'] = $row['new_value'];
-          $items[$id]['status_name'] = $this->getStatusByCode($row['new_value']);
+          $status_code = $row['new_value'];
+          $status_name = $this->getStatusByCode($row['new_value']);
+          $items[$id]['status_code'] = $status_code;
+          $items[$id]['status_name'] = $status_name;
           break;
         case 'comment':
           $items[$id]['comment'] = $row['new_value'];
@@ -70,11 +76,7 @@ class RequestSchoolConcept extends BaseModel {
           break;
       }
     }
-    $result = array();
-    foreach($items as $item) {
-      $result[] = $item;
-    }
-    return $result;
+    return array_reverse($items);
   }
 
   private function getFieldNameByColumnName($column_name) {
@@ -105,6 +107,38 @@ class RequestSchoolConcept extends BaseModel {
     if(in_array(safe($post, 'status'), array('accepted', 'in_progress'))) {
       $post['comment'] = '';
     }
+
+    if($row = Yii::app() -> db -> createCommand() -> select('*')
+      -> from($this -> table)
+      -> where('id = :id', array(':id' => $id))
+      -> queryRow()) {
+      $valid = true;
+      switch ($this->user['type']) {
+        case PA:
+          if($row['offers_youth_social_work'] != safe($post, 'offers_youth_social_work') || $row['situation'] != safe($post, 'situation')) {
+            $valid = false;
+          }
+          break;
+        case ADMIN:
+          break;
+        default:
+          if(safe($post, 'status') && $post['status'] != 'in_progress') {
+            $valid = false;
+          } else if(safe($post, 'status') == 'in_progress' && $row['status'] == 'in_progress') {
+            $valid = false;
+          } else if(safe($post, 'status') != 'in_progress' && ($row['offers_youth_social_work'] != safe($post, 'offers_youth_social_work') || $row['situation'] != safe($post, 'situation'))) {
+            $valid = false;
+          }
+      }
+      if(!$valid) {
+        return array(
+          'code' => '409',
+          'result' => false,
+          'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        );
+      }
+    }
+
     return array (
       'result' => true,
       'params' => $post,

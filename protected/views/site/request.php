@@ -53,14 +53,14 @@ $this->breadcrumbs = array('Anträge');
 														<label>Situation an der Schule</label>
 														<div spi-hint text="_hint.school_concept_situation" class="has-hint"></div>
 														<div class="wrap-hint">
-															<textarea ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].situation" placeholder="Tragen Sie den Text hier ein" ng-readonly="canAccept || schoolConcept.status == 'in_progress' || schoolConcept.status == 'accepted'"></textarea>
+															<textarea ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].situation" placeholder="Tragen Sie den Text hier ein" ng-disabled="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'"></textarea>
 														</div>
 													</div>
 													<div class="form-group">
 														<label>Angebote der Jugendsozialarbeit an der Schule</label>
 														<div spi-hint text="_hint.school_concept_offers_youth_social_work" class="has-hint"></div>
 														<div class="wrap-hint">
-															<textarea ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].offers_youth_social_work" placeholder="Tragen Sie den Text hier ein" ng-readonly="canAccept || schoolConcept.status == 'in_progress' || schoolConcept.status == 'accepted'"></textarea>
+															<textarea ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" class="form-control custom-height" ng-model="school_concept[schoolConcept.id].offers_youth_social_work" placeholder="Tragen Sie den Text hier ein" ng-disabled="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'"></textarea>
 														</div>
 													</div>
 													<hr />
@@ -87,11 +87,11 @@ $this->breadcrumbs = array('Anträge');
 											</div>
 											<div ng-class="{current: conceptTab[schoolConcept.id] == 'history'}" id="tab-history-{{::schoolConcept.id}}" class="tab-history block-concept">
 												<div ng-repeat-start="history in schoolConcept.histories" ng-if="::history.changes" class="changes-content">
-													<div class="heading-changes" ng-click="history.isCollapsed = !history.isCollapsed" data-toggle="collapse" ng-class="{open: history.isCollapsed}">
+													<div class="heading-changes" data-toggle="collapse" ng-class="{open: history.isCollapsed}">
 														Inhaltsveränderungen
 														<i class="ion-chevron-down arrow-box"></i>
 													</div>
-													<div class="content-changes" uib-collapse="!history.isCollapsed">
+													<div class="content-changes">
 														<div class="thead">
 															<div class="col-lg-4">
 																<strong>Veränderungen</strong>
