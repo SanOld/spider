@@ -71,7 +71,7 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
     $scope.document = {
       id: '',
       name:         '',
-      type_id:      1,
+//      type_id:      1,
       text:         ''
     };
 //    network.get('DocumentTemplate', {get_next_id: 1}, function (result, response) {

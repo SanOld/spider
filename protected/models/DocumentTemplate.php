@@ -66,7 +66,7 @@ class DocumentTemplate extends BaseModel {
     if(safe($post,'type_id')) {
       $post['type_code'] = Yii::app() -> db -> createCommand() -> select('code') -> from('spi_document_template_type') -> where('id=:id ', array(
           ':id' => $post['type_id']
-      )) -> queryRow();
+      )) -> queryScalar();
     }
     
     return array(

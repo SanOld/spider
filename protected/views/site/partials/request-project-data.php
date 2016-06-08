@@ -84,7 +84,7 @@
                       </ng-show>
                     </dl>
                   </div>
-                  <div class="col-lg-5">
+                  <div class="col-lg-6">
                     <dl class="custom-dl">
                       <ng-show ng-show="data.performer_phone">
                         <dt>Telefon:</dt>
@@ -155,7 +155,7 @@
                         </ng-show>
                       </dl>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-7">
                       <dl class="custom-dl">
                         <ng-show ng-show="school.phone">
                           <dt>Telefon:</dt>
@@ -250,7 +250,7 @@
               <div class="form-group">
                 <ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="request.finance_user_id" ng-disabled="!userCan('users')">
                   <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
+                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
                     <span ng-bind-html="item.name | highlight: $select.search"></span>
                   </ui-select-choices>
                 </ui-select>

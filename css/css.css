@@ -2129,13 +2129,13 @@ div.dataTables_length select {
 }*/
 
 .cell-finplan {
-	background: url('../images/icon-finplan.png') no-repeat 3px 3px;
+	background: url('../images/icon-finplan.png') no-repeat 2px -1px;
 }
 .cell-concept {
-	background: url('../images/icon-concept.png') no-repeat 5px 6px;
+	background: url('../images/icon-concept.png') no-repeat 2px -1px;
 }
 .cell-school {
-	background: url('../images/icon-school.png') no-repeat 3px 6px;
+	background: url('../images/icon-school.png') no-repeat 2px -1px;
 }
 #finance .school-row .total-sum {
 	margin: 0 -15px 15px 0;
