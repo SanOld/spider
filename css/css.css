@@ -934,9 +934,10 @@ body .nav.nav-tabs + .tab-content {
 .finacing-edit tr.in_progress-row:hover {
 	background: #fcf0cc;
 }
+.notice .accepted-row,
 .notice .acceptable-row,
 .notice .acceptable-square {
-	background: #a1e187;
+	background: #a1e187!important;
 }
 .notice .color-notice.accepted-row,
 .request-edit tr.acceptable-row {
@@ -1423,20 +1424,20 @@ body > .select2-container {
 }
 
 .request-order-nav li.concepts.unfinished a:before {
-    background: url('../images/ico-concept.png') no-repeat 3px 6px;
-    background-position: 3px -75px;
+    background: url('../images/icon-concept.png') no-repeat 3px 6px;
+    background-position: 3px -95px;
 }
 .request-order-nav li.concepts.in_progress a:before {
-    background: url('../images/ico-concept.png') no-repeat 3px 6px;
-    background-position: 3px 23px;
+    background: url('../images/icon-concept.png') no-repeat 3px 6px;
+    background-position: 3px -35px;
 }
 .request-order-nav li.concepts.accepted a:before {
-    background: url('../images/ico-concept.png') no-repeat 3px 6px;
-    background-position: 3px 0px;
+    background: url('../images/icon-concept.png') no-repeat 3px 6px;
+    background-position: 3px 0;
 }
 .request-order-nav li.concepts.rejected a:before {
-    background: url('../images/ico-concept.png') no-repeat 3px 6px;
-    background-position: 3px -48px;
+    background: url('../images/icon-concept.png') no-repeat 3px 6px;
+    background-position: 3px -65px;
 }
 
 

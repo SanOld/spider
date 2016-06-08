@@ -87,7 +87,7 @@ $this->breadcrumbs = array('Anträge');
 											</div>
 											<div ng-class="{current: conceptTab[schoolConcept.id] == 'history'}" id="tab-history-{{::schoolConcept.id}}" class="tab-history block-concept">
 												<div ng-repeat-start="history in schoolConcept.histories" ng-if="::history.changes" class="changes-content">
-													<div class="heading-changes" data-toggle="collapse" ng-class="{open: history.isCollapsed}">
+													<div class="heading-changes" data-toggle="collapse">
 														Inhaltsveränderungen
 														<i class="ion-chevron-down arrow-box"></i>
 													</div>
@@ -714,7 +714,9 @@ $this->breadcrumbs = array('Anträge');
 				<p>Bereich: <strong ng-bind="::history.name"></strong></p>
 			</div>
 			<hr />
-			<div class="row compare-box" ng-bind-html="::compareText"></div>
+			<div class="row compare-box">
+        <div class="col-lg-12" ng-bind-html="::compareText"></div
+      </div>
 			<hr />
 		</div>
 		<div class="row">
