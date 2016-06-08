@@ -1,6 +1,12 @@
-spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService, $timeout, HintService) {
+spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService, $timeout, HintService, RequestService) {
   $scope._r = localStorageService.get('rights');
-
+  $scope.request_code = '';
+  
+  RequestService.setRequestCode = function(code){
+    $scope.request_code = code;
+  }
+  
+  
   $scope.canByType = function (types) {
     return types.indexOf($scope.user.type) != -1;
   };

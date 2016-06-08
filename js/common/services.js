@@ -160,6 +160,7 @@ spi.service("HintService", function (network) {
 
 spi.service("RequestService", function () {
   this.getProjectData = function() {};
+  this.setRequestCode = function() {};
   this.financePlanData = function() {};
   this.getSchoolConceptData = function() {};
   this.getSchoolGoalData = function() {};

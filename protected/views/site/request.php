@@ -1,6 +1,6 @@
 <?php
 $this->pageTitle = 'Anträge | ' . Yii::app()->name;
-$this->breadcrumbs = array('Anträge');
+$this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 ?>
 
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/diff_match_patch.js"></script>
