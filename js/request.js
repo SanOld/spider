@@ -178,7 +178,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       $scope.documentTypes = response.result;
     }
   });
-  
+
   RequestService.updateFinansistPD = function(id){
     $scope.request.finance_user_id = id;
     $scope.selectFinanceResult = Utils.getRowById($scope.performerUsers, $scope.request.finance_user_id);
@@ -264,12 +264,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.data = data;
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
   }
-  
+
   RequestService.updateFinansistFP = function(id){
     $scope.data.finance_user_id = id;
     $scope.selectFinanceResult = Utils.getRowById($scope.users, $scope.data.finance_user_id);
   }
-  
+
   $scope.onSelectCallback = function (item, model, type){
     switch (type){
       case 3:
@@ -404,30 +404,36 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   });
 
 
-  $scope.checkCount = function(group, key, goal){
-    if (!('groups' in goal)){goal.groups = {};}
+  $scope.checkCount = function(group, key, goal, flag){
+    var init = flag || 0;
+
+    if (!('groups' in goal)){
+      goal.groups = {};
+    }
     if (!(group in goal.groups)){
       goal.groups[group] = {};
       goal.groups[group].counter = 0;
     }
     var currentGroup = goal.groups[group];
 
-    if (!(key in currentGroup)){currentGroup[key] = goal[key]}
-
-    switch(goal[key]){
-      case '1':
-        currentGroup.counter++;
-        break;
-      case '0':
-        if(currentGroup[key] == '1'){currentGroup.counter--;}
-        break;
-      case '2':
-        if(currentGroup[key] == '1'){currentGroup.counter--;}
-        break;
+    if (!(key in currentGroup)){
+      currentGroup[key] = goal[key];
     }
+
+    if(!init){
+      if (goal[key] === '1'){
+        currentGroup.counter++;
+      } else if(currentGroup[key] === '1') {
+        currentGroup.counter--;
+      }
+    } else {
+      if (goal[key] === '1'){
+        currentGroup.counter++;
+      }
+    }
+
     currentGroup[key] = goal[key];
   }
-
 
   $scope.checkSchoolStatus = function(){
     switch($scope.userType){
@@ -458,7 +464,6 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     $scope.checkTabStatus();
   }
 
-
   $scope.checkTabStatus = function(){
     switch($scope.userType){
       case 'a':
@@ -483,15 +488,14 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
   $scope.activateTab = function(id, index, item){
     $scope.activeTab = id;
-    if(!index){angular.element(item).click()}
+//    if(!index){angular.element(item).click()}
   }
 
   $scope.getActivateTab = function(){
     return $scope.activeTab;
   }
 
-
-  $scope.submitForm = function( school, goal, action ) {
+  $scope.submitForm = function( goal, action ) {
     switch (action) {
       case 'submit':
         goal.status = 'in_progress';
@@ -529,7 +533,6 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return data;
   };
 
-
   $scope.readonly = function(goal){
     switch(goal.status){
       case 'unfinished':
@@ -537,7 +540,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         return true;
         break;
       case 'in_progress':
-        if($scope.userType == 'a'){return false;}
+        if($scope.userType == 'a' || $scope.userType == 'p'){return false;}
         return true;
         break;
       case 'rejected':
@@ -548,7 +551,6 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         return true;
       break;
     }
-
   }
 });
 

@@ -103,7 +103,7 @@ class RequestSchoolConcept extends BaseModel {
 
   protected function doBeforeUpdate($post, $id) {
     if(in_array(safe($post, 'status'), array('accepted', 'in_progress'))) {
-      $post['comment'] = null;
+      $post['comment'] = '';
     }
     return array (
       'result' => true,
@@ -111,29 +111,6 @@ class RequestSchoolConcept extends BaseModel {
       'post' => $post
     );
 
-  }
-  
-  protected function doAfterUpdate($result, $params, $post, $id) {
-    if($result['result'] && safe($post, 'status')) {
-      $request_id = Yii::app()->db->createCommand()
-        ->select('request_id')
-        ->from($this -> table)
-        ->where('id=:id', array(':id' => $id))
-        ->queryScalar();
-      if($status = $this->getCommonStatus($request_id)) {
-        Yii::app()->db->createCommand()->update('spi_request', array('status_concept' => $status));
-      }
-    }
-    return $result;
-  }
-
-  private function getCommonStatus($request_id) {
-    return Yii::app()->db->createCommand()
-      ->select('status')
-      ->from($this -> table)
-      ->where('request_id=:request_id', array(':request_id' => $request_id))
-      ->order("FIELD(status, 'rejected', 'unfinished', 'in_progress', 'accepted')")
-      ->queryScalar();
   }
 
 }
