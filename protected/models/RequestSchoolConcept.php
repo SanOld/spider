@@ -122,12 +122,14 @@ class RequestSchoolConcept extends BaseModel {
         case ADMIN:
           break;
         default:
-          if(safe($post, 'status') && $post['status'] != 'in_progress') {
-            $valid = false;
-          } else if(safe($post, 'status') == 'in_progress' && $row['status'] == 'in_progress') {
-            $valid = false;
-          } else if(safe($post, 'status') != 'in_progress' && ($row['offers_youth_social_work'] != safe($post, 'offers_youth_social_work') || $row['situation'] != safe($post, 'situation'))) {
-            $valid = false;
+          if(safe($post, 'status')) {
+            if($post['status'] != 'in_progress') {
+              $valid = false;
+            } else if(safe($post, 'status') == 'in_progress' && $row['status'] == 'in_progress') {
+              $valid = false;
+            } else if(safe($post, 'status') != 'in_progress' && ($row['offers_youth_social_work'] != safe($post, 'offers_youth_social_work') || $row['situation'] != safe($post, 'situation'))) {
+              $valid = false;
+            }
           }
       }
       if(!$valid) {
