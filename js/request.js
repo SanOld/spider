@@ -536,15 +536,15 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.readonly = function(goal){
     switch(goal.status){
       case 'unfinished':
-        if($scope.userType == 'a' || $scope.userType == 't'){return false;}
+        if( $scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
       case 'in_progress':
-        if($scope.userType == 'a' || $scope.userType == 'p'){return false;}
+        if( $scope.userType == 'a' ){return false;}
         return true;
         break;
       case 'rejected':
-        if($scope.userType == 'a' || $scope.userType == 't'){return false;}
+        if( $scope.userType == 'a' || $scope.userType == 't'){return false;}
         return true;
         break;
       case 'accepted':
