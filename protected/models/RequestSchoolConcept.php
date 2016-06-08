@@ -46,35 +46,58 @@ class RequestSchoolConcept extends BaseModel {
         ->order("aev.event_date")
         ->queryAll();
     $items = array();
-    $status_code = 'unfinished';
-    $status_name = 'Unvollendet';
+    $situation = array();
+    $offers_youth_social_work = array();
+    $comment = '';
+    $key = 0;
     foreach($rows as $row) {
-      $id = $row['id'];
-      if(!isset($items[$id])) $items[$id] = array();
-      $items[$id]['date']        = $row['date'];
-      $items[$id]['user_name']   = $row['user_name'];
-      $items[$id]['status_code'] = $status_code;
-      $items[$id]['status_name'] = $status_name;
       switch($row['column_name']) {
-        case 'status':
-          $status_code = $row['new_value'];
-          $status_name = $this->getStatusByCode($row['new_value']);
-          $items[$id]['status_code'] = $status_code;
-          $items[$id]['status_name'] = $status_name;
-          break;
-        case 'comment':
-          $items[$id]['comment'] = $row['new_value'];
-          break;
-        default:
-          if(!isset($items[$id]['changes'])) $items[$id]['changes'] = array();
-          $items[$id]['changes'][] = array(
+        case 'situation':
+          if($situation) break;
+          $situation = array(
             'code' => $row['column_name'],
             'name' => $this->getFieldNameByColumnName($row['column_name']),
             'old'  => $row['old_value'],
             'new'  => $row['new_value'],
           );
           break;
+        case 'offers_youth_social_work':
+          if($offers_youth_social_work) break;
+          $offers_youth_social_work = array(
+            'code' => $row['column_name'],
+            'name' => $this->getFieldNameByColumnName($row['column_name']),
+            'old'  => $row['old_value'],
+            'new'  => $row['new_value'],
+          );
+          break;
+        case 'comment':
+          $comment = $row['new_value'];
+          break;
+        case 'status':
+          $items[$key] = array(
+            'date'        => $row['date'],
+            'user_name'   => $row['user_name'],
+            'status_code' => $row['new_value'],
+            'status_name' => $this->getStatusByCode($row['new_value']),
+          );
+          switch ($row['new_value']) {
+            case 'in_progress':
+              if($situation) {
+                $items[$key]['changes'][] = $situation;
+              }
+              if($offers_youth_social_work) {
+                $items[$key]['changes'][] = $offers_youth_social_work;
+              }
+              $situation = $offers_youth_social_work = array();
+              break;
+            case 'rejected':
+              $items[$key]['comment'] = $comment;
+              $comment = '';
+              break;
+          }
+          break;
       }
+      $key++;
     }
     return array_reverse($items);
   }
