@@ -934,9 +934,10 @@ body .nav.nav-tabs + .tab-content {
 .finacing-edit tr.in_progress-row:hover {
 	background: #fcf0cc;
 }
+.notice .accepted-row,
 .notice .acceptable-row,
 .notice .acceptable-square {
-	background: #a1e187;
+	background: #a1e187!important;
 }
 .notice .color-notice.accepted-row,
 .request-edit tr.acceptable-row {
