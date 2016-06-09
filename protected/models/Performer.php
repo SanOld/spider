@@ -134,14 +134,6 @@ class Performer extends BaseModel {
       unset($post['representative_user_id']);
     }
 
-    if(isset($post['application_processing_user_id']) && !$post['application_processing_user_id']) {
-      unset($post['application_processing_user_id']);
-    }
-
-    if(isset($post['budget_processing_user_id']) && !$post['budget_processing_user_id']) {
-      unset($post['budget_processing_user_id']);
-    }
-
     if (Yii::app() -> db -> createCommand()
       -> select('id')
       -> from($this -> table)

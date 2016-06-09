@@ -84,8 +84,6 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
       comment: data.comment,
       is_checked: data.is_checked,
       representative_user_id: data.representative_user_id,
-      application_processing_user_id: data.application_processing_user_id,
-      budget_processing_user_id: data.budget_processing_user_id,
     };
     getUsers();
     if ($scope.isFinansist) {
@@ -124,12 +122,6 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
         if (data.representative_user_id) {
           $scope.representativeUser = Utils.getRowById($scope.users, data.representative_user_id);
         }
-        if (data.application_processing_user_id) {
-          $scope.applicationProcessingUser = Utils.getRowById($scope.users, data.application_processing_user_id);
-        }
-        if (data.budget_processing_user_id) {
-          $scope.budgetProcessingUser = Utils.getRowById($scope.users, data.budget_processing_user_id);
-        }
       }
     });
   }
@@ -161,14 +153,6 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
 
   $scope.changeRepresentativeUser = function (userId) {
     $scope.representativeUser = Utils.getRowById($scope.users, userId);
-  };
-
-  $scope.changeApplicationProcessingUser = function (userId) {
-    $scope.applicationProcessingUser = Utils.getRowById($scope.users, userId);
-  };
-
-  $scope.changeBudgetProcessingUser = function (userId) {
-    $scope.budgetProcessingUser = Utils.getRowById($scope.users, userId);
   };
 
   $scope.fieldError = function (innerForm, field) {
