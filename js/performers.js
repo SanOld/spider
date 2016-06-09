@@ -24,7 +24,7 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
       controller: 'EditPerformerController'
     });
   };
-  
+
   try {
     var id = /id=(\d+)/.exec(location.hash)[1];
     if(location.pathname.indexOf('performers') != -1 && id) {
@@ -47,11 +47,11 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
   $scope.isOwn = function(id) {
     return id == network.user.relation_id;
   };
-  
+
 });
 
 
-spi.controller('EditPerformerController', function ($scope, $rootScope, filterFilter, $anchorScroll, $location, modeView, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert, $timeout) {
+spi.controller('EditPerformerController', function ($scope, $rootScope, filterFilter, $anchorScroll, $location, modeView, $uibModalInstance, data, network, hint, Utils, Notification, SweetAlert, $timeout, localStorageService) {
   $scope.isInsert = !data.id;
   $scope.performerId = data.id;
   $scope.formBank = [];
@@ -211,6 +211,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
         var callback = function (result, response) {
           if (result) {
             $uibModalInstance.close();
+            localStorageService.set('dataChanged', 1);
           } else {
             $scope.error = getError(response.system_code);
           }

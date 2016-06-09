@@ -39,13 +39,13 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
   try {
     var id = /id=(\d+)/.exec(location.hash)[1];
     if(location.pathname.indexOf('schools') != -1 && id) {
-      
+
     network.get('school', {'id': id}, function (result, response) {
       if (result && response.result.length) {
         $scope.openEdit(response.result[0], !$scope.canEdit(id))
       }
     });
-      
+
     }
   } catch(e) {}
 
@@ -68,7 +68,7 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
 });
 
 
-spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils) {  
+spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, localStorageService) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.school = {};
@@ -146,6 +146,7 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
       var callback = function (result, response) {
         if (result) {
           $uibModalInstance.close();
+          localStorageService.set('dataChanged', 1);
         } else {
           $scope.error = getError(response);
         }
@@ -163,34 +164,34 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
     Utils.doConfirm(function() {
         network.delete('school/' + data.id, function (result) {
         if (result) {
-            Utils.deleteSuccess(); 
+            Utils.deleteSuccess();
             $uibModalInstance.close();
         }
       });
     });
   };
- 
-  $scope.$on('modal.closing', function(event, reason, closed) {
-    Utils.modalClosing($scope.form.formSchool, $uibModalInstance, event, reason);    
-  });     
 
-  $scope.cancel = function () { 
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    Utils.modalClosing($scope.form.formSchool, $uibModalInstance, event, reason);
+  });
+
+  $scope.cancel = function () {
     Utils.modalClosing($scope.form.formSchool, $uibModalInstance);
   };
 
   function getError(response) {
     var result = false;
-    var countFields = response.field.length;   
+    var countFields = response.field.length;
     switch (response.system_code) {
-      case 'ERR_DUPLICATED':  
-        if (countFields > 1){                 
+      case 'ERR_DUPLICATED':
+        if (countFields > 1){
           result = {name: {dublicate: true},
-                    number: {dublicate: true}  
+                    number: {dublicate: true}
                    };
         }else if(response.field[0] == 'number'){
           result = {number: {dublicate: true}};
         }else{
-          result = {name: {dublicate: true}};   
+          result = {name: {dublicate: true}};
         }
     }
     return result;
