@@ -75,9 +75,9 @@ $this->breadcrumbs = array('Projekte');
                         <div class="form-group">
                             <label>Träger</label>
                             <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
-                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.short_name}}</ui-select-match>
                                 <ui-select-choices repeat="item.id as item in performers | filter: $select.search | orderBy: 'name'">
-                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                                    <span ng-bind-html="item.short_name | highlight: $select.search"></span>
                                 </ui-select-choices>
                             </ui-select>
 <!--                                            <select class="type-user form-control">

@@ -20,7 +20,7 @@ $this->pageTitle = 'Startseite | ' . Yii::app()->name;
                 </a>
             </div>
             <div class="col-lg-4">
-                <a class="box-home box-2" href="request-list.php">
+                <a class="box-home box-2" href="/requests">
                     <h2>Antrag</h2>
                 </a>
             </div>
