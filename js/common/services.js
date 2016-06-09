@@ -220,11 +220,11 @@ spi.factory('Utils', function (SweetAlert) {
     doCloseConfirm: function(callback) {
       SweetAlert.swal({
         title: "Sind Sie sicher?",
-        text: "Änderungen werden nicht gespeichert!",
+        text: "Sie haben neue Daten auf diese Seite eingegeben. Falls Sie die Seite ohne Ihre Daten zu speichern verlassen, so werden die Veränderungen verloren sein.",
         type: "warning",
-        confirmButtonText: "JA",
+        confirmButtonText: "OK",
         showCancelButton: true,
-        cancelButtonText: "Nein",
+        cancelButtonText: "ABBRECHEN",
         closeOnConfirm: true
       }, function(isConfirm){          
          if(isConfirm) {
@@ -236,7 +236,7 @@ spi.factory('Utils', function (SweetAlert) {
       var form = formToClose;      
       result = false;   
       for(var item in form){
-        if(form[item] && typeof form[item] == "object" && form[item]['$touched']){                 
+        if(form[item] && typeof form[item] == "object" && form[item]['$dirty']){                 
           result = true;
           break;                     
         }

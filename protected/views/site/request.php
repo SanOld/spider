@@ -37,7 +37,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 												<span class="notice">
 													<span class="color-notice {{schoolConcept.status}}-row"></span>
 												</span>
-												<div ng-if="schoolConcept.histories.length" class="btn-group btn-toggle pull-right tabs-toggle">
+												<div ng-if="canAccept && schoolConcept.histories.length" class="btn-group btn-toggle pull-right tabs-toggle">
 													<button ng-click="conceptTab[schoolConcept.id] = 'data'; $event.preventDefault(); $event.stopPropagation();" ng-class="conceptTab[schoolConcept.id] == 'data' ? 'active' : 'btn-default'" class="btn btn-sm">DATEN</button>
 													<button ng-click="conceptTab[schoolConcept.id] = 'history'; $event.preventDefault(); $event.stopPropagation();" ng-class="conceptTab[schoolConcept.id] == 'history' ? 'active' : 'btn-default'" class="btn btn-sm">VERLAUF</button>
 												</div>

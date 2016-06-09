@@ -12,7 +12,7 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();
   };
-  
+
   try {
     var id = /id=(\d+)/.exec(location.hash)[1];
     if(location.pathname.indexOf('districts') != -1 && id) {
@@ -22,7 +22,7 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
           $scope.openEdit(response.result[0], !$scope.canEdit(id))
         }
       });
-      
+
     }
   } catch(e) {}
 
@@ -42,7 +42,7 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
 });
 
 
-spi.controller('EditDistrictController', function ($scope, $uibModalInstance, modeView, $rootScope, data, network, hint, Utils) {
+spi.controller('EditDistrictController', function ($scope, $uibModalInstance, modeView, $rootScope, data, network, hint, Utils, localStorageService) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.modeView = modeView;
@@ -92,6 +92,7 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, mo
       var callback = function (result, response) {
         if (result) {
           $uibModalInstance.close();
+          localStorageService.set('dataChanged', 1);
         } else {
           $scope.error = getError(response.system_code);
         }

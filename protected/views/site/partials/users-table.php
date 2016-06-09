@@ -6,7 +6,7 @@
     <td data-title="'Benutzername'" sortable="'login'"><a href="#" ng-bind="::row.login"></a></td>
     <td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}" ng-bind="::row.email"></a></td>
     <td data-title="'Telefon'" sortable="'phone'" ng-bind="::row.phone"></td>
-    <td ng-if="canByType(['a','p'])" data-title="'Status'" sortable="'status_name'" ng-bind="::row.status_name"></td>
+    <td ng-if="canByType(['a','p','t'])" data-title="'Status'" sortable="'status_name'" ng-bind="::row.status_name"></td>
     <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
       <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit(row))">
         <i class="ion-eye"  ng-if="!canEdit(row)"></i>
