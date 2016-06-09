@@ -2650,7 +2650,7 @@ tr.thead > td {
 }
 .truncate-email span,
 .truncate-email a {
-	width: 100px;
+	width: auto;
   	margin: 0 5px 0 0;
     white-space: nowrap;
     overflow: hidden;
@@ -2699,6 +2699,9 @@ body.safari .edit-summary .group-btn button:not(#sa-warning) {
 body.safari .box-overview span {width: 135px;}
 body.safari #finance .btn-group.btn-toggle .btn {
 	padding:5px 8px;
+}
+body.safari label {
+	font-weight:300 !important;
 }
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
