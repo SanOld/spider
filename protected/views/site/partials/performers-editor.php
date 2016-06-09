@@ -151,7 +151,7 @@
                     <dt>Telefon</dt>
                     <dd ng-bind="(representativeUser.phone) || '-'"></dd>
                     <dt>Email</dt>
-                    <dd class="truncate-email"><a href="mailto:{{representativeUser.email}}"><span ng-bind="representativeUser.email || '-'"></span></a><i uib-tooltip="{{representativeUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i></dd>
+                    <dd class="truncate-email"><a href="mailto:{{representativeUser.email}}"><span ng-bind="representativeUser.email || '-'"></span></a><!-- <i uib-tooltip="{{representativeUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i> --></dd>
                   </dl>
                 </div>
               </div>
