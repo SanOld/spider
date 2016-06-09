@@ -6,7 +6,7 @@ require_once ('utils/email.php');
 class User extends BaseModel {
   public $table = 'spi_user';
   public $post = array();
-  public $select_all = "CONCAT(tbl.last_name, ' ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
+  public $select_all = "CONCAT(tbl.last_name, ', ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
   protected function getCommand() {
     switch($this->user['type']) {
       case SCHOOL:

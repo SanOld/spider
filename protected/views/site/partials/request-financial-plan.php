@@ -1,4 +1,4 @@
-<div class="tab-pane" ng-controller="RequestFinancePlanController">
+<div id="finance" class="tab-pane" ng-controller="RequestFinancePlanController">
   <div class="panel-group panel-group-joined m-0">
     <div class="panel panel-default">
       <div class="clearfix">
