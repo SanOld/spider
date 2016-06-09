@@ -16,11 +16,12 @@ class Email {
   }
 
   static function doWelcome($user) {
-    return self::prepareMessage('registration_email', array( '{NAME}'      => $user['first_name'] . ' '. $user['last_name']
-                                                                , '{SITE_URL}'  => Yii::app()->getBaseUrl(true)
-                                                                , '{LOGIN}'     => $user['login']
-                                                                , '{PASSWORD}'  => $user['password']
-                                                                ), $user);
+    return self::prepareMessage('registration_email', array(
+      '{NAME}'      => $user['first_name'] . ' '. $user['last_name'],
+      '{SITE_URL}'  => Yii::app()->getBaseUrl(true),
+      '{LOGIN}'     => $user['login'],
+      '{PASSWORD}'  => $user['password'],
+    ), $user, false);
 //    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
 //    $message .= '<br><br>You get access to <a target="_blank" href="'.Yii::app()->getBaseUrl(true).'">SPIder</a>.';
 //    $message .= '<br>Login: '.$user['login'];
@@ -35,7 +36,7 @@ class Email {
     $message .= '<br>New password: '.$newPassword;
     return self::send($user['email'], self::$from, 'SPIder: Password changed', $message, '', false);
   }
-  static function prepareMessage($code, $params, $user) {
+  static function prepareMessage($code, $params, $user, $showResults = true) {
 
     $row = Yii::app() -> db -> createCommand() -> select('text, subject') -> from('spi_email_template') -> where('system_come=:system_come ', array(':system_come' => $code)) ->queryRow();
     $data = array();
@@ -45,7 +46,7 @@ class Email {
       $placeholders[] = $key;
     }
     $message = str_replace($placeholders, $data, $row['text']);
-    return self::send($user['email'], self::$from, $row['subject'], $message);
+    return self::send($user['email'], self::$from, $row['subject'], $message, '', $showResults);
   }
 
   static function send($to, $from, $subject, $message, $frwd = '', $showResults = true, $addAttachment = false) {
