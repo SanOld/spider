@@ -106,9 +106,9 @@
                     <div class="col-lg-9">
                       <div spi-hint text="_hint.email" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'email')}">
-                        <input class="form-control" name="email" ng-model="performer.email" type="email" value=""/>
+                        <input class="form-control" name="email" ng-model="performer.email" type="email" value="" ng-pattern="emailFormat" />
                         <span ng-class="{hide: !fieldError('formPerformer', 'email')}" class="hide">
-                          <label ng-show="form.formPerformer.email.$error.email" class="error">Geben Sie eine gültige E-Mail</label>
+                          <label ng-show="form.formPerformer.email.$error.email || form.formPerformer.email.$error.pattern" class="error">Geben Sie eine gültige E-Mail</label>
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>

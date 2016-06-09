@@ -1,11 +1,11 @@
 spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService, $timeout, HintService, RequestService) {
   $scope._r = localStorageService.get('rights');
   $scope.request_code = '';
+  $rootScope.emailFormat = /^[a-z]+[a-z0-9._\-]+@[a-z0-9\-]+\.[a-z.]{2,5}$/;
   
   RequestService.setRequestCode = function(code){
     $scope.request_code = code;
-  }
-  
+  };
   
   $scope.canByType = function (types) {
     return types.indexOf($scope.user.type) != -1;
@@ -77,7 +77,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.isAdmin = network.userIsADMIN;
   $scope.userIsPA = network.userIsPA;
   $scope.modeView = modeView;
-  $scope.emailFormat = /^[a-z]+[a-z0-9._\-]+@[a-z0-9\-]+\.[a-z.]{2,5}$/;
+
   
   $scope.user = {
     is_active: 1,

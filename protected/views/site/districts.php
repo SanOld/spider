@@ -164,9 +164,9 @@ $this->breadcrumbs = array('Bezirk');
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.email" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
-                            <input name="email" ng-model="district.email" type="email" value="" class="form-control">
+                            <input name="email" ng-model="district.email" type="email" value="" class="form-control" ng-pattern="emailFormat">
                             <span ng-class="{hide: !fieldError('email')}" class="hide">
-                            <label ng-show="form.formDistrict.email.$error.email" class="error">Geben Sie eine gültige E-Mail</label>
+                            <label ng-show="form.formDistrict.email.$error.email || form.formDistrict.email.$error.pattern" class="error">Geben Sie eine gültige E-Mail</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
