@@ -192,7 +192,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         $scope.data.performer_fax =               $scope.newData.performer_fax
         $scope.data.performer_email =             $scope.newData.performer_email
 
-        $scope.data.scools =            $scope.newData.scools
+        $scope.data.schools =            $scope.newData.schools
 
         $scope.data.district_name =     $scope.newData.district_name
         $scope.data.district_contact =  $scope.newData.district_contact
