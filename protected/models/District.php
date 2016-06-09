@@ -5,7 +5,7 @@ require_once('utils/utils.php');
 class District extends BaseModel {
   public $table = 'spi_district';
   public $post = array();
-  public $select_all = " tbl.*, CONCAT_WS(\", \", NULLIF(tbl.city, \"\"), NULLIF(tbl.plz, \"\"), NULLIF(tbl.address, \"\")) full_address, CONCAT(`usr`.`last_name`, ' ', `usr`.`first_name`) contact_user_name ";
+  public $select_all = " tbl.*, CONCAT(CONCAT_WS(' ', NULLIF(tbl.plz, ''), NULLIF(tbl.city, '')), IF(tbl.address IS NOT NULL AND length(tbl.address) > 0, CONCAT(IF(length(tbl.city) > 0 OR tbl.plz > 0, ', ', ''), tbl.address), '')) full_address, CONCAT(`usr`.`last_name`, ', ', `usr`.`first_name`) contact_user_name ";
 
   protected function getCommand() {
     $command = Yii::app()->db->createCommand()->select($this->select_all)->from($this->table . ' tbl');

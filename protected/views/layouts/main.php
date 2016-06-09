@@ -7,12 +7,12 @@
 <div id="page">
   <header class="top-head container-fluid">
     <div class="container">
-      <div class="logo p-0 m-t-10 m-b-10 col-lg-6">
+      <div class="logo p-0 m-t-10 m-b-10 col-xs-6">
         <a href="/dashboard">
           <img src="<?php echo $baseUrl; ?>/images/logo.png" alt="logo">
         </a>
       </div>
-      <div class="logo logo-print p-0 m-t-20 m-b-15 col-lg-5">
+      <div class="logo logo-print p-0 m-t-20 m-b-15 col-xs-5">
         <a target="_blank" href="http://service.berlin.de/senatsverwaltungen/" class="pull-right">
           <img src="<?php echo $baseUrl; ?>/images/logo2.png" alt="logo">
         </a>

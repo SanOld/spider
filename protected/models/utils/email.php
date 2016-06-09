@@ -36,17 +36,22 @@ class Email {
     $message .= '<br>New password: '.$newPassword;
     return self::send($user['email'], self::$from, 'SPIder: Password changed', $message, '', false);
   }
-  static function prepareMessage($code, $params, $user, $showResults = true) {
 
-    $row = Yii::app() -> db -> createCommand() -> select('text, subject') -> from('spi_email_template') -> where('system_come=:system_come ', array(':system_come' => $code)) ->queryRow();
-    $data = array();
-    $placeholders = array();
-    foreach($params as $key=>$val){
-      $data[] = $val;
-      $placeholders[] = $key;
+  static function prepareMessage($code, $params, $user, $showResults = true) {
+    if($row = Yii::app() -> db -> createCommand()
+              -> select('text, subject') -> from('spi_email_template')
+              -> where('system_come=:system_come ', array(':system_come' => $code))
+              ->queryRow()) {
+      $data = array();
+      $placeholders = array();
+      foreach($params as $key=>$val) {
+        $data[] = $val;
+        $placeholders[] = $key;
+      }
+      $message = str_replace($placeholders, $data, $row['text']);
+      return self::send($user['email'], self::$from, $row['subject'], $message, '', $showResults);
     }
-    $message = str_replace($placeholders, $data, $row['text']);
-    return self::send($user['email'], self::$from, $row['subject'], $message, '', $showResults);
+    return false;
   }
 
   static function send($to, $from, $subject, $message, $frwd = '', $showResults = true, $addAttachment = false) {

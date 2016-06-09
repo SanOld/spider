@@ -6,7 +6,7 @@ require_once ('utils/email.php');
 class User extends BaseModel {
   public $table = 'spi_user';
   public $post = array();
-  public $select_all = "CONCAT(tbl.last_name, ' ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
+  public $select_all = "CONCAT(tbl.last_name, ', ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
   protected function getCommand() {
     switch($this->user['type']) {
       case SCHOOL:
@@ -65,8 +65,11 @@ class User extends BaseModel {
     if (isset($params['IS_FINANSIST'])) {
       $command -> andWhere("tbl.is_finansist = :is_finansist", array(':is_finansist' => $params['IS_FINANSIST']));
     }
-    if (isset($params['IS_ACTIVE'])) {
+    if (isset($params['IS_ACTIVE']) && in_array($this->user['type'], array('a','p','t'))) {
       $command -> andWhere("tbl.is_active = :is_active", array(':is_active' => $params['IS_ACTIVE']));
+    }
+    if(!in_array($this->user['type'], array('a','p','t'))) {
+      $command -> andWhere("tbl.is_active = 1");
     }
     if(safe($params, 'ORDER') == 'relation_name') {
       $fields = array();
@@ -212,7 +215,7 @@ class User extends BaseModel {
         'code' => '409',
         'result' => false,
         'system_code' => 'ERR_UPDATE_FORBIDDEN',
-        'message' => 'Update failed: The type can not be change.'
+        'message' => 'Update failed: The type can not be change'
       );
     }
 
@@ -289,6 +292,17 @@ class User extends BaseModel {
       $post['password'] = '';
     }
 
+    if($row['relation_id'] && safe($post, 'is_active') == 0 && safe($row, 'is_active') == 1) {
+      if($this->isRelatedUser($row)) {
+        return array(
+          'code' => '409',
+          'result' => false,
+          'system_code' => 'ERR_UPDATE_FORBIDDEN',
+          'message' => 'This user is responsible'
+        );
+      }
+    }
+
     return array(
         'result' => true,
         'params' => $post 
@@ -324,6 +338,58 @@ class User extends BaseModel {
         return $user['can_edit'] && !(in_array($user['type_id'], array(6,2)) && $data['type_id'] == 1); // except PA & Senat create Admin
       case ACTION_DELETE:
         return $user['can_edit'] && $user['type_id'] != 2; // except PA
+    }
+    return false;
+  }
+
+  protected function doBeforeDelete($id) {
+    $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id=:id', array(
+      ':id' => $id
+    )) -> queryRow();
+    if (!$row) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_NOT_EXISTS'
+      );
+    }
+
+    if($this->isRelatedUser($row)) {
+      return array(
+        'code' => '409',
+        'result' => false,
+        'system_code' => 'ERR_UPDATE_FORBIDDEN',
+        'message' => 'This user is responsible'
+      );
+    }
+
+    return array(
+      'result' => true
+    );
+  }
+
+  private function isRelatedUser($row) {
+    $table = $field = '';
+    switch ($row['type']) {
+      case 's':
+        $table = 'spi_school';
+        $field = 'contact_id';
+        break;
+      case 'd':
+        $table = 'spi_district';
+        $field = 'contact_id';
+        break;
+      case 't':
+        $table = 'spi_performer';
+        $field = 'representative_user_id';
+        break;
+    }
+    if($table && $field) {
+      if(Yii::app() -> db -> createCommand() -> select('id')
+        -> from($table) -> where("$field = :field", array(':field' => $row['id']))
+        -> queryScalar()) {
+        return true;
+      }
     }
     return false;
   }

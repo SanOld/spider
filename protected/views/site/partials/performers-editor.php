@@ -106,9 +106,9 @@
                     <div class="col-lg-9">
                       <div spi-hint text="_hint.email" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'email')}">
-                        <input class="form-control" name="email" ng-model="performer.email" type="email" value=""/>
+                        <input class="form-control" name="email" ng-model="performer.email" type="email" value="" ng-pattern="emailFormat" />
                         <span ng-class="{hide: !fieldError('formPerformer', 'email')}" class="hide">
-                          <label ng-show="form.formPerformer.email.$error.email" class="error">Geben Sie eine gültige E-Mail</label>
+                          <label ng-show="form.formPerformer.email.$error.email || form.formPerformer.email.$error.pattern" class="error">Geben Sie eine gültige E-Mail</label>
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -151,7 +151,7 @@
                     <dt>Telefon</dt>
                     <dd ng-bind="(representativeUser.phone) || '-'"></dd>
                     <dt>Email</dt>
-                    <dd class="truncate-email"><a href="mailto:{{representativeUser.email}}"><span ng-bind="representativeUser.email || '-'"></span></a><i uib-tooltip="{{representativeUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i></dd>
+                    <dd class="truncate-email"><a href="mailto:{{representativeUser.email}}"><span ng-bind="representativeUser.email || '-'"></span></a><!-- <i uib-tooltip="{{representativeUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i> --></dd>
                   </dl>
                 </div>
               </div>
@@ -168,68 +168,81 @@
               <button ng-if="!modeView && (!bank_details.length || bank_details[0].id)" ng-click="addBankForm()" class="btn w-md custom-btn pull-right" type="button">Neu</button>
             </div>
             <div class="holder-bank-details" ng-class="{'has-few-block': bank_details.length > 1}">
-              <div class="form-custom-box bank-details" ng-repeat="bank in bank_details">
-                <ng-form id="formBank{{$index}}" name="formBank{{$index}}" class="form-horizontal" disable-all="!canEditBankInfo() || modeView">
-                  <div class="heading-bank clearfix m-b-15">
-                    <h4 class="pull-left">Bankverbindungen</h4>
-                    <!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
-                  </div>
-                  <div class="form-group">
-                    <label class="col-lg-4 p-r-0 control-label">Kontoinhaber</label>
-                    <div class="col-lg-8 p-l-0">
-                      <div spi-hint text="_hint.contact_person" class="has-hint"></div>
-                      <div class="wrap-hint">
-                        <input class="form-control" name="contact_person" ng-model="bank.contact_person" type="text" value=""/>
+            <div id="accordion-bank" class="panel-group panel-group-joined">
+              <div class="panel panel-default" ng-repeat="bank in bank_details">
+                <div class="panel-heading">
+                    <h4 class="panel-title"> 
+                    <a class="collapsed" href="#collapse-formBank{{$index}}" data-parent="#accordion-test" data-toggle="collapse">
+                      Bankverbindungen
+                    </a> 
+                  </h4>
+                </div>
+                <div class="panel-collapse collapse" id="collapse-formBank{{$index}}">
+                  <div class="form-custom-box bank-details">
+                    <ng-form id="formBank{{$index}}" name="formBank{{$index}}" class="form-horizontal" disable-all="!canEditBankInfo() || modeView">
+                      <div class="heading-bank clearfix m-b-15">
+                        <!-- <h4 class="pull-left">Bankverbindungen</h4> -->
+                        <!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
                       </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-lg-4 p-r-0 control-label">IBAN</label>
-                    <div class="col-lg-8 p-l-0">
-                      <div spi-hint text="_hint.iban" class="has-hint"></div>
-                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
-                        <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
-                        <span ng-class="{hide: !fieldError('formBank{{$index}}', 'iban')}" class="hide">
-                          <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN ist erforderlich</label>
-                          <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">Bitte IBAN prüfen.</label>
-                          <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        </span>
+                      <div class="form-group">
+                        <label class="col-lg-4 p-r-0 control-label">Kontoinhaber</label>
+                        <div class="col-lg-8 p-l-0">
+                          <div spi-hint text="_hint.contact_person" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <input class="form-control" name="contact_person" ng-model="bank.contact_person" type="text" value=""/>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-lg-4 p-r-0 control-label">Kreditor</label>
-                    <div class="col-lg-8 p-l-0">
-                      <div spi-hint text="_hint.bank_name" class="has-hint"></div>
-                      <div class="wrap-hint">
-                        <input class="form-control" type="text" name="bank_name" ng-model="bank.bank_name" value=""/>
+                      <div class="form-group">
+                        <label class="col-lg-4 p-r-0 control-label">IBAN</label>
+                        <div class="col-lg-8 p-l-0">
+                          <div spi-hint text="_hint.iban" class="has-hint"></div>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
+                            <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
+                            <span ng-class="{hide: !fieldError('formBank{{$index}}', 'iban')}" class="hide">
+                              <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN ist erforderlich</label>
+                              <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">Bitte IBAN prüfen.</label>
+                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-lg-4 p-r-0 control-label">Konto</label>
-                    <div class="col-lg-8 p-l-0">
-                      <div spi-hint text="_hint.outer_id" class="has-hint"></div>
-                      <div class="wrap-hint">
-                        <input class="form-control" type="text" name="outer_id" ng-model="bank.outer_id" value=""/>
+                      <div class="form-group">
+                        <label class="col-lg-4 p-r-0 control-label">Kreditor</label>
+                        <div class="col-lg-8 p-l-0">
+                          <div spi-hint text="_hint.bank_name" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <input class="form-control" type="text" name="bank_name" ng-model="bank.bank_name" value=""/>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-lg-4 p-r-0 control-label">Beschreibung</label>
-                    <div class="col-lg-8 p-l-0">
-                      <div spi-hint text="_hint.description" class="has-hint"></div>
-                      <div class="wrap-hint">
-                        <textarea name="description" ng-model="bank.description" class="form-control"></textarea>
+                      <div class="form-group">
+                        <label class="col-lg-4 p-r-0 control-label">Konto</label>
+                        <div class="col-lg-8 p-l-0">
+                          <div spi-hint text="_hint.outer_id" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <input class="form-control" type="text" name="outer_id" ng-model="bank.outer_id" value=""/>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                      <div class="form-group">
+                        <label class="col-lg-4 p-r-0 control-label">Beschreibung</label>
+                        <div class="col-lg-8 p-l-0">
+                          <div spi-hint text="_hint.description" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <textarea name="description" ng-model="bank.description" class="form-control"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix" ng-if="!modeView">
+                        <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">OK</button>
+                        <button class="btn pull-right w-sm cancel-btn" ng-if="canEditBankInfo()" ng-click="removeBankDetails(bank, $index)">Löschen</button>
+                      </div>
+                    </ng-form>
                   </div>
-                  <div class="clearfix" ng-if="!modeView">
-                    <button class="btn pull-right w-sm custom-btn" ng-if="canEditBankInfo()" ng-click="saveBankDetails(bank, $index)">OK</button>
-                    <button class="btn pull-right w-sm cancel-btn" ng-if="canEditBankInfo()" ng-click="removeBankDetails(bank, $index)">Löschen</button>
-                  </div>
-                </ng-form>
+                </div>
               </div>
+            </div>
             </div>
           </div>
         </div>

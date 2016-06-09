@@ -103,10 +103,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
 
 });
 
-spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService) {
+spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService, localStorageService) {
   $scope.filter = {id: $scope.$parent.requestID};
   $scope.isInsert = !$scope.$parent.requestID;
   $scope.udater = 0;
+  localStorageService.set('dataChanged', 0);
 
   $scope.userCan = function(type) {
     var user = network.user.type;
@@ -168,6 +169,39 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           }
 
         });
+
+      }
+    });
+  }
+
+    $scope.updateData = function() {
+    network.get('request', $scope.filter, function (result, response) {
+      if (result) {
+        $scope.newData = response.result;
+
+        $scope.data.performer_name =              $scope.newData.performer_name
+        $scope.data.performer_is_checked =        $scope.newData.performer_is_checked
+        $scope.data.performer_checked_by =        $scope.newData.performer_checked_by
+        $scope.data.performer_contact =           $scope.newData.performer_contact
+        $scope.data.performer_contact_function =  $scope.newData.performer_contact_function
+        $scope.data.performer_address =           $scope.newData.performer_address
+        $scope.data.performer_plz =               $scope.newData.performer_plz
+        $scope.data.performer_city =              $scope.newData.performer_city
+        $scope.data.performer_homepage =          $scope.newData.performer_homepage
+        $scope.data.performer_phone =             $scope.newData.performer_phone
+        $scope.data.performer_fax =               $scope.newData.performer_fax
+        $scope.data.performer_email =             $scope.newData.performer_email
+
+        $scope.data.schools =            $scope.newData.schools
+
+        $scope.data.district_name =     $scope.newData.district_name
+        $scope.data.district_contact =  $scope.newData.district_contact
+        $scope.data.district_address =  $scope.newData.district_address
+        $scope.data.district_plz =      $scope.newData.district_plz
+        $scope.data.district_city =     $scope.newData.district_city
+        $scope.data.district_phone =    $scope.newData.district_phone
+        $scope.data.district_fax =      $scope.newData.district_fax
+        $scope.data.district_email =    $scope.newData.district_email
 
       }
     });
@@ -246,14 +280,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     return $scope.request;
   };
 
-  $scope.setUpdater = function() {
-    $scope.udater = 1;
-  };
-
   window.onfocus = function() {
-    if ($scope.udater == 1){
-      $scope.getData();
-      $scope.udater = 0;
+    if (localStorageService.get('dataChanged') === '1'){
+      $scope.updateData();
+      localStorageService.set('dataChanged', 0);
     }
   }
 
@@ -265,6 +295,13 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.users = data.users;
     $scope.data = data;
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
+    
+    network.get('bank_details', {performer_id: data.performer_id}, function (result, response) {
+      if (result) {
+        $scope.bank_details = response.result;
+      }
+    });
+    
   }
 
   RequestService.updateFinansistFP = function(id){
