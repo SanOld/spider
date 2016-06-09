@@ -2903,3 +2903,15 @@ body.safari label {
 	-ms-transition: all .3s ease 0s;
 	transition: all .3s ease 0s;
 }
+#accordion-bank > .panel {
+	padding-right: 0;
+	padding-left: 0;
+}
+#accordion-bank .panel .panel-heading {
+	background:#fff;
+	border:1px solid #ddd;
+	margin: 0;
+}
+#accordion-bank .form-custom-box {
+	border-radius: 0 0 5px 5px;
+}
