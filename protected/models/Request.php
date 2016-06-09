@@ -14,6 +14,10 @@ class Request extends BaseModel {
                       , rqs.code status_code
                       , prj.code code
                       , fns.programm";
+
+  public $paPriority = array('in_progress' => 1, 'rejected' => 2, 'unfinished' => 3, 'accepted' => 4 );
+  public $taPriority = array('rejected' => 1, 'unfinished' => 2, 'in_progress' => 3, 'accepted' => 4 );
+
   protected function getCommand() {
     if(safe($_GET, 'list') == 'year') {
       $command = Yii::app() -> db -> createCommand()->select('year')->from($this -> table . ' tbl')->group('year');
@@ -22,17 +26,17 @@ class Request extends BaseModel {
       $this -> select_all = "tbl.*
                             , prj.id project_id
                             , prj.code code
-                            
+
                             , rqs.code status_code
 
                             , prf.id performer_id
                             , prf.is_checked performer_is_checked
                             , CONCAT( 'Überpüft von ',
-                                (SELECT CONCAT (u.first_name, ' ', u.last_name) name 
+                                (SELECT CONCAT (u.first_name, ' ', u.last_name) name
                                    FROM spi_user u
                                   WHERE u.id = prf.checked_by), ' ',
                                   DATE_FORMAT(prf.checked_date,'%d.%m.%Y')
-                                  
+
                               ) performer_checked_by
                             , prf.short_name performer_name
                             , prf.address performer_address
@@ -101,11 +105,11 @@ class Request extends BaseModel {
     $command = $this->setWhereByRole($command);
     return $command;
   }
-  
+
   protected function setWhereByRole($command) {
     switch($this->user['type']) {
       case SCHOOL:
-        
+
         $command->join('spi_project_school sps', 'sps.project_id=tbl.project_id');
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
         break;
@@ -132,9 +136,93 @@ class Request extends BaseModel {
         $row['start_date_unix'] = strtotime($row['start_date']).'000';
         $row['due_date_unix'] = strtotime($row['due_date']).'000';
         $row['last_change_unix'] = strtotime($row['last_change']).'000';
+        $row['status_goal'] = $this->calcGoalsStatus($row['id']);
+        $row['status_concept'] = $this->calcConceptStatus($row['id']);
+        $row['status_finance'] = $this->calcFinanceStatus($row['id']);
+        $row['is_action_required'] = $this->isActionRequired(array(
+                                                                  $row['status_goal']
+                                                                  ,$row['status_concept']
+                                                                  ,$row['status_finance']
+        ));
+
       }
     }
     return $result;
+  }
+
+
+  protected function calcConceptStatus($ID) {
+    $resultStatus = 'unfinished';
+    return $resultStatus;
+  }
+  protected function calcFinanceStatus($ID) {
+    $resultStatus = 'unfinished';
+    return $resultStatus;
+  }
+  protected function calcGoalsStatus($ID) {
+    $resultStatus = 'unfinished';
+    $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+    $RequestSchoolGoal ->user = $this->user;
+
+    $result = Yii::app() -> db -> createCommand()
+      -> select('status, school_id')
+      -> from('spi_request_school_goal')
+      -> where('request_id=:request_id', array(':request_id' => $ID))
+      -> queryAll();
+
+    if($result){
+      foreach($result as &$row) {
+        $schools[$row['school_id']]['goals'][$row['id']] = $row['status'];
+        $schools[$row['school_id']]['status'] = 'unfinished';
+      }
+
+      if($this->user['type'] == 'a' || $this->user['type'] == 'p'){
+        foreach ($schools as &$school) {
+
+            foreach ( $school['goals'] as $status) {
+              if($this->paPriority[$status] < $this->paPriority[$school['status']] || $school['status'] == ''){
+                $school['status'] = $status;
+              }
+            }
+
+            if($this->paPriority[$school['status']] < $this->paPriority[$resultStatus] ){
+              $resultStatus = $school['status'];
+            }
+
+          }
+      } else {
+        foreach ($schools as &$school) {
+
+            foreach ( $school['goals'] as &$goal) {
+              if($this->taPriority[$status] < $this->taPriority[$school['status']] || $school['status'] == ''){
+                $school['status'] = $status;
+              }
+            }
+
+            if($this->taPriority[$school['status']] < $this->taPriority[$resultStatus] ){
+              $resultStatus = $school['status'];
+            }
+
+          }
+      }
+    }
+
+    return $resultStatus;
+  }
+
+  protected function isActionRequired($statuses) {
+    foreach($statuses as $status) {
+      if($this->user['type'] == 'a' || $this->user['type'] == 'p'){
+        if($status == 'in_progress' ){
+          return true;
+        }
+      } else {
+        if($status == 'rejected' ){
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 
