@@ -346,7 +346,7 @@
             <div ng-if="isCurrentUser" class="col-lg-4">
               <label>Altes Passwort</label>
 
-              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('old_password')}">
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('old_password'), 'wrap-line error': fieldError('password_repeat')}">
                 <input class="form-control" name="old_password" ng-model="user.old_password" type="password" value="">
 								  <span ng-class="{hide: !fieldError('old_password')}" class="hide">
                     <label ng-show="error.old_password.error" class="error">Altes Passwort ist falsch</label>
@@ -357,10 +357,10 @@
             <div ng-class="isCurrentUser ? 'col-lg-4' : 'col-lg-6'">
               <label>Neues Passwort</label>
 
-              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password')}">
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('password'), 'wrap-line error': fieldError('password_repeat')}">
                 <input class="form-control" name="password" ng-model="user.password" type="password" value=""
                        ng-minlength="3" ng-required="isInsert && user.is_virtual != 1 || (loaded_is_virtual == 1 && user.is_virtual == 0 )">
-								  <span ng-class="{hide: !fieldError('password')}" class="hide">
+								  <span ng-class="{hide: !fieldError('password')}" class="hide" >
                     <label ng-show="form.password.$error.required" class="error">Passwort erforderlich</label>
                     <label ng-show="form.password.$error.minlength" class="error">Passwort ist zu kurz</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>

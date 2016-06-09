@@ -295,6 +295,13 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.users = data.users;
     $scope.data = data;
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
+    
+    network.get('bank_details', {performer_id: data.performer_id}, function (result, response) {
+      if (result) {
+        $scope.bank_details = response.result;
+      }
+    });
+    
   }
 
   RequestService.updateFinansistFP = function(id){
