@@ -41,17 +41,20 @@
           <div class="col-lg-4">
             <div class="form-group">
               <label>Bankverbindung</label>
-              <select class="form-control">
-                <option>IBAN: DE64100708480511733803a</option>
-              </select>
+              <ui-select class="type-document" on-select="IBAN = $item" ng-model="data.bank_details_id">
+                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">IBAN: {{$select.selected.iban}}</ui-select-match>
+                <ui-select-choices repeat="item.id as item in bank_details | filter: $select.search | orderBy: 'iban'">
+                  <span ng-bind-html="item.iban | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
             </div>
             <dl class="custom-dl">
               <dt>Kontoinhaber:</dt>
-              <dd>Mr Werner Munk</dd>
+              <dd>{{IBAN.contact_person}}</dd>
               <dt>Kreditor:</dt>
-              <dd>3148800</dd>
+              <dd>{{IBAN.bank_name}}</dd>
               <dt>Beschreibung:</dt>
-              <dd>tandem BQG</dd>
+              <dd>{{IBAN.description}}</dd>
             </dl>
           </div>
           <div class="col-lg-4">
