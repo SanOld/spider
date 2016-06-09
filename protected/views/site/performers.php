@@ -23,7 +23,7 @@ $this->breadcrumbs = array('Träger');
 						<form>
 							<div class="col-lg-5">
 								<div class="form-group">
-									<label>Suche nach Adresse, Ansprechpartner oder Email</label>
+									<label>Suche nach Träger, Adresse, Ansprechpartner oder Email</label>
 									<input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control" placeholder="Eingegeben">
 								</div>
 							</div>
