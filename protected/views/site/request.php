@@ -86,7 +86,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 															</div>
                               <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
                                 <h4 class="m-t-0"></h4>
-                                <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SUBMIT</button>
+                                <button ng-class="{disabled: !school_concept[schoolConcept.id].situation || !school_concept[schoolConcept.id].offers_youth_social_work}" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SENDEN</button>
                               </div>
 														</div>
 													</div>
