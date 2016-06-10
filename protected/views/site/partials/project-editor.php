@@ -15,6 +15,7 @@
               <input name="code" ng-model="project.code" class="form-control" type="text" value="" required ng-disabled="!isInsert || modeView">
               <span ng-class="{hide: !fieldError('code')}" class="hide">
                 <label ng-show="formProjects.code.$error.required" class="error">Kennziffer erforderlich</label>
+                <label ng-show="formProjects.$pristine && error.code.dublicate" class="error">Dieser Kennziffer existiert bereits</label>
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
             </div>

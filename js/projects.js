@@ -169,16 +169,16 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 
     $scope.fieldError = function(field) {
         var form = $scope.formProjects;
-        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
+        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
     };
     $scope.placeholderFN = function(items) {
         return items.lengt && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; // ??? not working
     };
     $scope.updateCode = function() {
       try {
-        var isBonus = $scope.project.type_id == '3'?'B':'';
-        $scope.project.code = isBonus + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase() + $scope.newCode;
-        $scope.schoolTypeCode = $scope.schoolTypesId[$scope.project.school_type_id].code;
+          var isBonus = $scope.project.type_id == '3'?'B':'';
+           $scope.project.code = isBonus + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase() + $scope.newCode;
+          $scope.schoolTypeCode = $scope.schoolTypesId[$scope.project.school_type_id].code;          
       } catch(e){}
     };
     $scope.updateSchools = function(isInit) {
@@ -233,22 +233,25 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 
     $scope.submitFormProjects = function () {
         $scope.submited = true;
-        $scope.formProjects.$setPristine();
+        $scope.error = false;
+        $scope.formProjects.$setPristine();        
         if ($scope.formProjects.$valid) {
             var callback = function (result, response) {
                 if (result) {
                     $uibModalInstance.close();
+                }else{
+                    $scope.error = getError(response);
                 }
                 $scope.submited = false;
             };
             
-            
+            var $copyScopeProject = angular.copy($scope.project);
             if($scope.schoolTypeCode != 's') {
-              $scope.project.schools = [$scope.project.school];
+              $copyScopeProject.schools = [$copyScopeProject.school];
             }
-            delete $scope.project.school;
+            delete $copyScopeProject.school;
  
-            if(!$scope.project.schools.length && $scope.schoolTypeCode != 'z') {
+            if(!$copyScopeProject.schools.length && $scope.schoolTypeCode != 'z') {
 //              if($scope.schoolTypeCode != 's') {
 //                SweetAlert.swal({
 //                  title: "Школа не выбрана",
@@ -271,22 +274,18 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             }
             
             if ($scope.isInsert) {
-                network.post('project', $scope.project, callback);                
-                $scope.project.school = [$scope.project.schools];                
-            } else {
+                network.post('project', $copyScopeProject, callback);              
+            } else {              
               
-              
-              if($scope.project.performer_id != data.performer_id ||
-                !$scope.idCompare(data.schools, $scope.project.schools)) {
-          
-                $.each($scope.project.schools, function(key, val){
+              if($copyScopeProject.performer_id != data.performer_id || $scope.formProjects.$dirty) {          
+                $.each($copyScopeProject.schools, function(key, val){
                   if(typeof val == 'object') {
                     val = val.id
                   }
                 })
-                var newCode = $scope.project.code.split('/');
+                var newCode = $copyScopeProject.code.split('/');
                 newCode = newCode[0]+'/'+(newCode[1]?newCode[1]+1:2);
-                console.log($scope.project);
+                console.log($copyScopeProject);
                 SweetAlert.swal({
                   title: "Projekt bearbeiten?",
                   text: "Nächstes projekt wird erstellt "+newCode,
@@ -297,9 +296,11 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                   closeOnConfirm: true
                 }, function(isConfirm){
                   if(isConfirm) {
-                    network.put('project/' + data.id, $scope.project, callback);
+                    network.put('project/' + data.id, $copyScopeProject, callback);
                   }
                 });
+              }else{
+                  $uibModalInstance.close();
               }
             }
         } else {
@@ -307,6 +308,14 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         }
     };
 
+    function getError(response) {
+        var result = false;
+        switch (response.system_code) {
+          case 'ERR_DUPLICATED':
+              result = {code: {dublicate: true}};            
+        }
+        return result;
+    };
 
     $scope.remove = function() {
       Utils.doConfirm(function() {
