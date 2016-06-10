@@ -613,7 +613,11 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         goal.status = 'in_progress';
         break;
       case 'declare':
+        if (!goal.notice){
+          return false;
+        }
         goal.status = 'rejected';
+
         break;
       case 'accept':
         goal.status = 'accepted';
