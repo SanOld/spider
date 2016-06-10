@@ -152,8 +152,10 @@ class Request extends BaseModel {
 
 
   protected function calcConceptStatus($ID) {
-    $resultStatus = 'unfinished';
-    return $resultStatus;
+    $statusPriority = in_array($this->user['type'], array('a', 'p')) ? $this->paPriority : $this->taPriority;
+    $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+    $RequestSchoolConcept->user = $this->user;
+    return $RequestSchoolConcept->getCommonStatus($ID, $statusPriority);
   }
   protected function calcFinanceStatus($ID) {
     $resultStatus = 'unfinished';
