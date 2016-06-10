@@ -10,13 +10,15 @@ class Audit extends BaseModel {
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command->leftJoin('spi_user usr', 'usr.id=tbl.user_id ');
-    $where = ' 1=1 AND user_id IS NOT NULL';
+    $where = '1=1 AND user_id IS NOT NULL';
+   
     $conditions = array();
 
     if ($where) {
       $command -> where($where, $conditions);
     }
     
+    $command->andWhere('(SELECT 1 FROM spi_audit_data aud WHERE aud.event_id=tbl.id LIMIT 1) IS NOT NULL');
     return $command;
   }
   protected function doAfterSelect($result) {
@@ -32,7 +34,7 @@ class Audit extends BaseModel {
     }
     return $result;
   }
-
+  
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
     parent::getParamCommand($command, $params);
