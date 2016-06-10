@@ -28,13 +28,17 @@ class Audit extends BaseModel {
                                       -> from('spi_audit_data aud')
                                       -> where('aud.event_id=:id', array(':id' => $row['id']))
                                       -> queryAll();
+      foreach ($row['data'] as &$data){
+        if($data['column_name'] == "password"){
+          $data['old_value'] = $data['new_value'] = "* * * * * * * *";          
+        };
+      };
       $row['user_name'] = $row['first_name'].' '.$row['last_name'];
       $row['operation_name'] = $this->operations[$row['event_type']];
       $row['date_formated'] = date('d.m.y H:i:s',strtotime($row['event_date']));
     }
     return $result;
-  }
-  
+  }  
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
     parent::getParamCommand($command, $params);
