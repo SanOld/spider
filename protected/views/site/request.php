@@ -86,7 +86,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 															</div>
                               <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
                                 <h4 class="m-t-0"></h4>
-                                <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SUBMIT</button>
+                                <button ng-class="{disabled: !school_concept[schoolConcept.id].situation || !school_concept[schoolConcept.id].offers_youth_social_work}" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SENDEN</button>
                               </div>
 														</div>
 													</div>
@@ -614,12 +614,12 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 														<hr />
                             </div>
 														<div class="row">
-															<div ng-hide=" (userType != 'a' && userType != 'p') || goal.status == 'accepted' " class="col-lg-9">
+															<div ng-hide=" (userType != 'a' && userType != 'p') || goal.status == 'accepted' || goal.status == 'rejected' " class="col-lg-9">
 																<h4 class="m-t-0">Prüfnotiz</h4>
 																<textarea  ng-model="goal.notice" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
 															</div>
 
-															<div class="col-lg-3">
+															<div class="col-lg-3 text-right pull-right" >
 
 																<div class="m-t-30 text-right pull-right">
                                   <button ng-hide="userType != 't' || goal.status == 'accepted' || goal.status == 'in_progress'" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( goal, 'submit')">SENDEN</button>
@@ -659,7 +659,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 					<div class="col-lg-6 text-right">
 						<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
 						<button ng-show="userCan('save')" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()">Speichern</button>
-						<button ng-show="userCan('save')" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur liste">Anwenden</button>
+						<button ng-show="userCan('save')" ng-class="{disabled: !goal.notice}" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur liste">Anwenden</button>
 					</div>
 				</div>
 

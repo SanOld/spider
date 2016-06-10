@@ -78,4 +78,40 @@ class RequestSchoolGoal extends BaseModel {
       ->queryScalar();
   }
 
+  function calcStatus($request_id, $priority) {
+    $resultStatus = 'unfinished';
+
+        $result = Yii::app() -> db -> createCommand()
+      -> select('id, status, option, school_id')
+      -> from('spi_request_school_goal')
+      -> where('request_id=:request_id', array(':request_id' => $request_id))
+      -> queryAll();
+
+    if($result){
+      foreach($result as &$row) {
+        $schools[$row['school_id']]['goals'][$row['id']] = $row;
+        $schools[$row['school_id']]['status'] = '';
+      }
+
+      $tempSchoolStatus = '';
+      foreach ($schools as &$school) {
+        $tempGoalStatus = '';
+        foreach ( $school['goals'] as $goal) {
+          if(!($goal['status'] === 'unfinished' && $goal['option'] === '1')){
+            if($priority[$goal['status']] < $priority[$tempGoalStatus] || $tempGoalStatus == ''){
+              $tempGoalStatus = $goal['status'];
+            }
+          }
+        }
+
+        $school['status'] = $tempGoalStatus;
+
+        if($priority[$school['status']] < $priority[$tempSchoolStatus] || $tempSchoolStatus == ''){
+          $tempSchoolStatus = $school['status'];
+        }
+      }
+      $resultStatus = $tempSchoolStatus;
+    }
+    return $resultStatus;
+  }
 }

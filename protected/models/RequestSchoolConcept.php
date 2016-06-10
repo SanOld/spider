@@ -168,5 +168,18 @@ class RequestSchoolConcept extends BaseModel {
     );
 
   }
+  
+  public function getCommonStatus($requestID, $statusPriorities) {
+    $values = Yii::app() -> db -> createCommand() -> select('status')
+      -> from($this -> table)
+      -> where('request_id = :request_id', array(':request_id' => $requestID))
+      -> queryColumn();
+    foreach(array_keys($statusPriorities) as $statusPriority) {
+      if(in_array($statusPriority, $values)) {
+        return $statusPriority;
+      }
+    }
+    return 'unfinished';
+  }
 
 }
