@@ -146,7 +146,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<div class="tab-pane" ng-controller="RequestSchoolGoalController">
               <div id="accordion-order" class="panel-group panel-group-joined">
 
-								<div ng-repeat="school in schoolGoals track by $index" class="panel panel-default">
+								<div ng-repeat="school in schoolGoals" class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
 											<a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding " ng-class="!($first && $first == $last) ? 'collapsed' : ''" aria-expanded="{{!($first && $first == $last)}}">
