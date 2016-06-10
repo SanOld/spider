@@ -223,6 +223,9 @@ header {
     margin-right: 3px;
     font-size: 12px;
 }
+.cr-styled i.err {
+    border: 1px solid red;
+}
 .cr-styled input {
     visibility: hidden;
     display: none;
