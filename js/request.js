@@ -366,6 +366,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     switch (action) {
       case 'submit':
         data.status = 'in_progress';
+        if(!data.situation || !data.offers_youth_social_work) return false;
         break;
       case 'reject':
         data.status = 'rejected';
