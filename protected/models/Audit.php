@@ -27,6 +27,7 @@ class Audit extends BaseModel {
                                       -> select('*') 
                                       -> from('spi_audit_data aud')
                                       -> where('aud.event_id=:id', array(':id' => $row['id']))
+                                      -> andWhere('(aud.old_value<>"" AND aud.old_value IS NOT NULL) OR (aud.new_value<>"" AND aud.new_value IS NOT NULL)')  
                                       -> queryAll();
       foreach ($row['data'] as &$data){
         if($data['column_name'] == "password"){
