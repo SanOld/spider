@@ -163,51 +163,14 @@ class Request extends BaseModel {
   }
   protected function calcGoalsStatus($ID) {
     $resultStatus = 'unfinished';
+     if($this->user['type'] == 'a' || $this->user['type'] == 'p'){
+       $priority = $this->paPriority;
+     } else {
+       $priority = $this->taPriority;
+     }
     $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
     $RequestSchoolGoal ->user = $this->user;
-
-    $result = Yii::app() -> db -> createCommand()
-      -> select('status, school_id')
-      -> from('spi_request_school_goal')
-      -> where('request_id=:request_id', array(':request_id' => $ID))
-      -> queryAll();
-
-    if($result){
-      foreach($result as &$row) {
-        $schools[$row['school_id']]['goals'][$row['id']] = $row['status'];
-        $schools[$row['school_id']]['status'] = 'unfinished';
-      }
-
-      if($this->user['type'] == 'a' || $this->user['type'] == 'p'){
-        foreach ($schools as &$school) {
-
-            foreach ( $school['goals'] as $status) {
-              if($this->paPriority[$status] < $this->paPriority[$school['status']] || $school['status'] == ''){
-                $school['status'] = $status;
-              }
-            }
-
-            if($this->paPriority[$school['status']] < $this->paPriority[$resultStatus] ){
-              $resultStatus = $school['status'];
-            }
-
-          }
-      } else {
-        foreach ($schools as &$school) {
-
-            foreach ( $school['goals'] as $status) {
-              if($this->taPriority[$status] < $this->taPriority[$school['status']] || $school['status'] == ''){
-                $school['status'] = $status;
-              }
-            }
-
-            if($this->taPriority[$school['status']] < $this->taPriority[$resultStatus] ){
-              $resultStatus = $school['status'];
-            }
-
-          }
-      }
-    }
+    $resultStatus = $RequestSchoolGoal::calcStatus($ID, $priority );
 
     return $resultStatus;
   }
