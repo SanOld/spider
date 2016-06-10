@@ -193,7 +193,7 @@ class Request extends BaseModel {
       } else {
         foreach ($schools as &$school) {
 
-            foreach ( $school['goals'] as &$goal) {
+            foreach ( $school['goals'] as $status) {
               if($this->taPriority[$status] < $this->taPriority[$school['status']] || $school['status'] == ''){
                 $school['status'] = $status;
               }
