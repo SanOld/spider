@@ -26,19 +26,6 @@ class RequestSchoolGoal extends BaseModel {
     return $command;
   }
 
-  private function getStatusByCode($code) {
-    switch ($code) {
-      case 'd':
-        return 'Ablehnen';
-      case 'r':
-        return 'Bereit zu überprüfen';
-      case 'a':
-        return 'Genehmigt';
-    }
-    return '';
-  }
-
-
   protected function doAfterSelect($result) {
     $schools = array();
     foreach($result['result'] as &$row) {
@@ -57,26 +44,36 @@ class RequestSchoolGoal extends BaseModel {
     return $result;
   }
 
-  protected function doAfterUpdate($result, $params, $post, $id) {
-    if($result['result'] && safe($post, 'status')) {
-      $request_id = Yii::app()->db->createCommand()
-        ->select('request_id')
-        ->from($this -> table)
-        ->where('id=:id', array(':id' => $id))
-        ->queryScalar();
-      Yii::app()->db->createCommand()->update('spi_request', array('status_goal' => $this->getCommonStatus($request_id)));
+
+  protected function doBeforeInsert($post) {
+    if($this->user['type'] == ADMIN || ($this->user['type'] == PA) || ($this->user['type'] == TA)) {
+
+      //TO DO  Check required field
+      $checked = true;
+
+      if(!$checked){
+        return array(
+            'code' => '409',
+            'result' => false,
+            'system_code' => 'ERR_FORBIDDEN',
+        );
+      }
+
+      return array(
+          'result' => true,
+          'params' => $post
+      );
+    } else {
+      return array(
+          'code' => '403',
+          'result' => false,
+          'system_code' => 'ERR_PERMISSION',
+      );
+
     }
-    return $result;
   }
 
-  private function getCommonStatus($request_id) {
-    return Yii::app()->db->createCommand()
-      ->select('status')
-      ->from($this -> table)
-      ->where('request_id=:request_id', array(':request_id' => $request_id))
-      ->order("FIELD(status, 'd', 'r', 'a')")
-      ->queryScalar();
-  }
+
 
   function calcStatus($request_id, $priority) {
     $resultStatus = 'unfinished';

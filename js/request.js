@@ -684,8 +684,11 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     if(field == undefined || field == ''){
     $scope.error = true;
     return true;
+    } else {
+      $scope.error = false;
+      return false;
     }
-    return false;
+
   }
   $scope.groupError = function(group){
     if(group.counter == undefined || group.counter == 0){
@@ -694,12 +697,18 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       return true;
     } else {
       group.error = '0';
+      $scope.error = false;
       return false;
     }
 
   }
   $scope.showError = function(){
-    return $scope.errorShow = true;
+    if($scope.error ){
+      return $scope.errorShow = true;
+    } else {
+      return $scope.errorShow = false;
+    }
+
   }
 });
 
