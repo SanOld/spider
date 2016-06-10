@@ -170,7 +170,7 @@ class Request extends BaseModel {
      }
     $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
     $RequestSchoolGoal ->user = $this->user;
-    $resultStatus = $RequestSchoolGoal::calcStatus($ID, $priority );
+    $resultStatus = $RequestSchoolGoal->calcStatus($ID, $priority );
 
     return $resultStatus;
   }
