@@ -495,7 +495,8 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.tabStatus = '';
   $scope.paPriority = {'in_progress': 1, 'rejected': 2, 'unfinished': 3, 'accepted': 4 };
   $scope.taPriority = {'rejected': 1, 'unfinished': 2, 'in_progress': 3, 'accepted': 4 };
-
+  $scope.errorShow = false;
+  $scope.error = false;
   network.get('request_school_goal', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
       $scope.schoolGoals = response.result;
@@ -608,28 +609,38 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   }
 
   $scope.submitForm = function( goal, action ) {
+
     switch (action) {
       case 'submit':
-        goal.status = 'in_progress';
+        if(!$scope.error){
+          goal.status = 'in_progress';
+          submitRequest(goal);
+        } else {
+          $scope.showError();
+        }
         break;
       case 'declare':
         if (!goal.notice){
           return false;
         }
+        submitRequest(goal);
         goal.status = 'rejected';
 
         break;
       case 'accept':
+        submitRequest(goal);
         goal.status = 'accepted';
         break;
     }
 
-    if ('groups' in goal){delete goal.groups;}
-    network.put('request_school_goal/' + goal.id, goal, function(result){
-      if(result) {
-        $scope.checkSchoolStatus();
+    submitRequest = function(){
+        if ('groups' in goal){delete goal.groups;}
+          network.put('request_school_goal/' + goal.id, goal, function(result){
+            if(result) {
+              $scope.checkSchoolStatus();
+            }
+        });
       }
-    });
   };
 
   RequestService.getSchoolGoalData = function(){
@@ -667,6 +678,28 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         return true;
       break;
     }
+  }
+
+  $scope.fieldError = function (field) {
+    if(field == undefined || field == ''){
+    $scope.error = true;
+    return true;
+    }
+    return false;
+  }
+  $scope.groupError = function(group){
+    if(group.counter == undefined || group.counter == 0){
+      group.error = '1';
+      $scope.error = true;
+      return true;
+    } else {
+      group.error = '0';
+      return false;
+    }
+
+  }
+  $scope.showError = function(){
+    return $scope.errorShow = true;
   }
 });
 
