@@ -137,7 +137,7 @@ $this->breadcrumbs = array('Anträge');
                       </a>
                     </div>
                   </td>
-                  <td data-title="'Abgabe'" sortable="'due_date'">{{row.due_date?(row.due_date_unix| date : 'dd.MM.yyyy'):''}}</td>
+                  <td data-title="'Abgabe'" sortable="'due_date'">{{row.end_fill?(row.end_fill_unix| date : 'dd.MM.yyyy'):''}}</td>
                   <td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change?(row.last_change_unix| date : 'dd.MM.yyyy'):''}}</td>
                   <td data-title="'Ansicht / Bearbeiten'">
                     <a ng-if="row.status_code == 'acceptable' || row.status_code == 'accept'" class="btn document" href="" ng-click="openPrint(row)" title="Drucken"><i class="ion-printer"></i></a>
