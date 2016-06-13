@@ -72,7 +72,7 @@ $this->breadcrumbs = array('Anträge');
                     <label>Jahr</label>
                     <ui-select ng-change="updateGrid()" ng-model="filter.year">
                       <ui-select-match>{{$select.selected}}</ui-select-match>
-                      <ui-select-choices repeat="item as item in years | filter: $select.search">
+                      <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: item">
                         <span ng-bind="item"></span>
                       </ui-select-choices>
                     </ui-select>
