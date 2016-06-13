@@ -133,7 +133,6 @@ class RequestSchoolConcept extends BaseModel {
       -> where('id = :id', array(':id' => $id))
       -> queryRow()) {
       $valid = true;
-      $debug = 0;
       switch ($this->user['type']) {
         case PA:
           if($row['offers_youth_social_work'] != safe($post, 'offers_youth_social_work') || $row['situation'] != safe($post, 'situation')) {
@@ -146,19 +145,14 @@ class RequestSchoolConcept extends BaseModel {
           if(safe($post, 'status')) {
             if($row['status'] == 'in_progress' || safe($post, 'status') != 'in_progress') {
               $valid = false;
-              $debug = 1;
             } else if (isset($post['situation']) && !$post['situation']) {
               $valid = false;
-              $debug = 2;
             } else if(isset($post['offers_youth_social_work']) && !$post['offers_youth_social_work']) {
               $valid = false;
-              $debug = 3;
             }
           }
       }
-
       if(!$valid) {
-        mail('ovistavnoy@itera-research.com', 'Bad valid Request for TA', $debug);
         return array(
           'code' => '409',
           'result' => false,
