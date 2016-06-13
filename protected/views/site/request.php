@@ -72,7 +72,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
                               </div>
                             </div>
                           </div>
-													<div class="row" ng-if="schoolConcept.status != 'accepted'">
+													<div class="row" ng-if="schoolConcept.status != 'accepted' && canAcceptEarly(schoolConcept.status)">
 														<div class="col-lg-10">
 															<span ng-if="canAccept && schoolConcept.status != 'rejected'">
 																<h4 class="m-t-0">Prüfnotiz</h4>

@@ -589,6 +589,10 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
 
+  $scope.canAcceptEarly = function(status) {
+    return !(network.user.type == 'p' && status != 'in_progress');
+  };
+
   $scope.schoolConcepts = [];
   network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
