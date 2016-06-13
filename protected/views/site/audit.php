@@ -111,8 +111,14 @@ $this->breadcrumbs = array('Audit');
                   </td>
                 </tr>
               </table>
-            </div>
-          </div>
+              <div class="clearfix">
+                <div class="notice" ng-repeat="type in types">
+                  <span class="color-notice" ng-class="{'rejected-row': type.code == 'DEL', 'acceptable-row':type.code == 'INS'}"></span>
+                  {{type.name}}
+                </div>
+              </div>
+            </div>              
+          </div>          
         </div>
       </div>
     </div>

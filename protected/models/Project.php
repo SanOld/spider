@@ -88,6 +88,14 @@ class Project extends BaseModel {
 //  }
 
   protected function doAfterSelect($results) {
+    foreach ($results['result'] as &$row){
+      if($row['is_old']){
+        $row['status'] = 'decline';
+      }else{
+        $row['status'] = 'open';
+      }
+    };
+    
     if(safe($_GET, 'list') == 'unused_project'){
       foreach($results['result'] as &$row) {
          $row[$row['id']] = array(
@@ -144,11 +152,11 @@ class Project extends BaseModel {
         return array(
             'code' => '409',
             'result' => false,
-            'system_code' => 'ERR_DUPLICATED',
-            'message' => 'This project already exists'
+            'silent' => true,
+            'system_code' => 'ERR_DUPLICATED'
         );
       }
-
+      
 //      if(!safe($post,'schools')) {//есть проекты без школы и дистрикта
 //        return array (
 //                'code' => '400',
@@ -173,21 +181,21 @@ class Project extends BaseModel {
 
     }
   }
-  protected function doBeforeUpdate($post, $id) {
+  protected function doBeforeUpdate($post, $id) {     
     $params = $post;
     unset($params['schools']);
     unset($params['performer_id']);
     $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id=:id ', array(
         ':id' => $id
-    )) -> queryRow();
-
+    )) -> queryRow();      
+    
     $canUpdate = true;
     foreach ($params as $key => $val) {
       if($val != $row[$key]) {
         $canUpdate = false;
         break;
       }
-    }
+    }    
     //TODO: если изменен список школ или исполнитель - создаем новый проект
     if(!$canUpdate) {
       return array (
@@ -195,8 +203,8 @@ class Project extends BaseModel {
               'result' => false,
               'system_code' => 'ERR_UPDATE_FORBIDDEN',
             );
-    }
-
+    } 
+    
     unset($row['id']);
     $row['schools'] = safe($post,'schools');
     $row['performer_id'] = $post['performer_id'];
@@ -205,9 +213,9 @@ class Project extends BaseModel {
     $row['code'] = count($code)==1?$code[0].'\\2':$code[0].'\\'.($code[1]+1);
     Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
       ':id' => $id
-    ));
-    $row['isUpdate'] = true;
-
+    ));    
+    $row['isUpdate'] = true;    
+        
     $this->insert($row);
 
 //    return array(

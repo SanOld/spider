@@ -5,8 +5,12 @@ class MockupController extends Controller {
   public function actionIndex($name)
   {
     $this->layout = false;
-    
-    $this->render($name);
+    try {
+      $this->render($name);
+    } catch (Exception $e) {
+      throw new CHttpException(404);
+    }
+
   }
   public function demo()
   {

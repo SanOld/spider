@@ -27,7 +27,7 @@
                             <input name="name" ng-model="school.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                             <span ng-class="{hide: !fieldError('name')}" class="hide">
                               <label ng-show="form.formSchool.name.$error.required" class="error">Name ist erforderlich</label>
-                              <label ng-show="error.name.dublicate" class="error">Dieser Name existiert bereits</label>
+                              <label ng-show="form.$pristine && error.name.dublicate" class="error">Dieser Name existiert bereits</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>
@@ -96,7 +96,7 @@
                             <input name="number" ng-model="school.number" class="form-control" type="text" value="" required  ng-disabled="!canEdit()">
                             <span ng-class="{hide: !fieldError('number')}" class="hide">
                               <label ng-show="form.formSchool.number.$error.required" class="error">Schul-Nr. ist erforderlich</label>
-                              <label ng-show="error.number.dublicate" class="error">Dieser number existiert bereits</label>
+                              <label ng-show="!form.formSchool.number.$error.required && error.number.dublicate" class="error">Dieser number existiert bereits</label>
                               <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </span>
                           </div>

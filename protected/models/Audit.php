@@ -10,13 +10,15 @@ class Audit extends BaseModel {
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command->leftJoin('spi_user usr', 'usr.id=tbl.user_id ');
-    $where = ' 1=1 AND user_id IS NOT NULL';
+    $where = '1=1 AND user_id IS NOT NULL';
+   
     $conditions = array();
 
     if ($where) {
       $command -> where($where, $conditions);
     }
     
+    $command->andWhere('(SELECT 1 FROM spi_audit_data aud WHERE aud.event_id=tbl.id LIMIT 1) IS NOT NULL');
     return $command;
   }
   protected function doAfterSelect($result) {
@@ -25,14 +27,19 @@ class Audit extends BaseModel {
                                       -> select('*') 
                                       -> from('spi_audit_data aud')
                                       -> where('aud.event_id=:id', array(':id' => $row['id']))
+                                      -> andWhere('(aud.old_value<>"" AND aud.old_value IS NOT NULL) OR (aud.new_value<>"" AND aud.new_value IS NOT NULL)')  
                                       -> queryAll();
+      foreach ($row['data'] as &$data){
+        if($data['column_name'] == "password"){
+          $data['old_value'] = $data['new_value'] = "* * * * * * * *";          
+        };
+      };
       $row['user_name'] = $row['first_name'].' '.$row['last_name'];
       $row['operation_name'] = $this->operations[$row['event_type']];
       $row['date_formated'] = date('d.m.y H:i:s',strtotime($row['event_date']));
     }
     return $result;
-  }
-
+  }  
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
     parent::getParamCommand($command, $params);

@@ -16,7 +16,6 @@ class SiteController extends Controller
                           'forgot-password' => array('layout' => 'mainWithoutLogin'),
                           'reset-password'  => array('layout' => 'mainWithoutLogin'),
                           'index'           => array('layout' => 'mainWithoutLogin'),
-//                          'index'           => array('render' => 'index',           'layout' => 'mainWithoutLogin'),
                           );
 	/**
 	 * Declares class-based actions.
@@ -36,15 +35,13 @@ class SiteController extends Controller
 			),
 		);
 	}
-	protected function beforeAction($event)
-	{
-		//print_r(Yii::app()->controller->action->id);
-		return true;
-	}
 
 	public function actionIndex() {
 		$page = safe($_GET,'page','index');
 		$pageInfo = safe($this->path,$page);
+		if(safe($pageInfo,'layout')) {
+			$this->layout = $pageInfo['layout'];
+		}
 		if($page == 'reset-password') {
 			$params = array_change_key_case($_GET, CASE_UPPER);
 			if(!isset($params['RECOVERY_TOKEN']))
@@ -55,10 +52,12 @@ class SiteController extends Controller
 				$this->redirect('/requests');
 			}
 		}
-		if(safe($pageInfo,'layout')) {
-			$this->layout = $pageInfo['layout'];
+		try {
+			$this->render(safe($pageInfo,'render',$page));
+		} catch (Exception $e) {
+			throw new CHttpException(404);
 		}
-		$this->render(safe($pageInfo,'render',$page));
+
 	}
 
 	protected function validID($page, $id) {
@@ -79,21 +78,20 @@ class SiteController extends Controller
 		}
 	}
 
-
-	public function actionError()
-	{
-		if($error=Yii::app()->errorHandler->error)
-		{
-			if(Yii::app()->request->isAjaxRequest)
-				echo $error['message'];
-			else
-				$this->render('error', $error);
+	public function actionError() {
+		if(safe(Yii::app()->errorHandler->error, 'code') === 404) {
+			$this->redirect('404');
 		}
 	}
-
-	public function actionLogout()
-	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+	
+	public function beforeRender($view) {
+		if($view === '404') {
+			if(!safe($_COOKIE, 'isLogined')) {
+				$this->layout = 'mainWithoutLogin';
+			}
+			header("HTTP/1.0 404 Page not found");
+		}
+		return true;
 	}
+
 }

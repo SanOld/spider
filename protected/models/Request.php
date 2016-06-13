@@ -15,6 +15,10 @@ class Request extends BaseModel {
                       , rqs.code status_code
                       , prj.code code
                       , fns.programm";
+
+  public $paPriority = array('in_progress' => 1, 'rejected' => 2, 'unfinished' => 3, 'accepted' => 4 );
+  public $taPriority = array('rejected' => 1, 'unfinished' => 2, 'in_progress' => 3, 'accepted' => 4 );
+
   protected function getCommand() {
     if(safe($_GET, 'list') == 'year') {
       $command = Yii::app() -> db -> createCommand()->select('year')->from($this -> table . ' tbl')->group('year');
@@ -23,17 +27,17 @@ class Request extends BaseModel {
       $this -> select_all = "tbl.*
                             , prj.id project_id
                             , prj.code code
-                            
+
                             , rqs.code status_code
 
                             , prf.id performer_id
                             , prf.is_checked performer_is_checked
                             , CONCAT( 'Überpüft von ',
-                                (SELECT CONCAT (u.first_name, ' ', u.last_name) name 
+                                (SELECT CONCAT (u.first_name, ' ', u.last_name) name
                                    FROM spi_user u
                                   WHERE u.id = prf.checked_by), ' ',
                                   DATE_FORMAT(prf.checked_date,'%d.%m.%Y')
-                                  
+
                               ) performer_checked_by
                             , prf.short_name performer_name
                             , prf.address performer_address
@@ -89,24 +93,29 @@ class Request extends BaseModel {
     if(safe($params, 'PERFORMER_ID')) {
       $command -> andWhere('prf.id = :performer_id', array(':performer_id' => $params['PERFORMER_ID']));
     }
-//    if(safe($params, 'FINANCE_TYPE')) {
-//      $command -> andWhere('prj.finance_source_type = :finance_type', array(':finance_type' => $params['FINANCE_TYPE']));
-//    }
+    if(safe($params, 'PROJECT_TYPE_ID')) {
+      $command -> andWhere('prj.type_id = :type_id', array(':type_id' => $params['PROJECT_TYPE_ID']));
+    }
     if(safe($params, 'PROGRAM_ID')) {
       $command -> andWhere('fns.id = :program_id', array(':program_id' => $params['PROGRAM_ID']));
     }
     if(safe($params, 'STATUS_ID')) {
-      $command -> andWhere('rqs.id = :status_id', array(':status_id' => $params['STATUS_ID']));
+      if(!is_int($params['STATUS_ID'])) {
+        $values = explode(',', $params['STATUS_ID']);
+      } else {
+        $values = array($params['STATUS_ID']);
+      }
+      $command -> andWhere(array('in', 'rqs.id', $values));
     }
 //        print_r ($command->text);
     $command = $this->setWhereByRole($command);
     return $command;
   }
-  
+
   protected function setWhereByRole($command) {
     switch($this->user['type']) {
       case SCHOOL:
-        
+
         $command->join('spi_project_school sps', 'sps.project_id=tbl.project_id');
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
         break;
@@ -133,9 +142,58 @@ class Request extends BaseModel {
         $row['start_date_unix'] = strtotime($row['start_date']).'000';
         $row['due_date_unix'] = strtotime($row['due_date']).'000';
         $row['last_change_unix'] = strtotime($row['last_change']).'000';
+        $row['status_goal'] = $this->calcGoalsStatus($row['id']);
+        $row['status_concept'] = $this->calcConceptStatus($row['id']);
+        $row['status_finance'] = $this->calcFinanceStatus($row['id']);
+        $row['is_action_required'] = $this->isActionRequired(array(
+                                                                  $row['status_goal']
+                                                                  ,$row['status_concept']
+                                                                  ,$row['status_finance']
+        ));
+
       }
     }
     return $result;
+  }
+
+
+  protected function calcConceptStatus($ID) {
+    $statusPriority = in_array($this->user['type'], array('a', 'p')) ? $this->paPriority : $this->taPriority;
+    $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+    $RequestSchoolConcept->user = $this->user;
+    return $RequestSchoolConcept->getCommonStatus($ID, $statusPriority);
+  }
+  protected function calcFinanceStatus($ID) {
+    $resultStatus = 'unfinished';
+    return $resultStatus;
+  }
+  protected function calcGoalsStatus($ID) {
+    $resultStatus = 'unfinished';
+     if($this->user['type'] == 'a' || $this->user['type'] == 'p'){
+       $priority = $this->paPriority;
+     } else {
+       $priority = $this->taPriority;
+     }
+    $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+    $RequestSchoolGoal ->user = $this->user;
+    $resultStatus = $RequestSchoolGoal->calcStatus($ID, $priority );
+
+    return $resultStatus;
+  }
+
+  protected function isActionRequired($statuses) {
+    foreach($statuses as $status) {
+      if($this->user['type'] == 'a' || $this->user['type'] == 'p'){
+        if($status == 'in_progress' ){
+          return true;
+        }
+      } else {
+        if($status == 'rejected' ){
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 

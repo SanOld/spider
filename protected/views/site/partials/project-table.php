@@ -1,5 +1,5 @@
 <table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
-  <tr ng-repeat="row in $data" >
+  <tr ng-repeat="row in $data" ng-class="row.status+'-row'">
     <td data-title="'Kennziffer'" sortable="'code'">{{row.code}}</td>
     <td data-title="'Schule'" sortable="'school_name'">
       <a href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>

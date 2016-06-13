@@ -196,6 +196,14 @@ spi.factory('Utils', function (SweetAlert) {
       }
       return false;
     },
+    getRowBy: function (items, field, value) {
+      for (var i = 0; i < items.length; i++) {
+        if (items[i][field] != undefined && items[i][field] == value) {
+          return items[i];
+        }
+      }
+      return false;
+    },
     getFinanceTypes: function () {
       return [ {id: 'l', name: 'LM'}, {id: 'b', name: 'BP'}, {id: 'b', name: 'BP'}];
     },

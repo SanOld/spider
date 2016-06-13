@@ -7,9 +7,12 @@ class RequestSchoolConcept extends BaseModel {
   public $select_all = "tbl.*, scl.name school_name, scl.number school_number";
 
   protected function getCommand() {
-    $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    $command -> join('spi_school scl', 'tbl.school_id = scl.id');
-    $command -> where('1=1 ', array());
+    $command = Yii::app() -> db -> createCommand()
+      -> select($this->select_all)
+      -> from($this -> table . ' tbl')
+      -> join('spi_school scl', 'tbl.school_id = scl.id')
+      -> where('1=1 ', array())
+      -> order('scl.number');
     return $command;
   }
 
@@ -140,11 +143,11 @@ class RequestSchoolConcept extends BaseModel {
           break;
         default:
           if(safe($post, 'status')) {
-            if($post['status'] != 'in_progress') {
+            if(safe($post, 'status') != 'in_progress') {
               $valid = false;
-            } else if(safe($post, 'status') == 'in_progress' && $row['status'] == 'in_progress') {
+            } else if (isset($post['situation']) && !$post['situation']) {
               $valid = false;
-            } else if(safe($post, 'status') != 'in_progress' && ($row['offers_youth_social_work'] != safe($post, 'offers_youth_social_work') || $row['situation'] != safe($post, 'situation'))) {
+            } else if(isset($post['offers_youth_social_work']) && !$post['offers_youth_social_work']) {
               $valid = false;
             }
           }
@@ -164,6 +167,19 @@ class RequestSchoolConcept extends BaseModel {
       'post' => $post
     );
 
+  }
+  
+  public function getCommonStatus($requestID, $statusPriorities) {
+    $values = Yii::app() -> db -> createCommand() -> select('status')
+      -> from($this -> table)
+      -> where('request_id = :request_id', array(':request_id' => $requestID))
+      -> queryColumn();
+    foreach(array_keys($statusPriorities) as $statusPriority) {
+      if(in_array($statusPriority, $values)) {
+        return $statusPriority;
+      }
+    }
+    return 'unfinished';
   }
 
 }

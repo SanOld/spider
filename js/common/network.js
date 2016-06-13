@@ -1,4 +1,4 @@
-spi.service('network', function ($http, configs, localStorageService, Notification) {
+spi.service('network', function ($http, configs, localStorageService, Notification, $cookies) {
   var $network = this;
   $network.servisePath = configs.getServisePath();
   $network.token = localStorageService.get('token');
@@ -43,6 +43,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         $network.user = result.user;
         localStorageService.set('user', result.user);
         localStorageService.set('rights', result.rights);
+        $cookies.put('isLogined', 1);
         callback(true);
       })
       .error(function (data, status, headers, config) {
@@ -56,13 +57,15 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     $network.user = {};
     localStorageService.set('user', false);
     localStorageService.set('rights', false);
+    $cookies.remove('isLogined');
     $network.onLogout();
   };
   $network.isLogined = function () {
     var token = localStorageService.get('token');
     var time = localStorageService.get('tokenTime') - $.now();
-    return (token && token != 'false');
+    return (token && token != 'false' && time >= 0);
   };
+  $cookies.put('isLogined', $network.isLogined()?1:0);
   $network.connect = function (login, password, callback) {
     callback = callback || function () {
       };
@@ -85,6 +88,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           localStorageService.set('tokenTime', $.now() + 12 * 3600 * 1000);
           localStorageService.set('user', result.user);
           localStorageService.set('rights', result.rights);
+          $cookies.put('isLogined', 1);
           callback(true, result);
           $network.onLogin();
         })
