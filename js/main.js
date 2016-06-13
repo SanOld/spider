@@ -1,4 +1,4 @@
-spi.controller('main', function ($scope, $rootScope, network, GridService, localStorageService, $timeout, HintService, RequestService) {
+spi.controller('main', function ($scope, $rootScope, $location, network, GridService, localStorageService, $timeout, HintService, RequestService) {
   $scope._r = localStorageService.get('rights');
   $scope.request_code = '';
   $rootScope.emailFormat = /^[a-z]+[a-z0-9._\-]+@[a-z0-9\-]+\.[a-z.]{2,5}$/;
@@ -34,9 +34,11 @@ spi.controller('main', function ($scope, $rootScope, network, GridService, local
   };
 
   $timeout(function() {
-    $scope.setHints();
-    if($rootScope._m && $rootScope._m != 'dashboard' && $scope._r[$rootScope._m] && !$scope._r[$rootScope._m].show) {
-      window.location = '/dashboard';
+    if($location.path() !== '/404') {
+      $scope.setHints();
+      if($rootScope._m && $rootScope._m != 'dashboard' && $scope._r[$rootScope._m] && !$scope._r[$rootScope._m].show) {
+        window.location = '/dashboard';
+      }
     }
   });
 

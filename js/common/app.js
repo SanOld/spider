@@ -9,7 +9,8 @@ var spi = angular.module('spi', [
     'ui-notification',
     'mm.iban',
     'summernote',
-    'ui.bootstrap.accordion'
+    'ui.bootstrap.accordion',
+    'ngCookies'
 ]);
 
 spi.run(function(ngTableDefaults, $templateCache) {

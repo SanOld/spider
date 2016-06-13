@@ -72,6 +72,7 @@ $cs->registerScriptFile($baseUrl . '/js/lib/bootstrap.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/angular.min.js');
 //$cs->registerScriptFile($baseUrl . '/js/lib/angular-animate.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular.js');
+$cs->registerScriptFile($baseUrl . '/js/lib/angular-cookies.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-animate.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-locale_de-de.min.js');
 $cs->registerScriptFile($baseUrl . '/js/lib/angular-local-storage.min.js');
