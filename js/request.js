@@ -40,9 +40,13 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.submitRequest = function (close) {
     close = close || false;
     var data = RequestService.getProjectData();
-    data['finance_plan']    = RequestService.financePlanData();
+    var finPlan = RequestService.financePlanData();
+    data = angular.extend(data, finPlan.request);
+    delete finPlan.request;
+    data['finance_plan']    = finPlan;
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
+    console.log('SaveRequestDebug',data)
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result && close) {
        location.href = '/requests';
@@ -289,21 +293,213 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
 });
 
-spi.controller('RequestFinancePlanController', function ($scope, network, RequestService, Utils) {
+spi.controller('RequestFinancePlanController', function ($scope, network, RequestService, Utils, $timeout) {
   $scope.users = [];
+  
+  $scope.IBAN = {};
+  $scope.request_users = [{}]; //create one user by default
+  $scope.prof_associations = [{}]; //create one association by default
+  $scope.financeSchools = [];
+  
+  var usersById = {};
+  
+  RequestService.financePlanData = function(){
+    var data = {};
+    data.request =  { 'revenue_description':    $scope.revenue_description
+                    , 'revenue_sum':            $scope.revenue_sum
+                    , 'emoloyees_cost':         $scope.emoloyeesCost
+                    , 'training_cost':          $scope.training_cost
+                    , 'overhead_cost':          $scope.overhead_cost
+                    , 'prof_association_cost':  $scope.prof_association_cost
+                    , 'total_cost':             $scope.total_cost
+                    
+                    , 'bank_details_id':        $scope.data.bank_details_id
+                    }
+    data.users = $scope.request_users;
+    data.prof_associations = $scope.prof_associations;
+    data.schools = $scope.financeSchools;
+    var finPlan = angular.copy(data);
+    angular.forEach(finPlan.users, function(val, key) {
+      val.add_cost = val.addCost
+      val.full_cost = val.fullCost
+      delete val.user;
+      delete val.addCost;
+      delete val.fullCost;
+    });
+    angular.forEach(finPlan.schools, function(val, key) {
+      delete val.school_name;
+      delete val.school_number;
+    });
+    return finPlan;
+  }
+  
   RequestService.initFinancePlan = function(data){
     $scope.users = data.users;
+    $scope.updateUserSelect();
     $scope.data = data;
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
-
+    
+    angular.forEach($scope.users, function(val, key) {
+      usersById[val.id] = val;
+    });
+    
     network.get('bank_details', {performer_id: data.performer_id}, function (result, response) {
       if (result) {
         $scope.bank_details = response.result;
+        angular.forEach($scope.bank_details, function(val, key) {
+          if(val.id == $scope.data.bank_details_id) {
+            $scope.updateIBAN(val);
+            return false;
+          }
+        });
+        
+      }
+    });
+    
+    network.get('request_user', {request_id: $scope.$parent.requestID}, function (result, response) {
+      if (result) {
+        $scope.request_users = response.result;
+        
+        if(response.count == '0') {
+          $scope.request_users = [{}];
+        } else {
+          angular.forEach($scope.request_users, function(val, key) {
+            $scope.calculateEmployee(val);
+            val.user = usersById[val.user_id];
+            $timeout(function(){
+              $scope.updateUserSelect();
+            },100)
+          });
+        }
       }
     });
 
   }
+  
+  network.get('request_school_finance', {request_id: $scope.$parent.requestID}, function (result, response) {
+    if (result) {
+      $scope.financeSchools = response.result;
+      $scope.updateResultCost();
+    }
+  });
+  
+  network.get('remuneration_level', {}, function (result, response) {
+    if (result) {
+      $scope.remuneration_level = response.result;
+    }
+  });
+  network.get('request_prof_association', {request_id: $scope.$parent.requestID}, function (result, response) {
+    if (result) {
+      $scope.prof_associations = response.result;
+      if(response.count == '0') {
+        $scope.prof_associations = [{}];
+      }
+    }
+  });
+  network.get('request_financial_group', {}, function (result, response) {
+    if (result) {
+      $scope.request_financial_group = response.result;
+    }
+  });
 
+
+  var forValidate = {'cost_per_month_brutto':1, 'annual_bonus':1, 'additional_provision_vwl':1, 'supplementary_pension':1}
+  var toNum = {'have_annual_bonus':1, 'have_additional_provision_vwl':1, 'have_supplementary_pension':1, 'is_umlage':1}
+
+  $scope.calculateEmployee = function(empl){
+    for(var key in forValidate) {
+      $scope.numValidate(empl,key);
+    }
+    for(var key in toNum) {
+      empl[key] = (empl[key] || 0)*1;
+    }
+    
+    var umlage = empl.is_umlage?0.25:0.21;
+    var mc = (empl.month_count || 0) *1;
+    empl.brutto = empl.cost_per_month_brutto * mc
+                + empl.annual_bonus * empl.have_annual_bonus
+                + empl.additional_provision_vwl * mc * empl.have_additional_provision_vwl
+                + empl.supplementary_pension * (mc + empl.have_annual_bonus) * empl.have_supplementary_pension;
+    empl.brutto = Math.ceil(empl.brutto/100)*100; // Результат округлять вверх до 100 евро. Например: 1201 = 1300
+    
+    var summ  = empl.cost_per_month_brutto * mc
+              + empl.annual_bonus * empl.have_annual_bonus
+              + empl.additional_provision_vwl * mc * empl.have_additional_provision_vwl;
+    empl.addCost = summ * umlage;
+    empl.addCost = Math.ceil(empl.addCost/100)*100;
+    empl.fullCost = empl.brutto + empl.addCost;
+    $scope.updateResultCost();
+  }
+  $scope.updateResultCost = function(){
+    $scope.emoloyeesCost = 0; 
+    $scope.training_cost = 0; 
+    $scope.overhead_cost = 0; 
+    $scope.prof_association_cost = 0;
+    angular.forEach($scope.request_users, function(empl, key) {
+      if(!empl.is_deleted) {
+        $scope.emoloyeesCost += (empl.fullCost || 0)*1;
+      }
+    });
+    angular.forEach($scope.financeSchools, function(sch, key) {
+      $scope.training_cost += (sch.training_cost || 0)*1;
+      $scope.overhead_cost += (sch.overhead_cost || 0)*1;
+    });
+    angular.forEach($scope.prof_associations, function(ps, key) {
+      if(!ps.is_deleted) {
+        $scope.prof_association_cost += (ps.sum || 0)*1;
+      }
+    });
+    $scope.prof_association_cost = $scope.prof_association_cost || 0;
+    $scope.revenue_sum = ($scope.revenue_sum || 0)*1;
+    $scope.total_cost = $scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum;
+    
+  }
+  $scope.updateTrainingCost = function(school){
+    if(school.rate >= 1) {
+      school.training_cost = 2250;
+//    } else if(school.rate <= 0,5) {
+//      
+    } else {
+      school.training_cost = 1125;
+    }
+    $scope.updateResultCost();
+  }
+  $scope.numValidate = function(obj, key,cnt){
+    cnt = cnt || 2;
+    if(!obj[key]) {
+      obj[key] = 0;
+    } else {
+      obj[key] = obj[key].split(',').join('.');
+      obj[key] = obj[key].split(/[^0-9\.]/).join('');
+      var r = new RegExp('([0-9]+)([\.]{0,1})([0-9]{0,'+cnt+'})[0-9]*', 'i');
+      var m = obj[key].match(r);
+      try{
+        obj[key] = m[1]+m[2]+m[3];
+      } catch(e) {
+        obj[key] = '';
+      }
+    }
+  }
+  $scope.deleteEmployee = function(idx){
+      if($scope.request_users[idx].id) {
+        $scope.request_users[idx].is_deleted = true;
+        $scope.request_users[idx].user_id = 0;
+      } else {
+        $scope.request_users.splice(idx, 1);
+      }
+      $scope.updateUserSelect();
+      $scope.updateResultCost();
+  }
+  $scope.deleteProfAssociation = function(idx){
+      if($scope.prof_associations[idx].id) {
+        $scope.prof_associations[idx].is_deleted = true;
+      } else {
+        $scope.prof_associations.splice(idx, 1);
+      }
+      $scope.updateResultCost();
+  }
+ 
+  
   RequestService.updateFinansistFP = function(id){
     $scope.data.finance_user_id = id;
     $scope.selectFinanceResult = Utils.getRowById($scope.users, $scope.data.finance_user_id);
@@ -316,6 +512,24 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         RequestService.updateFinansistPD($scope.data.finance_user_id)
         break;
     }
+  }
+  $scope.updateIBAN = function (item){
+    console.log(item);
+    $scope.IBAN = item;
+  }
+  $scope.updateUserSelect = function (){
+    var idx = {};
+    angular.forEach($scope.request_users, function(empl, key) {
+      idx[empl.user_id] = true;
+    });
+    angular.forEach($scope.users, function(empl, key) {
+      empl.is_selected = idx[empl.id]?1:0;
+    });
+  }
+  $scope.employeeOnSelect = function (item, employee){
+//    console.log(item);
+    $scope.updateUserSelect();
+    employee.user = item;
   }
 });
 
