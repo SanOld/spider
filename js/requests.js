@@ -3,7 +3,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     $rootScope._m = 'request';
   }
   var d = new Date;
-  $scope.filter = {year: d.getFullYear()};
+  $scope.filter = {year: d.getFullYear(), status_id: '1,3,4,5'};
 
 //  $scope.financeTypes = Utils.getFinanceTypes();
   $scope.checkboxes = {
@@ -39,7 +39,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   network.get('request_status', {}, function (result, response) {
     if (result) {
       $scope.statuses = response.result;
-      $scope.status_finance='r';
+      $scope.status_finance = 'r';
     }
   });
 
@@ -64,8 +64,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     } else {
       return  (network.user.type == 'a' || (row.status_code != 'decline' && row.status_code != 'accept')) && $rootScope.canEdit();
     }
-    console.log(row)
-    
   };
 
   function getSelectedIds() {
