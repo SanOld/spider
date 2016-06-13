@@ -32,14 +32,22 @@ $this->breadcrumbs = array('Anträge');
                   </ui-select>
                 </div>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <div class="form-group">
+                    <label>Kennziffer</label>
+                    <input ng-change="updateGrid()" type="search" ng-model="filter.project_code" class="form-control" placeholder="Eingegeben">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-1">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Fördertopf</label>
-                    <ui-select ng-change="updateGrid()" ng-model="filter.finance_type">
+                    <ui-select ng-change="updateGrid()" ng-model="filter.project_type_id">
                       <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                      <ui-select-choices ui-disable-choice="true" repeat="item.id as item in financeTypes | filter: $select.search | orderBy: 'name'">
-                        <span ng-bind="item.type_name"></span>
+                      <ui-select-choices repeat="item.id as item in projectTypes | filter: $select.search | orderBy: 'name'">
+                        <span ng-bind="item.name"></span>
                       </ui-select-choices>
                     </ui-select>
                   </div>
@@ -48,11 +56,11 @@ $this->breadcrumbs = array('Anträge');
               <div class="col-lg-2">
                 <div class="form-group">
                   <div class="form-group">
-                    <label>Programm</label>
-                    <ui-select ng-change="updateGrid()" ng-model="filter.program_id">
-                      <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.programm}}</ui-select-match>
-                      <ui-select-choices ui-disable-choice="true" repeat="item.id as item in programs | filter: $select.search | orderBy: 'programm'">
-                        <span ng-bind="item.programm"></span>
+                    <label>Schultyp</label>
+                    <ui-select ng-change="updateGrid()" ng-model="filter.school_type_id">
+                      <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                      <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search | orderBy: 'name'">
+                        <span ng-bind="item.full_name"></span>
                       </ui-select-choices>
                     </ui-select>
                   </div>
@@ -64,7 +72,7 @@ $this->breadcrumbs = array('Anträge');
                     <label>Jahr</label>
                     <ui-select ng-change="updateGrid()" ng-model="filter.year">
                       <ui-select-match>{{$select.selected}}</ui-select-match>
-                      <ui-select-choices repeat="item as item in years | filter: $select.search">
+                      <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: item">
                         <span ng-bind="item"></span>
                       </ui-select-choices>
                     </ui-select>
@@ -154,7 +162,7 @@ $this->breadcrumbs = array('Anträge');
             </div>
           </div>
           <div class="clearfix">
-            <div class="notice" ng-repeat="status in statuses">
+            <div class="notice" ng-repeat="status in statuses | filter:{virtual: 0}">
               <span class="color-notice" ng-class="status.code+'-row'"></span>
               {{status.name}}
             </div>

@@ -5,7 +5,7 @@ require_once ('utils/utils.php');
 class SchoolType extends BaseModel {
   public $table = 'spi_school_type';
   public $post = array();
-  public $select_all = " * ";
+  public $select_all = " *, CONCAT('(', UPPER(code), ') ', name) full_name ";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command -> where(' 1=1 ', array());

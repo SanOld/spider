@@ -15,12 +15,11 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   Hint,
                   BankDetails,
                   FinanceSource,
-                  Request, RequestStatus, RequestSchoolConcept, RequestSchoolGoal,
+                  Request, RequestStatus, RequestSchoolConcept, RequestSchoolGoal, RequestSchoolFinance,
                   SystemModel,
-                  AuditTables,
-                  Audit,
-                  DocumentTemplate, DocumentTemplateType, DocumentTemplatePlaceholder,
-                  EmailTemplate');
+                  AuditTables, Audit,
+                  DocumentTemplate, DocumentTemplateType, DocumentTemplatePlaceholder, EmailTemplate,
+                  RemunerationLevel, RequestFinancialGroup, RequestUser, RequestProfAssociation');
 
 class BaseController extends Controller {
   private $method = false;

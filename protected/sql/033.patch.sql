@@ -8,3 +8,6 @@ UPDATE `spi_request_school_goal` SET status = 'unfinished' WHERE status = 'g';
 UPDATE `spi_request_school_goal` SET status = 'in_progress' WHERE status = 'r';
 UPDATE `spi_request_school_goal` SET status = 'accepted' WHERE status = 'a';
 UPDATE `spi_request_school_goal` SET status = 'rejected' WHERE status = 'd';
+
+
+ALTER TABLE `spi_request` ADD COLUMN `bank_details_id` INT(11) NULL AFTER `status_goal`;
