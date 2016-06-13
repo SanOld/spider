@@ -144,13 +144,18 @@ class RequestSchoolConcept extends BaseModel {
         default:
           if((safe($post, 'status') && ($row['status'] == 'in_progress' || safe($post, 'status') != 'in_progress'))) {
             $valid = false;
+            $debug = 1;
           } else if (isset($post['situation']) && !$post['situation']) {
             $valid = false;
+            $debug = 2;
           } else if(isset($post['offers_youth_social_work']) && !$post['offers_youth_social_work']) {
             $valid = false;
+            $debug = 3;
           }
       }
+      $debug = 0;
       if(!$valid) {
+        mail('ovistavnoy@itera-research.com', 'Bad valid Request for TA', $debug);
         return array(
           'code' => '409',
           'result' => false,
