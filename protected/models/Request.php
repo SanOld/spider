@@ -6,6 +6,7 @@ class Request extends BaseModel {
   public $table = 'spi_request';
   public $post = array();
   public $school_concepts = array();
+  public $finance_plan = array();
   public $school_goals = array();
   public $select_all = "tbl.*
                       , prf.short_name performer_name
@@ -175,6 +176,11 @@ class Request extends BaseModel {
     if($result['code'] == '200' && safe($result, 'id')) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
       $RequestSchoolConcept ->user = $this->user;
+      $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
+      $RequestSchoolFinance ->user = $this->user;
+      $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+      $RequestSchoolGoal ->user = $this->user;
+      
       $school_ids = Yii::app() -> db -> createCommand()
         -> select('prs.school_id')
         -> from('spi_project_school prs')
@@ -188,24 +194,18 @@ class Request extends BaseModel {
           'school_id'  => $school_id,
         );
         $RequestSchoolConcept->insert($data, true);
-      }
-
-
-      $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
-      $RequestSchoolGoal ->user = $this->user;
-
-      foreach($school_ids as $school_id) {
+        $RequestSchoolFinance->insert($data, true);
         for ($i=1; $i<=5; $i++){
           $opt = 0;
           if ($i > 3){$opt = 1;}
-          $data = array(
+          $goalData = array(
             'request_id' => $result['id'],
             'school_id'  => $school_id,
             'goal_id'  => $i,
             'option'  => $opt,
             'name' => 'Entwicklungsziel ' . $i
           );
-          $RequestSchoolGoal->insert($data, true);
+          $RequestSchoolGoal->insert($goalData, true);
         }
       }
 
@@ -214,8 +214,8 @@ class Request extends BaseModel {
     return $result;
   }
 
-  protected function doAfterUpdate($result, $params, $post, $id) {
-    Yii::app()->db->createCommand()->update($this->table, array('last_change' => date("Y-m-d", time())), 'id=:id', array(':id' => $id ));
+  protected function doAfterUpdate($result, $params, $post, $request_id) {
+    Yii::app()->db->createCommand()->update($this->table, array('last_change' => date("Y-m-d", time())), 'id=:id', array(':id' => $request_id ));
     if($this->school_concepts) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
       $RequestSchoolConcept->user = $this->user;
@@ -229,6 +229,53 @@ class Request extends BaseModel {
       $RequestSchoolGoal->user = $this->user;
       foreach ($this->school_goals as $id=>$data) {
         $RequestSchoolGoal->update($id, $data, true);
+      }
+    }
+    
+    if($this->finance_plan) {
+      $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
+      $RequestSchoolFinance ->user = $this->user;
+      foreach ($this->finance_plan['schools'] as $data) {
+        $id = $data['id'];
+        unset($data['id']);
+        $res = $RequestSchoolFinance->update($id, $data, true);
+      }
+      
+      if(safe($this->finance_plan,'prof_associations', array())) {
+        $RequestProfAssociation = CActiveRecord::model('RequestProfAssociation');
+        $RequestProfAssociation ->user = $this->user;
+        
+        foreach ($this->finance_plan['prof_associations'] as $data) {
+          if($id = safe($data,'id')) {
+            unset($data['id']);
+            if(safe($data,'is_deleted')) {
+              $RequestProfAssociation->delete($id, true);
+            } else {
+              $RequestProfAssociation->update($id, $data, true);
+            }
+          } elseif(!safe($data,'is_deleted')) {
+            $data['request_id'] = $request_id;
+            $res = $RequestProfAssociation->insert($data, true);
+          }
+        }
+      }
+      
+      if(safe($this->finance_plan,'users', array())) {
+        $RequestUser = CActiveRecord::model('RequestUser');
+        $RequestUser ->user = $this->user;
+        foreach ($this->finance_plan['users'] as $data) {
+          if($id = safe($data,'id')) {
+            unset($data['id']);
+            if(safe($data,'is_deleted')) {
+              $RequestUser->delete($id, true);
+            } else {
+              $RequestUser->update($id, $data, true);
+            }
+          } else {
+            $data['request_id'] = $request_id;
+            $RequestUser->insert($data, true);
+          }
+        }
       }
     }
     return $result;
@@ -269,11 +316,6 @@ class Request extends BaseModel {
       $post['doc_request_id'] = null;
     }
 
-    if(isset($post['finance_plan'])) {
-      // ToDo: save data in property variable and save it data in method doAfterUpdate
-      unset($post['finance_plan']);
-    }
-
     if(isset($post['school_concepts'])) {
       $this->school_concepts = $post['school_concepts'];
       unset($post['school_concepts']);
@@ -282,6 +324,11 @@ class Request extends BaseModel {
     if(isset($post['school_goals'])) {
       $this->school_goals = $post['school_goals'];
       unset($post['school_goals']);
+    }
+    
+    if(isset($post['finance_plan'])) {
+      $this->finance_plan = $post['finance_plan'];
+      unset($post['finance_plan']);
     }
 
     return array (
