@@ -162,7 +162,7 @@ $this->breadcrumbs = array('Anträge');
             </div>
           </div>
           <div class="clearfix">
-            <div class="notice" ng-repeat="status in statuses">
+            <div class="notice" ng-repeat="status in statuses | filter:{virtual: 0}">
               <span class="color-notice" ng-class="status.code+'-row'"></span>
               {{status.name}}
             </div>

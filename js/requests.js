@@ -65,7 +65,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   
   $scope.canEdit = function(row) {
     if(!row) {
-      $rootScope.canEdit()
+      return $rootScope.canEdit();
     } else {
       return  (network.user.type == 'a' || (row.status_code != 'decline' && row.status_code != 'accept')) && $rootScope.canEdit();
     }

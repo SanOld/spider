@@ -14,13 +14,14 @@ class RequestStatus extends BaseModel {
 
   protected function doAfterSelect($result) {
     $activity_ids = array();
-    foreach($result['result'] as $row) {
+    foreach($result['result'] as &$row) {
+      $row['virtual'] = 0;
       if(in_array($row['code'], array('open', 'in_progress', 'acceptable', 'accept'))) {
         $activity_ids[] = $row['id'];
       }
     }
     if($activity_ids) {
-      array_unshift($result['result'], array('id' => implode(',', $activity_ids), 'code' => 'active_all', 'name' => '(Active all)'));
+      array_unshift($result['result'], array('id' => implode(',', $activity_ids), 'code' => 'active_all', 'name' => '(Active all)', 'virtual' => 1));
     }
     return $result;
   }
