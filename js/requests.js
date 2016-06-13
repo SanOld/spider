@@ -23,9 +23,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     }
   });
 
-  network.get('finance_source', {}, function (result, response) {
+  network.get('school_type', {}, function (result, response) {
     if (result) {
-      $scope.programs = response.result;
+      $scope.schoolTypes = response.result;
     }
   });
 

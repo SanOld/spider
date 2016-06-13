@@ -86,6 +86,9 @@ class Request extends BaseModel {
   protected function getParamCommand($command, array $params, array $logic = array()) {
     parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
+    if(safe($params, 'PROJECT_CODE')) {
+      $command = $this->setLikeWhere($command, array('prj.code'), safe($params, 'PROJECT_CODE'));
+    }
     if(safe($params, 'YEAR')) {
       $command -> andWhere('tbl.year = :year', array(':year' => $params['YEAR']));
     }
@@ -95,8 +98,8 @@ class Request extends BaseModel {
     if(safe($params, 'PROJECT_TYPE_ID')) {
       $command -> andWhere('prj.type_id = :type_id', array(':type_id' => $params['PROJECT_TYPE_ID']));
     }
-    if(safe($params, 'PROGRAM_ID')) {
-      $command -> andWhere('fns.id = :program_id', array(':program_id' => $params['PROGRAM_ID']));
+    if(safe($params, 'SCHOOL_TYPE_ID')) {
+      $command -> andWhere('prj.school_type_id = :type_id', array(':type_id' => $params['SCHOOL_TYPE_ID']));
     }
     if(safe($params, 'STATUS_ID')) {
       if(!is_int($params['STATUS_ID'])) {
@@ -106,7 +109,6 @@ class Request extends BaseModel {
       }
       $command -> andWhere(array('in', 'rqs.id', $values));
     }
-//        print_r ($command->text);
     $command = $this->setWhereByRole($command);
     return $command;
   }

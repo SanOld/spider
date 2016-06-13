@@ -32,7 +32,15 @@ $this->breadcrumbs = array('Anträge');
                   </ui-select>
                 </div>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <div class="form-group">
+                    <label>Kennziffer</label>
+                    <input ng-change="updateGrid()" type="search" ng-model="filter.project_code" class="form-control" placeholder="Eingegeben">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-1">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Fördertopf</label>
@@ -48,11 +56,11 @@ $this->breadcrumbs = array('Anträge');
               <div class="col-lg-2">
                 <div class="form-group">
                   <div class="form-group">
-                    <label>Programm</label>
-                    <ui-select ng-change="updateGrid()" ng-model="filter.program_id">
-                      <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.programm}}</ui-select-match>
-                      <ui-select-choices repeat="item.id as item in programs | filter: $select.search | orderBy: 'programm'">
-                        <span ng-bind="item.programm"></span>
+                    <label>Schultyp</label>
+                    <ui-select ng-change="updateGrid()" ng-model="filter.school_type_id">
+                      <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                      <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search | orderBy: 'name'">
+                        <span ng-bind="item.full_name"></span>
                       </ui-select-choices>
                     </ui-select>
                   </div>
