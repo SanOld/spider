@@ -141,7 +141,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 							</div>
 						</div>
 					</uib-tab>
-          <uib-tab class="project" index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
+          <uib-tab class="schools-goals {{goalsStatus}}"  index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
                       <?php include(Yii::app()->getBasePath().'/views/site/partials/request-goals-data.php'); ?>
           </uib-tab>
 

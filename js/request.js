@@ -510,6 +510,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
     if (!('groups' in goal)){
       goal.groups = {};
+      goal.errors = {};
     }
     if (!(group in goal.groups)){
       goal.groups[group] = {};
@@ -610,37 +611,51 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
   $scope.submitForm = function( goal, action ) {
 
+    submitRequest = function(){
+      var sendGoal = angular.copy(goal);
+      if ('groups' in sendGoal){delete sendGoal.groups;}
+      if ('errors' in sendGoal){delete sendGoal.errors;}
+      if ('showError' in sendGoal){delete sendGoal.showError;}
+        network.put('request_school_goal/' + sendGoal.id, sendGoal, function(result){
+          if(result) {
+            $scope.checkSchoolStatus();
+          }
+      });
+    }
+
+    isEmptyObject = function(obj) {
+      for (var i in obj) {
+          return false;
+      }
+      return true;
+    }
+
+
     switch (action) {
       case 'submit':
-        if(!$scope.error){
+        if(isEmptyObject(goal.errors)){
+          goal.showError = false;
           goal.status = 'in_progress';
           submitRequest(goal);
         } else {
-          $scope.showError();
+          goal.showError = true;
         }
         break;
       case 'declare':
         if (!goal.notice){
           return false;
         }
-        submitRequest(goal);
         goal.status = 'rejected';
+        submitRequest(goal);
 
         break;
       case 'accept':
-        submitRequest(goal);
         goal.status = 'accepted';
+        submitRequest(goal);
         break;
     }
 
-    submitRequest = function(){
-        if ('groups' in goal){delete goal.groups;}
-          network.put('request_school_goal/' + goal.id, goal, function(result){
-            if(result) {
-              $scope.checkSchoolStatus();
-            }
-        });
-      }
+
   };
 
   RequestService.getSchoolGoalData = function(){
@@ -648,9 +663,11 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     if(angular.isObject($scope.schoolGoals)){
       for (var school in $scope.schoolGoals){
         if(angular.isObject($scope.schoolGoals[school])){
-          var goals = $scope.schoolGoals[school].goals;
+          var goals = angular.copy($scope.schoolGoals[school].goals);
           for(var goal in goals){
             delete goals[goal].groups;
+            delete goals[goal].errors;
+            delete goals[goal].showError;
             data[goals[goal].id]=(goals[goal]);
           }
         }
@@ -680,36 +697,33 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     }
   }
 
-  $scope.fieldError = function (field) {
-    if(field == undefined || field == ''){
-    $scope.error = true;
-    return true;
-    } else {
-      $scope.error = false;
-      return false;
-    }
-
-  }
-  $scope.groupError = function(group){
-    if(group.counter == undefined || group.counter == 0){
-      group.error = '1';
-      $scope.error = true;
+  $scope.fieldError = function (goal, field) {
+    if(goal[field] == undefined || goal[field] == ''){
+      goal.errors[field] = true;
       return true;
     } else {
-      group.error = '0';
-      $scope.error = false;
+      delete goal.errors[field];
       return false;
     }
 
   }
-  $scope.showError = function(){
-    if($scope.error ){
-      return $scope.errorShow = true;
+  $scope.groupError = function(goal, group){
+    if(goal.groups !== undefined && goal.groups[group] !== undefined){
+      if(goal.groups[group].counter == undefined || goal.groups[group].counter == 0){
+        goal.groups[group].error = true;
+        goal.errors[group] = true;
+        return true;
+      } else {
+        goal.groups[group].error = false;
+        delete goal.errors[group];
+        return false;
+      }
     } else {
-      return $scope.errorShow = false;
+      goal.errors[group] = true;
+      return true;
     }
-
   }
+
 });
 
 spi.controller('ModalDurationController', function ($scope, start_date, due_date,  $uibModalInstance) {
