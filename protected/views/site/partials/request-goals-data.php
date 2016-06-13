@@ -261,7 +261,15 @@
                         <p class="col-lg-8">Sonstiges (Bezug in extra Textfeld benennen)</p>
                       </div>
                       <div class="col-lg-8 pull-right textarea-box" ng-show="goal.other_goal > 0">
-                        <textarea placeholder="Tragen Sie den Text hier ein" ng-model="goal.other_description" class="form-control"></textarea>
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'other_description', goal.other_goal) && goal.showError && goal.other_goal > 0)}">
+                          <textarea placeholder="Tragen Sie den Text hier ein" ng-model="goal.other_description" class="form-control"></textarea>
+
+                          <span ng-class="{hide: !(fieldError(goal, 'other_description', goal.other_goal)  && goal.showError  && goal.other_goal > 0)}" class="hide">
+                            <label  class="error">Feld ist erforderlich</label>
+                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                          </span>
+                          <br>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -439,7 +447,15 @@
                         <p class="col-lg-8">Sonstiges (Bezug in extra Textfeld benennen)</p>
                       </div>
                       <div class="col-lg-8 pull-right textarea-box" ng-show="goal.net_other_goal > 0">
-                        <textarea ng-model="goal.network_text" placeholder="Tragen Sie den Text hier ein"  class="form-control"></textarea>
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'network_text',  goal.net_other_goal ) && goal.showError && goal.net_other_goal > 0)}">
+                          <textarea ng-model="goal.network_text" placeholder="Tragen Sie den Text hier ein"  class="form-control"></textarea>
+
+                          <span ng-class="{hide: !(fieldError(goal, 'network_text', goal.net_other_goal)  && goal.showError  && goal.net_other_goal > 0)}" class="hide">
+                            <label  class="error">Feld ist erforderlich</label>
+                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                          </span>
+                          <br>
+                        </div>
                       </div>
                     </div>
                   </div>
