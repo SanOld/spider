@@ -42,10 +42,10 @@
                   </div>
 
                   <h4>{{::goal.name}}</h4>
-                  <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal.description) && errorShow)}">
+                  <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'description') && goal.showError)}">
                     <textarea  ng-model="goal.description" name="description" class="form-control" placeholder="Tragen Sie den Text hier ein here" ></textarea>
 
-                    <span ng-class="{hide: !(fieldError(goal.description)  && errorShow)}" class="hide">
+                    <span ng-class="{hide: !(fieldError(goal, 'description')  && goal.showError)}" class="hide">
                       <label  class="error">Feld ist erforderlich</label>
                       <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                     </span>
@@ -70,7 +70,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.capacity" ng-change="checkCount('groupOffer', 'capacity', goal)">
-                            <i class="fa"  ng-class="{'err': goal.groups.groupOffer.error === '1'  && errorShow}"></i>
+                            <i class="fa"  ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -92,7 +92,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.transition" ng-change="checkCount('groupOffer', 'transition', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -114,7 +114,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.reintegration" ng-change="checkCount('groupOffer', 'reintegration', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -136,7 +136,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.social_skill" ng-change="checkCount('groupOffer', 'social_skill', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -158,7 +158,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.prevantion_violence" ng-change="checkCount('groupOffer', 'prevantion_violence', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -180,7 +180,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.health" ng-change="checkCount('groupOffer', 'health', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -201,7 +201,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.sport" ng-change="checkCount('groupOffer', 'sport', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -222,7 +222,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.parent_skill" ng-change="checkCount('groupOffer', 'parent_skill', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -243,7 +243,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.other_goal" ng-change="checkCount('groupOffer', 'other_goal', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -265,9 +265,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="wrap-hint" ng-class="{'wrap-line error': (groupError(goal.groups.groupOffer) && errorShow)}">
+                  <div class="wrap-hint" ng-class="{'wrap-line error': (groupError(goal, 'groupOffer') && goal.showError)}">
 
-                    <span ng-class="{hide: !(groupError(goal.groups.groupOffer) && errorShow)}" class="hide">
+                    <span ng-class="{hide: !(groupError(goal, 'groupOffer') && goal.showError)}" class="hide">
                       <label  class="error">Wählen Sie Ziel</label>
                       <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                     </span>
@@ -290,7 +290,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled" >
                             <input type="radio" value="1" ng-model="goal.cooperation" ng-change="checkCount('groupNet', 'cooperation', goal)" >
-                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error === '1'  && errorShow}" ></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}" ></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -312,7 +312,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.participation" ng-change="checkCount('groupNet', 'participation', goal)" >
-                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -334,7 +334,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.social_area" ng-change="checkCount('groupNet', 'social_area', goal)" >
-                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -356,7 +356,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.third_part" ng-change="checkCount('groupNet', 'third_part', goal)" >
-                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -378,7 +378,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.regional" ng-change="checkCount('groupNet', 'regional', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -400,7 +400,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.concept" ng-change="checkCount('groupNet', 'concept', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -421,7 +421,7 @@
                         <div class="label-holder col-lg-2">
                           <label class="cr-styled">
                             <input type="radio" value="1" ng-model="goal.net_other_goal" ng-change="checkCount('groupNet', 'net_other_goal', goal)">
-                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error === '1'  && errorShow}"></i>
+                            <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
                           </label>
                         </div>
                         <div class="label-holder col-lg-1">
@@ -443,8 +443,8 @@
                       </div>
                     </div>
                   </div>
-                  <div class="wrap-hint" ng-class="{'wrap-line error': (groupError(goal.groups.groupNet) && errorShow)}">
-                    <span ng-class="{hide: !(groupError(goal.groups.groupNet) && errorShow)}" class="hide">
+                  <div class="wrap-hint" ng-class="{'wrap-line error': (groupError(goal, 'groupNet') && goal.showError)}">
+                    <span ng-class="{hide: !(groupError(goal, 'groupNet') && goal.showError)}" class="hide">
                       <label  class="error">Wählen Sie Ziel</label>
                       <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                     </span>
@@ -454,10 +454,10 @@
 
                   <h4 class="m-t-40">Umsetzung</h4>
 
-                  <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal.implementation) && errorShow)}">
+                  <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'implementation') && goal.showError)}">
                     <textarea ng-model="goal.implementation" class="form-control" placeholder="Tragen Sie den Text hier ein"></textarea>
 
-                    <span ng-class="{hide: !(fieldError(goal.implementation)  && errorShow)}" class="hide">
+                    <span ng-class="{hide: !(fieldError(goal, 'implementation')  && goal.showError)}" class="hide">
                       <label  class="error">Feld ist erforderlich</label>
                       <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                     </span>
@@ -471,10 +471,10 @@
                         1.
                       </label>
                       <div class="col-lg-11">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal.indicator_1) && errorShow)}">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_1') && goal.showError)}">
                           <input type="text" ng-model="goal.indicator_1" value="" class="form-control">
 
-                          <span ng-class="{hide: !(fieldError(goal.indicator_1)  && errorShow)}" class="hide">
+                          <span ng-class="{hide: !(fieldError(goal, 'indicator_1')  && goal.showError)}" class="hide">
                             <label  class="error">Feld ist erforderlich</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                           </span>
@@ -487,10 +487,10 @@
                         2.
                       </label>
                       <div class="col-lg-11">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal.indicator_2) && errorShow)}">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_2') && goal.showError)}">
                           <input type="text" ng-model="goal.indicator_2" value="" class="form-control">
 
-                          <span ng-class="{hide: !(fieldError(goal.indicator_2)  && errorShow)}" class="hide">
+                          <span ng-class="{hide: !(fieldError(goal, 'indicator_2')  && goal.showError)}" class="hide">
                             <label  class="error">Feld ist erforderlich</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                           </span>
@@ -503,10 +503,10 @@
                         3.
                       </label>
                       <div class="col-lg-11">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal.indicator_3) && errorShow)}">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_3') && goal.showError)}">
                           <input type="text" ng-model="goal.indicator_3" value="" class="form-control">
 
-                          <span ng-class="{hide: !(fieldError(goal.indicator_3)  && errorShow)}" class="hide">
+                          <span ng-class="{hide: !(fieldError(goal, 'indicator_3')  && goal.showError)}" class="hide">
                             <label  class="error">Feld ist erforderlich</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                           </span>
@@ -519,10 +519,10 @@
                         4.
                       </label>
                       <div class="col-lg-11">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal.indicator_4) && errorShow)}">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_4') && goal.showError)}">
                           <input type="text" ng-model="goal.indicator_4" value="" class="form-control">
 
-                          <span ng-class="{hide: !(fieldError(goal.indicator_4)  && errorShow)}" class="hide">
+                          <span ng-class="{hide: !(fieldError(goal, 'indicator_4')  && goal.showError)}" class="hide">
                             <label  class="error">Feld ist erforderlich</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                           </span>
@@ -535,10 +535,10 @@
                         5.
                       </label>
                       <div class="col-lg-11">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal.indicator_5) && errorShow)}">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_5') && goal.showError)}">
                           <input type="text" ng-model="goal.indicator_5" value="" class="form-control">
 
-                          <span ng-class="{hide: !(fieldError(goal.indicator_5)  && errorShow)}" class="hide">
+                          <span ng-class="{hide: !(fieldError(goal, 'indicator_5')  && goal.showError)}" class="hide">
                             <label  class="error">Feld ist erforderlich</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                           </span>

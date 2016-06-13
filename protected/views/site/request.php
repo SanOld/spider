@@ -141,7 +141,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 							</div>
 						</div>
 					</uib-tab>
-          <uib-tab class="project" index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
+          <uib-tab class="schools-goals {{goalsStatus}}"  index="'schools-goals'" select="setTab('schools-goals')" heading="Entwicklungsziele">
                       <?php include(Yii::app()->getBasePath().'/views/site/partials/request-goals-data.php'); ?>
           </uib-tab>
 
@@ -160,7 +160,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 					<div class="col-lg-6 text-right">
 						<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
 						<button ng-show="userCan('save')" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()">Speichern</button>
-						<button ng-show="userCan('save')" ng-class="{disabled: !goal.notice}" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur liste">Anwenden</button>
+						<button ng-show="userCan('save')"  class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur liste">Anwenden</button>
 					</div>
 				</div>
 
