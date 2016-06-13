@@ -356,10 +356,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
     });
     
-    network.get('request_user', {}, function (result, response) {
+    network.get('request_user', {request_id: $scope.$parent.requestID}, function (result, response) {
       if (result) {
         $scope.request_users = response.result;
-        if(response.result.count == 0) {
+        if(response.result.count == '0') {
           $scope.request_users = [{}];
         } else {
           angular.forEach($scope.request_users, function(val, key) {
@@ -387,10 +387,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       $scope.remuneration_level = response.result;
     }
   });
-  network.get('request_prof_association', {}, function (result, response) {
+  network.get('request_prof_association', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
       $scope.prof_associations = response.result;
-      if(response.result.count == 0) {
+      if(response.result.count == '0') {
         $scope.prof_associations = [{}];
       }
     }
