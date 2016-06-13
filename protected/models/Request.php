@@ -141,6 +141,7 @@ class Request extends BaseModel {
         $row['start_date_unix'] = strtotime($row['start_date']).'000';
         $row['due_date_unix'] = strtotime($row['due_date']).'000';
         $row['last_change_unix'] = strtotime($row['last_change']).'000';
+        $row['end_fill_unix'] = strtotime($row['end_fill']).'000';
         $row['status_goal'] = $this->calcGoalsStatus($row['id']);
         $row['status_concept'] = $this->calcConceptStatus($row['id']);
         $row['status_finance'] = $this->calcFinanceStatus($row['id']);
@@ -237,14 +238,14 @@ class Request extends BaseModel {
       $RequestSchoolFinance ->user = $this->user;
       $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
       $RequestSchoolGoal ->user = $this->user;
-      
+
       $school_ids = Yii::app() -> db -> createCommand()
         -> select('prs.school_id')
         -> from('spi_project_school prs')
         -> join('spi_request req', 'req.project_id = prs.project_id')
         -> where('req.id=:id', array(':id' => $result['id']))
         -> queryColumn();
-      
+
       $rate = Yii::app() -> db -> createCommand()
         -> select('rate')
         -> from('spi_project')
@@ -257,7 +258,7 @@ class Request extends BaseModel {
           'school_id'  => $school_id,
         );
         $RequestSchoolConcept->insert($data, true);
-        
+
         $data['rate'] = $rate;
         $data['overhead_cost'] = 1800;
         $RequestSchoolFinance->insert($data, true);
@@ -297,7 +298,7 @@ class Request extends BaseModel {
         $RequestSchoolGoal->update($id, $data, true);
       }
     }
-    
+
     if($this->finance_plan) {
       $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
       $RequestSchoolFinance ->user = $this->user;
@@ -306,11 +307,11 @@ class Request extends BaseModel {
         unset($data['id']);
         $res = $RequestSchoolFinance->update($id, $data, true);
       }
-      
+
       if(safe($this->finance_plan,'prof_associations', array())) {
         $RequestProfAssociation = CActiveRecord::model('RequestProfAssociation');
         $RequestProfAssociation ->user = $this->user;
-        
+
         foreach ($this->finance_plan['prof_associations'] as $data) {
           if($id = safe($data,'id')) {
             unset($data['id']);
@@ -325,7 +326,7 @@ class Request extends BaseModel {
           }
         }
       }
-      
+
       if(safe($this->finance_plan,'users', array())) {
         $RequestUser = CActiveRecord::model('RequestUser');
         $RequestUser ->user = $this->user;
@@ -391,7 +392,7 @@ class Request extends BaseModel {
       $this->school_goals = $post['school_goals'];
       unset($post['school_goals']);
     }
-    
+
     if(isset($post['finance_plan'])) {
       $this->finance_plan = $post['finance_plan'];
       unset($post['finance_plan']);

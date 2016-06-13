@@ -206,7 +206,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 			<div class="form-group group-btn m-t-20">
 				<div class="col-lg-12">
 					<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-					<button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date">Speichern</button>
+					<button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date|| form.start_date > form.end_fill || form.due_date < form.end_fill">Speichern</button>
 				</div>
 			</div>
 		</div>
@@ -236,6 +236,41 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 			<div class="form-group group-btn">
 				<div class="col-lg-12">
 					<button ng-click="cancel()" class="btn w-lg custom-btn pull-right" data-dismiss="modal">SCHLIEßEN</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+
+<script type="text/ng-template" id="setEndFill.html">
+	<div class="panel panel-color panel-primary">
+		<div class="panel-heading clearfix">
+			<h3 class="m-0 pull-left">Abgabe</h3>
+			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
+		</div>
+		<div class="panel-body text-center">
+			<div class="form-group">
+				<ng-form>
+					<div class="holder-datepicker text-right">
+						<div class="col-lg-2 p-0">
+							<label>Abgabe</label>
+						</div>
+						<div class="col-lg-4 p-0">
+							<div class="input-group">
+								<input type="text" ng-click="dp_start_date_is_open = !dp_start_date_is_open" ng-model="form.end_fill" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_start_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" >
+								<span class="input-group-addon" ng-click="dp_start_date_is_open = !dp_start_date_is_open"><i class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</div>
+					</div>
+				</ng-form>
+			</div>
+		</div>
+		<div class="row p-t-10 text-center">
+			<div class="form-group group-btn m-t-20">
+				<div class="col-lg-12">
+					<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+					<button class="btn w-lg custom-btn" ng-click="ok()"  ng-disabled="form.$invalid || form.start_date > form.end_fill || form.due_date < form.end_fill">Speichern</button>
 				</div>
 			</div>
 		</div>
