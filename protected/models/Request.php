@@ -92,9 +92,9 @@ class Request extends BaseModel {
     if(safe($params, 'PERFORMER_ID')) {
       $command -> andWhere('prf.id = :performer_id', array(':performer_id' => $params['PERFORMER_ID']));
     }
-//    if(safe($params, 'FINANCE_TYPE')) {
-//      $command -> andWhere('prj.finance_source_type = :finance_type', array(':finance_type' => $params['FINANCE_TYPE']));
-//    }
+    if(safe($params, 'PROJECT_TYPE_ID')) {
+      $command -> andWhere('prj.type_id = :type_id', array(':type_id' => $params['PROJECT_TYPE_ID']));
+    }
     if(safe($params, 'PROGRAM_ID')) {
       $command -> andWhere('fns.id = :program_id', array(':program_id' => $params['PROGRAM_ID']));
     }

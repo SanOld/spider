@@ -36,10 +36,10 @@ $this->breadcrumbs = array('Anträge');
                 <div class="form-group">
                   <div class="form-group">
                     <label>Fördertopf</label>
-                    <ui-select ng-change="updateGrid()" ng-model="filter.finance_type">
+                    <ui-select ng-change="updateGrid()" ng-model="filter.project_type_id">
                       <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                      <ui-select-choices ui-disable-choice="true" repeat="item.id as item in financeTypes | filter: $select.search | orderBy: 'name'">
-                        <span ng-bind="item.type_name"></span>
+                      <ui-select-choices repeat="item.id as item in projectTypes | filter: $select.search | orderBy: 'name'">
+                        <span ng-bind="item.name"></span>
                       </ui-select-choices>
                     </ui-select>
                   </div>
@@ -51,7 +51,7 @@ $this->breadcrumbs = array('Anträge');
                     <label>Programm</label>
                     <ui-select ng-change="updateGrid()" ng-model="filter.program_id">
                       <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.programm}}</ui-select-match>
-                      <ui-select-choices ui-disable-choice="true" repeat="item.id as item in programs | filter: $select.search | orderBy: 'programm'">
+                      <ui-select-choices repeat="item.id as item in programs | filter: $select.search | orderBy: 'programm'">
                         <span ng-bind="item.programm"></span>
                       </ui-select-choices>
                     </ui-select>
