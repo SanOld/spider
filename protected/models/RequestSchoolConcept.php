@@ -133,6 +133,7 @@ class RequestSchoolConcept extends BaseModel {
       -> where('id = :id', array(':id' => $id))
       -> queryRow()) {
       $valid = true;
+      $debug = 0;
       switch ($this->user['type']) {
         case PA:
           if($row['offers_youth_social_work'] != safe($post, 'offers_youth_social_work') || $row['situation'] != safe($post, 'situation')) {
@@ -153,7 +154,7 @@ class RequestSchoolConcept extends BaseModel {
             $debug = 3;
           }
       }
-      $debug = 0;
+
       if(!$valid) {
         mail('ovistavnoy@itera-research.com', 'Bad valid Request for TA', $debug);
         return array(
