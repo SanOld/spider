@@ -80,7 +80,6 @@ class Request extends BaseModel {
       $command -> where(' 1=1 ', array());
 
     }
-
     return $command;
   }
 
@@ -245,6 +244,12 @@ class Request extends BaseModel {
         -> join('spi_request req', 'req.project_id = prs.project_id')
         -> where('req.id=:id', array(':id' => $result['id']))
         -> queryColumn();
+      
+      $rate = Yii::app() -> db -> createCommand()
+        -> select('rate')
+        -> from('spi_project')
+        -> where('id=:id', array(':id' => $params['project_id']))
+        -> queryScalar();
 
       foreach($school_ids as $school_id) {
         $data = array(
@@ -252,6 +257,9 @@ class Request extends BaseModel {
           'school_id'  => $school_id,
         );
         $RequestSchoolConcept->insert($data, true);
+        
+        $data['rate'] = $rate;
+        $data['overhead_cost'] = 1800;
         $RequestSchoolFinance->insert($data, true);
         for ($i=1; $i<=5; $i++){
           $opt = 0;
