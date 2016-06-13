@@ -697,16 +697,23 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     }
   }
 
-  $scope.fieldError = function (goal, field) {
-    if(goal[field] == undefined || goal[field] == ''){
-      goal.errors[field] = true;
-      return true;
+  $scope.fieldError = function (goal, field, condition) {
+    var check = condition || true;
+    if(check != '0'){
+      if(goal[field] == undefined || goal[field] == ''){
+        goal.errors[field] = true;
+        return true;
+      } else {
+        delete goal.errors[field];
+        return false;
+      }
     } else {
       delete goal.errors[field];
       return false;
     }
 
   }
+
   $scope.groupError = function(goal, group){
     if(goal.groups !== undefined && goal.groups[group] !== undefined){
       if(goal.groups[group].counter == undefined || goal.groups[group].counter == 0){
