@@ -354,7 +354,7 @@ class Request extends BaseModel {
 
       $row['schools'] = Yii::app() -> db -> createCommand()
                                       -> select("sch.*
-                                                , CONCAT(user.title, ' ' , user.first_name, ' ', user.last_name) user_name
+                                                ,CONCAT(IF(user.sex = 1, 'Herr', 'Frau' ), ' ' , user.first_name, ' ', user.last_name)  user_name
                                                 , user.function user_function")
                                       -> from('spi_project_school prj_sch')
                                       -> join( 'spi_school sch', 'prj_sch.school_id = sch.id' )
