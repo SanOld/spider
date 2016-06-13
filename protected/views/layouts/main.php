@@ -3,7 +3,7 @@
 <head>
   <?php include('head.php'); ?>
 </head>
-<body ng-class="{'bg': _m == 'dashboard'}" ng-app="spi" ng-controller="main">
+<body ng-class="{'bg': _m == 'dashboard' || _m == 404}" ng-app="spi" ng-controller="main">
 <div id="page">
   <header class="top-head container-fluid">
     <div class="container">

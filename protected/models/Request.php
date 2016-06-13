@@ -99,7 +99,12 @@ class Request extends BaseModel {
       $command -> andWhere('fns.id = :program_id', array(':program_id' => $params['PROGRAM_ID']));
     }
     if(safe($params, 'STATUS_ID')) {
-      $command -> andWhere('rqs.id = :status_id', array(':status_id' => $params['STATUS_ID']));
+      if(!is_int($params['STATUS_ID'])) {
+        $values = explode(',', $params['STATUS_ID']);
+      } else {
+        $values = array($params['STATUS_ID']);
+      }
+      $command -> andWhere(array('in', 'rqs.id', $values));
     }
 //        print_r ($command->text);
     $command = $this->setWhereByRole($command);
