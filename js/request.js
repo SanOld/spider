@@ -359,15 +359,17 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     network.get('request_user', {}, function (result, response) {
       if (result) {
         $scope.request_users = response.result;
-        angular.forEach($scope.request_users, function(val, key) {
-          $scope.calculateEmployee(val);
-          val.user = usersById[val.user_id];
-          $timeout(function(){
-            $scope.updateUserSelect();
-          },100)
-          
-//          $scope.employeeOnSelect(usersById[val.user_id] ,val);
-        });
+        if(response.result.count == 0) {
+          $scope.request_users = [{}];
+        } else {
+          angular.forEach($scope.request_users, function(val, key) {
+            $scope.calculateEmployee(val);
+            val.user = usersById[val.user_id];
+            $timeout(function(){
+              $scope.updateUserSelect();
+            },100)
+          });
+        }
       }
     });
 
@@ -388,6 +390,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   network.get('request_prof_association', {}, function (result, response) {
     if (result) {
       $scope.prof_associations = response.result;
+      if(response.result.count == 0) {
+        $scope.prof_associations = [{}];
+      }
     }
   });
   network.get('request_financial_group', {}, function (result, response) {
