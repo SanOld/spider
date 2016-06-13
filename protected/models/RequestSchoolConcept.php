@@ -142,7 +142,7 @@ class RequestSchoolConcept extends BaseModel {
         case ADMIN:
           break;
         default:
-          if((safe($post, 'status') && safe($post, 'status') != 'in_progress') || $row['status'] == 'in_progress') {
+          if((safe($post, 'status') && ($row['status'] == 'in_progress' || safe($post, 'status') != 'in_progress'))) {
             $valid = false;
           } else if (isset($post['situation']) && !$post['situation']) {
             $valid = false;
