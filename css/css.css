@@ -914,6 +914,7 @@ body .nav.nav-tabs + .tab-content {
 }
 
 .request-edit tr.decline-row,
+.edit-project tr.decline-row,
 .finacing-edit tr.decline-row {
 	background:#e7e7e7;
 }

@@ -88,6 +88,14 @@ class Project extends BaseModel {
 //  }
 
   protected function doAfterSelect($results) {
+    foreach ($results['result'] as &$row){
+      if($row['is_old']){
+        $row['status'] = 'decline';
+      }else{
+        $row['status'] = 'open';
+      }
+    };
+    
     if(safe($_GET, 'list') == 'unused_project'){
       foreach($results['result'] as &$row) {
          $row[$row['id']] = array(
