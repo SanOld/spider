@@ -16,18 +16,18 @@
                   <i class="fa fa-calendar"></i>
                   <div class="wrap-data">
                     <div>
-                      <span>Beginn:</span>
-                      <em ng-if="request.start_date">{{request.start_date_unix| date : 'dd.MM.yyyy'}}</em>
-                      <em ng-if="!request.start_date">-</em>
+                      <span>Abgabe:</span>
+                      <em ng-if="request.end_fill">{{request.end_fill?(request.end_fill_unix| date : 'dd.MM.yyyy'):''}}</em>
+                      <em ng-if="!request.end_fill">-</em>
                     </div>
                     <div>
-                      <span>Ende:</span>
-                      <em ng-if="request.due_date">{{request.due_date_unix| date : 'dd.MM.yyyy'}} </em>
-                      <em ng-if="!request.due_date">-</em>
+                      <span>Letzte Änd.:</span>
+                      <em ng-if="request.last_change">{{request.last_change?(request.last_change_unix| date : 'dd.MM.yyyy'):''}} </em>
+                      <em ng-if="!request.last_change">-</em>
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
-                    <button class="btn m-t-5" ng-click="setBulkDuration()">Dauer ändern</button>
+                    <button class="btn m-t-5" ng-click="setEndFillDate()">Dauer ändern</button>
                   </div>
                 </div>
               </div>
@@ -40,12 +40,12 @@
                   <div class="wrap-data">
                     <div>
                       <span>Beginn:</span>
-                      <em ng-if="request.start_date">{{request.start_date_unix| date : 'dd.MM.yyyy'}}</em>
+                      <em ng-if="request.start_date">{{request.start_date?(request.start_date_unix| date : 'dd.MM.yyyy'):''}}</em>
                       <em ng-if="!request.start_date">-</em>
                     </div>
                     <div>
                       <span>Ende:</span>
-                      <em ng-if="request.due_date">{{request.due_date_unix| date : 'dd.MM.yyyy'}} </em>
+                      <em ng-if="request.due_date">{{request.due_date?(request.due_date_unix| date : 'dd.MM.yyyy'):''}}</em>
                       <em ng-if="!request.due_date">-</em>
                     </div>
                   </div>
