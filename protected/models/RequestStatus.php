@@ -12,4 +12,17 @@ class RequestStatus extends BaseModel {
     return $command;
   }
 
+  protected function doAfterSelect($result) {
+    $activity_ids = array();
+    foreach($result['result'] as $row) {
+      if(in_array($row['code'], array('open', 'in_progress', 'acceptable', 'accept'))) {
+        $activity_ids[] = $row['id'];
+      }
+    }
+    if($activity_ids) {
+      array_unshift($result['result'], array('id' => implode(',', $activity_ids), 'code' => 'active_all', 'name' => '(Active all)'));
+    }
+    return $result;
+  }
+
 }
