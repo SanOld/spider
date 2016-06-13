@@ -1743,10 +1743,22 @@ body.safari .box-finance .sum strong {
 	padding: 20px 30px 0;
 }
 #accordion-account .no-btn {
-    margin: -13px 0 0;
+    margin: -21px 0 0;
     position: absolute;
-    right: -15px;
+    left: 262px;
+    padding: 10px;
+    width: 42px;
     top: 50%;
+    text-align: center;
+    display: inline-block;
+    z-index: 99;
+}
+#finance #accordion-account .ion-close-round {
+  margin: 0;
+}
+#finance #accordion-account .no-btn:hover .ion-close-round {
+    color: #f96565;
+    text-shadow: 0 0 1px;
 }
 #finance .has-hint.btn-question {
 	float:none;
