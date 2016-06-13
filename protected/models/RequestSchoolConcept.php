@@ -143,7 +143,7 @@ class RequestSchoolConcept extends BaseModel {
           break;
         default:
           if(safe($post, 'status')) {
-            if($row['status'] == 'in_progress' || safe($post, 'status') != 'in_progress') {
+            if(safe($post, 'status') != 'in_progress') {
               $valid = false;
             } else if (isset($post['situation']) && !$post['situation']) {
               $valid = false;
