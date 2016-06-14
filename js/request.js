@@ -1019,7 +1019,6 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     }
 
     var results = $scope.permissions[field][status][userType];
-    console.log(results);
     return results;
   }
 
