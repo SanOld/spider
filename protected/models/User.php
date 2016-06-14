@@ -117,8 +117,8 @@ class User extends BaseModel {
         }
         else{
           switch($this->user['type']) {
-            case SCHOOL:              
-              $row['relation_name'] = Yii::app()->db->createCommand()->select('name')->from('spi_school')->where('id=:id', array(':id' => $this->user['relation_id']))->queryScalar();              
+            case SCHOOL:
+              $row['relation_name'] = Yii::app()->db->createCommand()->select('name')->from('spi_school')->where('id=:id', array(':id' => $this->user['relation_id']))->queryScalar();
               break;
             case DISTRICT:
               $row['relation_name'] = Yii::app()->db->createCommand()->select('name')->from('spi_district')->where('id=:id', array(':id' => $this->user['relation_id']))->queryScalar();
@@ -130,6 +130,8 @@ class User extends BaseModel {
               $row['relation_name'] = "Senat";
               break;
             case ADMIN:
+              $row['relation_name'] = "Administrator";
+              break;
             case PA:
               $row['relation_name'] = "Stiftung SPI";
               break;
@@ -142,7 +144,7 @@ class User extends BaseModel {
 
   protected function doAfterSelect($results) {
     foreach($results['result'] as &$row) {
-      unset($row['password']); 
+      unset($row['password']);
     }
     return $results;
   }
@@ -169,7 +171,7 @@ class User extends BaseModel {
     }
 
     if ($login && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('login=:login', array(
-        ':login' => $login 
+        ':login' => $login
     )) -> queryRow()) {
       return array(
           'code' => '409',
@@ -179,7 +181,7 @@ class User extends BaseModel {
     }
 
     if ($email && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('email = :email', array(
-        ':email' => $email 
+        ':email' => $email
     )) -> queryRow()) {
       return array(
         'code' => '409',
@@ -188,11 +190,11 @@ class User extends BaseModel {
         'system_code' => 'ERR_DUPLICATED_EMAIL'
       );
     }
-    
-    
+
+
     return array(
         'result' => true,
-        'params' => $post 
+        'params' => $post
     );
   }
 
@@ -240,8 +242,8 @@ class User extends BaseModel {
     }
 
     if (Yii::app() -> db -> createCommand()
-        -> select('*') 
-        -> from($this -> table) 
+        -> select('*')
+        -> from($this -> table)
         -> where('id != :id AND login=:login',
                   array(':id' => $id, ':login' => $post['login']))
          -> queryRow()) {
@@ -252,11 +254,11 @@ class User extends BaseModel {
           'system_code' => 'ERR_DUPLICATED'
       );
     }
-    
-    if (isset($param['EMAIL']) && $param['EMAIL'] && Yii::app() -> db -> createCommand() 
+
+    if (isset($param['EMAIL']) && $param['EMAIL'] && Yii::app() -> db -> createCommand()
         -> select('*')
-        -> from($this -> table) 
-        -> where('email = :email AND id!=:id', 
+        -> from($this -> table)
+        -> where('email = :email AND id!=:id',
                   array(
                   ':email' => $param['EMAIL'],
                   ':id' => $id))
@@ -284,12 +286,12 @@ class User extends BaseModel {
     }
 
     unset($post['old_password']);
-    
-    
+
+
     if(isset($post['is_finansist']) && safe($post, 'is_finansist') != safe($row, 'is_finansist')) {
       $post['auth_token'] = '';
     }
-    
+
     if(safe($post, 'is_virtual')) {
       $post['password'] = '';
     }
@@ -307,7 +309,7 @@ class User extends BaseModel {
 
     return array(
         'result' => true,
-        'params' => $post 
+        'params' => $post
     );
   }
 
