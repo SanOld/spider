@@ -576,13 +576,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
-  // TODO: Open history changes. Need do it into css.
-  $timeout(function() {
-    angular.element('.changes-content .heading-changes').on('click', function(){
-      angular.element(this).toggleClass('open');
-      angular.element(this).next().slideToggle();
-    })
-  });
 
   $scope.school_concept = {};
   $scope.conceptTab = {};
@@ -598,6 +591,12 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     if (result) {
       $scope.schoolConcepts = response.result;
       $scope.setBestStatusByUserType();
+      $timeout(function() {
+        angular.element('.changes-content .heading-changes').on('click', function(){
+          angular.element(this).toggleClass('open');
+          angular.element(this).next().slideToggle();
+        })
+      });
     }
   });
 
