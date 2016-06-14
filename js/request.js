@@ -286,8 +286,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     }
   };
 
-    $scope.setEndFillDate = function() {
-
+  $scope.setEndFillDate = function() {
 
     var modalInstance = $uibModal.open({
       animation: true,
@@ -875,6 +874,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       if ('groups' in sendGoal){delete sendGoal.groups;}
       if ('errors' in sendGoal){delete sendGoal.errors;}
       if ('showError' in sendGoal){delete sendGoal.showError;}
+      if ('newNotice' in sendGoal){delete sendGoal.newNotice;}
         network.put('request_school_goal/' + sendGoal.id, sendGoal, function(result){
           if(result) {
             $scope.checkSchoolStatus();
@@ -901,6 +901,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         }
         break;
       case 'declare':
+        goal.notice = goal.newNotice;
         if (!goal.notice){
           return false;
         }
@@ -909,6 +910,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
         break;
       case 'accept':
+        goal.notice = goal.newNotice;
         goal.status = 'accepted';
         submitRequest(goal);
         break;
@@ -927,6 +929,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
             delete goals[goal].groups;
             delete goals[goal].errors;
             delete goals[goal].showError;
+            delete goals[goal].newNotice;
             data[goals[goal].id]=(goals[goal]);
           }
         }
@@ -935,26 +938,6 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
     return data;
   };
-
-  $scope.readonly = function(goal){
-    switch(goal.status){
-      case 'unfinished':
-        if( $scope.userType == 'a' || $scope.userType == 't'){return false;}
-        return true;
-        break;
-      case 'in_progress':
-        if( $scope.userType == 'a' ){return false;}
-        return true;
-        break;
-      case 'rejected':
-        if( $scope.userType == 'a' || $scope.userType == 't'){return false;}
-        return true;
-        break;
-      case 'accepted':
-        return true;
-      break;
-    }
-  }
 
   $scope.permissions={
                       allFields:  {
@@ -989,7 +972,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
                                     unfinished:   {'a' : 1, 'p' : 0, 't': 0, 'default': 0 },
                                     in_progress:  {'a' : 1, 'p' : 1, 't': 0, 'default': 0 },
                                     rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
-                                    accepted:     {'a' : 0, 'p' : 1, 't': 0, 'default': 0 },
+                                    accepted:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                     default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
                                   },
                         default:  {
