@@ -5,7 +5,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   var d = new Date;
   $scope.filter = {year: d.getFullYear(), status_id: '1,3,4,5'};
 
-//  $scope.financeTypes = Utils.getFinanceTypes();
   $scope.checkboxes = {
     checked: false,
     items: {}
@@ -84,6 +83,17 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $scope.setBulkDuration = function() {
     var ids = getSelectedIds();
     if (ids.length) {
+      var failCodes = [];
+      for(var i=0; i<ids.length; i++) {
+        var row = Utils.getRowById($scope.tableParams.data, ids[i]);
+        if(['acceptable', 'accept'].indexOf(row.status_code) !== -1) {
+          failCodes.push(row.code)
+        }
+      }
+      if(failCodes.length) {
+        SweetAlert.swal('Error', "Requests "+failCodes.join(', ')+" can't be updated", 'error');
+        return false;
+      }
       var modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'setDuration.html',
@@ -108,12 +118,62 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     }
   };
 
+  $scope.chooseDocuments = function() {
+    var ids = getSelectedIds();
+    if (ids.length) {
+      var failCodes = [];
+      for(var i=0; i<ids.length; i++) {
+        var row = Utils.getRowById($scope.tableParams.data, ids[i]);
+        if(['acceptable', 'accept'].indexOf(row.status_code) !== -1) {
+          failCodes.push(row.code)
+        }
+      }
+      if(failCodes.length) {
+        SweetAlert.swal('Error', "Requests "+failCodes.join(', ')+" can't be updated", 'error');
+        return false;
+      }
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'chooseDocuments.html',
+        controller: 'ModalChooseDocumentsController',
+        size: 'custom-width',
+        resolve: {
+          ids: function () {
+            return ids;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (form) {
+        network.patch('request', angular.extend({ids: ids}, form), function(result) {
+          if(result) {
+            grid.reload();
+          }
+        });
+      });
+
+    }
+  };
+
   $scope.setBulkStatus = function(statusId) {
     var ids = getSelectedIds();
     if(ids.length) {
+      var failCodes = [];
+      for(var i=0; i<ids.length; i++) {
+        var row = Utils.getRowById($scope.tableParams.data, ids[i]);
+        if(statusId == 5 && row.status_id < 4 || statusId < row.status_id) {
+          failCodes.push(row.code);
+        } else if(row.status_concept != 'accepted' || row.status_finance != 'accepted' || row.status_goal != 'accepted') {
+          failCodes.push(row.code);
+        }
+      }
+      if(failCodes.length) {
+        SweetAlert.swal('Error', "Requests "+failCodes.join(', ')+" can't be updated", 'error');
+        return false;
+      }
       SweetAlert.swal({
-        title: "Bulk update rows",
-        text: "Do you want really update "+ids.length+" rows?",
+        title: "Bulk update requests",
+        text: "Do you want really update "+ids.length+" requests?",
         type: "warning",
         confirmButtonText: "Yes",
         showCancelButton: true,
@@ -129,6 +189,22 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         }
       });
     }
+
+    $scope.printDocuments = function(row) {
+      console.log(row);
+
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'printDocuments.html',
+        controller: 'ModalPrintDocumentsController',
+        size: 'custom-width',
+        resolve: {
+          row: function () {
+            return row;
+          }
+        }
+      });
+    };
 
 
 
@@ -166,6 +242,41 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 });
 
 
+spi.controller('ModalChooseDocumentsController', function ($scope, ids, $uibModalInstance, network) {
+  $scope.countElements = ids.length;
+  $scope.form = {};
+  $scope.goal_agreements    = [];
+  $scope.request_agreements = [];
+  $scope.funding_agreements = [];
+
+  network.get('document_template', {type_codes: ['goal_agreement', 'request_agreement', 'funding_agreement']}, function (result, response) {
+    if (result) {
+      for(var i=0; i<response.result.length; i++) {
+        switch(response.result[i].type_code) {
+          case 'goal_agreement':
+            $scope.goal_agreements.push(response.result[i]);
+            break;
+          case 'request_agreement':
+            $scope.request_agreements.push(response.result[i]);
+            break;
+          case 'funding_agreement':
+            $scope.funding_agreements.push(response.result[i]);
+            break;
+        }
+      }
+    }
+  });
+
+  $scope.ok = function () {
+    $uibModalInstance.close($scope.form);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+});
+
 spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstance) {
   $scope.countElements = ids.length;
 
@@ -175,10 +286,18 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
     showWeeks: 0
   };
 
-
   $scope.ok = function () {
     $uibModalInstance.close($scope.form);
   };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+});
+
+spi.controller('ModalPrintDocumentsController', function ($scope, row, $uibModalInstance) {
+  $scope.code = row.code;
 
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');

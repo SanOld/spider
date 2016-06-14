@@ -137,11 +137,10 @@ $this->breadcrumbs = array('Anträge');
                       </a>
                     </div>
                   </td>
-                  <td data-title="'Abgabe'" sortable="'due_date'">{{row.due_date?(row.due_date_unix| date : 'dd.MM.yyyy'):''}}</td>
+                  <td data-title="'Abgabe'" sortable="'due_date'">{{row.end_fill?(row.end_fill_unix| date : 'dd.MM.yyyy'):''}}</td>
                   <td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change?(row.last_change_unix| date : 'dd.MM.yyyy'):''}}</td>
                   <td data-title="'Ansicht / Bearbeiten'">
-                    <a ng-if="row.status_code == 'acceptable' || row.status_code == 'accept'" class="btn document" href="" ng-click="openPrint(row)" title="Drucken"><i class="ion-printer"></i></a>
-                    <a ng-if="row.status_code != 'acceptable' && row.status_code != 'accept'" class="btn document disabled" href="javascript:;" title="Drucken"><i class="ion-printer"></i></a>
+                    <a ng-click="printDocuments(row)" ng-class="{disabled: row.status_code != 'acceptable' && row.status_code != 'accept'}" class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
                     <a ng-if="canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}" title="Bearbeiten">
                       <i class="ion-edit"></i>
                     </a>
@@ -153,11 +152,11 @@ $this->breadcrumbs = array('Anträge');
               </table>
 
               <div class="btn-row m-t-15 clearfix" ng-if="canEdit()">
-                <button class="btn m-b-5" ng-disabled="!existsSelected()" onclick="alert('ToDo')">Druck-Template wählen</button>
+                <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="chooseDocuments()">Druck-Template wählen</button>
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkDuration()">Laufzeit festlegen</button>
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(4)">Förderfähig</button>
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(5)">Genehmigung</button>
-                <button class="btn m-b-5 pull-right" ng-disabled="!existsSelected()" onclick="alert('ToDo')">Folgeantrag hinzufügen</button>
+                <button class="btn m-b-5 pull-right" onclick="alert('ToDo')" disabled>Folgeantrag hinzufügen</button>
               </div>
             </div>
           </div>
@@ -215,6 +214,110 @@ $this->breadcrumbs = array('Anträge');
   </label>
 </script>
 
+<script type="text/ng-template" id="printDocuments.html">
+  <div class="panel panel-color panel-primary">
+    <div class="panel-heading clearfix">
+      <h3 class="m-0 pull-left">Dokumente drucken - {{::code}}</h3>
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
+    </div>
+    <div class="panel-body">
+      <h3 class="m-b-30 text-center">Dokumente zum Druck wählen</h3>
+      <div class="doc-print">
+        <div class="holder-doc-print">
+          <span class="name-doc">Zielvereinbarung</span>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn w-xs" data-target="#modal-1" data-toggle="modal">
+            <span>Drucken</span>
+            <i class="ion-printer"></i>
+          </button>
+        </div>
+      </div>
+      <div class="doc-print">
+        <div class="holder-doc-print">
+          <span class="name-doc">Antrag</span>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn w-xs" data-target="#modal-1" data-toggle="modal">
+            <span>Drucken</span>
+            <i class="ion-printer"></i>
+          </button>
+        </div>
+      </div>
+      <div class="doc-print">
+        <div class="holder-doc-print">
+          <span class="name-doc">Vertrag</span>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn w-xs" data-target="#modal-1" data-toggle="modal">
+            <span>Drucken</span>
+            <i class="ion-printer"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row p-t-10 text-center">
+      <div class="form-group group-btn m-t-20">
+        <div class="col-lg-12">
+          <button class="btn w-lg cancel-btn" ng-click="cancel()">ABBRECHEN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="chooseDocuments.html">
+  <div class="panel panel-color panel-primary">
+    <div class="panel-heading clearfix">
+      <h3 class="m-0 pull-left">Druck-Template wählen</h3>
+      <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
+    </div>
+    <div class="panel-body text-center">
+      <h3 class="m-b-30">Vertragsvorlage für {{::countElements}} Elemente auswählen</h3>
+      <div class="col-lg-12 text-left">
+        <div class="form-group">
+          <label>Zielvereinbarung</label>
+          <ui-select ng-disabled="!$select.items.length" ng-change="updateGrid()" ng-model="form.doc_target_agreement_id">
+            <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in goal_agreements | filter: $select.search | orderBy: 'name'">
+              <span ng-bind="item.name"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="form-group">
+          <label>Antrag</label>
+          <ui-select ng-disabled="!$select.items.length" ng-change="updateGrid()" ng-model="form.doc_request_id">
+            <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in request_agreements | filter: $select.search | orderBy: 'name'">
+              <span ng-bind="item.name"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="form-group">
+          <label>Fördervertrag</label>
+          <ui-select ng-disabled="!$select.items.length" ng-change="updateGrid()" ng-model="form.doc_financing_agreement_id">
+            <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in funding_agreements | filter: $select.search | orderBy: 'name'">
+              <span ng-bind="item.name"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+    </div>
+    <div class="row p-t-10 text-center">
+      <div class="form-group group-btn m-t-20">
+        <div class="col-lg-12">
+          <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+          <button class="btn w-lg custom-btn" ng-click="ok()">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
 <script type="text/ng-template" id="setDuration.html">
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
@@ -222,7 +325,7 @@ $this->breadcrumbs = array('Anträge');
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
     <div class="panel-body text-center">
-      <h3 class="m-b-30">Geben Sie die Zeitdauer für die {{countElements}} Elemente ein</h3>
+      <h3 class="m-b-30">Geben Sie die Zeitdauer für die {{::countElements}} Elemente ein</h3>
       <div class="form-group">
         <ng-form name="form">
           <div class="holder-datepicker text-right">

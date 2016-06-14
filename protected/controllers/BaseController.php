@@ -128,8 +128,9 @@ class BaseController extends Controller {
             $ids = !is_array($post_vars['ids']) ? array($post_vars['ids']) : $post_vars['ids'];
             unset($post_vars['ids']);
             foreach($ids as $id) {
-              $this -> model ->update($id, $post_vars);
+              $this -> model ->update($id, $post_vars, true);
             }
+            response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'patch');
           }
           break;
         case 'delete' :

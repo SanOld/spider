@@ -151,8 +151,12 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           senat_additional_info:          response.result.senat_additional_info,
           start_date:                     response.result.start_date,
           due_date:                       response.result.due_date,
+          end_fill:                       response.result.end_fill,
+          last_change:                    response.result.last_change,
           start_date_unix:                response.result.start_date_unix,
           due_date_unix:                  response.result.due_date_unix,
+          end_fill_unix:                  response.result.end_fill_unix,
+          last_change_unix:               response.result.last_change_unix,
           performer_id:                   response.result.performer_id,
           status_code:                    response.result.status_code
         };
@@ -257,18 +261,20 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         },
         due_date: function () {
           return $scope.request.due_date;
+        },
+        end_fill: function () {
+          return $scope.request.end_fill;
         }
-
       }
     });
 
     if ($scope.request.id) {
       modalInstance.result.then(function (data) {
-        $scope.request.start_date_unix = new Date(data.start_date);
-        $scope.request.due_date_unix = new Date(data.due_date);
+        $scope.request.start_date_unix = isNaN(data.start_date) ? '' : new Date(data.start_date);
+        $scope.request.due_date_unix = isNaN(data.due_date) ? '' : new Date(data.due_date) ;
 
-        var start = Utils.getSqlDate(new Date(data.start_date));
-        var end   = Utils.getSqlDate(new Date(data.due_date));
+        var start = isNaN(data.start_date) ? '' : Utils.getSqlDate(new Date(data.start_date));
+        var end = isNaN(data.due_date) ? '' : Utils.getSqlDate(new Date(data.due_date)) ;
 
         $scope.request.start_date = start;
         $scope.request.due_date = end;
@@ -277,6 +283,42 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       });
 
 
+    }
+  };
+
+    $scope.setEndFillDate = function() {
+
+
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'setEndFill.html',
+      controller: 'ModalEndFillController',
+      size: 'custom-width-request-duration',
+      resolve: {
+        ids: function () {
+          ids = [$scope.request.id];
+          return ids;
+        },
+        start_date: function () {
+          return $scope.request.start_date;
+        },
+        due_date: function () {
+          return $scope.request.due_date;
+        },
+        end_fill: function () {
+          return $scope.request.end_fill;
+        }
+      }
+    });
+
+    if ($scope.request.id) {
+      modalInstance.result.then(function (data) {
+
+        $scope.request.end_fill_unix = isNaN(data.end_fill) ? '' : new Date(data.end_fill);
+        var end_fill = isNaN(data.end_fill) ? '' : Utils.getSqlDate(new Date(data.end_fill));
+
+        $scope.request.end_fill = end_fill;
+      });
     }
   };
 
@@ -295,14 +337,14 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
 spi.controller('RequestFinancePlanController', function ($scope, network, RequestService, Utils, $timeout) {
   $scope.users = [];
-  
+
   $scope.IBAN = {};
   $scope.request_users = [{}]; //create one user by default
   $scope.prof_associations = [{}]; //create one association by default
   $scope.financeSchools = [];
-  
+
   var usersById = {};
-  
+
   RequestService.financePlanData = function(){
     var data = {};
     data.request =  { 'revenue_description':    $scope.revenue_description
@@ -312,7 +354,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'overhead_cost':          $scope.overhead_cost
                     , 'prof_association_cost':  $scope.prof_association_cost
                     , 'total_cost':             $scope.total_cost
-                    
+
                     , 'bank_details_id':        $scope.data.bank_details_id
                     }
     data.users = $scope.request_users;
@@ -332,17 +374,17 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     });
     return finPlan;
   }
-  
+
   RequestService.initFinancePlan = function(data){
     $scope.users = data.users;
     $scope.updateUserSelect();
     $scope.data = data;
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
-    
+
     angular.forEach($scope.users, function(val, key) {
       usersById[val.id] = val;
     });
-    
+
     network.get('bank_details', {performer_id: data.performer_id}, function (result, response) {
       if (result) {
         $scope.bank_details = response.result;
@@ -352,14 +394,14 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             return false;
           }
         });
-        
+
       }
     });
-    
+
     network.get('request_user', {request_id: $scope.$parent.requestID}, function (result, response) {
       if (result) {
         $scope.request_users = response.result;
-        
+
         if(response.count == '0') {
           $scope.request_users = [{}];
         } else {
@@ -375,14 +417,14 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     });
 
   }
-  
+
   network.get('request_school_finance', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
       $scope.financeSchools = response.result;
       $scope.updateResultCost();
     }
   });
-  
+
   network.get('remuneration_level', {}, function (result, response) {
     if (result) {
       $scope.remuneration_level = response.result;
@@ -413,7 +455,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     for(var key in toNum) {
       empl[key] = (empl[key] || 0)*1;
     }
-    
+
     var umlage = empl.is_umlage?0.25:0.21;
     var mc = (empl.month_count || 0) *1;
     empl.brutto = empl.cost_per_month_brutto * mc
@@ -421,7 +463,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                 + empl.additional_provision_vwl * mc * empl.have_additional_provision_vwl
                 + empl.supplementary_pension * (mc + empl.have_annual_bonus) * empl.have_supplementary_pension;
     empl.brutto = Math.ceil(empl.brutto/100)*100; // Результат округлять вверх до 100 евро. Например: 1201 = 1300
-    
+
     var summ  = empl.cost_per_month_brutto * mc
               + empl.annual_bonus * empl.have_annual_bonus
               + empl.additional_provision_vwl * mc * empl.have_additional_provision_vwl;
@@ -431,9 +473,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.updateResultCost();
   }
   $scope.updateResultCost = function(){
-    $scope.emoloyeesCost = 0; 
-    $scope.training_cost = 0; 
-    $scope.overhead_cost = 0; 
+    $scope.emoloyeesCost = 0;
+    $scope.training_cost = 0;
+    $scope.overhead_cost = 0;
     $scope.prof_association_cost = 0;
     angular.forEach($scope.request_users, function(empl, key) {
       if(!empl.is_deleted) {
@@ -452,13 +494,13 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.prof_association_cost = $scope.prof_association_cost || 0;
     $scope.revenue_sum = ($scope.revenue_sum || 0)*1;
     $scope.total_cost = $scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum;
-    
+
   }
   $scope.updateTrainingCost = function(school){
     if(school.rate >= 1) {
       school.training_cost = 2250;
 //    } else if(school.rate <= 0,5) {
-//      
+//
     } else {
       school.training_cost = 1125;
     }
@@ -498,8 +540,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
       $scope.updateResultCost();
   }
- 
-  
+
+
   RequestService.updateFinansistFP = function(id){
     $scope.data.finance_user_id = id;
     $scope.selectFinanceResult = Utils.getRowById($scope.users, $scope.data.finance_user_id);
@@ -536,7 +578,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
   // TODO: Open history changes. Need do it into css.
   $timeout(function() {
-    angular.element('.changes-content .heading-changes').click(function(){
+    angular.element('.changes-content .heading-changes').on('click', function(){
       angular.element(this).toggleClass('open');
       angular.element(this).next().slideToggle();
     })
@@ -546,6 +588,10 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   $scope.conceptTab = {};
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
+
+  $scope.canAcceptEarly = function(status) {
+    return !(network.user.type == 'p' && status != 'in_progress');
+  };
 
   $scope.schoolConcepts = [];
   network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
@@ -947,12 +993,13 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
 });
 
-spi.controller('ModalDurationController', function ($scope, start_date, due_date,  $uibModalInstance) {
+spi.controller('ModalDurationController', function ($scope, start_date, due_date, end_fill,  $uibModalInstance) {
 //  $scope.countElements = ids.length;
 
   $scope.form={
     start_date: Date.parse(start_date),
-    due_date: Date.parse(due_date)
+    due_date: Date.parse(due_date),
+    end_fill: Date.parse(end_fill)
   };
 
   $scope.dateOptions = {
@@ -960,6 +1007,30 @@ spi.controller('ModalDurationController', function ($scope, start_date, due_date
     showButtonBar: 0,
     showWeeks: 0,
     //initDate: start_date
+  };
+
+  $scope.ok = function () {
+    $uibModalInstance.close($scope.form);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+});
+
+spi.controller('ModalEndFillController', function ($scope, start_date, due_date, end_fill, $uibModalInstance) {
+
+  $scope.form={
+    start_date: Date.parse(start_date),
+    due_date: Date.parse(due_date),
+    end_fill: Date.parse(end_fill)
+  };
+
+  $scope.dateOptions = {
+    startingDay: 1,
+    showButtonBar: 0,
+    showWeeks: 0,
   };
 
   $scope.ok = function () {
