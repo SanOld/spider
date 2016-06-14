@@ -234,24 +234,25 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.submitFormProjects = function () {
         $scope.submited = true;
         $scope.error = false;
-        $scope.formProjects.$setPristine();        
-        if ($scope.formProjects.$valid) {
-            var callback = function (result, response) {
-                if (result) {
-                    $uibModalInstance.close();
-                }else{
-                    $scope.error = getError(response);
-                }
+        $scope.formProjects.$setPristine();
+        var callback = function (result, response) {
+            if (result) {
+                $uibModalInstance.close();
                 $scope.submited = false;
-            };
-            
-            var $copyScopeProject = angular.copy($scope.project);
-            if($scope.schoolTypeCode != 's') {
-              $copyScopeProject.schools = [$copyScopeProject.school];
+            }else{
+                $scope.error = getError(response);
+                $scope.submited = true;
             }
-            delete $copyScopeProject.school;
- 
-            if(!$copyScopeProject.schools.length && $scope.schoolTypeCode != 'z') {
+        };            
+        var $copyScopeProject = angular.copy($scope.project);
+        if($scope.schoolTypeCode != 's') {
+          $copyScopeProject.schools = [$copyScopeProject.school];
+        }
+        if (!$scope.formProjects.$valid){
+            $copyScopeProject.invalid = true;
+        }            
+        delete $copyScopeProject.school; 
+        if(!$copyScopeProject.schools.length && $scope.schoolTypeCode != 'z') {
 //              if($scope.schoolTypeCode != 's') {
 //                SweetAlert.swal({
 //                  title: "Школа не выбрана",
@@ -269,50 +270,46 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //                  closeOnConfirm: true
 //                });
 //              }
-              $scope.schoolError = true;
-              return false;
-            }
-            
-            if ($scope.isInsert) {
-                network.post('project', $copyScopeProject, callback);              
-            } else {              
-              
-              if($copyScopeProject.performer_id != data.performer_id || $scope.formProjects.$dirty) {          
-                $.each($copyScopeProject.schools, function(key, val){
-                  if(typeof val == 'object') {
-                    val = val.id
-                  }
-                })
-                var newCode = $copyScopeProject.code.split('/');
-                newCode = newCode[0]+'/'+(newCode[1]?newCode[1]+1:2);
-                console.log($copyScopeProject);
-                SweetAlert.swal({
-                  title: "Projekt bearbeiten?",
-                  text: "Nächstes projekt wird erstellt "+newCode,
-                  type: "warning",
-                  confirmButtonText: "Ja, erstellen!",
-                  showCancelButton: true,
-                  cancelButtonText: "ABBRECHEN",
-                  closeOnConfirm: true
-                }, function(isConfirm){
-                  if(isConfirm) {
-                    network.put('project/' + data.id, $copyScopeProject, callback);
-                  }
-                });
-              }else{
-                  $uibModalInstance.close();
+          $scope.schoolError = true;
+          return false;
+        }            
+        if ($scope.isInsert) {
+            network.post('project', $copyScopeProject, callback);              
+        } else {            
+
+          if($copyScopeProject.performer_id != data.performer_id || $scope.formProjects.$dirty) {          
+            $.each($copyScopeProject.schools, function(key, val){
+              if(typeof val == 'object') {
+                val = val.id
               }
-            }
-        } else {
-//            $scope.tabs[0].active = true;
-        }
+            })
+            var newCode = $copyScopeProject.code.split('/');
+            newCode = newCode[0]+'/'+(newCode[1]?newCode[1]+1:2);
+            console.log($copyScopeProject);
+            SweetAlert.swal({
+              title: "Projekt bearbeiten?",
+              text: "Nächstes projekt wird erstellt "+newCode,
+              type: "warning",
+              confirmButtonText: "Ja, erstellen!",
+              showCancelButton: true,
+              cancelButtonText: "ABBRECHEN",
+              closeOnConfirm: true
+            }, function(isConfirm){
+              if(isConfirm) {
+                network.put('project/' + data.id, $copyScopeProject, callback);
+              }
+            });
+          }else{
+              $uibModalInstance.close();
+          }
+        } 
     };
 
     function getError(response) {
         var result = false;
         switch (response.system_code) {
           case 'ERR_DUPLICATED':
-              result = {code: {dublicate: true}};            
+              result = {code: {dublicate: true}};
         }
         return result;
     };
