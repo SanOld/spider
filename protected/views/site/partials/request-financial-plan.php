@@ -1,6 +1,14 @@
 <div id="finance" class="tab-pane" ng-controller="RequestFinancePlanController">
   <div class="panel-group panel-group-joined m-0">
     <div class="panel panel-default">
+      <div ng-if="data.status_finance != 'unfinished'" class="alert" ng-class="{'alert-danger': data.status_finance == 'rejected', 'alert-success': data.status_finance == 'accepted', 'alert-warning': data.status_finance == 'in_progress'}">
+        <div ng-switch="data.status_finance">
+          <strong ng-switch-when="rejected">Ablehnen</strong>
+          <strong ng-switch-when="accepted">Genehmigt</strong>
+          <strong ng-switch-when="in_progress">Bereit zu überprüfen</strong>
+        </div>
+        <div ng-if="data.finance_comment && (data.status_finance == 'rejected' || data.status_finance == 'in_progress')" ng-bind="data.finance_comment"></div>
+      </div>
       <div class="clearfix">
         <h2 class="panel-title title-custom pull-left">
           Finanzplan
@@ -12,7 +20,7 @@
           <div class="col-lg-4">
             <div class="form-group">
               <label>Ansprechpartner für Rückfragen zum Finanzplan</label>
-              <ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id">
+              <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id">
                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -298,7 +306,7 @@
                 <div class="sum rate-ico clearfix">
                   <strong>Stellenanteil</strong>
                   <div class="col-lg-9 p-l-0 m-t-10">
-                    <input type="text" class="form-control" ng-change="numValidate(school,'rate'); updateTrainingCost(school)" ng-model="school.rate">
+                    <input type="text" class="form-control" ng-change="numValidate(school,'rate'); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
                   </div>
                 </div>
               </div>
@@ -306,7 +314,7 @@
                 <span class="sum calendar-ico clearfix">
                   <strong>Monat</strong>
                   <div class="col-lg-9 p-l-0 m-t-10">
-                    <input type="text" class="form-control" ng-change="numValidate(school,'month_count');" ng-model="school.month_count">
+                    <input type="text" class="form-control" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
                   </div>
                 </span>
               </div>
@@ -315,7 +323,7 @@
                   <strong>Fortbildungskosten</strong>
                   <span ng-hide="school.rate < 1 && school.rate > 0.5">€{{school.training_cost|| 0 | number:2}}</span>
                   <div class="col-lg-9 p-l-0 m-t-10" ng-show="school.rate*1 < 1 && school.rate*1 > 0.5">
-                    <input type="text" class="form-control" ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost">
+                    <input type="text" class="form-control" ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept">
                   </div>
                 </span>
               </div>
@@ -324,7 +332,7 @@
                   <strong>Regiekosten</strong>
                   <!--<span>€ 11500,00</span>-->
                   <div class="col-lg-9 p-l-0 m-t-10">
-                    <input type="text" class="form-control" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost">
+                    <input type="text" class="form-control" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
                   </div>
                 </span>
               </div>
@@ -440,16 +448,21 @@
           </div>
           <hr />
         </div>
-        <div class="row">
+        <div class="row" ng-if="data.status_finance != 'accepted' && canAcceptEarly(data.status_finance)">
           <div class="col-lg-10">
-            <h4 class="m-t-0">Prüfnotiz</h4>
-            <textarea placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
+              <span ng-if="canAccept && data.status_finance != 'rejected'">
+                <h4 class="m-t-0">Prüfnotiz</h4>
+                <textarea placeholder="Tragen Sie den Text hier ein" ng-model="data.comment" class="form-control comments"></textarea>
+              </span>
           </div>
-
           <div class="col-lg-2">
-            <div class="m-t-30 text-right pull-right">
-              <button class="btn w-lg btn-lg btn-success m-b-10">AKZEPTIEREN</button>
-              <button class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+            <div class="m-t-30 text-right pull-right" ng-if="canAccept">
+              <button ng-hide="data.status_finance == 'accepted'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm('accepted')">AKZEPTIEREN</button>
+              <button ng-hide="data.status_finance == 'rejected'" ng-class="{disabled: !data.comment}" ng-click="submitForm('rejected')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+            </div>
+            <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && data.status_finance != 'in_progress' && data.status_finance != 'accepted'">
+              <h4 class="m-t-0"></h4>
+              <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm('in_progress')">SENDEN</button>
             </div>
           </div>
         </div>

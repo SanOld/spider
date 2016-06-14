@@ -9,6 +9,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.financeStatus = '';
   $scope.conceptStatus = '';
   $scope.goalsStatus = '';
+  $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
 
   var hash = $location.hash();
   if(hash && ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'].indexOf(hash) !== -1) {
@@ -342,6 +343,14 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.prof_associations = [{}]; //create one association by default
   $scope.financeSchools = [];
 
+  $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
+  $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
+  $scope.comment = '';
+
+  $scope.canAcceptEarly = function(status) {
+    return !(network.user.type == 'p' && status != 'in_progress');
+  };
+
   var usersById = {};
 
   RequestService.financePlanData = function(){
@@ -372,12 +381,40 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       delete val.school_number;
     });
     return finPlan;
-  }
+  };
+
+  $scope.submitForm = function(status) {
+    if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
+    var data = {};
+    switch (status) {
+      case 'in_progress':
+        var finPlan = RequestService.financePlanData();
+        delete finPlan.request;
+        data.finance_user_id = $scope.data.finance_user_id;
+        data.bank_details_id = $scope.data.bank_details_id;
+        data.finance_plan = finPlan;
+        break;
+      case 'rejected':
+        if(!$scope.data.comment) return false;
+        data.finance_comment = $scope.data.comment;
+        break;
+    }
+    data['status_finance'] = status;
+
+    network.put('request/'+$scope.$parent.requestID, data, function(result, response) {
+      if(result) {
+        $scope.data.status_finance = status;
+        $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
+        $scope.$parent.setFinanceStatus(status);
+      }
+    });
+  };
 
   RequestService.initFinancePlan = function(data){
     $scope.users = data.users;
     $scope.updateUserSelect();
     $scope.data = data;
+    $scope.$parent.setFinanceStatus(data.status_finance);
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
 
     angular.forEach($scope.users, function(val, key) {
@@ -555,7 +592,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }
   }
   $scope.updateIBAN = function (item){
-    console.log(item);
+    // console.log(item);
     $scope.IBAN = item;
   }
   $scope.updateUserSelect = function (){
@@ -638,10 +675,8 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     network.put('request_school_concept/' + concept.id, data, function(result){
       if(result) {
         concept.status = data.status;
-        if(data.status != 'rejected') {
+        if(data.status == 'accepted') {
           $scope.school_concept[concept.id].comment = '';
-        } else {
-          concept.comment = data.comment;
         }
         $scope.setBestStatusByUserType();
       }

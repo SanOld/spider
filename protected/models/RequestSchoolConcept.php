@@ -124,7 +124,7 @@ class RequestSchoolConcept extends BaseModel {
   }
 
   protected function doBeforeUpdate($post, $id) {
-    if(in_array(safe($post, 'status'), array('accepted', 'in_progress'))) {
+    if(safe($post, 'status') == 'accepted') {
       $post['comment'] = '';
     }
 

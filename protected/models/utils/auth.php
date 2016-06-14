@@ -11,9 +11,9 @@ class Auth {
   public $token = '';
   public $user = array();
   public $live = 12;
-  
+
   public function __construct($token = false, $user = false) {
-    
+
     if($token) {
       $this->token = $token;
       if($user) {
@@ -29,7 +29,7 @@ class Auth {
       }
     }
   }
-  
+
   public function login($get) {
     if(safe($get, 'login') && safe($get, 'password') || safe($get, 'loginKey')) {
       if($key = safe($get, 'loginKey')) {
@@ -40,7 +40,7 @@ class Auth {
         $login = $get['login'];
         $password = $get['password'];
       }
-      
+
       $select = 'usr.id, usr.type, usr.type_id, usr.relation_id, usr.login, usr.is_finansist, usr.sex, usr.title, usr.function, usr.first_name, usr.last_name, usr.email, usr.phone, usr.is_active, usr.auth_token, usr.auth_token_created_at, ust.name type_name, usr.is_super_user, usr.is_virtual';
       $this->user = Yii::app()->db->createCommand()
                  ->select($select)
@@ -50,8 +50,8 @@ class Auth {
                           array( ':user'=>$login, ':pass'=>$password)
                         )
                  ->queryRow();
-      
-     
+
+
 //      if($this->user['relation_id']) {
 //        $table = '';
 //        switch($this->user['type']) {
@@ -76,7 +76,7 @@ class Auth {
 //      }
 
 
-      
+
       if($this->user && $this->user['is_active']==1 && $this->user['is_virtual'] !=1 ) {
         $name_table = '';
         $name_field = 'name';
@@ -96,6 +96,8 @@ class Auth {
             $relation_name = 'Senat';
             break;
           case ADMIN:
+            $relation_name = "Administrator";
+            break;
           case PA:
             $relation_name = 'Stiftung SPI';
             break;
@@ -107,7 +109,7 @@ class Auth {
                             ->queryScalar();
         }
         $this->user['relation_name'] = $relation_name;
-        
+
         $authToken = $this->user['auth_token'];
         $auth = new Auth($authToken, $this->user);
         if($authToken && $auth->checkToken()) {
@@ -144,7 +146,7 @@ class Auth {
                     , 'user'        => $this->user
                     , 'expiredAt'   => strtotime('+'.$this->live.' hour')
                     );
-        
+
       } else {
         $res = array( 'result'      => false
                     , 'code'        => '401'
@@ -162,7 +164,7 @@ class Auth {
                   );
     }
     return $res;
-    
+
   }
 
   public function getUser() {
@@ -173,9 +175,9 @@ class Auth {
   }
   public function checkToken() {
     return (   $this->user['auth_token'] == $this->token
-            && $this->user['auth_token_created_at'] 
+            && $this->user['auth_token_created_at']
             && strtotime($this->user['auth_token_created_at']) > strtotime('-'.$this->live.' hour')
-          ); 
+          );
   }
   public function getAuthError() {
     if($this->user['is_active']==0) {

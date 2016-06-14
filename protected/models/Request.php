@@ -140,13 +140,44 @@ class Request extends BaseModel {
       }
     } else {
       foreach($result['result'] as &$row) {
-        $row['start_date_unix'] = strtotime($row['start_date']).'000';
-        $row['due_date_unix'] = strtotime($row['due_date']).'000';
-        $row['last_change_unix'] = strtotime($row['last_change']).'000';
-        $row['end_fill_unix'] = strtotime($row['end_fill']).'000';
+        if($row['start_date'] != '0000-00-00'){
+          $row['start_date_unix'] = strtotime($row['start_date']);
+          $row['start_date_unix'] = $row['start_date_unix'] ? $row['start_date_unix'].'000' : '';
+        } else {
+          $row['start_date'] = '';
+          $row['start_date_unix'] = '';
+        }
+
+        if($row['due_date'] != '0000-00-00'){
+          $row['due_date_unix'] = strtotime($row['due_date']);
+          $row['due_date_unix'] = $row['due_date_unix'] ? $row['due_date_unix'].'000' : '';
+        } else {
+          $row['due_date'] = '';
+          $row['due_date_unix'] = '';
+        }
+
+        if($row['last_change'] != '0000-00-00'){
+          $row['last_change_unix'] = strtotime($row['last_change']);
+          $row['last_change_unix'] = $row['last_change_unix'] ? $row['last_change_unix'].'000' : '';
+        } else {
+          $row['last_change'] = '';
+          $row['last_change_unix'] = '';
+        }
+
+        if($row['end_fill'] != '0000-00-00'){
+          $row['end_fill_unix'] = strtotime($row['end_fill']);
+          $row['end_fill_unix'] = $row['end_fill_unix'] ? $row['end_fill_unix'].'000' : '';
+        } else {
+          $row['end_fill'] = '';
+          $row['end_fill_unix'] = '';
+        }
+
+
+
+
+
         $row['status_goal'] = $this->calcGoalsStatus($row['id']);
         $row['status_concept'] = $this->calcConceptStatus($row['id']);
-        $row['status_finance'] = $this->calcFinanceStatus($row['id']);
         $row['is_action_required'] = $this->isActionRequired(array(
                                                                   $row['status_goal']
                                                                   ,$row['status_concept']
@@ -165,10 +196,7 @@ class Request extends BaseModel {
     $RequestSchoolConcept->user = $this->user;
     return $RequestSchoolConcept->getCommonStatus($ID, $statusPriority);
   }
-  protected function calcFinanceStatus($ID) {
-    $resultStatus = 'unfinished';
-    return $resultStatus;
-  }
+
   protected function calcGoalsStatus($ID) {
     $resultStatus = 'unfinished';
      if($this->user['type'] == 'a' || $this->user['type'] == 'p'){
@@ -304,10 +332,13 @@ class Request extends BaseModel {
     if($this->finance_plan) {
       $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
       $RequestSchoolFinance ->user = $this->user;
-      foreach (safe($this->finance_plan, 'schools', array()) as $data) {
-        $id = $data['id'];
-        unset($data['id']);
-        $res = $RequestSchoolFinance->update($id, $data, true);
+
+      if(in_array($this->user['type'], array('a', 'p'))) {
+        foreach (safe($this->finance_plan, 'schools', array()) as $data) {
+          $id = $data['id'];
+          unset($data['id']);
+          $res = $RequestSchoolFinance->update($id, $data, true);
+        }
       }
 
       if(safe($this->finance_plan, 'prof_associations', array())) {
