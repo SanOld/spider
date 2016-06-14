@@ -16,12 +16,12 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 					</div>
 				</div>
-				
+
 				<uib-tabset class="panel-body request-order-nav" active="tabActive">
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
           </uib-tab>
-					<uib-tab class="finance {{financeStatus}}" index="'finance-plan'" select="setTab('finance-plan')" heading="Finanzplan">
+					<uib-tab ng-if="isFinansist" class="finance {{financeStatus}}" index="'finance-plan'" select="setTab('finance-plan')" heading="Finanzplan">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-financial-plan.php'); ?>
 					</uib-tab>
 					<uib-tab class="concepts {{conceptStatus}}" index="'school-concepts'" select="setTab('school-concepts')" heading="Konzept">

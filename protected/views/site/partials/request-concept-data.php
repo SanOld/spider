@@ -24,7 +24,7 @@
                 <strong ng-switch-when="accepted">Genehmigt</strong>
                 <strong ng-switch-when="in_progress">Bereit zu überprüfen</strong>
               </div>
-              <div ng-if="schoolConcept.status == 'rejected'" ng-bind="schoolConcept.comment"></div>
+              <div ng-if="schoolConcept.comment && (schoolConcept.status == 'rejected' || schoolConcept.status == 'in_progress')" ng-bind="schoolConcept.comment"></div>
             </div>
             <div class="concept-form-block">
               <ng-form disable-all="schoolConcept.status == 'accepted'">
@@ -54,7 +54,7 @@
                   <div class="col-lg-10">
 															<span ng-if="canAccept && schoolConcept.status != 'rejected'">
 																<h4 class="m-t-0">Prüfnotiz</h4>
-																<textarea ng-init="school_concept[schoolConcept.id].comment = schoolConcept.comment" placeholder="Tragen Sie den Text hier ein" ng-model="school_concept[schoolConcept.id].comment" class="form-control comments"></textarea>
+																<textarea placeholder="Tragen Sie den Text hier ein" ng-model="school_concept[schoolConcept.id].comment" class="form-control comments"></textarea>
 															</span>
                   </div>
                   <div class="col-lg-2">

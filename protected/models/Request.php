@@ -146,7 +146,6 @@ class Request extends BaseModel {
         $row['end_fill_unix'] = strtotime($row['end_fill']).'000';
         $row['status_goal'] = $this->calcGoalsStatus($row['id']);
         $row['status_concept'] = $this->calcConceptStatus($row['id']);
-        $row['status_finance'] = $this->calcFinanceStatus($row['id']);
         $row['is_action_required'] = $this->isActionRequired(array(
                                                                   $row['status_goal']
                                                                   ,$row['status_concept']
@@ -165,10 +164,7 @@ class Request extends BaseModel {
     $RequestSchoolConcept->user = $this->user;
     return $RequestSchoolConcept->getCommonStatus($ID, $statusPriority);
   }
-  protected function calcFinanceStatus($ID) {
-    $resultStatus = 'unfinished';
-    return $resultStatus;
-  }
+
   protected function calcGoalsStatus($ID) {
     $resultStatus = 'unfinished';
      if($this->user['type'] == 'a' || $this->user['type'] == 'p'){
@@ -304,10 +300,13 @@ class Request extends BaseModel {
     if($this->finance_plan) {
       $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
       $RequestSchoolFinance ->user = $this->user;
-      foreach (safe($this->finance_plan, 'schools', array()) as $data) {
-        $id = $data['id'];
-        unset($data['id']);
-        $res = $RequestSchoolFinance->update($id, $data, true);
+
+      if(in_array($this->user['type'], array('a', 'p'))) {
+        foreach (safe($this->finance_plan, 'schools', array()) as $data) {
+          $id = $data['id'];
+          unset($data['id']);
+          $res = $RequestSchoolFinance->update($id, $data, true);
+        }
       }
 
       if(safe($this->finance_plan, 'prof_associations', array())) {

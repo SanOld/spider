@@ -9,6 +9,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     checked: false,
     items: {}
   };
+  $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
 
   $scope.headerChecked = function (value) {
     angular.forEach($scope.tableParams.data, function (item) {
