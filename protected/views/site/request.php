@@ -47,7 +47,14 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 									<div id="collapse-{{::schoolConcept.id}}" class="panel-collapse collapse" ng-class="{in: schoolConcepts.length == 1}">
 										<div class="panel-body">
 											<div ng-class="{current: conceptTab[schoolConcept.id] == 'data'}" id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
-												<div class="alert alert-danger" ng-if="schoolConcept.status == 'rejected' && schoolConcept.comment" ng-bind="schoolConcept.comment"></div>
+												<div ng-if="schoolConcept.status != 'unfinished'" class="alert" ng-class="{'alert-danger': schoolConcept.status == 'rejected', 'alert-success': schoolConcept.status == 'accepted', 'alert-warning': schoolConcept.status == 'in_progress'}">
+													<div ng-switch="schoolConcept.status">
+														<strong ng-switch-when="rejected">Ablehnen</strong>
+														<strong ng-switch-when="accepted">Genehmigt</strong>
+														<strong ng-switch-when="in_progress">Bereit zu überprüfen</strong>
+													</div>
+													<div ng-if="schoolConcept.status == 'rejected'" ng-bind="schoolConcept.comment"></div>
+												</div>
                         <div class="concept-form-block">
 												<ng-form disable-all="schoolConcept.status == 'accepted'">
 													<div class="form-group">
