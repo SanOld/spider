@@ -33,7 +33,10 @@
 
                   <div disable-all=" !userCan('allFields', goal.status) ">
                   <div ng-hide="goal.status == 'unfinished'" class="alert-{{goal.status}}" >
-                    <strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen</strong>
+                    <strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen
+                      <br/>
+                      {{goal.notice}}
+                    </strong>
                     <strong ng-if="goal.status == 'accepted'">Genehmigt</strong>
                     <strong ng-if="goal.status == 'rejected'">Ablehnen
                       <br/>
@@ -568,15 +571,15 @@
                   <div class="row">
                     <div ng-show=" userCan('textNotice', goal.status) " class="col-lg-9 ">
                       <h4 class="m-t-0">Prüfnotiz</h4>
-                      <textarea  ng-model="goal.notice" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
+                      <textarea  ng-model="goal.newNotice" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
                     </div>
 
                     <div class="col-lg-3 text-right pull-right" >
 
                       <div class="m-t-30 text-right pull-right">
                         <button ng-show=" userCan('btnSenden', goal.status) " class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( goal, 'submit')">SENDEN</button>
-                        <button ng-show=" userCan('btnAccept', goal.status) " ng-class="{disabled: !goal.notice}" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( goal, 'accept')">AKZEPTIEREN</button>
-                        <button ng-show=" userCan('btnReject', goal.status) " ng-class="{disabled: !goal.notice}" ng-click="submitForm( goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+                        <button ng-show=" userCan('btnAccept', goal.status) "  class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( goal, 'accept')">AKZEPTIEREN</button>
+                        <button ng-show=" userCan('btnReject', goal.status) " ng-class="{disabled: !goal.newNotice}" ng-click="submitForm( goal, 'declare')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
                       </div>
                     </div>
                   </div>

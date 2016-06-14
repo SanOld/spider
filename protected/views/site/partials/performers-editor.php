@@ -173,7 +173,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title"> 
                     <a class="collapsed" href="#collapse-formBank{{$index}}" data-parent="#accordion-test" data-toggle="collapse">
-                      Bankverbindungen
+                      {{bank.iban || 'Neu'}}
                     </a> 
                   </h4>
                 </div>
