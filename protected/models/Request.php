@@ -140,10 +140,15 @@ class Request extends BaseModel {
       }
     } else {
       foreach($result['result'] as &$row) {
-        $row['start_date_unix'] = strtotime($row['start_date']).'000';
-        $row['due_date_unix'] = strtotime($row['due_date']).'000';
-        $row['last_change_unix'] = strtotime($row['last_change']).'000';
-        $row['end_fill_unix'] = strtotime($row['end_fill']).'000';
+        $row['start_date_unix'] = strtotime($row['start_date']);
+        $row['start_date_unix'] = $row['start_date_unix'] ? $row['start_date_unix'].'000' : '';
+        $row['due_date_unix'] = strtotime($row['due_date']);
+        $row['due_date_unix'] = $row['due_date_unix'] ? $row['due_date_unix'].'000' : '';
+        $row['last_change_unix'] = strtotime($row['last_change']);
+        $row['last_change_unix'] = $row['last_change_unix'] ? $row['last_change_unix'].'000' : '';
+        $row['end_fill_unix'] = strtotime($row['end_fill']);
+        $row['end_fill_unix'] = $row['end_fill_unix'] ? $row['end_fill_unix'].'000' : '';
+
         $row['status_goal'] = $this->calcGoalsStatus($row['id']);
         $row['status_concept'] = $this->calcConceptStatus($row['id']);
         $row['status_finance'] = $this->calcFinanceStatus($row['id']);
