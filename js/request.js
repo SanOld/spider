@@ -385,8 +385,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
   $scope.submitForm = function(status) {
     if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
-    console.log($scope.comment);
-    console.log($scope);
     var data = {};
     switch (status) {
       case 'in_progress':
@@ -594,7 +592,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }
   }
   $scope.updateIBAN = function (item){
-    console.log(item);
+    // console.log(item);
     $scope.IBAN = item;
   }
   $scope.updateUserSelect = function (){
