@@ -155,7 +155,15 @@ class Project extends BaseModel {
             'silent' => true,
             'system_code' => 'ERR_DUPLICATED'
         );
-      }
+      }      
+      if($post['invalid']){
+        return array(
+            'code' => '409',            
+            'result' => false,
+            'silent' => true,
+            'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS'
+        );
+      }     
       
 //      if(!safe($post,'schools')) {//есть проекты без школы и дистрикта
 //        return array (
