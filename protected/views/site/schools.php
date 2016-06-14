@@ -56,8 +56,8 @@ $this->breadcrumbs = array('Schule');
 								</form>
 							</div>
 
-              <?php include(Yii::app()->getBasePath().'/views/site/partials/schools-table.php'); ?>
-         
+              <?php include(Yii::app()->getBasePath().'/views/site/partials/schools-table.php'); ?>               
+                
 						</div>
 					</div>
 				</div>

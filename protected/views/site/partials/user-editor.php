@@ -312,7 +312,7 @@
                          ng-maxlength="45" required ng-pattern="emailFormat">
 									<span ng-class="{hide: !fieldError('email')}" class="hide">
 										<label ng-show="form.email.$error.required" class="error">Email erforderlich</label>
-										<label ng-show="form.email.$error.email || form.email.$error.pattern" class="error">Geben Sie eine gültige E-Mail</label>
+										<label ng-show="form.email.$error.email || form.email.$error.pattern" class="error">Geben Sie eine gültige E-Mail ein</label>
 										<label ng-show="form.email.$error.maxlength" class="error">Username ist zu lang</label>
 										<label ng-show="error.email.dublicate" class="error">This email already registered</label>
 										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
