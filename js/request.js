@@ -117,7 +117,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     var user = network.user.type;
     var results = false;
     if($scope.request) {
-      switch(type) {
+      switch(type)  {
         case 'dates':;
         case 'additional_info':;
         case 'templates':;
@@ -954,6 +954,73 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         return true;
       break;
     }
+  }
+
+  $scope.permissions={
+                      allFields:  {
+                                    unfinished:   {'a' : 1, 'p' : 0, 't': 1, 'default': 0 },
+                                    in_progress:  {'a' : 1, 'p' : 0, 't': 0, 'default': 0 },
+                                    rejected:     {'a' : 1, 'p' : 0, 't': 1, 'default': 0 },
+                                    accepted:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                  },
+                      textNotice: {
+                                    unfinished:   {'a' : 1, 'p' : 0, 't': 0, 'default': 0 },
+                                    in_progress:  {'a' : 1, 'p' : 1, 't': 0, 'default': 0 },
+                                    rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    accepted:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                  },
+                      btnSenden:  {
+                                    unfinished:   {'a' : 0, 'p' : 0, 't': 1, 'default': 0 },
+                                    in_progress:  {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    accepted:     {'a' : 0, 'p' : 0, 't': 1, 'default': 0 },
+                                    default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                  },
+                      btnAccept:  {
+                                    unfinished:   {'a' : 1, 'p' : 0, 't': 0, 'default': 0 },
+                                    in_progress:  {'a' : 1, 'p' : 1, 't': 0, 'default': 0 },
+                                    rejected:     {'a' : 1, 'p' : 1, 't': 0, 'default': 0 },
+                                    accepted:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                  },
+                      btnReject:  {
+                                    unfinished:   {'a' : 1, 'p' : 0, 't': 0, 'default': 0 },
+                                    in_progress:  {'a' : 1, 'p' : 1, 't': 0, 'default': 0 },
+                                    rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    accepted:     {'a' : 0, 'p' : 1, 't': 0, 'default': 0 },
+                                    default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                  },
+                        default:  {
+                                    unfinished:   {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    in_progress:  {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    accepted:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                    default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                  }
+  };
+
+  $scope.userCan = function(field, status) {
+    var userType='';
+    switch($scope.userType){
+      case 'a':;
+      case 'p':;
+      case 't':
+        userType = $scope.userType;
+        break;
+      default:
+        userType = 'default';
+    }
+
+    var status =  status  || 'default';
+    if(!(field in $scope.permissions)){
+      field = 'default';
+    }
+
+    var results = $scope.permissions[field][status][userType];
+    console.log(results);
+    return results;
   }
 
   $scope.fieldError = function (goal, field, condition) {
