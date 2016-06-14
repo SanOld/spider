@@ -89,7 +89,7 @@ class Project extends BaseModel {
 
   protected function doAfterSelect($results) {
     foreach ($results['result'] as &$row){
-      if($row['is_old']){
+      if(safe($row, 'is_old')){
         $row['status'] = 'decline';
       }else{
         $row['status'] = 'open';
