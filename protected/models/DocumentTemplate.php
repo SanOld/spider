@@ -27,9 +27,11 @@ class DocumentTemplate extends BaseModel {
     parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,array('tbl.name', 'type.name'),safe($params, 'KEYWORD'));
-
     if (isset($params['TYPE_ID'])) {
       $command -> andWhere("tbl.type_id = :type_id", array(':type_id' => $params['TYPE_ID']));
+    }
+    if (isset($params['IDS'])) {
+      $command -> andWhere(array('in', 'tbl.id', $params['IDS']));
     }
     return $command;
   }
