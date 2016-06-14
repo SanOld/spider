@@ -50,5 +50,5 @@
 			</li>
 			<li><a href="/contact.php">Kontakt</a></li>
 		</ul>
-	</div>
+	</div>   
 </nav>
