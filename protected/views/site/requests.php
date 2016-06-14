@@ -218,7 +218,7 @@ $this->breadcrumbs = array('Anträge');
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
       <h3 class="m-0 pull-left">Dokumente drucken - {{::code}}</h3>
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
+      <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
     <div class="panel-body">
       <h3 class="m-b-30 text-center">Dokumente zum Druck wählen</h3>

@@ -155,6 +155,20 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     }
   };
 
+  $scope.printDocuments = function(row) {
+    $uibModal.open({
+      animation: true,
+      templateUrl: 'printDocuments.html',
+      controller: 'ModalPrintDocumentsController',
+      size: 'custom-width',
+      resolve: {
+        row: function () {
+          return row;
+        }
+      }
+    });
+  };
+
   $scope.setBulkStatus = function(statusId) {
     var ids = getSelectedIds();
     if(ids.length) {
@@ -189,24 +203,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         }
       });
     }
-
-    $scope.printDocuments = function(row) {
-      console.log(row);
-
-      var modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'printDocuments.html',
-        controller: 'ModalPrintDocumentsController',
-        size: 'custom-width',
-        resolve: {
-          row: function () {
-            return row;
-          }
-        }
-      });
-    };
-
-
 
   };
 
@@ -296,9 +292,23 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 });
 
-spi.controller('ModalPrintDocumentsController', function ($scope, row, $uibModalInstance) {
+spi.controller('ModalPrintDocumentsController', function ($scope, row, $uibModalInstance, network) {
   $scope.code = row.code;
 
+  var ids = [];
+  var docs = [row.doc_target_agreement_id, row.doc_request_id, row.doc_financing_agreement_id];
+  for(var i=0; i<docs.length; i++) {
+    if(docs[i]) ids.push(docs[i])
+  }
+
+  if(ids.length) {
+    network.get('document_template', {'ids[]': ids}, function (result, response) {
+      if (result) {
+        $scope.templates = response.result; // TODO: set to template
+      }
+    });
+  }
+  
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };

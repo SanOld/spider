@@ -304,13 +304,13 @@ class Request extends BaseModel {
     if($this->finance_plan) {
       $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
       $RequestSchoolFinance ->user = $this->user;
-      foreach ($this->finance_plan['schools'] as $data) {
+      foreach (safe($this->finance_plan, 'schools', array()) as $data) {
         $id = $data['id'];
         unset($data['id']);
         $res = $RequestSchoolFinance->update($id, $data, true);
       }
 
-      if(safe($this->finance_plan,'prof_associations', array())) {
+      if(safe($this->finance_plan, 'prof_associations', array())) {
         $RequestProfAssociation = CActiveRecord::model('RequestProfAssociation');
         $RequestProfAssociation ->user = $this->user;
 

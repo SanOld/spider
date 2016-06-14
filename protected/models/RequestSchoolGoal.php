@@ -93,17 +93,15 @@ class RequestSchoolGoal extends BaseModel {
       $tempSchoolStatus = '';
       foreach ($schools as &$school) {
         $tempGoalStatus = '';
-        foreach ( $school['goals'] as $goal) {
+        foreach(safe($school, 'goals', array()) as $goal) {
           if(!($goal['status'] === 'unfinished' && $goal['option'] === '1')){
-            if($priority[$goal['status']] < $priority[$tempGoalStatus] || $tempGoalStatus == ''){
+            if($priority[$goal['status']] < safe($priority, $tempGoalStatus) || $tempGoalStatus == ''){
               $tempGoalStatus = $goal['status'];
             }
           }
         }
-
         $school['status'] = $tempGoalStatus;
-
-        if($priority[$school['status']] < $priority[$tempSchoolStatus] || $tempSchoolStatus == ''){
+        if($priority[$school['status']] < safe($priority, $tempSchoolStatus) || $tempSchoolStatus == ''){
           $tempSchoolStatus = $school['status'];
         }
       }
