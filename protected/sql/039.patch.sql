@@ -1,1 +1,1 @@
-UPDATE `spi_document_template_placeholder` SET `text` = 'Benutzername' WHERE `id` = '7';
+ALTER TABLE `spi_request` ADD `finance_comment` TEXT  NULL  AFTER `status_goal`;
