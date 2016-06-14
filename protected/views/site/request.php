@@ -23,7 +23,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
                       <?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
           </uib-tab>
-					<uib-tab class="finance" index="'finance-plan'" select="setTab('finance-plan')" heading="Finanzplan">
+					<uib-tab class="finance {{financeStatus}}" index="'finance-plan'" select="setTab('finance-plan')" heading="Finanzplan">
                       <?php include(Yii::app()->getBasePath().'/views/site/partials/request-financial-plan.php'); ?>
                     </uib-tab>
 					<uib-tab class="concepts {{conceptStatus}}" index="'school-concepts'" select="setTab('school-concepts')" heading="Konzept">
@@ -84,7 +84,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 																<button ng-hide="schoolConcept.status == 'accepted'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept')">AKZEPTIEREN</button>
 																<button ng-hide="schoolConcept.status == 'rejected'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'reject')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
 															</div>
-                              <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
+                              <div class="text-right pull-right" ng-if="canFormEdit && !isTextareaShow && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
                                 <h4 class="m-t-0"></h4>
                                 <button ng-class="{disabled: !school_concept[schoolConcept.id].situation || !school_concept[schoolConcept.id].offers_youth_social_work}" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit')">SENDEN</button>
                               </div>
