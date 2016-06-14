@@ -19,7 +19,7 @@
         <div class="row row-holder-dl">
           <div class="col-lg-4">
             <div class="form-group">
-              <label>Ansprechpartner für Rückfragen zum Finanzplan</label>
+              <label>Ansprechpartner für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
               <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id">
                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
@@ -48,7 +48,7 @@
           </div>
           <div class="col-lg-4">
             <div class="form-group">
-              <label>Bankverbindung</label>
+              <label>Bankverbindung<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></span></label>
               <ui-select class="type-document" on-select="updateIBAN($item)" ng-model="data.bank_details_id">
                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">IBAN: {{$select.selected.iban}}</ui-select-match>
                 <ui-select-choices repeat="item.id as item in bank_details | filter: $select.search | orderBy: 'iban'">
@@ -121,8 +121,8 @@
             <div class="panel-collapse collapse" id="account{{$index}}">
               <div class="panel-body">
                 <div class="row m-b-30">
-                  <label class="col-lg-1 control-label">Umlage 1</label>
-                  <div class="btn-group btn-toggle col-lg-2 control-label">
+                  <label class="col-lg-2 control-label">Umlage 1<span spi-hint text="_hint.fin_plan_employee_is_umlage" class="has-hint"></span></label>
+                  <div class="btn-group btn-toggle col-lg-2 control-label wrap-hint">
                     <button ng-change="calculateEmployee(emploee)" ng-class="emploee.is_umlage == 1 ? 'active' : 'btn-default'" ng-model="emploee.is_umlage" uib-btn-radio="1" class="btn btn-sm">JA</button>
                     <button ng-change="calculateEmployee(emploee)" ng-class="emploee.is_umlage != 1 ? 'active' : 'btn-default'" ng-model="emploee.is_umlage" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
                   </div>
@@ -147,13 +147,9 @@
                     </dl>
                   </div>
                   <div class="col-lg-8">
-                    <h4 class="col-lg-12 m-b-30 m-t-0">Vergleichsstellenbewertung entsprechend TV-L Berlin
-                      <button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="has-hint btn btn-question" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
-                        <i class="fa fa-question"></i>
-                      </button>
-                    </h4>
+                    <h4 class="col-lg-12 m-b-30 m-t-0">Vergleichsstellenbewertung entsprechend TV-L Berlin</h4>
                     <div class="form-group clearfix">
-                      <label class="col-lg-3 control-label">Entgeltgruppe</label>
+                      <label class="col-lg-3 control-label">Entgeltgruppe<span spi-hint text="_hint.fin_plan_employee_group_id" class="has-hint"></span></label>
                       <div class="col-lg-3">
                         <ui-select class="type-document" ng-model="emploee.group_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
@@ -164,7 +160,7 @@
                       </div>
                     </div>
                     <div class="form-group clearfix">
-                      <label class="col-lg-3 control-label">Entgeltstufe</label>
+                      <label class="col-lg-3 control-label">Entgeltstufe<span spi-hint text="_hint.fin_plan_employee_remuneration_level_id" class="has-hint"></span></label>
                       <div class="col-lg-9">
                         <ui-select class="type-document" ng-model="emploee.remuneration_level_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
@@ -175,7 +171,7 @@
                       </div>
                     </div>
                     <div class="form-group clearfix">
-                      <label class="col-lg-3 control-label">Sonstiges</label>
+                      <label class="col-lg-3 control-label">Sonstiges<span spi-hint text="_hint.fin_plan_employee_other" class="has-hint"></span></label>
                       <div class="col-lg-9">
                         <input class="form-control" ng-model="emploee.other" type="text" placeholder="Tragen Sie den Text hier ein">
                       </div>
@@ -188,10 +184,7 @@
                   <div class="clearfix costs-box">
                     <div class="col-lg-4 form-horizontal">
                       <div class="form-group">
-                        <label class="col-lg-6 control-label p-l-0">Kosten pro Monat (AN-Brutto)
-                          <button data-trigger="focus" aria-describedby="popover332715" data-original-title="" type="button" class="has-hint btn btn-question" data-container="body" title="" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-                            <i class="fa fa-question"></i>
-                          </button></label>
+                        <label class="col-lg-6 control-label p-l-0">Kosten pro Monat (AN-Brutto)<span spi-hint text="_hint.fin_plan_employee_cost_per_month_brutto" class="has-hint"></span></label>
                         <div class="col-lg-1"></div>
                         <div class="col-lg-4">
                           <input ng-change="calculateEmployee(emploee)" ng-model="emploee.cost_per_month_brutto" class="form-control" type="text">
@@ -201,7 +194,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-lg-7 control-label p-l-0">Geplante Monate im Projekt</label>
+                        <label class="col-lg-7 control-label p-l-0">Geplante Monate im Projekt<span spi-hint text="_hint.fin_plan_employee_month_count" class="has-hint"></span></label>
                         <div class="col-lg-4">
                           <select class="form-control" ng-model="emploee.month_count" ng-change="calculateEmployee(emploee)">
                             <option value="12">12</option>
@@ -220,7 +213,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-lg-7 control-label p-l-0">Arbeitsstunden pro Woche</label>
+                        <label class="col-lg-7 control-label p-l-0">Arbeitsstunden pro Woche<span spi-hint text="_hint.fin_plan_employee_hours_per_week" class="has-hint"></span></label>
                         <div class="col-lg-4">
                           <input ng-change="numValidate(emploee,'hours_per_week', 4)" class="form-control" type="text" ng-model="emploee.hours_per_week">
                         </div>
@@ -230,11 +223,7 @@
                     <div class="col-lg-8">
                       <div class="col-lg-12 form-horizontal">
                         <div class="form-group">
-                          <label class="col-lg-4 control-label ">Jahressonderzahlungen
-                            <button data-trigger="focus" aria-describedby="popover332715" data-original-title="" type="button" class="has-hint btn btn-question" data-container="body" title="" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-                              <i class="fa fa-question"></i>
-                            </button>
-                          </label>
+                          <label class="col-lg-4 control-label ">Jahressonderzahlungen<span spi-hint text="_hint.fin_plan_employee_have_annual_bonus" class="has-hint"></span></label>
                           <div class="btn-group btn-toggle col-lg-2 control-label">
                             <button ng-change="calculateEmployee(emploee)" ng-class="emploee.have_annual_bonus == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_annual_bonus" uib-btn-radio="1" class="btn btn-sm">JA</button>
                             <button ng-change="calculateEmployee(emploee)" ng-class="emploee.have_annual_bonus != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_annual_bonus" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
@@ -249,11 +238,7 @@
                           </div>
                         </div>
                         <div class="form-group">
-                          <label class="col-lg-4 control-label">Zusatzversorgung (VWL)
-                            <button data-trigger="focus" aria-describedby="popover332715" data-original-title="" type="button" class="has-hint btn btn-question" data-container="body" title="" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-                              <i class="fa fa-question"></i>
-                            </button>
-                          </label>
+                          <label class="col-lg-4 control-label">Zusatzversorgung (VWL)<span spi-hint text="_hint.fin_plan_employee_have_additional_provision_vwl" class="has-hint"></span></label>
                           <div class="btn-group btn-toggle col-lg-2 control-label">
                             <button ng-change="calculateEmployee(emploee)" ng-class="emploee.have_additional_provision_vwl == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_additional_provision_vwl" uib-btn-radio="1" class="btn btn-sm">JA</button>
                             <button ng-change="calculateEmployee(emploee)" ng-class="emploee.have_additional_provision_vwl != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_additional_provision_vwl" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
@@ -268,11 +253,7 @@
                           </div>
                         </div>
                         <div class="form-group">
-                          <label class="col-lg-4 control-label">Zusatzversorgung (betriebl. Altersversorgung)
-                            <button data-trigger="focus" aria-describedby="popover332715" data-original-title="" type="button" class="has-hint btn btn-question" data-container="body" title="" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-                              <i class="fa fa-question"></i>
-                            </button>
-                          </label>
+                          <label class="col-lg-4 control-label">Zusatzversorgung (betriebl. Altersversorgung)<span spi-hint text="_hint.fin_plan_employee_have_supplementary_pension" class="has-hint"></span></label>
                           <div class="btn-group btn-toggle col-lg-2 control-label">
                             <button ng-change="calculateEmployee(emploee)" ng-class="emploee.have_supplementary_pension == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_supplementary_pension" uib-btn-radio="1" class="btn btn-sm">JA</button>
                             <button ng-change="calculateEmployee(emploee)" ng-class="emploee.have_supplementary_pension != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_supplementary_pension" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
@@ -306,6 +287,7 @@
                 <div class="sum rate-ico clearfix">
                   <strong>Stellenanteil</strong>
                   <div class="col-lg-9 p-l-0 m-t-10">
+                    <span spi-hint text="_hint.fin_plan_school_rate" class="has-hint"></span>
                     <input type="text" class="form-control" ng-change="numValidate(school,'rate'); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
                   </div>
                 </div>
@@ -314,6 +296,7 @@
                 <span class="sum calendar-ico clearfix">
                   <strong>Monat</strong>
                   <div class="col-lg-9 p-l-0 m-t-10">
+                    <span spi-hint text="_hint.fin_plan_school_month_count" class="has-hint"></span>
                     <input type="text" class="form-control" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
                   </div>
                 </span>
@@ -332,6 +315,7 @@
                   <strong>Regiekosten</strong>
                   <!--<span>€ 11500,00</span>-->
                   <div class="col-lg-9 p-l-0 m-t-10">
+                    <span spi-hint text="_hint.fin_plan_school_overhead_cost" class="has-hint"></span>
                     <input type="text" class="form-control" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
                   </div>
                 </span>
@@ -353,13 +337,13 @@
           <hr />
           <div class="row form-horizontal m-b-15" ng-repeat="association in prof_associations" ng-if="!association.is_deleted">
             <label class="col-lg-1 control-label">
-              Name
+              Name<span spi-hint text="_hint.fin_plan_association_name" class="has-hint"></span>
             </label>
             <div class="col-lg-7">
               <input class="form-control" type="text" ng-model="association.name">
             </div>
             <label class="col-lg-1 control-label">
-              Beitrag
+              Beitrag<span spi-hint text="_hint.fin_plan_association_sum" class="has-hint"></span>
             </label>
             <div class="col-lg-2">
               <input class="form-control" type="text" ng-model="association.sum" ng-change="updateResultCost();">
@@ -384,16 +368,13 @@
               <div class="form-custom-box p-15 m-b-0 form-horizontal">
                 <div class="form-group m-b-0">
                   <label class="col-lg-2 control-label bold-label">
-                    Sonstige Einnahmen
-                    <button data-trigger="focus" aria-describedby="popover332715" data-original-title="" type="button" class="has-hint btn btn-question shot-fix" data-container="body" title="" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-                      <i class="fa fa-question"></i>
-                    </button>
+                    Sonstige Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description" class="has-hint"></span>
                   </label>
                   <div class="col-lg-6">
                     <input class="form-control" type="text" placeholder="Namen Sonstiger Einkommensquellen" ng-model="revenue_description">
                   </div>
                   <label class="col-lg-1 control-label custom-width-label">
-                    Betrag
+                    Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
                   </label>
                   <div class="col-lg-2">
                     <input class="form-control" type="text"  ng-model="revenue_sum" ng-change="updateResultCost();">
