@@ -974,8 +974,8 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
                       btnSenden:  {
                                     unfinished:   {'a' : 0, 'p' : 0, 't': 1, 'default': 0 },
                                     in_progress:  {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
-                                    rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
-                                    accepted:     {'a' : 0, 'p' : 0, 't': 1, 'default': 0 },
+                                    rejected:     {'a' : 0, 'p' : 0, 't': 1, 'default': 0 },
+                                    accepted:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                     default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
                                   },
                       btnAccept:  {
