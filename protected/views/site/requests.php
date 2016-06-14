@@ -222,42 +222,19 @@ $this->breadcrumbs = array('Anträge');
     </div>
     <div class="panel-body">
       <h3 class="m-b-30 text-center">Dokumente zum Druck wählen</h3>
-      <div class="doc-print">
+      <div ng-repeat="template in templates" class="doc-print">
         <div class="holder-doc-print">
-          <span class="name-doc">Zielvereinbarung</span>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore</p>
+          <span class="name-doc">{{template.type_name}}:</span>
+          <p>{{template.name}}</p>
         </div>
         <div class="btn-row">
-          <button class="btn w-xs" data-target="#modal-1" data-toggle="modal">
+          <button class="btn w-xs" data-target="#modal-1" data-toggle="modal" ng-click="printDoc(template)">
             <span>Drucken</span>
             <i class="ion-printer"></i>
           </button>
         </div>
       </div>
-      <div class="doc-print">
-        <div class="holder-doc-print">
-          <span class="name-doc">Antrag</span>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore</p>
-        </div>
-        <div class="btn-row">
-          <button class="btn w-xs" data-target="#modal-1" data-toggle="modal">
-            <span>Drucken</span>
-            <i class="ion-printer"></i>
-          </button>
-        </div>
-      </div>
-      <div class="doc-print">
-        <div class="holder-doc-print">
-          <span class="name-doc">Vertrag</span>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore</p>
-        </div>
-        <div class="btn-row">
-          <button class="btn w-xs" data-target="#modal-1" data-toggle="modal">
-            <span>Drucken</span>
-            <i class="ion-printer"></i>
-          </button>
-        </div>
-      </div>
+
     </div>
     <div class="row p-t-10 text-center">
       <div class="form-group group-btn m-t-20">
