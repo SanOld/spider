@@ -146,6 +146,7 @@ body.bg {
 .wrap-line.error input[type="email"],
 .wrap-line.error select,
 .wrap-line.error textarea,
+.wrap-line.error .select2-container .select2-choices ,
 .wrap-line.error .select2-container .select2-choice {
 	border:1px solid red;
 }
@@ -2973,3 +2974,4 @@ body.safari label {
     min-height: 392px;
 }
 .area-2 .wrap-area .form-group:first-child {display:none;}
+form[name=conceptForm] .alert-danger {display: block;}

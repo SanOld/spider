@@ -61,7 +61,6 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
 
 spi.controller('ProjectEditController', function ($scope, $uibModalInstance, modeView, data, network, hint, $timeout, Utils, SweetAlert) {
     $scope.isInsert = !data.id;
-    $scope.schoolError = false;
     $scope.newCode = 0;
     $scope._hint = hint;
     $scope.modeView = modeView;
@@ -169,7 +168,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 
     $scope.fieldError = function(field) {
         var form = $scope.formProjects;
-        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
+        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine) || ($scope.schoolError == field);
     };
     $scope.placeholderFN = function(items) {
         return items.lengt && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; // ??? not working
@@ -233,7 +232,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 
     $scope.submitFormProjects = function () {
         $scope.submited = true;
-        $scope.error = false;
+        $scope.error = false;        
+        $scope.schoolError = false;
         $scope.formProjects.$setPristine();
         var callback = function (result, response) {
             if (result) {
@@ -270,14 +270,14 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //                  closeOnConfirm: true
 //                });
 //              }
-          $scope.schoolError = true;
+          $scope.schoolError = "schools";
           return false;
         }            
         if ($scope.isInsert) {
             network.post('project', $copyScopeProject, callback);              
         } else {            
 
-          if($copyScopeProject.performer_id != data.performer_id || $scope.formProjects.$dirty) {          
+          if($copyScopeProject.performer_id != data.performer_id || $scope.formProjects.$ditry || $copyScopeProject.schools != data.schools ) {          
             $.each($copyScopeProject.schools, function(key, val){
               if(typeof val == 'object') {
                 val = val.id
