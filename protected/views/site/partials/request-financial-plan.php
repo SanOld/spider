@@ -383,13 +383,13 @@
                     Sonstige Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description" class="has-hint"></span>
                   </label>
                   <div class="col-lg-6">
-                    <input class="form-control" type="text" placeholder="Namen Sonstiger Einkommensquellen" ng-model="revenue_description">
+                    <input class="form-control" type="text" placeholder="Namen Sonstiger Einkommensquellen" ng-model="data.revenue_description">
                   </div>
                   <label class="col-lg-1 control-label custom-width-label">
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
                   </label>
                   <div class="col-lg-2">
-                    <input class="form-control" type="text"  ng-model="revenue_sum" ng-change="updateResultCost();">
+                    <input class="form-control" type="text"  ng-model="data.revenue_sum" ng-change="updateResultCost();">
                   </div>
                   <span class="symbol m-t-5">€</span>
                 </div>

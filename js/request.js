@@ -355,23 +355,22 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
   RequestService.financePlanData = function(){
     var data = {};
-    data.request =  { 'revenue_description':    $scope.revenue_description
-                    , 'revenue_sum':            $scope.revenue_sum
+    data.request =  { 'revenue_description':    $scope.data.revenue_description
+                    , 'revenue_sum':            $scope.data.revenue_sum
                     , 'emoloyees_cost':         $scope.emoloyeesCost
                     , 'training_cost':          $scope.training_cost
                     , 'overhead_cost':          $scope.overhead_cost
                     , 'prof_association_cost':  $scope.prof_association_cost
                     , 'total_cost':             $scope.total_cost
-
                     , 'bank_details_id':        $scope.data.bank_details_id
-                    }
+                    };
     data.users = $scope.request_users;
     data.prof_associations = $scope.prof_associations;
     data.schools = $scope.financeSchools;
     var finPlan = angular.copy(data);
     angular.forEach(finPlan.users, function(val, key) {
-      val.add_cost = val.addCost
-      val.full_cost = val.fullCost
+      val.add_cost = val.addCost;
+      val.full_cost = val.fullCost;
       delete val.user;
       delete val.addCost;
       delete val.fullCost;
