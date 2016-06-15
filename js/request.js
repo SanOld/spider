@@ -105,8 +105,13 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     return results;
   };
 
-  $scope.doErrorIncompleteField = function() {
+  $scope.doErrorIncompleteFields = function() {
     SweetAlert.swal('Error', "Please fill in all fields", 'error');
+    return false;
+  }
+
+  $scope.doErrorIncompleteField = function(field) {
+    SweetAlert.swal('Error', "Please fill " + field, 'error');
     return false;
   }
 
@@ -391,10 +396,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     var data = {};
     switch (status) {
       case 'accepted':
-        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteField();
+        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
         break;
       case 'in_progress':
-        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteField();
+        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
         var finPlan = RequestService.financePlanData();
         delete finPlan.request;
         data.finance_user_id = $scope.data.finance_user_id;
@@ -669,7 +674,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   $scope.submitForm = function(data, concept, action, index) {
     switch (action) {
       case 'submit':
-        if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteField();
+        if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteFields();
         data.status = 'in_progress';
         break;
       case 'reject':
@@ -677,7 +682,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         if(!data.comment) return false;
         break;
       case 'accept':
-        if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteField();
+        if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteFields();
         data.status = 'accepted';
         break;
     }
@@ -943,13 +948,13 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           submitRequest(goal);
         } else {
           goal.showError = true;
-          SweetAlert.swal('Error', "Erforderliche Felder sind nicht ausgefüllt", 'error');
+          $scope.$parent.doErrorIncompleteFields();
         }
         break;
       case 'declare':
         goal.notice = goal.newNotice;
         if (!goal.notice){
-          SweetAlert.swal('Error', "Feld ist nicht gefüllt - Prüfnotiz", 'error');
+          $scope.$parent.doErrorIncompleteField('Prüfnotiz');
           return false;
         }
         goal.status = 'rejected';
