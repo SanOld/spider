@@ -1458,7 +1458,7 @@ body > .select2-container {
 }
 .request-order-nav li.schools-goals.accepted a:before {
     background: url('../images/icon-school.png') no-repeat 3px 6px;
-    background-position: 3px 0px;
+    background-position: 3px -3px;
 }
 .request-order-nav li.schools-goals.rejected a:before {
     background: url('../images/icon-school.png') no-repeat 3px 6px;
