@@ -287,18 +287,26 @@
               <div class="col-lg-2 custom-school-row">
                 <div class="sum rate-ico clearfix">
                   <strong>Stellenanteil</strong>
-                  <div class="col-lg-9 p-l-0 m-t-10">
-                    <span spi-hint text="_hint.fin_plan_school_rate" class="has-hint"></span>
-                    <input type="text" class="form-control" ng-change="numValidate(school,'rate'); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
+                  <div class="col-lg-12 p-l-0 m-t-10">
+                    <div class="has-hint has-hint2">
+                      <span spi-hint text="_hint.fin_plan_school_rate"></span>
+                    </div>
+                    <div class="wrap-hint">
+                      <input type="text" class="form-control" ng-change="numValidate(school,'rate'); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="col-lg-2 col-lg-offset-1">
                 <span class="sum calendar-ico clearfix">
                   <strong>Monat</strong>
-                  <div class="col-lg-9 p-l-0 m-t-10">
-                    <span spi-hint text="_hint.fin_plan_school_month_count" class="has-hint"></span>
-                    <input type="text" class="form-control" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
+                  <div class="col-lg-12 p-l-0 m-t-10">
+                    <div class="has-hint has-hint2">
+                      <span spi-hint text="_hint.fin_plan_school_month_count"></span>
+                    </div>
+                    <div class="wrap-hint">
+                      <input type="text" class="form-control" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
+                    </div>
                   </div>
                 </span>
               </div>
@@ -315,9 +323,13 @@
                 <span class="sum clearfix">
                   <strong>Regiekosten</strong>
                   <!--<span>€ 11500,00</span>-->
-                  <div class="col-lg-9 p-l-0 m-t-10">
-                    <span spi-hint text="_hint.fin_plan_school_overhead_cost" class="has-hint"></span>
-                    <input type="text" class="form-control" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
+                  <div class="col-lg-12 p-l-0 m-t-10">
+                    <div class="has-hint has-hint2">
+                      <span spi-hint text="_hint.fin_plan_school_overhead_cost"></span>
+                    </div>
+                   <div class="wrap-hint">
+                      <input type="text" class="form-control" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
+                   </div>
                   </div>
                 </span>
               </div>
@@ -343,7 +355,7 @@
             <div class="col-lg-7">
               <input class="form-control" type="text" ng-model="association.name" required>
             </div>
-            <label class="col-lg-1 control-label">
+            <label class="col-lg-1 p-r-0 control-label">
               Beitrag<span spi-hint text="_hint.fin_plan_association_sum" class="has-hint"></span>
             </label>
             <div class="col-lg-2">

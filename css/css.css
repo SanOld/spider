@@ -714,7 +714,8 @@ label.error {
 .select2-results .select2-highlighted {
 	background: #3996e5 !important;
 }
-.has-hint.btn-question {
+.has-hint.btn-question,
+#finance .has-hint2 .btn-question {
 	float:right;
 	margin-top:8px;
 }
@@ -2927,4 +2928,7 @@ body.safari label {
 }
 #accordion-bank .form-custom-box {
 	border-radius: 0 0 5px 5px;
+}
+.col-lg-1.custom-lg-1 {
+    width: 14%;
 }

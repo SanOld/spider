@@ -128,7 +128,7 @@
             </div>
           </div>
           <h3 class="panel-title m-b-15">
-            Schule{{data.schools.length > 1?'n':''}}
+            {{data.schools.length > 1?'Schule':'Shulen'}}
           </h3>
           <div id="accordion-project" class="panel-group panel-group-joined">
 

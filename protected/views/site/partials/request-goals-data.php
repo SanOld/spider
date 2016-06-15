@@ -59,7 +59,7 @@
                   <h4>Angebote für Schüler/innen und Eltern</h4>
 
                   <span  ng-if="goal.groups.groupOffer.counter > 3" >
-                      <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus</label>
+                      <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel</label>
                   </span>
                   <div class="holder-radio">
                     <div class="p-0 text-center">
@@ -288,7 +288,7 @@
                   <h4 class="m-t-40">Interne / Externe Vernetzung</h4>
 
                   <span  ng-if="goal.groups.groupNet.counter > 3" >
-                      <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus</label>
+                      <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel</label>
                   </span>
                   <div class="holder-radio">
                     <div class="p-0 text-center">

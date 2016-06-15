@@ -790,7 +790,7 @@ spi.controller('СonceptCompareController', function($scope, history, $uibModalI
 
 });
 
-spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, $window) {
+spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, SweetAlert) {
 
   $scope.userType = network.user.type;
   $scope.schoolGoals = [];
@@ -943,11 +943,13 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           submitRequest(goal);
         } else {
           goal.showError = true;
+          SweetAlert.swal('Error', "Erforderliche Felder sind nicht ausgefüllt", 'error');
         }
         break;
       case 'declare':
         goal.notice = goal.newNotice;
         if (!goal.notice){
+          SweetAlert.swal('Error', "Feld ist nicht gefüllt - Prüfnotiz", 'error');
           return false;
         }
         goal.status = 'rejected';
