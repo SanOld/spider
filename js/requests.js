@@ -1,4 +1,4 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal) {
+spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal, configs) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
@@ -227,7 +227,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
                                 , year: data.year}
                                 , function(result, response) {
                                     if(result) {
-                                      window.location = ' /request/' + response.id;
+                                      window.open(configs.getSitePath()+ '/request/' + response.id);
                                     }
                                   }
                                 );

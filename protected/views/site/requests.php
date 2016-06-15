@@ -141,10 +141,10 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change?(row.last_change_unix| date : 'dd.MM.yyyy'):''}}</td>
                   <td data-title="'Ansicht / Bearbeiten'">
                     <a ng-click="printDocuments(row)" ng-class="{disabled: row.status_code != 'acceptable' && row.status_code != 'accept'}" class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
-                    <a ng-if="canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}" title="Bearbeiten">
+                    <a ng-if="canEdit(row)" class="btn edit-btn" target="_blank" href="/request/{{row.id}}" title="Bearbeiten">
                       <i class="ion-edit"></i>
                     </a>
-                    <a ng-if="!canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}" title="Aussicht">
+                    <a ng-if="!canEdit(row)" class="btn edit-btn"  href="/request/{{row.id}}" title="Aussicht">
                       <i class="ion-eye"></i>
                     </a>
                   </td>
