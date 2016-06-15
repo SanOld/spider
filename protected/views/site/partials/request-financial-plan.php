@@ -21,7 +21,7 @@
           <div class="col-lg-4">
             <div class="form-group">
               <label>Ansprechpartner für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
-              <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required>
+              <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -50,7 +50,7 @@
           <div class="col-lg-4">
             <div class="form-group">
               <label>Bankverbindung<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></span></label>
-              <ui-select class="type-document" on-select="updateIBAN($item)" ng-model="data.bank_details_id" required>
+              <ui-select class="type-document" on-select="updateIBAN($item)" ng-model="data.bank_details_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">IBAN: {{$select.selected.iban}}</ui-select-match>
                 <ui-select-choices repeat="item.id as item in bank_details | filter: $select.search | orderBy: 'iban'">
                   <span ng-bind-html="item.iban | highlight: $select.search"></span>
@@ -131,7 +131,7 @@
                 <div class="row row-holder-dl">
                   <div class="col-lg-4">
                     <div class="form-group">
-                      <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required>
+                      <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
                         <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_selected:0} | orderBy: 'name'">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -152,7 +152,7 @@
                     <div class="form-group clearfix">
                       <label class="col-lg-3 control-label">Entgeltgruppe<span spi-hint text="_hint.fin_plan_employee_group_id" class="has-hint"></span></label>
                       <div class="col-lg-3">
-                        <ui-select class="type-document" ng-model="emploee.group_id" required>
+                        <ui-select class="type-document" ng-model="emploee.group_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                           <ui-select-choices repeat="item.id as item in request_financial_group | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -163,7 +163,7 @@
                     <div class="form-group clearfix">
                       <label class="col-lg-3 control-label">Entgeltstufe<span spi-hint text="_hint.fin_plan_employee_remuneration_level_id" class="has-hint"></span></label>
                       <div class="col-lg-9">
-                        <ui-select class="type-document" ng-model="emploee.remuneration_level_id" required>
+                        <ui-select class="type-document" ng-model="emploee.remuneration_level_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                           <ui-select-choices repeat="item.id as item in remuneration_level | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
