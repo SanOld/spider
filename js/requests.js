@@ -1,4 +1,4 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal) {
+spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal, configs) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
@@ -62,7 +62,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $scope.existsSelected = function() {
     return !!getSelectedIds().length;
   };
-  
+
   $scope.canEdit = function(row) {
     if(!row) {
       return $rootScope.canEdit();
@@ -305,11 +305,17 @@ spi.controller('ModalPrintDocumentsController', function ($scope, row, $uibModal
   if(ids.length) {
     network.get('document_template', {'ids[]': ids}, function (result, response) {
       if (result) {
-        $scope.templates = response.result; // TODO: set to template
+        $scope.templates = response.result;
       }
     });
   }
-  
+
+  $scope.printDoc = function(template){
+    console.log(template.text);
+    //$uibModalInstance.close($scope.templates);
+    $uibModalInstance.dismiss('cancel');
+  }
+
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
@@ -340,8 +346,8 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
       });
     }
   };
-  
-    
+
+
   $scope.fieldError = function(field) {
       var form = $scope.createRequest;
       return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
