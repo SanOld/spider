@@ -696,7 +696,6 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         data.status = 'accepted';
         break;
     }
-
     network.put('request_school_concept/' + concept.id, data, function(result){
       if(result) {
         concept.status = data.status;
