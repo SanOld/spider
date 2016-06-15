@@ -43,7 +43,7 @@
                     <textarea ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" class="form-control custom-height animate-textarea textarea-2" ng-focus="isTextareaShow = true; canSave = !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted')" spi-on-focus-large spi-save="textareaSave" spi-cancel="textareaHide" spi-callback="saveText(schoolConcept.id, school_concept[schoolConcept.id], 'offers_youth_social_work')" ng-model="school_concept[schoolConcept.id].offers_youth_social_work" placeholder="Tragen Sie den Text hier ein" ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'" required></textarea>
                   </div>
                 </div>
-                <hr ng-show="(canFormEdit || canAccept) && schoolConcept.status != 'accepted' && canAcceptEarly(schoolConcept.status)">
+                <hr ng-show="(canFormEdit && schoolConcept.status != 'in_progress') || canAccept) && schoolConcept.status != 'accepted' && canAcceptEarly(schoolConcept.status)">
                 <div class="row" ng-show="isTextareaShow">
                   <div class="clearfix"><div class="col-lg-4 col-lg-offset-8 text-right button-textarea">
                       <button class="btn w-lg ng-scope" ng-click="textareaHide = !textareaHide; isTextareaShow = false">Löschen</button>
