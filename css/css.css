@@ -2967,3 +2967,4 @@ body.safari label {
     min-height: 392px;
 }
 .area-2 .wrap-area .form-group:first-child {display:none;}
+form[name=conceptForm] .alert-danger {display: block;}
