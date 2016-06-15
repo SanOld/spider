@@ -40,5 +40,5 @@ INSERT INTO `spi_document_template_type` (`id`, `name`, `code`) VALUES ('3', 'An
 INSERT INTO `spi_document_template_type` (`id`, `name`, `code`) VALUES ('4', 'Mittelabruf', 'financing_request');
 INSERT INTO `spi_document_template_type` (`id`, `name`, `code`) VALUES ('5', 'Verwendungsnachweis', 'spending_report');
 
-ALTER TABLE `spi_document_template` ADD COLUMN `type_code` VARCHAR(45) NOT NULL AFTER `type_id`;
+ALTER TABLE `spi_document_template` ADD COLUMN `type_code` VARCHAR(45) NOT NULL AFTER `type_id`; 
 
