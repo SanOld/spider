@@ -1795,7 +1795,7 @@ body.safari .box-finance .sum strong {
 }
 .block-concept {
 	display: none;
-	padding: 15px;
+	padding: 15px 0;
 }
 
 .block-concept.current{
@@ -1807,6 +1807,12 @@ body.safari .box-finance .sum strong {
 .status-history {
 	font-size:17px;
 	margin: 0 15px 0 0;
+}
+.check-history {
+	color:#707070;
+}
+.check-history + p {
+	color:#000;
 }
 .alert-danger p {
 	color:#202020;
