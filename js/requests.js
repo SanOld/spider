@@ -92,7 +92,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         }
       }
       if(failCodes.length) {
-        SweetAlert.swal('Error', "Requests "+failCodes.join(', ')+" can't be updated", 'error');
+        SweetAlert.swal({
+          title: "Fehler",
+          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert dein",
+          type: "error",
+          confirmButtonText: "OK"
+        });
         return false;
       }
       var modalInstance = $uibModal.open({
@@ -130,7 +135,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         }
       }
       if(failCodes.length) {
-        SweetAlert.swal('Error', "Requests "+failCodes.join(', ')+" can't be updated", 'error');
+        SweetAlert.swal({
+          title: "Fehler",
+          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert dein",
+          type: "error",
+          confirmButtonText: "OK"
+        });
         return false;
       }
       var modalInstance = $uibModal.open({
@@ -183,16 +193,21 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         }
       }
       if(failCodes.length) {
-        SweetAlert.swal('Error', "Requests "+failCodes.join(', ')+" can't be updated", 'error');
+        SweetAlert.swal({
+          title: "Fehler",
+          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert dein",
+          type: "error",
+          confirmButtonText: "OK"
+        });
         return false;
       }
       SweetAlert.swal({
-        title: "Bulk update requests",
-        text: "Do you want really update "+ids.length+" requests?",
+        title: "Massenänderung der Anfragen",
+        text: "Möchten Sie wirklich eine "+ids.length+" "+ids.length == 1 ? 'Anfrage' : 'Anfragen'+"?",
         type: "warning",
-        confirmButtonText: "Yes",
+        confirmButtonText: "JA",
         showCancelButton: true,
-        cancelButtonText: "No",
+        cancelButtonText: "NEIN",
         closeOnConfirm: true
       }, function(isConfirm){
         if(isConfirm) {

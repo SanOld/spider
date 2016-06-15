@@ -8,11 +8,11 @@ $this->pageTitle = '404 | ' . Yii::app()->name;
 			<h1>404</h1>
 			<h2>Entschuldigung, die angeforderte Seite konnte leider nicht gefunden werden.</h2>
 			<ul class="list-inline" ng-switch="isLogin">
-				<li ng-switch-when="true"><a href="/dashboard">Return to the Homepage</a></li>
+				<li ng-switch-when="true"><a href="/dashboard">zur Zugangsseite zurückkehren</a></li>
 				<li ng-switch-when="true"><a href="/performers">Träger</a></li>
 				<li ng-switch-when="true"><a href="/requests">Antrag</a></li>
 				<li ng-switch-when="true"><a href="/financial-request.php">Mittelabruf</a></li>
-				<li ng-switch-default><a href="/">Return to the Login Page</a></li>
+				<li ng-switch-default><a href="/">zur Startseite zurückkehren</a></li>
 			</ul>
 		</div>
 	</div>

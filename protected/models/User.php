@@ -219,7 +219,7 @@ class User extends BaseModel {
         'code' => '409',
         'result' => false,
         'system_code' => 'ERR_UPDATE_FORBIDDEN',
-        'message' => 'Update failed: The type can not be change'
+        'message' => 'Aktualisierung fehlgeschlagen: Der Typ kann nicht geändert werden'
       );
     }
 
@@ -302,7 +302,7 @@ class User extends BaseModel {
           'code' => '409',
           'result' => false,
           'system_code' => 'ERR_UPDATE_FORBIDDEN',
-          'message' => 'This user is responsible'
+          'message' => 'Dieser Benutzer ist verantwortlich'
         );
       }
     }
@@ -363,7 +363,7 @@ class User extends BaseModel {
         'code' => '409',
         'result' => false,
         'system_code' => 'ERR_UPDATE_FORBIDDEN',
-        'message' => 'This user is responsible'
+        'message' => 'Dieser Benutzer ist verantwortlich'
       );
     }
 

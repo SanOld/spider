@@ -106,12 +106,22 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
 
   $scope.doErrorIncompleteFields = function() {
-    SweetAlert.swal('Error', "Please fill in all fields", 'error');
+    SweetAlert.swal({
+      title: "Fehler",
+      text: "Bitte füllen Sie alle Felder aus",
+      type: "error",
+      confirmButtonText: "OK"
+    });
     return false;
-  }
+  };
 
   $scope.doErrorIncompleteField = function(field) {
-    SweetAlert.swal('Error', "Please fill " + field, 'error');
+    SweetAlert.swal({
+      title: "Fehler",
+      text: "Bitte füllen " + field,
+      type: "error",
+      confirmButtonText: "OK"
+    });
     return false;
   }
 
