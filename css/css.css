@@ -1432,19 +1432,19 @@ body > .select2-container {
 
 .request-order-nav li.concepts.unfinished a:before {
     background: url('../images/icon-concept.png') no-repeat 3px 6px;
-    background-position: 3px -95px;
+    background-position: 1px -93px;
 }
 .request-order-nav li.concepts.in_progress a:before {
     background: url('../images/icon-concept.png') no-repeat 3px 6px;
-    background-position: 3px -35px;
+    background-position: 0 -34px;
 }
 .request-order-nav li.concepts.accepted a:before {
     background: url('../images/icon-concept.png') no-repeat 3px 6px;
-    background-position: 3px 0;
+    background-position: 1px -3px;
 }
 .request-order-nav li.concepts.rejected a:before {
     background: url('../images/icon-concept.png') no-repeat 3px 6px;
-    background-position: 3px -65px;
+    background-position: 1px -63px;
 }
 
 
