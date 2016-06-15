@@ -1879,6 +1879,7 @@ body.safari .box-finance .sum strong {
 }
 .content-changes {
 	display:none;
+	border: 1px solid #ddd;
 }
 .content-changes > div {
 	overflow:hidden;
@@ -1886,7 +1887,7 @@ body.safari .box-finance .sum strong {
 	position:relative;
 }
 .custom-row {
-	margin: 10px 20px;
+	margin: 10px 0px;
 	padding: 5px 0 13px !important;
 	border-bottom: 1px solid #ddd;
 	overflow:hidden;
@@ -1920,7 +1921,7 @@ body.safari .box-finance .sum strong {
 }
 .row-holder .custom-row:last-child {
 	border: 0 none;
-	margin: 5px 20px;
+	margin: 5px 0px;
 	padding: 0 !important;
 }
 .content-changes .ion-arrow-swap {
@@ -2930,15 +2931,15 @@ body.safari label {
 	left:0;
 }
 #accordion-concepts textarea.textarea-2 {
-	top:0;
+	top:30px;
 	right:0;
 }
 #accordion-concepts textarea.animate-textarea.animate {
 	bottom: auto;
-	height: 260px !important;
+	height: 360px !important;
 	position: absolute;
 	z-index: 3;
-	top: 0;
+	top: 30px;
 	-webkit-transition: all .3s ease 0s;
 	-ms-transition: all .3s ease 0s;
 	transition: all .3s ease 0s;
@@ -2962,3 +2963,7 @@ body.safari label {
 	width:auto;
 	text-align:left;
 }
+.wrap-area {
+    min-height: 392px;
+}
+.area-2 .wrap-area .form-group:first-child {display:none;}
