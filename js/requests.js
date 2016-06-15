@@ -227,7 +227,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
                                 , year: data.year}
                                 , function(result, response) {
                                     if(result) {
-                                      window.open(configs.getSitePath()+ '/request/' + response.id);
+                                      window.location = ' /request/' + response.id;
                                     }
                                   }
                                 );
