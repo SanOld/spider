@@ -1,4 +1,4 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, Utils, $location, RequestService) {
+spi.controller('RequestController', function ($scope, $rootScope, network, Utils, $location, RequestService, SweetAlert) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
@@ -47,7 +47,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     data['finance_plan']    = finPlan;
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
-    console.log('SaveRequestDebug',data)
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result && close) {
        location.href = '/requests';
@@ -104,6 +103,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       }
     }
     return results;
+  };
+
+  $scope.doErrorIncompleteField = function() {
+    SweetAlert.swal('Error', "Please fill in all fields", 'error');
+    return false;
   }
 
 });
@@ -386,11 +390,17 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
     var data = {};
     switch (status) {
+      case 'accepted':
+        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteField();
+        break;
       case 'in_progress':
+        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteField();
         var finPlan = RequestService.financePlanData();
         delete finPlan.request;
         data.finance_user_id = $scope.data.finance_user_id;
         data.bank_details_id = $scope.data.bank_details_id;
+        data.revenue_description = $scope.data.revenue_description;
+        data.revenue_sum = $scope.data.revenue_sum;
         data.finance_plan = finPlan;
         break;
       case 'rejected':
@@ -656,17 +666,18 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     return $scope.school_concept;
   };
 
-  $scope.submitForm = function(data, concept, action) {
+  $scope.submitForm = function(data, concept, action, index) {
     switch (action) {
       case 'submit':
+        if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteField();
         data.status = 'in_progress';
-        if(!data.situation || !data.offers_youth_social_work) return false;
         break;
       case 'reject':
         data.status = 'rejected';
         if(!data.comment) return false;
         break;
       case 'accept':
+        if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteField();
         data.status = 'accepted';
         break;
     }

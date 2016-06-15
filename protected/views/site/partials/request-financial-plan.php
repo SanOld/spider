@@ -15,12 +15,13 @@
         </h2>
       </div>
       <hr />
+      <ng-form name="financePlanForm" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
       <div class="panel-body p-t-0">
         <div class="row row-holder-dl">
           <div class="col-lg-4">
             <div class="form-group">
               <label>Ansprechpartner für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
-              <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id">
+              <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required>
                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -49,7 +50,7 @@
           <div class="col-lg-4">
             <div class="form-group">
               <label>Bankverbindung<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></span></label>
-              <ui-select class="type-document" on-select="updateIBAN($item)" ng-model="data.bank_details_id">
+              <ui-select class="type-document" on-select="updateIBAN($item)" ng-model="data.bank_details_id" required>
                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">IBAN: {{$select.selected.iban}}</ui-select-match>
                 <ui-select-choices repeat="item.id as item in bank_details | filter: $select.search | orderBy: 'iban'">
                   <span ng-bind-html="item.iban | highlight: $select.search"></span>
@@ -130,7 +131,7 @@
                 <div class="row row-holder-dl">
                   <div class="col-lg-4">
                     <div class="form-group">
-                      <ui-select   on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id">
+                      <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required>
                         <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_selected:0} | orderBy: 'name'">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -151,7 +152,7 @@
                     <div class="form-group clearfix">
                       <label class="col-lg-3 control-label">Entgeltgruppe<span spi-hint text="_hint.fin_plan_employee_group_id" class="has-hint"></span></label>
                       <div class="col-lg-3">
-                        <ui-select class="type-document" ng-model="emploee.group_id">
+                        <ui-select class="type-document" ng-model="emploee.group_id" required>
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                           <ui-select-choices repeat="item.id as item in request_financial_group | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -162,7 +163,7 @@
                     <div class="form-group clearfix">
                       <label class="col-lg-3 control-label">Entgeltstufe<span spi-hint text="_hint.fin_plan_employee_remuneration_level_id" class="has-hint"></span></label>
                       <div class="col-lg-9">
-                        <ui-select class="type-document" ng-model="emploee.remuneration_level_id">
+                        <ui-select class="type-document" ng-model="emploee.remuneration_level_id" required>
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                           <ui-select-choices repeat="item.id as item in remuneration_level | filter: $select.search | orderBy: 'name'">
                             <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -173,7 +174,7 @@
                     <div class="form-group clearfix">
                       <label class="col-lg-3 control-label">Sonstiges<span spi-hint text="_hint.fin_plan_employee_other" class="has-hint"></span></label>
                       <div class="col-lg-9">
-                        <input class="form-control" ng-model="emploee.other" type="text" placeholder="Tragen Sie den Text hier ein">
+                        <input class="form-control" ng-model="emploee.other" type="text" placeholder="Tragen Sie den Text hier ein" required>
                       </div>
                     </div>
                   </div>
@@ -187,7 +188,7 @@
                         <label class="col-lg-6 control-label p-l-0">Kosten pro Monat (AN-Brutto)<span spi-hint text="_hint.fin_plan_employee_cost_per_month_brutto" class="has-hint"></span></label>
                         <div class="col-lg-1"></div>
                         <div class="col-lg-4">
-                          <input ng-change="calculateEmployee(emploee)" ng-model="emploee.cost_per_month_brutto" class="form-control" type="text">
+                          <input ng-change="calculateEmployee(emploee)" ng-model="emploee.cost_per_month_brutto" class="form-control" type="text" required>
                         </div>
                         <div class="col-lg-1 p-0">
                           <span class="symbol">€</span>
@@ -196,7 +197,7 @@
                       <div class="form-group">
                         <label class="col-lg-7 control-label p-l-0">Geplante Monate im Projekt<span spi-hint text="_hint.fin_plan_employee_month_count" class="has-hint"></span></label>
                         <div class="col-lg-4">
-                          <select class="form-control" ng-model="emploee.month_count" ng-change="calculateEmployee(emploee)">
+                          <select class="form-control" ng-model="emploee.month_count" ng-change="calculateEmployee(emploee)" required>
                             <option value="12">12</option>
                             <option value="11">11</option>
                             <option value="10">10</option>
@@ -215,7 +216,7 @@
                       <div class="form-group">
                         <label class="col-lg-7 control-label p-l-0">Arbeitsstunden pro Woche<span spi-hint text="_hint.fin_plan_employee_hours_per_week" class="has-hint"></span></label>
                         <div class="col-lg-4">
-                          <input ng-change="numValidate(emploee,'hours_per_week', 4)" class="form-control" type="text" ng-model="emploee.hours_per_week">
+                          <input ng-change="numValidate(emploee,'hours_per_week', 4)" class="form-control" type="text" ng-model="emploee.hours_per_week" required>
                         </div>
                         <div class="col-lg-1 p-0"><span class="symbol">Std.</span></div>
                       </div>
@@ -230,7 +231,7 @@
                           </div>
                           <div class="has-input" ng-show="emploee.have_annual_bonus">
                             <div class="col-lg-2">
-                              <input ng-change="calculateEmployee(emploee)" ng-required="emploee.have_annual_bonus == 1" class="form-control" ng-model="emploee.annual_bonus" type="text">
+                              <input ng-change="calculateEmployee(emploee)" ng-required="emploee.have_annual_bonus == 1" class="form-control" ng-model="emploee.annual_bonus" type="text" required>
                             </div>
                             <div class="col-lg-2 p-0">
                               <span class="symbol">pro Jahr</span>
@@ -340,13 +341,13 @@
               Name<span spi-hint text="_hint.fin_plan_association_name" class="has-hint"></span>
             </label>
             <div class="col-lg-7">
-              <input class="form-control" type="text" ng-model="association.name">
+              <input class="form-control" type="text" ng-model="association.name" required>
             </div>
             <label class="col-lg-1 control-label">
               Beitrag<span spi-hint text="_hint.fin_plan_association_sum" class="has-hint"></span>
             </label>
             <div class="col-lg-2">
-              <input class="form-control" type="text" ng-model="association.sum" ng-change="updateResultCost();">
+              <input class="form-control" type="text" ng-model="association.sum" ng-change="updateResultCost();" required>
             </div>
             <div class="col-lg-1 p-0 custom-col-1 m-t-5">
               <span class="symbol">€</span>
@@ -371,13 +372,13 @@
                     Sonstige Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description" class="has-hint"></span>
                   </label>
                   <div class="col-lg-6">
-                    <input class="form-control" type="text" placeholder="Namen Sonstiger Einkommensquellen" ng-model="data.revenue_description">
+                    <input class="form-control" type="text" placeholder="Namen Sonstiger Einkommensquellen" ng-model="data.revenue_description" required>
                   </div>
                   <label class="col-lg-1 control-label custom-width-label">
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
                   </label>
                   <div class="col-lg-2">
-                    <input class="form-control" type="text"  ng-model="data.revenue_sum" ng-change="updateResultCost();">
+                    <input class="form-control" type="text"  ng-model="data.revenue_sum" ng-change="updateResultCost();" required>
                   </div>
                   <span class="symbol m-t-5">€</span>
                 </div>
