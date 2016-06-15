@@ -714,7 +714,8 @@ label.error {
 .select2-results .select2-highlighted {
 	background: #3996e5 !important;
 }
-.has-hint.btn-question {
+.has-hint.btn-question,
+#finance .has-hint2 .btn-question {
 	float:right;
 	margin-top:8px;
 }
