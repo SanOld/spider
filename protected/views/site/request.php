@@ -114,7 +114,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 			</div>
 			<hr />
 			<div class="row compare-box">
-        <div class="col-lg-12" ng-bind-html="::compareText"></div
+        <div class="col-lg-12 emphasize" ng-bind-html="::compareText"></div>
       </div>
 			<hr />
 		</div>
@@ -132,14 +132,14 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 <script type="text/ng-template" id="setEndFill.html">
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
-			<h3 class="m-0 pull-left">Abgabe</h3>
+			<h3 class="m-0 pull-left">Abgabedatum</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body text-center">
 			<div class="form-group">
 				<ng-form>
 					<div class="holder-datepicker text-right">
-						<div class="col-lg-2 p-0">
+						<div class="col-lg-2 col-lg-offset-2 p-0">
 							<label>Abgabe</label>
 						</div>
 						<div class="col-lg-4 p-0">

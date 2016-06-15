@@ -15,15 +15,10 @@
                 <div class="holder-head-date custom-dl  m-t-10">
                   <i class="fa fa-calendar"></i>
                   <div class="wrap-data">
-                    <div>
+                    <div class="m-t-10">
                       <span>Abgabe:</span>
                       <em ng-if="request.end_fill">{{request.end_fill?(request.end_fill_unix| date : 'dd.MM.yyyy'):''}}</em>
                       <em ng-if="!request.end_fill">-</em>
-                    </div>
-                    <div>
-                      <span>Letzte Änd.:</span>
-                      <em ng-if="request.last_change">{{request.last_change?(request.last_change_unix| date : 'dd.MM.yyyy'):''}} </em>
-                      <em ng-if="!request.last_change">-</em>
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
@@ -47,6 +42,11 @@
                       <span>Ende:</span>
                       <em ng-if="request.due_date">{{request.due_date?(request.due_date_unix| date : 'dd.MM.yyyy'):''}}</em>
                       <em ng-if="!request.due_date">-</em>
+                    </div>
+                    <div class="m-t-10">
+                      <span>Letzte Änd.:</span>
+                      <em ng-if="request.last_change">{{request.last_change?(request.last_change_unix| date : 'dd.MM.yyyy'):''}} </em>
+                      <em ng-if="!request.last_change">-</em>
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">

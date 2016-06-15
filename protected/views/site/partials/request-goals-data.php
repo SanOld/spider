@@ -1,5 +1,5 @@
 
-  <div class="tab-pane" ng-controller="RequestSchoolGoalController">
+  <div class="tab-pane" id="schools-goals" ng-controller="RequestSchoolGoalController">
     <div id="accordion-order" class="panel-group panel-group-joined">
 
       <div ng-repeat="school in schoolGoals" class="panel panel-default">
@@ -32,7 +32,7 @@
                 <div ng-repeat="goal in school.goals"    id="goal_{{goal.id}}" class="tab-pane {{$index == 0 ? 'active' : ''}}" >
 
                   <div disable-all=" !userCan('allFields', goal.status) ">
-                  <div ng-hide="goal.status == 'unfinished'" class="alert-{{goal.status}}" >
+                  <div ng-hide="goal.status == 'unfinished'" class="alert-{{goal.status}} alert" >
                     <strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen
                       <br/>
                       {{goal.notice}}

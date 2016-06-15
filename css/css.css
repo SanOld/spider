@@ -736,15 +736,20 @@ label.error {
 	background: #fff;
 }
 .holder-radio .cr-styled i {
-	line-height: 19px !important;
+	line-height: 18px !important;
 	position:relative;
+	margin: 0 !important;
+    padding: 0 !important;
 }
 .holder-radio .cr-styled input[type=radio]:checked + i:before {
+	content: "";
 	overflow: hidden;
-	width: 11px;
-	display:block;
-	margin:-2px auto 0;
-
+    width: 10px;
+    margin: 3px auto;
+    height: 10px;
+    background:#0625cd;
+    display:block;
+    border-radius: 100%;
 }
 .dataTables_scrollBody  table.dataTable thead .sorting:after,
 .dataTables_scrollBody  table.dataTable thead .sorting_asc:after,
@@ -1885,19 +1890,33 @@ body.safari .box-finance .sum strong {
 	padding: 5px 0 13px !important;
 	border-bottom: 1px solid #ddd;
 	overflow:hidden;
+	position:relative;
 }
 .custom-row > div:after {
 	content: "";
 	position:absolute;
 	width:1px;
-	height:100%;
+	height:9999px;
 	background: #ddd;
 	right: 0;
 	top: 0;
 	min-height: 21px;
 }
+.custom-row:before {
+    border-bottom: 10px solid #ffffff;
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index:1;
+}
 .custom-row > div:last-child:after {
 	background:none;
+}
+.row-holder .custom-row:last-child:before {
+	border:0;
+	margin:0;
 }
 .row-holder .custom-row:last-child {
 	border: 0 none;
@@ -2893,11 +2912,18 @@ body.safari label {
 	color: #a94442;
 	background-color: #f2dede;
 }
-.compare-box ins {
-	color: #3c763d;
+.emphasize ins {
+	background: #fcf8e3;
+	padding: 5px;
+	text-decoration: none;
 }
-.compare-box del {
-	color: #a94442;
+.emphasize del {
+	background: #f2dede;
+	padding:5px;
+	text-decoration: none;
+}
+.emphasize span {
+	padding:5px;
 }
 #accordion-concepts textarea.textarea-1 {
 	top:0;
@@ -2931,4 +2957,8 @@ body.safari label {
 }
 .col-lg-1.custom-lg-1 {
     width: 14%;
+}
+.holder-radio label.error {
+	width:auto;
+	text-align:left;
 }
