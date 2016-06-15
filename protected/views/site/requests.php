@@ -21,7 +21,7 @@ $this->breadcrumbs = array('Anträge');
         <div class="panel-body request-edit">
           <div class="row datafilter">
             <form>
-              <div class="col-lg-3">
+              <div class="col-lg-2">
                 <div class="form-group">
                   <label>Träger</label>
                   <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
@@ -32,7 +32,7 @@ $this->breadcrumbs = array('Anträge');
                   </ui-select>
                 </div>
               </div>
-              <div class="col-lg-1">
+              <div class="col-lg-2">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Kennziffer</label>
@@ -40,7 +40,7 @@ $this->breadcrumbs = array('Anträge');
                   </div>
                 </div>
               </div>
-              <div class="col-lg-1">
+              <div class="col-lg-1 custom-lg-1">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Fördertopf</label>
@@ -53,7 +53,7 @@ $this->breadcrumbs = array('Anträge');
                   </div>
                 </div>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-1 custom-lg-1">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Schultyp</label>
@@ -79,7 +79,7 @@ $this->breadcrumbs = array('Anträge');
                   </div>
                 </div>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-1 custom-lg-1">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Status</label>

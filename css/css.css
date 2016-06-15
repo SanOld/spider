@@ -2929,3 +2929,6 @@ body.safari label {
 #accordion-bank .form-custom-box {
 	border-radius: 0 0 5px 5px;
 }
+.col-lg-1.custom-lg-1 {
+    width: 14%;
+}
