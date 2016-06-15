@@ -280,7 +280,7 @@
 
                     <span ng-class="{hide: !(groupError(goal, 'groupOffer') && goal.showError)}" class="hide">
                       <label  class="error">Wählen Sie Ziel</label>
-                      <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                      <!--<span class="glyphicon glyphicon-remove form-control-feedback"></span>-->
                     </span>
 
                   </div>
@@ -465,7 +465,7 @@
                   <div class="wrap-hint" ng-class="{'wrap-line error': (groupError(goal, 'groupNet') && goal.showError)}">
                     <span ng-class="{hide: !(groupError(goal, 'groupNet') && goal.showError)}" class="hide">
                       <label  class="error">Wählen Sie Ziel</label>
-                      <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                      <!--<span class="glyphicon glyphicon-remove form-control-feedback"></span>-->
                     </span>
                     <br>
                   </div>
