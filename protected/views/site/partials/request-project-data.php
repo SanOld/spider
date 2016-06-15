@@ -8,11 +8,18 @@
               <h2 class="panel-title">
                 Projekt <strong>{{data.code}}</strong>
               </h2>
+              <div class="m-t-10 holder-head-date custom-dl">
+               <div class="wrap-data">
+                  <span>Letzte Änd.:</span>
+                 <em ng-if="request.last_change">{{request.last_change?(request.last_change_unix| date : 'dd.MM.yyyy'):''}} </em>
+                 <em ng-if="!request.last_change">-</em>
+               </div>
+              </div>
             </div>
             <div class="col-lg-4">
               <div class="heading-date">
-                <strong>Beginn und Ende der Maßnahme:</strong>
-                <div class="holder-head-date custom-dl  m-t-10">
+                <strong>Abgabedatum</strong>
+                <div class="holder-head-date custom-dl m-t-10">
                   <i class="fa fa-calendar"></i>
                   <div class="wrap-data">
                     <div class="m-t-10">
@@ -42,11 +49,6 @@
                       <span>Ende:</span>
                       <em ng-if="request.due_date">{{request.due_date?(request.due_date_unix| date : 'dd.MM.yyyy'):''}}</em>
                       <em ng-if="!request.due_date">-</em>
-                    </div>
-                    <div class="m-t-10">
-                      <span>Letzte Änd.:</span>
-                      <em ng-if="request.last_change">{{request.last_change?(request.last_change_unix| date : 'dd.MM.yyyy'):''}} </em>
-                      <em ng-if="!request.last_change">-</em>
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
