@@ -1338,7 +1338,7 @@
 					],
 					"oLanguage": {
 				      	"sLengthMenu": "_MENU_ Objekte pro Seite",
-				      	"sInfo": "_PAGE_ bis _PAGES_ Einträge aus _TOTAL_ anzeigen",
+				      	"sInfo": "Seite _PAGE_ von _PAGES_ aus _TOTAL_ Einträgen",
 				      	"oPaginate": {
 			                "sPrevious": "Zurück", // This is the link to the previous page
 			                "sNext": "Weiter", // This is the link to the next page

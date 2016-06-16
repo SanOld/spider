@@ -168,7 +168,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 
     $scope.fieldError = function(field) {
         var form = $scope.formProjects;
-        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine) || ($scope.schoolError == field);
+        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine) || ($scope.schoolError == field && form[field].$pristine);
     };
     $scope.placeholderFN = function(items) {
         return items.lengt && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; // ??? not working
@@ -252,7 +252,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             $copyScopeProject.invalid = true;
         }            
         delete $copyScopeProject.school; 
-        if(!$copyScopeProject.schools.length && $scope.schoolTypeCode != 'z') {
+        if((!$copyScopeProject.schools || !$copyScopeProject.schools.length) && $scope.schoolTypeCode != 'z') {
 //              if($scope.schoolTypeCode != 's') {
 //                SweetAlert.swal({
 //                  title: "Школа не выбрана",
