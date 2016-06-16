@@ -356,6 +356,7 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
     if($scope.request.year) {
       network.get('project', {list: 'unused_project', year: $scope.request.year}, function (result, response) {
         if (result) {
+          $scope.request.project_id = '';
           $scope.projects = response.result;
         }
       });
