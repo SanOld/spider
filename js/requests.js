@@ -1,9 +1,14 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal, configs) {
+spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal, configs, localStorageService) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
-  var d = new Date;
-  $scope.filter = {year: d.getFullYear(), status_id: '1,3,4,5'};
+
+  $scope.filter = localStorageService.get('requestsFilter', $scope.filter );
+  if(!$scope.filter || $scope.filter == '' ){
+    var d = new Date;
+    $scope.filter = {year: d.getFullYear(), status_id: '1,3,4,5'};
+  }
+
 
   $scope.checkboxes = {
     checked: false,
@@ -242,6 +247,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
                                 , year: data.year}
                                 , function(result, response) {
                                     if(result) {
+                                      $scope.setFilter();
                                       window.location = ' /request/' + response.id;
                                     }
                                   }
@@ -250,6 +256,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
     }
   };
+
+  $scope.setFilter = function(){
+    localStorageService.set('requestsFilter', $scope.filter );
+  }
 
 });
 
