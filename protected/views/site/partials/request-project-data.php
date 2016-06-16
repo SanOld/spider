@@ -18,7 +18,7 @@
             </div>
             <div class="col-lg-4">
               <div class="heading-date">
-                <strong>Abgabedatum</strong>
+                <strong>Abgabedatum für den Antrag:</strong>
                 <div class="holder-head-date custom-dl m-t-10">
                   <i class="fa fa-calendar"></i>
                   <div class="wrap-data">
@@ -130,7 +130,7 @@
             </div>
           </div>
           <h3 class="panel-title m-b-15">
-            {{data.schools.length > 1?'Schule':'Shulen'}}
+            {{data.schools.length > 1?'Schule':'Schulen'}}
           </h3>
           <div id="accordion-project" class="panel-group panel-group-joined">
 

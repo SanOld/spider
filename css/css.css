@@ -2713,6 +2713,9 @@ tr.thead > td {
 }
 
 /*Safari*/
+body.safari {
+	min-width: 1330px;
+}
 body.safari button.shot-fix {
 	margin: 0 0 0 3px;
 }
