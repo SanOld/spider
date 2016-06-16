@@ -45,9 +45,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     close = close || false;
     var data = RequestService.getProjectData();
     var finPlan = RequestService.financePlanData();
-    data = angular.extend(data, finPlan.request);
-    delete finPlan.request;
-    data['finance_plan']    = finPlan;
+    if(finPlan) {
+      data = angular.extend(data, finPlan.request);
+      delete finPlan.request;
+      data['finance_plan'] = finPlan;
+    }
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
