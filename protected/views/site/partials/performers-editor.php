@@ -132,7 +132,7 @@
               <hr/>
               <div class="row holder-three-blocks" ng-if="!isInsert">
                 <div class="col-lg-6">
-                  <h4>General</h4>
+                  <h4>Vertretungsberechtigte Person</h4>
                   <span ng-if="(!canEdit() && !isFinansist) || modeView" ng-bind="representativeUser.name || '-'"></span>
                   <span spi-hint text="_hint.representative_user_id" class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
@@ -146,8 +146,8 @@
                   <dl ng-if="representativeUser">
                     <dt>Funktion</dt>
                     <dd ng-bind="representativeUser.function || '-'"></dd>
-                    <dt>Titel</dt>
-                    <dd ng-bind="representativeUser.title || '-'"></dd>
+                    <dt>Anrede</dt>
+                    <dd ng-bind="representativeUser.sex"></dd>
                     <dt>Telefon</dt>
                     <dd ng-bind="(representativeUser.phone) || '-'"></dd>
                     <dt>Email</dt>
