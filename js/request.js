@@ -29,6 +29,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $scope.goalsStatus = goalsStatus;
   };
 
+  $scope.updateRights = function(is_bonus_project){
+    $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist) || (is_bonus_project && network.user.type == 's');
+  };
   $scope.setProjectID = function(projectID){
     $scope.projectID = projectID;
     RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
@@ -156,6 +159,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       if (result) {
         $scope.data = response.result;
 
+        $scope.$parent.updateRights($scope.data.is_bonus_project);
         $scope.$parent.setProjectID($scope.data.code);
         $scope.$parent.setRequestYear($scope.data.year);
 

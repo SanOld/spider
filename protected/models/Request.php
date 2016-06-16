@@ -27,6 +27,7 @@ class Request extends BaseModel {
       $this -> select_all = "tbl.*
                             , prj.id project_id
                             , prj.code code
+                            , IF(prj.type_id = 3, 1, 0) is_bonus_project 
 
                             , rqs.code status_code
 
