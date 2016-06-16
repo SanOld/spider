@@ -146,8 +146,8 @@
                   <dl ng-if="representativeUser">
                     <dt>Funktion</dt>
                     <dd ng-bind="representativeUser.function || '-'"></dd>
-                    <dt>Titel</dt>
-                    <dd ng-bind="representativeUser.title || '-'"></dd>
+                    <dt>Anrede</dt>
+                    <dd ng-bind="representativeUser.sex"></dd>
                     <dt>Telefon</dt>
                     <dd ng-bind="(representativeUser.phone) || '-'"></dd>
                     <dt>Email</dt>
