@@ -27,7 +27,7 @@ class Request extends BaseModel {
       $this -> select_all = "tbl.*
                             , prj.id project_id
                             , prj.code code
-                            , IF(prj.type_id = 3, 1, 0) is_bonus_project 
+                            , IF(prj.type_id = 3, 1, 0) is_bonus_project
 
                             , rqs.code status_code
 
@@ -40,7 +40,7 @@ class Request extends BaseModel {
                                   DATE_FORMAT(prf.checked_date,'%d.%m.%Y')
 
                               ) performer_checked_by
-                            , prf.short_name performer_name
+                            , prf.name performer_name
                             , prf.address performer_address
                             , prf.plz performer_plz
                             , prf.city performer_city
