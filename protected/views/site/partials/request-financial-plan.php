@@ -456,7 +456,7 @@
             </div>
             <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && data.status_finance != 'in_progress' && data.status_finance != 'accepted'">
               <h4 class="m-t-0"></h4>
-              <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm('in_progress')">SENDEN</button>
+              <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm('in_progress')" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
             </div>
           </div>
         </div>

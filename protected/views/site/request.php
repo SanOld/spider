@@ -46,7 +46,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 					<div class="col-lg-6 text-right">
 						<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
 						<button ng-show="userCan('save')" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()">Speichern</button>
-						<button ng-show="userCan('save')"  class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur liste">Anwenden</button>
+						<button ng-show="userCan('save')"  class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur Liste">Anwenden</button>
 					</div>
 				</div>
 
@@ -132,7 +132,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 <script type="text/ng-template" id="setEndFill.html">
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
-			<h3 class="m-0 pull-left">Abgabedatum</h3>
+            <h3 class="m-0 pull-left">Abgabedatum für den Antrag</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body text-center">
