@@ -40,7 +40,8 @@ class Request extends BaseModel {
                                   DATE_FORMAT(prf.checked_date,'%d.%m.%Y')
 
                               ) performer_checked_by
-                            , prf.name performer_name
+                            , prf.short_name performer_name
+                            , prf.name performer_long_name
                             , prf.address performer_address
                             , prf.plz performer_plz
                             , prf.city performer_city
