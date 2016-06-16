@@ -168,9 +168,9 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           doc_target_agreement_id:        response.result.doc_target_agreement_id,
           doc_request_id:                 response.result.doc_request_id,
           doc_financing_agreement_id:     response.result.doc_financing_agreement_id,
-          request_user_id:                response.result.request_user_id,
-          concept_user_id:                response.result.concept_user_id,
-          finance_user_id:                response.result.finance_user_id,
+          request_user_id:                response.result.request_user_id != 0 ? response.result.request_user_id : '',
+          concept_user_id:                response.result.concept_user_id != 0 ? response.result.concept_user_id : '',
+          finance_user_id:                response.result.finance_user_id != 0 ? response.result.finance_user_id : '',
           additional_info:                response.result.additional_info,
           senat_additional_info:          response.result.senat_additional_info,
           start_date:                     response.result.start_date,
@@ -188,7 +188,6 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
           if (result) {
             $scope.performerUsers = response.result;
-
             for (var key in $scope.performerUsers){
               if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
               if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
