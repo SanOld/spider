@@ -116,7 +116,7 @@ class User extends BaseModel {
           $row['relation_name'] = Yii::app()->db->createCommand()->select('name')->from($relation['table'])->where('id=:id', array(':id' => $row['relation_id']))->queryScalar();
         }
         else{
-          switch($this->user['type']) {
+          switch($row['type']) {
             case SCHOOL:
               $row['relation_name'] = Yii::app()->db->createCommand()->select('name')->from('spi_school')->where('id=:id', array(':id' => $this->user['relation_id']))->queryScalar();
               break;

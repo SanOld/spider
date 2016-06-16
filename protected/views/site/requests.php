@@ -122,17 +122,17 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
                   <td data-title="'Prüfstatus'">
                     <div class="col-lg-4 p-0">
-                      <a ng-if="isFinansist" class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
+                      <a ng-if="isFinansist" class="request-button edit-btn" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
                         <span class="cell-finplan status-icon" ng-class="row.status_finance"></span>
                       </a>
                     </div>
                     <div class="col-lg-4 p-0">
-                      <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
+                      <a class="request-button edit-btn" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
                         <span class="cell-concept status-icon" ng-class="row.status_concept"></span>
                       </a>
                     </div>
                     <div  class="col-lg-4 p-0">
-                      <a class="request-button edit-btn" target="_blank" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
+                      <a class="request-button edit-btn" href="/request/{{row.id}}#schools-goals" title="Entwicklungsziele">
                         <span class="cell-school status-icon" ng-class="row.status_goal"></span>
                       </a>
                     </div>
@@ -141,7 +141,7 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change?(row.last_change_unix| date : 'dd.MM.yyyy'):''}}</td>
                   <td data-title="'Ansicht / Bearbeiten'">
                     <a ng-click="printDocuments(row)" ng-class="{disabled: row.status_code != 'acceptable' && row.status_code != 'accept'}" class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
-                    <a ng-if="canEdit(row)" class="btn edit-btn" target="_blank" href="/request/{{row.id}}" title="Bearbeiten">
+                    <a ng-if="canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}" title="Bearbeiten">
                       <i class="ion-edit"></i>
                     </a>
                     <a ng-if="!canEdit(row)" class="btn edit-btn"  href="/request/{{row.id}}" title="Aussicht">
