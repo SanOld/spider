@@ -1376,7 +1376,7 @@ body > .select2-container {
 	height: 500px !important;
 	position: absolute;
 	width: 1095px !important;
-	z-index: 3;
+	z-index: 9999;
 	top: 0;
 	-webkit-transition:all .3s ease 0s;
 	-ms-transition:all .3s ease 0s;
@@ -2713,6 +2713,9 @@ tr.thead > td {
 }
 
 /*Safari*/
+body.safari {
+	min-width: 1330px;
+}
 body.safari button.shot-fix {
 	margin: 0 0 0 3px;
 }

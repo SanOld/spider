@@ -132,7 +132,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 <script type="text/ng-template" id="setEndFill.html">
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
-			<h3 class="m-0 pull-left">Abgabedatum</h3>
+			<h3 class="m-0 pull-left">Abgabedatum für den Antrag</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body text-center">
