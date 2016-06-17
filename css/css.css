@@ -1432,20 +1432,20 @@ body > .select2-container {
 }
 
 .request-order-nav li.concepts.unfinished a:before {
-	background: url('../images/icon-concept.png') no-repeat 3px 6px;
-	background-position: 1px -93px;
+    background: url('../images/icon-concept.png') no-repeat 3px 6px;
+    background-position: 1px -93px;
 }
 .request-order-nav li.concepts.in_progress a:before {
-	background: url('../images/icon-concept.png') no-repeat 3px 6px;
-	background-position: 0 -34px;
+    background: url('../images/icon-concept.png') no-repeat 3px 6px;
+    background-position: 0 -34px;
 }
 .request-order-nav li.concepts.accepted a:before {
-	background: url('../images/icon-concept.png') no-repeat 3px 6px;
-	background-position: 1px -3px;
+    background: url('../images/icon-concept.png') no-repeat 3px 6px;
+    background-position: 1px -3px;
 }
 .request-order-nav li.concepts.rejected a:before {
-	background: url('../images/icon-concept.png') no-repeat 3px 6px;
-	background-position: 1px -63px;
+    background: url('../images/icon-concept.png') no-repeat 3px 6px;
+    background-position: 1px -63px;
 }
 
 
@@ -1459,7 +1459,7 @@ body > .select2-container {
 }
 .request-order-nav li.schools-goals.accepted a:before {
     background: url('../images/icon-school.png') no-repeat 3px 6px;
-    background-position: 3px 0px;
+    background-position: 3px -3px;
 }
 .request-order-nav li.schools-goals.rejected a:before {
     background: url('../images/icon-school.png') no-repeat 3px 6px;
@@ -1795,7 +1795,7 @@ body.safari .box-finance .sum strong {
 }
 .block-concept {
 	display: none;
-	padding: 15px 0;
+	padding: 15px;
 }
 
 .block-concept.current{
@@ -1807,12 +1807,6 @@ body.safari .box-finance .sum strong {
 .status-history {
 	font-size:17px;
 	margin: 0 15px 0 0;
-}
-.check-history {
-	color:#707070;
-}
-.check-history + p {
-	color:#000;
 }
 .alert-danger p {
 	color:#202020;

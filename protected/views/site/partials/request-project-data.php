@@ -71,7 +71,7 @@
               </h3>
               <hr/>
               <ng-show ng-show="data.performer_id">
-                <strong>{{data.performer_name}}</strong>
+                <strong>{{data.performer_long_name}}</strong>
                 <span ng-if="+data.performer_is_checked">
                   <i class="ion-checkmark"></i>
                   {{data.performer_checked_by}}

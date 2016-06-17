@@ -67,7 +67,7 @@
                     </div>
                     <div class="text-right pull-right" ng-if="canFormEdit && !isTextareaShow && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
                       <h4 class="m-t-0"></h4>
-                      <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit', $index)">SENDEN</button>
+                      <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit', $index)" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
                     </div>
                   </div>
                 </div>

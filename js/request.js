@@ -29,6 +29,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $scope.goalsStatus = goalsStatus;
   };
 
+  $scope.updateRights = function(is_bonus_project){
+    //$scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist) || (is_bonus_project && network.user.type == 's');
+  };
   $scope.setProjectID = function(projectID){
     $scope.projectID = projectID;
     RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
@@ -156,6 +159,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       if (result) {
         $scope.data = response.result;
 
+        $scope.$parent.updateRights($scope.data.is_bonus_project);
         $scope.$parent.setProjectID($scope.data.code);
         $scope.$parent.setRequestYear($scope.data.year);
 
@@ -164,9 +168,9 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           doc_target_agreement_id:        response.result.doc_target_agreement_id,
           doc_request_id:                 response.result.doc_request_id,
           doc_financing_agreement_id:     response.result.doc_financing_agreement_id,
-          request_user_id:                response.result.request_user_id,
-          concept_user_id:                response.result.concept_user_id,
-          finance_user_id:                response.result.finance_user_id,
+          request_user_id:                response.result.request_user_id != 0 ? response.result.request_user_id : '',
+          concept_user_id:                response.result.concept_user_id != 0 ? response.result.concept_user_id : '',
+          finance_user_id:                response.result.finance_user_id != 0 ? response.result.finance_user_id : '',
           additional_info:                response.result.additional_info,
           senat_additional_info:          response.result.senat_additional_info,
           start_date:                     response.result.start_date,
@@ -184,7 +188,6 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
           if (result) {
             $scope.performerUsers = response.result;
-
             for (var key in $scope.performerUsers){
               if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
               if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
@@ -1023,7 +1026,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
                       btnAccept:  {
                                     unfinished:   {'a' : 1, 'p' : 0, 't': 0, 'default': 0 },
                                     in_progress:  {'a' : 1, 'p' : 1, 't': 0, 'default': 0 },
-                                    rejected:     {'a' : 1, 'p' : 0, 't': 0, 'default': 0 },
+                                    rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                     accepted:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                     default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
                                   },

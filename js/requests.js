@@ -1,9 +1,15 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal, configs) {
+spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal, configs, localStorageService) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
+
   var d = new Date;
-  $scope.filter = {year: d.getFullYear(), status_id: '1,3,4,5'};
+  $scope.defaulFilter = {year: d.getFullYear(), status_id: '1,3,4,5'}
+  $scope.filter = localStorageService.get('requestsFilter', $scope.filter );
+  if(!$scope.filter || $scope.filter == '' ){
+    $scope.filter = $scope.defaulFilter;
+  }
+
 
   $scope.checkboxes = {
     checked: false,
@@ -53,6 +59,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();
+    $scope.filter = $scope.defaulFilter;
+    $scope.setFilter();
   };
 
   $scope.updateGrid = function () {
@@ -242,6 +250,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
                                 , year: data.year}
                                 , function(result, response) {
                                     if(result) {
+                                      $scope.setFilter();
                                       window.location = ' /request/' + response.id;
                                     }
                                   }
@@ -250,6 +259,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
     }
   };
+
+  $scope.setFilter = function(){
+    localStorageService.set('requestsFilter', $scope.filter );
+  }
 
 });
 
@@ -356,6 +369,7 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
     if($scope.request.year) {
       network.get('project', {list: 'unused_project', year: $scope.request.year}, function (result, response) {
         if (result) {
+          $scope.request.project_id = '';
           $scope.projects = response.result;
         }
       });
