@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default header-nav m-b-0">
+<nav class="navbar navbar-default header-nav m-b-0" ng-cloak="">
 	<div class="container">
 		<ul class="nav navbar-nav">
 			<li ng-class="{'active': _m=='dashboard'}"><a href="/dashboard">Startseite</a></li>
