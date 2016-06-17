@@ -39,7 +39,7 @@ class District extends BaseModel {
     $command = $this->setLikeWhere($command, array('tbl.name', 'tbl.city', 'tbl.plz', 'tbl.address', "CONCAT(usr.first_name, ' ', usr.last_name)"), safe($params, 'KEYWORD'));
     
     if (safe($params, 'SCHOOL_TYPE_ID')) {
-      $command->join('spi_school sch', 'sch.district_id=tbl.id');
+      if($this->user['type'] != SCHOOL){$command->join('spi_school sch', 'sch.district_id=tbl.id');}
       $command->andWhere("sch.type_id = :school_type_id", array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
       $command -> group('tbl.id');
     }
