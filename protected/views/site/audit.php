@@ -113,7 +113,7 @@ $this->breadcrumbs = array('Audit');
               </table>
               <div class="clearfix">
                 <div class="notice" ng-repeat="type in types">
-                  <span class="color-notice" ng-class="{'rejected-row': type.code == 'DEL', 'acceptable-row':type.code == 'INS'}"></span>
+                  <span class="color-notice" ng-class="{'thead delete': type.code == 'DEL', 'acceptable-row':type.code == 'INS'}"></span>
                   {{type.name}}
                 </div>
               </div>
