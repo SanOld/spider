@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		
-		<title>Email-Vorlagen | SPIder</title>
+		<title>E-Mail-Vorlagen | SPIder</title>
 		<?php include('templates/head.php'); ?>
 	</head>
 
@@ -19,7 +19,7 @@
 			<div class="container">
 				<ul class="breadcrumb p-0">
 					<li><a href="/dashboard">Startseite</a></li>
-					<li class="active">Email-Vorlagen</li>
+					<li class="active">E-Mail-Vorlagen</li>
 				</ul>
 			</div>
 			
@@ -31,7 +31,7 @@
 					<div class="container center-block">
 						<div class="panel panel-default">
 							<div class="panel-heading clearfix">
-								<h1 class="panel-title col-lg-6">Email-Vorlagen</h1>
+								<h1 class="panel-title col-lg-6">E-Mail-Vorlagen</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken<i class="ion-printer"></i></a>
 								</div>
@@ -278,7 +278,7 @@
             <div class="modal-dialog modal-width-full">
 				<div class="panel panel-color panel-primary">
 					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Email-Vorlagen bearbeiten - FV_2013_Sonderkündigung </h3>
+						<h3 class="m-0 pull-left">E-Mail-Vorlagen bearbeiten - FV_2013_Sonderkündigung </h3>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 					</div>
 					<div class="panel-body p-t-0">

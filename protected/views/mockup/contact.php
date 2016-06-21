@@ -54,14 +54,13 @@
 												</dl>
 											</li>
 											<li class="contact-email">
-												<a href="mailto:programmagentur@stiftung-spi.de">Email Senden</a>
+												<a href="mailto:programmagentur@stiftung-spi.de">E-Mail Senden</a>
 											</li>
 										</ul>
 
 									</div>
 									<div class="col-lg-6">
 										<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d606.9895126108502!2d13.4159470038166!3d52.516098241428715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a84e2309f23001%3A0xfb148ef06b4adf58!2sSchicklerstra%C3%9Fe+5%2C+10179+Berlin%2C+Germany!5e0!3m2!1sen!2sua!4v1464094492782" width="550" height="210" frameborder="0" style="border:0" allowfullscreen></iframe>
-									</div>
 								</div>
 							</div>
 						</div>

@@ -122,7 +122,7 @@
 											</tr>
 											<tr>
 												<td>Benutzer</td>
-												<td>Email</td>
+												<td>E-Mail</td>
 												<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed consectetur </td>
 												<td>
 													<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">

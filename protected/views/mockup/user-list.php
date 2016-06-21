@@ -56,7 +56,7 @@
 											<form action="#" class="class-form">
 												<div class="col-lg-3 add2">
 													<div class="form-group">
-														<label>Suche nach Namen, Benutzernamen oder Email</label>
+														<label>Suche nach Namen, Benutzernamen oder E-Mail</label>
 														<input type="search" class="form-control" placeholder="Stichwort eingegeben">
 													</div>
 												</div>
@@ -102,7 +102,7 @@
 													<th class="select-filter">Benutzerrollen</th>
 													<th>Organisation</th>
 													<th>Benutzername</th>
-													<th>Email</th>
+													<th>E-Mail</th>
 													<th>Telefon</th>
 													<th class="status-filter">Status</th>
 													<th>Bearbeiten</th>
@@ -405,7 +405,7 @@
 										</div>
 									</div>
 									 <div class="form-group">
-										<label class="col-lg-3 control-label" for="email">Email</label>
+										<label class="col-lg-3 control-label" for="email">E-Mail</label>
 										<div class="col-lg-9"> 
 											<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="has-hint btn btn-question" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
 												<i class="fa fa-question"></i>
@@ -588,7 +588,7 @@
 										</div>
 									</div>
 									 <div class="form-group">
-										<label class="col-lg-3 control-label" for="email">Email</label>
+										<label class="col-lg-3 control-label" for="email">E-Mail</label>
 										<div class="col-lg-9"> 
 											<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" title="" data-container="body" class="has-hint btn btn-question" type="button" data-original-title="" aria-describedby="popover332715" data-trigger="focus">
 												<i class="fa fa-question"></i>

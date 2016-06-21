@@ -159,7 +159,7 @@ $this->breadcrumbs = array('Bezirk');
                         </div>
                       </div>
                       <div class="form-group" ng-if="!(modeView && !district.email)">
-                        <label class="col-lg-3 control-label">Email</label>
+                        <label class="col-lg-3 control-label">E-Mail</label>
 
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.email" class="has-hint"></div>
@@ -213,7 +213,7 @@ $this->breadcrumbs = array('Bezirk');
                     <dd ng-bind="contactUser.title || '-'"></dd>
                     <dt>Telefon</dt>
                     <dd ng-bind="contactUser.phone || '-'"></dd>
-                    <dt>Email</dt>
+                    <dt>E-Mail</dt>
                     <dd class="truncate-email"><span ng-bind="contactUser.email || '-'"></span><i uib-tooltip="{{contactUser.email}}" tooltip-trigger="outsideClick" class="fa fa-info-circle"></i></dd>
                   </dl>
                 </div>
@@ -246,7 +246,7 @@ $this->breadcrumbs = array('Bezirk');
                       <ng-form class="class-form">
                         <div class="col-lg-{{canByType(['a','p'])?7:10}}">
                           <div class="form-group">
-                            <label>Suche nach Name, Benutzername oder Email</label>
+                            <label>Suche nach Name, Benutzername oder E-Mail</label>
                             <input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control"
                                    placeholder="Stichwort eingegeben">
                           </div>

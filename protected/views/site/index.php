@@ -8,7 +8,7 @@ $this->pageTitle = 'Login | ' . Yii::app()->name;
 <div ng-controller="LoginController" class="wrapper-page animated fadeInDown">
     <div class="panel panel-color panel-primary">
         <div class="panel-heading">
-            <h3 class="text-center m-t-10">Mitglieder Login</h3>
+            <h3 class="text-center m-t-10">Login</h3>
         </div>
 
         <form novalidate method="post" name="form" id="loginForm" class="cmxform form-horizontal m-t-40">

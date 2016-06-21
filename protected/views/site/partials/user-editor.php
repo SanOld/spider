@@ -303,7 +303,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-3 control-label" for="email">Email</label>
+              <label class="col-lg-3 control-label" for="email">E-Mail</label>
 
               <div class="col-lg-9">
                 <div spi-hint text="_hint.email" class="has-hint"></div>
@@ -311,10 +311,10 @@
                   <input class="form-control" type="email" name="email" ng-model="user.email" id="email" value=""
                          ng-maxlength="45" required ng-pattern="emailFormat">
 									<span ng-class="{hide: !fieldError('email')}" class="hide">
-										<label ng-show="form.email.$error.required" class="error">Email erforderlich</label>
+										<label ng-show="form.email.$error.required" class="error">E-Mail erforderlich</label>
 										<label ng-show="form.email.$error.email || form.email.$error.pattern" class="error">Geben Sie eine gültige E-Mail ein</label>
 										<label ng-show="form.email.$error.maxlength" class="error">Username ist zu lang</label>
-										<label ng-show="error.email.dublicate" class="error">This email already registered</label>
+										<label ng-show="error.email.dublicate" class="error">This E-Mail already registered</label>
 										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 									</span>
                 </div>

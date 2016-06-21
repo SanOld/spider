@@ -537,7 +537,7 @@
 									<dd>Some title</dd>
 									<dt>Telefon</dt>
 									<dd>(030) 2888 496</dd>
-									<dt>Email</dt>
+									<dt>E-Mail</dt>
 									<dd>admin@warenform.de  </dd>
 								</dl>
 							</div>

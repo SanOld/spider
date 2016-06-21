@@ -1,6 +1,6 @@
 	<div class="panel panel-color panel-primary" >
 		<div class="panel-heading clearfix">
-			<h3 class="m-0 pull-left" >Email-Vorlagen bearbeiten - {{document.name}}</h3>
+			<h3 class="m-0 pull-left" >E-Mail-Vorlagen bearbeiten - {{document.name}}</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
       <form novalidate name="form">

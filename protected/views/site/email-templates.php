@@ -1,7 +1,7 @@
 <?php
 
-$this->pageTitle = 'Email-Vorlagen | ' . Yii::app()->name;
-$this->breadcrumbs = array('Email-Vorlagen');
+$this->pageTitle = 'E-Mail-Vorlagen | ' . Yii::app()->name;
+$this->breadcrumbs = array('E-Mail-Vorlagen');
 
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/email-templates.js"></script>
@@ -13,7 +13,7 @@ $this->breadcrumbs = array('Email-Vorlagen');
 			<div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>
 			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
-					<h1 class="panel-title col-lg-6">Email-Vorlagen</h1>
+					<h1 class="panel-title col-lg-6">E-Mail-Vorlagen</h1>
 					<div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken<i class="ion-printer"></i></a>
 					</div>

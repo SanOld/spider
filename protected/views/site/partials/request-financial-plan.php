@@ -42,7 +42,7 @@
                 <dd>{{selectFinanceResult.phone}}</dd>
               </ng-show>
               <ng-show ng-show="selectFinanceResult.email">
-                <dt>Email:</dt>
+                <dt>E-Mail:</dt>
                 <dd><a class="visible-lg-block" href="mailto:{{selectFinanceResult.email}}">{{selectFinanceResult.email}}</a></dd>
               </ng-show>
             </dl>
@@ -143,7 +143,7 @@
                       <dd ng-show="emploee.user.title">{{emploee.user.title}}</dd>
                       <dt ng-show="emploee.user.phone">Telefon:</dt>
                       <dd ng-show="emploee.user.phone">{{emploee.user.phone}}</dd>
-                      <dt ng-show="emploee.user.email">Email:</dt>
+                      <dt ng-show="emploee.user.email">E-Mail:</dt>
                       <dd ng-show="emploee.user.email"><a target="_blank" href="mailto:{{emploee.user.email}}">{{emploee.user.email}}</a></dd>
                     </dl>
                   </div>

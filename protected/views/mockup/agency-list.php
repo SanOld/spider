@@ -40,7 +40,7 @@
 									<form action="#">
 										<div class="col-lg-5">
 											<div class="form-group">
-												<label>Suche nach Adresse, Ansprechpartner oder Email</label>
+												<label>Suche nach Adresse, Ansprechpartner oder E-Mail</label>
 												<input class="form-control" type="text" placeholder="Eingegeben"/>
 											</div>
 										</div>
@@ -75,7 +75,7 @@
 													<th>Name</th>
 													<th>Adresse</th>
 													<th>Ansprechpartner(in)</th>
-													<th>Email</th>
+													<th>E-Mail</th>
 													<th>Telefon</th>
 													<th>Überprüft</th>
 													<th>Bearbeiten</th>
@@ -344,7 +344,7 @@
 															</div>
 														</div>
 														<div class="form-group">
-															<label class="col-lg-3 control-label">Email</label>
+															<label class="col-lg-3 control-label">E-Mail</label>
 															<div class="col-lg-9">
 																<input class="form-control" type="email" value="admin@warenform.de"/>
 															</div>
@@ -371,7 +371,7 @@
 															<dd>Some title</dd>
 															<dt>Telefon</dt>
 															<dd>(030) 2888 496</dd>
-															<dt>Email</dt>
+															<dt>E-Mail</dt>
 															<dd>admin@warenform.de </dd>
 														</dl>
 													</div>
@@ -386,7 +386,7 @@
 															<dd>Some title</dd>
 															<dt>Telefon</dt>
 															<dd>(030) 2888 496</dd>
-															<dt>Email</dt>
+															<dt>E-Mail</dt>
 															<dd>admin@warenform.de </dd>
 														</dl>
 													</div>
@@ -401,7 +401,7 @@
 															<dd>Some title</dd>
 															<dt>Telefon</dt>
 															<dd>(030) 2888 496</dd>
-															<dt>Email</dt>
+															<dt>E-Mail</dt>
 															<dd>admin@warenform.de </dd>
 														</dl>
 													</div>
@@ -957,7 +957,7 @@
 														<form action="#" class="class-form">
 															<div class="col-lg-3">
 																<div class="form-group">
-																	<label>Suche nach Name, Benutzername oder Email</label>
+																	<label>Suche nach Name, Benutzername oder E-Mail</label>
 																	<input type="search" class="form-control" placeholder="Eingegeben">
 																</div>
 															</div>
@@ -991,7 +991,7 @@
 																<th>Name</th>
 																<th class="select-filter">Benutzerrollen</th>
 																<th>Benutzername</th>
-																<th>Email</th>
+																<th>E-Mail</th>
 																<th>Telefon</th>
 																<th class="status-filter">Status</th>
 																<th>Bearbeiten</th>

@@ -25,7 +25,7 @@ $this->breadcrumbs = array('Benutzerliste');
 								<form class="class-form">
 									<div class="col-lg-3 add2">
 										<div class="form-group">
-											<label>Suche nach Namen, Benutzernamen oder Email</label>
+											<label>Suche nach Namen, Benutzernamen oder E-Mail</label>
 											<input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control" placeholder="Stichwort eingegeben">
 										</div>
 									</div>

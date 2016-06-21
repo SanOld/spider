@@ -120,7 +120,7 @@
                         <dd>{{data.performer_fax}}</dd>
                       </ng-show>
                       <ng-show ng-show="data.performer_email">
-                        <dt>Email:</dt>
+                        <dt>E-Mail:</dt>
                         <dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
                       </ng-show>
                     </dl>
@@ -191,7 +191,7 @@
                           <dd>{{school.fax}}</dd>
                         </ng-show>
                         <ng-show ng-show="school.email">
-                          <dt>Email:</dt>
+                          <dt>E-Mail:</dt>
                           <dd><a href="mailto:{{school.email}}">{{school.email}}</a></dd>
                         </ng-show>
                       </dl>
@@ -230,7 +230,7 @@
                   <dd>{{selectRequestResult.phone}}</dd>
                 </ng-show>
                 <ng-show ng-show="selectRequestResult.email">
-                  <dt>Email:</dt>
+                  <dt>E-Mail:</dt>
                   <dd><a class="visible-lg-block" href="mailto:{{selectRequestResult.email}}">{{selectRequestResult.email}}</a></dd>
                 </ng-show>
               </dl>
@@ -262,7 +262,7 @@
                   <dd>{{selectConceptResult.phone}}</dd>
                 </ng-show>
                 <ng-show ng-show="selectConceptResult.email">
-                  <dt>Email:</dt>
+                  <dt>E-Mail:</dt>
                   <dd><a class="visible-lg-block" href="mailto:{{selectConceptResult.email}}">{{selectConceptResult.email}}</a></dd>
                 </ng-show>
               </dl>
@@ -294,7 +294,7 @@
                   <dd>{{selectFinanceResult.phone}}</dd>
                 </ng-show>
                 <ng-show ng-show="selectFinanceResult.email">
-                  <dt>Email:</dt>
+                  <dt>E-Mail:</dt>
                   <dd><a class="visible-lg-block" href="mailto:{{selectFinanceResult.email}}">{{selectFinanceResult.email}}</a></dd>
                 </ng-show>
               </dl>
@@ -350,7 +350,7 @@
                   <dd>{{data.district_fax}}</dd>
                 </ng-show>
                 <ng-show ng-show="data.district_email">
-                  <dt>Email:</dt>
+                  <dt>E-Mail:</dt>
                   <dd><a href="mailto:{{data.district_email}}">{{data.district_email}}</a></dd>
                 </ng-show>
               </dl>
