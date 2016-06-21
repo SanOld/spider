@@ -62,13 +62,13 @@
 			<li ng-class="{'active': ['hint'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Systemverwaltung</a>
 				<ul class="dropdown-menu">
-          <?php if($_SESSION['rights']['document_template']['show']): ?>
+          <?php if($_SESSION['rights']['document-templates']['show']): ?>
           <li><a href="/document-templates">Druck-Templates</a></li>
           <?php endif; ?>
-          <?php if($_SESSION['rights']['hint']['show']): ?>
+          <?php if($_SESSION['rights']['hints']['show']): ?>
 					<li><a href="/hints">Hilfetexte</a></li>
           <?php endif; ?>
-          <?php if($_SESSION['rights']['email_template']['show']): ?>          
+          <?php if($_SESSION['rights']['email-templates']['show']): ?>          
           <li><a href="/email-templates">E-Mail-Vorlagen</a></li>
           <?php endif; ?>
 					<li><a href="#" style="color: #aaa;">E-Mail-Sendebericht</a></li>
