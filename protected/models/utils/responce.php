@@ -58,7 +58,7 @@ function response($code, $data, $method = '') {
             $message = $methods [$method] . ' fehlgeschlagen: Dieser Datensatz existiert schon';
         break;
       case 'ERR_DUPLICATED_EMAIL' :
-            $message = $methods [$method] . ' fehlgeschlagen: Diese E-mail ist schon registriert';
+            $message = $methods [$method] . ' fehlgeschlagen: Diese E-Mail ist schon registriert';
         break;
       case 'ERR_DEPENDENT_RECORD' :
             $message = $methods [$method] . ' fehlgeschlagen: Es existieren ähnliche Datensätze: ' . $data ['table'] . '.';
@@ -91,7 +91,7 @@ function response($code, $data, $method = '') {
                 'ERR_METHOD_NOT_ALLOWED' => 'Methode nicht erlaubt',
                 'ERR_INVALID_TOKEN' => 'ungültiges Token ',
                 'ERR_TOKEN_MISSED' => 'Auth Fehler',
-                'ERR_RECOVERY_EMAIL' => 'Email-Adresse nicht gültig',
+                'ERR_RECOVERY_EMAIL' => 'E-Mail-Adresse nicht gültig',
                 'ERR_SEND_EMAIL' => 'E-Mail-Sendefehler',
                 'ERR_ACTIVATION_ACCAUNT' => 'Accountaktivierungsfehler',
                 'ERR_USER_DISABLED' => 'Ihr Account ist deaktiviert',

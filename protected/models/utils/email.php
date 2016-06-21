@@ -83,7 +83,7 @@ class Email {
         response('200', array(
           'result' => true,
           'silent' => true,
-          'message' => 'Email successfully sent',
+          'message' => 'E-Mail successfully sent',
         ));
       }
     } else {

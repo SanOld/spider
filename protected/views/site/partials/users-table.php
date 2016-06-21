@@ -4,7 +4,7 @@
     <td ng-if="!page" data-title="'Benutzerrollen'" sortable="'type_name'" ng-bind="::row.type_name"></td>
     <td ng-if="!page" data-title="'Akteur'" sortable="'relation_name'" ng-bind="::row.relation_name"></td>
     <td data-title="'Benutzername'" sortable="'login'"><a href="#" ng-bind="::row.login"></a></td>
-    <td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}" ng-bind="::row.email"></a></td>
+    <td data-title="'E-Mail'" sortable="'email'"><a href="mailto:{{row.email}}" ng-bind="::row.email"></a></td>
     <td data-title="'Telefon'" sortable="'phone'" ng-bind="::row.phone"></td>
     <td ng-if="canByType(['a','p','t'])" data-title="'Status'" sortable="'status_name'" ng-bind="::row.status_name"></td>
     <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">

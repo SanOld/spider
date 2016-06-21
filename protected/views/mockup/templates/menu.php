@@ -10,7 +10,7 @@
 									<li><a href="summary.php">Finanzübersicht</a></li>
 									<li><a href="financial-request.php">Mittelabrufe</a></li>
 									<li><a href="finance-report.php">Belege</a></li>
-									<li><a href="finance-source.php">Fördertöpfe</a></li>
+									<li><a href="/finance-source">Fördertöpfe</a></li>
 								</ul>
 							</li>
 							<li class="dropdown">

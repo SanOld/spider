@@ -60,7 +60,7 @@ $this->breadcrumbs = array('Träger');
 									<td data-title="'Name'" sortable="'short_name'">{{row.short_name}}</td>
 									<td data-title="'Adresse'" sortable="'full_address'">{{row.full_address}}</td>
 									<td data-title="'Ansprechpartner(in)'" sortable="'representative_user'">{{row.representative_user}}</td>
-									<td data-title="'Email'" sortable="'email'"><a href="mailto:{{row.email}}">{{row.email}}</a></td>
+									<td data-title="'E-Mail'" sortable="'email'"><a href="mailto:{{row.email}}">{{row.email}}</a></td>
 									<td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
 									<td ng-if="canEdit()" data-title="'Profil'" sortable="'is_checked'" class="text-center">
 										<i ng-if="+row.is_checked" class="ion-checkmark"></i>
