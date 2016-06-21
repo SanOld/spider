@@ -132,7 +132,7 @@ class Project extends BaseModel {
         $row['district'] = $district;
   //      $row['district_name'] = $district['name'];
       }
-    }
+    }   
 //    //get_next_id
 //    Yii::app() -> db -> createCommand()
 //    ->select('MAX(id)')
