@@ -129,8 +129,12 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
     });
   };
 
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    Utils.modalClosing($scope.form.formDocument, $uibModalInstance, event, reason);
+  });
+
   $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+    Utils.modalClosing($scope.form.formDocument, $uibModalInstance);
   };
 
   $scope.fieldError = function (field) {

@@ -118,8 +118,12 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, mo
     });
   };
 
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    Utils.modalClosing($scope.form.formDistrict, $uibModalInstance, event, reason);
+  });
+
   $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+    Utils.modalClosing($scope.form.formDistrict, $uibModalInstance);
   };
 
   function getError(code) {

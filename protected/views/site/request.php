@@ -16,7 +16,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 					</div>
 				</div>
-
+        <form name="form">      
 				<uib-tabset class="panel-body request-order-nav" active="tabActive">
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
@@ -49,7 +49,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<button ng-show="userCan('save')"  class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur Liste">Anwenden</button>
 					</div>
 				</div>
-
+        </form> 
 			</div>
 		</div>
 	</div>

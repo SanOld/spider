@@ -191,8 +191,12 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
     });
   };
 
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    Utils.modalClosing($scope.form, $uibModalInstance, event, reason);
+  });
+
   $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+    Utils.modalClosing($scope.form, $uibModalInstance);
   };
 
   function getError(code) {

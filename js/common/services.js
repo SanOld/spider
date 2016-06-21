@@ -247,15 +247,15 @@ spi.factory('Utils', function (SweetAlert) {
       var form = formToClose;      
       result = false;   
       for(var item in form){
-        if(form[item] && typeof form[item] == "object" && form[item]['$dirty']){                 
+        if(form[item] && typeof form[item] == "object" && (form[item]['$dirty'] || form['$dirty'])){                 
           result = true;
           break;                     
         }
       }    
       return result;     
     },
-    modalClosing: function (form, $uibModalInstance, event, reason){
-      if(arguments.length > 2){
+    modalClosing: function (form, $uibModalInstance, event, reason, $redirect){
+      if(arguments.length > 2 && !$redirect){
         if(reason == undefined){
           return true;
         };
@@ -264,15 +264,25 @@ spi.factory('Utils', function (SweetAlert) {
         };
       };
       var self = this;
-      var result = self.closeForm(form);;    
+      var result = self.closeForm(form);    
       if(result){
-        setTimeout(function(){          
-          self.doCloseConfirm(function() {
-            $uibModalInstance.close();
-          });   
+        setTimeout(function(){  
+          if($redirect) {
+            self.doCloseConfirm(function() {
+              location.href = $redirect; 
+            });
+          }else{
+            self.doCloseConfirm(function() {
+              $uibModalInstance.close();
+            }); 
+          }
         },10);      
       }else{
-        $uibModalInstance.close();
+        if($redirect) {          
+          location.href = $redirect;         
+        }else{          
+          $uibModalInstance.close();  
+        }
       };  
     },
     deleteSuccess: function() {

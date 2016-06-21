@@ -77,9 +77,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       });
     });
   };
-
+    
   $scope.cancel = function () {
-    location.href = '/requests';
+    Utils.modalClosing($scope.form, '', '', '', '/requests');
   };
 
   $scope.userCan = function(type) {

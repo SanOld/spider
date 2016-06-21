@@ -95,8 +95,12 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
       });
     };
 
+    $scope.$on('modal.closing', function(event, reason, closed) {
+      Utils.modalClosing($scope.formFinances, $uibModalInstance, event, reason);
+    });
+
     $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
+      Utils.modalClosing($scope.formFinances, $uibModalInstance);
     };
 
 });

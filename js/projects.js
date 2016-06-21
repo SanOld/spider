@@ -355,8 +355,12 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       });
     };
 
+    $scope.$on('modal.closing', function(event, reason, closed) {
+      Utils.modalClosing($scope.formProjects, $uibModalInstance, event, reason);
+    });
+
     $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
+      Utils.modalClosing($scope.formProjects, $uibModalInstance);
     };
     $scope.idCompare = function (aobj, bobj) {
       var a = [];
