@@ -9,7 +9,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   if(!$scope.filter || $scope.filter == '' ){
     $scope.filter = $scope.defaulFilter;
   }
-
+  $scope.userType = network.user.type;
 
   $scope.checkboxes = {
     checked: false,
@@ -183,7 +183,14 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       resolve: {
         row: function () {
           return row;
+        },
+        userCan: function () {
+          return $scope.userCan('btnPrintDocument', row.status_code );
+        },
+        user: function () {
+          return $scope.user;
         }
+
       }
     });
   };
@@ -264,6 +271,47 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     localStorageService.set('requestsFilter', $scope.filter );
   }
 
+  $scope.permissions={
+                      btnPrintDocument: {
+                                          open:         {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          in_progress:  {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          decline:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          acceptable:   {'a' : 1, 'p' : 1, 't': 1, 'default': 0 },
+                                          accept:       {'a' : 1, 'p' : 1, 't': 1, 'default': 0 },
+                                          default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                        },
+                              default:  {
+                                          open:         {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          in_progress:  {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          decline:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          acceptable:   {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          accept:       {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                        }
+                      }
+
+  $scope.userCan = function( field, status_code ){
+    var status = status_code  || 'default';
+    var userType='';
+    switch($scope.userType){
+      case 'a':;
+      case 'p':;
+      case 't':
+        userType = $scope.userType;
+        break;
+      default:
+        userType = 'default';
+    }
+
+    
+    if(!(field in $scope.permissions)){
+      field = 'default';
+    }
+
+    var result = $scope.permissions[field][status][userType];
+    return result;
+
+  }
 });
 
 
@@ -321,8 +369,11 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 });
 
-spi.controller('ModalPrintDocumentsController', function ($scope, row, $uibModalInstance, network) {
+spi.controller('ModalPrintDocumentsController', function ($scope,user, row, userCan, $uibModalInstance, network) {
+  $scope.row = row;
+  $scope.userCan = userCan;
   $scope.code = row.code;
+  $scope.user = user;
 
   var ids = [];
   var docs = [row.doc_target_agreement_id, row.doc_request_id, row.doc_financing_agreement_id];

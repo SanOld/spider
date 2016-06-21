@@ -140,7 +140,7 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="'Abgabe'" sortable="'end_fill'">{{row.end_fill?(row.end_fill_unix| date : 'dd.MM.yyyy'):''}}</td>
                   <td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change?(row.last_change_unix| date : 'dd.MM.yyyy'):''}}</td>
                   <td data-title="'Ansicht / Bearbeiten'" ng-click="setFilter()">
-                    <a ng-click="printDocuments(row)" ng-class="{disabled: row.status_code != 'acceptable' && row.status_code != 'accept'}" class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
+                    <a ng-click="printDocuments(row)"  ng-class=" {disabled: !userCan( 'btnPrintDocument', row.status_code)} " class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
                     <a ng-if="canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}"  title="Bearbeiten">
                       <i class="ion-edit"></i>
                     </a>
@@ -222,7 +222,7 @@ $this->breadcrumbs = array('Anträge');
     </div>
     <div class="panel-body">
       <h3 class="m-b-30 text-center">Dokumente zum Druck wählen</h3>
-      <div ng-repeat="template in templates" class="doc-print">
+      <div ng-repeat="template in templates" class="doc-print" ng-hide="!userCan || (user.type == 't' && user.is_finansist != '1' && template.type_name != 'Zielvereinbarung') ">
         <div class="holder-doc-print">
           <span class="name-doc">{{template.type_name}}:</span>
           <p>{{template.name}}</p>
