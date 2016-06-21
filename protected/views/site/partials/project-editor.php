@@ -130,7 +130,7 @@
                 </ui-select-choices>
               </ui-select>
               <span ng-class="{hide: !fieldError('schools')}" class="hide">
-                  <label class="error">School erforderlich</label>
+                  <label class="error">Schule erforderlich</label>
                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
             </div>
@@ -145,7 +145,7 @@
                 </ui-select-choices>
               </ui-select>
               <span ng-class="{hide: !fieldError('school')}" class="hide">
-                  <label class="error">School erforderlich</label>
+                  <label class="error">Schule erforderlich</label>
                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
             </div>
