@@ -223,7 +223,6 @@ $this->breadcrumbs = array('Anträge');
     <div class="panel-body">
       <h3 class="m-b-30 text-center">Dokumente zum Druck wählen</h3>
       <div ng-repeat="template in templates" class="doc-print" ng-hide="!userCan || (user.type == 't' && user.is_finansist != '1' && template.type_name != 'Zielvereinbarung') ">
-      <!--<div ng-repeat="template in templates" class="doc-print" >-->
         <div class="holder-doc-print">
           <span class="name-doc">{{template.type_name}}:</span>
           <p>{{template.name}}</p>
