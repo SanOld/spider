@@ -313,8 +313,8 @@
               <div class="col-lg-3 col-lg-offset-1 custom-school-row">
                 <span class="sum clearfix">
                   <strong>Fortbildungskosten</strong>
-                  <span ng-hide="school.rate < 1 && school.rate > 0.5">€{{school.training_cost|| 0 | number:2}}</span>
-                  <div class="col-lg-9 p-l-0 m-t-10" ng-show="school.rate*1 < 1 && school.rate*1 > 0.5">
+                  <span ng-hide="(school.rate < 1 && school.rate > 0.5) || canAccept">€{{school.training_cost|| 0 | number:2}}</span>
+                  <div class="col-lg-9 p-l-0 m-t-10" ng-show="school.rate*1 < 1 && school.rate*1 > 0.5 || canAccept">
                     <input type="text" class="form-control" ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept">
                   </div>
                 </span>

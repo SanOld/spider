@@ -57,7 +57,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     });
   };
 
-  $scope.block = function () {
+  $scope.block = function ()  {
     Utils.doConfirm(function() {
       network.put('request/' + $scope.requestID,{'status_id':2}, function (result) {
         if (result) {
@@ -359,7 +359,6 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
 spi.controller('RequestFinancePlanController', function ($scope, network, RequestService, Utils, $timeout) {
   $scope.users = [];
-
   $scope.IBAN = {};
   $scope.request_users = [{}]; //create one user by default
   $scope.prof_associations = [{}]; //create one association by default
@@ -441,6 +440,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.users = data.users;
     $scope.updateUserSelect();
     $scope.data = data;
+    if ($scope.data.finance_user_id == "0") {
+      $scope.data.finance_user_id = '';
+    }
+    if ($scope.data.bank_details_id == "0") {
+      $scope.data.bank_details_id = '';
+    }
     $scope.$parent.setFinanceStatus(data.status_finance);
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
 

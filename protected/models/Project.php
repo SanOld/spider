@@ -61,9 +61,6 @@ class Project extends BaseModel {
   protected function setWhereByRole($command) {
     switch($this->user['type']) {
       case SCHOOL:
-        if (!safe($this->params, 'SCHOOL_ID')) {
-          $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
-        }
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
         break;
       case DISTRICT:
