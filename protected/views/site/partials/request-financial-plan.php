@@ -92,6 +92,9 @@
               Ausgaben: Personalkosten
             </h3>
           </div>
+          <div class="col-lg-6 btn-row" hidden>
+            <button class="btn w-xs pull-right" ng-click=""></button>
+          </div>  
           <div class="col-lg-6 btn-row">
             <button class="btn w-xs pull-right" ng-click="request_users.push({})">Neue Person hinzufügen</button>
           </div>
