@@ -63,7 +63,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.isInsert = !data.id;
     $scope.newCode = 0;
     $scope._hint = hint;
-    $scope.modeView = modeView;
+    $scope.modeView = modeView;  
 //    $scope.projectSchools = [];
     $scope.projectSchoolsID = {};
     $scope.schoolTypeCode = '';
@@ -96,7 +96,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       $scope.project = {schools:[]};
       network.get('project', {'get_next_id':1}, function(result, response){
           if(result) {
-            $scope.newCode = response.next_id < 1000?('00'+(response.next_id)).slice(-3):response.next_id;
+            $scope.newCode = response.next_id;
           }
       });
     }
@@ -171,13 +171,27 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine) || ($scope.schoolError == field && form[field].$pristine);
     };
     $scope.placeholderFN = function(items) {
-        return items.lengt && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; // ??? not working
+        return items.length && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; 
+    };
+    $scope.getNewCode = function(){
+        var project_type = $scope.project.type_id == '3'?'B':'';
+        var school_type = project_type + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase();
+               
+        for(key in $scope.newCode){
+          if(school_type == $scope.newCode[key].code[0].toUpperCase()){
+            var code = school_type + $scope.newCode[key].next_code[0];                   
+          };
+        };
+        
+        if(!code){
+            code = school_type + "001";  
+        };
+        return code;
     };
     $scope.updateCode = function() {
-      try {
-          var isBonus = $scope.project.type_id == '3'?'B':'';
-           $scope.project.code = isBonus + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase() + $scope.newCode;
-          $scope.schoolTypeCode = $scope.schoolTypesId[$scope.project.school_type_id].code;          
+      try {        
+          $scope.project.code = this.getNewCode();
+          $scope.schoolTypeCode = $scope.schoolTypesId[$scope.project.school_type_id].code;  
       } catch(e){}
     };
     $scope.updateSchools = function(isInit) {
@@ -234,7 +248,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         $scope.submited = true;
         $scope.error = false;        
         $scope.schoolError = false;
-        $scope.formProjects.$setPristine();
+        $scope.formProjects.$setPristine();        
         var callback = function (result, response) {
             if (result) {
                 $uibModalInstance.close();
@@ -243,14 +257,17 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 $scope.error = getError(response);
                 $scope.submited = true;
             }
-        };            
-        var $copyScopeProject = angular.copy($scope.project);
+        };                
+        var $copyScopeProject = angular.copy($scope.project); 
+        
         if($scope.schoolTypeCode != 's') {
           $copyScopeProject.schools = [$copyScopeProject.school];
-        }
+        };
+        
         if (!$scope.formProjects.$valid){
             $copyScopeProject.invalid = true;
-        }            
+        };         
+        
         delete $copyScopeProject.school; 
         if((!$copyScopeProject.schools || !$copyScopeProject.schools.length) && $scope.schoolTypeCode != 'z') {
 //              if($scope.schoolTypeCode != 's') {
@@ -274,6 +291,19 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           return false;
         }            
         if ($scope.isInsert) {
+            if(!$scope.project.code.match(/B??[BGKSYZ]{1}[0-9]+\\?[0-9]*?/)){
+              $copyScopeProject['real_code'] = null;
+            }else{
+              var result = $scope.project.code.match(/B??[BGKSYZ]{1}/);  
+              $copyScopeProject['real_code'] = result[0].length > 1 ? result[0].splice(2) : result[0];  
+            };            
+            if($scope.project.code != this.getNewCode()){          
+              $scope.is_manual = 1;
+            }else{
+              $scope.is_manual = 0;  
+            };        
+            $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0';                
+            
             network.post('project', $copyScopeProject, callback);              
         } else {            
 

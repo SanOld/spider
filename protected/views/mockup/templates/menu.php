@@ -41,8 +41,8 @@
 								<ul class="dropdown-menu">
                   <li><a ng-if="canView('document-templates')" href="/document-templates">Druck-Templates</a></li>
 									<li><a href="/hints">Hilfetexte</a></li>
-                  <li><a ng-if="canView('email-templates')" href="/email-templates">Email-Vorlagen</a></li>
-									<li><a href="#" style="color: #aaa;">Email-Sendebericht</a></li>
+                  <li><a ng-if="canView('email-templates')" href="/email-templates">E-Mail-Vorlagen</a></li>
+									<li><a href="#" style="color: #aaa;">E-Mail-Sendebericht</a></li>
 									<li><a href="audit">Audit</a></li>
 								</ul>
 							</li>

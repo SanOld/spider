@@ -7,6 +7,9 @@ spi.service('configs', function () {
   $configs.getAuthPath = function () {
     return ((location + '').match(/http\:\/\/([^\/]+)/)[0]) + '/api/login';
   };
+  $configs.getOutPath = function () {
+    return ((location + '').match(/http\:\/\/([^\/]+)/)[0]) + '/api/logout';
+  };
   $configs.getSitePath = function () {
     return ((location + '').match(/http\:\/\/([^\/]+)/)[0]) + '';
   };

@@ -50,7 +50,7 @@ spi.controller('main', function ($scope, $rootScope, $location, network, GridSer
   }
 
   $scope.logout = function () {
-    network.logout();
+    network.logout();    
   };
   network.onLogout = function () {
     window.location = '/'
@@ -79,7 +79,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.isAdmin = network.userIsADMIN;
   $scope.userIsPA = network.userIsPA;
   $scope.modeView = modeView;
-
+  
   
   $scope.user = {
     is_active: 1,
