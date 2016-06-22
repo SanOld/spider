@@ -25,9 +25,9 @@ $this->breadcrumbs = array('Anträge');
                 <div class="form-group">
                   <label>Träger</label>
                   <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
-                    <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.short_name}}</ui-select-match>
+                    <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
-                      <span ng-bind="item.short_name"></span>
+                      <span ng-bind="item.name"></span>
                     </ui-select-choices>
                   </ui-select>
                 </div>
