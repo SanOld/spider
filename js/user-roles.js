@@ -71,7 +71,8 @@ spi.controller('EditUserRoleController', function ($scope, $uibModalInstance, mo
           can_view: response.result[k].can_view,
           can_edit: response.result[k].can_edit,
           can_show: response.result[k].can_show,
-          is_real_page: response.result[k].is_real_page
+          is_real_page: response.result[k].is_real_page,
+          is_without_login: response.result[k].is_without_login
         });
       }
     }
