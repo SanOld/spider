@@ -42,7 +42,12 @@ class BaseModel extends CFormModel {
     return $command;
   }
   protected function getCommandFilter() {
-    $command = Yii::app()->db->createCommand()->select ('tbl.id, tbl.name')
+    $select = 'tbl.id, tbl.name';
+    switch ($this->table){
+      case 'spi_performer':
+        $select.= ', tbl.short_name';
+    };
+    $command = Yii::app()->db->createCommand()->select ($select)
       ->from($this->table  . ' tbl');
     $command = $this->setWhereByRole($command);
     $command->order('name');
