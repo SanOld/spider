@@ -160,8 +160,11 @@ class Project extends BaseModel {
             'silent' => true,
             'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS'
         );
-      }     
-      
+      }
+      if($post['rate']){
+        $post['rate'] = (float)str_replace(",", ".", $post['rate']);
+      }
+//
 //      if(!safe($post,'schools')) {//есть проекты без школы и дистрикта
 //        return array (
 //                'code' => '400',

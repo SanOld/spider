@@ -157,7 +157,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       if(project.rate) {
         project.rate = project.rate.split('.').join(',');
         project.rate = project.rate.split(/[^0-9\,]/).join('');
-        var m = project.rate.match(/([0-9]+)([\,]{0,1})([0-9]{0,2})[0-9]*/);
+        var m = project.rate.match(/([0-9]+)([\,]{0,1})([0-9]{0,3})[0-9]*/);
         try{
           project.rate = m[1]+m[2]+m[3];
         } catch(e) {

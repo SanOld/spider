@@ -20,7 +20,7 @@
               </span>
             </div>
           </div>
-          <label class="col-lg-2 control-label">Rate</label>
+          <label class="col-lg-2 control-label">Stellenanteil</label>
           <div class="col-lg-4">
             <div spi-hint text="_hint.rate" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('rate')}">

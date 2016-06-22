@@ -339,6 +339,9 @@ class Request extends BaseModel {
         foreach (safe($this->finance_plan, 'schools', array()) as $data) {
           $id = $data['id'];
           unset($data['id']);
+          if($data['rate']){
+            $data['rate'] = (float)str_replace(",", ".", $data['rate']);
+          }
           $res = $RequestSchoolFinance->update($id, $data, true);
         }
       }
