@@ -20,7 +20,7 @@
               </span>
             </div>
           </div>
-          <label class="col-lg-2 control-label">Rate</label>
+          <label class="col-lg-2 control-label">Stellenanteil</label>
           <div class="col-lg-4">
             <div spi-hint text="_hint.rate" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('rate')}">
@@ -165,7 +165,7 @@
         </div>
         <div class="col-lg-10 text-right pull-right">
           <button class="btn w-lg cancel-btn" data-dismiss="modal" ng-click="cancel()">Abbrechen</button>
-          <button ng-if="canEdit() && !modeView" class="btn w-lg custom-btn" data-dismiss="modal" ng-click="submitFormProjects()">Speichern</button>
+          <button ng-if="canEdit() && !modeView && project.is_old != 1" class="btn w-lg custom-btn" data-dismiss="modal" ng-click="submitFormProjects()">Speichern</button>
         </div>
       </div>
     </ng-form>
