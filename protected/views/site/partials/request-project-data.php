@@ -77,20 +77,16 @@
                   {{data.performer_checked_by}}
                 </span>
                 <div class="row m-t-20 m-b-30 row-holder-dl">
-                  <div class="col-lg-12 m-b-0">
-                    <dl class="custom-dl">
+                  <div class="col-lg-4">
+                    <dl class="custom-dl width-dt-2">
                       <ng-show ng-show="data.performer_contact">
-                        <dt>Ansprechpartner(in):</dt>
+                        <dt>Vertretungsberechtigte Person:</dt>
                         <dd>{{data.performer_contact}}</dd>
                       </ng-show>
                       <ng-show ng-show="data.performer_contact_function">
                         <dt>Funktion:</dt>
                         <dd>{{data.performer_contact_function}}</dd>
                       </ng-show>
-                    </dl>
-                  </div>
-                  <div class="col-lg-6">
-                    <dl class="custom-dl">
                       <ng-show ng-show="data.performer_address">
                         <dt>Adresse:</dt>
                         <dd>{{data.performer_address}}</dd>
@@ -109,7 +105,7 @@
                       </ng-show>
                     </dl>
                   </div>
-                  <div class="col-lg-6">
+                  <div class="col-lg-4">
                     <dl class="custom-dl">
                       <ng-show ng-show="data.performer_phone">
                         <dt>Telefon:</dt>
@@ -120,8 +116,39 @@
                         <dd>{{data.performer_fax}}</dd>
                       </ng-show>
                       <ng-show ng-show="data.performer_email">
-                        <dt>Email:</dt>
+                        <dt>E-mail:</dt>
                         <dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
+                      </ng-show>
+                    </dl>
+                  </div>
+                  <div class="col-lg-4">
+                    <h4 class="panel-title m-b-10">
+                      Ansprechperson für Rückfragen zum Konzept
+                    </h4>
+                    <div class="form-group">
+                      <ui-select   on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users')">
+                        <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
+                          <span ng-bind-html="item.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                    <dl class="custom-dl" ng-show="selectConceptResult">
+                      <ng-show ng-show="selectConceptResult.function">
+                        <dt>Funktion:</dt>
+                        <dd>{{selectConceptResult.function}}</dd>
+                      </ng-show>
+                      <ng-show ng-show="selectConceptResult.title">
+                        <dt>Anrede:</dt>
+                        <dd>{{selectConceptResult.gender}}</dd>
+                      </ng-show>
+                      <ng-show ng-show="selectConceptResult.phone">
+                        <dt>Telefon:</dt>
+                        <dd>{{selectConceptResult.phone}}</dd>
+                      </ng-show>
+                      <ng-show ng-show="selectConceptResult.email">
+                        <dt>E-mail:</dt>
+                        <dd><a class="visible-lg-block" href="mailto:{{selectConceptResult.email}}">{{selectConceptResult.email}}</a></dd>
                       </ng-show>
                     </dl>
                   </div>
@@ -191,7 +218,7 @@
                           <dd>{{school.fax}}</dd>
                         </ng-show>
                         <ng-show ng-show="school.email">
-                          <dt>Email:</dt>
+                          <dt>E-mail:</dt>
                           <dd><a href="mailto:{{school.email}}">{{school.email}}</a></dd>
                         </ng-show>
                       </dl>
@@ -202,107 +229,6 @@
             </div>
 
           </div>
-
-          <div class="row holder-three-blocks m-b-30">
-            <div class="col-lg-4">
-              <h4 class="panel-title m-b-10">
-                Ansprechperson für Rückfragen zum Antrag
-              </h4>
-              <div class="form-group">
-                <ui-select   on-select="onSelectCallback($item, $model, 1)" class="type-document" ng-model="request.request_user_id" ng-disabled="!userCan('users')">
-                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
-                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                  </ui-select-choices>
-                </ui-select>
-              </div>
-              <dl class="custom-dl" ng-show="selectRequestResult">
-                <ng-show ng-show="selectRequestResult.function">
-                  <dt>Funktion:</dt>
-                  <dd>{{selectRequestResult.function}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectRequestResult.title">
-                  <dt>Anrede:</dt>
-                  <dd>{{selectRequestResult.gender}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectRequestResult.phone">
-                  <dt>Telefon:</dt>
-                  <dd>{{selectRequestResult.phone}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectRequestResult.email">
-                  <dt>Email:</dt>
-                  <dd><a class="visible-lg-block" href="mailto:{{selectRequestResult.email}}">{{selectRequestResult.email}}</a></dd>
-                </ng-show>
-              </dl>
-            </div>
-
-            <div class="col-lg-4">
-              <h4 class="panel-title m-b-10">
-                Ansprechperson für Rückfragen zum Konzept
-              </h4>
-              <div class="form-group">
-                <ui-select   on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users')">
-                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
-                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                  </ui-select-choices>
-                </ui-select>
-              </div>
-              <dl class="custom-dl" ng-show="selectConceptResult">
-                <ng-show ng-show="selectConceptResult.function">
-                  <dt>Funktion:</dt>
-                  <dd>{{selectConceptResult.function}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectConceptResult.title">
-                  <dt>Anrede:</dt>
-                  <dd>{{selectConceptResult.gender}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectConceptResult.phone">
-                  <dt>Telefon:</dt>
-                  <dd>{{selectConceptResult.phone}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectConceptResult.email">
-                  <dt>Email:</dt>
-                  <dd><a class="visible-lg-block" href="mailto:{{selectConceptResult.email}}">{{selectConceptResult.email}}</a></dd>
-                </ng-show>
-              </dl>
-            </div>
-
-            <div class="col-lg-4">
-              <h4 class="panel-title m-b-10">
-                Ansprechperson für Rückfragen zum Finanzplan
-              </h4>
-              <div class="form-group">
-                <ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="request.finance_user_id" ng-disabled="!userCan('users')">
-                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
-                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                  </ui-select-choices>
-                </ui-select>
-              </div>
-              <dl class="custom-dl" ng-show="selectFinanceResult">
-                <ng-show ng-show="selectFinanceResult.function">
-                  <dt>Funktion:</dt>
-                  <dd>{{selectFinanceResult.function}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectFinanceResult.title">
-                  <dt>Anrede:</dt>
-                  <dd>{{selectFinanceResult.gender}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectFinanceResult.phone">
-                  <dt>Telefon:</dt>
-                  <dd>{{selectFinanceResult.phone}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectFinanceResult.email">
-                  <dt>Email:</dt>
-                  <dd><a class="visible-lg-block" href="mailto:{{selectFinanceResult.email}}">{{selectFinanceResult.email}}</a></dd>
-                </ng-show>
-              </dl>
-            </div>
-          </div>
-
-
-
           <h3 class="panel-title">
             Angaben zum Jugendamt
             <span class="btn-row m-l-15">
@@ -323,7 +249,7 @@
                 </ng-show>
               </dl>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
               <dl class="custom-dl">
                 <ng-show ng-show="data.district_address">
                   <dt>Adresse:</dt>
@@ -350,7 +276,7 @@
                   <dd>{{data.district_fax}}</dd>
                 </ng-show>
                 <ng-show ng-show="data.district_email">
-                  <dt>Email:</dt>
+                  <dt>E-mail:</dt>
                   <dd><a href="mailto:{{data.district_email}}">{{data.district_email}}</a></dd>
                 </ng-show>
               </dl>
