@@ -327,7 +327,7 @@ class User extends BaseModel {
 
   protected function doAfterInsert($result, $params, $post) {
     if($result['result']) {
-      Email::doWelcome($params);
+      Email::doWelcome($result);
     }
     return $result;
   }

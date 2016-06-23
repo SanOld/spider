@@ -45,6 +45,7 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
   $scope.filter = {is_email: 1};
 
   if (!$scope.isInsert) {
+    $scope.filter['document_id'] = data.id;
     $scope.docId = data.id;
     $scope.document = {
       id:           data.id,
@@ -55,7 +56,6 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
     };
 
   } else {
-
     $scope.document = {
       id: '',
       name:         '',

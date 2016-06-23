@@ -15,13 +15,26 @@ class Email {
 
   }
 
-  static function doWelcome($user) {
-    return self::prepareMessage('registration_email', array(
-      '{NAME}'      => $user['first_name'] . ' '. $user['last_name'],
-      '{SITE_URL}'  => Yii::app()->getBaseUrl(true),
-      '{LOGIN}'     => $user['login'],
-      '{PASSWORD}'  => $user['password'],
-    ), $user, false);
+  static function doWelcome($result) {
+
+    $table = 'spi_user';
+    $select_all = "CONCAT(tbl.last_name, ', ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
+    $command = Yii::app() -> db -> createCommand() -> select($select_all) -> from($table . ' tbl');
+    $command -> join('spi_user_type ust', 'tbl.type_id = ust.id');
+    $command -> where("tbl.id = :id", array(':id' => $result['id']));
+    $newUser = $command -> queryRow();
+    
+      return self::prepareMessage('send_account_data', array(
+        '{NAME}'            => $newUser['first_name'] . ' '. $newUser['last_name'],
+        '{SITE_URL}'        => Yii::app()->getBaseUrl(true),
+        '{LOGIN}'           => $newUser['login'],
+        '{PASSWORD}'        => $newUser['password'],
+        '{AKTEUR}'          => $newUser['relation_name'],
+        '{BENUTZERROLLEN}'  => $newUser['type_name'],
+      ), $newUser, false);
+
+
+
 //    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
 //    $message .= '<br><br>You get access to <a target="_blank" href="'.Yii::app()->getBaseUrl(true).'">SPIder</a>.';
 //    $message .= '<br>Login: '.$user['login'];

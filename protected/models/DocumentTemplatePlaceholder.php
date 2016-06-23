@@ -22,6 +22,9 @@ class DocumentTemplatePlaceholder extends BaseModel {
     if (isset($params['IS_EMAIL']) && $params['IS_EMAIL'] == '1') {
       $command -> andWhere("tbl.is_email = :is_email", array(':is_email' => $params['IS_EMAIL']));
     }
+    if (isset($params['DOCUMENT_ID'])) {
+      $command -> andWhere("tbl.document_id = :document_id", array(':document_id' => $params['DOCUMENT_ID']));
+    }
 
     return $command;
   }
