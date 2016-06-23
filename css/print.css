@@ -19,7 +19,13 @@ body {
 .breadcrumb,
 .overview,
 table .dt-edit,
-.footer {
+.footer,
+.table-requests th:first-child,
+.table-requests td:first-child,
+.table-requests td:last-child,
+.table-requests th:last-child,
+.table-requests td:nth-child(7),
+.table-requests th:nth-child(7) {
 	display:none;
 }
 table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after {
