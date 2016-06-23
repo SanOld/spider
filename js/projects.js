@@ -79,8 +79,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             school_type_id: data.school_type_id,
             type_id: data.type_id,
             is_old: data.is_old,
-            schools: [],
-            school: {},
+            schools: data.schools ? data.schools : [],
+            school: data.schools[0] ? data.schools[0] : {},
             performer_id: data.performer_id,
             district_id: data.district_id,
         };
@@ -130,7 +130,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     
     $scope.getDistricts = function(isInit) {
       var params = {};
-      if(!isInit) {
+      if(!isInit && $scope.isInsert) {
         delete $scope.project.district_id;
       }
       if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
@@ -197,19 +197,14 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.updateSchools = function(isInit) {
       isInit = isInit || false;
         var schoolParams = {};
-        
-        delete $scope.project.school;
-        delete $scope.project.schools;
+        if($scope.isInsert){
+          delete $scope.project.school;
+          delete $scope.project.schools;  
+        }        
         $scope.schools = [];
-
         if(!$scope.project.school_type_id || !$scope.project.district_id) {
           return;
-        }
-        
-//        if($scope.project.type_id == '3') {
-//          delete $scope.project.district_id;
-//        }
-        
+        }        
         if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
           schoolParams['type_id'] = $scope.project.school_type_id;
         }
@@ -218,32 +213,27 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         }
         network.get('school', schoolParams, function (result, response) {
             if(result) {
-              $timeout(function(){
-                
+              $timeout(function(){                
                 $scope.schools = response.result;
-                if(isInit) {
+                if(isInit && $scope.isInsert ) {
                   var schools = [];
                   $scope.project.school = $scope.schools[0];
                   $.each($scope.schools, function(){
                     if($scope.projectSchoolsID[this.id]) {
-                      schools.push(this);
+                      schools.push(this);                      
                     }
                   })
                   if(schools.length) {
                     $scope.project.schools = schools;
                   }
-                }
-              })
-//                $scope.project.schools = $scope.projectSchools
-//                $scope.projectSchools = [];
-                
-            }
+                }                
+              });
+            };
         });
-//        $scope.project.schools = [];
     };
     
     $scope.updateSchools(true);
-
+    
     $scope.submitFormProjects = function () {
         $scope.submited = true;
         $scope.error = false;        
