@@ -29,7 +29,6 @@ class Email {
         '{SITE_URL}'        => Yii::app()->getBaseUrl(true),
         '{LOGIN}'           => $newUser['login'],
         '{PASSWORD}'        => $newUser['password'],
-        '{AKTEUR}'          => $newUser['relation_name'],
         '{BENUTZERROLLEN}'  => $newUser['type_name'],
       ), $newUser, false);
 
