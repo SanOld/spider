@@ -142,8 +142,8 @@
                       </ui-select>
                     </div>
                     <dl class="custom-dl">
-                      <dt ng-show="emploee.user.title">Titel:</dt>
-                      <dd ng-show="emploee.user.title">{{emploee.user.title}}</dd>
+                      <dt ng-show="emploee.user.title">Anrede:</dt>
+                      <dd ng-show="emploee.user.title">{{emploee.user.sex == 1 ? 'Herr': 'Frau'}}</dd>
                       <dt ng-show="emploee.user.phone">Telefon:</dt>
                       <dd ng-show="emploee.user.phone">{{emploee.user.phone}}</dd>
                       <dt ng-show="emploee.user.email">E-Mail:</dt>
