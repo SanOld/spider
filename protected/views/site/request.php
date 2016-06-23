@@ -16,7 +16,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 					</div>
 				</div>
-        <form name="form">      
+        <form name="form">       
 				<uib-tabset class="panel-body request-order-nav" active="tabActive">
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
@@ -31,7 +31,6 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-goals-data.php'); ?>
           </uib-tab>
 				</uib-tabset>
-
 				<br>
 				<div class="form-group group-btn row">
 					<div class="col-lg-6 text-left">
