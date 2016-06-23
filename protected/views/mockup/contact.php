@@ -68,7 +68,7 @@
 				</div> <!-- End Row -->
 			</div>
 		</div>
-
+		</div>
 		<!-- Page Content Ends -->
 		<!-- ================== -->
 		<?php include('templates/footer.php'); ?>
