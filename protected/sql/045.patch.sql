@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ALTER TABLE `spi_document_template_placeholder` ADD COLUMN `document_id` INT(11) NULL DEFAULT NULL;
 
 ALTER TABLE `spi_document_template_placeholder`
@@ -19,3 +20,6 @@ INSERT INTO `spi_document_template_placeholder` (`name`, `text`, `is_email`, `do
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`, `is_email`, `document_id`) VALUES ('PASSWORD', 'PASSWORD', '1', @id2);
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`, `is_email`, `document_id`) VALUES ('NAME', 'Benutzername', '1', @id2);
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`, `is_email`, `document_id`) VALUES ('SITE_URL', 'SITE_URL', '1', @id2);
+=======
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('16', 'header', 'Überschrift');
+>>>>>>> 43c6e3a... IRSP-558, IRSP-767, IRSP-850 Hilfe text

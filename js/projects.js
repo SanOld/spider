@@ -313,12 +313,11 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 val = val.id
               }
             })
-            var newCode = $copyScopeProject.code.split('/');
-            newCode = newCode[0]+'/'+(newCode[1]?newCode[1]+1:2);
-            console.log($copyScopeProject);
+            var newCode = $copyScopeProject.code.split('\\');
+            newCode = newCode[0] + '\\' + (newCode[1] ? +newCode[1] + 1 : 2);
             SweetAlert.swal({
               title: "Projekt bearbeiten?",
-              text: "Nächstes projekt wird erstellt "+newCode,
+              text: "Nächstes projekt wird erstellt " + newCode,
               type: "warning",
               confirmButtonText: "Ja, erstellen!",
               showCancelButton: true,
