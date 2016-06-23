@@ -1507,10 +1507,12 @@ body > .select2-container {
 .block-concept .custom-dl dd {
 	color:#202020;
 }
-#project .row-holder-dl dt,
 #finance .row-holder-dl dt,
 .edit-summary .row-holder-dl dt {
 	width:140px;
+}
+#project .row-holder-dl dt {
+	width:200px;
 }
 #project .heading-date .fa-calendar {
 	color: #3996e5;

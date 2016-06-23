@@ -80,7 +80,7 @@
                   <div class="col-lg-12 m-b-0">
                     <dl class="custom-dl">
                       <ng-show ng-show="data.performer_contact">
-                        <dt>Ansprechpartner(in):</dt>
+                        <dt>Vertretungsberechtigte Person:</dt>
                         <dd>{{data.performer_contact}}</dd>
                       </ng-show>
                       <ng-show ng-show="data.performer_contact_function">
@@ -339,7 +339,7 @@
                 </ng-show>
               </dl>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <dl class="custom-dl">
                 <ng-show ng-show="data.district_phone">
                   <dt>Telefon:</dt>
