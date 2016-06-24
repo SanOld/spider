@@ -113,7 +113,7 @@
             <div ng-repeat-end class="alert alert-{{history.status_code}}">
               <strong class="status-history" ng-bind="::history.status_name">Genehmigt</strong>
               <span class="check-history">Überpüft von {{::history.user_name}} {{::history.date}}</span>
-              <p ng-bind="::history.comment"></p>
+              <p class="check-text-history" ng-bind="::history.comment"></p>
             </div>
           </div>
         </div>

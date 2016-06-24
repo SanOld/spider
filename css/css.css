@@ -736,13 +736,15 @@ label.error {
 .cr-styled i {
 	background: #fff;
 }
-.holder-radio .cr-styled i {
+.holder-radio .cr-styled i,
+.holder-label-radio .cr-styled i {
 	line-height: 18px !important;
 	position:relative;
 	margin: 0 !important;
     padding: 0 !important;
 }
-.holder-radio .cr-styled input[type=radio]:checked + i:before {
+.holder-radio .cr-styled input[type=radio]:checked + i:before,
+.holder-label-radio .cr-styled input[type=radio]:checked + i:before {
 	content: "";
 	overflow: hidden;
     width: 10px;
@@ -751,6 +753,7 @@ label.error {
     background:#0625cd;
     display:block;
     border-radius: 100%;
+    position:static;
 }
 .dataTables_scrollBody  table.dataTable thead .sorting:after,
 .dataTables_scrollBody  table.dataTable thead .sorting_asc:after,
@@ -1533,6 +1536,9 @@ body > .select2-container {
 }
 #project .custom-dl.width-dt dt {
 	width:140px;
+}
+#project .custom-dl.width-dt-2 dt {
+	width:200px;
 }
 #project .panel,
 #finance .panel {
@@ -2710,7 +2716,7 @@ tr.thead > td {
 
 /*Safari*/
 body.safari {
-	min-width: 1330px;
+	min-width: 1280px;
 }
 body.safari button.shot-fix {
 	margin: 0 0 0 3px;
@@ -2719,7 +2725,7 @@ body.safari .w-lg {
     min-width: 155px;
 }
 body.safari .container {
-	width:1300px !important;
+	width:1280px !important;
 }
 body.safari #accordion-account .panel {
 	padding: 10px 0px;
@@ -2942,6 +2948,9 @@ body.safari label {
 }
 #accordion-concepts .alert span {
 	color:#707070;
+}
+p.check-text-history {
+    color: #000;
 }
 #accordion-concepts textarea.textarea-1 {
 	top:0;
