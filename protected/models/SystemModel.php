@@ -44,8 +44,11 @@ class SystemModel extends BaseModel
         $fields = Yii::app ()->db->createCommand ( $query )->queryAll ();
         
         $hash = md5(serialize($fields));
-        if($hash == $table['hash']) {
-          continue;
+        if($hash != $table['hash']) {
+//          continue;
+          header ( 'Content-Type: application/json' );
+          echo json_encode ( array('results' => 'error') );
+          exit ();
         }
         
         foreach($operations as $operation) {
@@ -57,7 +60,7 @@ class SystemModel extends BaseModel
               $insert .= "INSERT INTO spi_audit_data(event_id,column_name,{$operation['from']}_value) VALUES(ev_id,'{$fieldName}',{$operation['from']}.{$fieldName});\n";
             } else {
               $insert .= "
-                      IF old.{$fieldName}<>new.{$fieldName} THEN
+                      IF  ( old.{$fieldName}<>new.{$fieldName} OR  (ISNULL(old.{$fieldName}) AND new.{$fieldName}<>'') )  THEN
                        INSERT INTO spi_audit_data(event_id,column_name,old_value,new_value) VALUES(ev_id,'{$fieldName}',old.{$fieldName},new.{$fieldName});
                       END IF;\n";
             }
