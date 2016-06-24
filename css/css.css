@@ -2714,7 +2714,7 @@ tr.thead > td {
 
 /*Safari*/
 body.safari {
-	min-width: 1330px;
+	min-width: 1280px;
 }
 body.safari button.shot-fix {
 	margin: 0 0 0 3px;
@@ -2723,7 +2723,7 @@ body.safari .w-lg {
     min-width: 155px;
 }
 body.safari .container {
-	width:1300px !important;
+	width:1280px !important;
 }
 body.safari #accordion-account .panel {
 	padding: 10px 0px;
@@ -2946,6 +2946,9 @@ body.safari label {
 }
 #accordion-concepts .alert span {
 	color:#707070;
+}
+p.check-text-history {
+    color: #000;
 }
 #accordion-concepts textarea.textarea-1 {
 	top:0;
