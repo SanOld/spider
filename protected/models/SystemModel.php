@@ -11,17 +11,34 @@ class SystemModel extends BaseModel
                    AND table_name NOT LIKE 'spi_audit%'
                    AND table_name NOT IN(SELECT table_name FROM spi_audit_setting )";
       $tables = Yii::app ()->db->createCommand ( $query )->queryAll ();
-      
+
+
       if($tables) {
         $tables_names = array();
+        $tables_hashes = array();
         foreach($tables as $table) {
-          $tables_names[] = "('{$table['table_name']}')";
+          $tables_names[] = "'{$table['table_name']}'";
+
+          
+          $query2 = "SELECT `COLUMN_NAME`, `DATA_TYPE`
+                      FROM `INFORMATION_SCHEMA`.`COLUMNS`
+                     WHERE `TABLE_NAME`='" . $table['table_name'] . "'";
+          $fields = Yii::app ()->db->createCommand ( $query2 )->queryAll ();
+          $tables_hashes[] ="'". md5(serialize($fields))."'";
         }
 
-        $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES'.implode(', ',$tables_names);
-        Yii::app()->db
+        $i = count($tables_names);
+        while($i--){
+          $insert = 'INSERT INTO spi_audit_setting(table_name, hash) VALUES ('.$tables_names[$i].', '.$tables_hashes[$i].')';
+          Yii::app()->db
                   ->createCommand($insert)
                   ->execute();
+        }
+
+//        $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES'.implode(', ',$tables_names);
+//        Yii::app()->db
+//                  ->createCommand($insert)
+//                  ->execute();
       }
     }
     public function updateTablesAudit() {
