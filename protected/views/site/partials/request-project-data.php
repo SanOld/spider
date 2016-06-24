@@ -76,34 +76,59 @@
                   <i class="ion-checkmark"></i>
                   {{data.performer_checked_by}}
                 </span>
-                <div class="row m-t-20 m-b-30 row-holder-dl">
-                  <div class="col-lg-4">
-                    <dl class="custom-dl width-dt-2">
-                      <ng-show ng-show="data.performer_contact">
-                        <dt>Vertretungsberechtigte Person:</dt>
-                        <dd>{{data.performer_contact}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_contact_function">
-                        <dt>Funktion:</dt>
-                        <dd>{{data.performer_contact_function}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_address">
-                        <dt>Adresse:</dt>
-                        <dd>{{data.performer_address}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_plz">
-                        <dt>PLZ:</dt>
-                        <dd>{{data.performer_plz}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_city">
-                        <dt>Stadt:</dt>
-                        <dd>{{data.performer_city}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_homepage">
-                        <dt>Webseite:</dt>
-                        <dd><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
-                      </ng-show>
-                    </dl>
+
+                <div class="row m-t-20">
+                  <div class="col-lg-8">
+                    <div class="col-lg-12 p-l-0 m-b-15">
+                      <dl class="custom-dl width-dt-2 align-bottom">
+                       <ng-show ng-show="data.performer_contact">
+                          <dt>Vertretungsberechtigte Person:</dt>
+                          <dd><strong>{{data.performer_contact}}</strong></dd>
+                        </ng-show>
+                      </dl>
+                    </div>
+                    <div class="row m-t-20 m-b-30">
+                      <div class="col-lg-6">
+                        <dl class="custom-dl width-dt-2">
+                          <ng-show ng-show="data.performer_contact_function">
+                            <dt>Funktion:</dt>
+                            <dd>{{data.performer_contact_function}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_address">
+                            <dt>Adresse:</dt>
+                            <dd>{{data.performer_address}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_plz">
+                            <dt>PLZ:</dt>
+                            <dd>{{data.performer_plz}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_city">
+                            <dt>Stadt:</dt>
+                            <dd>{{data.performer_city}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_homepage">
+                            <dt>Webseite:</dt>
+                            <dd><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
+                          </ng-show>
+                        </dl>
+                      </div>
+                      <div class="col-lg-6">
+                        <dl class="custom-dl">
+                          <ng-show ng-show="data.performer_phone">
+                            <dt>Telefon:</dt>
+                            <dd>{{data.performer_phone}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_fax">
+                            <dt>Fax:</dt>
+                            <dd>{{data.performer_fax}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_email">
+                            <dt>E-mail:</dt>
+                            <dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
+                          </ng-show>
+                        </dl>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-lg-4">
                     <dl class="custom-dl">
@@ -235,9 +260,9 @@
             </span>
           </h3>
           <hr/>
-          <div class="row row-holder-dl" ng-show="data.district_id">
+          <div class="row" ng-show="data.district_id">
             <div class="col-lg-12 m-b-10">
-              <dl class="custom-dl">
+              <dl class="custom-dl width-dt-2">
                 <ng-show ng-show="data.district_name">
                   <dt>Bezirk:</dt>
                   <dd><strong>{{data.district_name}}</strong></dd>
@@ -249,7 +274,7 @@
               </dl>
             </div>
             <div class="col-lg-4">
-              <dl class="custom-dl">
+              <dl class="custom-dl width-dt-2">
                 <ng-show ng-show="data.district_address">
                   <dt>Adresse:</dt>
                   <dd>{{data.district_address}}</dd>
