@@ -60,13 +60,10 @@ class SystemModel extends BaseModel
                    WHERE `TABLE_NAME`='" . $tableName . "'";
         $fields = Yii::app ()->db->createCommand ( $query )->queryAll ();
         
-        $hash = md5(serialize($fields));
-        if($hash != $table['hash']) {
-//          continue;
-          header ( 'Content-Type: application/json' );
-          echo json_encode ( array('results' => 'error') );
-          exit ();
-        }
+//        $hash = md5(serialize($fields));
+//        if($hash == $table['hash']) {
+////          continue;
+//        }
         
         foreach($operations as $operation) {
           
