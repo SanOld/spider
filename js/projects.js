@@ -72,6 +72,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         $scope.$digest();
     },500);
     
+    
     if(!$scope.isInsert) {
         $scope.project = {
             code: data.code,
@@ -79,8 +80,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             school_type_id: data.school_type_id,
             type_id: data.type_id,
             is_old: data.is_old,
-            schools: data.schools ? data.schools : [],
-            school: data.schools[0] ? data.schools[0] : {},
+            schools: data.school_type_id == 1 ? data.schools : [],
+            school: data.school_type_id != 1 ? data.schools[0] : {},
             performer_id: data.performer_id,
             district_id: data.district_id,
         };
