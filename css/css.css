@@ -1536,7 +1536,13 @@ body > .select2-container {
 	width:140px;
 }
 #project .custom-dl.width-dt-2 dt {
-	width:200px;
+	width:150px;
+}
+#project dl.align-bottom dt,
+#project dl.align-bottom dd {
+	float:none;
+	display:inline-block;
+	vertical-align:bottom;
 }
 #project .panel,
 #finance .panel {

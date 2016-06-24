@@ -319,7 +319,7 @@
                   </div>
                 </span>
               </div>
-              <div class="col-lg-2 col-lg-offset-1">
+              <div class="col-lg-3">
                 <span class="sum clearfix">
                   <strong>Regiekosten</strong>
                   <!--<span>€ 11500,00</span>-->
