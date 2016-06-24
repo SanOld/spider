@@ -3,7 +3,20 @@ require_once ('utils/utils.php');
               
 class SiteController extends Controller
 {
-  
+    private $path = array('users'           => array(),
+                          'user-roles'      => array(),
+                          'finance-source'  => array(),
+                          'hints'           => array(),
+                          'performers'      => array(),
+                          'schools'         => array(),
+                          'requests'        => array(),
+                          'request'         => array(),
+                          'projects'        => array(),
+                          'dashboard'       => array(),
+                          'forgot-password' => array('layout' => 'mainWithoutLogin'),
+                          'reset-password'  => array('layout' => 'mainWithoutLogin'),
+                          'index'           => array('layout' => 'mainWithoutLogin'),
+                          );
 	/**
 	 * Declares class-based actions.
 	 */
@@ -22,27 +35,10 @@ class SiteController extends Controller
 			),
 		);
 	}
-  
-  public function get_pages(){
-    $rows = Yii::app()->db->createCommand()
-          ->select('pag.page_code, pag.is_without_login')
-          ->from('spi_page pag')
-          ->queryAll();
-    $pages = array();
-    foreach($rows as $row){
-      $pages[$row['page_code']] = $row['page_code'];
-      if($row['is_without_login']){
-        $pages[$row['page_code']] = array('layout' =>'mainWithoutLogin');
-      };
-    };
-    return $pages;
-  }
 
-  public function actionIndex() {
+	public function actionIndex() {
 		$page = safe($_GET,'page','index');
-    $pages = $this->get_pages();
-		$pageInfo = safe($pages,$page);
-    //session_start();
+		$pageInfo = safe($this->path,$page);
 		if(safe($pageInfo,'layout')) {
 			$this->layout = $pageInfo['layout'];
 		}
@@ -55,23 +51,14 @@ class SiteController extends Controller
 			if(!$id || !$this->validID($page, $id)) {
 				$this->redirect('/requests');
 			}
-		}  
-		$this->render(safe($pageInfo,'render',$page)); 
+		}
+		try {
+			$this->render(safe($pageInfo,'render',$page));
+		} catch (Exception $e) {
+			throw new CHttpException(404);
+		}
 
-    /*if($_SESSION['rights'][$page] && !$_SESSION['rights'][$page]['show']){       
-      $this->redirect('/dashboard');      
-    }else {
-      try { 
-        if (!safe($pageInfo,'layout') && empty($_SESSION) && $pages[$page]) {
-          $this->redirect('/'); 
-        }else{
-          $this->render(safe($pageInfo,'render',$page)); 
-        }
-      } catch (Exception $e) {
-        throw new CHttpException(404);        
-      }    
-    }*/
-  }
+	}
 
 	protected function validID($page, $id) {
 		switch ($page) {
