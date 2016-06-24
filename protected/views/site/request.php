@@ -9,6 +9,11 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 <div class="wraper container-fluid" ng-controller="RequestController">
 	<div class="row">
 		<div class="container center-block request-edit-page">
+      <div spi-hint-main ng-show="tabActive == 'project-data'" header="_hint.projectDataHeader" text="_hint.projectDataText" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'finance-plan'" header="_hint.finDataHeader" text="_hint.finDataText" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'school-concepts'" header="_hint.conceptDataHeader" text="_hint.conceptDataText" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'schools-goals'" header="_hint.goalDataHeader" text="_hint.goalDataText" ng-cloack></div>
+
 			<div class="panel panel-default" ng-cloak>
 				<div class="panel-heading heading-noborder clearfix">
                   <h1 class="panel-title col-lg-6">Antrag {{requestYear}} <span ng-show="projectID">({{projectID}})</span></h1>
@@ -17,7 +22,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 					</div>
 				</div>
         <ng-form name="form">       
-				<uib-tabset class="panel-body request-order-nav" active="tabActive">
+				<uib-tabset class="panel-body request-order-nav" active="tabActive" ng-cloack>
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
           </uib-tab>
