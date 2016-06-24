@@ -131,22 +131,6 @@
                     </div>
                   </div>
                   <div class="col-lg-4">
-                    <dl class="custom-dl">
-                      <ng-show ng-show="data.performer_phone">
-                        <dt>Telefon:</dt>
-                        <dd>{{data.performer_phone}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_fax">
-                        <dt>Fax:</dt>
-                        <dd>{{data.performer_fax}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_email">
-                        <dt>E-Mail:</dt>
-                        <dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
-                      </ng-show>
-                    </dl>
-                  </div>
-                  <div class="col-lg-4">
                     <h4 class="panel-title m-b-10">
                       Ansprechperson für Rückfragen zum Konzept
                     </h4>
