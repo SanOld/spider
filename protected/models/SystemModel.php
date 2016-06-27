@@ -99,7 +99,6 @@ class SystemModel extends BaseModel
                 END IF;
             END;\n\n";
 
-          if(!$t && $operation['code'] == 'UPD') {$t = $trigger;}
           Yii::app()->db
                     ->createCommand($trigger)
                     ->execute();
@@ -107,7 +106,7 @@ class SystemModel extends BaseModel
         Yii::app ()->db->createCommand ()->update ( 'spi_audit_setting', array('hash' => $hash), 'id=:id', array (':id' => $table['id'] ));
       }
       header ( 'Content-Type: application/json' );
-      echo json_encode ( array('results' => 'done', 't'=>$t) );
+      echo json_encode ( array('results' => 'done') );
       exit ();
     }
     
