@@ -56,7 +56,7 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.modeView = modeView;
-  $scope.filter = {};
+  $scope.filter = {is_email: 0};
 
   if (!$scope.isInsert) {
     $scope.docId = data.id;

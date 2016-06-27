@@ -389,3 +389,7 @@ $this->breadcrumbs = array('Anträge');
     </div>
   </div>
 </script>
+
+<script type="text/ng-template" id="showTemplate.html">
+  <?php include(Yii::app()->getBasePath().'/views/site/partials/document-template.php'); ?>
+</script>

@@ -175,7 +175,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   };
 
   $scope.printDocuments = function(row) {
-    $uibModal.open({
+    var modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'printDocuments.html',
       controller: 'ModalPrintDocumentsController',
@@ -193,6 +193,25 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
       }
     });
+    
+    modalInstance.result.then(function (template) {
+      var modalInstance2 = $uibModal.open({
+        animation: true,
+        templateUrl: 'showTemplate.html',
+        controller: 'ShowDocumentTemplatesController',
+        size: 'width-full',
+        resolve: {
+          data: function () {
+            return template;
+          }
+        }
+      });
+ 
+    });
+    
+
+
+
   };
 
   $scope.setBulkStatus = function(statusId) {
@@ -399,8 +418,8 @@ spi.controller('ModalPrintDocumentsController', function ($scope,user, row, user
 
   $scope.printDoc = function(template){
     console.log(template.text);
-    //$uibModalInstance.close($scope.templates);
-    $uibModalInstance.dismiss('cancel');
+    $uibModalInstance.close(template);
+//    $uibModalInstance.dismiss('cancel');
   }
 
   $scope.cancel = function () {
@@ -457,3 +476,37 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
   };
 
 });
+
+
+
+spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $uibModalInstance, data, $sce) {
+  $scope.isInsert = !data.id;
+
+  $scope.filter = {};
+
+  $scope.trustAsHtml = function(string) {
+    return $sce.trustAsHtml(string);
+  };
+
+  if (!$scope.isInsert) {
+    $scope.document = {
+      text: data.text,
+      name: data.name
+    };
+  } else {
+    $scope.document = {
+      text: ''
+    };
+  }
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+
+  $timeout(function() {
+      window.print();
+  });
+
+});
+
