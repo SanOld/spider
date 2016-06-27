@@ -71,8 +71,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $timeout(function () {
         $scope.$digest();
     },500);
-    
-    
+
     if(!$scope.isInsert) {
         $scope.project = {
             code: data.code,
@@ -83,15 +82,11 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             schools: data.school_type_id == 1 ? data.schools : [],
             school: data.school_type_id != 1 ? data.schools[0] : {},
             performer_id: data.performer_id,
-            district_id: data.district_id,
+            district_id: data.district_id == null ? 0 : data.district_id,
         };
         $.each(data.schools, function(){
           $scope.projectSchoolsID[this.id] = 1;
         })
-//          $scope.projectSchools = data.schools;
-        
-        //selected
-        
         getProjects();
     } else {
       $scope.project = {schools:[]};
@@ -138,9 +133,12 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         params['school_type_id'] = $scope.project.school_type_id;
       }
       network.get('district', params, function (result, response) {
-          if(result) {
-              $scope.districts = response.result;
-          }
+          if(result){
+            if($scope.project.school_type_id == 5 || !result){
+               response.result.unshift({'name':"--Kein Bezirk--", 'id': 0});
+            }           
+            $scope.districts = response.result;              
+          } 
       });
     }
     $scope.getDistricts(true);
@@ -177,13 +175,11 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.getNewCode = function(){
         var project_type = $scope.project.type_id == '3'?'B':'';
         var school_type = project_type + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase();
-               
         for(key in $scope.newCode){
           if(school_type == $scope.newCode[key].code[0].toUpperCase()){
             var code = school_type + $scope.newCode[key].next_code[0];                   
           };
         };
-        
         if(!code){
             code = school_type + "001";  
         };
@@ -203,7 +199,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           delete $scope.project.schools;  
         }        
         $scope.schools = [];
-        if(!$scope.project.school_type_id || !$scope.project.district_id) {
+        if((!$scope.project.school_type_id || !$scope.project.district_id) && $scope.project.school_type_id != 5) {
           return;
         }        
         if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
@@ -280,21 +276,23 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //              }
           $scope.schoolError = "schools";
           return false;
-        }            
+        }           
+        if(!$copyScopeProject.district_id){
+          delete $copyScopeProject.district_id;  
+        };
         if ($scope.isInsert) {
             if(!$scope.project.code.match(/B??[BGKSYZ]{1}[0-9]+\\?[0-9]*?/)){
               $copyScopeProject['real_code'] = null;
             }else{
-              var result = $scope.project.code.match(/B??[BGKSYZ]{1}/);  
-              $copyScopeProject['real_code'] = result[0].length > 1 ? result[0].splice(2) : result[0];  
+              var result = $scope.project.code.match(/^[BGKSYZ]{1,2}/); 
+              $copyScopeProject['real_code'] = result[0].length > 1 ? result[0].slice(1) : result[0];  
             };            
             if($scope.project.code != this.getNewCode()){          
               $scope.is_manual = 1;
             }else{
               $scope.is_manual = 0;  
             };        
-            $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0';                
-            
+            $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0';           
             network.post('project', $copyScopeProject, callback);              
         } else {            
 

@@ -99,9 +99,9 @@
             <div spi-hint text="_hint.district_id" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.district_id"
-                         name="district_id" on-select="updateSchools()" ng-required="schoolTypeCode != 'z'">
+                         name="district_id" on-select="updateSchools()" ng-required="schoolTypeCode != 'z' && schoolTypeCode != 'b'">
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
-                  {{$select.selected.name}}
+                  {{project.district_id == "--Kein Bezirk--" ? project.district_id : $select.selected.name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in districts | filter: $select.search | orderBy: 'name'">
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
