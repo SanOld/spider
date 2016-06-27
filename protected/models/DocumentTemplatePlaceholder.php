@@ -19,7 +19,7 @@ class DocumentTemplatePlaceholder extends BaseModel {
     parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
 
-    if (isset($params['IS_EMAIL']) && $params['IS_EMAIL'] == '1') {
+    if (isset($params['IS_EMAIL'])) {
       $command -> andWhere("tbl.is_email = :is_email", array(':is_email' => $params['IS_EMAIL']));
     }
     if (isset($params['DOCUMENT_ID'])) {
