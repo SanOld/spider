@@ -61,15 +61,22 @@ class SystemModel extends BaseModel
         foreach($operations as $operation) {
           
           $insert = "\n\n";
+          $fieldsCounter = array(); //костыль от дублирования столбцов
           foreach($fields as $field) {
             $fieldName = $field['COLUMN_NAME'];
+
+
+
             if($operation['code'] != 'UPD') {
               $insert .= "INSERT INTO spi_audit_data(event_id,column_name,{$operation['from']}_value) VALUES(ev_id,'{$fieldName}',{$operation['from']}.{$fieldName});\n";
             } else {
-              $insert .= "
-                      IF  ( old.{$fieldName}<>new.{$fieldName} OR  (ISNULL(old.{$fieldName}) AND new.{$fieldName}<>'') )  THEN
-                       INSERT INTO spi_audit_data(event_id,column_name,old_value,new_value) VALUES(ev_id,'{$fieldName}',old.{$fieldName},new.{$fieldName});
-                      END IF;\n";
+              if (!$fieldsCounter[$fieldName]){
+                $insert .= "
+                        IF  ( old.{$fieldName}<>new.{$fieldName} OR  (ISNULL(old.{$fieldName}) AND new.{$fieldName}<>'') )  THEN
+                         INSERT INTO spi_audit_data(event_id,column_name,old_value,new_value) VALUES(ev_id,'{$fieldName}',old.{$fieldName},new.{$fieldName});
+                        END IF;\n";
+                $fieldsCounter[$fieldName] = 1;
+              }
             }
           }
 
