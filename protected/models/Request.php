@@ -142,41 +142,11 @@ class Request extends BaseModel {
       }
     } else {
       foreach($result['result'] as &$row) {
-        if($row['start_date'] != '0000-00-00'){
-          $row['start_date_unix'] = strtotime($row['start_date']);
-          $row['start_date_unix'] = $row['start_date_unix'] ? $row['start_date_unix'].'000' : '';
-        } else {
-          $row['start_date'] = '';
-          $row['start_date_unix'] = '';
-        }
 
-        if($row['due_date'] != '0000-00-00'){
-          $row['due_date_unix'] = strtotime($row['due_date']);
-          $row['due_date_unix'] = $row['due_date_unix'] ? $row['due_date_unix'].'000' : '';
-        } else {
-          $row['due_date'] = '';
-          $row['due_date_unix'] = '';
-        }
-
-        if($row['last_change'] != '0000-00-00'){
-          $row['last_change_unix'] = strtotime($row['last_change']);
-          $row['last_change_unix'] = $row['last_change_unix'] ? $row['last_change_unix'].'000' : '';
-        } else {
-          $row['last_change'] = '';
-          $row['last_change_unix'] = '';
-        }
-
-        if($row['end_fill'] != '0000-00-00'){
-          $row['end_fill_unix'] = strtotime($row['end_fill']);
-          $row['end_fill_unix'] = $row['end_fill_unix'] ? $row['end_fill_unix'].'000' : '';
-        } else {
-          $row['end_fill'] = '';
-          $row['end_fill_unix'] = '';
-        }
-
-
-
-
+        if($row['start_date']   == '0000-00-00'){ $row['start_date']  = ''; }
+        if($row['due_date']     == '0000-00-00'){ $row['due_date']    = ''; }
+        if($row['last_change']  == '0000-00-00'){ $row['last_change'] = ''; }
+        if($row['end_fill']     == '0000-00-00'){ $row['end_fill']    = ''; }
 
         $row['status_goal'] = $this->calcGoalsStatus($row['id']);
         $row['status_concept'] = $this->calcConceptStatus($row['id']);
@@ -408,10 +378,6 @@ class Request extends BaseModel {
 
   protected function doBeforeUpdate($post, $id) {
 
-    unset($post['start_date_unix']);
-    unset($post['due_date_unix']);
-    unset($post['end_fill_unix']);
-    unset($post['last_change_unix']);
     unset($post['status_code']);
 
     if(isset($post['doc_target_agreement_id']) && !$post['doc_target_agreement_id']) {

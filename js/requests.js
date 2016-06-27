@@ -312,6 +312,14 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     return result;
 
   }
+
+  $scope.getDate = function (date) {
+    var result = '';
+    if(date){
+      result = new Date(date);
+    }
+    return result;
+  }
 });
 
 

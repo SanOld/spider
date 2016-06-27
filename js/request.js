@@ -154,6 +154,14 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     return results;
   }
 
+  $scope.getDate = function (date) {
+    var result = '';
+    if(date){
+      result = new Date(date);
+    }
+    return result;
+  }
+
   $scope.getData = function() {
     network.get('request', $scope.filter, function (result, response) {
       if (result) {
@@ -177,10 +185,6 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           due_date:                       response.result.due_date,
           end_fill:                       response.result.end_fill,
           last_change:                    response.result.last_change,
-          start_date_unix:                response.result.start_date_unix,
-          due_date_unix:                  response.result.due_date_unix,
-          end_fill_unix:                  response.result.end_fill_unix,
-          last_change_unix:               response.result.last_change_unix,
           performer_id:                   response.result.performer_id,
           status_code:                    response.result.status_code
         };
@@ -293,18 +297,13 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
     if ($scope.request.id) {
       modalInstance.result.then(function (data) {
-        $scope.request.start_date_unix = isNaN(data.start_date) ? '' : new Date(data.start_date);
-        $scope.request.due_date_unix = isNaN(data.due_date) ? '' : new Date(data.due_date) ;
 
         var start = isNaN(data.start_date) ? '' : Utils.getSqlDate(new Date(data.start_date));
         var end = isNaN(data.due_date) ? '' : Utils.getSqlDate(new Date(data.due_date)) ;
 
         $scope.request.start_date = start;
         $scope.request.due_date = end;
-//        network.patch('request', {ids: ids, start_date: start, due_date: end}, function(result) {
-//        });
       });
-
 
     }
   };
@@ -336,10 +335,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     if ($scope.request.id) {
       modalInstance.result.then(function (data) {
 
-        $scope.request.end_fill_unix = isNaN(data.end_fill) ? '' : new Date(data.end_fill);
         var end_fill = isNaN(data.end_fill) ? '' : Utils.getSqlDate(new Date(data.end_fill));
 
         $scope.request.end_fill = end_fill;
+
       });
     }
   };

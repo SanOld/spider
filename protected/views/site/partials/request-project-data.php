@@ -11,7 +11,7 @@
               <div class="m-t-10 holder-head-date custom-dl">
                <div class="wrap-data">
                   <span>Letzte Änd.:</span>
-                 <em ng-if="request.last_change">{{request.last_change?(request.last_change_unix| date : 'dd.MM.yyyy'):''}} </em>
+                 <em ng-if="request.last_change">{{getDate(request.last_change)| date : 'dd.MM.yyyy'}} </em>
                  <em ng-if="!request.last_change">-</em>
                </div>
               </div>
@@ -24,7 +24,7 @@
                   <div class="wrap-data">
                     <div class="m-t-10">
                       <span>Abgabe:</span>
-                      <em ng-if="request.end_fill">{{request.end_fill?(request.end_fill_unix| date : 'dd.MM.yyyy'):''}}</em>
+                      <em ng-if="request.end_fill">{{getDate(request.end_fill)| date : 'dd.MM.yyyy'}}</em>
                       <em ng-if="!request.end_fill">-</em>
                     </div>
                   </div>
@@ -42,12 +42,13 @@
                   <div class="wrap-data">
                     <div>
                       <span>Beginn:</span>
-                      <em ng-if="request.start_date">{{request.start_date?(request.start_date_unix| date : 'dd.MM.yyyy'):''}}</em>
+                      
+                      <em ng-if="request.start_date">{{getDate(request.start_date) | date : 'dd.MM.yyyy'}}</em>
                       <em ng-if="!request.start_date">-</em>
                     </div>
                     <div>
                       <span>Ende:</span>
-                      <em ng-if="request.due_date">{{request.due_date?(request.due_date_unix| date : 'dd.MM.yyyy'):''}}</em>
+                      <em ng-if="request.due_date">{{getDate(request.due_date)| date : 'dd.MM.yyyy'}}</em>
                       <em ng-if="!request.due_date">-</em>
                     </div>
                   </div>

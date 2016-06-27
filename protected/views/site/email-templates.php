@@ -37,7 +37,7 @@ $this->breadcrumbs = array('E-Mail-Vorlagen');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Name'" sortable="'name'">{{row.name}}</td>
 							<td data-title="'Beschreibung'" sortable="'description'">{{row.description}}</td>
-							<td data-title="'Letzte Änderung'">{{row.last_change_unix | date : 'dd.MM.yyyy'}} {{row.user_name}}</td>
+							<td data-title="'Letzte Änderung'">{{getDate(row.last_change) | date : 'dd.MM.yyyy'}} {{row.user_name}}</td>
               <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="text-center dt-edit" style="width: 183px;">
                 <a class="btn edit-btn" ng-click="openTemplate(row, !canEdit())">
                   <i class="ion-document-text" ng-if="canView()"></i>

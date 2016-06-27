@@ -36,6 +36,14 @@ spi.controller('EmailTemplatesController', function ($scope, $rootScope, network
     });
   };
 
+  $scope.getDate = function (date) {
+    var result = '';
+    if(date){
+      result = new Date(date);
+    }
+    return result;
+  }
+
 });
 
 spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, GridService) {

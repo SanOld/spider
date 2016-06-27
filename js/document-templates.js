@@ -43,6 +43,13 @@ spi.controller('DocumentTemplatesController', function ($scope, $rootScope, netw
     });
   };
 
+  $scope.getDate = function (date) {
+    var result = '';
+    if(date){
+      result = new Date(date);
+    }
+    return result;
+  }
 });
 
 spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, GridService) {
