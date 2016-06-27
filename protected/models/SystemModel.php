@@ -27,18 +27,11 @@ class SystemModel extends BaseModel
           $tables_hashes[] ="'". md5(serialize($fields))."'";
         }
 
-        $i = count($tables_names);
-        while($i--){
-          $insert = 'INSERT INTO spi_audit_setting(table_name, hash) VALUES ('.$tables_names[$i].', '.$tables_hashes[$i].')';
-          Yii::app()->db
+
+        $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES'.implode(', ',$tables_names);
+        Yii::app()->db
                   ->createCommand($insert)
                   ->execute();
-        }
-
-//        $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES'.implode(', ',$tables_names);
-//        Yii::app()->db
-//                  ->createCommand($insert)
-//                  ->execute();
       }
     }
     public function updateTablesAudit() {
@@ -60,10 +53,10 @@ class SystemModel extends BaseModel
                    WHERE `TABLE_NAME`='" . $tableName . "'";
         $fields = Yii::app ()->db->createCommand ( $query )->queryAll ();
         
-//        $hash = md5(serialize($fields));
-//        if($hash == $table['hash']) {
-////          continue;
-//        }
+        $hash = md5(serialize($fields));
+        if($hash == $table['hash']) {
+          continue;
+        }
         
         foreach($operations as $operation) {
           
