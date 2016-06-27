@@ -47,7 +47,6 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
     };
 
     $scope.openEdit = function (row, modeView) {
-      console.log(row);
         grid.openEditor({
           data: row,
           hint: $scope._hint,
@@ -67,11 +66,9 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //    $scope.projectSchools = [];
     $scope.projectSchoolsID = {};
     $scope.schoolTypeCode = '';
-    
     $timeout(function () {
         $scope.$digest();
     },500);
-
     if(!$scope.isInsert) {
         $scope.project = {
             code: data.code,
@@ -83,6 +80,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             school: data.school_type_id != 1 ? data.schools[0] : {},
             performer_id: data.performer_id,
             district_id: data.district_id == null ? 0 : data.district_id,
+            programm_id: data.programm_id
         };
         $.each(data.schools, function(){
           $scope.projectSchoolsID[this.id] = 1;
@@ -98,16 +96,16 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     }
     $scope.schoolTypesId = {};
     network.get('school_type', {}, function (result, response) {
-        if(result) {
-            $scope.schoolTypes = response.result;
-            angular.forEach(response.result, function(val){
-              val['fullName'] = '('+val.code.toUpperCase()+') '+val.name;
-              $scope.schoolTypesId[val.id] = val;
-            })
-            if($scope.project.school_type_id) {
-              $scope.schoolTypeCode = $scope.schoolTypesId[$scope.project.school_type_id].code;
-            }
+      if(result) {
+        $scope.schoolTypes = response.result;
+        angular.forEach(response.result, function(val){
+          val['fullName'] = '('+val.code.toUpperCase()+') '+val.name;
+          $scope.schoolTypesId[val.id] = val;
+        })
+        if($scope.project.school_type_id) {
+          $scope.schoolTypeCode = $scope.schoolTypesId[$scope.project.school_type_id].code;
         }
+      }
     });
     
     network.get('project_type', {}, function (result, response) {
@@ -120,9 +118,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         if(result) {
             $scope.performers = response.result;
         }
-    });
-    
-    
+    });    
     
     $scope.getDistricts = function(isInit) {
       var params = {};
@@ -144,13 +140,27 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.getDistricts(true);
     
     
+    $scope.getProgramms = function(isInit) {     
+       var params = {};
+       if(!isInit && $scope.isInsert) {
+        delete $scope.project.programm_id;
+      }
+       params['project_type_id'] = $scope.project.type_id;
+       network.get('finance_source', params, function (result, response) {
+        if(result) {
+          $scope.programms = response.result;  
+        }
+      });                
+    }    
+    $scope.getProgramms(true);
+    
     function getProjects() {
         network.get('project', {}, function(result, response){
             if(result) {
               $scope.projects = response.result;
             }
         });
-    }
+    }    
     
     $scope.checkRate = function (project) {
       if(project.rate) {
@@ -173,7 +183,14 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         return items.length && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; 
     };
     $scope.getNewCode = function(){
-        var project_type = $scope.project.type_id == '3'?'B':'';
+        var project_type = '';
+        $scope.programms.forEach(function(item, i, arr){
+          if(item.id == $scope.project.programm_id && item.prefix){
+            project_type = item.prefix;  
+          }else{
+            project_type = '';  
+          }
+        });
         var school_type = project_type + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase();
         for(key in $scope.newCode){
           if(school_type == $scope.newCode[key].code[0].toUpperCase()){
@@ -230,7 +247,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     };
     
     $scope.updateSchools(true);
-    
     $scope.submitFormProjects = function () {
         $scope.submited = true;
         $scope.error = false;        
@@ -245,17 +261,15 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 $scope.submited = true;
             }
         };                
-        var $copyScopeProject = angular.copy($scope.project); 
-        
+        var $copyScopeProject = angular.copy($scope.project);         
         if($scope.schoolTypeCode != 's') {
           $copyScopeProject.schools = [$copyScopeProject.school];
-        };
-        
+        };        
         if (!$scope.formProjects.$valid){
             $copyScopeProject.invalid = true;
-        };         
-        
+        };             
         delete $copyScopeProject.school; 
+        $copyScopeProject['programm_id'] = $scope.programms[0].id;
         if((!$copyScopeProject.schools || !$copyScopeProject.schools.length) && $scope.schoolTypeCode != 'z') {
 //              if($scope.schoolTypeCode != 's') {
 //                SweetAlert.swal({
@@ -280,11 +294,25 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         if(!$copyScopeProject.district_id){
           delete $copyScopeProject.district_id;  
         };
-        if ($scope.isInsert) {
-            if(!$scope.project.code.match(/B??[BGKSYZ]{1}[0-9]+\\?[0-9]*?/)){
+        if ($scope.isInsert) {            
+            var prefix = "";
+            $scope.programms.forEach(function(item, i, arr){
+              if(item.prefix){
+                prefix = prefix + item.prefix;  
+              }
+            });
+            var sch_types = "";
+            $scope.schoolTypes.forEach(function(item, i, arr){
+              if(item.code){
+                sch_types = sch_types + item.code;  
+              }
+            });
+            var reg = new RegExp('['+ prefix +']??['+ sch_types +']{1}[0-9]+/\?[0-9]*?','i');
+            if(!$scope.project.code.match(reg)){ 
               $copyScopeProject['real_code'] = null;
             }else{
-              var result = $scope.project.code.match(/^[BGKSYZ]{1,2}/); 
+              var reg = new RegExp('^['+ prefix + sch_types +']{1,2}','i');    
+              var result = $scope.project.code.match(reg); 
               $copyScopeProject['real_code'] = result[0].length > 1 ? result[0].slice(1) : result[0];  
             };            
             if($scope.project.code != this.getNewCode()){          
@@ -292,7 +320,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             }else{
               $scope.is_manual = 0;  
             };        
-            $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0';           
+            $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0'; 
             network.post('project', $copyScopeProject, callback);              
         } else {            
 

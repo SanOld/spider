@@ -38,7 +38,7 @@
             <div spi-hint text="_hint.type_id" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.type_id"
-                         name="type_id" required on-select="updateCode();">
+                         name="type_id" required on-select="updateCode();getProgramms();">
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
                   {{$select.selected.name}}
                 </ui-select-match>
@@ -67,6 +67,27 @@
               </ui-select>
               <span ng-class="{hide: !fieldError('school_type_id')}" class="hide">
                   <label class="error">Schultyp erforderlich</label>
+                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="m-b-15 clearfix">
+          <label class="col-lg-2 control-label p-r-0">Programm</label>
+          <div class="col-lg-10">
+            <div spi-hint text="_hint.performer_id" class="has-hint"></div>
+            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('programm_id')}">
+              <ui-select ng-disabled="!$select.items.length || modeView || !isInsert" ng-model="project.programm_id"
+                         name="programm_id" required on-select="updateCode();" >
+                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
+                {{$select.selected.programm}}
+                </ui-select-match>
+                <ui-select-choices repeat="item.id as item in programms | filter: $select.search | orderBy: 'name'">
+                  <span ng-bind-html="item.programm | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <span ng-class="{hide: !fieldError('programm_id')}" class="hide">
+                  <label class="error">Programm erforderlich</label>
                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
             </div>

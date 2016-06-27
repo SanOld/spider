@@ -76,9 +76,9 @@ class Request extends BaseModel {
     } else {
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> join( 'spi_request_status rqs', 'tbl.status_id           = rqs.id' );
-      $command -> leftJoin( 'spi_performer prf',      'tbl.performer_id        = prf.id' );
+      $command -> leftJoin( 'spi_performer prf',  'tbl.performer_id        = prf.id' );
       $command -> join( 'spi_project prj',        'tbl.project_id          = prj.id' );
-      $command -> join( 'spi_finance_source fns', 'prj.type_id = fns.project_type_id' );
+      $command -> join( 'spi_finance_source fns', 'prj.programm_id         = fns.id' );
       $command -> where(' 1=1 ', array());
 
     }

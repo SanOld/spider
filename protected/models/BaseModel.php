@@ -528,47 +528,70 @@ class BaseModel extends CFormModel {
                                           JOIN spi_project_type pt ON prj.type_id=pt.id  
                                           WHERE prj.code NOT LIKE "%\\\\\\\\%"
                                           AND prj.is_manual = 0                                           
-                                          AND prj.real_code IS NOT NULL    
+                                          AND prj.real_code <> ""    
                                           GROUP BY prj.real_code, is_bonus')->queryAll();
     $pattern_number = "/[0-9]+$/";
     $pattern = "/^[a-zA-Z]{1,2}/"; 
     
     foreach ($custom_codes as &$code){
       $code['code'] = preg_split($pattern_number, $code['max_code'],2,PREG_SPLIT_NO_EMPTY);
-      $code['next_code'] = preg_split($pattern, $code['max_code'],2,PREG_SPLIT_NO_EMPTY);
-      
+      $code['next_code'] = preg_split($pattern, $code['max_code'],2,PREG_SPLIT_NO_EMPTY);     
       $manual_codes = Yii::app()->db->createCommand()
               ->select('sct.id, UPPER(prj.real_code) AS real_code, prj.code, prj.is_manual, IF(prj.type_id="3",1,0) AS is_bonus')
               ->from('spi_project prj')
               ->join('spi_school_type sct', 'prj.school_type_id=sct.id')
               ->where('prj.is_manual = 1')
-              ->andWhere('prj.real_code IS NOT NULL')
+              ->andWhere('prj.real_code <> ""')
               ->andWhere('prj.code NOT LIKE "%\\\\\\\\%"')
               ->andWhere('prj.code > :max_code',array(':max_code'=>$code['max_code']))
               ->andWhere('prj.real_code = :real_code',array(':real_code'=>$code['real_code']))
               ->order('prj.code')          
-              ->queryAll();   
-      
+              ->queryAll();     
       if($manual_codes){    
         ++$code['next_code'][0];
         foreach($manual_codes as $value){
           $value['next_code'] = preg_split($pattern, $value['code'],2,PREG_SPLIT_NO_EMPTY);          
           if($code['next_code'][0] == $value['next_code'][0]){            
             ++$code['next_code'][0]; 
-          }else{
-            break;
+          }else{            
+            break;          
           };
         }            
       }else{
         ++$code['next_code'][0];
-      }
-     
+      };     
       if(strlen($code['next_code'][0]) == 1){
           $code['next_code'][0] = "00".$code['next_code'][0];
         }elseif(strlen($code['next_code'][0]) == 2){
           $code['next_code'][0] = "0".$code['next_code'][0];
-      };
-    }
+      };             
+    }; 
+    
+    $new_manual_codes = Yii::app()->db->createCommand()
+              ->select('prj.code, MAX(prj.code) max_code, prj.real_code, prj.is_manual, IF(prj.type_id="3",1,0) AS is_bonus')
+              ->from('spi_project prj')
+              ->join('spi_school_type sct', 'prj.school_type_id=sct.id')
+              ->where('prj.real_code <> ""')
+              ->andWhere('prj.code NOT LIKE "%\\\\\\\\%"')
+              ->group('prj.real_code, is_bonus')          
+              ->queryAll(); 
+    foreach($new_manual_codes as &$value){
+      $result = false;
+      $value['beg_code'] = preg_split($pattern, $value['code'],2,PREG_SPLIT_NO_EMPTY);
+      $value['code'] = preg_split($pattern_number, $value['max_code'],2,PREG_SPLIT_NO_EMPTY);
+      $value['next_code'] = preg_split($pattern, $value['max_code'],2,PREG_SPLIT_NO_EMPTY);
+      foreach($custom_codes as $item){        
+        if($item['code'][0] == $value['code'][0]){          
+          $result = true;
+        }      
+      }
+      if(!$result){
+        if($value['beg_code'][0] == '001'){          
+          $value['next_code'][0] = "00".++$value['next_code'][0];          
+          $custom_codes[count($custom_codes)] = $value;
+        }
+      };           
+    };   
     
     $result = array (
         'system_code' => 'SUCCESSFUL',
