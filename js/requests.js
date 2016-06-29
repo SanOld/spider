@@ -195,7 +195,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     });
     
     modalInstance.result.then(function (template) {
-      var modalInstance2 = $uibModal.open({
+      $uibModal.open({
         animation: true,
         templateUrl: 'showTemplate.html',
         controller: 'ShowDocumentTemplatesController',
@@ -203,7 +203,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         resolve: {
           data: function () {
             return template;
-          }
+          },
+          row: function () {
+            return row;
+          },
         }
       });
  
@@ -409,7 +412,7 @@ spi.controller('ModalPrintDocumentsController', function ($scope,user, row, user
   }
 
   if(ids.length) {
-    network.get('document_template', {'ids[]': ids}, function (result, response) {
+    network.get('document_template', {'ids[]': ids, 'prepare': 1, 'request_id': row.id }, function (result, response) {
       if (result) {
         $scope.templates = response.result;
       }
@@ -417,9 +420,8 @@ spi.controller('ModalPrintDocumentsController', function ($scope,user, row, user
   }
 
   $scope.printDoc = function(template){
-    console.log(template.text);
+//    console.log(template.text);
     $uibModalInstance.close(template);
-//    $uibModalInstance.dismiss('cancel');
   }
 
   $scope.cancel = function () {
@@ -505,7 +507,10 @@ spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $u
 
 
   $timeout(function() {
+      window.alert('change class before print');
       window.print();
+      window.alert('change class after print');
+      $uibModalInstance.dismiss('cancel');
   });
 
 });
