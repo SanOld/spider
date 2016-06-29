@@ -9,7 +9,7 @@ class User extends BaseModel {
   public $select_all = "CONCAT(tbl.last_name, ', ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    $command -> join('spi_user_type ust', 'tbl.type_id = ust.id');
+    $command -> join('spi_user_type ust', 'tbl.type_id = ust.id');    
     $command -> where(' 1=1 ', array());
     return $command;
   }
@@ -18,16 +18,16 @@ class User extends BaseModel {
     return Yii::app ()->db->createCommand ()->select ("id, CONCAT(last_name, ' ', first_name) name, IF(tbl.sex = 1, 'Herr', 'Frau') sex, function, phone, title, email, is_finansist")->from ( $this->table  . ' tbl') -> order('name');
   }
 
-  protected function getParamCommand($command, array $params, array $logic = array()) {
-    parent::getParamCommand($command, $params);
+  protected function getParamCommand($command, array $params, array $logic = array()) {   
+    parent::getParamCommand($command, $params);    
     $params = array_change_key_case($params, CASE_UPPER);
     $command = $this->setLikeWhere($command,
           array('tbl.first_name', 'tbl.last_name', 'tbl.login', 'tbl.email'),
           safe($params, 'KEYWORD'));
-    if (safe($params, 'RELATION_NAME')) {
+    if (safe($params, 'RELATION_NAME')) {  
       $value = $params['RELATION_NAME'];
       $where = array();
-      $search_param = array();
+      $search_param = array();      
       foreach(explode(',', USER_TYPES) as $type) {
         $relation = $this->getRelationByType($type);
         if($relation && safe($relation, 'code')) {
@@ -39,7 +39,11 @@ class User extends BaseModel {
       if($where && $search_param) {
         $where = implode(' OR ', $where);
         $command -> andWhere($where, $search_param);
-      }
+      }       
+      $noRelation = array('a' => 'Administrator', 'p' => 'Stiftung SPI', 'g' => 'Senat');
+      foreach($noRelation as $key => $user){
+        $command->orWhere('tbl.type = ( IF ("'.$user.'" LIKE "%'.$value.'%", "'.$key.'","")) ');
+      }     
     }
     if (safe($params, 'TYPE_ID')) {
       $command->andWhere("tbl.type_id = :type_id", array(':type_id' => $params['TYPE_ID']));
@@ -58,8 +62,10 @@ class User extends BaseModel {
       foreach(explode(',', USER_TYPES) as $type) {
         $relation = $this->getRelationByType($type);
         if($relation && safe($relation, 'code')) {
-          $command->leftJoin($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
-          $fields[] = "IFNULL(".$relation['prefix'].".name, '')";
+          if(!safe($params, 'RELATION_NAME')){
+            $command->leftJoin($relation['table'].' '.$relation['prefix'], $relation['prefix'].'.id=tbl.relation_id AND tbl.type = "'.$type.'"');
+          }
+            $fields[] = "IFNULL(".$relation['prefix'].".name, '')";
         }
       }
       if($fields) {
