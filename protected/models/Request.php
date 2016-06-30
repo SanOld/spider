@@ -371,6 +371,17 @@ class Request extends BaseModel {
                                       -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
                                       -> queryAll();
       $result['result'] =  $row;
+    }else {
+      foreach($result['result'] as &$row) {
+        if($row['project_id']){
+          $schools = Yii::app() -> db -> createCommand()
+          -> select('scl.*') -> from('spi_project_school prs')
+          -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
+          -> where('prs.project_id=:id', array(':id' => $row['project_id'])) 
+          -> queryAll();
+          $row['schools'] = $schools;
+        }
+      }
     }
 
     return $result;

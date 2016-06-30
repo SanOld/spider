@@ -74,7 +74,7 @@ $this->breadcrumbs = array('Anträge');
                       <ui-select-match>{{$select.selected}}</ui-select-match>
                       <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: item">
                         <span ng-bind="item"></span>
-                      </ui-select-choices>
+                      </ui-select-choices>                      
                     </ui-select>
                   </div>
                 </div>
@@ -111,11 +111,11 @@ $this->breadcrumbs = array('Anträge');
                     </label>
                   </td>
                   <td data-title="'Kennz.'" sortable="'code'">{{row.code}}</td>
-                  <td data-title="'Träger'" sortable="'performer_name'">
+                  <td data-title="'Schule(n)'" sortable="'school_name'">
                     <!--<span class="performer-icon" ng-class="{'unchecked':row.performer_is_checked != '1'}">{{row.performer_name}}</span>-->
                     <i ng-if="+row.performer_is_checked" class="ion-checkmark"></i>
                     <span ng-if="!+row.performer_is_checked" class="icon-no-icon"></span>
-                    {{row.performer_name}}
+                    <a href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
                   </td>
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
                   <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
