@@ -167,7 +167,7 @@
             </div>
           </div>
           <h3 class="panel-title m-b-15">
-            {{data.schools.length > 1?'Schule':'Schulen'}}
+            {{data.schools.length > 1?'Schulen':'Schule'}}
           </h3>
           <div id="accordion-project" class="panel-group panel-group-joined">
 
