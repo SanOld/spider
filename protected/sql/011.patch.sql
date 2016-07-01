@@ -15,7 +15,7 @@ INSERT INTO spi_page (code, name, is_real_page) VALUES ('school_type', 'Schultyp
 INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (1, 10, 1, 1);
 INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (2, 10, 1, 1);
 INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (3, 10, 0, 0);
-INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (4, 10, 0, 0);
+INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (4, 10, 1, 0);
 INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (5, 10, 0, 0);
 INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (6, 10, 0, 0);
 INSERT INTO spi_user_type_right (type_id, page_id, can_view, can_edit) VALUES (7, 10, 1, 1);

@@ -30,7 +30,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
 
   $scope.updateRights = function(is_bonus_project){
-    $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist) || (is_bonus_project && network.user.type == 's');
+    $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist) || (is_bonus_project == '1' && network.user.type == 's');
   };
   $scope.setProjectID = function(projectID){
     $scope.projectID = projectID;
