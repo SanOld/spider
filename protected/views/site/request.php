@@ -9,10 +9,10 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 <div class="wraper container-fluid" ng-controller="RequestController">
 	<div class="row">
 		<div class="container center-block request-edit-page">
-      <div spi-hint-main ng-show="tabActive == 'project-data'" header="_hint.projectDataHeader" text="_hint.projectDataText" ng-cloack></div>
-      <div spi-hint-main ng-show="tabActive == 'finance-plan'" header="_hint.finDataHeader" text="_hint.finDataText" ng-cloack></div>
-      <div spi-hint-main ng-show="tabActive == 'school-concepts'" header="_hint.conceptDataHeader" text="_hint.conceptDataText" ng-cloack></div>
-      <div spi-hint-main ng-show="tabActive == 'schools-goals'" header="_hint.goalDataHeader" text="_hint.goalDataText" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'project-data'" header="_hint.projectData.title" text="_hint.projectData.text" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'finance-plan'" header="_hint.finData.title" text="_hint.finData.text" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'school-concepts'" header="_hint.conceptData.title" text="_hint.conceptData.text" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'schools-goals'" header="_hint.goalData.title" text="_hint.goalData.text" ng-cloack></div>
 
 			<div class="panel panel-default" ng-cloak>
 				<div class="panel-heading heading-noborder clearfix">

@@ -69,7 +69,7 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
     if(!id) {
       return false;
     }
-    $scope.showTitle = Utils.getRowById($scope.positions, id, 'code') == 'header';
+    $scope.showTitle = Utils.getRowById($scope.positions, id, 'is_double');
     network.get('hint', {position_id: id}, function(result, response) {
       if(result && response.result.length) {
         $scope.hint.title = response.result[0].title;

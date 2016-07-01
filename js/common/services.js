@@ -154,7 +154,7 @@ spi.service("HintService", function (network) {
       if (result) {
         var hints = {};
         for (var i = 0; i < response.result.length; i++) {
-          hints[response.result[i].position_code] = response.result[i].position_code == 'header' ?
+          hints[response.result[i].position_code] = response.result[i].is_double ?
           {title: response.result[i].title, text: response.result[i].description} : response.result[i].description;
         }
         callback(hints);

@@ -8,7 +8,8 @@ $this->breadcrumbs = array('Anträge');
 <div ng-controller="RequestController" class="wraper container-fluid"  ng-cloak>
   <div class="row">
     <div class="container center-block">
-      <div class="panel panel-default">
+      <div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>
+      <div class="panel panel-default">        
         <div class="panel-heading clearfix">
           <h1 class="panel-title col-lg-6">Anträge</h1>
           <div class="pull-right heading-box-print">
