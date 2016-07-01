@@ -5,7 +5,7 @@ require_once ('utils/utils.php');
 class Hint extends BaseModel {
   public $table = 'spi_hint';
   public $post = array();
-  public $select_all = ' tbl.*, pag.name page_name, pgp.name position_name, pgp.code position_code ';
+  public $select_all = ' tbl.*, pag.name page_name, pgp.name position_name, pgp.code position_code , pgp.is_double';
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all)
       -> from($this -> table . ' tbl')
