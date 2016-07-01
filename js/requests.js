@@ -121,7 +121,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       });
 
       modalInstance.result.then(function (data) {
-        network.patch('request', {ids: ids, start_date: Utils.getSqlDate(data.start_date), due_date: Utils.getSqlDate(data.due_date)}, function(result) {
+        network.patch('request', {ids: ids, start_date: Utils.getSqlDate(data.start_date), due_date: Utils.getSqlDate(data.due_date), end_fill: Utils.getSqlDate(data.end_fill)}, function(result) {
           if(result) {
             grid.reload();
           }

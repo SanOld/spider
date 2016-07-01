@@ -325,6 +325,18 @@ $this->breadcrumbs = array('Anträge');
               </div>
             </div>
           </div>
+          <br>
+          <div class="holder-datepicker text-right">
+            <div class="col-lg-3 p-0">
+              <label>Abgabedatum</label>
+            </div>
+            <div class="col-lg-3 p-0">
+              <div class="input-group">
+                <input type="text" ng-click="dp_end_fill_is_open = !dp_end_fill_is_open" ng-model="form.end_fill" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_end_fill_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+          </div>
         </ng-form>
       </div>
     </div>
