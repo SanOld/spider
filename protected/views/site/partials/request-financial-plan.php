@@ -295,7 +295,7 @@
                       <span spi-hint text="_hint.fin_plan_school_rate"></span>
                     </div>
                     <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'rate',3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
+                      <input type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
                     </div>
                   </div>
                 </div>
@@ -308,7 +308,7 @@
                       <span spi-hint text="_hint.fin_plan_school_month_count"></span>
                     </div>
                     <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'month_count');" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
                     </div>
                   </div>
                 </span>
@@ -336,7 +336,7 @@
                       <span spi-hint text="_hint.fin_plan_school_overhead_cost"></span>
                     </div>
                    <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'overhead_cost');" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
                    </div>
                   </div>
                 </span>
@@ -398,7 +398,7 @@
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
                   </label>
                   <div class="col-lg-2">
-                    <input class="form-control" type="text"  ng-model="data.revenue_sum" ng-change="updateResultCost();" required>
+                    <input class="form-control" type="text"  ng-init = "data.revenue_sum = 0" ng-change="updateResultCost(); numValidate(data,'revenue_sum');" ng-model="data.revenue_sum"  required>
                   </div>
                   <span class="symbol m-t-5">€</span>
                 </div>
