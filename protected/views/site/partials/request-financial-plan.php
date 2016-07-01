@@ -322,7 +322,7 @@
                       <span spi-hint text="_hint.fin_plan_school_traning_cost"></span>
                     </div>
                     <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept">
+                      <input type="text" class="form-control"ng-init = "numValidate2(school,'training_cost');"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept">
                     </div>
                   </div>
                 </span>
