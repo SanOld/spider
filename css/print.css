@@ -108,3 +108,5 @@ a[href]:after {
     float: left;
 }
 .finance-request .datafilter > form {overflow:hidden;}
+
+.print-request .request-edit {display:none;}

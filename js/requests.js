@@ -504,9 +504,8 @@ spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $u
     $uibModalInstance.dismiss('cancel');
   };
 
-
+  $rootScope.printed = 1;
   $timeout(function() {
-      $rootScope.printed = 1;
       window.print();
       $rootScope.printed = 0;
       $uibModalInstance.close($scope.request);
