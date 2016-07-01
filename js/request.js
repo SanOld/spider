@@ -574,14 +574,18 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }
     $scope.updateResultCost();
   }
+  $scope.numValidate2 = function(obj, key,cnt){
+     cnt = cnt || 2;
+    obj[key] = obj[key].split('.').join(',');
+  }
   $scope.numValidate = function(obj, key,cnt){
     cnt = cnt || 2;
     if(!obj[key]) {
       obj[key] = 0;
     } else {
-      obj[key] = obj[key].split(',').join('.');
-      obj[key] = obj[key].split(/[^0-9\.]/).join('');
-      var r = new RegExp('([0-9]+)([\.]{0,1})([0-9]{0,'+cnt+'})[0-9]*', 'i');
+      obj[key] = obj[key].split('.').join(',');
+      obj[key] = obj[key].split(/[^0-9\,]/).join('');
+      var r = new RegExp('([0-9]+)([\,]{0,1})([0-9]{0,'+cnt+'})[0-9]*', 'i');
       var m = obj[key].match(r);
       try{
         obj[key] = m[1]+m[2]+m[3];

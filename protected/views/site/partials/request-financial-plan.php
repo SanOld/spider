@@ -295,7 +295,7 @@
                       <span spi-hint text="_hint.fin_plan_school_rate"></span>
                     </div>
                     <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'rate',3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
+                      <input type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
                     </div>
                   </div>
                 </div>
@@ -308,7 +308,7 @@
                       <span spi-hint text="_hint.fin_plan_school_month_count"></span>
                     </div>
                     <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'month_count');" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
                     </div>
                   </div>
                 </span>
@@ -318,7 +318,12 @@
                   <strong>Fortbildungskosten</strong>
                   <span ng-hide="(school.rate < 1 && school.rate > 0.5) || canAccept">€{{school.training_cost|| 0 | number:2}}</span>
                   <div class="col-lg-9 p-l-0 m-t-10" ng-show="school.rate*1 < 1 && school.rate*1 > 0.5 || canAccept">
-                    <input type="text" class="form-control" ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept">
+                    <div class="has-hint has-hint2">
+                      <span spi-hint text="_hint.fin_plan_school_traning_cost"></span>
+                    </div>
+                    <div class="wrap-hint">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost');" ng-change="updateResultCost();(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept">
+                    </div>
                   </div>
                 </span>
               </div>
@@ -331,7 +336,7 @@
                       <span spi-hint text="_hint.fin_plan_school_overhead_cost"></span>
                     </div>
                    <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'overhead_cost');" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
                    </div>
                   </div>
                 </span>
@@ -393,7 +398,7 @@
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
                   </label>
                   <div class="col-lg-2">
-                    <input class="form-control" type="text"  ng-model="data.revenue_sum" ng-change="updateResultCost();" required>
+                    <input class="form-control" type="text"  ng-init = "data.revenue_sum = 0" ng-change="updateResultCost(); numValidate(data,'revenue_sum');" ng-model="data.revenue_sum"  required>
                   </div>
                   <span class="symbol m-t-5">€</span>
                 </div>
