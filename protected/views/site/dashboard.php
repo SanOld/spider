@@ -25,7 +25,7 @@ $this->pageTitle = 'Startseite | ' . Yii::app()->name;
                 </a>
             </div>
             <div class="col-lg-4">
-                <a class="box-home box-3" href="financial-request.php">
+                <a class="box-home box-3" href="/financial-request">
                     <h2>Mittelabruf</h2>
                 </a>
             </div>

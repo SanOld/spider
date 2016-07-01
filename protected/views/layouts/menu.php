@@ -7,9 +7,9 @@
 			<li ng-class="{'active': ['finance_source'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 				<ul class="dropdown-menu">
-					<li><a href="/summary.php">Finanzübersicht</a></li>
-					<li><a href="/financial-request.php">Mittelabrufe</a></li>
-					<li><a href="/finance-report.php">Belege</a></li>
+					<li><a href="/summary">Finanzübersicht</a></li>
+					<li><a href="/financial-request">Mittelabrufe</a></li>
+					<li><a href="/finance-report">Belege</a></li>
 					<li ng-if="canShow('finance_source')"><a href="/finance-source">Fördertöpfe</a></li>
 				</ul>
 			</li>
@@ -48,7 +48,7 @@
 					<li><a href="/audit" ng-if="canShow('audit')">Audit</a></li>
 				</ul>
 			</li>
-			<li><a href="/contact.php">Kontakt</a></li>
+			<li><a href="/contact">Kontakt</a></li>
 		</ul>
 	</div>   
 </nav>
