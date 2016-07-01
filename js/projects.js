@@ -329,8 +329,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
               if(typeof item == 'object'){
                 $copyScopeProject.schools[i] = item.id;
               };
-            })
-            console.log($copyScopeProject.schools);
+            });
             var newCode = $copyScopeProject.code.split('\\');
             newCode = newCode[0] + '\\' + (newCode[1] ? +newCode[1] + 1 : 2);
             SweetAlert.swal({
