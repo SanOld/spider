@@ -144,11 +144,14 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
        var params = {};
        if(!isInit && $scope.isInsert) {
         delete $scope.project.programm_id;
-      }
+       }
        params['project_type_id'] = $scope.project.type_id;
        network.get('finance_source', params, function (result, response) {
-        if(result) {
+        if(result) {          
           $scope.programms = response.result;  
+          if($scope.programms.length < 2){
+            $scope.project.programm_id = $scope.programms[0];
+          }
         }
       });                
     }    
@@ -187,8 +190,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         $scope.programms.forEach(function(item, i, arr){
           if(item.id == $scope.project.programm_id && item.prefix){
             project_type = item.prefix;  
-          }else{
-            project_type = '';  
           }
         });
         var school_type = project_type + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase();
