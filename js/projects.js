@@ -323,14 +323,14 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             };        
             $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0'; 
             network.post('project', $copyScopeProject, callback);              
-        } else {            
-
+        } else {
           if($copyScopeProject.performer_id != data.performer_id || $scope.formProjects.$ditry || $copyScopeProject.schools != data.schools ) {          
-            $.each($copyScopeProject.schools, function(key, val){
-              if(typeof val == 'object') {
-                val = val.id
-              }
+            $copyScopeProject.schools.forEach(function(item, i, arr){
+              if(typeof item == 'object'){
+                $copyScopeProject.schools[i] = item.id;
+              };
             })
+            console.log($copyScopeProject.schools);
             var newCode = $copyScopeProject.code.split('\\');
             newCode = newCode[0] + '\\' + (newCode[1] ? +newCode[1] + 1 : 2);
             SweetAlert.swal({
