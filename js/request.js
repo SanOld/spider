@@ -718,6 +718,8 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   $scope.doCutText = function(newText, oldText, isNew) {
     var diffMatch = new diff_match_patch();
+    if(!oldText){ oldText = ''; }
+    if(!newText){ newText = ''; }
     var diffs = diffMatch.diff_main(oldText, newText);
 
     var fullLength = 120;
