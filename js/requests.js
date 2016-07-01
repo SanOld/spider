@@ -2,7 +2,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
-
+  $rootScope.printed = 0;
   var d = new Date;
   $scope.defaulFilter = {year: d.getFullYear(), status_id: '1,3,4,5'}
   $scope.filter = localStorageService.get('requestsFilter', $scope.filter );
@@ -190,12 +190,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         user: function () {
           return $scope.user;
         }
-
+        
       }
     });
     
     modalInstance.result.then(function (template) {
-      $uibModal.open({
+     $uibModal.open({
         animation: true,
         templateUrl: 'showTemplate.html',
         controller: 'ShowDocumentTemplatesController',
@@ -206,10 +206,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
           },
           row: function () {
             return row;
-          },
+          }
         }
       });
- 
+
     });
     
 
@@ -399,12 +399,11 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 });
 
-spi.controller('ModalPrintDocumentsController', function ($scope,user, row, userCan, $uibModalInstance, network) {
+spi.controller('ModalPrintDocumentsController', function ($scope,user, row,  userCan, $uibModalInstance, network) {
   $scope.row = row;
   $scope.userCan = userCan;
   $scope.code = row.code;
   $scope.user = user;
-
   var ids = [];
   var docs = [row.doc_target_agreement_id, row.doc_request_id, row.doc_financing_agreement_id];
   for(var i=0; i<docs.length; i++) {
@@ -421,7 +420,7 @@ spi.controller('ModalPrintDocumentsController', function ($scope,user, row, user
 
   $scope.printDoc = function(template){
 //    console.log(template.text);
-    $uibModalInstance.close(template);
+    $uibModalInstance.close(template,  $scope.printed);
   }
 
   $scope.cancel = function () {
@@ -481,7 +480,7 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
 
 
 
-spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $uibModalInstance, data, $sce) {
+spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $uibModalInstance, data, $sce, $rootScope) {
   $scope.isInsert = !data.id;
 
   $scope.filter = {};
@@ -507,10 +506,10 @@ spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $u
 
 
   $timeout(function() {
-      window.alert('change class before print');
+      $rootScope.printed = 1;
       window.print();
-      window.alert('change class after print');
-      $uibModalInstance.dismiss('cancel');
+      $rootScope.printed = 0;
+      $uibModalInstance.close($scope.request);
   });
 
 });

@@ -4,7 +4,7 @@
   <?php include('head.php'); ?>
 </head>
 <body ng-class="{'bg': _m == 'dashboard' || _m == 404}" ng-app="spi" ng-controller="main">
-<div id="page">
+<div id="page" ng-class="{'print-request': printed}">
   <header class="top-head container-fluid">
     <div class="container">
       <div class="logo p-0 m-t-10 m-b-10 col-xs-6">
