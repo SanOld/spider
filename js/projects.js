@@ -62,7 +62,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.isInsert = !data.id;
     $scope.newCode = 0;
     $scope._hint = hint;
-    $scope.modeView = modeView;  
+    $scope.modeView = modeView;
 //    $scope.projectSchools = [];
     $scope.projectSchoolsID = {};
     $scope.schoolTypeCode = '';
@@ -150,7 +150,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         if(result) {          
           $scope.programms = response.result;  
           if($scope.programms.length < 2){
-            $scope.project.programm_id = $scope.programms[0];
+            $scope.project.programm_id = $scope.programms[0].id;
+            $scope.updateCode();
           }
         }
       });                
@@ -314,9 +315,9 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             }else{
               var reg = new RegExp('^['+ prefix + sch_types +']{1,2}','i');    
               var result = $scope.project.code.match(reg); 
-              $copyScopeProject['real_code'] = result[0].length > 1 ? result[0].slice(1) : result[0];  
-            };            
-            if($scope.project.code != this.getNewCode()){          
+              $copyScopeProject['real_code'] = result[0].slice(0,1) == 'B' ? result[0].slice(1) : result[0];
+            };
+            if($scope.project.code != this.getNewCode() && $scope.project.code.slice(-3) != '001'){          
               $scope.is_manual = 1;
             }else{
               $scope.is_manual = 0;  
