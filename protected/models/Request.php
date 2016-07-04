@@ -309,8 +309,15 @@ class Request extends BaseModel {
         foreach (safe($this->finance_plan, 'schools', array()) as $data) {
           $id = $data['id'];
           unset($data['id']);
+
           if($data['rate']){
-            $data['rate'] = (float)str_replace(",", ".", $data['rate']);
+            $data['rate']           = (float)str_replace(",", ".", $data['rate']);
+          }
+          if($data['training_cost']){
+            $data['training_cost']  = (float)str_replace(",", ".", $data['training_cost']);
+          }
+          if($data['overhead_cost']){
+            $data['overhead_cost']  = (float)str_replace(",", ".", $data['overhead_cost']);
           }
           $res = $RequestSchoolFinance->update($id, $data, true);
         }
@@ -322,6 +329,9 @@ class Request extends BaseModel {
 
         foreach ($this->finance_plan['prof_associations'] as $data) {
           if($id = safe($data,'id')) {
+            if($data['sum']){
+              $data['sum']  = (float)str_replace(",", ".", $data['sum']);
+            }
             unset($data['id']);
             if(safe($data,'is_deleted')) {
               $RequestProfAssociation->delete($id, true);
@@ -415,6 +425,29 @@ class Request extends BaseModel {
       $this->finance_plan = $post['finance_plan'];
       unset($post['finance_plan']);
     }
+
+    if(isset($post['revenue_sum'])) {
+      $post['revenue_sum'] = (float)str_replace(",", ".", $post['revenue_sum']);
+    }
+    if(isset($post['emoloyees_cost'])) {
+      $post['emoloyees_cost'] = (float)str_replace(",", ".", $post['emoloyees_cost']);
+    }
+    if(isset($post['training_cost'])) {
+      $post['training_cost'] = (float)str_replace(",", ".", $post['training_cost']);
+    }
+    if(isset($post['overhead_cost'])) {
+      $post['overhead_cost'] = (float)str_replace(",", ".", $post['overhead_cost']);
+    }
+    if(isset($post['prof_association_cost'])) {
+      $post['prof_association_cost'] = (float)str_replace(",", ".", $post['prof_association_cost']);
+    }
+    if(isset($post['prof_association_cost'])) {
+      $post['prof_association_cost'] = (float)str_replace(",", ".", $post['prof_association_cost']);
+    }
+    if(isset($post['total_cost'])) {
+      $post['total_cost'] = (float)str_replace(",", ".", $post['total_cost']);
+    }
+
 
     return array (
       'result' => true,

@@ -445,6 +445,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     if ($scope.data.bank_details_id == "0") {
       $scope.data.bank_details_id = '';
     }
+    if ($scope.data.revenue_sum != undefined ) {
+      $scope.numValidate2(data,'revenue_sum');
+    }
     $scope.$parent.setFinanceStatus(data.status_finance);
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
 
@@ -559,8 +562,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
     });
     $scope.prof_association_cost = $scope.prof_association_cost || 0;
-    $scope.revenue_sum = ($scope.revenue_sum || 0)*1;
-    $scope.total_cost = $scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum;
+    $scope.revenue_sum = ($scope.data.revenue_sum || 0)*1;
+    $scope.total_cost = $scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.data.revenue_sum;
 
   }
   $scope.updateTrainingCost = function(school){
@@ -574,11 +577,13 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.updateResultCost();
   }
   $scope.numValidate2 = function(obj, key,cnt){
-     cnt = cnt || 2;
-     if(!obj[key]) {
-      obj[key] = 0;
-    } else {
-      obj[key] = obj[key].split('.').join(',');
+    cnt = cnt || 2;
+    if(obj != undefined) {
+      if(!obj[key]) {
+        obj[key] = 0;
+      } else {
+        obj[key] = obj[key].split('.').join(',');
+      }
     }
     
   }

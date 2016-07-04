@@ -366,7 +366,7 @@
               Beitrag<span spi-hint text="_hint.fin_plan_association_sum" class="has-hint"></span>
             </label>
             <div class="col-lg-2">
-              <input class="form-control" type="text" ng-model="association.sum" ng-change="updateResultCost();" required>
+              <input class="form-control" type="text" ng-init = "association.sum = (association.sum || 0); numValidate2(association,'sum');"  ng-change="numValidate(association,'sum') ; updateResultCost();" ng-model="association.sum" required>
             </div>
             <div class="col-lg-1 p-0 custom-col-1 m-t-5">
               <span class="symbol">€</span>
@@ -397,7 +397,7 @@
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
                   </label>
                   <div class="col-lg-2">
-                    <input class="form-control" type="text"  ng-init = "data.revenue_sum = 0" ng-change="updateResultCost(); numValidate(data,'revenue_sum');" ng-model="data.revenue_sum"  required>
+                    <input class="form-control" type="text" ng-init = "data.revenue_sum = (data.revenue_sum || 0); numValidate2(data,'revenue_sum');"  ng-change="numValidate(data,'revenue_sum'); updateResultCost(); " ng-model="data.revenue_sum" required>
                   </div>
                   <span class="symbol m-t-5">€</span>
                 </div>
