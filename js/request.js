@@ -575,7 +575,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   }
   $scope.numValidate2 = function(obj, key,cnt){
      cnt = cnt || 2;
-    obj[key] = obj[key].split('.').join(',');
+     if(!obj[key]) {
+      obj[key] = 0;
+    } else {
+      obj[key] = obj[key].split('.').join(',');
+    }
+    
   }
   $scope.numValidate = function(obj, key,cnt){
     cnt = cnt || 2;
