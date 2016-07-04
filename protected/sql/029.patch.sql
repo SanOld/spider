@@ -37,7 +37,6 @@ CREATE TABLE `spi_request_school_goal` (
 	PRIMARY KEY (`id`),
 	INDEX `FK1_school` (`school_id`),
 	INDEX `request_id` (`request_id`),
-	CONSTRAINT `FK1_school` FOREIGN KEY (`school_id`) REFERENCES `spi_school` (`id`),
 	CONSTRAINT `FK2_request` FOREIGN KEY (`request_id`) REFERENCES `spi_request` (`id`)
 )
 COLLATE='utf8_general_ci'
