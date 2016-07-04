@@ -339,6 +339,9 @@ class Request extends BaseModel {
               $RequestProfAssociation->update($id, $data, true);
             }
           } elseif(!safe($data,'is_deleted')) {
+            if($data['sum']){
+              $data['sum']  = (float)str_replace(",", ".", $data['sum']);
+            }
             $data['request_id'] = $request_id;
             $res = $RequestProfAssociation->insert($data, true);
           }
