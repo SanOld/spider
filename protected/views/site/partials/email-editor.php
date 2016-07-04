@@ -75,10 +75,7 @@
 
                 <hr />
                 <div class="form-group group-btn m-t-15">
-                  <div class="col-lg-2">
-                    <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove()"><i class="fa fa-trash-o"></i></a>
-                  </div>
-                  <div class="col-lg-10 text-right pull-right">
+                  <div class="col-lg-12 text-right pull-right">
                     <button class="btn w-lg cancel-btn" ng-click="cancel()" data-dismiss="modal">Abbrechen</button>
                     <button class="btn w-lg custom-btn" ng-click="submitEmailTemplate()" data-dismiss="modal">Speichern</button>
                   </div>
