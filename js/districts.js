@@ -37,7 +37,7 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
   };
 
   $scope.canEdit = function(id) {
-    return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 'd');
+    return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 'd' || network.user.type == 't');
   }
 });
 
@@ -137,7 +137,7 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, mo
   }
 
   $scope.canEditDistrict = function() {
-    return $rootScope.canEdit() || data.id == network.user.relation_id;
+    return $rootScope.canEdit() || data.id == network.user.relation_id || network.user.type == 't';
   }
   $scope.canByType = function(types) {
     return types.indexOf(network.user.type) != -1;

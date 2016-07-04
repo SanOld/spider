@@ -35,12 +35,10 @@
                       </div>
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Bezirk</label>
-
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.district_id" class="has-hint"></div>
-                          <span class="valign-field" ng-if="!canEdit() || modeView" ng-bind="districtName"></span>
-                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}" ng-if="canEdit() && !modeView">
-                            <ui-select ng-disabled="!$select.items.length" ng-model="school.district_id"
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}">
+                            <ui-select ng-disabled="(!$select.items.length || !canEdit()) && user_type != 't'" ng-model="school.district_id"
                                        name="district_id" required>
                               <ui-select-match
                                 placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
