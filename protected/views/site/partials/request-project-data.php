@@ -186,7 +186,7 @@
                       <div class="btn-row m-b-15">
                         <a class="btn" href="schools#id={{school.id}}" target="_blank" ng-click="setUpdater()"  >Bearbeiten</a>
                       </div>
-                      <dl class="custom-dl">
+                      <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.user_name">
                           <dt>Ansprechpartner(in):</dt>
                           <dd>{{school.user_name}}</dd>
@@ -198,7 +198,7 @@
                       </dl>
                     </div>
                     <div class="col-lg-5">
-                      <dl class="custom-dl">
+                      <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.address">
                           <dt>Adresse:</dt>
                           <dd>{{school.address}}</dd>
@@ -218,7 +218,7 @@
                       </dl>
                     </div>
                     <div class="col-lg-7">
-                      <dl class="custom-dl">
+                      <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.phone">
                           <dt>Telefon:</dt>
                           <dd>{{school.phone}}</dd>
@@ -228,6 +228,7 @@
                           <dd>{{school.fax}}</dd>
                         </ng-show>
                         <ng-show ng-show="school.email">
+                          <dt>E-mail:</dt>
                           <dd><a href="mailto:{{school.email}}">{{school.email}}</a></dd>
                         </ng-show>
                       </dl>
