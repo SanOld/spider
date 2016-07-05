@@ -33,9 +33,9 @@
             <span spi-hint text="_hint.is_active"></span>
           </div>
           <div class="form-group">
-            <label class="col-lg-2 control-label p-r-0">Virtuelle Benutzer</label>
+            <label class="col-lg-4 control-label p-r-0">Nur für Kontaktdaten übernehemen</label>
 
-            <div class="col-lg-4">
+            <div class="col-lg-2 p-l-0">
               <div class="btn-group btn-toggle" ng-if="!(modeView || (!isAdmin && !userIsPA))">
                 <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 1}" ng-model="user.is_virtual"
                         uib-btn-radio="1">JA
