@@ -27,8 +27,30 @@ table .dt-edit,
 .table-requests td:nth-child(7),
 .table-requests th:nth-child(7),
 .print-request .panel > .request-edit,
-.print-request .panel > .panel-heading {
+.print-request .panel > .panel-heading,
+.print-request #content {
 	display:none;
+}
+#page.print-request {
+	min-height: 0;
+}
+.modal {
+	position:static !important;
+	padding: 100px 0 0;
+}
+.modal-dialog .ion-close-round,
+.modal-dialog .form-group,
+.modal-dialog hr {
+	display:none !important;
+}
+.modal-open {
+	overflow:visible !important;
+}
+.print-request header.top-head {
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
 }
 table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after {
 	visibility:hidden;

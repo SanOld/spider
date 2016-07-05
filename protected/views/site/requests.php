@@ -116,7 +116,9 @@ $this->breadcrumbs = array('Anträge');
                     <!--<span class="performer-icon" ng-class="{'unchecked':row.performer_is_checked != '1'}">{{row.performer_name}}</span>-->
                     <i ng-if="+row.performer_is_checked" class="ion-checkmark"></i>
                     <span ng-if="!+row.performer_is_checked" class="icon-no-icon"></span>
-                    <a href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
+                   <div class="holder-school">
+                      <a href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
+                   </div>
                   </td>
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
                   <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>

@@ -3005,6 +3005,13 @@ form[name=conceptForm] .alert-danger {display: block;}
     background-color: #00529e !important;
     border-color: #00529e !important;
 }
+.table-requests i.ion-checkmark{
+    float: left;
+    margin: 0 15px 0 0px;
+}
+.table-requests .holder-school {
+	overflow:hidden;
+}
 
 @media (min-width: 320px) {
   .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
