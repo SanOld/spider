@@ -32,22 +32,22 @@
             <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Nicht aktiv'}}</span>
             <span spi-hint text="_hint.is_active"></span>
           </div>
-          <div class="form-group">
-            <label class="col-lg-4 control-label p-r-0">Nur für Kontaktdaten übernehemen</label>
 
-            <div class="col-lg-2 p-l-0">
+            <label class="col-lg-2 control-label p-r-0">Mit login</label>
+
+            <div class="col-lg-4 p-l-0">
               <div class="btn-group btn-toggle" ng-if="!(modeView || (!isAdmin && !userIsPA))">
+                 <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 0}" ng-model="user.is_virtual"
+                        uib-btn-radio="0">JA
+                </button>
                 <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 1}" ng-model="user.is_virtual"
-                        uib-btn-radio="1">JA
+                        uib-btn-radio="1">NEIN
                 </button>
-                <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 0}" ng-model="user.is_virtual"
-                        uib-btn-radio="0">NEIN
-                </button>
+               
               </div>
               <span ng-if="modeView || (!isAdmin && !userIsPA)" class="no-edit-text">{{user.is_virtual ? 'Ja' : 'Nein'}}</span>
               <span spi-hint text="_hint.is_virtual"></span>
             </div>
-          </div>
         </div>
         <div class="form-group">
           <label class="col-lg-2 control-label">Benutzerrollen</label>
