@@ -15,6 +15,13 @@ class Email {
 
   }
 
+  static function sendMessageByTemplate($template, $params, $email) {
+    $emailParams = array();
+    foreach($params as $key => $val) {
+      $emailParams['{'.strtoupper($key).'}'] = $val;
+    }
+    return self::prepareMessage($template, $emailParams, $email, false);
+  }
   static function doWelcome($result) {
 
     $table = 'spi_user';
