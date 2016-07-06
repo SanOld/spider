@@ -28,7 +28,7 @@ class SystemModel extends BaseModel
         }
 
 
-        $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES'.implode(', ',$tables_names);
+        $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES('.implode(', ',$tables_names).')';
         Yii::app()->db
                   ->createCommand($insert)
                   ->execute();
