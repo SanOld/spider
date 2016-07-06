@@ -17,7 +17,7 @@ class SystemModel extends BaseModel
         $tables_names = array();
         $tables_hashes = array();
         foreach($tables as $table) {
-          $tables_names[] = "'{$table['table_name']}'";
+          $tables_names[] = "('{$table['table_name']}')";
 
           
           $query2 = "SELECT `COLUMN_NAME`, `DATA_TYPE`
@@ -28,7 +28,7 @@ class SystemModel extends BaseModel
         }
 
 
-        $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES('.implode(', ',$tables_names).')';
+        $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES'.implode(', ',$tables_names);
         Yii::app()->db
                   ->createCommand($insert)
                   ->execute();
