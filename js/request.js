@@ -330,7 +330,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           status_code:                    response.result.status_code,
           status_id:                      response.result.status_id
         };
-
+        
         if(response.result.status_id == '5'){
           network.get('user_lock', {type: 't', relation_id: $scope.request.performer_id, request_id: $scope.request.id}, function (result, response) {
                   if (result) {
@@ -346,28 +346,9 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
                     $scope.data['users'] = $scope.performerUsers;
                     RequestService.initAll($scope.data);
                   }
-          $scope.getPerformerUsers();
-         
-    
-
                 });
         } else {
-          network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
-                  if (result) {
-                    $scope.performerUsers = response.result;
-                    for (var key in $scope.performerUsers){
-                      
-                      if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
-                      if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
-                    }
-                    $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
-                    $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
-                    $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
-                    $scope.data['users'] = $scope.performerUsers;
-                    RequestService.initAll($scope.data);
-                  }
-
-                });
+          $scope.getPerformerUsers();
         }
         
 
