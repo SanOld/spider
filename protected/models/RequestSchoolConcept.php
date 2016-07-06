@@ -1,6 +1,6 @@
 <?php
 require_once ('utils/utils.php');
-
+require_once ('utils/email.php');
 
 class RequestSchoolConcept extends BaseModel {
   public $table = 'spi_request_school_concept';

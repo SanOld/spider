@@ -1,5 +1,6 @@
 <?php
 require_once ('utils/utils.php');
+require_once ('utils/email.php');
 use  yii\helpers\ArrayHelper ;
 
 
