@@ -90,7 +90,7 @@ $this->breadcrumbs = array('Audit');
                     <span>von {{group.data[0].user_name}} am {{group.data[0].date_formated}}</span> 
                   </td>
                   <td>
-                    <span class="after">Früher</span>
+                    <span class="after">Vorher</span>
                   </td>
                   <td>
                     <span class="before">Nachher</span>
