@@ -393,19 +393,19 @@ class Request extends BaseModel {
     }
     
     if(safe($post, 'status_id') == 4 || safe($post, 'status_id') == 5 ) {
-//      $request = Yii::app() -> db -> createCommand()
-//        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
-//        -> from('spi_request rq')
-//        -> where('rq.id=:id', array(':id' => $request_id))
-//        ->queryRow();
-//
-//      $emailParams = array(
-//          'request_code' => $request['code'],
-//          'date' => date('H:i d.m.Y'),
-//          'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#finance-plan',
-//      );
-//
-//      $template = safe($post, 'status_id') == 4?'antrag_acknowledge':'antrag_acknowledge';
+      $request = Yii::app() -> db -> createCommand()
+        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
+        -> from('spi_request rq')
+        -> where('rq.id=:id', array(':id' => $request_id))
+        ->queryRow();
+
+      $emailParams = array(
+          'request_code' => $request['code'],
+          'date' => date('H:i d.m.Y'),
+          'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#finance-plan',
+      );
+
+      $template = safe($post, 'status_id') == 4?'antrag_acknowledge':'antrag_acknowledge';
 //      if($request['finance_user_email']) {
 //        Email::sendMessageByTemplate('antrag_acknowledge', $emailParams, $request['finance_user_email']);
 //      }
