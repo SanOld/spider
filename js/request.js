@@ -87,18 +87,24 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     var results = false;
     var user = network.user.type;
     var status = 'none';
+    var status_id;
     var request = RequestService.getProjectData();
     if(request) {
       status = request.status_code;
+      status_id = request.status_id;
+
       switch(type) {
         case 'reopen':;
-          results = (user == 'a' && (status == 'accept' || status == 'decline'));
+          results = (user == 'a' && (status == 'accept' || status == 'decline' || status == 'acceptable') );
           break;
         case 'delete':;
           results = (user == 'a' && status != 'accept' && status != 'decline');
           break;
-        case 'changeStatus':;
-          results = ((user == 'a' || user == 'p') && status != 'accept' && status != 'decline');
+        case 'changeStatus_print':;
+          results = ((user == 'a' || user == 'p') &&  status != 'accept' && status != 'decline'  && status != 'acceptable' );
+        break;
+        case 'changeStatus_lock':;
+          results = ((user == 'a' || user == 'p') && status == 'acceptable' );
         break;
         case 'save':;
           results = ((user == 'a' || user == 'p' || user == 't') && status != 'accept' && status != 'decline');
@@ -127,6 +133,100 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     });
     return false;
   }
+
+  $scope.setBulkStatus = function(statusId) {
+
+
+    var data = RequestService.getFullProjectData();
+    var request_data = RequestService.getProjectData();
+    
+    var required = [
+                    'doc_target_agreement_id',
+                    'doc_request_id',
+                    'doc_financing_agreement_id',
+                    'finance_user_id',
+                    'concept_user_id',
+                  ];
+
+
+    var failFields = [];
+    if(statusId == 4 || statusId == 5){
+      required.forEach(function(item, i, required) {
+        if(!request_data[item]){
+          failFields.push(item);
+        }
+      });
+    }
+
+      var failCodes = [];
+        if(statusId == 5 && request_data.status_id < 4 ) {
+          failCodes.push(data.code);
+        } else if($scope.conceptStatus != 'accepted' || $scope.financeStatus != 'accepted' || $scope.goalsStatus != 'accepted') {
+          failCodes.push(data.code);
+        }
+
+
+      if(failFields.length) {
+        SweetAlert.swal({
+          title: "Fehler",
+          text: "Field(s) "+failFields.join(', ')+" Sie müssen füllen",
+          type: "error",
+          confirmButtonText: "OK"
+        });
+        return false;
+      }
+
+      if(failCodes.length) {
+        SweetAlert.swal({
+          title: "Fehler",
+          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert dein",
+          type: "error",
+          confirmButtonText: "OK"
+        });
+        return false;
+      }
+
+      SweetAlert.swal({
+        title: "Massenänderung der Anfragen",
+        text: "Möchten Sie wirklich eine Anfrage",
+        type: "warning",
+        confirmButtonText: "JA",
+        showCancelButton: true,
+        cancelButtonText: "NEIN",
+        closeOnConfirm: true
+      }, function(isConfirm){
+        if(isConfirm) {
+          request_data.status_code = 'in_progress';
+          request_data.status_id = statusId;
+          switch(statusId){
+            case 3:;
+              request_data.status_code = 'in_progress';
+              request_data.status_id = statusId;
+              break;
+            case 4:;
+              request_data.status_code = 'acceptable';
+              request_data.status_id = statusId;
+              break;
+            case 5:;
+              request_data.status_code = 'accept';
+              request_data.status_id = statusId;
+              break;
+          }
+
+          $scope.submitRequest();
+
+//          network.patch('request', {ids: ids, status_id: statusId}, function(result) {
+//            if(result) {
+//              request_data.status_code = 'in_progress';
+//              request_data.status_id = statusId;
+//              $scope.submitRequest();
+//            }
+//          });
+        }
+      });
+    
+
+  };
 
 });
 
@@ -186,30 +286,52 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           end_fill:                       response.result.end_fill,
           last_change:                    response.result.last_change,
           performer_id:                   response.result.performer_id,
-          status_code:                    response.result.status_code
+          status_code:                    response.result.status_code,
+          status_id:                      response.result.status_id
         };
 
-        network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
-          if (result) {
-            $scope.performerUsers = response.result;
-            for (var key in $scope.performerUsers){
-              if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
-              if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
-            }
-            $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
-            $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
-            $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
-            $scope.data['users'] = $scope.performerUsers;
-            RequestService.initAll($scope.data);
-          }
+        if(response.result.status_id == '5'){
+          network.get('user_lock', {type: 't', relation_id: $scope.request.performer_id, request_id: $scope.request.id}, function (result, response) {
+                  if (result) {
+                    $scope.performerUsers = response.result;
+                    for (var key in $scope.performerUsers){
+                      $scope.performerUsers[key]['id']=$scope.performerUsers[key]['user_id'];
+                      if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
+                      if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
+                    }
+                    $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
+                    $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
+                    $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
+                    $scope.data['users'] = $scope.performerUsers;
+                    RequestService.initAll($scope.data);
+                  }
 
-        });
+                });
+        } else {
+          network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
+                  if (result) {
+                    $scope.performerUsers = response.result;
+                    for (var key in $scope.performerUsers){
+                      
+                      if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
+                      if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
+                    }
+                    $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
+                    $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
+                    $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
+                    $scope.data['users'] = $scope.performerUsers;
+                    RequestService.initAll($scope.data);
+                  }
+
+                });
+        }
+        
 
       }
     });
   }
 
-    $scope.updateData = function() {
+  $scope.updateData = function() {
     network.get('request', $scope.filter, function (result, response) {
       if (result) {
         $scope.newData = response.result;
@@ -347,6 +469,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     return $scope.request;
   };
 
+  RequestService.getFullProjectData = function() {
+    return $scope.data;
+  };
+
   window.onfocus = function() {
     if (localStorageService.get('dataChanged') === '1'){
       $scope.updateData();
@@ -455,7 +581,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       usersById[val.id] = val;
     });
 
-    network.get('bank_details', {performer_id: data.performer_id}, function (result, response) {
+    network.get('bank_details', {performer_id: data.performer_id, request_id: $scope.$parent.requestID}, function (result, response) {
       if (result) {
         $scope.bank_details = response.result;
         angular.forEach($scope.bank_details, function(val, key) {

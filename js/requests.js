@@ -223,6 +223,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       var failCodes = [];
       for(var i=0; i<ids.length; i++) {
         var row = Utils.getRowById($scope.tableParams.data, ids[i]);
+
         if(statusId == 5 && row.status_id < 4 || statusId < row.status_id) {
           failCodes.push(row.code);
         } else if(row.status_concept != 'accepted' || row.status_finance != 'accepted' || row.status_goal != 'accepted') {

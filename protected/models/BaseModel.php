@@ -89,7 +89,7 @@ class BaseModel extends CFormModel {
         'code' => '200'
     );
     if ($this->id !== false) {
-      $result ['result'] = isset ( $res [0] ) ? $res [0] : array ();//TODO
+      $result ['result'] = isset ( $res [0] ) ? $res  : array ();//TODO
     } else {
       $result ['result'] = $res;
       $result ['count'] = $this->getCountRes($commandClone);
@@ -487,7 +487,7 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
-  public function select($get) {
+  public function select($get, $toLock = false) {
     $this->method = 'get';
     if($this->checkPermission($this->user, ACTION_SELECT, $get) || (get_called_class() == 'Hint' && $this->isFilter)) {
       $params = array_change_key_case($get, CASE_UPPER);
@@ -510,7 +510,12 @@ class BaseModel extends CFormModel {
           $results = $this->calcResults($results);
           $results = $this->doAfterSelect($results);
 
-          response($results ['code'], $results, $this->method);
+          if ($toLock && $results['code'] == '200') {
+            return $results;
+          } else {
+            response($results ['code'], $results, $this->method);
+          }
+          
         } else {
           response('409', array('result' => false, 'system_code' => 'ERR_INVALID_QUERY'), $this->method);
         }

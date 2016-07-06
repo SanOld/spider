@@ -28,6 +28,24 @@ class RequestSchoolConcept extends BaseModel {
   protected function doAfterSelect($result) {
     foreach($result['result'] as &$row) {
       $row['histories'] = $this->getHistoriesById($row['id']);
+
+      $status_id = Yii::app() -> db -> createCommand()
+                                    -> select('status_id')
+                                    -> from('spi_request tbl')
+                                    ->where('tbl.id = :id', array(':id' => $row['request_id']))
+                                    ->queryScalar();
+      if($status_id == '5'){
+        $school_result=Yii::app() -> db -> createCommand()
+                                    -> select('tbl.name, tbl.number')
+                                    -> from('spi_school_lock tbl')
+                                    ->where('tbl.request_id = :id', array(':id' => $row['request_id']))
+                                    ->andWhere('tbl.school_id = :school_id', array(':school_id' => $row['school_id']))
+                                    ->queryRow();
+
+        $row['school_name']=$school_result['name'];
+        $row['school_number']=$school_result['number'];
+      }
+
     }
     return $result;
   }

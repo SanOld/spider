@@ -40,12 +40,12 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 				<div class="form-group group-btn row">
 					<div class="col-lg-6 text-left">
 						<button ng-show="userCan('delete')" ng-click="block()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
-						<button ng-show="userCan('reopen')" class="btn w-lg btn-info btn-lg">
+						<button ng-show="userCan('reopen')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(3)">
 							<i class="fa fa-rotate-left"></i>
 							<span>Neu eröffnen</span>
 						</button>
-						<button ng-show="userCan('changeStatus')" class="btn w-lg btn-info btn-lg">Förderfähig</button>
-						<button ng-show="userCan('changeStatus')" class="btn w-lg btn-info btn-lg">Genehmigt</button>
+						<button ng-show="userCan('changeStatus_print')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(4)">Förderfähig</button>
+						<button ng-show="userCan('changeStatus_lock')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(5)">Genehmigt</button>
 					</div>
 					<div class="col-lg-6 text-right">
 						<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>

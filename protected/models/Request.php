@@ -1,5 +1,6 @@
 <?php
 require_once ('utils/utils.php');
+use  yii\helpers\ArrayHelper ;
 
 
 class Request extends BaseModel {
@@ -8,6 +9,7 @@ class Request extends BaseModel {
   public $school_concepts = array();
   public $finance_plan = array();
   public $school_goals = array();
+  public $lock = false;
   public $select_all = "tbl.*
                       , prf.short_name performer_name
                       , prf.is_checked performer_is_checked
@@ -286,6 +288,7 @@ class Request extends BaseModel {
 
   protected function doAfterUpdate($result, $params, $post, $request_id) {
     Yii::app()->db->createCommand()->update($this->table, array('last_change' => date("Y-m-d", time())), 'id=:id', array(':id' => $request_id ));
+
     if($this->school_concepts) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
       $RequestSchoolConcept->user = $this->user;
@@ -405,8 +408,20 @@ class Request extends BaseModel {
       Email::sendMessageByTemplate('antrag_acknowledge', $emailParams, $request['finance_user_email']);
     }
     
+
+    if (isset($params['status_id']) && $params['status_id'] == '5'){
+
+      $Request = CActiveRecord::model('RequestLock');
+      $Request->user = $this->user;
+      $Request->insert(array('request_id'=>$request_id));
+
+    }
+
     return $result;
   }
+
+
+
 
   protected function doAfterSelect($result) {
 
@@ -422,7 +437,13 @@ class Request extends BaseModel {
                                       -> leftJoin( 'spi_user user', 'user.id = sch.contact_id' )
                                       -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
                                       -> queryAll();
+
+      if($row['status_id'] == '5'){
+        $row = $this->changeToLock($row);
+      }
+
       $result['result'] =  $row;
+
     }else {
       foreach($result['result'] as &$row) {
         if($row['project_id']){
@@ -433,10 +454,62 @@ class Request extends BaseModel {
           -> queryAll();
           $row['schools'] = $schools;
         }
+
+        $old = $row;
+        if($row['status_id'] == '5'){
+          $row = $this->changeToLock($row);
+        }
+        $new = $row;
+
       }
     }
 
     return $result;
+  }
+
+  protected function changeToLock($row){
+    $id = $row['id'];
+    $lock_result = Yii::app() -> db -> createCommand()
+                                      -> select("*")
+                                      -> from('spi_request_lock tbl')
+                                      -> where('tbl.request_id=:id', array(':id' => $id))
+                                      -> queryRow();
+
+    unset($lock_result['id']);
+
+    
+
+
+    if(!$lock_result){
+      return $row;
+    } else {
+      $new_row = array_replace ($row, $lock_result);
+
+      if(array_key_exists ( 'schools' , $new_row)){
+        foreach ($new_row['schools'] as &$school){
+          $school_lock_result = Yii::app() -> db -> createCommand()
+                                          -> select("*")
+                                          -> from('spi_school_lock tbl')
+                                          -> where('tbl.request_id=:id', array(':id' => $id))
+                                          -> andWhere('tbl.school_id=:s_id', array(':s_id' => $school['id']))
+                                          -> queryRow();
+        unset($school_lock_result['id']);
+
+        $school = array_replace ($school , $school_lock_result);
+
+        }
+        
+      }
+    }
+
+    
+
+
+    if($new_row){
+      return $new_row;
+    } else {
+      return $row;
+    }
   }
 
   protected function doBeforeUpdate($post, $id) {

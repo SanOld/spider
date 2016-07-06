@@ -19,7 +19,8 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   SystemModel,
                   AuditTables, Audit,
                   DocumentTemplate, DocumentTemplateType, DocumentTemplatePlaceholder, EmailTemplate,
-                  RemunerationLevel, RequestFinancialGroup, RequestUser, RequestProfAssociation');
+                  RemunerationLevel, RequestFinancialGroup, RequestUser, RequestProfAssociation,
+                  UserLock');
 
 class BaseController extends Controller {
   private $method = false;
