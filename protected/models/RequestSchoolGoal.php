@@ -73,7 +73,26 @@ class RequestSchoolGoal extends BaseModel {
     }
   }
 
-
+  protected function doAfterUpdate($result, $params, $post, $id) {
+    if(safe($post, 'status') == 'rejected') {
+      $request = Yii::app() -> db -> createCommand()
+        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email, (SELECT email FROM spi_user WHERE id = rq.concept_user_id) concept_user_email')
+        -> from('spi_request rq')
+        -> where('rq.id=:id', array(':id' => safe($post, 'request_id')))
+        ->queryRow();
+      
+      $emailParams = array(
+          'request_code' => $request['code'],
+          'part' => 'entwicklungsziele',
+          'comment' => safe($post, 'notice'),
+          'date' => date('H:i d.m.Y'),
+          'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#schools-goals',
+      );
+      Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['finance_user_email']);
+      Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['concept_user_email']);
+    }
+    return $result;
+  }
 
   function calcStatus($request_id, $priority) {
     $resultStatus = 'unfinished';

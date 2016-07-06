@@ -169,6 +169,29 @@ class RequestSchoolConcept extends BaseModel {
 
   }
   
+  protected function doAfterUpdate($result, $params, $post, $id) {
+    if(safe($post, 'status') == 'rejected') {
+      $request = Yii::app() -> db -> createCommand()
+        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email, (SELECT email FROM spi_user WHERE id = rq.concept_user_id) concept_user_email')
+        -> from($this -> table . ' tbl')
+        -> join('spi_request rq', 'tbl.request_id = rq.id')
+        -> where('tbl.id=:id', array(':id' => $id))
+        ->queryRow();
+      
+      $emailParams = array(
+          'request_code' => $request['code'],
+          'part' => 'konzept',
+          'comment' => safe($post, 'comment'),
+          'date' => date('H:i d.m.Y'),
+          'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#school-concepts',
+      );
+      
+      Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['finance_user_email']);
+      Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['concept_user_email']);
+    }
+    return $result;
+  }
+  
   public function getCommonStatus($requestID, $statusPriorities) {
     $values = Yii::app() -> db -> createCommand() -> select('status')
       -> from($this -> table)
