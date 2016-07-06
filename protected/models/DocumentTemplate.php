@@ -74,7 +74,7 @@ class DocumentTemplate extends BaseModel {
     if(safe($_GET, 'prepare') == '1' && safe($_GET, 'request_id')) {
       foreach($result['result'] as &$row) {
         
-        $requestData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_request') -> where('id=:id ', array(':id' => safe($_GET, 'request_id'))) -> queryRow();
+        $requestData = Yii::app() -> db -> createCommand() -> select("*, DATE_FORMAT(start_date,'%d.%m.%Y') start_date_formated,  DATE_FORMAT(due_date,'%d.%m.%Y') due_date_formated") -> from('spi_request') -> where('id=:id ', array(':id' => safe($_GET, 'request_id'))) -> queryRow();
         $performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $requestData['performer_id'])) -> queryRow();
 
         $row['text'] = $this->prepareText($row['text'], $requestData, $performerData);
@@ -90,9 +90,9 @@ class DocumentTemplate extends BaseModel {
         '{FOERDERSUMME}'  => $requestData['total_cost'],
         '{JAHR}'          => $requestData['year'],
         '{KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $requestData['project_id']))->queryScalar(),
-        '{TRAEGER}'       => 'Träger: '.$performerData['name'].'<br>'.
+        '{TRAGER}'       => 'Träger: '.$performerData['name'].'<br>'.
                              'Träger Adresse: '.$performerData['address'] ,
-        '{ZEITRAUM}'      => 'Beginn: '.$requestData['start_date'].' Ende: '.$requestData['due_date']
+        '{ZEITRAUM}'      => 'Beginn: '.$requestData['start_date_formated'].' Ende: '.$requestData['due_date_formated']
                              
       );
     
