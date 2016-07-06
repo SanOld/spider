@@ -252,6 +252,7 @@ class BaseModel extends CFormModel {
     $query = "SELECT `COLUMN_NAME`
                   FROM `INFORMATION_SCHEMA`.`COLUMNS`
                  WHERE `TABLE_NAME`='" . $this->table . "'
+                   AND `TABLE_SCHEMA` = '".Yii::app()->db->connectionString."'
                    AND `IS_NULLABLE`='NO'
                    AND `COLUMN_DEFAULT` IS NULL
                    AND `COLUMN_NAME` != 'id'";
