@@ -14,7 +14,8 @@ class Request extends BaseModel {
                       , rqs.name status_name
                       , rqs.code status_code
                       , prj.code code
-                      , fns.programm";
+                      , fns.programm
+                      ,(SELECT name FROM spi_school scl WHERE scl.id=prj.id) AS `school_name`";
 
   public $paPriority = array('in_progress' => 1, 'rejected' => 2, 'unfinished' => 3, 'accepted' => 4 );
   public $taPriority = array('rejected' => 1, 'unfinished' => 2, 'in_progress' => 3, 'accepted' => 4 );
