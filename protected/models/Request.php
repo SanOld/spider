@@ -406,7 +406,9 @@ class Request extends BaseModel {
       );
       
       $template = safe($post, 'status_id') == 4?'antrag_acknowledge':'antrag_acknowledge';
-      Email::sendMessageByTemplate('antrag_acknowledge', $emailParams, $request['finance_user_email']);
+      if($request['finance_user_email']) {
+        Email::sendMessageByTemplate('antrag_acknowledge', $emailParams, $request['finance_user_email']);
+      }
     }
     
 
