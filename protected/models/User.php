@@ -155,7 +155,7 @@ class User extends BaseModel {
     return $results;
   }
 
-  protected function doBeforeInsert($post) {
+  protected function doBeforeInsert($post) {    
     $this->post = $post;
     $login = safe($post,'login');
     $email = safe($post,'email');
@@ -174,8 +174,8 @@ class User extends BaseModel {
           'message' => 'Einfügung ist fehlgeschlagen: Feldbeziehung ist für diesen Benutzertyp erforderlich'
         );
       }
-    }
-
+    }   
+    
     if ($login && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('login=:login', array(
         ':login' => $login
     )) -> queryRow()) {
@@ -186,18 +186,18 @@ class User extends BaseModel {
       );
     }
 
-    if ($email && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('email = :email', array(
-        ':email' => $email
-    )) -> queryRow()) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'silent' => true,
-        'system_code' => 'ERR_DUPLICATED_EMAIL'
-      );
-    }
+//    if ($email && Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('email = :email', array(
+//        ':email' => $email
+//    )) -> queryRow()) {
+//      return array(
+//        'code' => '409',
+//        'result' => false,
+//        'silent' => true,
+//        'system_code' => 'ERR_DUPLICATED_EMAIL'
+//      );
+//    }
 
-
+    
     return array(
         'result' => true,
         'params' => $post

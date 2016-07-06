@@ -21,12 +21,18 @@
           <div class="col-lg-4">
             <div class="form-group">
               <label>Ansprechpartner für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
-              <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
-                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
-                  <span ng-bind-html="item.name | highlight: $select.search"></span>
-                </ui-select-choices>
-              </ui-select>
+              <div class="col-lg-10">  
+                <input ng-keypress="submitToAddUser($event, new_user)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user">                 
+                <ui-select ng-keypress="submitToAddUser($event, new_user)" on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || userLoading">
+                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
+                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                  </ui-select-choices>
+                </ui-select>
+                </div>
+                <div class="col-lg-2">
+                  <button class="btn m-t-2" ng-click="addNewFinanceUser()">+</button>
+                </div>             
             </div>
             <dl class="custom-dl" ng-show="selectFinanceResult">
               <ng-show ng-show="selectFinanceResult.function">
@@ -134,12 +140,18 @@
                 <div class="row row-holder-dl">
                   <div class="col-lg-4">
                     <div class="form-group">
-                      <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
+                      <div class="col-lg-10"> 
+                      <input ng-keypress="submitToAddUserEmpl($event, new_user_name, $index)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user_name">  
+                      <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || userLoading">
                         <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_selected:0} | orderBy: 'name'">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
                         </ui-select-choices>
                       </ui-select>
+                      </div>
+                      <div class="col-lg-2">
+                        <button class="btn m-t-2" ng-click="addNewFinanceUser()">+</button>
+                      </div>
                     </div>
                     <dl class="custom-dl">
                       <dt ng-show="emploee.user.title">Anrede:</dt>
