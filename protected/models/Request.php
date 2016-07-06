@@ -383,7 +383,9 @@ class Request extends BaseModel {
           'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#finance-plan',
       );
       
-      Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['finance_user_email']);
+      if($request['finance_user_email']) {
+        Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['finance_user_email']);
+      }
     }
     
     if(safe($post, 'status_id') == 4 || safe($post, 'status_id') == 5 ) {
