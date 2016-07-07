@@ -131,11 +131,11 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-4">
-                    <h4 class="panel-title m-b-10">
+                  <div class="col-lg-4 custom-box-btn">
+                    <h4 class="panel-title m-b-10">   
                       Ansprechperson für Rückfragen zum Konzept
                     </h4>
-                    <div class="form-group">
+                    <div class="clearfix">
                       <div class="col-lg-9 p-l-0 m-b-15"  ng-class="{'wrap-line error': dublicate}" >  
                       <input placeholder="Name Vorname" ng-keyup="escape($event)" ng-keypress="submitToAddUser($event, new_user)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user">
                       <ui-select on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users') || userLoading">
@@ -148,16 +148,15 @@
                         <label ng-show="dublicate" class="error">Dieser Name existiert bereits</label>
                       </span>
                       </div>
-                      <div class="col-lg-2 p-0 btn-row" ng-hide="add_concept_user">
+                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_concept_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable'" >
                         <button class="btn m-t-2 add-user" ng-click="addNewConceptUser()">&nbsp;</button>
                       </div>             
-                      <div class="col-lg-3 p-0" ng-show="add_concept_user">
+                      <div class="col-lg-3 p-0" ng-show="add_concept_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable'" >
                         <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUser($event, new_user)">&nbsp;</button>
                         <button class="btn m-t-2 hide-btn" ng-click="addNewConceptUser()">&nbsp;</button>
                       </div>
                     </div>                   
-                    <dl class="custom-dl" ng-show="selectConceptResult && !add_concept_user">                        
-                      <br>
+                    <dl class="custom-dl" ng-show="selectConceptResult && !add_concept_user">                      
                       <ng-show ng-show="selectConceptResult.function">
                         <dt>Funktion:</dt>
                         <dd>{{selectConceptResult.function}}</dd>
