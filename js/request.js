@@ -246,21 +246,31 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   localStorageService.set('dataChanged', 0);
   $scope.add_concept_user = false;
   $scope.new_concept_user = "";
+  $scope.dublicate = false;
   
   $scope.addNewConceptUser = function(){
     if(!$scope.add_concept_user){
       $scope.add_concept_user = true;   
     }else{
-      $scope.add_concept_user = false;  
+      $scope.add_concept_user = false;
+      $scope.dublicate = false;      
+      $scope.new_user = ""; 
     }      
   }
   
   $scope.submitToAddUser = function(event, new_user){
-    if(event.which == 13){ 
-      $scope.userLoading = true;  
-      $scope.add_concept_user = false;
+    $scope.dublicate = false; 
+    if(event.which == 13){
       var name = new_user.split(' ');
-      $scope.new_concept_user = {
+      $scope.performerUsers.forEach(function(item, i, arr){
+        if(item.first_name == name[0] || item.last_name == name[1]){
+          $scope.dublicate = true;  
+        }  
+      });  
+      if(!$scope.dublicate){             
+        $scope.userLoading = true;  
+        $scope.add_concept_user = false;  
+        $scope.new_concept_user = {
         first_name: name[0],
         last_name: name[1],
         sex: 3,
@@ -269,21 +279,22 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         email: $scope.user.email,
         type: 't',
         relation_id: $scope.request.performer_id
-      };
-      var callback = function (result, response) {
-        if (result) {
+        };
+        var callback = function (result, response) {
+          if (result) {
           $scope.request.concept_user_id = response.id;
           $scope.getPerformerUsers(function(){
             $scope.userLoading = false;
           });   
           $scope.new_user = "";          
-        } else {
+          } else {
           $scope.error = getError(response.system_code);
           $scope.userLoading = false; 
-        }         
-      };
-      network.post('user', $scope.new_concept_user, callback);
-    };    
+          }         
+        };
+        network.post('user', $scope.new_concept_user, callback);   
+      }     
+    };       
   }  
   
   $scope.userCan = function(type) {
@@ -540,7 +551,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.prof_associations = [{}]; //create one association by default
   $scope.financeSchools = [];
   $scope.add_concept_user = false;
-  $scope.new_employee_user = "";
+  $scope.add_employee_user = false;
+  $scope.dublicate = [false];
 
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
@@ -552,10 +564,21 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
 
   $scope.addNewFinanceUser = function(){
+    $scope.dublicate['finance'] = false;   
     if(!$scope.add_concept_user){
       $scope.add_concept_user = true;   
     }else{
-      $scope.add_concept_user = false;  
+      $scope.add_concept_user = false;      
+      $scope.new_user = "";
+    }      
+  }
+  $scope.addNewEmployeeUser = function(idx){
+    $scope.dublicate['employee'] = false;
+    if(!$scope.add_employee_user){
+      $scope.add_employee_user = true;   
+    }else{
+      $scope.add_employee_user = false;     
+      $scope.request_users[idx].new_user_name = "";
     }      
   }
   $scope.getPerformerUsers = function(callback){
@@ -566,7 +589,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
               if($scope.users[key].sex == 1){$scope.users[key].gender = 'Herr'}
               if($scope.users[key].sex == 2){$scope.users[key].gender = 'Frau'}
             }
-
             $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.data.finance_user_id);
             callback = callback || function(){};
             callback();
@@ -574,100 +596,96 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         });         
     };
     
-  $scope.getEmployeeUsers = function(id,callback){
+  $scope.getEmployeeUsers = function(emploee,callback){
       callback = callback || function(){};
        network.get('User', {type: 't', relation_id: $scope.data.performer_id}, function (result, response) {
           if (result) {
-            $scope.users.push(Utils.getRowById(response.result, id));
+            $scope.users = response.result;
+            emploee.user = Utils.getRowById($scope.users, emploee.user_id);  
+            $scope.employeeOnSelect(emploee.user, emploee);
             callback = callback || function(){};
             callback();
           }
         });         
     };
   
-  $scope.submitToAddUser = function(event, new_user){
-    if(event.which == 13){ 
-      $scope.userLoading = true;  
-      $scope.add_concept_user = false;
+  $scope.submitToAddUser = function(event, new_user){    
+    $scope.dublicate['finance'] = false;   
+    if(event.which == 13){
       var name = new_user.split(' ');
-      $scope.new_finance_user = {
-        first_name: name[0],
-        last_name: name[1],
-        sex: 3,
-        is_virtual: 1,
-        is_finansist: 1,
-        type_id: 3,
-        email: network.user.email,
-        type: 't',
-        relation_id: $scope.data.performer_id
-      };
-     
-      var callback = function (result, response) {
-        if (result) {
-          RequestService.updateFinansistPD(response.id);
-          $scope.data.finance_user_id = response.id;
-          $scope.getPerformerUsers(function(){
-              $scope.userLoading = false;
-          })      
-          $scope.new_user = "";          
-        } else {
-          $scope.error = getError(response.system_code);
-          $scope.userLoading = false; 
-        }         
-      };
-      network.post('user', $scope.new_finance_user, callback);
+      $scope.users.forEach(function(item, i, arr){
+        if(item.first_name == name[0] || item.last_name == name[1]){
+          $scope.dublicate['finance'] = true;  
+        }  
+      });      
+      if(!$scope.dublicate['finance']){
+          $scope.userLoading = true;  
+          $scope.add_concept_user = false;      
+          $scope.new_finance_user = {
+            first_name: name[0],
+            last_name: name[1],
+            sex: 3,
+            is_virtual: 1,
+            is_finansist: 1,
+            type_id: 3,
+            email: network.user.email,
+            type: 't',
+            relation_id: $scope.data.performer_id
+          };
+            var callback = function (result, response) {
+            if (result) {
+              $scope.data.finance_user_id = response.id;
+              $scope.getPerformerUsers(function(){
+                  $scope.userLoading = false;
+              })      
+              $scope.new_user = "";          
+            } else {
+              $scope.error = getError(response.system_code);
+              $scope.userLoading = false; 
+            }         
+          };
+          network.post('user', $scope.new_finance_user, callback);
+      }
     };    
+    
   }
   
-  $scope.submitToAddUserEmpl = function(event, new_user, idx){
-    if(event.which == 13){ 
-      $scope.userLoading = true;  
-      $scope.add_concept_user = false;
+  $scope.submitToAddUserEmpl = function(event, new_user, idx){ 
+    $scope.dublicate['employee'] = false;
+    if(event.which == 13){
       var name = new_user.split(' ');
-      $scope.new_employee_user = {
-        first_name: name[0],
-        last_name: name[1],
-        sex: 3,
-        is_virtual: 1,
-        type_id: 3,
-        email: network.user.email,
-        type: 't',
-        relation_id: $scope.data.performer_id
-      };
-     
-      var callback = function (result, response) {
-        if (result) {
-          console.log($scope.request_users[idx].user_id, response.id)
-          $scope.request_users[idx].user_id = response.id;
-          
-//          $scope.request_users[0].user = Utils.getRowById($scope.users, 444);
-//                $scope.request_users[0].user_id = 444;
-          $scope.getEmployeeUsers(response.id, function(){
-              $scope.request_users[idx].user = Utils.getRowById($scope.users, response.id);
-                $scope.request_users[0].user_id = response.id; 
-              $scope.userLoading = false;
-//                $scope.request_users[0].user = Utils.getRowById($scope.users, 444);
-//                $scope.request_users[0].user_id = 444; 
-//              $timeout(function(){
-//                $scope.request_users[idx].user = Utils.getRowById($scope.users, response.id);
-//                $scope.request_users[0].user_id = response.id; 
-//              },5000);
-//              
-//              $scope.request_users[idx].user_id = response.id;
-//              
-//              $scope.employeeOnSelect($scope.request_users[idx].user, $scope.request_users[idx]);
-//             console.log($scope.request_users[idx]);   
-//              
-////              $scope.request_users[idx] = 
-//              //$scope.userLoading = false;
-          })      
-//          $scope.new_user_name = "";          
-        } else {
-          $scope.error = getError(response.system_code);
-          $scope.userLoading = false; 
-        }         
-      };
-      network.post('user', $scope.new_employee_user, callback);
+      $scope.users.forEach(function(item, i, arr){
+        if(item.first_name == name[0] || item.last_name == name[1]){
+          $scope.dublicate['employee'] = true;  
+        }  
+      });  
+      if(!$scope.dublicate['employee']){  
+          $scope.userLoading = true;  
+          $scope.add_employee_user = false;      
+          $scope.new_employee_user = {
+            first_name: name[0],
+            last_name: name[1],
+            sex: 3,
+            is_virtual: 1,
+            type_id: 3,
+            email: network.user.email,
+            type: 't',
+            relation_id: $scope.data.performer_id
+          };     
+          var callback = function (result, response) {
+            if (result) {            
+              $scope.request_users[idx].user_id = response.id;
+              $scope.getEmployeeUsers($scope.request_users[idx], function(){
+                  $scope.userLoading = false;
+              })             
+              $scope.request_users[idx].new_user_name = "";
+            } else {
+              $scope.error = getError(response.system_code);
+              $scope.userLoading = false; 
+            }         
+          };
+          network.post('user', $scope.new_employee_user, callback);
+      }
     };    
   }
   var usersById = {};
