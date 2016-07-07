@@ -109,7 +109,38 @@ class SystemModel extends BaseModel
       echo json_encode ( array('results' => 'done') );
       exit ();
     }
-    
+
+    public function deleteTablesAudit() {
+      $operations =  array( array('code' => 'INS', 'from' => 'new', 'when' => 'AFTER INSERT', 'message' => 'Created', 'system_code' => 'insert')
+                          , array('code' => 'DEL', 'from' => 'old', 'when' => 'AFTER DELETE', 'message' => 'Deleted', 'system_code' => 'delete')
+                          , array('code' => 'UPD', 'from' => 'new', 'when' => 'AFTER UPDATE', 'message' => 'Changed', 'system_code' => 'update')
+                          );
+      $tables = Yii::app()->db
+                          ->createCommand()
+                          ->select('tbl.*')
+                          ->from('spi_audit_setting tbl')
+                          ->where(' is_enabled_audit = 1 ', array())
+                          ->queryAll();
+
+      foreach($tables as $table) {
+        $tableName = $table['table_name'];
+
+        foreach($operations as $operation) {
+
+          $trigger = "DROP TRIGGER IF EXISTS `{$tableName}_A{$operation['code']}`;";
+
+          Yii::app()->db
+                    ->createCommand($trigger)
+                    ->execute();
+        }
+        Yii::app ()->db->createCommand ()->update ( 'spi_audit_setting', array('hash' => ''), 'id=:id', array (':id' => $table['id'] ));
+      }
+
+      header ( 'Content-Type: application/json' );
+      echo json_encode ( array('results' => 'done') );
+      exit ();
+    }
+
 //    public function execute() {
 //      $headers = getallheaders ();
 //      if (isset ( $headers ['Authorization'] ) && $headers ['Authorization']) {
