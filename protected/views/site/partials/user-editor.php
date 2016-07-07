@@ -36,17 +36,16 @@
             <label class="col-lg-2 control-label p-r-0">Mit login</label>
 
             <div class="col-lg-4 p-l-0">
-              <div class="btn-group btn-toggle" ng-if="!(modeView || (!isAdmin && !userIsPA))">
+              <div class="btn-group btn-toggle" ng-if="!(modeView || (!isAdmin && !userIsPA && user.type == 't'))">
                  <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 0}" ng-model="user.is_virtual"
-                        uib-btn-radio="0">JA
+                        uib-btn-radio="0" ng-disabled="!can_change">JA
                 </button>
                 <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 1}" ng-model="user.is_virtual"
                         uib-btn-radio="1">NEIN
-                </button>
-               
+                </button>               
               </div>
-              <span ng-if="modeView || (!isAdmin && !userIsPA)" class="no-edit-text">{{user.is_virtual ? 'Ja' : 'Nein'}}</span>
-              <span spi-hint text="_hint.is_virtual"></span>
+              <span ng-if="modeView || (!isAdmin && !userIsPA && !user.type == 't')" class="no-edit-text">{{user.is_virtual ? 'Nein' : 'Ja'}}</span>
+              <span spi-hint text="_hint.is_virtual" ng-disabled="!can_change"></span>
             </div>
         </div>
         <div class="form-group">
@@ -61,7 +60,7 @@
             <div spi-hint text="_hint.type_id" class="has-hint"></div>
 
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
-              <ui-select ng-change="reloadRelation()" ng-model="user.type_id" name="type_id" required>
+              <ui-select ng-change="reloadRelation()" ng-model="user.type_id" name="type_id" required ng-disabled="!can_change">
                 <ui-select-match placeholder="(Bitte wählen Sie)">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="type.id as type in userTypes | filter: $select.search">
                   <span ng-bind-html="type.name | highlight: $select.search"></span>
@@ -127,7 +126,7 @@
             <div spi-hint text="_hint.relation_id" class="has-hint"></div>
 
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('relation_id')}">
-              <ui-select ng-disabled="!$select.items.length" ng-model="user.relation_id" name="relation_id" required>
+              <ui-select ng-disabled="!$select.items.length || !can_change" ng-model="user.relation_id" name="relation_id" required>
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                   {{$select.selected.name}}
                 </ui-select-match>
@@ -291,7 +290,7 @@
                 <div spi-hint text="_hint.login" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('login')}">
                   <input class="form-control" type="text" name="login" ng-model="user.login" id="login" value=""
-                         ng-disabled="isCurrentUser && !isAdmin" ng-minlength="3" ng-maxlength="45" required>
+                         ng-disabled="isCurrentUser && !isAdmin" ng-minlength="3" ng-maxlength="45" ng-required="!user.is_virtual">
 									<span ng-class="{hide: !fieldError('login')}" class="hide">
 										<label ng-show="form.login.$error.required" class="error">Benutzername erforderlich</label>
 										<label ng-show="form.login.$error.minlength" class="error">Benutzername ist zu kurz</label>
@@ -309,7 +308,7 @@
                 <div spi-hint text="_hint.email" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                   <input class="form-control" type="email" name="email" ng-model="user.email" id="email" value=""
-                         ng-maxlength="45" required ng-pattern="emailFormat">
+                         ng-maxlength="45" ng-pattern="emailFormat" ng-required="!user.is_virtual">
 									<span ng-class="{hide: !fieldError('email')}" class="hide">
 										<label ng-show="form.email.$error.required" class="error">E-Mail erforderlich</label>
 										<label ng-show="form.email.$error.email || form.email.$error.pattern" class="error">Geben Sie eine gültige E-Mail ein</label>
