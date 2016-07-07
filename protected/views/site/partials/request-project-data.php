@@ -136,8 +136,8 @@
                       Ansprechperson für Rückfragen zum Konzept
                     </h4>
                     <div class="form-group">
-                      <div class="col-lg-10" ng-class="{'wrap-line error': dublicate}" >  
-                      <input placeholder="Name Vorname" ng-keypress="submitToAddUser($event, new_user)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user">
+                      <div class="col-lg-9 p-l-0 m-b-15"  ng-class="{'wrap-line error': dublicate}" >  
+                      <input placeholder="Name Vorname" ng-keyup="escape($event)" ng-keypress="submitToAddUser($event, new_user)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user">
                       <ui-select on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users') || userLoading">
                         <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
@@ -148,8 +148,12 @@
                         <label ng-show="dublicate" class="error">Dieser Name existiert bereits</label>
                       </span>
                       </div>
-                      <div class="col-lg-2">
-                        <button class="btn m-t-2" ng-click="addNewConceptUser()">+</button>
+                      <div class="col-lg-2 p-0 btn-row" ng-hide="add_concept_user">
+                        <button class="btn m-t-2 add-user" ng-click="addNewConceptUser()">&nbsp;</button>
+                      </div>             
+                      <div class="col-lg-3 p-0" ng-show="add_concept_user">
+                        <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUser($event, new_user)">&nbsp;</button>
+                        <button class="btn m-t-2 hide-btn" ng-click="addNewConceptUser()">&nbsp;</button>
                       </div>
                     </div>                   
                     <dl class="custom-dl" ng-show="selectConceptResult && !add_concept_user">                        
