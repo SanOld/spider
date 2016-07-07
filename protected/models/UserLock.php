@@ -35,6 +35,10 @@ class UserLock extends BaseModel {
 //      $command = $this->setWhereByRole($command);
     }
 
+    if(safe($params, 'REQUEST_ID')) {
+      $command -> andWhere("tbl.request_id = :request_id", array(':request_id' => $params['REQUEST_ID']));
+    }
+
 
 //    $qq = $command->text;
     return $command;
@@ -57,7 +61,7 @@ protected function doAfterDelete($result, $id) {
   protected function deleteLock($modelName, $request_id){
    $model = CActiveRecord::model($modelName);
    $model->user = $this->user;
-   $response = $model->select(array(request_id=>$request_id), true);
+   $response = $model->select(array('request_id'=>$request_id), true);
     if($response['code'] = 200 && count($response['result']) != 0){
       foreach($response['result'] as $key=>$value ){
         $model->delete($response['result'][$key]['id'], true);

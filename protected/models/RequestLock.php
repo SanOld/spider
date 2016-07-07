@@ -26,7 +26,7 @@ class RequestLock extends BaseModel {
 
   protected function getParamCommand($command, array $params, array $logic = array()) {
     parent::getParamCommand($command, $params);
-
+    $params = array_change_key_case($params, CASE_UPPER);
     if(safe($params, 'REQUEST_ID')) {
       $command -> andWhere("tbl.request_id = :request_id", array(':request_id' => $params['REQUEST_ID']));
     }
