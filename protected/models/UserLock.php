@@ -58,7 +58,7 @@ protected function doAfterDelete($result, $id) {
    $model = CActiveRecord::model($modelName);
    $model->user = $this->user;
    $response = $model->select(array(request_id=>$request_id), true);
-    if($response['code'] = 200){
+    if($response['code'] = 200 && count($response['result']) != 0){
       foreach($response['result'] as $key=>$value ){
         $model->delete($response['result'][$key]['id'], true);
       }
