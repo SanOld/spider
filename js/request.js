@@ -184,7 +184,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       if(failCodes.length) {
         SweetAlert.swal({
           title: "Fehler",
-          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert dein",
+          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert sein",
           type: "error",
           confirmButtonText: "OK"
         });
@@ -262,9 +262,22 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     }      
   }
   
+  $scope.escape = function(event){
+    if(event.which == 27){
+      if(!$scope.add_concept_user){
+      $scope.add_concept_user = true;
+      //$('#performer').focus();      
+      }else{
+        $scope.add_concept_user = false;
+        $scope.dublicate = false;      
+        $scope.new_user = ""; 
+      }      
+    };  
+  }  
+  
   $scope.submitToAddUser = function(event, new_user){
     $scope.dublicate = false; 
-    if(event.which == 13){
+    if(event.which == 13 || event.type == 'click'){
       var name = new_user.split(/[\s,\.]+/);      
       if(name.length > 2){
         var last_name = "";
@@ -574,7 +587,28 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     return !(network.user.type == 'p' && status != 'in_progress');
   };
 
-
+  $scope.escapeFinanceUser = function(event){
+    if(event.which == 27 ){      
+        if(!$scope.add_concept_user){
+          $scope.add_concept_user = true;   
+        }else{
+          $scope.add_concept_user = false;      
+          $scope.new_user = "";          
+      }        
+    };
+  } 
+  
+  $scope.escapeEmployeeUser = function(event, idx){
+    if(event.which == 27 ){
+        if(!$scope.add_employee_user){
+          $scope.add_employee_user = true;   
+        }else{
+         $scope.add_employee_user = false;     
+         $scope.request_users[idx].new_user_name = "";
+        }             
+    };  
+  }
+  
   $scope.addNewFinanceUser = function(){
     $scope.dublicate['finance'] = false;   
     if(!$scope.add_concept_user){
@@ -585,13 +619,13 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }      
   }
   $scope.addNewEmployeeUser = function(idx){
-    $scope.dublicate['employee'] = false;
-    if(!$scope.add_employee_user){
-      $scope.add_employee_user = true;   
-    }else{
-      $scope.add_employee_user = false;     
-      $scope.request_users[idx].new_user_name = "";
-    }      
+      $scope.dublicate['employee'] = false;
+      if(!$scope.add_employee_user){
+        $scope.add_employee_user = true;   
+      }else{
+        $scope.add_employee_user = false;     
+        $scope.request_users[idx].new_user_name = "";
+      }              
   }
   $scope.getPerformerUsers = function(callback){
        network.get('User', {type: 't', relation_id: $scope.data.performer_id}, function (result, response) {
@@ -622,8 +656,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     };
   
   $scope.submitToAddUser = function(event, new_user){    
-    $scope.dublicate['finance'] = false;   
-    if(event.which == 13){
+    $scope.dublicate['finance'] = false;  
+    if(event.which == 13 || event.type == 'click'){
       var name = new_user.split(/[\s,\.]+/);      
       if(name.length > 1){
         var last_name = "";
@@ -666,13 +700,15 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
           };
           network.post('user', $scope.new_finance_user, callback);
       }
+    }else if(event.which == 8){
+      $scope.addNewFinanceUser(); 
     };    
     
   }
   
   $scope.submitToAddUserEmpl = function(event, new_user, idx){ 
     $scope.dublicate['employee'] = false;
-    if(event.which == 13){
+    if(event.which == 13 || event.type == 'click'){
       var name = new_user.split(/[\s,\.]+/);      
       if(name.length > 1){
         var last_name = "";
@@ -714,7 +750,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
           };
           network.post('user', $scope.new_employee_user, callback);
       }
-    };    
+    }    
   }
   var usersById = {};
 
