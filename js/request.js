@@ -266,7 +266,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     $scope.dublicate = false; 
     if(event.which == 13){
       var name = new_user.split(/[\s,\.]+/);      
-      if(name.length > 1){
+      if(name.length > 2){
         var last_name = "";
         for(var i = 1; i < name.length; i++){
           last_name = last_name + " " + name[i];  
