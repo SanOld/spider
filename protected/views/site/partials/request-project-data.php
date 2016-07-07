@@ -79,7 +79,7 @@
                 </span>
 
                 <div class="row m-t-20">
-                  <div class="col-lg-8">
+                  <div class="col-lg-7">
                     <div class="col-lg-12 p-l-0 m-b-15">
                       <dl class="custom-dl width-dt-2 align-bottom">
                        <ng-show ng-show="data.performer_contact">
@@ -131,9 +131,12 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-4 custom-box-btn">
+                  <div class="col-lg-5 custom-box-btn">
                     <h4 class="panel-title m-b-10">   
-                      Ansprechperson für Rückfragen zum Konzept
+                      <label>
+                        Ansprechperson für Rückfragen zum Konzept
+                        <span spi-hint text="_hint.project_data_concept_user_id" class="has-hint"></span>
+                      </label>
                     </h4>
                     <div class="clearfix">
                       <div class="col-lg-9 p-l-0 m-b-15"  ng-class="{'wrap-line error': dublicate}" >  
