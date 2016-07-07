@@ -487,6 +487,12 @@ class Request extends BaseModel {
     } else {
       $new_row = array_replace ($row, $lock_result);
 
+      if($new_row['start_date']   == '0000-00-00'){ $new_row['start_date']  = ''; }
+      if($new_row['due_date']     == '0000-00-00'){ $new_row['due_date']    = ''; }
+      if($new_row['last_change']  == '0000-00-00'){ $new_row['last_change'] = ''; }
+      if($new_row['end_fill']     == '0000-00-00'){ $new_row['end_fill']    = ''; }
+
+
       if(array_key_exists ( 'schools' , $new_row)){
         foreach ($new_row['schools'] as &$school){
           $school_lock_result = Yii::app() -> db -> createCommand()
