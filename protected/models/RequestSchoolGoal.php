@@ -108,11 +108,16 @@ class RequestSchoolGoal extends BaseModel {
           'date' => date('H:i d.m.Y'),
           'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#schools-goals',
       );
+      $result['emails'] = array();
       if($request['finance_user_email']) {
-        Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['finance_user_email']);
+        $result['emails'][] = Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['finance_user_email']);
+      } else {
+        $result['emails'][] = 'finance_user_email is empty';
       }
       if($request['concept_user_email']) {
-        Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['concept_user_email']);
+        $result['emails'][] = Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['concept_user_email']);
+      } else {
+        $result['emails'][] = 'concept_user_email is empty';
       }
     }
     return $result;
