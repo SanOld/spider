@@ -7,7 +7,7 @@ class Email {
   static function doRecovery($user, $recoveryLink) {
     return self::prepareMessage('send_password', array( '{NAME}' => $user['first_name'] . ' '. $user['last_name']
                                                            , '{LINK}' => $recoveryLink
-                                                           ), $user);
+                                                           ), $user['email']);
 
 //    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
 //    $message .= '<br><br>We have received request for recovery your account password.';
@@ -37,7 +37,7 @@ class Email {
         '{LOGIN}'           => $newUser['login'],
         '{PASSWORD}'        => $newUser['password'],
         '{BENUTZERROLLEN}'  => $newUser['type_name'],
-      ), $newUser, false);
+      ), $newUser['email'], false);
 
 
 
@@ -56,7 +56,7 @@ class Email {
     return self::send($user['email'], self::$from, 'SPIder: Password changed', $message, '', false);
   }
 
-  static function prepareMessage($code, $params, $user, $showResults = true) {
+  static function prepareMessage($code, $params, $email, $showResults = true) {
     if($row = Yii::app() -> db -> createCommand()
               -> select('text, subject') -> from('spi_email_template')
               -> where('system_come=:system_come ', array(':system_come' => $code))
@@ -68,7 +68,7 @@ class Email {
         $placeholders[] = $key;
       }
       $message = str_replace($placeholders, $data, $row['text']);
-      return self::send($user['email'], self::$from, $row['subject'], $message, '', $showResults);
+      return self::send($email, self::$from, $row['subject'], $message, '', $showResults);
     }
     return false;
   }
