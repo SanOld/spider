@@ -62,8 +62,6 @@ protected function doAfterDelete($result, $id) {
       foreach($response['result'] as $key=>$value ){
         $model->delete($response['result'][$key]['id'], true);
       }
-    } else {
-      return false;
     }
     return true;
   }
