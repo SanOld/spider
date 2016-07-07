@@ -250,9 +250,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   $scope.new_concept_user = "";
   $scope.dublicate = false;
   
-  $scope.addNewConceptUser = function(){
+  $scope.addNewConceptUser = function(){           
     if(!$scope.add_concept_user){
-      $scope.add_concept_user = true;   
+      $scope.add_concept_user = true;
+      //$('#performer').focus();      
     }else{
       $scope.add_concept_user = false;
       $scope.dublicate = false;      
@@ -263,9 +264,17 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   $scope.submitToAddUser = function(event, new_user){
     $scope.dublicate = false; 
     if(event.which == 13){
-      var name = new_user.split(' ');
+      var name = new_user.split(/[\s,\.]+/);      
+      if(name.length > 1){
+        var last_name = "";
+        for(var i = 1; i < name.length; i++){
+          last_name = last_name + " " + name[i];  
+        };  
+      }else{
+        var last_name = name[1];  
+      };
       $scope.performerUsers.forEach(function(item, i, arr){
-        if(item.first_name == name[0] || item.last_name == name[1]){
+        if(item.first_name.toUpperCase() == name[0].toUpperCase() && item.last_name.toUpperCase() == last_name.toUpperCase()){
           $scope.dublicate = true;  
         }  
       });  
@@ -274,7 +283,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         $scope.add_concept_user = false;  
         $scope.new_concept_user = {
         first_name: name[0],
-        last_name: name[1],
+        last_name: last_name,
         sex: 3,
         is_virtual: 1,
         type_id: 3,
@@ -614,18 +623,26 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.submitToAddUser = function(event, new_user){    
     $scope.dublicate['finance'] = false;   
     if(event.which == 13){
-      var name = new_user.split(' ');
+      var name = new_user.split(/[\s,\.]+/);      
+      if(name.length > 1){
+        var last_name = "";
+        for(var i = 1; i < name.length; i++){
+          last_name = last_name + " " + name[i];  
+        };  
+      }else{
+        var last_name = name[1];  
+      };
       $scope.users.forEach(function(item, i, arr){
-        if(item.first_name == name[0] || item.last_name == name[1]){
+        if(item.first_name.toUpperCase() == name[0].toUpperCase() && item.last_name.toUpperCase() == last_name.toUpperCase()){
           $scope.dublicate['finance'] = true;  
         }  
-      });      
+      });             
       if(!$scope.dublicate['finance']){
           $scope.userLoading = true;  
           $scope.add_concept_user = false;      
           $scope.new_finance_user = {
             first_name: name[0],
-            last_name: name[1],
+            last_name: last_name,
             sex: 3,
             is_virtual: 1,
             is_finansist: 1,
@@ -655,9 +672,17 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.submitToAddUserEmpl = function(event, new_user, idx){ 
     $scope.dublicate['employee'] = false;
     if(event.which == 13){
-      var name = new_user.split(' ');
+      var name = new_user.split(/[\s,\.]+/);      
+      if(name.length > 1){
+        var last_name = "";
+        for(var i = 1; i < name.length; i++){
+          last_name = last_name + " " + name[i];  
+        };  
+      }else{
+        var last_name = name[1];  
+      };
       $scope.users.forEach(function(item, i, arr){
-        if(item.first_name == name[0] || item.last_name == name[1]){
+        if(item.first_name.toUpperCase() == name[0].toUpperCase() && item.last_name.toUpperCase() == last_name.toUpperCase()){
           $scope.dublicate['employee'] = true;  
         }  
       });  
@@ -666,7 +691,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
           $scope.add_employee_user = false;      
           $scope.new_employee_user = {
             first_name: name[0],
-            last_name: name[1],
+            last_name: last_name,
             sex: 3,
             is_virtual: 1,
             type_id: 3,
