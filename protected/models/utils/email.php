@@ -106,7 +106,14 @@ class Email {
         ));
       }
     } else {
-      return $res;
+      return array( 'result'        => $res
+                  , 'from'          => $from
+                  , 'to'            => $to
+                  , 'subject'       => $subject
+                  , 'message'       => $message
+                  , 'showResults'   => $showResults
+                  , 'addAttachment' => $addAttachment
+                  );
     }
   }
 }
