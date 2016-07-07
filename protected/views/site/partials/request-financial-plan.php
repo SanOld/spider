@@ -22,7 +22,7 @@
             <div class="form-group">
               <label>Ansprechpartner für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
               <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['finance']}">  
-                <input placeholder="Name Vorname" ng-keypress="submitToAddUser($event, new_user)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user">                 
+                <input placeholder="Name Vorname" ng-keyup="escapeFinanceUser($event)" ng-keypress="submitToAddUser($event, new_user)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user">                 
                 <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || userLoading">
 
                   <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
@@ -38,7 +38,7 @@
                   <button class="btn m-t-2 add-user" ng-click="addNewFinanceUser()">&nbsp;</button>
                 </div>             
                 <div class="col-lg-3 p-0" ng-show="add_concept_user">
-                  <button class="btn m-t-2 confirm-btn" ng-click="addNewFinanceUser()">&nbsp;</button>
+                  <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUser($event, new_user)">&nbsp;</button>
                   <button class="btn m-t-2 hide-btn" ng-click="addNewFinanceUser()">&nbsp;</button>
                 </div>             
             </div>
@@ -148,8 +148,8 @@
                 <div class="row row-holder-dl">
                   <div class="col-lg-4">
                     <div class="form-group">
-                      <div class="col-lg-10" ng-class="{'wrap-line error': dublicate['employee']}"> 
-                      <input placeholder="Name Vorname" ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name">  
+                      <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['employee']}"> 
+                      <input placeholder="Name Vorname" ng-keyup="escapeEmployeeUser($event, $index)" ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name">  
                       <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || userLoading">
                         <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_selected:0} | orderBy: 'name'">
@@ -160,8 +160,12 @@
                         <label ng-show="dublicate" class="error">Dieser Name existiert bereits</label>
                       </span>
                       </div>
-                      <div class="col-lg-2">
-                        <button class="btn m-t-2" ng-click="addNewEmployeeUser($index)">+</button>
+                      <div class="col-lg-2 p-0 btn-row" ng-hide="add_employee_user">
+                        <button class="btn m-t-2 add-user" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
+                      </div>             
+                      <div class="col-lg-3 p-0" ng-show="add_employee_user">
+                        <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUserEmpl($event, emploee.new_user_name, $index)">&nbsp;</button>
+                        <button class="btn m-t-2 hide-btn" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
                       </div>
                     </div>
                     <dl class="custom-dl" ng-show="!add_employee_user">
