@@ -204,7 +204,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
             case 3:;
               request_data.status_code = 'in_progress';
               request_data.status_id = statusId;
-              network.get('user_lock', {request_id: request_data['id'], del_id: 1},function(result, response){
+              network.get('user_lock', {request_id: request_data['id']},function(result, response){
                 if(result){
                   for(var key in response.result){
                     network.delete('user_lock/'+response.result[key]['id']+'?request_id='+request_data['id']);
