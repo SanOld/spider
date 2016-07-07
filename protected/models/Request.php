@@ -374,7 +374,7 @@ class Request extends BaseModel {
     
     if(safe($post, 'status_finance') == 'rejected') {
       $request = Yii::app() -> db -> createCommand()
-        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
+        -> select('rq.id request_id, (SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
         -> from('spi_request rq')
         -> where('rq.id=:id', array(':id' => $request_id))
         ->queryRow();
@@ -384,7 +384,7 @@ class Request extends BaseModel {
           'part' => 'finanzplan',
           'comment' => safe($post, 'finance_comment'),
           'date' => date('H:i d.m.Y'),
-          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($post, 'request_id').'#finance-plan',
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($request, 'request_id').'#finance-plan',
       );
 
       if($request['finance_user_email']) {

@@ -190,7 +190,7 @@ class RequestSchoolConcept extends BaseModel {
   protected function doAfterUpdate($result, $params, $post, $id) {
     if(safe($post, 'status') == 'rejected') {
       $request = Yii::app() -> db -> createCommand()
-        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email, (SELECT email FROM spi_user WHERE id = rq.concept_user_id) concept_user_email')
+        -> select('rq.id request_id, (SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email, (SELECT email FROM spi_user WHERE id = rq.concept_user_id) concept_user_email')
         -> from($this -> table . ' tbl')
         -> join('spi_request rq', 'tbl.request_id = rq.id')
         -> where('tbl.id=:id', array(':id' => $id))
@@ -201,7 +201,7 @@ class RequestSchoolConcept extends BaseModel {
           'part' => 'konzept',
           'comment' => safe($post, 'comment'),
           'date' => date('H:i d.m.Y'),
-          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($post, 'request_id').'#school-concepts',
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($request, 'request_id').'#school-concepts',
       );
       $result['emails'] = array();
       if($request['finance_user_email']) {
