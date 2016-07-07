@@ -24,7 +24,7 @@
               <div class="col-lg-10">  
                 <input ng-keypress="submitToAddUser($event, new_user)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user">                 
                 <ui-select ng-keypress="submitToAddUser($event, new_user)" on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || userLoading">
-                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
                   <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
                     <span ng-bind-html="item.name | highlight: $select.search"></span>
                   </ui-select-choices>
@@ -102,7 +102,7 @@
             <button class="btn w-xs pull-right" ng-click=""></button>
           </div>  
           <div class="col-lg-6 btn-row">
-            <button class="btn w-xs pull-right" ng-click="request_users.push({})">Neue Person hinzufügen</button>
+            <button class="btn w-xs pull-right" ng-click="request_users.push({})">Mitarbeiter/in hinzufügen</button>
           </div>
         </div>
         <div id="accordion-account" class="panel-group panel-group-joined row">
@@ -143,7 +143,7 @@
                       <div class="col-lg-10"> 
                       <input ng-keypress="submitToAddUserEmpl($event, new_user_name, $index)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user_name">  
                       <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || userLoading">
-                        <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_selected:0} | orderBy: 'name'">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
                         </ui-select-choices>
