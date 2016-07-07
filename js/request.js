@@ -642,15 +642,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         });         
     };
     
-  $scope.getEmployeeUsers = function(emploee,callback){
-      callback = callback || function(){};
+  $scope.getEmployeeUsers = function(id,emploee){
        network.get('User', {type: 't', relation_id: $scope.data.performer_id}, function (result, response) {
           if (result) {
-            $scope.users = response.result;
-            emploee.user = Utils.getRowById($scope.users, emploee.user_id);  
-            $scope.employeeOnSelect(emploee.user, emploee);
-            callback = callback || function(){};
-            callback();
+              $scope.users = response.result;
+              emploee.user = Utils.getRowById($scope.users, id);
+              $scope.employeeOnSelect(emploee.user, emploee); 
           }
         });         
     };
@@ -665,7 +662,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
           last_name = last_name + " " + name[i];  
         };  
       }else{
-        var last_name = name[1];  
+        var last_name = name[1] || "";  
       };
       $scope.users.forEach(function(item, i, arr){
         if(item.first_name.toUpperCase() == name[0].toUpperCase() && item.last_name.toUpperCase() == last_name.toUpperCase()){
@@ -716,7 +713,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
           last_name = last_name + " " + name[i];  
         };  
       }else{
-        var last_name = name[1];  
+        var last_name = name[1] || "";  
       };
       $scope.users.forEach(function(item, i, arr){
         if(item.first_name.toUpperCase() == name[0].toUpperCase() && item.last_name.toUpperCase() == last_name.toUpperCase()){
@@ -738,11 +735,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
           };     
           var callback = function (result, response) {
             if (result) {            
-              $scope.request_users[idx].user_id = response.id;
-              $scope.getEmployeeUsers($scope.request_users[idx], function(){
-                  $scope.userLoading = false;
-              })             
-              $scope.request_users[idx].new_user_name = "";
+              $timeout(function () {             
+                 $scope.request_users[idx].user_id = response.id;
+              },200);
+              $scope.getEmployeeUsers(response.id, $scope.request_users[idx]);
+              $scope.request_users[idx].new_user_name = "";              
+              $scope.userLoading = false;
             } else {
               $scope.error = getError(response.system_code);
               $scope.userLoading = false; 
