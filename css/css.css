@@ -3016,9 +3016,16 @@ form[name=conceptForm] .alert-danger {display: block;}
 .popup-input{
   position: absolute;
   z-index: 999;
-  width: 90% !important;  
+  width: 96% !important;  
 }
-
+.custom-box-btn .visible-lg-block {
+    display: inline-block!important;
+}
+.custom-box-btn .confirm-btn,
+.custom-box-btn .hide-btn {
+  width:38px;
+}
+ 
 @media (min-width: 320px) {
   .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
     float: left;
@@ -3176,4 +3183,16 @@ form[name=conceptForm] .alert-danger {display: block;}
   .col-lg-offset-0 {
     margin-left: 0;
   }
+}
+
+.btn-row .btn.add-user {
+  width: 56px;
+  background: #00529e url(../images/icon-user.png) no-repeat 50% 50%;
+}
+
+.btn.confirm-btn {
+  background: #F3F3F3 url(../images/icon-apply.png) no-repeat 50% 50%;
+}
+.btn.hide-btn {
+  background: #F3F3F3 url(../images/icon-cancel.png) no-repeat 50% 50%;
 }

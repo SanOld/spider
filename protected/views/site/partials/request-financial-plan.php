@@ -18,10 +18,10 @@
       <ng-form name="financePlanForm" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
       <div class="panel-body p-t-0">
         <div class="row row-holder-dl">
-          <div class="col-lg-4">
+          <div class="col-lg-4 p-r-0 custom-box-btn">
             <div class="form-group">
               <label>Ansprechpartner für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
-              <div class="col-lg-10">  
+              <div class="col-lg-9 p-l-0 m-b-15">  
                 <input ng-keypress="submitToAddUser($event, new_user)" ng-hide="!add_concept_user" class="form-control popup-input" type="text" ng-model="new_user">                 
                 <ui-select ng-keypress="submitToAddUser($event, new_user)" on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || userLoading">
                   <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
@@ -30,8 +30,12 @@
                   </ui-select-choices>
                 </ui-select>
                 </div>
-                <div class="col-lg-2">
-                  <button class="btn m-t-2" ng-click="addNewFinanceUser()">+</button>
+                <div class="col-lg-2 p-0 btn-row" ng-hide="add_concept_user">
+                  <button class="btn m-t-2 add-user" ng-click="addNewFinanceUser()">&nbsp;</button>
+                </div>             
+                <div class="col-lg-3 p-0" ng-show="add_concept_user">
+                  <button class="btn m-t-2 confirm-btn" ng-click="addNewFinanceUser()">&nbsp;</button>
+                  <button class="btn m-t-2 hide-btn" ng-click="addNewFinanceUser()">&nbsp;</button>
                 </div>             
             </div>
             <dl class="custom-dl" ng-show="selectFinanceResult">

@@ -56,6 +56,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       if(result && close) {
        location.href = '/requests';
       }
+      RequestService.afterSave();
     });
   };
 
@@ -674,6 +675,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   }
   var usersById = {};
 
+  RequestService.afterSave = function(){
+    $scope.updateFinPlanUsers();
+    $scope.updateFinPlanProfAssociation();
+  }
   RequestService.financePlanData = function(){
     var data = {};
     data.request =  { 'revenue_description':    $scope.data.revenue_description
@@ -732,6 +737,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         $scope.data.status_finance = status;
         $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
         $scope.$parent.setFinanceStatus(status);
+        //RequestService.afterSave();
       }
     });
   };
@@ -769,6 +775,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
     });
 
+    $scope.updateFinPlanUsers();
+
+  }
+  
+  $scope.updateFinPlanUsers = function() {
     network.get('request_user', {request_id: $scope.$parent.requestID}, function (result, response) {
       if (result) {
         $scope.request_users = response.result;
@@ -786,7 +797,16 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         }
       }
     });
-
+  }
+  $scope.updateFinPlanProfAssociation = function() {
+    network.get('request_prof_association', {request_id: $scope.$parent.requestID}, function (result, response) {
+      if (result) {
+        $scope.prof_associations = response.result;
+        if(response.count == '0') {
+          $scope.prof_associations = [{}];
+        }
+      }
+    });
   }
 
   network.get('request_school_finance', {request_id: $scope.$parent.requestID}, function (result, response) {
@@ -801,14 +821,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       $scope.remuneration_level = response.result;
     }
   });
-  network.get('request_prof_association', {request_id: $scope.$parent.requestID}, function (result, response) {
-    if (result) {
-      $scope.prof_associations = response.result;
-      if(response.count == '0') {
-        $scope.prof_associations = [{}];
-      }
-    }
-  });
+
+  $scope.updateFinPlanProfAssociation();
+  
   network.get('request_financial_group', {}, function (result, response) {
     if (result) {
       $scope.request_financial_group = response.result;
