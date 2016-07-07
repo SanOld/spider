@@ -146,6 +146,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
                     'doc_financing_agreement_id',
                     'finance_user_id',
                     'concept_user_id',
+                    'start_date',
+                    'due_date'
                   ];
 
 
@@ -169,7 +171,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       if(failFields.length) {
         SweetAlert.swal({
           title: "Fehler",
-          text: "Field(s) "+failFields.join(', ')+" Sie müssen füllen",
+          text: "Field(s): \n "+failFields.join(',\n ')+"\n Sie müssen füllen",
           type: "error",
           confirmButtonText: "OK"
         });
@@ -202,6 +204,13 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
             case 3:;
               request_data.status_code = 'in_progress';
               request_data.status_id = statusId;
+              network.get('user_lock', {request_id: request_data['id'], del_id: 1},function(result, response){
+                if(result){
+                  for(var key in response.result){
+                    network.delete('user_lock/'+response.result[key]['id']+'?request_id='+request_data['id']);
+                  }
+                }
+              });
               break;
             case 4:;
               request_data.status_code = 'acceptable';

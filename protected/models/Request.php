@@ -391,7 +391,15 @@ class Request extends BaseModel {
         Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['finance_user_email']);
       }
     }
-    
+
+     if ($params['status_id'] == '5'){
+
+      $Request = CActiveRecord::model('RequestLock');
+      $Request->user = $this->user;
+      $Request->insert(array('request_id'=>$request_id));
+
+    }
+
     if(safe($post, 'status_id') == 4 || safe($post, 'status_id') == 5 ) {
       $request = Yii::app() -> db -> createCommand()
         -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
@@ -411,15 +419,6 @@ class Request extends BaseModel {
       }
     }
     
-
-    if (isset($params['status_id']) && $params['status_id'] == '5'){
-
-      $Request = CActiveRecord::model('RequestLock');
-      $Request->user = $this->user;
-      $Request->insert(array('request_id'=>$request_id));
-
-    }
-
     return $result;
   }
 
