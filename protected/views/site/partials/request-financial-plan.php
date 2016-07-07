@@ -108,7 +108,7 @@
         <div id="accordion-account" class="panel-group panel-group-joined row">
           <div class="panel panel-default row" ng-if="!emploee.is_deleted" ng-repeat="emploee in request_users">
             <div class="panel-heading">
-              <button class="no-btn" title="Entfernen" ng-click="deleteEmployee($index)" ng-hide="request_users.length < 2">
+              <button class="no-btn" title="Entfernen" ng-click="deleteEmployee($index)" ng-hide="undelitetdCount(request_users) < 2">
                 <i class="ion-close-round"></i>
               </button>
               <a class="collapsed" href="#account{{$index}}" data-parent="#accordion-account" data-toggle="collapse">
@@ -383,7 +383,7 @@
             <div class="col-lg-1 p-0 custom-col-1 m-t-5">
               <span class="symbol">€</span>
             </div>
-            <div class="col-lg-1 custom-col-1 m-t-5" ng-hide="prof_associations.length <= 1">
+            <div class="col-lg-1 custom-col-1 m-t-5" ng-hide="undelitetdCount(prof_associations) <= 1">
               <button ng-click="deleteProfAssociation($index)" class="no-btn" title="Entfernen">
                 <i class="ion-close-round"></i>
               </button>

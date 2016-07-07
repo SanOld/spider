@@ -808,25 +808,41 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   var forValidate = {'cost_per_month_brutto':1, 'annual_bonus':1, 'additional_provision_vwl':1, 'supplementary_pension':1}
   var toNum = {'have_annual_bonus':1, 'have_additional_provision_vwl':1, 'have_supplementary_pension':1, 'is_umlage':1}
 
+  function num(val) {
+    val = val || 0;
+    val += '';
+    return val.split(',').join('.')*1
+  }
+
+  $scope.undelitetdCount = function(list){
+    var cnt = 0;
+    $.each(list, function(){
+      if(!this.is_deleted){
+        cnt++;
+      }
+    })
+    return cnt;
+  }
+
   $scope.calculateEmployee = function(empl){
     for(var key in forValidate) {
       $scope.numValidate(empl,key);
     }
     for(var key in toNum) {
-      empl[key] = (empl[key] || 0)*1;
+      empl[key] = num(empl[key]);
     }
 
     var umlage = empl.is_umlage?0.25:0.21;
-    var mc = (empl.month_count || 0) *1;
-    empl.brutto = empl.cost_per_month_brutto * mc
-                + empl.annual_bonus * empl.have_annual_bonus
-                + empl.additional_provision_vwl * mc * empl.have_additional_provision_vwl
-                + empl.supplementary_pension * (mc + empl.have_annual_bonus) * empl.have_supplementary_pension;
+    var mc = num(empl.month_count);
+    empl.brutto = num(empl.cost_per_month_brutto) * mc
+                + num(empl.annual_bonus) * empl.have_annual_bonus
+                + num(empl.additional_provision_vwl) * mc * num(empl.have_additional_provision_vwl)
+                + num(empl.supplementary_pension) * (mc + empl.have_annual_bonus) * num(empl.have_supplementary_pension);
     empl.brutto = Math.ceil(empl.brutto/100)*100; // Результат округлять вверх до 100 евро. Например: 1201 = 1300
 
-    var summ  = empl.cost_per_month_brutto * mc
-              + empl.annual_bonus * empl.have_annual_bonus
-              + empl.additional_provision_vwl * mc * empl.have_additional_provision_vwl;
+    var summ  = num(empl.cost_per_month_brutto) * mc
+              + num(empl.annual_bonus) * empl.have_annual_bonus
+              + num(empl.additional_provision_vwl) * mc * empl.have_additional_provision_vwl;
     empl.addCost = summ * umlage;
     empl.addCost = Math.ceil(empl.addCost/100)*100;
     empl.fullCost = empl.brutto + empl.addCost;
@@ -839,21 +855,21 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.prof_association_cost = 0;
     angular.forEach($scope.request_users, function(empl, key) {
       if(!empl.is_deleted) {
-        $scope.emoloyeesCost += (empl.fullCost || 0)*1;
+        $scope.emoloyeesCost += num(empl.fullCost);
       }
     });
     angular.forEach($scope.financeSchools, function(sch, key) {
-      $scope.training_cost += (sch.training_cost || 0)*1;
-      $scope.overhead_cost += (sch.overhead_cost || 0)*1;
+      $scope.training_cost += num(sch.training_cost);
+      $scope.overhead_cost += num(sch.overhead_cost);
     });
     angular.forEach($scope.prof_associations, function(ps, key) {
       if(!ps.is_deleted) {
-        $scope.prof_association_cost += (ps.sum || 0)*1;
+        $scope.prof_association_cost += num(ps.sum);
       }
     });
-    $scope.prof_association_cost = $scope.prof_association_cost || 0;
-    $scope.revenue_sum = ($scope.data.revenue_sum || 0)*1;
-    $scope.total_cost = $scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.data.revenue_sum;
+    $scope.prof_association_cost = num($scope.prof_association_cost);
+    $scope.revenue_sum = num($scope.data.revenue_sum);
+    $scope.total_cost = $scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum;
 
   }
   $scope.updateTrainingCost = function(school){
