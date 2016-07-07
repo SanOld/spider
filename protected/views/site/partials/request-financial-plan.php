@@ -146,6 +146,7 @@
                 </div>
                 <div class="row row-holder-dl">
                   <div class="col-lg-4 custom-box-btn">
+                    <h5>Mitarbeiter/in hinzufügen</h5>
                     <div class="form-group">
                       <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['employee']}"> 
                       <input placeholder="Name Vorname" ng-keyup="escapeEmployeeUser($event, $index)" ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name">  
