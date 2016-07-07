@@ -384,7 +384,7 @@ class Request extends BaseModel {
           'part' => 'finanzplan',
           'comment' => safe($post, 'finance_comment'),
           'date' => date('H:i d.m.Y'),
-          'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#finance-plan',
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($post, 'request_id').'#finance-plan',
       );
 
       if($request['finance_user_email']) {
@@ -402,12 +402,12 @@ class Request extends BaseModel {
       $emailParams = array(
           'request_code' => $request['code'],
           'date' => date('H:i d.m.Y'),
-          'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#finance-plan',
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($post, 'request_id').'#finance-plan',
       );
 
       $template = safe($post, 'status_id') == 4?'antrag_acknowledge':'antrag_acknowledge';
       if($request['finance_user_email']) {
-        Email::sendMessageByTemplate('antrag_acknowledge', $emailParams, $request['finance_user_email']);
+        Email::sendMessageByTemplate($template, $emailParams, $request['finance_user_email']);
       }
     }
     

@@ -106,7 +106,7 @@ class RequestSchoolGoal extends BaseModel {
           'part' => 'entwicklungsziele',
           'comment' => safe($post, 'notice'),
           'date' => date('H:i d.m.Y'),
-          'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#schools-goals',
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($post, 'request_id').'#schools-goals',
       );
       $result['emails'] = array();
       if($request['finance_user_email']) {

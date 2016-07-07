@@ -201,7 +201,7 @@ class RequestSchoolConcept extends BaseModel {
           'part' => 'konzept',
           'comment' => safe($post, 'comment'),
           'date' => date('H:i d.m.Y'),
-          'url' => 'http://spider.dev/request/'.safe($post, 'request_id').'#school-concepts',
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($post, 'request_id').'#school-concepts',
       );
       $result['emails'] = array();
       if($request['finance_user_email']) {
