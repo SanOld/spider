@@ -90,8 +90,8 @@ class DocumentTemplate extends BaseModel {
         '{FOERDERSUMME}'  => $requestData['total_cost'],
         '{JAHR}'          => $requestData['year'],
         '{KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $requestData['project_id']))->queryScalar(),
-        '{TRAGER}'       => 'Träger: '.$performerData['name'].'<br>'.
-                             'Träger Adresse: '.$performerData['address'] ,
+        '{TRAGER}'        => $performerData['name'],
+        '{TRAGERADRESSE}' => $performerData['address'],
         '{ZEITRAUM}'      => 'Beginn: '.$requestData['start_date_formated'].' Ende: '.$requestData['due_date_formated']
                              
       );
