@@ -808,7 +808,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         $scope.data.status_finance = status;
         $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
         $scope.$parent.setFinanceStatus(status);
-        //RequestService.afterSave();
+        RequestService.afterSave();
       }
     });
   };
