@@ -117,7 +117,7 @@
           </div>
         </div>
         <div id="accordion-account" class="panel-group panel-group-joined row">
-          <div class="panel panel-default row" ng-if="!emploee.is_deleted" ng-repeat="emploee in request_users">
+          <div class="panel panel-default row employee-row" data-name="{{emploee.user.name || 'ALLES ANZEIGEN'}}" ng-if="!emploee.is_deleted" ng-repeat="emploee in request_users">
             <div class="panel-heading">
               <button class="no-btn" title="Entfernen" ng-click="deleteEmployee($index)" ng-show="undelitetdCount(request_users) > 1 && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">
                 <i class="ion-close-round"></i>

@@ -117,10 +117,15 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     return results;
   };
 
-  $scope.doErrorIncompleteFields = function() {
+  $scope.doErrorIncompleteFields = function(fields) {
+    var text = '';
+    if(fields) {
+      text = "\n\n"+fields.join("\n")
+    }
     SweetAlert.swal({
+      html:true,
       title: "Fehler",
-      text: "Bitte füllen Sie alle Felder aus",
+      text: "Bitte füllen Sie alle Felder aus"+text,
       type: "error",
       confirmButtonText: "OK"
     });
@@ -787,7 +792,25 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     });
     return finPlan;
   };
-
+  var modelToName = { 'data.finance_user_id': 'Ansprechpartner für Rückfragen zum Finanzplan'
+                    , 'data.bank_details_id': 'Bankverbindung'
+                    , 'emploee.user_id': 'Mitarbeiter/in hinzufügen'
+                    , 'emploee.group_id': 'Entgeltgruppe'
+                    , 'emploee.remuneration_level_id': 'Entgeltstufe'
+                    , 'emploee.other': 'Sonstiges'
+                    , 'emploee.cost_per_month_brutto': 'Kosten pro Monat (AN-Brutto)'
+                    , 'emploee.month_count': 'Geplante Monate im Projekt'
+                    , 'emploee.hours_per_week': 'Arbeitsstunden pro Woche'
+                    , 'emploee.annual_bonus': 'Jahressonderzahlungen'
+                    , 'emploee.additional_provision_vwl': 'Zusatzversorgung (VWL) JANEIN'
+                    , 'emploee.supplementary_pension': 'Zusatzversorgung (betriebl. Altersversorgung)'
+                    
+                    
+                    , 'association.name': 'Berufsgenossenschaftsbeiträge Name'
+                    , 'association.sum': 'Berufsgenossenschaftsbeiträge Beitrag'
+                    , 'data.revenue_description': 'Sonstige Einnahmen'
+                    , 'data.revenue_sum': 'Sonstige Einnahmen Betrag'
+                    }
   $scope.submitForm = function(status) {
     if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
     var data = {};
@@ -796,7 +819,26 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
         break;
       case 'in_progress':
-        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
+        if($scope.financePlanForm.$invalid) {
+          var requriredFields = [];
+          $('#finance .ng-invalid').each(function(){
+            if($(this).prop("tagName") != 'NG-FORM' && $(this).attr("required") == 'required') {
+              var model = $(this).attr("ng-model");
+              var name = model.split('.');
+              var employee = '';
+              if(name[0] == 'emploee') {
+                employee = $(this).closest('.employee-row').attr('data-name')+': ';
+              }
+              var title = modelToName[model] || '';
+              
+              if(title) {
+                requriredFields.push(employee+title)
+              }
+            }
+          })
+          console.log(requriredFields.join("\n"));
+          return $scope.$parent.doErrorIncompleteFields(requriredFields);
+        }
         var finPlan = RequestService.financePlanData();
         delete finPlan.request;
         data.finance_user_id = $scope.data.finance_user_id;
