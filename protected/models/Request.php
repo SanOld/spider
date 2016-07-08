@@ -357,6 +357,7 @@ class Request extends BaseModel {
         $RequestUser = CActiveRecord::model('RequestUser');
         $RequestUser ->user = $this->user;
         foreach ($this->finance_plan['users'] as $data) {
+          unset($data['new_user_name']);
           if($id = safe($data,'id')) {
             unset($data['id']);
             if(safe($data,'is_deleted')) {
