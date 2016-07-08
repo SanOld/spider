@@ -42,7 +42,12 @@ class BaseModel extends CFormModel {
     return $command;
   }
   protected function getCommandFilter() {
-    $command = Yii::app()->db->createCommand()->select ('tbl.id, tbl.name')
+    $select = 'tbl.id, tbl.name';
+    switch ($this->table){
+      case 'spi_performer':
+        $select.= ', tbl.short_name';
+    };
+    $command = Yii::app()->db->createCommand()->select ($select)
       ->from($this->table  . ' tbl');
     $command = $this->setWhereByRole($command);
     $command->order('name');
@@ -84,7 +89,7 @@ class BaseModel extends CFormModel {
         'code' => '200'
     );
     if ($this->id !== false) {
-      $result ['result'] = isset ( $res [0] ) ? $res [0] : array ();//TODO
+      $result ['result'] = isset ( $res [0] ) ? $res  : array ();//TODO
     } else {
       $result ['result'] = $res;
       $result ['count'] = $this->getCountRes($commandClone);
@@ -247,6 +252,7 @@ class BaseModel extends CFormModel {
     $query = "SELECT `COLUMN_NAME`
                   FROM `INFORMATION_SCHEMA`.`COLUMNS`
                  WHERE `TABLE_NAME`='" . $this->table . "'
+                   AND `TABLE_SCHEMA` = '".Yii::app()->db->connectionString."'
                    AND `IS_NULLABLE`='NO'
                    AND `COLUMN_DEFAULT` IS NULL
                    AND `COLUMN_NAME` != 'id'";
@@ -482,7 +488,7 @@ class BaseModel extends CFormModel {
     }
     return $command;
   }
-  public function select($get) {
+  public function select($get, $toLock = false) {
     $this->method = 'get';
     if($this->checkPermission($this->user, ACTION_SELECT, $get) || (get_called_class() == 'Hint' && $this->isFilter)) {
       $params = array_change_key_case($get, CASE_UPPER);
@@ -505,7 +511,12 @@ class BaseModel extends CFormModel {
           $results = $this->calcResults($results);
           $results = $this->doAfterSelect($results);
 
-          response($results ['code'], $results, $this->method);
+          if ($toLock && $results['code'] == '200') {
+            return $results;
+          } else {
+            response($results ['code'], $results, $this->method);
+          }
+          
         } else {
           response('409', array('result' => false, 'system_code' => 'ERR_INVALID_QUERY'), $this->method);
         }
@@ -518,14 +529,55 @@ class BaseModel extends CFormModel {
     }
   }
   protected function getNextId() {
-    $res = Yii::app()->db->createCommand('SHOW TABLE STATUS WHERE name = "'.$this -> table.'"')->queryRow();
-    $next_id = $res ? (int)$res['Auto_increment'] : 1;
+    $custom_codes = Yii::app()->db->createCommand('SELECT sct.id, UPPER(prj.real_code) AS real_code, MAX(prj.code) max_code, prj.is_manual, IF(pt.id="3",1,0) AS is_bonus FROM spi_project prj 
+                                          JOIN spi_school_type sct ON prj.school_type_id=sct.id 
+                                          JOIN spi_project_type pt ON prj.type_id=pt.id  
+                                          WHERE prj.code NOT LIKE "%\\\\\\\\%"
+                                          AND prj.is_manual = 0                                           
+                                          AND prj.real_code <> ""    
+                                          GROUP BY prj.real_code, is_bonus')->queryAll();
+    $pattern_number = "/[0-9]+$/";
+    $pattern = "/^[a-zA-Z]{1,2}/"; 
+    
+    foreach ($custom_codes as &$code){
+      $code['code'] = preg_split($pattern_number, $code['max_code'],2,PREG_SPLIT_NO_EMPTY);
+      $code['next_code'] = preg_split($pattern, $code['max_code'],2,PREG_SPLIT_NO_EMPTY);     
+      $manual_codes = Yii::app()->db->createCommand()
+              ->select('sct.id, UPPER(prj.real_code) AS real_code, prj.code, prj.is_manual, IF(prj.type_id="3",1,0) AS is_bonus')
+              ->from('spi_project prj')
+              ->join('spi_school_type sct', 'prj.school_type_id=sct.id')
+              ->where('prj.is_manual = 1')
+              ->andWhere('prj.real_code <> ""')
+              ->andWhere('prj.code NOT LIKE "%\\\\\\\\%"')
+              ->andWhere('prj.code > :max_code',array(':max_code'=>$code['max_code']))
+              ->andWhere('prj.real_code = :real_code',array(':real_code'=>$code['real_code']))
+              ->order('prj.code')          
+              ->queryAll();     
+      if($manual_codes){    
+        ++$code['next_code'][0];
+        foreach($manual_codes as $value){
+          $value['next_code'] = preg_split($pattern, $value['code'],2,PREG_SPLIT_NO_EMPTY);          
+          if($code['next_code'][0] == $value['next_code'][0]){            
+            ++$code['next_code'][0]; 
+          }else{            
+            break;          
+          };
+        }            
+      }else{
+        ++$code['next_code'][0];
+      };     
+      if(strlen($code['next_code'][0]) == 1){
+          $code['next_code'][0] = "00".$code['next_code'][0];
+        }elseif(strlen($code['next_code'][0]) == 2){
+          $code['next_code'][0] = "0".$code['next_code'][0];
+      };             
+    }; 
+    
     $result = array (
         'system_code' => 'SUCCESSFUL',
         'code' => '200',
-        'next_id' => $next_id
+        'next_id' => $custom_codes
     );
-
     return $result;
   }
   protected function calcResults($result) {

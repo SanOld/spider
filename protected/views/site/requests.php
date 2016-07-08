@@ -5,10 +5,11 @@ $this->breadcrumbs = array('Anträge');
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/requests.js"></script>
 
-<div ng-controller="RequestController" class="wraper container-fluid" ng-cloak>
+<div ng-controller="RequestController" class="wraper container-fluid"  ng-cloak>
   <div class="row">
     <div class="container center-block">
-      <div class="panel panel-default">
+      <div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>
+      <div class="panel panel-default">        
         <div class="panel-heading clearfix">
           <h1 class="panel-title col-lg-6">Anträge</h1>
           <div class="pull-right heading-box-print">
@@ -25,9 +26,9 @@ $this->breadcrumbs = array('Anträge');
                 <div class="form-group">
                   <label>Träger</label>
                   <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
-                    <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.short_name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
-                      <span ng-bind="item.name"></span>
+                      <span ng-bind="item.short_name"></span>
                     </ui-select-choices>
                   </ui-select>
                 </div>
@@ -74,7 +75,7 @@ $this->breadcrumbs = array('Anträge');
                       <ui-select-match>{{$select.selected}}</ui-select-match>
                       <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: item">
                         <span ng-bind="item"></span>
-                      </ui-select-choices>
+                      </ui-select-choices>                      
                     </ui-select>
                   </div>
                 </div>
@@ -111,11 +112,15 @@ $this->breadcrumbs = array('Anträge');
                     </label>
                   </td>
                   <td data-title="'Kennz.'" sortable="'code'">{{row.code}}</td>
-                  <td data-title="'Träger'" sortable="'performer_name'">
+                  <td data-title="user.type != 't' ? 'Träger' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
                     <!--<span class="performer-icon" ng-class="{'unchecked':row.performer_is_checked != '1'}">{{row.performer_name}}</span>-->
                     <i ng-if="+row.performer_is_checked" class="ion-checkmark"></i>
                     <span ng-if="!+row.performer_is_checked" class="icon-no-icon"></span>
-                    {{row.performer_name}}
+                   <div class="holder-school">
+                    <span ng-if="!+row.performer_is_checked" class="icon-no-icon"></span>
+                    {{user.type  == 't' ? '' : row.performer_name}}
+                    <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
+                   </div>
                   </td>
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
                   <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
@@ -137,11 +142,11 @@ $this->breadcrumbs = array('Anträge');
                       </a>
                     </div>
                   </td>
-                  <td data-title="'Abgabe'" sortable="'end_fill'">{{row.end_fill?(row.end_fill_unix| date : 'dd.MM.yyyy'):''}}</td>
-                  <td data-title="'Letzte Änd.'" sortable="'last_change'">{{row.last_change?(row.last_change_unix| date : 'dd.MM.yyyy'):''}}</td>
-                  <td data-title="'Ansicht / Bearbeiten'">
-                    <a ng-click="printDocuments(row)" ng-class="{disabled: row.status_code != 'acceptable' && row.status_code != 'accept'}" class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
-                    <a ng-if="canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}" title="Bearbeiten">
+                  <td data-title="'Abgabe'" sortable="'end_fill'">{{getDate(row.end_fill) | date : 'dd.MM.yyyy'}}</td>
+                  <td data-title="'Letzte Änd.'" sortable="'last_change'">{{getDate(row.last_change) | date : 'dd.MM.yyyy'}}</td>
+                  <td data-title="'Ansicht / Bearbeiten'" ng-click="setFilter()">
+                    <a ng-click="printDocuments(row)"  ng-class=" {disabled: !userCan( 'btnPrintDocument', row.status_code)} " class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
+                    <a ng-if="canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}"  title="Bearbeiten">
                       <i class="ion-edit"></i>
                     </a>
                     <a ng-if="!canEdit(row)" class="btn edit-btn"  href="/request/{{row.id}}" title="Aussicht">
@@ -222,7 +227,7 @@ $this->breadcrumbs = array('Anträge');
     </div>
     <div class="panel-body">
       <h3 class="m-b-30 text-center">Dokumente zum Druck wählen</h3>
-      <div ng-repeat="template in templates" class="doc-print">
+      <div ng-repeat="template in templates" class="doc-print" ng-hide="!userCan || (user.type == 't' && user.is_finansist != '1' && template.type_name != 'Zielvereinbarung') ">
         <div class="holder-doc-print">
           <span class="name-doc">{{template.type_name}}:</span>
           <p>{{template.name}}</p>
@@ -325,6 +330,18 @@ $this->breadcrumbs = array('Anträge');
               </div>
             </div>
           </div>
+          <br>
+          <div class="holder-datepicker text-right">
+            <div class="col-lg-3 p-0">
+              <label>Abgabedatum</label>
+            </div>
+            <div class="col-lg-3 p-0">
+              <div class="input-group">
+                <input type="text" ng-click="dp_end_fill_is_open = !dp_end_fill_is_open" ng-model="form.end_fill" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_end_fill_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </div>
+          </div>
         </ng-form>
       </div>
     </div>
@@ -388,4 +405,8 @@ $this->breadcrumbs = array('Anträge');
       </div>
     </div>
   </div>
+</script>
+
+<script type="text/ng-template" id="showTemplate.html">
+  <?php include(Yii::app()->getBasePath().'/views/site/partials/document-template.php'); ?>
 </script>

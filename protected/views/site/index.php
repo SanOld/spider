@@ -8,7 +8,7 @@ $this->pageTitle = 'Login | ' . Yii::app()->name;
 <div ng-controller="LoginController" class="wrapper-page animated fadeInDown">
     <div class="panel panel-color panel-primary">
         <div class="panel-heading">
-            <h3 class="text-center m-t-10">Mitglieder Login</h3>
+            <h3 class="text-center m-t-10">Login</h3>
         </div>
 
         <form novalidate method="post" name="form" id="loginForm" class="cmxform form-horizontal m-t-40">
@@ -64,7 +64,7 @@ $this->pageTitle = 'Login | ' . Yii::app()->name;
             10179 Berlin
             <p class="m-t-10">Tel.: +49 30 2888-496-0<br />
                 Fax.: +49 30 2888-496-20</p>
-            <p class="m-t-10"><a target="_blank" href="mailto:programmagentur@stiftung-spi.de">E-mail senden</a><br/>
+            <p class="m-t-10"><a target="_blank" href="mailto:programmagentur@stiftung-spi.de">E-Mail senden</a><br/>
                 <a target="_blank" href="http://www.spi-programmagentur.de">www.spi-programmagentur.de</a></p>
         </address>
     </div>

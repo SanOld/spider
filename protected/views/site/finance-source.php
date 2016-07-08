@@ -14,7 +14,7 @@ $this->breadcrumbs = array('Fördertöpfe');
 
           <div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-            <!--<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Fördertopf hinzufügen</button>-->
+            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Fördertopf hinzufügen</button>
           </div>
         </div>
         <div class="panel-body schoole-user">
@@ -25,6 +25,7 @@ $this->breadcrumbs = array('Fördertöpfe');
                 <tr ng-repeat="row in $data">
                   <td data-title="'Fördertopf'" sortable="'type_name'">{{row.type_name}}</td>
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
+                  <td data-title="'Präfix'" sortable="'prefix'">{{row.prefix}}</td>
                   <td data-title="'Beschreibung'" sortable="'description'">{{row.description}}</td>
                   <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
                     <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit())">
@@ -60,8 +61,8 @@ $this->breadcrumbs = array('Fördertöpfe');
             <div class="col-lg-9">
               <div spi-hint text="_hint.finance_source_type" class="has-hint"></div>
               <span ng-if="!canEdit() || modeView" ng-bind="sourceTypeName"></span>
-              <div class="wrap-hint" ng-if="canEdit() && !modeView">
-                <ui-select ng-disabled="!$select.items.length || true" ng-model="finance.project_type_id"
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('finance_source_type')}">
+                <ui-select ng-disabled="!$select.items.length" ng-model="finance.project_type_id"
                            name="finance_source_type" required>
                   <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                     {{$select.selected.name}}
@@ -70,6 +71,10 @@ $this->breadcrumbs = array('Fördertöpfe');
                     <span ng-bind-html="item.name | highlight: $select.search"></span>
                   </ui-select-choices>
                 </ui-select>
+                <span ng-class="{hide: !fieldError('finance_source_type')}" class="hide">
+                    <label ng-show="formFinances.finance_source_type.$error.required" class="error">Fördertopf ist erforderlich</label>
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </span>
               </div>
             </div>
           </div>
@@ -84,6 +89,15 @@ $this->breadcrumbs = array('Fördertöpfe');
                     <label ng-show="formFinances.programm.$error.required" class="error">Programm ist erforderlich</label>
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                 </span>
+              </div>
+            </div>
+          </div>
+          <div class="m-b-15 clearfix">
+            <label class="col-lg-3 control-label">Präfix</label>
+            <div class="col-lg-9">
+              <div spi-hint text="_hint.prefix" class="has-hint"></div>
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('prefix')}">
+                <input name="prefix" ng-model="finance.prefix" class="form-control" type="text" value="">                
               </div>
             </div>
           </div>

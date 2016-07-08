@@ -1,6 +1,6 @@
 <?php
 require_once ('utils/utils.php');
-
+require_once ('utils/email.php');
 
 class RequestSchoolConcept extends BaseModel {
   public $table = 'spi_request_school_concept';
@@ -28,6 +28,24 @@ class RequestSchoolConcept extends BaseModel {
   protected function doAfterSelect($result) {
     foreach($result['result'] as &$row) {
       $row['histories'] = $this->getHistoriesById($row['id']);
+
+      $status_id = Yii::app() -> db -> createCommand()
+                                    -> select('status_id')
+                                    -> from('spi_request tbl')
+                                    ->where('tbl.id = :id', array(':id' => $row['request_id']))
+                                    ->queryScalar();
+      if($status_id == '5'){
+        $school_result=Yii::app() -> db -> createCommand()
+                                    -> select('tbl.name, tbl.number')
+                                    -> from('spi_school_lock tbl')
+                                    ->where('tbl.request_id = :id', array(':id' => $row['request_id']))
+                                    ->andWhere('tbl.school_id = :school_id', array(':school_id' => $row['school_id']))
+                                    ->queryRow();
+
+        $row['school_name']=$school_result['name'];
+        $row['school_number']=$school_result['number'];
+      }
+
     }
     return $result;
   }
@@ -167,6 +185,37 @@ class RequestSchoolConcept extends BaseModel {
       'post' => $post
     );
 
+  }
+  
+  protected function doAfterUpdate($result, $params, $post, $id) {
+    if(safe($post, 'status') == 'rejected') {
+      $request = Yii::app() -> db -> createCommand()
+        -> select('rq.id request_id, (SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email, (SELECT email FROM spi_user WHERE id = rq.concept_user_id) concept_user_email')
+        -> from($this -> table . ' tbl')
+        -> join('spi_request rq', 'tbl.request_id = rq.id')
+        -> where('tbl.id=:id', array(':id' => $id))
+        ->queryRow();
+      
+      $emailParams = array(
+          'request_code' => $request['code'],
+          'part' => 'konzept',
+          'comment' => safe($post, 'comment'),
+          'date' => date('H:i d.m.Y'),
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($request, 'request_id').'#school-concepts',
+      );
+      $result['emails'] = array();
+      if($request['finance_user_email']) {
+        $result['emails'][] = Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['finance_user_email']);
+      } else {
+        $result['emails'][] = 'finance_user_email is empty';
+      }
+      if($request['concept_user_email']) {
+        $result['emails'][] = Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['concept_user_email']);
+      } else {
+        $result['emails'][] = 'concept_user_email is empty';
+      }
+    }
+    return $result;
   }
   
   public function getCommonStatus($requestID, $statusPriorities) {

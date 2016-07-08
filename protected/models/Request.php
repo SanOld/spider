@@ -1,5 +1,7 @@
 <?php
 require_once ('utils/utils.php');
+require_once ('utils/email.php');
+use  yii\helpers\ArrayHelper ;
 
 
 class Request extends BaseModel {
@@ -8,13 +10,15 @@ class Request extends BaseModel {
   public $school_concepts = array();
   public $finance_plan = array();
   public $school_goals = array();
+  public $lock = false;
   public $select_all = "tbl.*
                       , prf.short_name performer_name
                       , prf.is_checked performer_is_checked
                       , rqs.name status_name
                       , rqs.code status_code
                       , prj.code code
-                      , fns.programm";
+                      , fns.programm
+                      ,(SELECT name FROM spi_school scl WHERE scl.id=prj.id) AS `school_name`";
 
   public $paPriority = array('in_progress' => 1, 'rejected' => 2, 'unfinished' => 3, 'accepted' => 4 );
   public $taPriority = array('rejected' => 1, 'unfinished' => 2, 'in_progress' => 3, 'accepted' => 4 );
@@ -27,7 +31,7 @@ class Request extends BaseModel {
       $this -> select_all = "tbl.*
                             , prj.id project_id
                             , prj.code code
-                            , IF(prj.type_id = 3, 1, 0) is_bonus_project 
+                            , IF(prj.type_id = 3, 1, 0) is_bonus_project
 
                             , rqs.code status_code
 
@@ -41,6 +45,7 @@ class Request extends BaseModel {
 
                               ) performer_checked_by
                             , prf.short_name performer_name
+                            , prf.name performer_long_name
                             , prf.address performer_address
                             , prf.plz performer_plz
                             , prf.city performer_city
@@ -75,9 +80,9 @@ class Request extends BaseModel {
     } else {
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> join( 'spi_request_status rqs', 'tbl.status_id           = rqs.id' );
-      $command -> leftJoin( 'spi_performer prf',      'tbl.performer_id        = prf.id' );
+      $command -> leftJoin( 'spi_performer prf',  'tbl.performer_id        = prf.id' );
       $command -> join( 'spi_project prj',        'tbl.project_id          = prj.id' );
-      $command -> join( 'spi_finance_source fns', 'prj.type_id = fns.project_type_id' );
+      $command -> join( 'spi_finance_source fns', 'prj.programm_id         = fns.id' );
       $command -> where(' 1=1 ', array());
 
     }
@@ -136,46 +141,16 @@ class Request extends BaseModel {
       foreach($result['result'] as &$row) {
         $row = (int)$row['year'];
       }
-      if(!in_array(date("Y"), $result['result'])) {
-        array_push($result['result'], (int)date("Y"));
-      }
+//      if(!in_array(date("Y"), $result['result'])) {
+//        array_push($result['result'], (int)date("Y"));
+//      }
     } else {
       foreach($result['result'] as &$row) {
-        if($row['start_date'] != '0000-00-00'){
-          $row['start_date_unix'] = strtotime($row['start_date']);
-          $row['start_date_unix'] = $row['start_date_unix'] ? $row['start_date_unix'].'000' : '';
-        } else {
-          $row['start_date'] = '';
-          $row['start_date_unix'] = '';
-        }
 
-        if($row['due_date'] != '0000-00-00'){
-          $row['due_date_unix'] = strtotime($row['due_date']);
-          $row['due_date_unix'] = $row['due_date_unix'] ? $row['due_date_unix'].'000' : '';
-        } else {
-          $row['due_date'] = '';
-          $row['due_date_unix'] = '';
-        }
-
-        if($row['last_change'] != '0000-00-00'){
-          $row['last_change_unix'] = strtotime($row['last_change']);
-          $row['last_change_unix'] = $row['last_change_unix'] ? $row['last_change_unix'].'000' : '';
-        } else {
-          $row['last_change'] = '';
-          $row['last_change_unix'] = '';
-        }
-
-        if($row['end_fill'] != '0000-00-00'){
-          $row['end_fill_unix'] = strtotime($row['end_fill']);
-          $row['end_fill_unix'] = $row['end_fill_unix'] ? $row['end_fill_unix'].'000' : '';
-        } else {
-          $row['end_fill'] = '';
-          $row['end_fill_unix'] = '';
-        }
-
-
-
-
+        if($row['start_date']   == '0000-00-00'){ $row['start_date']  = ''; }
+        if($row['due_date']     == '0000-00-00'){ $row['due_date']    = ''; }
+        if($row['last_change']  == '0000-00-00'){ $row['last_change'] = ''; }
+        if($row['end_fill']     == '0000-00-00'){ $row['end_fill']    = ''; }
 
         $row['status_goal'] = $this->calcGoalsStatus($row['id']);
         $row['status_concept'] = $this->calcConceptStatus($row['id']);
@@ -314,6 +289,7 @@ class Request extends BaseModel {
 
   protected function doAfterUpdate($result, $params, $post, $request_id) {
     Yii::app()->db->createCommand()->update($this->table, array('last_change' => date("Y-m-d", time())), 'id=:id', array(':id' => $request_id ));
+
     if($this->school_concepts) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
       $RequestSchoolConcept->user = $this->user;
@@ -338,6 +314,16 @@ class Request extends BaseModel {
         foreach (safe($this->finance_plan, 'schools', array()) as $data) {
           $id = $data['id'];
           unset($data['id']);
+
+          if($data['rate']){
+            $data['rate']           = (float)str_replace(",", ".", $data['rate']);
+          }
+          if($data['training_cost']){
+            $data['training_cost']  = (float)str_replace(",", ".", $data['training_cost']);
+          }
+          if($data['overhead_cost']){
+            $data['overhead_cost']  = (float)str_replace(",", ".", $data['overhead_cost']);
+          }
           $res = $RequestSchoolFinance->update($id, $data, true);
         }
       }
@@ -348,6 +334,9 @@ class Request extends BaseModel {
 
         foreach ($this->finance_plan['prof_associations'] as $data) {
           if($id = safe($data,'id')) {
+            if($data['sum']){
+              $data['sum']  = (float)str_replace(",", ".", $data['sum']);
+            }
             unset($data['id']);
             if(safe($data,'is_deleted')) {
               $RequestProfAssociation->delete($id, true);
@@ -355,6 +344,9 @@ class Request extends BaseModel {
               $RequestProfAssociation->update($id, $data, true);
             }
           } elseif(!safe($data,'is_deleted')) {
+            if($data['sum']){
+              $data['sum']  = (float)str_replace(",", ".", $data['sum']);
+            }
             $data['request_id'] = $request_id;
             $res = $RequestProfAssociation->insert($data, true);
           }
@@ -379,8 +371,59 @@ class Request extends BaseModel {
         }
       }
     }
+    
+    if(safe($post, 'status_finance') == 'rejected') {
+      $request = Yii::app() -> db -> createCommand()
+        -> select('rq.id request_id, (SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
+        -> from('spi_request rq')
+        -> where('rq.id=:id', array(':id' => $request_id))
+        ->queryRow();
+
+      $emailParams = array(
+          'request_code' => $request['code'],
+          'part' => 'finanzplan',
+          'comment' => safe($post, 'finance_comment'),
+          'date' => date('H:i d.m.Y'),
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($request, 'request_id').'#finance-plan',
+      );
+
+      if($request['finance_user_email']) {
+        Email::sendMessageByTemplate('antrag_reject', $emailParams, $request['finance_user_email']);
+      }
+    }
+
+     if ($params['status_id'] == '5'){
+
+      $Request = CActiveRecord::model('RequestLock');
+      $Request->user = $this->user;
+      $Request->insert(array('request_id'=>$request_id));
+
+    }
+
+    if(safe($post, 'status_id') == 4 || safe($post, 'status_id') == 5 ) {
+      $request = Yii::app() -> db -> createCommand()
+        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
+        -> from('spi_request rq')
+        -> where('rq.id=:id', array(':id' => $request_id))
+        ->queryRow();
+
+      $emailParams = array(
+          'request_code' => $request['code'],
+          'date' => date('H:i d.m.Y'),
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($post, 'request_id').'#finance-plan',
+      );
+
+      $template = safe($post, 'status_id') == 4?'antrag_acknowledge':'antrag_acknowledge';
+      if($request['finance_user_email']) {
+        Email::sendMessageByTemplate($template, $emailParams, $request['finance_user_email']);
+      }
+    }
+    
     return $result;
   }
+
+
+
 
   protected function doAfterSelect($result) {
 
@@ -396,18 +439,89 @@ class Request extends BaseModel {
                                       -> leftJoin( 'spi_user user', 'user.id = sch.contact_id' )
                                       -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
                                       -> queryAll();
+
+      if($row['status_id'] == '5'){
+        $row = $this->changeToLock($row);
+      }
+
       $result['result'] =  $row;
+
+    }else {
+      foreach($result['result'] as &$row) {
+        if($row['project_id']){
+          $schools = Yii::app() -> db -> createCommand()
+          -> select('scl.*') -> from('spi_project_school prs')
+          -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
+          -> where('prs.project_id=:id', array(':id' => $row['project_id'])) 
+          -> queryAll();
+          $row['schools'] = $schools;
+        }
+
+        $old = $row;
+        if($row['status_id'] == '5'){
+          $row = $this->changeToLock($row);
+        }
+        $new = $row;
+
+      }
     }
 
     return $result;
   }
 
+  protected function changeToLock($row){
+    $id = $row['id'];
+    $lock_result = Yii::app() -> db -> createCommand()
+                                      -> select("*")
+                                      -> from('spi_request_lock tbl')
+                                      -> where('tbl.request_id=:id', array(':id' => $id))
+                                      -> queryRow();
+
+    unset($lock_result['id']);
+
+    
+
+
+    if(!$lock_result){
+      return $row;
+    } else {
+      $new_row = array_replace ($row, $lock_result);
+
+      if($new_row['start_date']   == '0000-00-00'){ $new_row['start_date']  = ''; }
+      if($new_row['due_date']     == '0000-00-00'){ $new_row['due_date']    = ''; }
+      if($new_row['last_change']  == '0000-00-00'){ $new_row['last_change'] = ''; }
+      if($new_row['end_fill']     == '0000-00-00'){ $new_row['end_fill']    = ''; }
+
+
+      if(array_key_exists ( 'schools' , $new_row)){
+        foreach ($new_row['schools'] as &$school){
+          $school_lock_result = Yii::app() -> db -> createCommand()
+                                          -> select("*")
+                                          -> from('spi_school_lock tbl')
+                                          -> where('tbl.request_id=:id', array(':id' => $id))
+                                          -> andWhere('tbl.school_id=:s_id', array(':s_id' => $school['id']))
+                                          -> queryRow();
+        unset($school_lock_result['id']);
+
+        $school = array_replace ($school , $school_lock_result);
+
+        }
+        
+      }
+    }
+
+    
+
+
+    if($new_row){
+      return $new_row;
+    } else {
+      return $row;
+    }
+  }
+
   protected function doBeforeUpdate($post, $id) {
 
-    unset($post['start_date_unix']);
-    unset($post['due_date_unix']);
-    unset($post['end_fill_unix']);
-    unset($post['last_change_unix']);
     unset($post['status_code']);
 
     if(isset($post['doc_target_agreement_id']) && !$post['doc_target_agreement_id']) {
@@ -434,6 +548,29 @@ class Request extends BaseModel {
       $this->finance_plan = $post['finance_plan'];
       unset($post['finance_plan']);
     }
+
+    if(isset($post['revenue_sum'])) {
+      $post['revenue_sum'] = (float)str_replace(",", ".", $post['revenue_sum']);
+    }
+    if(isset($post['emoloyees_cost'])) {
+      $post['emoloyees_cost'] = (float)str_replace(",", ".", $post['emoloyees_cost']);
+    }
+    if(isset($post['training_cost'])) {
+      $post['training_cost'] = (float)str_replace(",", ".", $post['training_cost']);
+    }
+    if(isset($post['overhead_cost'])) {
+      $post['overhead_cost'] = (float)str_replace(",", ".", $post['overhead_cost']);
+    }
+    if(isset($post['prof_association_cost'])) {
+      $post['prof_association_cost'] = (float)str_replace(",", ".", $post['prof_association_cost']);
+    }
+    if(isset($post['prof_association_cost'])) {
+      $post['prof_association_cost'] = (float)str_replace(",", ".", $post['prof_association_cost']);
+    }
+    if(isset($post['total_cost'])) {
+      $post['total_cost'] = (float)str_replace(",", ".", $post['total_cost']);
+    }
+
 
     return array (
       'result' => true,

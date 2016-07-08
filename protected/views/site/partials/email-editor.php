@@ -1,6 +1,6 @@
 	<div class="panel panel-color panel-primary" >
 		<div class="panel-heading clearfix">
-			<h3 class="m-0 pull-left" >Email-Vorlagen bearbeiten - {{document.name}}</h3>
+			<h3 class="m-0 pull-left" >E-Mail-Vorlagen bearbeiten - {{document.name}}</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
       <form novalidate name="form">
@@ -42,7 +42,7 @@
                     </div>
                   </div>
                   <div class="m-b-15 clearfix">
-                    <label class="col-lg-1 control-label">Thema</label>
+                    <label class="col-lg-1 control-label">Betreff</label>
                     <div class="col-lg-6">
                       <div spi-hint text="_hint.subject" class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('subject')}">
@@ -75,10 +75,7 @@
 
                 <hr />
                 <div class="form-group group-btn m-t-15">
-                  <div class="col-lg-2">
-                    <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove()"><i class="fa fa-trash-o"></i></a>
-                  </div>
-                  <div class="col-lg-10 text-right pull-right">
+                  <div class="col-lg-12 text-right pull-right">
                     <button class="btn w-lg cancel-btn" ng-click="cancel()" data-dismiss="modal">Abbrechen</button>
                     <button class="btn w-lg custom-btn" ng-click="submitEmailTemplate()" data-dismiss="modal">Speichern</button>
                   </div>

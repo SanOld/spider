@@ -122,7 +122,7 @@
 											</tr>
 											<tr>
 												<td>Benutzer</td>
-												<td>Email</td>
+												<td>E-Mail</td>
 												<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed consectetur </td>
 												<td>
 													<a class="btn center-block edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
@@ -389,7 +389,7 @@
 					"sDom": 'Rfrtlip',
 					"oLanguage": {
 				      	"sLengthMenu": "_MENU_ Objekte pro Seite",
-				      	"sInfo": "_PAGE_ bis _PAGES_ Einträge aus _TOTAL_ anzeigen",
+				      	"sInfo": "Seite _PAGE_ von _PAGES_ aus _TOTAL_ Einträgen",
 				      	"oPaginate": {
 			                "sPrevious": "Zurück", // This is the link to the previous page
 			                "sNext": "Weiter", // This is the link to the next page

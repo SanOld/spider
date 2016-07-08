@@ -1,9 +1,17 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal, configs) {
+spi.controller('RequestController', function ($scope, $rootScope, network, GridService, Utils, SweetAlert, $uibModal, configs, localStorageService) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
+  $rootScope.printed = 0;
   var d = new Date;
-  $scope.filter = {year: d.getFullYear(), status_id: '1,3,4,5'};
+  $scope.defaulFilter = {year: d.getFullYear(), status_id: '1,3,4,5'}
+
+  $scope.filter = localStorageService.get('requestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
+  if(!$scope.filter == $scope.defaulFilter ){
+    localStorageService.set('requestsFilter', $scope.filter );
+  }
+
+  $scope.userType = network.user.type;
 
   $scope.checkboxes = {
     checked: false,
@@ -38,6 +46,15 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   network.get('request', {list: 'year'}, function (result, response) {
     if (result) {
       $scope.years = response.result;
+      if($scope.years.length > 0){
+        $scope.defaulFilter = {year: $scope.years[0], status_id: '1,3,4,5'};
+        
+        if($scope.years.indexOf($scope.filter.year) == -1){
+           $scope.filter.year = $scope.years[0];
+           $scope.setFilter();
+           grid.reload();
+        }
+      }
     }
   });
 
@@ -52,10 +69,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $scope.tableParams = grid('request', $scope.filter);
 
   $scope.resetFilter = function () {
-    $scope.filter = grid.resetFilter();
+    $scope.filter = angular.copy($scope.defaulFilter);
+    grid.resetFilter($scope.filter);
   };
 
   $scope.updateGrid = function () {
+    $scope.setFilter();
     grid.reload();
   };
 
@@ -94,7 +113,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       if(failCodes.length) {
         SweetAlert.swal({
           title: "Fehler",
-          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert dein",
+          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert sein",
           type: "error",
           confirmButtonText: "OK"
         });
@@ -113,7 +132,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       });
 
       modalInstance.result.then(function (data) {
-        network.patch('request', {ids: ids, start_date: Utils.getSqlDate(data.start_date), due_date: Utils.getSqlDate(data.due_date)}, function(result) {
+        network.patch('request', {ids: ids, start_date: Utils.getSqlDate(data.start_date), due_date: Utils.getSqlDate(data.due_date), end_fill: Utils.getSqlDate(data.end_fill)}, function(result) {
           if(result) {
             grid.reload();
           }
@@ -167,7 +186,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   };
 
   $scope.printDocuments = function(row) {
-    $uibModal.open({
+    var modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'printDocuments.html',
       controller: 'ModalPrintDocumentsController',
@@ -175,9 +194,38 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       resolve: {
         row: function () {
           return row;
+        },
+        userCan: function () {
+          return $scope.userCan('btnPrintDocument', row.status_code );
+        },
+        user: function () {
+          return $scope.user;
         }
+        
       }
     });
+    
+    modalInstance.result.then(function (template) {
+     $uibModal.open({
+        animation: true,
+        templateUrl: 'showTemplate.html',
+        controller: 'ShowDocumentTemplatesController',
+        size: 'width-full',
+        resolve: {
+          data: function () {
+            return template;
+          },
+          row: function () {
+            return row;
+          }
+        }
+      });
+
+    });
+    
+
+
+
   };
 
   $scope.setBulkStatus = function(statusId) {
@@ -186,6 +234,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       var failCodes = [];
       for(var i=0; i<ids.length; i++) {
         var row = Utils.getRowById($scope.tableParams.data, ids[i]);
+
         if(statusId == 5 && row.status_id < 4 || statusId < row.status_id) {
           failCodes.push(row.code);
         } else if(row.status_concept != 'accepted' || row.status_finance != 'accepted' || row.status_goal != 'accepted') {
@@ -242,6 +291,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
                                 , year: data.year}
                                 , function(result, response) {
                                     if(result) {
+                                      $scope.setFilter();
                                       window.location = ' /request/' + response.id;
                                     }
                                   }
@@ -250,6 +300,63 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
     }
   };
+
+  $scope.setFilter = function(){
+     localStorageService.set('requestsFilter', $scope.filter );
+  }
+
+  $scope.permissions={
+                      btnPrintDocument: {
+                                          open:         {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          in_progress:  {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          decline:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          acceptable:   {'a' : 1, 'p' : 1, 't': 1, 'default': 0 },
+                                          accept:       {'a' : 1, 'p' : 1, 't': 1, 'default': 0 },
+                                          default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                        },
+                              default:  {
+                                          open:         {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          in_progress:  {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          decline:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          acceptable:   {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          accept:       {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
+                                        }
+                      }
+
+  $scope.userCan = function( field, status_code ){
+    var status = status_code  || 'default';
+    var userType='';
+    switch($scope.userType){
+      case 'a':;
+      case 'p':;
+      case 't':
+        userType = $scope.userType;
+        break;
+      default:
+        userType = 'default';
+    }
+
+    
+    if(!(field in $scope.permissions)){
+      field = 'default';
+    }
+
+    var result = $scope.permissions[field][status][userType];
+    return result;
+
+  }
+
+  $scope.getDate = function (date) {
+    var result = '';
+    if(date){
+      result = new Date(date);
+    }
+    return result;
+  }
+
+
+
 
 });
 
@@ -308,9 +415,11 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 });
 
-spi.controller('ModalPrintDocumentsController', function ($scope, row, $uibModalInstance, network) {
+spi.controller('ModalPrintDocumentsController', function ($scope,user, row,  userCan, $uibModalInstance, network) {
+  $scope.row = row;
+  $scope.userCan = userCan;
   $scope.code = row.code;
-
+  $scope.user = user;
   var ids = [];
   var docs = [row.doc_target_agreement_id, row.doc_request_id, row.doc_financing_agreement_id];
   for(var i=0; i<docs.length; i++) {
@@ -318,7 +427,7 @@ spi.controller('ModalPrintDocumentsController', function ($scope, row, $uibModal
   }
 
   if(ids.length) {
-    network.get('document_template', {'ids[]': ids}, function (result, response) {
+    network.get('document_template', {'ids[]': ids, 'prepare': 1, 'request_id': row.id }, function (result, response) {
       if (result) {
         $scope.templates = response.result;
       }
@@ -326,9 +435,8 @@ spi.controller('ModalPrintDocumentsController', function ($scope, row, $uibModal
   }
 
   $scope.printDoc = function(template){
-    console.log(template.text);
-    //$uibModalInstance.close($scope.templates);
-    $uibModalInstance.dismiss('cancel');
+//    console.log(template.text);
+    $uibModalInstance.close(template,  $scope.printed);
   }
 
   $scope.cancel = function () {
@@ -356,6 +464,7 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
     if($scope.request.year) {
       network.get('project', {list: 'unused_project', year: $scope.request.year}, function (result, response) {
         if (result) {
+          $scope.request.project_id = '';
           $scope.projects = response.result;
         }
       });
@@ -384,3 +493,39 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
   };
 
 });
+
+
+
+spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $uibModalInstance, data, $sce, $rootScope) {
+  $scope.isInsert = !data.id;
+
+  $scope.filter = {};
+
+  $scope.trustAsHtml = function(string) {
+    return $sce.trustAsHtml(string);
+  };
+
+  if (!$scope.isInsert) {
+    $scope.document = {
+      text: data.text,
+      name: data.name
+    };
+  } else {
+    $scope.document = {
+      text: ''
+    };
+  }
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+  $rootScope.printed = 1;
+  $timeout(function() {
+      window.print();
+      $rootScope.printed = 0;
+      $uibModalInstance.close($scope.request);
+  });
+
+});
+

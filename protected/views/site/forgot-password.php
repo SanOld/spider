@@ -8,16 +8,16 @@ $this->pageTitle = 'Forgot Password | ' . Yii::app()->name;
         <div class="panel panel-color panel-primary">
             <form novalidate name="form" class="text-center cmxform form-horizontal">
                 <h3 class="m-t-20">Passwort vergessen?</h3>
-                <p class="m-b-10">Bitte geben Sie Ihre E-mail-Adresse ein, um Ihr Passwort zurückzusetzen</p>
+                <p class="m-b-10">Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen</p>
                 <div class="alert alert-danger" ng-style="submited && error && {'display': 'block'}">
                     Bitte geben Sie die markierten Felder korrekt ein
                 </div>
                 <div class="form-group text-left has-feedback m-t-15">
                     <div class="col-lg-12 wrap-line" ng-class="{'wrap-line error': fieldError(), 'wrap-line success': !fieldError()}">
-                        <input type="email" ng-model="email" name="email" class="form-control" placeholder="Geben Sie die E-mail Adresse ein" name="email" autofocus required>
+                        <input type="email" ng-model="email" name="email" class="form-control" placeholder="Geben Sie die E-Mail-Adresse ein" name="email" autofocus required>
                         <span ng-show="fieldError()">
                             <label ng-show="form.email.$error.email || form.email.$error.required" class="error">Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen</label>
-                            <label ng-show="error && form.email.$pristine" class="error">E-mail-Adresse nicht im System vorhanden oder nicht aktiv</label>
+                            <label ng-show="error && form.email.$pristine" class="error">E-Mail-Adresse nicht im System vorhanden oder nicht aktiv</label>
                             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                         <span ng-show="form.email.$dirty && !fieldError()" class="glyphicon glyphicon-ok form-control-feedback"></span>

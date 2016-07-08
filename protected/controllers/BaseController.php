@@ -19,7 +19,8 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   SystemModel,
                   AuditTables, Audit,
                   DocumentTemplate, DocumentTemplateType, DocumentTemplatePlaceholder, EmailTemplate,
-                  RemunerationLevel, RequestFinancialGroup, RequestUser, RequestProfAssociation');
+                  RemunerationLevel, RequestFinancialGroup, RequestUser, RequestProfAssociation,
+                  UserLock');
 
 class BaseController extends Controller {
   private $method = false;
@@ -38,6 +39,10 @@ class BaseController extends Controller {
 //        case 'relation':
 //          response(200, $this->getRelation());
 //          break;
+        case 'logout':
+          $auth = new Auth();
+          $res = $auth->logout();
+          break;
         case 'forgot_password':
           $auth = new Auth();
           if($user = $auth->checkEmail(post('email'))) {
@@ -102,6 +107,8 @@ class BaseController extends Controller {
                 case 'startAllTablesAudit':$this -> model ->startAllTablesAudit();
                   break;
                 case 'updateTablesAudit':$this -> model ->updateTablesAudit();
+                  break;
+                case 'deleteTablesAudit':$this -> model ->deleteTablesAudit();
                   break;
               }
 

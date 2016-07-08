@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		
-		<title>EMail-Vorlagen | SPIder</title>
+		<title>E-Mail-Vorlagen | SPIder</title>
 		<?php include('templates/head.php'); ?>
 	</head>
 
@@ -19,7 +19,7 @@
 			<div class="container">
 				<ul class="breadcrumb p-0">
 					<li><a href="/dashboard">Startseite</a></li>
-					<li><a href="#">EMail-Vorlagen</a></li>
+					<li><a href="#">E-Mail-Vorlagen</a></li>
 					<li class="active">FV_2014_Sonderkündigung</li>
 				</ul>
 			</div>

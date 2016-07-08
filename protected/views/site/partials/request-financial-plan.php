@@ -17,18 +17,35 @@
       <hr />
       <ng-form name="financePlanForm" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
       <div class="panel-body p-t-0">
-        <div class="row row-holder-dl">
-          <div class="col-lg-4">
-            <div class="form-group">
+        <div class="row">
+          <div class="col-lg-4 p-r-0 custom-box-btn">
+            <div class="clearfix">
               <label>Ansprechpartner für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
-              <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
-                <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
-                  <span ng-bind-html="item.name | highlight: $select.search"></span>
-                </ui-select-choices>
-              </ui-select>
+              <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['finance'] || required['finance']}">  
+                <input placeholder="Name Vorname" ng-keyup="escapeFinanceUser($event)" ng-keypress="submitToAddUser($event, new_fina_user)" 
+                       ng-hide="!add_finance_user" class="form-control popup-input" type="text" ng-model="new_fina_user"
+                       ng-disabled="userLoading" id="finance_user">                 
+                <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required 
+                           ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
+                  <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
+                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                  </ui-select-choices>
+                </ui-select>
+                <span ng-class="{hide: !(dublicate['finance'] || required['finance'])}" class="hide">
+                  <label ng-show="required['finance']" class="error">Füllen Sie die Daten</label>
+                  <label ng-show="dublicate['finance']" class="error">Dieser Name existiert bereits</label>
+                </span>
+                </div>
+                <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_finance_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canEdit()">
+                  <button class="btn m-t-2 add-user" ng-click="addNewFinanceUser()">&nbsp;</button>
+                </div>             
+                <div class="col-lg-3 p-0" ng-show="add_finance_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canEdit()">
+                  <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUser($event, new_fina_user)">&nbsp;</button>
+                  <button class="btn m-t-2 hide-btn" ng-click="addNewFinanceUser()">&nbsp;</button>
+                </div>             
             </div>
-            <dl class="custom-dl" ng-show="selectFinanceResult">
+            <dl class="custom-dl" ng-show="selectFinanceResult && !add_finance_user">
               <ng-show ng-show="selectFinanceResult.function">
                 <dt>Funktion:</dt>
                 <dd>{{selectFinanceResult.function}}</dd>
@@ -42,7 +59,7 @@
                 <dd>{{selectFinanceResult.phone}}</dd>
               </ng-show>
               <ng-show ng-show="selectFinanceResult.email">
-                <dt>Email:</dt>
+                <dt>E-Mail:</dt>
                 <dd><a class="visible-lg-block" href="mailto:{{selectFinanceResult.email}}">{{selectFinanceResult.email}}</a></dd>
               </ng-show>
             </dl>
@@ -92,14 +109,17 @@
               Ausgaben: Personalkosten
             </h3>
           </div>
+          <div class="col-lg-6 btn-row" hidden>
+            <button class="btn w-xs pull-right" ng-click=""></button>
+          </div>  
           <div class="col-lg-6 btn-row">
-            <button class="btn w-xs pull-right" ng-click="request_users.push({})">Neue Person hinzufügen</button>
+            <button class="btn w-xs pull-right" ng-click="request_users.push({})" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">Mitarbeiter/in hinzufügen</button>
           </div>
         </div>
         <div id="accordion-account" class="panel-group panel-group-joined row">
-          <div class="panel panel-default row" ng-if="!emploee.is_deleted" ng-repeat="emploee in request_users">
+          <div class="panel panel-default row employee-row" data-name="{{emploee.user.name || 'ALLES ANZEIGEN'}}" ng-if="!emploee.is_deleted" ng-repeat="emploee in request_users">
             <div class="panel-heading">
-              <button class="no-btn" title="Entfernen" ng-click="deleteEmployee($index)" ng-hide="request_users.length < 2">
+              <button class="no-btn" title="Entfernen" ng-click="deleteEmployee($index)" ng-show="undelitetdCount(request_users) > 1 && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">
                 <i class="ion-close-round"></i>
               </button>
               <a class="collapsed" href="#account{{$index}}" data-parent="#accordion-account" data-toggle="collapse">
@@ -129,21 +149,40 @@
                   </div>
                 </div>
                 <div class="row row-holder-dl">
-                  <div class="col-lg-4">
-                    <div class="form-group">
-                      <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
-                        <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                  <div class="col-lg-4 custom-box-btn">
+                    <h5>Mitarbeiter/in hinzufügen</h5>
+                    <div class="form-group clearfix">
+                      <div class="col-lg-9 p-l-0" ng-class="{'wrap-line error': dublicate['employee'] || required['employee']}"> 
+                      <input placeholder="Name Vorname" ng-keyup="escapeEmployeeUser($event, $index)" 
+                             ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" 
+                             ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name"
+                             ng-disabled="userLoading" id="employee_user">  
+                      <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required 
+                                 ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
+                        <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_selected:0} | orderBy: 'name'">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
                         </ui-select-choices>
                       </ui-select>
+                      <span ng-class="{hide: !(dublicate['employee'] || required['employee'])}" class="hide">
+                        <label ng-show="required['employee']" class="error">Füllen Sie die Daten</label>
+                        <label ng-show="dublicate['employee']" class="error">Dieser Name existiert bereits</label>
+                      </span>
+                      </div>
+                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()">
+                        <button class="btn m-t-2 add-user" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
+                      </div>             
+                      <div class="col-lg-3 p-0" ng-show="add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()">
+                        <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUserEmpl($event, emploee.new_user_name, $index)">&nbsp;</button>
+                        <button class="btn m-t-2 hide-btn" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
+                      </div>
                     </div>
-                    <dl class="custom-dl">
-                      <dt ng-show="emploee.user.title">Titel:</dt>
-                      <dd ng-show="emploee.user.title">{{emploee.user.title}}</dd>
+                    <dl class="custom-dl" ng-show="!add_employee_user">
+                      <dt ng-show="emploee.user.title">Anrede:</dt>
+                      <dd ng-show="emploee.user.title">{{emploee.user.sex == 1 ? 'Herr': 'Frau'}}</dd>
                       <dt ng-show="emploee.user.phone">Telefon:</dt>
                       <dd ng-show="emploee.user.phone">{{emploee.user.phone}}</dd>
-                      <dt ng-show="emploee.user.email">Email:</dt>
+                      <dt ng-show="emploee.user.email">E-Mail:</dt>
                       <dd ng-show="emploee.user.email"><a target="_blank" href="mailto:{{emploee.user.email}}">{{emploee.user.email}}</a></dd>
                     </dl>
                   </div>
@@ -292,7 +331,7 @@
                       <span spi-hint text="_hint.fin_plan_school_rate"></span>
                     </div>
                     <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'rate'); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
+                      <input type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
                     </div>
                   </div>
                 </div>
@@ -305,7 +344,7 @@
                       <span spi-hint text="_hint.fin_plan_school_month_count"></span>
                     </div>
                     <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'month_count');" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept">
                     </div>
                   </div>
                 </span>
@@ -313,13 +352,17 @@
               <div class="col-lg-3 col-lg-offset-1 custom-school-row">
                 <span class="sum clearfix">
                   <strong>Fortbildungskosten</strong>
-                  <span ng-hide="school.rate < 1 && school.rate > 0.5">€{{school.training_cost|| 0 | number:2}}</span>
-                  <div class="col-lg-9 p-l-0 m-t-10" ng-show="school.rate*1 < 1 && school.rate*1 > 0.5">
-                    <input type="text" class="form-control" ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept">
+                  <div class="col-lg-9 p-l-0 m-t-10">
+                    <div class="has-hint has-hint2">
+                      <span spi-hint text="_hint.fin_plan_school_traning_cost"></span>
+                    </div>
+                    <div class="wrap-hint">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost');"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept || school.rate*1 > 1 && school.rate*1 < 0.5">
+                    </div>
                   </div>
                 </span>
               </div>
-              <div class="col-lg-2 col-lg-offset-1">
+              <div class="col-lg-3">
                 <span class="sum clearfix">
                   <strong>Regiekosten</strong>
                   <!--<span>€ 11500,00</span>-->
@@ -328,7 +371,7 @@
                       <span spi-hint text="_hint.fin_plan_school_overhead_cost"></span>
                     </div>
                    <div class="wrap-hint">
-                      <input type="text" class="form-control" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'overhead_cost');" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept">
                    </div>
                   </div>
                 </span>
@@ -343,7 +386,7 @@
               Berufsgenossenschaftsbeiträge
             </h3>
             <div class="col-lg-6 btn-row">
-              <button class="btn w-xs pull-right" ng-click="prof_associations.push({})">Berufsgenossenschaft hinzufügen</button>
+              <button class="btn w-xs pull-right" ng-click="prof_associations.push({})" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">Berufsgenossenschaft hinzufügen</button>
             </div>
           </div>
 
@@ -359,12 +402,12 @@
               Beitrag<span spi-hint text="_hint.fin_plan_association_sum" class="has-hint"></span>
             </label>
             <div class="col-lg-2">
-              <input class="form-control" type="text" ng-model="association.sum" ng-change="updateResultCost();" required>
+              <input class="form-control" type="text" ng-init = "association.sum = (association.sum || '0,00'); numValidate2(association,'sum');"  ng-change="numValidate(association,'sum') ; updateResultCost();" ng-model="association.sum" required>
             </div>
             <div class="col-lg-1 p-0 custom-col-1 m-t-5">
               <span class="symbol">€</span>
             </div>
-            <div class="col-lg-1 custom-col-1 m-t-5" ng-hide="prof_associations.length <= 1">
+            <div class="col-lg-1 custom-col-1 m-t-5" ng-hide="undelitetdCount(prof_associations) <= 1" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">
               <button ng-click="deleteProfAssociation($index)" class="no-btn" title="Entfernen">
                 <i class="ion-close-round"></i>
               </button>
@@ -390,7 +433,7 @@
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
                   </label>
                   <div class="col-lg-2">
-                    <input class="form-control" type="text"  ng-model="data.revenue_sum" ng-change="updateResultCost();" required>
+                    <input class="form-control" type="text" ng-init = "data.revenue_sum = (data.revenue_sum || '0,00'); numValidate2(data,'revenue_sum');"  ng-change="numValidate(data,'revenue_sum'); updateResultCost(); " ng-model="data.revenue_sum" required>
                   </div>
                   <span class="symbol m-t-5">€</span>
                 </div>

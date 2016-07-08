@@ -7,7 +7,7 @@ class Email {
   static function doRecovery($user, $recoveryLink) {
     return self::prepareMessage('send_password', array( '{NAME}' => $user['first_name'] . ' '. $user['last_name']
                                                            , '{LINK}' => $recoveryLink
-                                                           ), $user);
+                                                           ), $user['email']);
 
 //    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
 //    $message .= '<br><br>We have received request for recovery your account password.';
@@ -15,13 +15,32 @@ class Email {
 
   }
 
-  static function doWelcome($user) {
-    return self::prepareMessage('registration_email', array(
-      '{NAME}'      => $user['first_name'] . ' '. $user['last_name'],
-      '{SITE_URL}'  => Yii::app()->getBaseUrl(true),
-      '{LOGIN}'     => $user['login'],
-      '{PASSWORD}'  => $user['password'],
-    ), $user, false);
+  static function sendMessageByTemplate($template, $params, $email) {
+    $emailParams = array();
+    foreach($params as $key => $val) {
+      $emailParams['{'.strtoupper($key).'}'] = $val;
+    }
+    return self::prepareMessage($template, $emailParams, $email, false);
+  }
+  static function doWelcome($result) {
+
+    $table = 'spi_user';
+    $select_all = "CONCAT(tbl.last_name, ', ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
+    $command = Yii::app() -> db -> createCommand() -> select($select_all) -> from($table . ' tbl');
+    $command -> join('spi_user_type ust', 'tbl.type_id = ust.id');
+    $command -> where("tbl.id = :id", array(':id' => $result['id']));
+    $newUser = $command -> queryRow();
+    
+      return self::prepareMessage('send_account_data', array(
+        '{NAME}'            => $newUser['first_name'] . ' '. $newUser['last_name'],
+        '{SITE_URL}'        => Yii::app()->getBaseUrl(true),
+        '{LOGIN}'           => $newUser['login'],
+        '{PASSWORD}'        => $newUser['password'],
+        '{BENUTZERROLLEN}'  => $newUser['type_name'],
+      ), $newUser['email'], false);
+
+
+
 //    $message = 'Dear ' . $user['first_name'] . ' '. $user['last_name'] . '!';
 //    $message .= '<br><br>You get access to <a target="_blank" href="'.Yii::app()->getBaseUrl(true).'">SPIder</a>.';
 //    $message .= '<br>Login: '.$user['login'];
@@ -37,7 +56,7 @@ class Email {
     return self::send($user['email'], self::$from, 'SPIder: Password changed', $message, '', false);
   }
 
-  static function prepareMessage($code, $params, $user, $showResults = true) {
+  static function prepareMessage($code, $params, $email, $showResults = true) {
     if($row = Yii::app() -> db -> createCommand()
               -> select('text, subject') -> from('spi_email_template')
               -> where('system_come=:system_come ', array(':system_come' => $code))
@@ -49,7 +68,7 @@ class Email {
         $placeholders[] = $key;
       }
       $message = str_replace($placeholders, $data, $row['text']);
-      return self::send($user['email'], self::$from, $row['subject'], $message, '', $showResults);
+      return self::send($email, self::$from, $row['subject'], $message, '', $showResults);
     }
     return false;
   }
@@ -83,11 +102,18 @@ class Email {
         response('200', array(
           'result' => true,
           'silent' => true,
-          'message' => 'Email successfully sent',
+          'message' => 'E-Mail successfully sent',
         ));
       }
     } else {
-      return $res;
+      return array( 'result'        => $res
+                  , 'from'          => $from
+                  , 'to'            => $to
+                  , 'subject'       => $subject
+                  , 'message'       => $message
+                  , 'showResults'   => $showResults
+                  , 'addAttachment' => $addAttachment
+                  );
     }
   }
 }

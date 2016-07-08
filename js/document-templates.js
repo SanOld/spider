@@ -43,13 +43,19 @@ spi.controller('DocumentTemplatesController', function ($scope, $rootScope, netw
     });
   };
 
+  $scope.getDate = function (date) {
+    var result = '';
+    if(date){
+      result = new Date(date);
+    }
+    return result;
+  }
 });
 
 spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, GridService) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.modeView = modeView;
-  $scope.filter = {};
 
   if (!$scope.isInsert) {
     $scope.docId = data.id;
@@ -57,35 +63,25 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
       id:           data.id,
       name:         data.name,
       type_id:      data.type_id,
-//      type_name:    data.type_name,
-//      last_change:  data.last_change,
-//      user_id:      data.user_id,
-//      user_name:    data.user_name,
       text:         data.text,
     };
-
-    $scope.filter = {type_id: data.type_id};
-
   } else {
-
     $scope.document = {
-      id: '',
-      name:         '',
-//      type_id:      1,
-      text:         ''
+      id:     '',
+      name:   '',
+      text:   ''
     };
-//    network.get('DocumentTemplate', {get_next_id: 1}, function (result, response) {
-//      if (result) {
-//        next_id = response.next_id;
-//      }
-//    });
   }
+
+  $scope.filter = {type_id: data.type_id, is_email: 0};
 
   network.get('document_template_type', {filter: 1}, function (result, response) {
     if (result) {
       $scope.documentTypes = response.result;
     }
   });
+
+
 
   var grid = GridService();
   $scope.tableParams = grid('document_template_placeholder', $scope.filter, {sorting: {name: 'asc'}});
@@ -143,8 +139,12 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
     });
   };
 
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    Utils.modalClosing($scope.form.formDocument, $uibModalInstance, event, reason);
+  });
+
   $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+    Utils.modalClosing($scope.form.formDocument, $uibModalInstance);
   };
 
   $scope.fieldError = function (field) {

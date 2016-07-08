@@ -37,7 +37,7 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
   };
 
   $scope.canEdit = function(id) {
-    return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 'd');
+    return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 'd' || network.user.type == 't');
   }
 });
 
@@ -118,8 +118,12 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, mo
     });
   };
 
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    Utils.modalClosing($scope.form.formDistrict, $uibModalInstance, event, reason);
+  });
+
   $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+    Utils.modalClosing($scope.form.formDistrict, $uibModalInstance);
   };
 
   function getError(code) {
@@ -133,7 +137,7 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, mo
   }
 
   $scope.canEditDistrict = function() {
-    return $rootScope.canEdit() || data.id == network.user.relation_id;
+    return $rootScope.canEdit() || data.id == network.user.relation_id || network.user.type == 't';
   }
   $scope.canByType = function(types) {
     return types.indexOf(network.user.type) != -1;

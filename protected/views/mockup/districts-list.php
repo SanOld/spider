@@ -285,7 +285,7 @@
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="col-lg-3 control-label">Email</label>
+														<label class="col-lg-3 control-label">E-Mail</label>
 														<div class="col-lg-9">
 															<input type="email" value="admin@warenform.de" class="form-control">
 														</div>
@@ -312,7 +312,7 @@
 												<dd>Some title</dd>
 												<dt>Telefon</dt>
 												<dd>(030) 2888 496</dd>
-												<dt>Email</dt>
+												<dt>E-Mail</dt>
 												<dd>admin@warenform.de </dd>
 											</dl>
 										</div>
@@ -338,7 +338,7 @@
 													<form action="#" class="class-form">
 														<div class="col-lg-3">
 															<div class="form-group">
-																<label>Suche nach Name, Benutzername oder Email</label>
+																<label>Suche nach Name, Benutzername oder E-Mail</label>
 																<input type="search" class="form-control" placeholder="Stichwort eingegeben">
 															</div>
 														</div>
@@ -372,7 +372,7 @@
 															<th>Name</th>
 															<th class="select-filter">Benutzerrollen</th>
 															<th>Benutzername</th>
-															<th>Email</th>
+															<th>E-Mail</th>
 															<th>Telefon</th>
 															<th class="status-filter">Status</th>
 															<th>Bearbeiten</th>

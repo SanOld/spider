@@ -50,7 +50,7 @@ spi.controller('main', function ($scope, $rootScope, $location, network, GridSer
   }
 
   $scope.logout = function () {
-    network.logout();
+    network.logout();    
   };
   network.onLogout = function () {
     window.location = '/'
@@ -79,15 +79,14 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.isAdmin = network.userIsADMIN;
   $scope.userIsPA = network.userIsPA;
   $scope.modeView = modeView;
-
+  $scope.can_change = true;
   
   $scope.user = {
     is_active: 1,
     is_finansist: 0,
     is_virtual: 0
   };
-  $scope.loaded_is_virtual = 1;
-  
+  $scope.loaded_is_virtual = 1;  
   
   if (!hint) {
     HintService($scope.model, function (result) {
@@ -121,12 +120,16 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
     $scope.isPerformer = data.type == 't';
   } else {
     network.get('user_type', {filter: 1, user_create: 1}, function (result, response) {
-      if (result) {
-        $scope.userTypes = response.result;
+      if (result) {          
+        $scope.userTypes = response.result; 
+        if(network.user.type == 't' && response.result.length < 2){
+          $scope.user.type_id = $scope.userTypes[0].id;
+          $scope.reloadRelation();
+        } 
       }
     });
-  }
-
+  }   
+    
   $scope.reloadRelation = function () {
     $scope.relations = [];
     var type = Utils.getRowById($scope.userTypes, $scope.user.type_id);
@@ -140,13 +143,16 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
       case 'd':  relation_code = 'district';
         break;
     }
-    $scope.isRelation = relation_code;
+    $scope.isRelation = relation_code;    
     $scope.isPerformer = type && type.type == 't';
     if ($scope.isRelation) {
       $scope.isRelation = true;
       network.get(relation_code, {filter: 1}, function (result, response) {
         if (result) {
           $scope.relations = response.result;
+          if(network.user.type == 't' && $scope.relations.length < 2){
+            $scope.user.relation_id = $scope.relations[0].id;
+          }
         }
       });
     }
@@ -162,7 +168,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
     $scope.form.$setPristine();
     if ($scope.form.$valid) {
       var callback = function (result, response) {
-        if (result) {
+        if (result) {            
           if ($scope.isCurrentUser) {
             network.updateUserField('login', formData.login);
           }
@@ -179,7 +185,12 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
       }
     }
   };
-
+  
+  if(!$scope.modeView && network.user.type == 't'){
+    $scope.user.is_virtual = 1;  
+    $scope.can_change = false;
+  } 
+  
   $scope.remove = function (id) {
     Utils.doConfirm(function() {
       network.delete('user/' + id, function (result) {
@@ -191,8 +202,12 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
     });
   };
 
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    Utils.modalClosing($scope.form, $uibModalInstance, event, reason);
+  });
+
   $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+    Utils.modalClosing($scope.form, $uibModalInstance);
   };
 
   function getError(code) {
@@ -218,6 +233,5 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.canEdit = function() {
     return $scope.isCurrentUser || ($rootScope.canEdit() && !(network.userIsPA && data.type_id == 1));
   };
-
 
 });

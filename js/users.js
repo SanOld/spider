@@ -63,10 +63,18 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
     return $rootScope.canEdit();
   };
 
-  $scope.canEdit = function(row) {
-    return ($rootScope.canEdit() || row.id == network.user.id) && !(network.userIsPA && row.type_id == 1);
+  $scope.canEdit = function(row) {      
+    switch (network.user.type){
+      case 't':
+        return $rootScope.canEdit() && ((row.is_virtual == 1 && row.type == 't') || row.id == network.user.id);
+        break;
+      case 'p':
+        return $rootScope.canEdit() && row.type != 'a';
+      default:
+        return $rootScope.canEdit();
+    }     
   }
-
+  
 });
 
 

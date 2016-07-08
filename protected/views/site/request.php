@@ -9,6 +9,11 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 <div class="wraper container-fluid" ng-controller="RequestController">
 	<div class="row">
 		<div class="container center-block request-edit-page">
+      <div spi-hint-main ng-show="tabActive == 'project-data'" header="_hint.projectData.title" text="_hint.projectData.text" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'finance-plan'" header="_hint.finData.title" text="_hint.finData.text" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'school-concepts'" header="_hint.conceptData.title" text="_hint.conceptData.text" ng-cloack></div>
+      <div spi-hint-main ng-show="tabActive == 'schools-goals'" header="_hint.goalData.title" text="_hint.goalData.text" ng-cloack></div>
+
 			<div class="panel panel-default" ng-cloak>
 				<div class="panel-heading heading-noborder clearfix">
                   <h1 class="panel-title col-lg-6">Antrag {{requestYear}} <span ng-show="projectID">({{projectID}})</span></h1>
@@ -16,8 +21,8 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 					</div>
 				</div>
-
-				<uib-tabset class="panel-body request-order-nav" active="tabActive">
+        <ng-form name="form">       
+				<uib-tabset class="panel-body request-order-nav" active="tabActive" ng-cloack>
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
           </uib-tab>
@@ -31,25 +36,24 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-goals-data.php'); ?>
           </uib-tab>
 				</uib-tabset>
-
 				<br>
 				<div class="form-group group-btn row">
 					<div class="col-lg-6 text-left">
 						<button ng-show="userCan('delete')" ng-click="block()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
-						<button ng-show="userCan('reopen')" class="btn w-lg btn-info btn-lg">
+						<button ng-show="userCan('reopen')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(3)">
 							<i class="fa fa-rotate-left"></i>
 							<span>Neu eröffnen</span>
 						</button>
-						<button ng-show="userCan('changeStatus')" class="btn w-lg btn-info btn-lg">Förderfähig</button>
-						<button ng-show="userCan('changeStatus')" class="btn w-lg btn-info btn-lg">Genehmigt</button>
+						<button ng-show="userCan('changeStatus_print')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(4)">Förderfähig</button>
+						<button ng-show="userCan('changeStatus_lock')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(5)">Genehmigt</button>
 					</div>
 					<div class="col-lg-6 text-right">
 						<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
-						<button ng-show="userCan('save')" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()">Speichern</button>
-						<button ng-show="userCan('save')"  class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur Liste">Anwenden</button>
+						<button ng-show="userCan('save')" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()" title="Speichern und auf Seite bleiben">Speichern</button>
+						<button ng-show="userCan('save')"  class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur Übersicht">Fertig</button>
 					</div>
 				</div>
-
+        </ng-form> 
 			</div>
 		</div>
 	</div>
@@ -92,7 +96,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 			<div class="form-group group-btn m-t-20">
 				<div class="col-lg-12">
 					<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-					<button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date|| form.start_date > form.end_fill || form.due_date < form.end_fill">Speichern</button>
+					<button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled=" form.$invalid || form.due_date < form.start_date ">Speichern</button>
 				</div>
 			</div>
 		</div>
@@ -132,7 +136,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 <script type="text/ng-template" id="setEndFill.html">
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
-            <h3 class="m-0 pull-left">Abgabedatum für den Antrag</h3>
+			<h3 class="m-0 pull-left">Abgabedatum für den Antrag</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body text-center">
@@ -156,7 +160,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 			<div class="form-group group-btn m-t-20">
 				<div class="col-lg-12">
 					<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-					<button class="btn w-lg custom-btn" ng-click="ok()"  ng-disabled="form.$invalid || form.start_date > form.end_fill || form.due_date < form.end_fill">Speichern</button>
+					<button class="btn w-lg custom-btn" ng-click="ok()"  ng-disabled="form.$invalid">Speichern</button>
 				</div>
 			</div>
 		</div>

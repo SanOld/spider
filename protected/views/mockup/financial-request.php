@@ -537,7 +537,7 @@
 									<dd>Some title</dd>
 									<dt>Telefon</dt>
 									<dd>(030) 2888 496</dd>
-									<dt>Email</dt>
+									<dt>E-Mail</dt>
 									<dd>admin@warenform.de  </dd>
 								</dl>
 							</div>
@@ -770,7 +770,7 @@
 					],
 					"oLanguage": {
 				      	"sLengthMenu": "_MENU_   Objekte pro Seite ",
-				      	"sInfo": "_PAGE_ bis _PAGES_ Einträge aus _TOTAL_ anzeigen",
+				      	"sInfo": "Seite _PAGE_ von _PAGES_ aus _TOTAL_ Einträgen",
 				      	"oPaginate": {
 			                "sPrevious": "Zurück", // This is the link to the previous page
 			                "sNext": "Weiter", // This is the link to the next page

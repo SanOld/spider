@@ -30,7 +30,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
 
   $scope.updateRights = function(is_bonus_project){
-    //$scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist) || (is_bonus_project && network.user.type == 's');
+    $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist) || (is_bonus_project == '1' && network.user.type == 's');
   };
   $scope.setProjectID = function(projectID){
     $scope.projectID = projectID;
@@ -45,10 +45,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     close = close || false;
     var data = RequestService.getProjectData();
     var finPlan = RequestService.financePlanData();
-    if(finPlan) {
+    if (finPlan != undefined){
       data = angular.extend(data, finPlan.request);
       delete finPlan.request;
-      data['finance_plan'] = finPlan;
+      data['finance_plan']    = finPlan;
     }
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
@@ -56,10 +56,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       if(result && close) {
        location.href = '/requests';
       }
+      RequestService.afterSave();
     });
   };
 
-  $scope.block = function () {
+  $scope.block = function ()  {
     Utils.doConfirm(function() {
       network.put('request/' + $scope.requestID,{'status_id':2}, function (result) {
         if (result) {
@@ -79,9 +80,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       });
     });
   };
-
+    
   $scope.cancel = function () {
-    location.href = '/requests';
+    Utils.modalClosing($scope.form, '', '', '', '/requests');
   };
 
   $scope.userCan = function(type) {
@@ -89,18 +90,24 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     var results = false;
     var user = network.user.type;
     var status = 'none';
+    var status_id;
     var request = RequestService.getProjectData();
     if(request) {
       status = request.status_code;
+      status_id = request.status_id;
+
       switch(type) {
         case 'reopen':;
-          results = (user == 'a' && (status == 'accept' || status == 'decline'));
+          results = (user == 'a' && (status == 'accept' || status == 'decline' || status == 'acceptable') );
           break;
         case 'delete':;
           results = (user == 'a' && status != 'accept' && status != 'decline');
           break;
-        case 'changeStatus':;
-          results = ((user == 'a' || user == 'p') && status != 'accept' && status != 'decline');
+        case 'changeStatus_print':;
+          results = ((user == 'a' || user == 'p') &&  status != 'accept' && status != 'decline'  && status != 'acceptable' );
+        break;
+        case 'changeStatus_lock':;
+          results = ((user == 'a' || user == 'p') && status == 'acceptable' );
         break;
         case 'save':;
           results = ((user == 'a' || user == 'p' || user == 't') && status != 'accept' && status != 'decline');
@@ -110,10 +117,15 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     return results;
   };
 
-  $scope.doErrorIncompleteFields = function() {
+  $scope.doErrorIncompleteFields = function(fields) {
+    var text = '';
+    if(fields) {
+      text = "\n\n"+fields.join("\n")
+    }
     SweetAlert.swal({
+      html:true,
       title: "Fehler",
-      text: "Bitte füllen Sie alle Felder aus",
+      text: "Bitte füllen Sie alle Felder aus"+text,
       type: "error",
       confirmButtonText: "OK"
     });
@@ -130,14 +142,193 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     return false;
   }
 
+  $scope.setBulkStatus = function(statusId) {
+
+
+    var data = RequestService.getFullProjectData();
+    var request_data = RequestService.getProjectData();
+    
+    var required = [
+                    'doc_target_agreement_id',
+                    'doc_request_id',
+                    'doc_financing_agreement_id',
+                    'finance_user_id',
+                    'concept_user_id',
+                    'start_date',
+                    'due_date'
+                  ];
+
+
+    var failFields = [];
+    if(statusId == 4 || statusId == 5){
+      required.forEach(function(item, i, required) {
+        if(!request_data[item]){
+          failFields.push(item);
+        }
+      });
+    }
+
+      var failCodes = [];
+        if(statusId == 5 && request_data.status_id < 4 ) {
+          failCodes.push(data.code);
+        } else if($scope.conceptStatus != 'accepted' || $scope.financeStatus != 'accepted' || $scope.goalsStatus != 'accepted') {
+          failCodes.push(data.code);
+        }
+
+
+      if(failFields.length) {
+        SweetAlert.swal({
+          title: "Fehler",
+          text: "Field(s): \n "+failFields.join(',\n ')+"\n Sie müssen füllen",
+          type: "error",
+          confirmButtonText: "OK"
+        });
+        return false;
+      }
+
+      if(failCodes.length) {
+        SweetAlert.swal({
+          title: "Fehler",
+          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert sein",
+          type: "error",
+          confirmButtonText: "OK"
+        });
+        return false;
+      }
+
+      SweetAlert.swal({
+        title: "Massenänderung der Anfragen",
+        text: "Möchten Sie wirklich eine Anfrage",
+        type: "warning",
+        confirmButtonText: "JA",
+        showCancelButton: true,
+        cancelButtonText: "NEIN",
+        closeOnConfirm: true
+      }, function(isConfirm){
+        if(isConfirm) {
+          request_data.status_code = 'in_progress';
+          request_data.status_id = statusId;
+          switch(statusId){
+            case 3:;
+              request_data.status_code = 'in_progress';
+              request_data.status_id = statusId;
+              network.get('user_lock', {request_id: request_data['id']},function(result, response){
+                if(result){
+                  for(var key in response.result){
+                    network.delete('user_lock/'+response.result[key]['id']+'?request_id='+request_data['id']);
+                  }
+                }
+              });
+              break;
+            case 4:;
+              request_data.status_code = 'acceptable';
+              request_data.status_id = statusId;
+              break;
+            case 5:;
+              request_data.status_code = 'accept';
+              request_data.status_id = statusId;
+              break;
+          }
+
+          $scope.submitRequest();
+
+//          network.patch('request', {ids: ids, status_id: statusId}, function(result) {
+//            if(result) {
+//              request_data.status_code = 'in_progress';
+//              request_data.status_id = statusId;
+//              $scope.submitRequest();
+//            }
+//          });
+        }
+      });
+    
+
+  };
+
 });
 
-spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService, localStorageService) {
+spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService, localStorageService, $timeout) {
   $scope.filter = {id: $scope.$parent.requestID};
   $scope.isInsert = !$scope.$parent.requestID;
   $scope.udater = 0;
   localStorageService.set('dataChanged', 0);
-
+  $scope.add_project_user = false;
+  $scope.dublicate = false;
+  $scope.required = false;
+  $scope.userLoading = false;
+  
+  $scope.addNewConceptUser = function(){      
+    $scope.dublicate = false;
+    $scope.required = false;
+    if(!$scope.add_project_user){
+      $scope.add_project_user = true;
+      $timeout(function(){       
+        angular.element('#project_user').focus();   
+      });
+    }else{
+      $scope.add_project_user = false;
+      $scope.new_project_user = ""; 
+    }      
+  }
+  
+  $scope.escape = function(event){
+    if(event.which == 27){
+      $scope.addNewConceptUser();     
+    };  
+  }  
+  
+  $scope.submitToAddUser = function(event, new_project_user){
+    $scope.required = false;  
+    $scope.dublicate = false; 
+    if(event.which == 13 || event.type == 'click'){
+      if(!new_project_user){
+        $scope.required = true;  
+      }else{
+        $scope.userLoading = true; 
+        var name = new_project_user.split(/[\s,\.]+/);      
+        if(name.length > 2){
+          var last_name = "";
+          for(var i = 1; i < name.length; i++){
+            last_name = last_name + " " + name[i];  
+          };  
+        }else{
+          var last_name = name[1] || "";  
+        };
+        $scope.performerUsers.forEach(function(item, i, arr){
+          if(item.first_name.toUpperCase() == name[0].toUpperCase() && item.last_name.toUpperCase() == last_name.toUpperCase()){
+            $scope.dublicate = true;          
+            $scope.userLoading = false;
+          }  
+        });  
+        if(!$scope.dublicate){
+          $scope.new_concept_user = {
+            first_name: name[0],
+            last_name: last_name,
+            sex: 3,
+            is_virtual: 1,
+            type_id: 3,
+            email: $scope.user.email,
+            type: 't',
+            relation_id: $scope.request.performer_id
+          };
+          var callback = function (result, response) {
+            if (result) {
+              $scope.request.concept_user_id = response.id;
+              $scope.getPerformerUsers();   
+              $scope.new_project_user = "";              
+              $scope.add_project_user = false;
+              $scope.userLoading = false;
+            } else {
+              $scope.error = getError(response.system_code);
+              $scope.userLoading = false;
+            }         
+          };
+          network.post('user', $scope.new_concept_user, callback); 
+        }  
+      };      
+    };  
+  }  
+  
   $scope.userCan = function(type) {
     var user = network.user.type;
     var results = false;
@@ -156,6 +347,14 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     return results;
   }
 
+  $scope.getDate = function (date) {
+    var result = '';
+    if(date){
+      result = new Date(date);
+    }
+    return result;
+  }
+
   $scope.getData = function() {
     network.get('request', $scope.filter, function (result, response) {
       if (result) {
@@ -170,27 +369,48 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           doc_target_agreement_id:        response.result.doc_target_agreement_id,
           doc_request_id:                 response.result.doc_request_id,
           doc_financing_agreement_id:     response.result.doc_financing_agreement_id,
-          request_user_id:                response.result.request_user_id,
-          concept_user_id:                response.result.concept_user_id,
-          finance_user_id:                response.result.finance_user_id,
+          request_user_id:                response.result.request_user_id != 0 ? response.result.request_user_id : '',
+          concept_user_id:                response.result.concept_user_id != 0 ? response.result.concept_user_id : '',
+          finance_user_id:                response.result.finance_user_id != 0 ? response.result.finance_user_id : '',
           additional_info:                response.result.additional_info,
           senat_additional_info:          response.result.senat_additional_info,
           start_date:                     response.result.start_date,
           due_date:                       response.result.due_date,
           end_fill:                       response.result.end_fill,
           last_change:                    response.result.last_change,
-          start_date_unix:                response.result.start_date_unix,
-          due_date_unix:                  response.result.due_date_unix,
-          end_fill_unix:                  response.result.end_fill_unix,
-          last_change_unix:               response.result.last_change_unix,
           performer_id:                   response.result.performer_id,
-          status_code:                    response.result.status_code
+          status_code:                    response.result.status_code,
+          status_id:                      response.result.status_id
         };
+        
+        if(response.result.status_id == '5'){
+          network.get('user_lock', {type: 't', relation_id: $scope.request.performer_id, request_id: $scope.request.id}, function (result, response) {
+                  if (result) {
+                    $scope.performerUsers = response.result;
+                    for (var key in $scope.performerUsers){
+                      $scope.performerUsers[key]['id']=$scope.performerUsers[key]['user_id'];
+                      if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
+                      if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
+                    }
+                    $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
+                    $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
+                    $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
+                    $scope.data['users'] = $scope.performerUsers;
+                    RequestService.initAll($scope.data);
+                  }
+                });
+        } else {
+          $scope.getPerformerUsers();
+        }
+        
 
-        network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
+      }
+    });
+  }
+  $scope.getPerformerUsers = function(){
+       network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
           if (result) {
             $scope.performerUsers = response.result;
-
             for (var key in $scope.performerUsers){
               if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
               if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
@@ -201,14 +421,9 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
             $scope.data['users'] = $scope.performerUsers;
             RequestService.initAll($scope.data);
           }
-
-        });
-
-      }
-    });
-  }
-
-    $scope.updateData = function() {
+        });         
+    };
+  $scope.updateData = function() {
     network.get('request', $scope.filter, function (result, response) {
       if (result) {
         $scope.newData = response.result;
@@ -296,18 +511,13 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
     if ($scope.request.id) {
       modalInstance.result.then(function (data) {
-        $scope.request.start_date_unix = isNaN(data.start_date) ? '' : new Date(data.start_date);
-        $scope.request.due_date_unix = isNaN(data.due_date) ? '' : new Date(data.due_date) ;
 
         var start = isNaN(data.start_date) ? '' : Utils.getSqlDate(new Date(data.start_date));
         var end = isNaN(data.due_date) ? '' : Utils.getSqlDate(new Date(data.due_date)) ;
 
         $scope.request.start_date = start;
         $scope.request.due_date = end;
-//        network.patch('request', {ids: ids, start_date: start, due_date: end}, function(result) {
-//        });
       });
-
 
     }
   };
@@ -339,10 +549,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     if ($scope.request.id) {
       modalInstance.result.then(function (data) {
 
-        $scope.request.end_fill_unix = isNaN(data.end_fill) ? '' : new Date(data.end_fill);
         var end_fill = isNaN(data.end_fill) ? '' : Utils.getSqlDate(new Date(data.end_fill));
 
         $scope.request.end_fill = end_fill;
+
       });
     }
   };
@@ -351,22 +561,30 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     return $scope.request;
   };
 
+  RequestService.getFullProjectData = function() {
+    return $scope.data;
+  };
+
   window.onfocus = function() {
     if (localStorageService.get('dataChanged') === '1'){
       $scope.updateData();
       localStorageService.set('dataChanged', 0);
     }
   }
-
+  
 });
 
 spi.controller('RequestFinancePlanController', function ($scope, network, RequestService, Utils, $timeout) {
   $scope.users = [];
-
   $scope.IBAN = {};
   $scope.request_users = [{}]; //create one user by default
   $scope.prof_associations = [{}]; //create one association by default
   $scope.financeSchools = [];
+  $scope.add_finance_user = false;
+  $scope.add_employee_user = false;
+  $scope.dublicate = [false];
+  $scope.required = [false];  
+  $scope.userLoading = false;
 
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
@@ -376,8 +594,176 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     return !(network.user.type == 'p' && status != 'in_progress');
   };
 
+  $scope.escapeFinanceUser = function(event){
+    if(event.which == 27 ){      
+      $scope.addNewFinanceUser();        
+    };
+  } 
+  
+  $scope.escapeEmployeeUser = function(event, idx){
+    if(event.which == 27 ){
+      $scope.addNewEmployeeUser(idx);             
+    };  
+  }
+  
+  $scope.addNewFinanceUser = function(){
+    $scope.dublicate['finance'] = false;
+    $scope.required['finance'] = false;
+    if(!$scope.add_finance_user){
+      $scope.add_finance_user = true;
+      $timeout(function(){       
+        angular.element('#finance_user').focus();   
+      });
+    }else{
+      $scope.add_finance_user = false;      
+      $scope.new_fina_user = "";
+    }      
+  }
+  $scope.addNewEmployeeUser = function(idx){
+      $scope.dublicate['employee'] = false;
+      $scope.required['employee'] = false;
+      if(!$scope.add_employee_user){
+        $scope.add_employee_user = true;
+        $timeout(function(){       
+        angular.element('#employee_user').focus();   
+      });
+      }else{
+        $scope.add_employee_user = false;     
+        $scope.request_users[idx].new_user_name = "";
+      }              
+  }
+  $scope.getPerformerUsers = function(){
+    network.get('User', {type: 't', relation_id: $scope.data.performer_id}, function (result, response) {
+      if (result) {
+        $scope.users = response.result;
+        $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.data.finance_user_id);            
+      }
+    });         
+  };
+    
+  $scope.getEmployeeUsers = function(id,emploee, callback){
+    network.get('User', {type: 't', relation_id: $scope.data.performer_id}, function (result, response) {
+      if (result) {
+        $scope.users = response.result;
+        emploee.user = Utils.getRowById($scope.users, id);
+        $scope.employeeOnSelect(emploee.user, emploee); 
+        callback = callback || function(){};
+        callback();
+      }
+    });         
+  };
+  
+  $scope.submitToAddUser = function(event, new_finance_user){    
+    $scope.dublicate['finance'] = false;
+    $scope.required['finance'] = false;
+    if(event.which == 13 || event.type == 'click'){
+      if(!new_finance_user){
+        $scope.required['finance'] = true;
+      }else{
+        $scope.userLoading = true;  
+        var name = new_finance_user.split(/[\s,\.]+/);      
+        if(name.length > 2){
+          var last_name = "";
+          for(var i = 1; i < name.length; i++){
+          last_name = last_name + " " + name[i];  
+          };  
+        }else{
+          var last_name = name[1] || "";  
+        };
+        $scope.users.forEach(function(item, i, arr){
+          if(item.first_name.toUpperCase() == name[0].toUpperCase() && item.last_name.toUpperCase() == last_name.toUpperCase()){
+            $scope.dublicate['finance'] = true;
+            $scope.userLoading = false;
+          }
+        });             
+        if(!$scope.dublicate['finance']){     
+          $scope.new_finance_user = {
+            first_name: name[0],
+            last_name: last_name,
+            sex: 3,
+            is_virtual: 1,
+            is_finansist: 1,
+            type_id: 3,
+            email: network.user.email,
+            type: 't',
+            relation_id: $scope.data.performer_id
+        };
+        var callback = function (result, response) {
+          if (result) {
+            $scope.data.finance_user_id = response.id;
+            $scope.getPerformerUsers();            
+            $scope.add_finance_user = false; 
+            $scope.new_fina_user = "";
+            $scope.userLoading = false;
+          } else {
+            $scope.error = getError(response.system_code);
+            $scope.userLoading = false;
+          }         
+        };
+          network.post('user', $scope.new_finance_user, callback);         
+        }
+      }   
+    }
+  }
+  
+  $scope.submitToAddUserEmpl = function(event, new_user, idx){ 
+    $scope.dublicate['employee'] = false;
+    $scope.required['employee'] = false;
+    if(event.which == 13 || event.type == 'click'){
+      if(!new_user){
+        $scope.required['employee'] = true;
+      }else{        
+        $scope.userLoading = true;  
+        var name = new_user.split(/[\s,\.]+/);      
+        if(name.length > 2){
+          var last_name = "";
+          for(var i = 1; i < name.length; i++){
+            last_name = last_name + " " + name[i];  
+          };  
+        }else{
+          var last_name = name[1] || "";  
+        };
+        $scope.users.forEach(function(item, i, arr){
+          if(item.first_name.toUpperCase() == name[0].toUpperCase() && item.last_name.toUpperCase() == last_name.toUpperCase()){
+            $scope.dublicate['employee'] = true;               
+            $scope.userLoading = false;
+          }  
+        });  
+        if(!$scope.dublicate['employee']){      
+          $scope.new_employee_user = {
+            first_name: name[0],
+            last_name: last_name,
+            sex: 3,
+            is_virtual: 1,
+            type_id: 3,
+            email: network.user.email,
+            type: 't',
+            relation_id: $scope.data.performer_id
+          };     
+          var callback = function (result, response) {
+            if (result) { 
+              $scope.getEmployeeUsers(response.id, $scope.request_users[idx], function(){
+                $scope.request_users[idx].user_id = response.id;  
+              });             
+              $scope.request_users[idx].new_user_name = "";               
+              $scope.add_employee_user = false;             
+              $scope.userLoading = false;
+            } else {
+              $scope.error = getError(response.system_code);              
+              $scope.userLoading = false;
+            }         
+          };
+          network.post('user', $scope.new_employee_user, callback);
+         }  
+      }      
+    }    
+  }
   var usersById = {};
 
+  RequestService.afterSave = function(){
+    $scope.updateFinPlanUsers();
+    $scope.updateFinPlanProfAssociation();
+  }
   RequestService.financePlanData = function(){
     var data = {};
     data.request =  { 'revenue_description':    $scope.data.revenue_description
@@ -406,7 +792,25 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     });
     return finPlan;
   };
-
+  var modelToName = { 'data.finance_user_id': 'Ansprechpartner für Rückfragen zum Finanzplan'
+                    , 'data.bank_details_id': 'Bankverbindung'
+                    , 'emploee.user_id': 'Mitarbeiter/in hinzufügen'
+                    , 'emploee.group_id': 'Entgeltgruppe'
+                    , 'emploee.remuneration_level_id': 'Entgeltstufe'
+                    , 'emploee.other': 'Sonstiges'
+                    , 'emploee.cost_per_month_brutto': 'Kosten pro Monat (AN-Brutto)'
+                    , 'emploee.month_count': 'Geplante Monate im Projekt'
+                    , 'emploee.hours_per_week': 'Arbeitsstunden pro Woche'
+                    , 'emploee.annual_bonus': 'Jahressonderzahlungen'
+                    , 'emploee.additional_provision_vwl': 'Zusatzversorgung (VWL) JANEIN'
+                    , 'emploee.supplementary_pension': 'Zusatzversorgung (betriebl. Altersversorgung)'
+                    
+                    
+                    , 'association.name': 'Berufsgenossenschaftsbeiträge Name'
+                    , 'association.sum': 'Berufsgenossenschaftsbeiträge Beitrag'
+                    , 'data.revenue_description': 'Sonstige Einnahmen'
+                    , 'data.revenue_sum': 'Sonstige Einnahmen Betrag'
+                    }
   $scope.submitForm = function(status) {
     if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
     var data = {};
@@ -415,7 +819,26 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
         break;
       case 'in_progress':
-        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
+        if($scope.financePlanForm.$invalid) {
+          var requriredFields = [];
+          $('#finance .ng-invalid').each(function(){
+            if($(this).prop("tagName") != 'NG-FORM' && $(this).attr("required") == 'required') {
+              var model = $(this).attr("ng-model");
+              var name = model.split('.');
+              var employee = '';
+              if(name[0] == 'emploee') {
+                employee = $(this).closest('.employee-row').attr('data-name')+': ';
+              }
+              var title = modelToName[model] || '';
+              
+              if(title) {
+                requriredFields.push(employee+title)
+              }
+            }
+          })
+          console.log(requriredFields.join("\n"));
+          return $scope.$parent.doErrorIncompleteFields(requriredFields);
+        }
         var finPlan = RequestService.financePlanData();
         delete finPlan.request;
         data.finance_user_id = $scope.data.finance_user_id;
@@ -436,6 +859,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         $scope.data.status_finance = status;
         $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
         $scope.$parent.setFinanceStatus(status);
+        RequestService.afterSave();
       }
     });
   };
@@ -444,6 +868,15 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.users = data.users;
     $scope.updateUserSelect();
     $scope.data = data;
+    if ($scope.data.finance_user_id == "0") {
+      $scope.data.finance_user_id = '';
+    }
+    if ($scope.data.bank_details_id == "0") {
+      $scope.data.bank_details_id = '';
+    }
+    if ($scope.data.revenue_sum != undefined ) {
+      $scope.numValidate2(data,'revenue_sum');
+    }
     $scope.$parent.setFinanceStatus(data.status_finance);
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
 
@@ -451,7 +884,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       usersById[val.id] = val;
     });
 
-    network.get('bank_details', {performer_id: data.performer_id}, function (result, response) {
+    network.get('bank_details', {performer_id: data.performer_id, request_id: $scope.$parent.requestID}, function (result, response) {
       if (result) {
         $scope.bank_details = response.result;
         angular.forEach($scope.bank_details, function(val, key) {
@@ -464,6 +897,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
     });
 
+    $scope.updateFinPlanUsers();
+
+  }
+  
+  $scope.updateFinPlanUsers = function() {
     network.get('request_user', {request_id: $scope.$parent.requestID}, function (result, response) {
       if (result) {
         $scope.request_users = response.result;
@@ -481,7 +919,16 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         }
       }
     });
-
+  }
+  $scope.updateFinPlanProfAssociation = function() {
+    network.get('request_prof_association', {request_id: $scope.$parent.requestID}, function (result, response) {
+      if (result) {
+        $scope.prof_associations = response.result;
+        if(response.count == '0') {
+          $scope.prof_associations = [{}];
+        }
+      }
+    });
   }
 
   network.get('request_school_finance', {request_id: $scope.$parent.requestID}, function (result, response) {
@@ -496,14 +943,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       $scope.remuneration_level = response.result;
     }
   });
-  network.get('request_prof_association', {request_id: $scope.$parent.requestID}, function (result, response) {
-    if (result) {
-      $scope.prof_associations = response.result;
-      if(response.count == '0') {
-        $scope.prof_associations = [{}];
-      }
-    }
-  });
+
+  $scope.updateFinPlanProfAssociation();
+  
   network.get('request_financial_group', {}, function (result, response) {
     if (result) {
       $scope.request_financial_group = response.result;
@@ -514,25 +956,41 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   var forValidate = {'cost_per_month_brutto':1, 'annual_bonus':1, 'additional_provision_vwl':1, 'supplementary_pension':1}
   var toNum = {'have_annual_bonus':1, 'have_additional_provision_vwl':1, 'have_supplementary_pension':1, 'is_umlage':1}
 
+  function num(val) {
+    val = val || 0;
+    val += '';
+    return val.split(',').join('.')*1
+  }
+
+  $scope.undelitetdCount = function(list){
+    var cnt = 0;
+    $.each(list, function(){
+      if(!this.is_deleted){
+        cnt++;
+      }
+    })
+    return cnt;
+  }
+
   $scope.calculateEmployee = function(empl){
     for(var key in forValidate) {
       $scope.numValidate(empl,key);
     }
     for(var key in toNum) {
-      empl[key] = (empl[key] || 0)*1;
+      empl[key] = num(empl[key]);
     }
 
     var umlage = empl.is_umlage?0.25:0.21;
-    var mc = (empl.month_count || 0) *1;
-    empl.brutto = empl.cost_per_month_brutto * mc
-                + empl.annual_bonus * empl.have_annual_bonus
-                + empl.additional_provision_vwl * mc * empl.have_additional_provision_vwl
-                + empl.supplementary_pension * (mc + empl.have_annual_bonus) * empl.have_supplementary_pension;
+    var mc = num(empl.month_count);
+    empl.brutto = num(empl.cost_per_month_brutto) * mc
+                + num(empl.annual_bonus) * empl.have_annual_bonus
+                + num(empl.additional_provision_vwl) * mc * num(empl.have_additional_provision_vwl)
+                + num(empl.supplementary_pension) * (mc + empl.have_annual_bonus) * num(empl.have_supplementary_pension);
     empl.brutto = Math.ceil(empl.brutto/100)*100; // Результат округлять вверх до 100 евро. Например: 1201 = 1300
 
-    var summ  = empl.cost_per_month_brutto * mc
-              + empl.annual_bonus * empl.have_annual_bonus
-              + empl.additional_provision_vwl * mc * empl.have_additional_provision_vwl;
+    var summ  = num(empl.cost_per_month_brutto) * mc
+              + num(empl.annual_bonus) * empl.have_annual_bonus
+              + num(empl.additional_provision_vwl) * mc * empl.have_additional_provision_vwl;
     empl.addCost = summ * umlage;
     empl.addCost = Math.ceil(empl.addCost/100)*100;
     empl.fullCost = empl.brutto + empl.addCost;
@@ -545,20 +1003,20 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.prof_association_cost = 0;
     angular.forEach($scope.request_users, function(empl, key) {
       if(!empl.is_deleted) {
-        $scope.emoloyeesCost += (empl.fullCost || 0)*1;
+        $scope.emoloyeesCost += num(empl.fullCost);
       }
     });
     angular.forEach($scope.financeSchools, function(sch, key) {
-      $scope.training_cost += (sch.training_cost || 0)*1;
-      $scope.overhead_cost += (sch.overhead_cost || 0)*1;
+      $scope.training_cost += num(sch.training_cost);
+      $scope.overhead_cost += num(sch.overhead_cost);
     });
     angular.forEach($scope.prof_associations, function(ps, key) {
       if(!ps.is_deleted) {
-        $scope.prof_association_cost += (ps.sum || 0)*1;
+        $scope.prof_association_cost += num(ps.sum);
       }
     });
-    $scope.prof_association_cost = $scope.prof_association_cost || 0;
-    $scope.revenue_sum = ($scope.revenue_sum || 0)*1;
+    $scope.prof_association_cost = num($scope.prof_association_cost);
+    $scope.revenue_sum = num($scope.data.revenue_sum);
     $scope.total_cost = $scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum;
 
   }
@@ -572,14 +1030,25 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }
     $scope.updateResultCost();
   }
+  $scope.numValidate2 = function(obj, key,cnt){
+    cnt = cnt || 2;
+    if(obj != undefined) {
+      if(!obj[key]) {
+        obj[key] = 0;
+      } else {
+        obj[key] = obj[key].split('.').join(',');
+      }
+    }
+    
+  }
   $scope.numValidate = function(obj, key,cnt){
     cnt = cnt || 2;
     if(!obj[key]) {
       obj[key] = 0;
     } else {
-      obj[key] = obj[key].split(',').join('.');
-      obj[key] = obj[key].split(/[^0-9\.]/).join('');
-      var r = new RegExp('([0-9]+)([\.]{0,1})([0-9]{0,'+cnt+'})[0-9]*', 'i');
+      obj[key] = obj[key].split('.').join(',');
+      obj[key] = obj[key].split(/[^0-9\,]/).join('');
+      var r = new RegExp('([0-9]+)([\,]{0,1})([0-9]{0,'+cnt+'})[0-9]*', 'i');
       var m = obj[key].match(r);
       try{
         obj[key] = m[1]+m[2]+m[3];
@@ -635,7 +1104,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     });
   }
   $scope.employeeOnSelect = function (item, employee){
-//    console.log(item);
     $scope.updateUserSelect();
     employee.user = item;
   }
@@ -713,6 +1181,8 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   $scope.doCutText = function(newText, oldText, isNew) {
     var diffMatch = new diff_match_patch();
+    if(!oldText){ oldText = ''; }
+    if(!newText){ newText = ''; }
     var diffs = diffMatch.diff_main(oldText, newText);
 
     var fullLength = 120;
@@ -1029,7 +1499,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
                       btnAccept:  {
                                     unfinished:   {'a' : 1, 'p' : 0, 't': 0, 'default': 0 },
                                     in_progress:  {'a' : 1, 'p' : 1, 't': 0, 'default': 0 },
-                                    rejected:     {'a' : 1, 'p' : 0, 't': 0, 'default': 0 },
+                                    rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                     accepted:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                     default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
                                   },

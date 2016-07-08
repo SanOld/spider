@@ -37,7 +37,7 @@
                       <br/>
                       {{goal.notice}}
                     </strong>
-                    <strong ng-if="goal.status == 'accepted'">Genehmigt</strong>
+                    <strong ng-if="goal.status == 'accepted'">Förderfähig</strong>
                     <strong ng-if="goal.status == 'rejected'">Ablehnen
                       <br/>
                       {{goal.notice}}

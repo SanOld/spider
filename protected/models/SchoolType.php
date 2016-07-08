@@ -15,6 +15,10 @@ class SchoolType extends BaseModel {
   protected function getCommandFilter() {
     $command = Yii::app()->db->createCommand()->select ('tbl.id, UPPER(tbl.code) code, tbl.name')
       ->from($this->table  . ' tbl');
+    switch($this->user['type']) {
+      case ADMIN:
+        $command->Where('tbl.code != "z"');
+    };
     $command = $this->setWhereByRole($command);
     $command->order('name');
     return $command;

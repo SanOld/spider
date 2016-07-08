@@ -140,7 +140,7 @@
 																		<dd>(030) 0985-111</dd>
 																		<dt>Fax:</dt>
 																		<dd>(030) 0985-111</dd>
-																		<dt>Email:</dt>
+																		<dt>E-Mail:</dt>
 																		<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
 																	</dl>
 																</div>
@@ -191,7 +191,7 @@
 																				<dd>(030) 0985-111</dd>
 																				<dt>Fax:</dt>
 																				<dd>(030) 0985-111</dd>
-																				<dt>Email:</dt>
+																				<dt>E-Mail:</dt>
 																				<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
 																			</dl>
 																		</div>
@@ -239,7 +239,7 @@
 																				<dd>(030) 0985-111</dd>
 																				<dt>Fax:</dt>
 																				<dd>(030) 0985-111</dd>
-																				<dt>Email:</dt>
+																				<dt>E-Mail:</dt>
 																				<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
 																			</dl>
 																		</div>
@@ -287,7 +287,7 @@
 																				<dd>(030) 0985-111</dd>
 																				<dt>Fax:</dt>
 																				<dd>(030) 0985-111</dd>
-																				<dt>Email:</dt>
+																				<dt>E-Mail:</dt>
 																				<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
 																			</dl>
 																		</div>
@@ -314,7 +314,7 @@
 																<dd>Some title</dd>
 																<dt>Telefon:</dt>
 																<dd>(030) 2888 496</dd>
-																<dt>Email:</dt>
+																<dt>E-Mail:</dt>
 																<dd><a class="visible-lg-block" href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
 															</dl>
 														</div>
@@ -333,7 +333,7 @@
 																<dd>Some title</dd>
 																<dt>Telefon</dt>
 																<dd>(030) 2888 496</dd>
-																<dt>Email</dt>
+																<dt>E-Mail</dt>
 																<dd>admin@warenform.de </dd>
 															</dl>
 														</div>
@@ -348,7 +348,7 @@
 																<dd>Some title</dd>
 																<dt>Telefon</dt>
 																<dd>(030) 2888 496</dd>
-																<dt>Email</dt>
+																<dt>E-Mail</dt>
 																<dd>admin@warenform.de </dd>
 															</dl>
 														</div>
@@ -363,7 +363,7 @@
 																<dd>Some title</dd>
 																<dt>Telefon</dt>
 																<dd>(030) 2888 496</dd>
-																<dt>Email</dt>
+																<dt>E-Mail</dt>
 																<dd>admin@warenform.de </dd>
 															</dl>
 														</div>
@@ -400,7 +400,7 @@
 																<dd>(030) 0985-111</dd>
 																<dt>Fax:</dt>
 																<dd>(030) 0985-111</dd>
-																<dt>Email:</dt>
+																<dt>E-Mail:</dt>
 																<dd><a href="mailto:them@stiftungs-spi.de">them@stiftungs-spi.de</a></dd>
 															</dl>
 														</div>
@@ -489,7 +489,7 @@
 																<dd>Some title</dd>
 																<dt>Telefon:</dt>
 																<dd>(030) 2888 496</dd>
-																<dt>Email:</dt>
+																<dt>E-Mail:</dt>
 																<dd><a target="_blank" href="mailto:admin@warenform.de">admin@warenform.de</a></dd>
 															</dl>
 														</div>
@@ -583,7 +583,7 @@
 																				<dd>Some title</dd>
 																				<dt>Telefon:</dt>
 																				<dd>(030) 2888 496</dd>
-																				<dt>Email:</dt>
+																				<dt>E-Mail:</dt>
 																				<dd><a target="_blank" href="mailto:admin@warenform.de">admin@warenform.de</a></dd>
 																			</dl>
 																		</div>
@@ -785,7 +785,7 @@
 																				<dd>Some title</dd>
 																				<dt>Telefon:</dt>
 																				<dd>(030) 2888 496</dd>
-																				<dt>Email:</dt>
+																				<dt>E-Mail:</dt>
 																				<dd><a target="_blank" href="mailto:admin@warenform.de">admin@warenform.de</a></dd>
 																			</dl>
 																		</div>
@@ -987,7 +987,7 @@
 																				<dd>Some title</dd>
 																				<dt>Telefon:</dt>
 																				<dd>(030) 2888 496</dd>
-																				<dt>Email:</dt>
+																				<dt>E-Mail:</dt>
 																				<dd><a target="_blank" href="mailto:admin@warenform.de">admin@warenform.de</a></dd>
 																			</dl>
 																		</div>

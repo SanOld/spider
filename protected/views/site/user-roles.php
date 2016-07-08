@@ -93,7 +93,7 @@ $this->breadcrumbs = array('Benutzerrollen');
               </label>
             </td>
             <td data-title="'Editieren'" header-class="'text-center'" class="text-center">
-              <label class="cr-styled">
+              <label class="cr-styled" ng-if="user_right[$index].is_without_login != '1'">
                 <input type="checkbox" ng-model="user_right[$index].can_edit" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="(default && !userIsSuperUser)">
                 <i class="fa"></i>
               </label>

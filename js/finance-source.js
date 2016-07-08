@@ -12,6 +12,12 @@ spi.controller('FinanceSourceController', function($scope, $rootScope, network, 
     $scope.resetFilter = function() {
         $scope.filter = grid.resetFilter();
     };
+    
+    network.get('project_type', {}, function (result, response) {
+      if(result) {
+          $scope.types = response.result;
+      }
+    });
 
     $scope.openEdit = function (row, modeView) {
         grid.openEditor({
@@ -31,34 +37,34 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.modeView = modeView;
-    $scope.finances = {};
-//    $scope.types = Utils.getFinanceTypes();
-    network.get('project_type', {}, function (result, response) {
-      if(result) {
-          $scope.types = response.result;
-      }
-    });
-
-
+    $scope.finance = {};
+    
     if(!$scope.isInsert) {
         $scope.finance = {
             project_type_id: data.project_type_id,
             programm: data.programm,
             description: data.description
         };
+        
         getFinances();
     }
-//
-    function getFinances() {
+
+    network.get('project_type', {}, function (result, response) {
+      if(result) {
+          $scope.types = response.result;
+      }
+    });
+
+    function getFinances () {
         network.get('finance_source', {is_active: 1}, function(result, response){
             if(result) {
                 $scope.finances = response.result;
-                $scope.sourceTypeName = Utils.getRowById($scope.finances, data.project_type_id, 'type_name');
+                if(data.project_type_id){
+                   $scope.sourceTypeName = Utils.getRowById($scope.finances, data.project_type_id, 'type_name');
+                }
             }
         });
-    }
-
-    
+    }    
 
     $scope.fieldError = function(field) {
         var form = $scope.formFinances;
@@ -95,8 +101,12 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
       });
     };
 
+    $scope.$on('modal.closing', function(event, reason, closed) {
+      Utils.modalClosing($scope.formFinances, $uibModalInstance, event, reason);
+    });
+
     $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
+      Utils.modalClosing($scope.formFinances, $uibModalInstance);
     };
 
 });

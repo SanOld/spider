@@ -7,6 +7,7 @@ class DocumentTemplate extends BaseModel {
   public $post = array();
   public $select_all = ' tbl.*, type.name type_name, CONCAT(user.first_name, " ", user.last_name ) user_name ';
 
+
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all)
       -> from($this -> table . ' tbl')
@@ -34,15 +35,6 @@ class DocumentTemplate extends BaseModel {
       $command -> andWhere(array('in', 'tbl.id', $params['IDS']));
     }
     return $command;
-  }
-
-  protected function calcResults($result) {
-
-    foreach($result['result'] as &$row) {
-      $row['last_change_unix'] = strtotime($row['last_change']).'000';
-    }
-
-    return $result;
   }
 
   protected function doBeforeInsert($post) {
@@ -78,6 +70,44 @@ class DocumentTemplate extends BaseModel {
 
   }
 
+  protected function calcResults($result) {
+    if(safe($_GET, 'prepare') == '1' && safe($_GET, 'request_id')) {
+      foreach($result['result'] as &$row) {
+        
+        $requestData = Yii::app() -> db -> createCommand() -> select("*, DATE_FORMAT(start_date,'%d.%m.%Y') start_date_formated,  DATE_FORMAT(due_date,'%d.%m.%Y') due_date_formated") -> from('spi_request') -> where('id=:id ', array(':id' => safe($_GET, 'request_id'))) -> queryRow();
+        $performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $requestData['performer_id'])) -> queryRow();
+
+        $row['text'] = $this->prepareText($row['text'], $requestData, $performerData);
+      }
+    }
+    return $result;
+  }
+
+  protected function prepareText($text, $requestData, $performerData) {
+    
+    $params = array(
+        '{AUFLAGEN}'      => $requestData['senat_additional_info'],
+        '{FOERDERSUMME}'  => $requestData['total_cost'],
+        '{JAHR}'          => $requestData['year'],
+        '{KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $requestData['project_id']))->queryScalar(),
+        '{TRAGER}'        => $performerData['name'],
+        '{TRAGERADRESSE}' => $performerData['address'],
+        '{ZEITRAUM}'      => 'Beginn: '.$requestData['start_date_formated'].' Ende: '.$requestData['due_date_formated']
+                             
+      );
+    
+    if($text && $text != '') {
+      $data = array();
+      $placeholders = array();
+      foreach($params as $key=>$val) {
+        $data[] = $val;
+        $placeholders[] = $key;
+      }
+      $text = str_replace($placeholders, $data, $text);
+      return $text;
+    }
+    return '';
+  }
 
 
 }

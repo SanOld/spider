@@ -11,12 +11,22 @@ class SystemModel extends BaseModel
                    AND table_name NOT LIKE 'spi_audit%'
                    AND table_name NOT IN(SELECT table_name FROM spi_audit_setting )";
       $tables = Yii::app ()->db->createCommand ( $query )->queryAll ();
-      
+
+
       if($tables) {
         $tables_names = array();
+        $tables_hashes = array();
         foreach($tables as $table) {
           $tables_names[] = "('{$table['table_name']}')";
+
+          
+          $query2 = "SELECT `COLUMN_NAME`, `DATA_TYPE`
+                      FROM `INFORMATION_SCHEMA`.`COLUMNS`
+                     WHERE `TABLE_NAME`='" . $table['table_name'] . "'";
+          $fields = Yii::app ()->db->createCommand ( $query2 )->queryAll ();
+          $tables_hashes[] ="'". md5(serialize($fields))."'";
         }
+
 
         $insert = 'INSERT INTO spi_audit_setting(table_name) VALUES'.implode(', ',$tables_names);
         Yii::app()->db
@@ -51,17 +61,25 @@ class SystemModel extends BaseModel
         foreach($operations as $operation) {
           
           $insert = "\n\n";
+          $fieldsCounter = array(); //костыль от дублирования столбцов
           foreach($fields as $field) {
             $fieldName = $field['COLUMN_NAME'];
+
+
+
             if($operation['code'] != 'UPD') {
               $insert .= "INSERT INTO spi_audit_data(event_id,column_name,{$operation['from']}_value) VALUES(ev_id,'{$fieldName}',{$operation['from']}.{$fieldName});\n";
             } else {
-              $insert .= "
-                      IF old.{$fieldName}<>new.{$fieldName} THEN
-                       INSERT INTO spi_audit_data(event_id,column_name,old_value,new_value) VALUES(ev_id,'{$fieldName}',old.{$fieldName},new.{$fieldName});
-                      END IF;\n";
+              if (!$fieldsCounter[$fieldName]){
+                $insert .= "
+                        IF  ( old.{$fieldName}<>new.{$fieldName} OR  (ISNULL(old.{$fieldName}) AND new.{$fieldName}<>'') )  THEN
+                         INSERT INTO spi_audit_data(event_id,column_name,old_value,new_value) VALUES(ev_id,'{$fieldName}',old.{$fieldName},new.{$fieldName});
+                        END IF;\n";
+                $fieldsCounter[$fieldName] = 1;
+              }
             }
           }
+
           $trigger = "
             DROP TRIGGER IF EXISTS `{$tableName}_A{$operation['code']}`;
 
@@ -80,7 +98,7 @@ class SystemModel extends BaseModel
 
                 END IF;
             END;\n\n";
-//          echo $trigger;
+
           Yii::app()->db
                     ->createCommand($trigger)
                     ->execute();
@@ -91,7 +109,38 @@ class SystemModel extends BaseModel
       echo json_encode ( array('results' => 'done') );
       exit ();
     }
-    
+
+    public function deleteTablesAudit() {
+      $operations =  array( array('code' => 'INS', 'from' => 'new', 'when' => 'AFTER INSERT', 'message' => 'Created', 'system_code' => 'insert')
+                          , array('code' => 'DEL', 'from' => 'old', 'when' => 'AFTER DELETE', 'message' => 'Deleted', 'system_code' => 'delete')
+                          , array('code' => 'UPD', 'from' => 'new', 'when' => 'AFTER UPDATE', 'message' => 'Changed', 'system_code' => 'update')
+                          );
+      $tables = Yii::app()->db
+                          ->createCommand()
+                          ->select('tbl.*')
+                          ->from('spi_audit_setting tbl')
+                          ->where(' is_enabled_audit = 1 ', array())
+                          ->queryAll();
+
+      foreach($tables as $table) {
+        $tableName = $table['table_name'];
+
+        foreach($operations as $operation) {
+
+          $trigger = "DROP TRIGGER IF EXISTS `{$tableName}_A{$operation['code']}`;";
+
+          Yii::app()->db
+                    ->createCommand($trigger)
+                    ->execute();
+        }
+        Yii::app ()->db->createCommand ()->update ( 'spi_audit_setting', array('hash' => ''), 'id=:id', array (':id' => $table['id'] ));
+      }
+
+      header ( 'Content-Type: application/json' );
+      echo json_encode ( array('results' => 'done') );
+      exit ();
+    }
+
 //    public function execute() {
 //      $headers = getallheaders ();
 //      if (isset ( $headers ['Authorization'] ) && $headers ['Authorization']) {

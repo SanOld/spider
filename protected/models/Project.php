@@ -61,9 +61,6 @@ class Project extends BaseModel {
   protected function setWhereByRole($command) {
     switch($this->user['type']) {
       case SCHOOL:
-        if (!safe($this->params, 'SCHOOL_ID')) {
-          $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
-        }
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
         break;
       case DISTRICT:
@@ -132,7 +129,7 @@ class Project extends BaseModel {
         $row['district'] = $district;
   //      $row['district_name'] = $district['name'];
       }
-    }
+    }   
 //    //get_next_id
 //    Yii::app() -> db -> createCommand()
 //    ->select('MAX(id)')
@@ -163,8 +160,11 @@ class Project extends BaseModel {
             'silent' => true,
             'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS'
         );
-      }     
-      
+      }
+      if($post['rate']){
+        $post['rate'] = (float)str_replace(",", ".", $post['rate']);
+      }
+//
 //      if(!safe($post,'schools')) {//есть проекты без школы и дистрикта
 //        return array (
 //                'code' => '400',

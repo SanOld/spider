@@ -18,7 +18,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
 
   $network.onLogin = function () {
   };
-  $network.onLogout = function () {
+  $network.onLogout = function () {      
   };
   $network.createLoginKey = function(login, password) {
     return btoa(unescape(encodeURIComponent(login + ':' + password)))
@@ -57,8 +57,14 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     $network.user = {};
     localStorageService.set('user', false);
     localStorageService.set('rights', false);
-    $cookies.remove('isLogined');
+    localStorageService.set('loginKey', false);
+    $cookies.remove('isLogined'); 
     $network.onLogout();
+    $http({
+        'method': 'JSON'
+        , 'dataType': 'json'
+        , 'url': configs.getOutPath()
+    }); 
   };
   $network.isLogined = function () {
     var token = localStorageService.get('token');

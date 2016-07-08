@@ -61,7 +61,7 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
   };
 
   $scope.canEdit = function(id) {
-    return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 's');
+    return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 's' || network.user.type == 't');
   }
 
 
@@ -73,6 +73,7 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
   $scope._hint = hint;
   $scope.school = {};
   $scope.modeView = modeView;
+  $scope.user_type = network.user.type;
   var next_id = 1;
 
   if (!$scope.isInsert) {
@@ -198,7 +199,7 @@ spi.controller('EditSchoolController', function ($scope, $rootScope, modeView, $
   }
 
   $scope.canEditSchool = function() {
-    return $rootScope.canEdit() || data.id == network.user.relation_id;
+    return $rootScope.canEdit() || data.id == network.user.relation_id || network.user.type == 't' ;
   }
   $scope.canByType = function(types) {
     return types.indexOf(network.user.type) != -1;

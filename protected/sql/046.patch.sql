@@ -1,0 +1,1 @@
+UPDATE `spi_page` SET `is_system` = '0' WHERE `id` = '9'; 

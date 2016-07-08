@@ -11,7 +11,7 @@
               <div class="m-t-10 holder-head-date custom-dl">
                <div class="wrap-data">
                   <span>Letzte Änd.:</span>
-                 <em ng-if="request.last_change">{{request.last_change?(request.last_change_unix| date : 'dd.MM.yyyy'):''}} </em>
+                 <em ng-if="request.last_change">{{getDate(request.last_change)| date : 'dd.MM.yyyy'}} </em>
                  <em ng-if="!request.last_change">-</em>
                </div>
               </div>
@@ -24,7 +24,7 @@
                   <div class="wrap-data">
                     <div class="m-t-10">
                       <span>Abgabe:</span>
-                      <em ng-if="request.end_fill">{{request.end_fill?(request.end_fill_unix| date : 'dd.MM.yyyy'):''}}</em>
+                      <em ng-if="request.end_fill">{{getDate(request.end_fill)| date : 'dd.MM.yyyy'}}</em>
                       <em ng-if="!request.end_fill">-</em>
                     </div>
                   </div>
@@ -42,12 +42,13 @@
                   <div class="wrap-data">
                     <div>
                       <span>Beginn:</span>
-                      <em ng-if="request.start_date">{{request.start_date?(request.start_date_unix| date : 'dd.MM.yyyy'):''}}</em>
+                      
+                      <em ng-if="request.start_date">{{getDate(request.start_date) | date : 'dd.MM.yyyy'}}</em>
                       <em ng-if="!request.start_date">-</em>
                     </div>
                     <div>
                       <span>Ende:</span>
-                      <em ng-if="request.due_date">{{request.due_date?(request.due_date_unix| date : 'dd.MM.yyyy'):''}}</em>
+                      <em ng-if="request.due_date">{{getDate(request.due_date)| date : 'dd.MM.yyyy'}}</em>
                       <em ng-if="!request.due_date">-</em>
                     </div>
                   </div>
@@ -71,57 +72,112 @@
               </h3>
               <hr/>
               <ng-show ng-show="data.performer_id">
-                <strong>{{data.performer_name}}</strong>
+                <strong>{{data.performer_long_name}}</strong>
                 <span ng-if="+data.performer_is_checked">
                   <i class="ion-checkmark"></i>
                   {{data.performer_checked_by}}
                 </span>
-                <div class="row m-t-20 m-b-30 row-holder-dl">
-                  <div class="col-lg-12 m-b-0">
-                    <dl class="custom-dl">
-                      <ng-show ng-show="data.performer_contact">
-                        <dt>Ansprechpartner(in):</dt>
-                        <dd>{{data.performer_contact}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_contact_function">
+
+                <div class="row m-t-20">
+                  <div class="col-lg-7">
+                    <div class="col-lg-12 p-l-0 m-b-15">
+                      <dl class="custom-dl width-dt-2 align-bottom">
+                       <ng-show ng-show="data.performer_contact">
+                          <dt>Vertretungsberechtigte Person:</dt>
+                          <dd><strong>{{data.performer_contact}}</strong></dd>
+                        </ng-show>
+                      </dl>
+                    </div>
+                    <div class="row m-t-20 m-b-30">
+                      <div class="col-lg-6">
+                        <dl class="custom-dl width-dt-2">
+                          <ng-show ng-show="data.performer_contact_function">
+                            <dt>Funktion:</dt>
+                            <dd>{{data.performer_contact_function}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_address">
+                            <dt>Adresse:</dt>
+                            <dd>{{data.performer_address}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_plz">
+                            <dt>PLZ:</dt>
+                            <dd>{{data.performer_plz}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_city">
+                            <dt>Stadt:</dt>
+                            <dd>{{data.performer_city}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_homepage">
+                            <dt>Webseite:</dt>
+                            <dd><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
+                          </ng-show>
+                        </dl>
+                      </div>
+                      <div class="col-lg-6">
+                        <dl class="custom-dl">
+                          <ng-show ng-show="data.performer_phone">
+                            <dt>Telefon:</dt>
+                            <dd>{{data.performer_phone}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_fax">
+                            <dt>Fax:</dt>
+                            <dd>{{data.performer_fax}}</dd>
+                          </ng-show>
+                          <ng-show ng-show="data.performer_email">
+                            <dt>E-mail:</dt>
+                            <dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
+                          </ng-show>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-5 custom-box-btn">
+                    <h4 class="panel-title m-b-10">   
+                      <label>
+                        Ansprechperson für Rückfragen zum Konzept
+                        <span spi-hint text="_hint.project_data_concept_user_id" class="has-hint"></span>
+                      </label>
+                    </h4>
+                    <div class="clearfix">
+                      <div class="col-lg-9 p-l-0 m-b-15"  ng-class="{'wrap-line error': dublicate || required}" >  
+                      <input placeholder="Name Vorname" ng-keyup="escape($event)" ng-disabled="userLoading" 
+                             ng-keypress="submitToAddUser($event, new_project_user)" ng-hide="!add_project_user" class="form-control popup-input" type="text" 
+                             ng-model="new_project_user" ng-required="add_project_user" id="project_user">
+                      <ui-select on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users')">
+                        <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
+                          <span ng-bind-html="item.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <span ng-class="{hide: !(dublicate || required)}" class="hide">
+                        <label ng-show="required" class="error">Füllen Sie die Daten</label>
+                        <label ng-show="dublicate" class="error">Dieser Name existiert bereits</label>
+                      </span>
+                      </div>
+                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_project_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()" >
+                        <button class="btn m-t-2 add-user" ng-click="addNewConceptUser()">&nbsp;</button>
+                      </div>             
+                      <div class="col-lg-3 p-0" ng-show="add_project_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()" >
+                        <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUser($event, new_project_user)">&nbsp;</button>
+                        <button class="btn m-t-2 hide-btn" ng-click="addNewConceptUser()">&nbsp;</button>
+                      </div>
+                    </div>                   
+                    <dl class="custom-dl" ng-show="selectConceptResult && !add_project_user">                      
+                      <ng-show ng-show="selectConceptResult.function">
                         <dt>Funktion:</dt>
-                        <dd>{{data.performer_contact_function}}</dd>
+                        <dd>{{selectConceptResult.function}}</dd>
                       </ng-show>
-                    </dl>
-                  </div>
-                  <div class="col-lg-6">
-                    <dl class="custom-dl">
-                      <ng-show ng-show="data.performer_address">
-                        <dt>Adresse:</dt>
-                        <dd>{{data.performer_address}}</dd>
+                      <ng-show ng-show="selectConceptResult.title">
+                        <dt>Anrede:</dt>
+                        <dd>{{selectConceptResult.gender}}</dd>
                       </ng-show>
-                      <ng-show ng-show="data.performer_plz">
-                        <dt>PLZ:</dt>
-                        <dd>{{data.performer_plz}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_city">
-                        <dt>Stadt:</dt>
-                        <dd>{{data.performer_city}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_homepage">
-                        <dt>Webseite:</dt>
-                        <dd><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
-                      </ng-show>
-                    </dl>
-                  </div>
-                  <div class="col-lg-6">
-                    <dl class="custom-dl">
-                      <ng-show ng-show="data.performer_phone">
+                      <ng-show ng-show="selectConceptResult.phone">
                         <dt>Telefon:</dt>
-                        <dd>{{data.performer_phone}}</dd>
+                        <dd>{{selectConceptResult.phone}}</dd>
                       </ng-show>
-                      <ng-show ng-show="data.performer_fax">
-                        <dt>Fax:</dt>
-                        <dd>{{data.performer_fax}}</dd>
-                      </ng-show>
-                      <ng-show ng-show="data.performer_email">
-                        <dt>Email:</dt>
-                        <dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
+                      <ng-show ng-show="selectConceptResult.email">
+                        <dt>E-mail:</dt>
+                        <dd><a class="visible-lg-block" href="mailto:{{selectConceptResult.email}}">{{selectConceptResult.email}}</a></dd>
                       </ng-show>
                     </dl>
                   </div>
@@ -129,10 +185,10 @@
               </ng-show>
             </div>
           </div>
-          <h3 class="panel-title m-b-15">
-            {{data.schools.length > 1?'Schule':'Schulen'}}
+          <h3 ng-if="data.schools.length > 0" class="panel-title m-b-15">
+            {{data.schools.length > 1?'Schulen':'Schule'}}
           </h3>
-          <div id="accordion-project" class="panel-group panel-group-joined">
+          <div ng-if="data.schools.length > 0"  id="accordion-project" class="panel-group panel-group-joined">
 
             <div ng-repeat="school in data.schools" class="panel panel-default">
               <div class="panel-heading">
@@ -149,7 +205,7 @@
                       <div class="btn-row m-b-15">
                         <a class="btn" href="schools#id={{school.id}}" target="_blank" ng-click="setUpdater()"  >Bearbeiten</a>
                       </div>
-                      <dl class="custom-dl">
+                      <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.user_name">
                           <dt>Ansprechpartner(in):</dt>
                           <dd>{{school.user_name}}</dd>
@@ -161,7 +217,7 @@
                       </dl>
                     </div>
                     <div class="col-lg-5">
-                      <dl class="custom-dl">
+                      <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.address">
                           <dt>Adresse:</dt>
                           <dd>{{school.address}}</dd>
@@ -181,7 +237,7 @@
                       </dl>
                     </div>
                     <div class="col-lg-7">
-                      <dl class="custom-dl">
+                      <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.phone">
                           <dt>Telefon:</dt>
                           <dd>{{school.phone}}</dd>
@@ -191,7 +247,7 @@
                           <dd>{{school.fax}}</dd>
                         </ng-show>
                         <ng-show ng-show="school.email">
-                          <dt>Email:</dt>
+                          <dt>E-mail:</dt>
                           <dd><a href="mailto:{{school.email}}">{{school.email}}</a></dd>
                         </ng-show>
                       </dl>
@@ -202,107 +258,6 @@
             </div>
 
           </div>
-
-          <div class="row holder-three-blocks m-b-30">
-            <div class="col-lg-4">
-              <h4 class="panel-title m-b-10">
-                Ansprechperson für Rückfragen zum Antrag
-              </h4>
-              <div class="form-group">
-                <ui-select   on-select="onSelectCallback($item, $model, 1)" class="type-document" ng-model="request.request_user_id" ng-disabled="!userCan('users')">
-                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
-                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                  </ui-select-choices>
-                </ui-select>
-              </div>
-              <dl class="custom-dl" ng-show="selectRequestResult">
-                <ng-show ng-show="selectRequestResult.function">
-                  <dt>Funktion:</dt>
-                  <dd>{{selectRequestResult.function}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectRequestResult.title">
-                  <dt>Anrede:</dt>
-                  <dd>{{selectRequestResult.gender}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectRequestResult.phone">
-                  <dt>Telefon:</dt>
-                  <dd>{{selectRequestResult.phone}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectRequestResult.email">
-                  <dt>Email:</dt>
-                  <dd><a class="visible-lg-block" href="mailto:{{selectRequestResult.email}}">{{selectRequestResult.email}}</a></dd>
-                </ng-show>
-              </dl>
-            </div>
-
-            <div class="col-lg-4">
-              <h4 class="panel-title m-b-10">
-                Ansprechperson für Rückfragen zum Konzept
-              </h4>
-              <div class="form-group">
-                <ui-select   on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users')">
-                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
-                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                  </ui-select-choices>
-                </ui-select>
-              </div>
-              <dl class="custom-dl" ng-show="selectConceptResult">
-                <ng-show ng-show="selectConceptResult.function">
-                  <dt>Funktion:</dt>
-                  <dd>{{selectConceptResult.function}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectConceptResult.title">
-                  <dt>Anrede:</dt>
-                  <dd>{{selectConceptResult.gender}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectConceptResult.phone">
-                  <dt>Telefon:</dt>
-                  <dd>{{selectConceptResult.phone}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectConceptResult.email">
-                  <dt>Email:</dt>
-                  <dd><a class="visible-lg-block" href="mailto:{{selectConceptResult.email}}">{{selectConceptResult.email}}</a></dd>
-                </ng-show>
-              </dl>
-            </div>
-
-            <div class="col-lg-4">
-              <h4 class="panel-title m-b-10">
-                Ansprechperson für Rückfragen zum Finanzplan
-              </h4>
-              <div class="form-group">
-                <ui-select   on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="request.finance_user_id" ng-disabled="!userCan('users')">
-                  <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">
-                    <span ng-bind-html="item.name | highlight: $select.search"></span>
-                  </ui-select-choices>
-                </ui-select>
-              </div>
-              <dl class="custom-dl" ng-show="selectFinanceResult">
-                <ng-show ng-show="selectFinanceResult.function">
-                  <dt>Funktion:</dt>
-                  <dd>{{selectFinanceResult.function}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectFinanceResult.title">
-                  <dt>Anrede:</dt>
-                  <dd>{{selectFinanceResult.gender}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectFinanceResult.phone">
-                  <dt>Telefon:</dt>
-                  <dd>{{selectFinanceResult.phone}}</dd>
-                </ng-show>
-                <ng-show ng-show="selectFinanceResult.email">
-                  <dt>Email:</dt>
-                  <dd><a class="visible-lg-block" href="mailto:{{selectFinanceResult.email}}">{{selectFinanceResult.email}}</a></dd>
-                </ng-show>
-              </dl>
-            </div>
-          </div>
-
-
-
           <h3 class="panel-title">
             Angaben zum Jugendamt
             <span class="btn-row m-l-15">
@@ -310,9 +265,9 @@
             </span>
           </h3>
           <hr/>
-          <div class="row row-holder-dl" ng-show="data.district_id">
+          <div class="row" ng-show="data.district_id">
             <div class="col-lg-12 m-b-10">
-              <dl class="custom-dl">
+              <dl class="custom-dl width-dt-2">
                 <ng-show ng-show="data.district_name">
                   <dt>Bezirk:</dt>
                   <dd><strong>{{data.district_name}}</strong></dd>
@@ -323,8 +278,8 @@
                 </ng-show>
               </dl>
             </div>
-            <div class="col-lg-5">
-              <dl class="custom-dl">
+            <div class="col-lg-4">
+              <dl class="custom-dl width-dt-2">
                 <ng-show ng-show="data.district_address">
                   <dt>Adresse:</dt>
                   <dd>{{data.district_address}}</dd>
@@ -339,7 +294,7 @@
                 </ng-show>
               </dl>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <dl class="custom-dl">
                 <ng-show ng-show="data.district_phone">
                   <dt>Telefon:</dt>
@@ -350,7 +305,7 @@
                   <dd>{{data.district_fax}}</dd>
                 </ng-show>
                 <ng-show ng-show="data.district_email">
-                  <dt>Email:</dt>
+                  <dt>E-Mail:</dt>
                   <dd><a href="mailto:{{data.district_email}}">{{data.district_email}}</a></dd>
                 </ng-show>
               </dl>

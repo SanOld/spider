@@ -36,6 +36,14 @@ spi.controller('EmailTemplatesController', function ($scope, $rootScope, network
     });
   };
 
+  $scope.getDate = function (date) {
+    var result = '';
+    if(date){
+      result = new Date(date);
+    }
+    return result;
+  }
+
 });
 
 spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, GridService) {
@@ -45,6 +53,7 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
   $scope.filter = {is_email: 1};
 
   if (!$scope.isInsert) {
+    $scope.filter['document_id'] = data.id;
     $scope.docId = data.id;
     $scope.document = {
       id:           data.id,
@@ -55,7 +64,6 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
     };
 
   } else {
-
     $scope.document = {
       id: '',
       name:         '',
@@ -129,8 +137,12 @@ spi.controller('EditEmailTemplatesController', function ($scope, $rootScope, mod
     });
   };
 
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    Utils.modalClosing($scope.form.formDocument, $uibModalInstance, event, reason);
+  });
+
   $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+    Utils.modalClosing($scope.form.formDocument, $uibModalInstance);
   };
 
   $scope.fieldError = function (field) {
