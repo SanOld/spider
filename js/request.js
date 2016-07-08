@@ -242,7 +242,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
 
 });
 
-spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService, localStorageService) {
+spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService, localStorageService, $timeout) {
   $scope.filter = {id: $scope.$parent.requestID};
   $scope.isInsert = !$scope.$parent.requestID;
   $scope.udater = 0;
@@ -257,6 +257,9 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     $scope.required = false;
     if(!$scope.add_project_user){
       $scope.add_project_user = true;
+      $timeout(function(){       
+        angular.element('#project_user').focus();   
+      });
     }else{
       $scope.add_project_user = false;
       $scope.new_project_user = ""; 
@@ -602,7 +605,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.dublicate['finance'] = false;
     $scope.required['finance'] = false;
     if(!$scope.add_finance_user){
-      $scope.add_finance_user = true;   
+      $scope.add_finance_user = true;
+      $timeout(function(){       
+        angular.element('#finance_user').focus();   
+      });
     }else{
       $scope.add_finance_user = false;      
       $scope.new_fina_user = "";
@@ -612,7 +618,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       $scope.dublicate['employee'] = false;
       $scope.required['employee'] = false;
       if(!$scope.add_employee_user){
-        $scope.add_employee_user = true;   
+        $scope.add_employee_user = true;
+        $timeout(function(){       
+        angular.element('#employee_user').focus();   
+      });
       }else{
         $scope.add_employee_user = false;     
         $scope.request_users[idx].new_user_name = "";

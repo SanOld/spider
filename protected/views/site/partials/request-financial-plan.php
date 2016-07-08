@@ -24,7 +24,7 @@
               <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['finance'] || required['finance']}">  
                 <input placeholder="Name Vorname" ng-keyup="escapeFinanceUser($event)" ng-keypress="submitToAddUser($event, new_fina_user)" 
                        ng-hide="!add_finance_user" class="form-control popup-input" type="text" ng-model="new_fina_user"
-                       ng-disabled="userLoading">                 
+                       ng-disabled="userLoading" id="finance_user">                 
                 <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required 
                            ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
                   <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
@@ -37,10 +37,10 @@
                   <label ng-show="dublicate['finance']" class="error">Dieser Name existiert bereits</label>
                 </span>
                 </div>
-              <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_finance_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable'">
+                <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_finance_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canEdit()">
                   <button class="btn m-t-2 add-user" ng-click="addNewFinanceUser()">&nbsp;</button>
                 </div>             
-                <div class="col-lg-3 p-0" ng-show="add_finance_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable'">
+                <div class="col-lg-3 p-0" ng-show="add_finance_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canEdit()">
                   <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUser($event, new_fina_user)">&nbsp;</button>
                   <button class="btn m-t-2 hide-btn" ng-click="addNewFinanceUser()">&nbsp;</button>
                 </div>             
@@ -113,13 +113,13 @@
             <button class="btn w-xs pull-right" ng-click=""></button>
           </div>  
           <div class="col-lg-6 btn-row">
-            <button class="btn w-xs pull-right" ng-click="request_users.push({})">Mitarbeiter/in hinzufügen</button>
+            <button class="btn w-xs pull-right" ng-click="request_users.push({})" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">Mitarbeiter/in hinzufügen</button>
           </div>
         </div>
         <div id="accordion-account" class="panel-group panel-group-joined row">
           <div class="panel panel-default row" ng-if="!emploee.is_deleted" ng-repeat="emploee in request_users">
             <div class="panel-heading">
-              <button class="no-btn" title="Entfernen" ng-click="deleteEmployee($index)" ng-hide="undelitetdCount(request_users) < 2">
+              <button class="no-btn" title="Entfernen" ng-click="deleteEmployee($index)" ng-hide="undelitetdCount(request_users) < 2" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">
                 <i class="ion-close-round"></i>
               </button>
               <a class="collapsed" href="#account{{$index}}" data-parent="#accordion-account" data-toggle="collapse">
@@ -156,7 +156,7 @@
                       <input placeholder="Name Vorname" ng-keyup="escapeEmployeeUser($event, $index)" 
                              ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" 
                              ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name"
-                             ng-disabled="userLoading">  
+                             ng-disabled="userLoading" id="employee_user">  
                       <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required 
                                  ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
                         <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
@@ -169,10 +169,10 @@
                         <label ng-show="dublicate['employee']" class="error">Dieser Name existiert bereits</label>
                       </span>
                       </div>
-                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable'">
+                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()">
                         <button class="btn m-t-2 add-user" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
                       </div>             
-                      <div class="col-lg-3 p-0" ng-show="add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable'">
+                      <div class="col-lg-3 p-0" ng-show="add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()">
                         <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUserEmpl($event, emploee.new_user_name, $index)">&nbsp;</button>
                         <button class="btn m-t-2 hide-btn" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
                       </div>
@@ -386,7 +386,7 @@
               Berufsgenossenschaftsbeiträge
             </h3>
             <div class="col-lg-6 btn-row">
-              <button class="btn w-xs pull-right" ng-click="prof_associations.push({})">Berufsgenossenschaft hinzufügen</button>
+              <button class="btn w-xs pull-right" ng-click="prof_associations.push({})" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">Berufsgenossenschaft hinzufügen</button>
             </div>
           </div>
 
@@ -407,7 +407,7 @@
             <div class="col-lg-1 p-0 custom-col-1 m-t-5">
               <span class="symbol">€</span>
             </div>
-            <div class="col-lg-1 custom-col-1 m-t-5" ng-hide="undelitetdCount(prof_associations) <= 1">
+            <div class="col-lg-1 custom-col-1 m-t-5" ng-hide="undelitetdCount(prof_associations) <= 1" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">
               <button ng-click="deleteProfAssociation($index)" class="no-btn" title="Entfernen">
                 <i class="ion-close-round"></i>
               </button>

@@ -261,21 +261,21 @@ class User extends BaseModel {
       );
     }
 
-    if (isset($param['EMAIL']) && $param['EMAIL'] && Yii::app() -> db -> createCommand()
-        -> select('*')
-        -> from($this -> table)
-        -> where('email = :email AND id!=:id',
-                  array(
-                  ':email' => $param['EMAIL'],
-                  ':id' => $id))
-         -> queryRow()) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'silent' => true,
-        'system_code' => 'ERR_DUPLICATED_EMAIL'
-      );
-    }
+//    if (isset($param['EMAIL']) && $param['EMAIL'] && Yii::app() -> db -> createCommand()
+//        -> select('*')
+//        -> from($this -> table)
+//        -> where('email = :email AND id!=:id',
+//                  array(
+//                  ':email' => $param['EMAIL'],
+//                  ':id' => $id))
+//         -> queryRow()) {
+//      return array(
+//        'code' => '409',
+//        'result' => false,
+//        'silent' => true,
+//        'system_code' => 'ERR_DUPLICATED_EMAIL'
+//      );
+//    }
 
     if(isset($param['PASSWORD']) && !$param['PASSWORD']) {
       unset($param['PASSWORD']);
