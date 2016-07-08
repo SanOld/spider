@@ -179,7 +179,7 @@ $this->breadcrumbs = array('Bezirk');
                           <div spi-hint text="_hint.homepage" class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('homepage')}">
                             <input name="homepage" ng-model="district.homepage" type="text" value=""
-                                   ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/"
+                                   ng-pattern="/^(?:([a-z]+):(?:([a-z]*):)?\/\/)?(?:([^:@]*)(?::([^:@]*))?@)?((?:[a-z0-9_-]+\.)+[a-z]{2,}|localhost|(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.){3}(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])))(?::(\d+))?(?:([^:\?\#]+))?(?:\?([^\#]+))?(?:\#([^\s]+))?$/i"
                                    class="form-control">
                             <span ng-class="{hide: !fieldError('homepage')}" class="hide">
                               <label ng-show="form.formDistrict.homepage.$error.pattern" class="error">Geben Sie eine gültige Website</label>

@@ -217,7 +217,7 @@
             <div spi-hint text="_hint.last_name" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('last_name')}">
               <input class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
-                     ng-minlength="2" ng-maxlength="45" required>
+                     ng-minlength="2" ng-maxlength="45" ng-required="!user.is_virtual">
               <span ng-class="{hide: !fieldError('last_name')}" class="hide">
                 <label ng-show="form.last_name.$error.required" class="error">Nachname erforderlich</label>
                 <label ng-show="form.last_name.$error.minlength" class="error">Nachname ist zu kurz</label>
@@ -270,7 +270,7 @@
                 <div spi-hint text="_hint.last_name" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('last_name')}">
                   <input class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
-                         ng-minlength="2" ng-maxlength="45" required>
+                         ng-minlength="2" ng-maxlength="45" ng-required="!user.is_virtual">
                   <span ng-show="fieldError('last_name')">
                     <label ng-show="form.last_name.$error.required" class="error">Nachname erforderlich</label>
                     <label ng-show="form.last_name.$error.minlength" class="error">Nachname ist zu kurz</label>
@@ -280,7 +280,7 @@
                 </div>
               </div>
             </div>-->
-
+           
           </div>
           <div class="col-lg-6">
             <div class="form-group">

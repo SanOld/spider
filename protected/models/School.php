@@ -177,7 +177,7 @@ class School extends BaseModel {
       case ACTION_SELECT:
         return $user['can_view'];
       case ACTION_UPDATE:
-        return $user['can_edit'] || (safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id'));
+        return $user['can_edit'] || (safe($user, 'relation_id') && $user['relation_id'] == safe($_GET, 'id') || $user['type'] == TA);
       case ACTION_INSERT:
       case ACTION_DELETE:
         return $user['can_edit'];
