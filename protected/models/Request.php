@@ -141,9 +141,9 @@ class Request extends BaseModel {
       foreach($result['result'] as &$row) {
         $row = (int)$row['year'];
       }
-      if(!in_array(date("Y"), $result['result'])) {
-        array_push($result['result'], (int)date("Y"));
-      }
+//      if(!in_array(date("Y"), $result['result'])) {
+//        array_push($result['result'], (int)date("Y"));
+//      }
     } else {
       foreach($result['result'] as &$row) {
 

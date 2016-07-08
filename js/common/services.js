@@ -87,9 +87,9 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
       tableParams.page(1);
       tableParams.reload();
     };
-    grid.resetFilter = function () {
+    grid.resetFilter = function (params) {
       if (!filterEquals()) {
-        filter = {};
+        filter = params || {};
         grid.reload();
       }
       return filter;

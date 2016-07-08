@@ -5,10 +5,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $rootScope.printed = 0;
   var d = new Date;
   $scope.defaulFilter = {year: d.getFullYear(), status_id: '1,3,4,5'}
-  $scope.filter = localStorageService.get('requestsFilter', $scope.filter );
-  if(!$scope.filter || $scope.filter == '' ){
-    $scope.filter = $scope.defaulFilter;
+
+  $scope.filter = localStorageService.get('requestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
+  if(!$scope.filter == $scope.defaulFilter ){
+    localStorageService.set('requestsFilter', $scope.filter );
   }
+
   $scope.userType = network.user.type;
 
   $scope.checkboxes = {
@@ -44,6 +46,15 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   network.get('request', {list: 'year'}, function (result, response) {
     if (result) {
       $scope.years = response.result;
+      if($scope.years.length > 0){
+        $scope.defaulFilter = {year: $scope.years[0], status_id: '1,3,4,5'};
+        
+        if($scope.years.indexOf($scope.filter.year) == -1){
+           $scope.filter.year = $scope.years[0];
+           $scope.setFilter();
+           grid.reload();
+        }
+      }
     }
   });
 
@@ -58,12 +69,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $scope.tableParams = grid('request', $scope.filter);
 
   $scope.resetFilter = function () {
-    $scope.filter = grid.resetFilter();
-    $scope.filter = $scope.defaulFilter;
-    $scope.setFilter();
+    $scope.filter = angular.copy($scope.defaulFilter);
+    grid.resetFilter($scope.filter);
   };
 
   $scope.updateGrid = function () {
+    $scope.setFilter();
     grid.reload();
   };
 
@@ -291,7 +302,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   };
 
   $scope.setFilter = function(){
-    localStorageService.set('requestsFilter', $scope.filter );
+     localStorageService.set('requestsFilter', $scope.filter );
   }
 
   $scope.permissions={
@@ -343,6 +354,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     }
     return result;
   }
+
+
+
+
 });
 
 
