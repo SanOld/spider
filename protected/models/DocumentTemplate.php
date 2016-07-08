@@ -86,7 +86,7 @@ class DocumentTemplate extends BaseModel {
   protected function prepareText($text, $requestData, $performerData) {
     
     $params = array(
-        '{AUFLAGEN}'      => '',
+        '{AUFLAGEN}'      => $requestData['senat_additional_info'],
         '{FOERDERSUMME}'  => $requestData['total_cost'],
         '{JAHR}'          => $requestData['year'],
         '{KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $requestData['project_id']))->queryScalar(),
