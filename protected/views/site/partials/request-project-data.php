@@ -142,7 +142,7 @@
                       <div class="col-lg-9 p-l-0 m-b-15"  ng-class="{'wrap-line error': dublicate || required}" >  
                       <input placeholder="Name Vorname" ng-keyup="escape($event)" ng-disabled="userLoading" 
                              ng-keypress="submitToAddUser($event, new_project_user)" ng-hide="!add_project_user" class="form-control popup-input" type="text" 
-                             ng-model="new_project_user" ng-required="add_project_user">
+                             ng-model="new_project_user" ng-required="add_project_user" id="project_user">
                       <ui-select on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users')">
                         <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
@@ -154,10 +154,10 @@
                         <label ng-show="dublicate" class="error">Dieser Name existiert bereits</label>
                       </span>
                       </div>
-                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_project_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable'" >
+                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_project_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()" >
                         <button class="btn m-t-2 add-user" ng-click="addNewConceptUser()">&nbsp;</button>
                       </div>             
-                      <div class="col-lg-3 p-0" ng-show="add_project_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable'" >
+                      <div class="col-lg-3 p-0" ng-show="add_project_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()" >
                         <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUser($event, new_project_user)">&nbsp;</button>
                         <button class="btn m-t-2 hide-btn" ng-click="addNewConceptUser()">&nbsp;</button>
                       </div>
