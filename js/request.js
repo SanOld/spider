@@ -335,10 +335,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     if($scope.request) {
       switch(type)  {
         case 'dates':;
-        case 'additional_info':;
         case 'templates':;
           results = ((user == 'a' || user == 'p') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
           break;
+        case 'additional_info':;
         case 'users':;
           results = ((user == 'a' || user == 'p' || user == 't') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
           break
