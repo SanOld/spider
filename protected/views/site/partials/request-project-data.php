@@ -29,7 +29,7 @@
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
-                    <button class="btn m-t-5" ng-click="setEndFillDate()">Dauer ändern</button>
+                    <button class="btn m-t-5" ng-click="setEndFillDate()">Datum ändern</button>
                   </div>
                 </div>
               </div>
@@ -53,7 +53,7 @@
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
-                    <button class="btn m-t-5" ng-click="setBulkDuration()">Dauer ändern</button>
+                    <button class="btn m-t-5" ng-click="setBulkDuration()">Datum ändern</button>
                   </div>
                 </div>
               </div>
