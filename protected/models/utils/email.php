@@ -80,7 +80,7 @@ class Email {
         $mail -> addAttachment($value);
       }
     }
-    $mail -> SetFrom($from, $_SERVER['HTTP_HOST']);
+    $mail -> SetFrom($from, 'SPIder info');//$_SERVER['HTTP_HOST']
     $mail -> Subject = $subject;
     $mail -> MsgHTML($message);
     $mail -> AddAddress($to, "");
