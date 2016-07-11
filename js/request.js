@@ -1021,7 +1021,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
   }
   $scope.updateTrainingCost = function(school){
-    if(school.rate >= 1) {
+    if(num(school.rate) >= 1) {
       school.training_cost = 2250;
 //    } else if(school.rate <= 0,5) {
 //
