@@ -155,7 +155,7 @@ $this->breadcrumbs = array('Anträge');
                 </tr>
               </table>
 
-              <div class="btn-row m-t-15 clearfix" ng-if="canEdit()">
+              <div class="btn-row m-t-15 clearfix" ng-if="canEdit() && canByType(['a','p'])">
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="chooseDocuments()">Druck-Template wählen</button>
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkDuration()">Laufzeit festlegen</button>
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(4)">Förderfähig</button>
