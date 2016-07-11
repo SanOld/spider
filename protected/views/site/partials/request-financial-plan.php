@@ -5,7 +5,7 @@
         <div ng-switch="data.status_finance">
           <strong ng-switch-when="rejected">Ablehnen</strong>
           <strong ng-switch-when="accepted">Genehmigt</strong>
-          <strong ng-switch-when="in_progress">Bereit zu überprüfen</strong>
+          <strong ng-switch-when="in_progress">Zur Prüfung übermittelt</strong>
         </div>
         <div ng-if="data.finance_comment && (data.status_finance == 'rejected' || data.status_finance == 'in_progress')" ng-bind="data.finance_comment"></div>
       </div>
@@ -427,7 +427,7 @@
                     Sonstige Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description" class="has-hint"></span>
                   </label>
                   <div class="col-lg-6">
-                    <input class="form-control" type="text" placeholder="Namen Sonstiger Einkommensquellen" ng-model="data.revenue_description" required>
+                    <input class="form-control" type="text" placeholder="Sonstige Einkommensquellen" ng-model="data.revenue_description" required>
                   </div>
                   <label class="col-lg-1 control-label custom-width-label">
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
@@ -499,7 +499,7 @@
             </div>
             <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && data.status_finance != 'in_progress' && data.status_finance != 'accepted'">
               <h4 class="m-t-0"></h4>
-              <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm('in_progress')" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
+              <button class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm('in_progress')" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
             </div>
           </div>
         </div>

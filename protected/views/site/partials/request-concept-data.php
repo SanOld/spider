@@ -24,7 +24,7 @@
               <div ng-switch="schoolConcept.status">
                 <strong ng-switch-when="rejected">Ablehnen</strong>
                 <strong ng-switch-when="accepted">Genehmigt</strong>
-                <strong ng-switch-when="in_progress">Bereit zu überprüfen</strong>
+                <strong ng-switch-when="in_progress">Zur Prüfung übermittelt</strong>
               </div>
               <div ng-if="schoolConcept.comment && (schoolConcept.status == 'rejected' || schoolConcept.status == 'in_progress')" ng-bind="schoolConcept.comment"></div>
             </div>
@@ -67,7 +67,7 @@
                     </div>
                     <div class="text-right pull-right" ng-if="canFormEdit && !isTextareaShow && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
                       <h4 class="m-t-0"></h4>
-                      <button class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit', $index)" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
+                      <button class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit', $index)" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
                     </div>
                   </div>
                 </div>

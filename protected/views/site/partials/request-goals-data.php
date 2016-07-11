@@ -33,7 +33,7 @@
 
                   <div disable-all=" !userCan('allFields', goal.status) ">
                   <div ng-hide="goal.status == 'unfinished'" class="alert-{{goal.status}} alert" >
-                    <strong ng-if="goal.status == 'in_progress'">Bereit zu überprüfen
+                    <strong ng-if="goal.status == 'in_progress'">Zur Prüfung übermittelt
                       <br/>
                       {{goal.notice}}
                     </strong>
