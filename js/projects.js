@@ -124,16 +124,16 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       var params = {};
       if(!isInit && $scope.isInsert) {
         delete $scope.project.district_id;
-      }
-      if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
-        params['school_type_id'] = $scope.project.school_type_id;
-      }
+      }      
+//      if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
+//        params['school_type_id'] = $scope.project.school_type_id;
+//      }
       network.get('district', params, function (result, response) {
           if(result){
             if($scope.project.school_type_id == 5 || !result){
                response.result.unshift({'name':"--Kein Bezirk--", 'id': 0});
             }           
-            $scope.districts = response.result;              
+            $scope.districts = response.result; 
           } 
       });
     }

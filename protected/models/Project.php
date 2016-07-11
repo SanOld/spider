@@ -13,7 +13,7 @@ class Project extends BaseModel {
   protected function getCommand() {
 
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
+    $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.id');
     $command -> where(' 1=1 ', array());
 
     return $command;
