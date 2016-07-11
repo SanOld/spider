@@ -20,7 +20,7 @@
         <div class="row">
           <div class="col-lg-4 p-r-0 custom-box-btn">
             <div class="clearfix">
-              <label>Ansprechpartner für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
+              <label>Ansprechperson für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
               <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['finance'] || required['finance']}">  
                 <input placeholder="Name Vorname" ng-keyup="escapeFinanceUser($event)" ng-keypress="submitToAddUser($event, new_fina_user)" 
                        ng-hide="!add_finance_user" class="form-control popup-input" type="text" ng-model="new_fina_user"
@@ -148,26 +148,26 @@
                     <button ng-change="calculateEmployee(emploee)" ng-class="emploee.is_umlage != 1 ? 'active' : 'btn-default'" ng-model="emploee.is_umlage" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
                   </div>
                 </div>
-                <div class="row row-holder-dl">
-                  <div class="col-lg-4 custom-box-btn">
-                    <h5>Mitarbeiter/in hinzufügen</h5>
-                    <div class="form-group clearfix">
-                      <div class="col-lg-9 p-l-0" ng-class="{'wrap-line error': dublicate['employee'] || required['employee']}"> 
-                      <input placeholder="Name Vorname" ng-keyup="escapeEmployeeUser($event, $index)" 
-                             ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" 
-                             ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name"
-                             ng-disabled="userLoading" id="employee_user">  
-                      <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required 
-                                 ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
-                        <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_selected:0} | orderBy: 'name'">
-                          <span ng-bind-html="item.name | highlight: $select.search"></span>
-                        </ui-select-choices>
-                      </ui-select>
-                      <span ng-class="{hide: !(dublicate['employee'] || required['employee'])}" class="hide">
-                        <label ng-show="required['employee']" class="error">Füllen Sie die Daten</label>
-                        <label ng-show="dublicate['employee']" class="error">Dieser Name existiert bereits</label>
-                      </span>
+                <div class="row">
+                  <div class="col-lg-4 p-r-0 custom-box-btn">
+                    <div class="clearfix">
+                      <label>Mitarbeiter/in<span spi-hint text="_hint.employee_id" class="has-hint"></span></label>
+                      <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['employee'] || required['employee']}"> 
+                        <input placeholder="Name Vorname" ng-keyup="escapeEmployeeUser($event, $index)" 
+                               ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" 
+                               ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name"
+                               ng-disabled="userLoading" id="employee_user">  
+                        <ui-select on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id" required 
+                                   ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
+                          <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_selected:0} | orderBy: 'name'">
+                            <span ng-bind-html="item.name | highlight: $select.search"></span>
+                          </ui-select-choices>
+                        </ui-select>
+                        <span ng-class="{hide: !(dublicate['employee'] || required['employee'])}" class="hide">
+                          <label ng-show="required['employee']" class="error">Füllen Sie die Daten</label>
+                          <label ng-show="dublicate['employee']" class="error">Dieser Name existiert bereits</label>
+                        </span>
                       </div>
                       <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()">
                         <button class="btn m-t-2 add-user" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
