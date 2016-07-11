@@ -115,7 +115,6 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="user.type != 't' ? 'Träger' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
                     <!--<span class="performer-icon" ng-class="{'unchecked':row.performer_is_checked != '1'}">{{row.performer_name}}</span>-->
                     <i ng-if="+row.performer_is_checked" class="ion-checkmark"></i>
-                    <span ng-if="!+row.performer_is_checked" class="icon-no-icon"></span>
                    <div class="holder-school">
                     <span ng-if="!+row.performer_is_checked" class="icon-no-icon"></span>
                     {{user.type  == 't' ? '' : row.performer_name}}
