@@ -249,6 +249,29 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     };
     
     $scope.updateSchools(true);
+    
+    $scope.checkIfChanged = function(project, data){
+      var similar = true;
+      for(var i = 0; i < project.schools.length; i++ ){
+        similar = true;  
+        for(var k = 0; k < data.schools.length; k++ ){
+          if(data.schools[k] && project.schools[i] && project.schools[i] == data.schools[k].id){
+            similar = true; 
+            break;
+          }else{
+            similar = false;  
+          };   
+        }
+        if(!similar){
+          break;  
+        }
+      }
+      if(project.schools.length != data.schools.length){
+        similar = false;   
+      };
+      return similar;
+    };
+    
     $scope.submitFormProjects = function () {
         $scope.submited = true;
         $scope.error = false;        
@@ -263,10 +286,10 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 $scope.submited = true;
             }
         };                
-        var $copyScopeProject = angular.copy($scope.project);         
+        var $copyScopeProject = angular.copy($scope.project);  
         if($scope.schoolTypeCode != 's') {
           $copyScopeProject.schools = [$copyScopeProject.school];
-        };        
+        };
         if (!$scope.formProjects.$valid){
             $copyScopeProject.invalid = true;
         };             
@@ -292,7 +315,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //              }
           $scope.schoolError = "schools";
           return false;
-        }           
+        }
         if(!$copyScopeProject.district_id){
           delete $copyScopeProject.district_id;  
         };
@@ -309,13 +332,13 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 sch_types = sch_types + item.code;  
               }
             });
-            var reg = new RegExp('['+ prefix +']??['+ sch_types +']{1}[0-9]+/\?[0-9]*?','i');
+            var reg = new RegExp('['+ prefix +']??['+ sch_types +']{1}[0-9]+/?[0-9]*?','i');
             if(!$scope.project.code.match(reg)){ 
               $copyScopeProject['real_code'] = null;
             }else{
               var reg = new RegExp('^['+ prefix + sch_types +']{1,2}','i');    
               var result = $scope.project.code.match(reg); 
-              $copyScopeProject['real_code'] = result[0].slice(0,1) == 'B' ? result[0].slice(1) : result[0];
+              $copyScopeProject['real_code'] = result[0].slice(0,1) == 'B' && result[0].length > 1 ? result[0].slice(1) : result[0];
             };
             if($scope.project.code != this.getNewCode() && $scope.project.code.slice(-3) != '001'){          
               $scope.is_manual = 1;
@@ -325,14 +348,15 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0'; 
             network.post('project', $copyScopeProject, callback);              
         } else {
-          if($copyScopeProject.performer_id != data.performer_id || $scope.formProjects.$ditry || $copyScopeProject.schools != data.schools ) {          
+          var similar = $scope.checkIfChanged($copyScopeProject, data);
+          if($copyScopeProject.performer_id != data.performer_id || !similar) {          
             $copyScopeProject.schools.forEach(function(item, i, arr){
               if(typeof item == 'object'){
                 $copyScopeProject.schools[i] = item.id;
               };
             });
-            var newCode = $copyScopeProject.code.split('\\');
-            newCode = newCode[0] + '\\' + (newCode[1] ? +newCode[1] + 1 : 2);
+            var newCode = $copyScopeProject.code.split('/');
+            newCode = newCode[0] + '/' + (newCode[1] ? +newCode[1] + 1 : 2);
             SweetAlert.swal({
               title: "Projekt bearbeiten?",
               text: "Nächstes projekt wird erstellt " + newCode,

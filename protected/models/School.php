@@ -8,7 +8,7 @@ class School extends BaseModel {
   public $select_all = "tbl.*, CONCAT(CONCAT_WS(' ', NULLIF(tbl.plz, ''), NULLIF(tbl.city, '')), IF(tbl.address IS NOT NULL AND length(tbl.address) > 0, CONCAT(IF(length(tbl.city) > 0 OR tbl.plz > 0, ', ', ''), tbl.address), '')) full_address, dst.name district_name, sct.name type_name, CONCAT(`usr`.`last_name`, ', ', `usr`.`first_name`) contact_user_name";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    $command->join('spi_district dst',    'tbl.district_id = dst.id');
+    $command->leftJoin('spi_district dst',    'tbl.district_id = dst.id');
     $command->join('spi_school_type sct', 'tbl.type_id     = sct.id');
     $command->leftJoin('spi_user usr',    'tbl.contact_id  = usr.id');
     $command -> where(' 1=1 ', array());

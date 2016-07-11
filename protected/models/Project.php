@@ -29,8 +29,8 @@ class Project extends BaseModel {
       $command -> where(' rqt.project_id  IS NULL ', array());
       $command -> orWhere(' rqt.year <> :year', array(':year' => $params['YEAR']));
       $command->andWhere(' tbl.id NOT IN (SELECT project_id FROM spi_request WHERE year=:year )', array(':year' => $params['YEAR']));
+      $command->andWhere('tbl.code LIKE :code', array(':code' => '%'.$params['VALUE'].'%'));
       $command->andWhere(' tbl.is_old = 0');
-
     }
 
     if (safe($params, 'CODE')) {
@@ -51,7 +51,7 @@ class Project extends BaseModel {
     }
     if (safe($params, 'SCHOOL_ID')) {
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
-    }    
+    }
     $this->params = $params;
     $command = $this->setWhereByRole($command);
     $command -> group('tbl.id');
@@ -216,9 +216,9 @@ class Project extends BaseModel {
     unset($row['id']);
     $row['schools'] = safe($post,'schools');
     $row['performer_id'] = $post['performer_id'];
-    $code = explode('\\', $row['code']);
+    $code = explode('/', $row['code']);
 
-    $row['code'] = count($code)==1?$code[0].'\\2':$code[0].'\\'.($code[1]+1);
+    $row['code'] = count($code)==1 ? $code[0]. '/2 ':$code[0].'/'.($code[1]+1);
     Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
       ':id' => $id
     ));    
