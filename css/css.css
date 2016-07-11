@@ -121,6 +121,10 @@ body.bg {
 	color:#fff !important;
 	opacity: .7;
 }
+
+.dd-margin {
+    margin-left: 30%;
+}
 .wrap-line .form-control-feedback {
 	display:none;
 	top:0 !important;
