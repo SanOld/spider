@@ -534,7 +534,7 @@ class BaseModel extends CFormModel {
                                           JOIN spi_project_type pt ON prj.type_id=pt.id  
                                           WHERE prj.code NOT LIKE "%/%"
                                           AND prj.is_manual = 0                                           
-                                          AND prj.real_code <> ""    
+                                          AND prj.real_code <> "" 
                                           GROUP BY prj.real_code, is_bonus')->queryAll();
     $pattern_number = "/[0-9]+$/";
     $pattern = "/^[a-zA-Z]{1,2}/";  
