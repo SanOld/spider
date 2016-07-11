@@ -368,7 +368,7 @@ $this->breadcrumbs = array('Anträge');
           <label>Jahr</label>
           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('year')}">
             <div class="input-group">
-              <input required type="text" ng-change="getProjects()" ng-click="dp_year_date_is_open = !dp_year_date_is_open" ng-model="year" uib-datepicker-popup="yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_year_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" name="year" >
+              <input required type="text" ng-change="search($select.search, 'year')" ng-click="dp_year_date_is_open = !dp_year_date_is_open" ng-model="year" uib-datepicker-popup="yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_year_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" name="year" >
               <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_year_date_is_open = !dp_year_date_is_open"></i></span>
             </div>
             <span ng-class="{hide: !fieldError('year')}" class="hide">
@@ -381,8 +381,8 @@ $this->breadcrumbs = array('Anträge');
           <label>Projekt</label>
           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('selected_project')}">
             <ui-select required class="type-document" ng-model="request.project_id" name="selected_project">
-              <ui-select-match placeholder="Alles anzeigen">{{$select.selected.code}}</ui-select-match>
-              <ui-select-choices repeat="item.id as item in  projects | filter: $select.search">
+              <ui-select-match placeholder="Kennziffer eingegeben">{{$select.selected.code}}</ui-select-match>
+              <ui-select-choices repeat="item.id as item in projects | filter: $select.search" refresh-delay="0" refresh="search($select.search)" >
                 <span ng-bind-html="item.code | highlight: $select.search"></span>
               </ui-select-choices>
             </ui-select>

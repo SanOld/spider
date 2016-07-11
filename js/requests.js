@@ -459,13 +459,23 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
     minDate:  new Date()//(Default: null) - Defines the minimum available date. Requires a Javascript Date object.
   };
 
-  $scope.getProjects = function() {
+  $scope.search = function(value, year){
+    if(year == 'year'){      
+      $scope.request.project_id = '';
+      $scope.projects = '';
+    }       
+    if(value.length == 2){      
+      $scope.getProjects(value);  
+    }
+  } 
+  
+  $scope.getProjects = function(value) {
     $scope.request.year = $scope.year.getFullYear();
     if($scope.request.year) {
-      network.get('project', {list: 'unused_project', year: $scope.request.year}, function (result, response) {
+      network.get('project', {list: 'unused_project', year: $scope.request.year, value: value}, function (result, response) {
         if (result) {
           $scope.request.project_id = '';
-          $scope.projects = response.result;
+          $scope.projects = response.result;          
         }
       });
     }
@@ -476,9 +486,6 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
       var form = $scope.createRequest;
       return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
   };
-
-
-  $scope.getProjects();
 
   $scope.ok = function () {
     $scope.createRequest.$setPristine();
