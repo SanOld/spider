@@ -132,9 +132,9 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       if(!isInit && $scope.isInsert) {
         delete $scope.project.district_id;
       }      
-//      if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
-//        params['school_type_id'] = $scope.project.school_type_id;
-//      }
+      if($scope.project.school_type_id && $scope.project.school_type_id != 6) {
+        params['school_type_id'] = $scope.project.school_type_id;
+      }
       network.get('district', params, function (result, response) {
           if(result){
             if($scope.project.school_type_id == 5 || !result){
@@ -162,7 +162,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           }
         }
       });                
-    }    
+    }
     $scope.getProgramms(true);
     
     function getProjects() {
@@ -259,23 +259,29 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     
     $scope.checkIfChanged = function(project, data){
       var similar = true;
-      for(var i = 0; i < project.schools.length; i++ ){
-        similar = true;  
-        for(var k = 0; k < data.schools.length; k++ ){
-          if(data.schools[k] && project.schools[i] && project.schools[i] == data.schools[k].id){
-            similar = true; 
-            break;
-          }else{
-            similar = false;  
-          };   
-        }
-        if(!similar){
-          break;  
-        }
-      }
-      if(project.schools.length != data.schools.length){
-        similar = false;   
-      };
+      if(project.schools.length > 1){
+        for(var i = 0; i < project.schools.length; i++ ){
+          similar = true;  
+          for(var k = 0; k < data.schools.length; k++ ){
+            if(data.schools[k] && project.schools[i] && project.schools[i].id == data.schools[k].id){
+              similar = true; 
+              break;
+            }else{
+              similar = false;  
+            };   
+          }
+          if(!similar){
+            break;  
+          }
+        } 
+        if(project.schools.length != data.schools.length){
+          similar = false;   
+        };
+      }else if(project.schools[0]){
+        if(project.schools[0].id != data.schools[0].id){
+          similar = false;  
+        }  
+      }     
       return similar;
     };
     
@@ -293,10 +299,10 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 $scope.submited = true;
             }
         };                
-        var $copyScopeProject = angular.copy($scope.project);  
+        var $copyScopeProject = angular.copy($scope.project);
         if($scope.schoolTypeCode != 's') {
           $copyScopeProject.schools = [$copyScopeProject.school];
-        };
+        }
         if (!$scope.formProjects.$valid){
             $copyScopeProject.invalid = true;
         };             
