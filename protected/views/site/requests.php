@@ -104,7 +104,7 @@ $this->breadcrumbs = array('Anträge');
             <div class="col-lg-12">
 
               <table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit table-requests">
-                <tr ng-repeat="row in $data" ng-class="row.status_code+'-row'">
+                <tr ng-repeat="row in $data" ng-class="checkStatus(row)+'-row'">
                   <td header="'headerCheckbox.html'">
                     <label class="cr-styled">
                       <input type="checkbox" ng-model="checkboxes.items[row.id]">
