@@ -363,7 +363,13 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     switch($scope.userType){
       case 'a':
       case 'p':
-        if(row.status_concept === 'in_progress' || row.status_finance === 'in_progress' || row.status_goal === 'in_progress'){
+        if(row.status_concept === 'in_progress' && row.status_finance !== 'unfinished' && row.status_goal !== 'unfinished'){
+          result = 'in_progress';
+        }
+        if(row.status_concept !== 'unfinished' && row.status_finance === 'in_progress' && row.status_goal !== 'unfinished'){
+          result = 'in_progress';
+        }
+        if(row.status_concept !== 'unfinished' && row.status_finance !== 'unfinished' && row.status_goal === 'in_progress'){
           result = 'in_progress';
         }
         break;
