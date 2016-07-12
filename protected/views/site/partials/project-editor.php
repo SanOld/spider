@@ -77,7 +77,7 @@
           <div class="col-lg-10">
             <div spi-hint text="_hint.performer_id" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('programm_id')}">
-              <ui-select ng-disabled="!project.type_id || modeView " ng-model="project.programm_id"
+              <ui-select ng-disabled="!project.type_id || modeView || !isInsert " ng-model="project.programm_id"
                          name="programm_id" required on-select="updateCode();" >
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
                 {{$select.selected.programm}}
