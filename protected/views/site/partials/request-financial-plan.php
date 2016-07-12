@@ -22,7 +22,7 @@
             <div class="clearfix">
               <label>Ansprechperson für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
               <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['finance'] || required['finance']}">  
-                <input placeholder="Name Vorname" ng-keyup="escapeFinanceUser($event)" ng-keypress="submitToAddUser($event, new_fina_user)" 
+                <input placeholder="Vorname Nachname" ng-keyup="escapeFinanceUser($event)" ng-keypress="submitToAddUser($event, new_fina_user)" 
                        ng-hide="!add_finance_user" class="form-control popup-input" type="text" ng-model="new_fina_user"
                        ng-disabled="userLoading" id="finance_user">                 
                 <ui-select on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id" required 
@@ -153,7 +153,7 @@
                     <div class="clearfix">
                       <label>Mitarbeiter/in<span spi-hint text="_hint.employee_id" class="has-hint"></span></label>
                       <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['employee'] || required['employee']}"> 
-                        <input placeholder="Name Vorname" ng-keyup="escapeEmployeeUser($event, $index)" 
+                        <input placeholder="Vorname Nachname" ng-keyup="escapeEmployeeUser($event, $index)" 
                                ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" 
                                ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name"
                                ng-disabled="userLoading" id="employee_user">  
