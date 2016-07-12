@@ -175,10 +175,10 @@ class Request extends BaseModel {
         if($row['status_concept'] === 'in_progress' && $row['status_finance'] !== 'unfinished' && $row['status_goal'] !== 'unfinished'){
           $result = 'in_progress';
         }
-        if($row['status_concept'] !== 'in_progress' && $row['status_finance'] === 'unfinished' && $row['status_goal'] !== 'unfinished'){
+        if($row['status_concept'] !== 'unfinished' && $row['status_finance'] === 'in_progress' && $row['status_goal'] !== 'unfinished'){
           $result = 'in_progress';
         }
-        if($row['status_concept'] !== 'in_progress' && $row['status_finance'] !== 'unfinished' && $row['status_goal'] === 'unfinished'){
+        if($row['status_concept'] !== 'unfinished' && $row['status_finance'] !== 'unfinished' && $row['status_goal'] === 'in_progress'){
           $result = 'in_progress';
         }
         break;
