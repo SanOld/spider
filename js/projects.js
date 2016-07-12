@@ -138,7 +138,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       network.get('district', params, function (result, response) {
           if(result){
             if($scope.project.school_type_id == 5 || !result){
-               response.result.unshift({'name':"--Kein Bezirk--", 'id': 0});
+              response.result.unshift({'name':"--Kein Bezirk--", 'id': 0});
             }           
             $scope.districts = response.result; 
           } 
@@ -148,29 +148,29 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     
     
     $scope.getProgramms = function(isInit) {     
-       var params = {};
-       if(!isInit && $scope.isInsert) {
-        delete $scope.project.programm_id;
+      var params = {};
+      if(!isInit && $scope.isInsert) {
+       delete $scope.project.programm_id;
+      }
+      params['project_type_id'] = $scope.project.type_id;
+      network.get('finance_source', params, function (result, response) {
+       if(result) {          
+         $scope.programms = response.result;  
+         if($scope.programms.length < 2 && $scope.isInsert){
+           $scope.project.programm_id = $scope.programms[0].id;
+           $scope.updateCode();
+         }
        }
-       params['project_type_id'] = $scope.project.type_id;
-       network.get('finance_source', params, function (result, response) {
-        if(result) {          
-          $scope.programms = response.result;  
-          if($scope.programms.length < 2){
-            $scope.project.programm_id = $scope.programms[0].id;
-            $scope.updateCode();
-          }
-        }
-      });                
+     });                
     }
     $scope.getProgramms(true);
     
     function getProjects() {
-        network.get('project', {}, function(result, response){
-            if(result) {
-              $scope.projects = response.result;
-            }
-        });
+      network.get('project', {}, function(result, response){
+          if(result) {
+            $scope.projects = response.result;
+          }
+      });
     }    
     
     $scope.checkRate = function (project) {
@@ -187,29 +187,29 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     };
 
     $scope.fieldError = function(field) {
-        var form = $scope.formProjects;
-        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine) || ($scope.schoolError == field && form[field].$pristine);
+      var form = $scope.formProjects;
+      return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine) || ($scope.schoolError == field && form[field].$pristine);
     };
     $scope.placeholderFN = function(items) {
-        return items.length && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; 
+      return items.length && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; 
     };
     $scope.getNewCode = function(){
-        var project_type = '';
-        $scope.programms.forEach(function(item, i, arr){
-          if(item.id == $scope.project.programm_id && item.prefix){
-            project_type = item.prefix;  
-          }
-        });
-        var school_type = project_type + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase();
-        for(key in $scope.newCode){
-          if(school_type == $scope.newCode[key].code[0].toUpperCase()){
-            var code = school_type + $scope.newCode[key].next_code[0];                   
-          };
+      var project_type = '';
+      $scope.programms.forEach(function(item, i, arr){
+        if(item.id == $scope.project.programm_id && item.prefix){
+          project_type = item.prefix;  
+        }
+      });
+      var school_type = project_type + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase();
+      for(key in $scope.newCode){
+        if(school_type == $scope.newCode[key].code[0].toUpperCase()){
+          var code = school_type + $scope.newCode[key].next_code[0];                   
         };
-        if(!code){
-            code = school_type + "001";  
-        };
-        return code;
+      };
+      if(!code){
+          code = school_type + "001";  
+      };
+      return code;
     };
     $scope.updateCode = function() {
       try {        
@@ -259,11 +259,11 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     
     $scope.checkIfChanged = function(project, data){
       var similar = true;
-      if(project.schools.length > 1){
+      if(typeof project.schools[0] != 'object' ){
         for(var i = 0; i < project.schools.length; i++ ){
           similar = true;  
           for(var k = 0; k < data.schools.length; k++ ){
-            if(data.schools[k] && project.schools[i] && project.schools[i].id == data.schools[k].id){
+            if(data.schools[k] && project.schools[i] && project.schools[i] == data.schools[k].id){
               similar = true; 
               break;
             }else{
@@ -277,11 +277,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         if(project.schools.length != data.schools.length){
           similar = false;   
         };
-      }else if(project.schools[0]){
-        if(project.schools[0].id != data.schools[0].id){
-          similar = false;  
-        }  
-      }     
+      }          
       return similar;
     };
     
