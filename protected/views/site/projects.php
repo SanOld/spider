@@ -23,13 +23,26 @@ $this->breadcrumbs = array('Projekte');
 						<div class="col-lg-12">
 							<div class="row datafilter">
                 <form action="javascript:;" class="class-form">
-                    <div class="col-lg-{{canByType(['d','s','t'])?4:2}}">
+                    <div class="col-lg-1 custom-lg-1">
                         <div class="form-group">
                             <label>Suche nach Kennziffer</label>
                             <input ng-change="updateGrid()" ng-model="filter.code" type="search" class="form-control" placeholder="Stichwort eingegeben">
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <label>Topf</label>
+                          <ui-select ng-change="updateGrid()" ng-model="filter.real_code">
+                            <ui-select-match allow-clear="true"  placeholder="Alles anzeigen">{{$select.selected.code}}</ui-select-match>
+                            <ui-select-choices repeat="item.code as item in realCodes | filter: $select.search | orderBy: code">
+                              <span ng-bind-html="item.code | highlight: $select.search"></span>
+                            </ui-select-choices>                      
+                          </ui-select>
+                        </div>
+                      </div>
+                    </div>                    
+                    <div class="col-lg-1 custom-lg-1">
                         <div class="form-group">
                             <label>Typ</label>
 <!--                                            <select class="type-user form-control">
@@ -43,7 +56,7 @@ $this->breadcrumbs = array('Projekte');
                             </ui-select>
                         </div>
                     </div>
-                    <div class="col-lg-2" ng-if="!canByType(['d'])">
+                    <div class="col-lg-1 custom-lg-1" ng-if="!canByType(['d'])">
                         <div class="form-group">
                             <label>Bezirk</label>
 <!--                                            <select class="type-user form-control">

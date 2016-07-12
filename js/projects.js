@@ -28,7 +28,14 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
             $scope.projectTypes = response.result;
         }
     });
-    
+    network.get('project', {'get_next_id':1}, function(result, response){
+        if(result) {
+          $scope.realCodes = response.next_id;
+          $scope.realCodes.forEach(function(item, i, arr){
+            $scope.realCodes[i].code = item.code[0];            
+          });
+        }
+    });
     network.get('school', {}, function (result, response) {
         if(result) {
             $scope.schools = response.result;

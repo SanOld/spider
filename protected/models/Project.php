@@ -52,6 +52,12 @@ class Project extends BaseModel {
     if (safe($params, 'SCHOOL_ID')) {
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
+    if (safe($params, 'REAL_CODE')) {
+      $command->andWhere("tbl.code LIKE :real_code", array(':real_code' => ''.$params['REAL_CODE'].'%'));        
+      if(strlen($params['REAL_CODE']) == 1){
+        $command->andWhere("tbl.type_id <> 3");
+      }
+    }
     $this->params = $params;
     $command = $this->setWhereByRole($command);
     $command -> group('tbl.id');
