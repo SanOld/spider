@@ -160,11 +160,39 @@ class Request extends BaseModel {
                                                                   ,$row['status_finance']
         ));
 
+        $row['status_code'] = $this->calcStatusCode($row);
       }
     }
     return $result;
   }
 
+  protected function calcStatusCode($row) {
+
+   $result = $row['status_code'];
+    switch($this->user['type']){
+      case 'a':
+      case 'p':
+        if($row['status_concept'] === 'in_progress' && $row['status_finance'] !== 'unfinished' && $row['status_goal'] !== 'unfinished'){
+          $result = 'in_progress';
+        }
+        if($row['status_concept'] !== 'in_progress' && $row['status_finance'] === 'unfinished' && $row['status_goal'] !== 'unfinished'){
+          $result = 'in_progress';
+        }
+        if($row['status_concept'] !== 'in_progress' && $row['status_finance'] !== 'unfinished' && $row['status_goal'] === 'unfinished'){
+          $result = 'in_progress';
+        }
+        break;
+      case 't':
+        if($row['status_concept'] === 'rejected' || $row['status_finance'] === 'rejected' || $row['status_goal'] === 'rejected'){
+          $result = 'in_progress';
+        }
+        break;
+      default:
+        $result = 'open';
+    }
+
+    return $result;
+  }
 
   protected function calcConceptStatus($ID) {
     $statusPriority = in_array($this->user['type'], array('a', 'p')) ? $this->paPriority : $this->taPriority;

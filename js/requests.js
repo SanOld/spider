@@ -355,38 +355,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     }
     return result;
   }
-
-  $scope.checkStatus = function(row){
-
-    var result = row.status_code;
-
-    switch($scope.userType){
-      case 'a':
-      case 'p':
-        if(row.status_concept === 'in_progress' && row.status_finance !== 'unfinished' && row.status_goal !== 'unfinished'){
-          result = 'in_progress';
-        }
-        if(row.status_concept !== 'unfinished' && row.status_finance === 'in_progress' && row.status_goal !== 'unfinished'){
-          result = 'in_progress';
-        }
-        if(row.status_concept !== 'unfinished' && row.status_finance !== 'unfinished' && row.status_goal === 'in_progress'){
-          result = 'in_progress';
-        }
-        break;
-      case 't':
-        if(row.status_concept === 'rejected' || row.status_finance === 'rejected' || row.status_goal === 'rejected'){
-          result = 'in_progress';
-        }
-        break;
-      default:
-        result = 'open';
-    }
-
-    return result;
-    
-  }
-
-
 });
 
 

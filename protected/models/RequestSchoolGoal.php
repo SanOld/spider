@@ -132,6 +132,7 @@ class RequestSchoolGoal extends BaseModel {
       -> where('request_id=:request_id', array(':request_id' => $request_id))
       -> queryAll();
 
+
     if($result){
       foreach($result as &$row) {
         $schools[$row['school_id']]['goals'][$row['id']] = $row;
