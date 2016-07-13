@@ -120,6 +120,12 @@ class RequestSchoolGoal extends BaseModel {
         $result['emails'][] = 'concept_user_email is empty';
       }
     }
+
+    $Request = CActiveRecord::model('Request');
+    $Request->user = $this->user;
+    $request_id = Yii::app()->db->createCommand()->select(array('request_id'))->from($this->table)->where('id=:id', array(':id' => $id))->queryScalar();
+    $Request->statusUpdate($request_id);
+
     return $result;
   }
 
