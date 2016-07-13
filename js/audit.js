@@ -6,6 +6,20 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
                   {'code': 'UPD', 'name': 'Bearbeitet'},
                   {'code': 'DEL', 'name': 'Gelöscht'}];
   var grid = GridService();
+  
+  $scope.dateFormat = function(date){    
+    var day = date.getDate();
+    if(day < 10){
+      day = "0" + day;
+    };
+    var month = date.getMonth() + 1;
+    if(month < 10){
+      month = "0" + month;
+    };
+    var year = date.getFullYear(); 
+    $scope.filter.event_date = year + '-' + month + '-' + day;
+  };
+  
   $scope.tableParams = grid('audit', $scope.filter, {group: "id", sorting: {event_date: 'desc'}});
 
   $scope.updateGrid = function () {
