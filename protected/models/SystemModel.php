@@ -172,4 +172,20 @@ class SystemModel extends BaseModel
 //      $this->execute();
 //      exit();
 //    }
+
+    public function updateReuest() {
+
+      $Request = CActiveRecord::model('Request');
+      $Request->user = $this->user;
+      $request_ids = Yii::app()->db->createCommand()->select('id')->from('spi_request')->where('1=1')->queryAll();
+      foreach ($request_ids as $key=>$value) {
+        $Request->statusUpdate($value['id']);
+        
+      }
+
+      header ( 'Content-Type: application/json' );
+        echo json_encode ( array('results' => 'done') );
+        exit ();
+
+    }
 }

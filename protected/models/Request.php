@@ -331,7 +331,7 @@ class Request extends BaseModel {
   }
 
   public function statusUpdate($request_id){
-    $row = Yii::app()->db->createCommand()->select(array('status_finance', 'status_id'))->from($this->table)->where('id=:id', array(':id' => $request_id))->queryRow();
+    $row = Yii::app()->db->createCommand()->select(array('status_finance', 'status_id', 'status_id_ta'))->from($this->table)->where('id=:id', array(':id' => $request_id))->queryRow();
     $row['status_goal'] = $this->calcGoalsStatus($request_id, 'a');
     $row['status_goal_ta'] = $this->calcGoalsStatus($request_id, 't');
     $row['status_concept'] = $this->calcConceptStatus($request_id, 'a');
