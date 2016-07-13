@@ -186,7 +186,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
     }
   };
   
-  if(!$scope.modeView && network.user.type == 't'){
+  if(!$scope.modeView && network.user.type == 't' && !$scope.isCurrentUser){
     $scope.user.is_virtual = 1;  
     $scope.can_change = false;
   } 
