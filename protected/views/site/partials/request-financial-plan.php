@@ -391,12 +391,13 @@
           </div>
 
           <hr />
+          <ng-form name="financePlanFormGroup1" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
           <div class="row form-horizontal m-b-15" ng-repeat="association in prof_associations" ng-if="!association.is_deleted">
             <label class="col-lg-1 control-label">
               Name<span spi-hint text="_hint.fin_plan_association_name" class="has-hint"></span>
             </label>
             <div class="col-lg-7">
-              <input class="form-control" type="text" ng-model="association.name" required>
+              <input name = "first" class="form-control" type="text" ng-model="association.name" required>
             </div>
             <label class="col-lg-1 p-r-0 control-label">
               Beitrag<span spi-hint text="_hint.fin_plan_association_sum" class="has-hint"></span>
@@ -413,6 +414,7 @@
               </button>
             </div>
           </div>
+          </ng-form>
         </div>
         <div class="m-b-30">
           <h3 class="panel-title title-custom">
@@ -422,22 +424,29 @@
           <div class="row">
             <div class="col-lg-12 p-0 m-b-30">
               <div class="form-custom-box p-15 m-b-0 form-horizontal">
+                <ng-form name="financePlanFormGroup2" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
                 <div class="form-group m-b-0">
                   <label class="col-lg-2 control-label bold-label">
                     Sonstige Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description" class="has-hint"></span>
                   </label>
                   <div class="col-lg-6">
-                    <input class="form-control" type="text" placeholder="Sonstige Einkommensquellen" ng-model="data.revenue_description" required>
+
+                    <div class="wrap-hint" ng-class="{'wrap-line error': financePlanForm.$invalid}">
+                          <input name = "second" class="form-control" type="text" placeholder="Namen Sonstiger Einkommensquellen" ng-model="data.revenue_description" required>
+                          <br>
+                    </div>
                   </div>
                   <label class="col-lg-1 control-label custom-width-label">
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
                   </label>
+                  
                   <div class="col-lg-2">
                     <input class="form-control" type="text" ng-init = "data.revenue_sum = (data.revenue_sum || '0,00'); numValidate2(data,'revenue_sum');"  ng-change="numValidate(data,'revenue_sum'); updateResultCost(); " ng-model="data.revenue_sum" required>
                   </div>
+                 
                   <span class="symbol m-t-5">€</span>
                 </div>
-
+                 </ng-form>
               </div>
             </div>
             <div class="holder-total clearfix">
@@ -489,7 +498,7 @@
           <div class="col-lg-10">
               <span ng-if="canAccept && data.status_finance != 'rejected'">
                 <h4 class="m-t-0">Prüfnotiz</h4>
-                <textarea placeholder="Tragen Sie den Text hier ein" ng-model="data.comment" class="form-control comments"></textarea>
+                <textarea  placeholder="Tragen Sie den Text hier ein" ng-model="data.comment" class="form-control comments"></textarea>
               </span>
           </div>
           <div class="col-lg-2">
@@ -504,6 +513,7 @@
           </div>
         </div>
       </div>
+      </ng-form>
     </div>
   </div>
 </div>
