@@ -20,7 +20,7 @@ $this->breadcrumbs = array('Audit');
           <div class="row">
             <div class="col-lg-12">
               <div class="row datafilter">
-                <form action="#">
+                <form>
                   <div class="col-lg-3">
                     <div class="form-group">
                       <label>Suche nach Namen</label>
