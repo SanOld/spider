@@ -11,14 +11,40 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.goalsStatus = '';
   $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
 
+  $scope.tabs = ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
-  if(hash && ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'].indexOf(hash) !== -1) {
+  if(hash && $scope.tabs.indexOf(hash) !== -1) {
     $scope.tabActive = $location.hash();
   }
+
+
   $scope.setTab = function(name) {
     $location.hash(name);
+
+     //turn on next or back button
+     $scope.next = false; 
+     $scope.back = false;
+     if($scope.tabs.indexOf(name) != 0){
+       $scope.back = true;
+     }
+     if($scope.tabs.indexOf(name) != ($scope.tabs.length-1)){
+       $scope.next = true;
+     }
   };
 
+  $scope.toTab = function(value){
+    console.log('value:'+value);
+    var name = $location.hash();
+    console.log('name:'+name);
+    var index = $scope.tabs.indexOf(name);
+    console.log('index:'+index);
+    var newname = $scope.tabs[index + value];
+    console.log('newname:'+newname);
+    
+    $location.hash(newname);
+     $scope.tabActive = $location.hash();
+  }
+  
   $scope.setFinanceStatus = function(financeStatus){
     $scope.financeStatus = financeStatus;
   };
