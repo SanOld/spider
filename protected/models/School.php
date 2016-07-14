@@ -8,9 +8,9 @@ class School extends BaseModel {
   public $select_all = "tbl.*, CONCAT(CONCAT_WS(' ', NULLIF(tbl.plz, ''), NULLIF(tbl.city, '')), IF(tbl.address IS NOT NULL AND length(tbl.address) > 0, CONCAT(IF(length(tbl.city) > 0 OR tbl.plz > 0, ', ', ''), tbl.address), '')) full_address, dst.name district_name, sct.name type_name, CONCAT(`usr`.`last_name`, ', ', `usr`.`first_name`) contact_user_name";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    $command->join('spi_district dst',    'tbl.district_id = dst.id');
-    $command->join('spi_school_type sct', 'tbl.type_id     = sct.id');
-    $command->leftJoin('spi_user usr',    'tbl.contact_id  = usr.id');
+    $command-> leftJoin('spi_district dst',    'tbl.district_id = dst.id');
+    $command-> leftJoin('spi_school_type sct', 'tbl.type_id     = sct.id');
+    $command-> leftJoin('spi_user usr',    'tbl.contact_id  = usr.id');
     $command -> where(' 1=1 ', array());
     $command = $this->setWhereByRole($command);
     return $command;
@@ -28,8 +28,9 @@ class School extends BaseModel {
         $command->andWhere('tbl.district_id = :district_id', array(':district_id' => $this->user['relation_id']));
         break;
       case TA:
-        $command->join('spi_project prj', 'tbl.district_id = prj.district_id');
-        $command->andWhere('prj.performer_id = :performer_id', array(':performer_id' => $this->user['relation_id']));
+        $command->join('spi_project_school prs', 'prs.school_id=tbl.id');
+        $command->join('spi_project prj', 'prs.project_id=prj.id');
+        $command->where('prj.performer_id = :performer_id', array(':performer_id' => $this->user['relation_id']));
         $command->group('tbl.id');
         break;
     }
