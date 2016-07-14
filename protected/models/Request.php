@@ -113,7 +113,7 @@ class Request extends BaseModel {
       $command -> andWhere('prj.type_id = :type_id', array(':type_id' => $params['PROJECT_TYPE_ID']));
     }
     if(safe($params, 'SCHOOL_TYPE_ID')) {
-      $command -> andWhere('prj.school_type_id = :type_id', array(':type_id' => $params['SCHOOL_TYPE_ID']));
+      $command -> andWhere('prj.school_type_id = :school_type_id', array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
     }
     if(safe($params, 'STATUS_ID')) {
       if(!is_int($params['STATUS_ID'])) {
