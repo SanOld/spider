@@ -131,7 +131,7 @@ $this->breadcrumbs = array('Anträge');
                       </a>
                     </div>
                     <div class="col-lg-4 p-0">
-                      <a class="request-button edit-btn" href="/request/{{row.id}}#school-concepts" title="Schulkonzept">
+                      <a class="request-button edit-btn" href="/request/{{row.id}}#school-concepts" title="Konzept">
                         <span class="cell-concept status-icon" ng-class="row.status_concept"></span>
                       </a>
                     </div>
