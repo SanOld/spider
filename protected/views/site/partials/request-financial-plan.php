@@ -431,10 +431,9 @@
                   </label>
                   <div class="col-lg-6">
 
-                    <div class="wrap-hint" ng-class="{'wrap-line error': financePlanForm.$invalid}">
+  
                           <input name = "second" class="form-control" type="text" placeholder="Namen Sonstiger Einkommensquellen" ng-model="data.revenue_description" required>
-                          <br>
-                    </div>
+  
                   </div>
                   <label class="col-lg-1 control-label custom-width-label">
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>

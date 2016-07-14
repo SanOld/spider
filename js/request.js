@@ -845,19 +845,39 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
         break;
       case 'in_progress':
+        
+        if($scope.financePlanForm.$invalid) {
+          var requriredFields = [];
+          $('#finance .ng-invalid').each(function(){
+            if($(this).prop("tagName") != 'NG-FORM' && $(this).attr("required") == 'required') {
+              var model = $(this).attr("ng-model");
+              var name = model.split('.');
+              var employee = '';
+              if(name[0] == 'emploee') {
+                employee = $(this).closest('.employee-row').attr('data-name')+': ';
+              }
+              var title = modelToName[model] || '';
+
+              if(title) {
+                requriredFields.push(employee+title)
+              }
+            }
+          })
+          console.log(requriredFields.join("\n"));
+          return $scope.$parent.doErrorIncompleteFields(requriredFields);
+        }
 
         //start remove from validation
         if ($scope.prof_associations.length <= 1){
           $scope.financePlanFormGroup1.$removeControl($scope.financePlanFormGroup1[input.attr("first")]);
-          form[element.attr("name")]
         }
         $scope.financePlanFormGroup2.$removeControl($scope.financePlanFormGroup1[input.attr("second")]);
         //end remove from validation
 
-        if($scope.financePlanFormGroup1.$invalid) {alert($scope.financePlanForm.$invalid);}
-        if($scope.financePlanFormGroup2.$invalid) {alert($scope.financePlanForm.$invalid);}
         
         if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
+
+
         var finPlan = RequestService.financePlanData();
         delete finPlan.request;
         data.finance_user_id = $scope.data.finance_user_id;
