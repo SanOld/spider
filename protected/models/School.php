@@ -49,6 +49,9 @@ class School extends BaseModel {
     if (isset($params['TYPE_ID'])) {
       $command -> andWhere("tbl.type_id = :type_id", array(':type_id' => $params['TYPE_ID']));
     }
+    if (isset($params['REQUESTS'])) {
+      $command->join('spi_request req', 'req.project_id = prj.id');
+    }
     return $command;
   }
 

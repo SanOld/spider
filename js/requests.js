@@ -32,6 +32,13 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     }
   });
 
+  if(network.user.type == 't'){
+    network.get('school', {filter: 1, requests: 1}, function (result, response) {
+      if (result) {
+        $scope.schools = response.result;
+      }
+    }); 
+   } 
   network.get('school_type', {}, function (result, response) {
     if (result) {
       $scope.schoolTypes = response.result;
