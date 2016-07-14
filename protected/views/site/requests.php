@@ -35,7 +35,7 @@ $this->breadcrumbs = array('Anträge');
                 <div class="form-group" ng-show="user.type  == 't'">  
                   <label>Schule</label>  
                   <ui-select ng-change="updateGrid()" ng-model="filter.school_id">
-                    <ui-select-match allow-clear="true" placeholder="Kennziffer eingegeben">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-match allow-clear="true" placeholder="Schule eingegeben">{{$select.selected.name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'code'">
                       <span ng-bind="item.name"></span>
                     </ui-select-choices>
