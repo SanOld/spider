@@ -2121,6 +2121,10 @@ div.dataTables_length select {
 	float: left;
 	width: 180px;
 }
+.holder-head-date.custom-dl > div.wrap-data-project {
+	float: left;
+	width: 230px;
+}
 .holder-head-date.custom-dl > div.wrap-data > div{
 	    width: 100%;
     overflow: hidden;
@@ -2131,7 +2135,17 @@ div.dataTables_length select {
     font-weight: 300;
     width: 75px;
 }
-.holder-head-date.custom-dl > div.wrap-data em {
+.holder-head-date.custom-dl > div.wrap-data-project span{
+	color: #707070;
+    float: left;
+    font-weight: 300;
+    width: 75px;
+}
+.holder-head-date.custom-dl > div.wrap-data-project span.data-project{
+    width: 125px;
+}
+.holder-head-date.custom-dl > div.wrap-data em ,
+.holder-head-date.custom-dl > div.wrap-data-project em{
 	font-style:normal;
 }
 .project-modal.custom-width {

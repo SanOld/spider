@@ -9,8 +9,8 @@
                 Projekt <strong>{{data.code}}</strong>
               </h2>
               <div class="m-t-10 holder-head-date custom-dl">
-               <div class="wrap-data">
-                  <span>Letzte Änderung:</span>
+               <div class="wrap-data-project">
+                  <span class="data-project">Letzte Änderung:</span>
                  <em ng-if="request.last_change">{{getDate(request.last_change)| date : 'dd.MM.yyyy'}} </em>
                  <em ng-if="!request.last_change">-</em>
                </div>
