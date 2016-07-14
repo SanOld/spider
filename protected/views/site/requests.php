@@ -23,12 +23,21 @@ $this->breadcrumbs = array('Anträge');
           <div class="row datafilter">
             <form>
               <div class="col-lg-2">
-                <div class="form-group">
+                <div class="form-group" ng-hide="user.type  == 't'">
                   <label>Träger</label>
                   <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
                     <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.short_name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
                       <span ng-bind="item.short_name"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>  
+                <div class="form-group" ng-show="user.type  == 't'">  
+                  <label>Schule</label>  
+                  <ui-select ng-change="updateGrid()" ng-model="filter.school_id">
+                    <ui-select-match allow-clear="true" placeholder="Kennziffer eingegeben">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'code'">
+                      <span ng-bind="item.name"></span>
                     </ui-select-choices>
                   </ui-select>
                 </div>

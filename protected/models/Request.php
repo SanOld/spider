@@ -122,6 +122,11 @@ class Request extends BaseModel {
         $values = array($params['STATUS_ID']);
       }
       $command -> andWhere(array('in', 'rqs.id', $values));
+    }    
+    if (isset($params['SCHOOL_ID'])) {
+      $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.project_id');      
+      $command-> join( 'spi_school scl', 'sps.school_id = scl.id' );
+      $command -> andWhere("scl.id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
     $command = $this->setWhereByRole($command);
 
@@ -131,7 +136,6 @@ class Request extends BaseModel {
   protected function setWhereByRole($command) {
     switch($this->user['type']) {
       case SCHOOL:
-
         $command->join('spi_project_school sps', 'sps.project_id=tbl.project_id');
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
         break;
