@@ -116,7 +116,6 @@ $this->breadcrumbs = array('Anträge');
                     <!--<span class="performer-icon" ng-class="{'unchecked':row.performer_is_checked != '1'}">{{row.performer_name}}</span>-->
                     <i ng-if="+row.performer_is_checked" class="ion-checkmark"></i>
                    <div class="holder-school">
-                    <span ng-if="!+row.performer_is_checked" class="icon-no-icon"></span>
                     {{user.type  == 't' ? '' : row.performer_name}}
                     <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
                    </div>
