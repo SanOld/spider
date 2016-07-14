@@ -115,6 +115,11 @@ class Request extends BaseModel {
       }
       $command -> andWhere(array('in', 'rqs.id', $values));
     }
+    if (isset($params['SCHOOL_ID'])) {
+       $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.project_id');      
+       $command-> join( 'spi_school scl', 'sps.school_id = scl.id' );
+       $command -> andWhere("scl.id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
+     }
     $command = $this->setWhereByRole($command);
     return $command;
   }
