@@ -30,7 +30,7 @@ $this->breadcrumbs = array('Projekte');
                         <ui-select ng-change="updateGrid()" ng-model="filter.code">
                           <ui-select-match allow-clear="true" placeholder="Kennziffer eingegeben">{{$select.selected.code}}</ui-select-match>
                           <ui-select-choices repeat="item.id as item in projects | filter: $select.search | orderBy: 'code'">
-                            <span ng-bind="item.code | highlight: $select.search"></span>
+                            <span ng-bind="item.code"></span>
                           </ui-select-choices>
                         </ui-select>                    
                       </div>
