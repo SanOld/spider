@@ -23,13 +23,19 @@ $this->breadcrumbs = array('Projekte');
 						<div class="col-lg-12">
 							<div class="row datafilter">
                 <form action="javascript:;" class="class-form">
-                    <div class="col-lg-1 custom-lg-1">
-                        <div class="form-group">
-                            <label>Suche nach Kennziffer</label>
-                            <input ng-change="updateGrid()" ng-model="filter.code" type="search" class="form-control" placeholder="Stichwort eingegeben">
-                        </div>
+                    <div class="col-lg-{{canByType(['d','s','t']) ? '2' : '1 custom-lg-1'}}">
+                      <div class="form-group">
+                        <label>Kennziffer</label>
+                        <input ng-change="updateGrid()" type="search" ng-model="filter.code" class="form-control popup-input" placeholder="Kennziffer eingegeben" ng-hide="user.type  == 't'">
+                        <ui-select ng-change="updateGrid()" ng-model="filter.code">
+                          <ui-select-match allow-clear="true" placeholder="Kennziffer eingegeben">{{$select.selected.code}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in projects | filter: $select.search | orderBy: 'code'">
+                            <span ng-bind="item.code | highlight: $select.search"></span>
+                          </ui-select-choices>
+                        </ui-select>                    
+                      </div>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-{{canByType(['d','s','t']) ? 2 : 1}}">
                       <div class="form-group">
                         <div class="form-group">
                           <label>Topf</label>
@@ -42,7 +48,7 @@ $this->breadcrumbs = array('Projekte');
                         </div>
                       </div>
                     </div>                    
-                    <div class="col-lg-1 custom-lg-1">
+                    <div class="col-lg-{{canByType(['d','s','t'])? '2' : '1 custom-lg-1'}}">
                         <div class="form-group">
                             <label>Typ</label>
 <!--                                            <select class="type-user form-control">
@@ -56,7 +62,7 @@ $this->breadcrumbs = array('Projekte');
                             </ui-select>
                         </div>
                     </div>
-                    <div class="col-lg-1 custom-lg-1" ng-if="!canByType(['d'])">
+                    <div class="col-lg-{{canByType(['d','s','t'])? '2' : '1 custom-lg-1'}}" ng-if="!canByType(['d'])">
                         <div class="form-group">
                             <label>Bezirk</label>
 <!--                                            <select class="type-user form-control">

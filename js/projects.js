@@ -4,6 +4,14 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
     }
     $scope.filter = {};
     
+    function getProjects() {
+      network.get('project', {}, function (result, response) {
+        if (result) {
+          $scope.projects = response.result;          
+        }
+      });
+    };
+    getProjects();
     if ($scope.page) {
       $scope.filter['performer_id'] = $scope.performerId;
     }

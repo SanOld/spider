@@ -34,8 +34,11 @@ class Project extends BaseModel {
     }
 
     if (safe($params, 'CODE')) {
-//      $command->andWhere("tbl.code = :code", array(':code' => $params['CODE']));
-      $command = $this->setLikeWhere($command,'tbl.code',safe($params, 'CODE'));
+      if($this->user['type'] == TA){        
+        $command->andWhere("tbl.id = :id", array(':id' => $params['CODE']));
+      }else{        
+        $command = $this->setLikeWhere($command,'tbl.code',safe($params, 'CODE'));
+      }
     }
     if (safe($params, 'SCHOOL_TYPE_ID')) {
       $command->andWhere("tbl.school_type_id = :school_type_id", array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
