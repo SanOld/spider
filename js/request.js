@@ -1149,12 +1149,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
-
   $scope.school_concept = {};
   $scope.conceptTab = {};
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
-
+  $scope.fullscreen = false;
+  $scope.equal = true;
   $scope.canAcceptEarly = function(status) {
     return !(network.user.type == 'p' && status != 'in_progress');
   };
@@ -1189,7 +1189,31 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     }
     $scope.$parent.setConceptStatus(bestStatus);
   };
-
+  $scope.textOnFocus = function(num, status){
+    angular.element('#area-' + num ).addClass('animate'); 
+    $scope.fullscreen = true;
+    $scope.textareaClass = 'area-' + num;
+    $scope.isTextareaShow = true;
+    $scope.canSave = !(!$scope.canFormEdit || (status == 'in_progress' && !$scope.canAccept) || status == 'accepted');
+    $timeout(function(){       
+        angular.element('#area-' + num ).focus();   
+    });
+  };
+  $scope.exit = function(index, num, id, type){
+    $scope.school_concept[id][type] = $scope.schoolConcepts[index].oldValue;
+    $scope.fullscreen = false;
+    $scope.isTextareaShow = false; 
+    $scope.textareaClass = '';    
+    angular.element('#' + num ).removeClass('animate');
+  };  
+  $scope.checkTextarea = function(index, newValue, conceptId, data, name, num){
+    if(newValue != $scope.schoolConcepts[index].oldValue){
+      $scope.equal = false;
+      if(!$scope.fullscreen){        
+        $scope.saveText(conceptId, data, name, num);
+      }
+    }
+  };
   RequestService.getSchoolConceptData = function() {
     return $scope.school_concept;
   };
@@ -1273,12 +1297,16 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   };
 
-  $scope.saveText = function (conceptId, data, name) {
+  $scope.saveText = function (conceptId, data, name, num) {
     if(data[name] != undefined) {
       var params = {};
       params[name] = data[name];
       network.put('request_school_concept/' + conceptId, params);
     }
+    $scope.isTextareaShow = false;     
+    $scope.fullscreen = false;
+    $scope.textareaClass = '';    
+    angular.element('#' + num ).removeClass('animate');
   };
 
   $scope.openComparePopup = function(history, change) {

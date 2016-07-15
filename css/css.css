@@ -3000,7 +3000,7 @@ p.check-text-history {
 #accordion-concepts textarea.animate-textarea.animate {
 	bottom: auto;
 	height: 360px !important;
-	position: absolute;
+	position:absolute;
 	z-index: 3;
 	top: 30px;
 	-webkit-transition: all .3s ease 0s;
@@ -3226,4 +3226,8 @@ form[name=conceptForm] .alert-danger {display: block;}
 }
 .btn.hide-btn {
   background: #F3F3F3 url(../images/icon-cancel.png) no-repeat 50% 50%;
+}
+.btn-row .btn.fullscreen {
+  width: 40px;
+  height: 40px;
 }
