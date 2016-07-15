@@ -177,14 +177,6 @@
                         <button class="btn m-t-2 hide-btn" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
                       </div>
                     </div>
-                    <dl class="custom-dl" ng-show="!add_employee_user">
-                      <dt ng-show="emploee.user.title">Anrede:</dt>
-                      <dd ng-show="emploee.user.title">{{emploee.user.sex == 1 ? 'Herr': 'Frau'}}</dd>
-                      <dt ng-show="emploee.user.phone">Telefon:</dt>
-                      <dd ng-show="emploee.user.phone">{{emploee.user.phone}}</dd>
-                      <dt ng-show="emploee.user.email">E-Mail:</dt>
-                      <dd ng-show="emploee.user.email"><a target="_blank" href="mailto:{{emploee.user.email}}">{{emploee.user.email}}</a></dd>
-                    </dl>
                   </div>
                   <div class="col-lg-8">
                     <h4 class="col-lg-12 m-b-30 m-t-0">Vergleichsstellenbewertung entsprechend TV-L Berlin</h4>
@@ -213,7 +205,7 @@
                     <div class="form-group clearfix">
                       <label class="col-lg-3 control-label">Sonstiges<span spi-hint text="_hint.fin_plan_employee_other" class="has-hint"></span></label>
                       <div class="col-lg-9">
-                        <input class="form-control" ng-model="emploee.other" type="text" placeholder="Tragen Sie den Text hier ein" required>
+                        <input class="form-control" ng-model="emploee.other" type="text" placeholder="Tragen Sie den Text hier ein">
                       </div>
                     </div>
                   </div>
