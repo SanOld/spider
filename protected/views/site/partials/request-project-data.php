@@ -207,7 +207,7 @@
                       </div>
                       <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.user_name">
-                          <dt>Ansprechpartner(in):</dt>
+                          <dt>Schulleitung:</dt>
                           <dd>{{school.user_name}}</dd>
                         </ng-show>
                         <ng-show ng-show="school.user_function">

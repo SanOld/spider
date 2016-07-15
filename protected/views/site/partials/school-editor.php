@@ -185,7 +185,7 @@
                   </div>
                 </div>
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
-                  <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
+                  <h3 class="m-t-0 m-b-15">Schulleitung</h3>
                   <span ng-if="!canEdit() || modeView" ng-bind="contactUser.name || '-'"></span>
                   <span spi-hint text="_hint.contact_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="canEdit() && !modeView">
