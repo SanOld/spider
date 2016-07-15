@@ -29,7 +29,7 @@
               <div ng-if="schoolConcept.comment && (schoolConcept.status == 'rejected' || schoolConcept.status == 'in_progress')" ng-bind="schoolConcept.comment"></div>
             </div>
             <div class="concept-form-block {{textareaClass}}">
-                 <div class="wrap-area">
+                <div class="wrap-area">
                   <div class="form-group">
                     <label class="control-label">
                       1. Situation an der Schule<span spi-hint text="_hint.school_concept_situation" class="has-hint"></span>
