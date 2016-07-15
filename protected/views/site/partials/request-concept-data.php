@@ -29,38 +29,34 @@
               <div ng-if="schoolConcept.comment && (schoolConcept.status == 'rejected' || schoolConcept.status == 'in_progress')" ng-bind="schoolConcept.comment"></div>
             </div>
             <div class="concept-form-block {{textareaClass}}">
-                <div class="wrap-area">
+                 <div class="wrap-area">
                   <div class="form-group">
                     <label class="control-label">
                       1. Situation an der Schule<span spi-hint text="_hint.school_concept_situation" class="has-hint"></span>
                     </label>
-                    <div class="wrap-hint">
-                      <div class="{{!isTextareaShow && !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted') ? 'col-lg-11' : ''}}">  
-                        <textarea id="area-1" ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation" 
+                    <div class="wrap-hint">                        
+                      <textarea id="area-1" ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation" 
                                   class="form-control custom-height animate-textarea textarea-2" ng-model="school_concept[schoolConcept.id].situation"
                                   placeholder="Tragen Sie den Text hier ein" ng-focus="textareaClass == 'area-1' ? type = 'situation' : type = 'offers_youth_social_work'; schoolConcept.oldValue = school_concept[schoolConcept.id].situation"
                                   ng-blur='checkTextarea($index, school_concept[schoolConcept.id].situation, schoolConcept.id, school_concept[schoolConcept.id], type, textareaClass)'
-                                  ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'" required></textarea>
-                      </div>
-                      <div class="col-lg-1 p-0 btn-row" ng-if="!isTextareaShow && !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted')">
-                          <button class="btn m-t-2 custom-btn fullscreen ion-arrow-resize" ng-click="textOnFocus(1, schoolConcept.status, school_concept[schoolConcept.id].situation)"> &nbsp;</button>
-                      </div>
+                                  ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'" required></textarea>                      
+                        <div class="btn-row" ng-if="!isTextareaShow && !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted')">
+                          <button class="btn m-t-2 fullscreen1"ng-click="textOnFocus(1, schoolConcept.status, school_concept[schoolConcept.id].situation)"> &nbsp;</button>
+                        </div>                     
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="control-label">
                       2. Angebote der Jugendsozialarbeit an der Schule<span spi-hint text="_hint.school_concept_offers_youth_social_work" class="has-hint"></span>
                     </label>
-                    <div class="wrap-hint">
-                      <div class="{{!isTextareaShow && !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted') ? 'col-lg-11' : ''}}">    
-                        <textarea id="area-2" ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" 
+                    <div class="wrap-hint">                     
+                      <textarea id="area-2" ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work" 
                                   class="form-control custom-height animate-textarea textarea-2" ng-model="school_concept[schoolConcept.id].offers_youth_social_work"
                                   placeholder="Tragen Sie den Text hier ein" ng-focus="textareaClass == 'area-1' ? type = 'situation' : type = 'offers_youth_social_work'; schoolConcept.oldValue = school_concept[schoolConcept.id].offers_youth_social_work "
                                   ng-blur='checkTextarea($index, school_concept[schoolConcept.id].offers_youth_social_work, schoolConcept.id, school_concept[schoolConcept.id], type, textareaClass)'
-                                  ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'" required></textarea>
-                      </div>
-                      <div class="col-lg-1 p-0 btn-row"  ng-if="!isTextareaShow && !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted')">
-                        <button class="btn m-t-2 custom-btn fullscreen ion-arrow-resize" ng-click="textOnFocus(2, schoolConcept.status, school_concept[schoolConcept.id].offers_youth_social_work)"> &nbsp;</button>
+                                  ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'" required></textarea>                      
+                      <div class="btn-row" ng-if="!isTextareaShow && !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted')">
+                        <button class="btn m-t-2 fullscreen2" ng-click="textOnFocus(2, schoolConcept.status, school_concept[schoolConcept.id].offers_youth_social_work)"> &nbsp;</button>
                       </div>
                     </div>
                   </div>

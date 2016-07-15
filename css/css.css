@@ -3227,7 +3227,15 @@ form[name=conceptForm] .alert-danger {display: block;}
 .btn.hide-btn {
   background: #F3F3F3 url(../images/icon-cancel.png) no-repeat 50% 50%;
 }
-.btn-row .btn.fullscreen {
-  width: 40px;
-  height: 40px;
+.btn-row .btn.fullscreen1 {
+  position: absolute;    
+  top: 18px;
+  left: 1088px;
+  background:  url(../images/icon_fullscreen.png) no-repeat 50% 50%;
+}
+.btn-row .btn.fullscreen2 {
+  position: absolute;    
+  top: 223px;
+  left: 1088px;
+  background:  url(../images/icon_fullscreen.png) no-repeat 50% 50%;
 }
