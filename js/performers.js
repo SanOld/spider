@@ -60,7 +60,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope.modeView = modeView;
   $scope.isFinansist = network.user.type == 'a' || network.user.type == 'p' || (network.user.type == 't' && parseInt(network.user.is_finansist));
   $scope.tabActive = 0;
-
+  $scope.user_type = network.user.type;
   $scope.canEditPerformer = function() {
     return $rootScope.canEdit() || data.id == network.user.relation_id;
   };
@@ -144,11 +144,21 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   }
 
   $scope.addBankForm = function() {
-    $scope.bank_details.unshift({
-      performer_id: data.id,
-    });
-    $location.hash('formBank0');
-    $anchorScroll();
+    if($scope.bank_details.length == 10 ){
+       SweetAlert.swal({
+         title: "",
+         text: "Es ist möglich nur zehn Konten hinzufügen!",
+         type: "warning",
+         confirmButtonText: "OK",
+         closeOnConfirm: true
+       });
+     }else{
+       $scope.bank_details.unshift({
+         performer_id: data.id,
+       });
+       $location.hash('formBank0');
+       $anchorScroll();
+     }
   };
 
   $scope.changeRepresentativeUser = function (userId) {

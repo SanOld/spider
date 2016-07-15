@@ -208,16 +208,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-lg-4 p-r-0 control-label">Kreditor</label>
-                        <div class="col-lg-8 p-l-0">
-                          <div spi-hint text="_hint.bank_name" class="has-hint"></div>
-                          <div class="wrap-hint">
-                            <input class="form-control" type="text" name="bank_name" ng-model="bank.bank_name" value=""/>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-lg-4 p-r-0 control-label">Konto</label>
+                        <label class="col-lg-4 p-r-0 control-label">Geldinstitut</label>
                         <div class="col-lg-8 p-l-0">
                           <div spi-hint text="_hint.outer_id" class="has-hint"></div>
                           <div class="wrap-hint">
@@ -231,6 +222,15 @@
                           <div spi-hint text="_hint.description" class="has-hint"></div>
                           <div class="wrap-hint">
                             <textarea name="description" ng-model="bank.description" class="form-control"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group" ng-show="user_type == 'a' || user_type == 'p'" >
+                        <label class="col-lg-4 p-r-0 control-label">Kreditor</label>
+                        <div class="col-lg-8 p-l-0">
+                          <div spi-hint text="_hint.bank_name" class="has-hint"></div>
+                          <div class="wrap-hint">
+                            <input class="form-control" type="text" name="bank_name" ng-model="bank.bank_name" value=""/>
                           </div>
                         </div>
                       </div>
