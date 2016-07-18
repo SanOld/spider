@@ -657,7 +657,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 							<div class="col-lg-2 m-t-30 m-b-5">
 								<div class="group-btn pull-right">
 									<button class="btn w-lg btn-lg btn-success disabled" style="margin-bottom:10px">AKZEPTIEREN</button>
-									<button class="btn w-lg btn-lg btn-danger disabled">ABLEHNEN</button>
+									<button class="btn w-lg btn-lg btn-danger disabled">ANMERKUNG</button>
 									
 								</div>
 							</div>

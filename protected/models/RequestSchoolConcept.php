@@ -132,7 +132,7 @@ class RequestSchoolConcept extends BaseModel {
   private function getStatusByCode($code) {
     switch ($code) {
       case 'rejected':
-        return 'Ablehnen';
+        return 'Anmerkung der Programmagentur';
       case 'in_progress':
         return 'Bereit zu überprüfen';
       case 'accepted':

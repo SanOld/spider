@@ -22,7 +22,7 @@
           <div ng-class="{current: conceptTab[schoolConcept.id] == 'data'}" id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
             <div ng-if="schoolConcept.status != 'unfinished'" class="alert" ng-class="{'alert-danger': schoolConcept.status == 'rejected', 'alert-success': schoolConcept.status == 'accepted', 'alert-warning': schoolConcept.status == 'in_progress'}">
               <div ng-switch="schoolConcept.status">
-                <strong ng-switch-when="rejected">Ablehnen</strong>
+                <strong ng-switch-when="rejected">Anmerkung der Programmagentur</strong>
                 <strong ng-switch-when="accepted">Genehmigt</strong>
                 <strong ng-switch-when="in_progress">Zur Prüfung übermittelt</strong>
               </div>
@@ -79,7 +79,7 @@
                   <div class="col-lg-2">
                     <div class="m-t-30 text-right pull-right" ng-if="canAccept">
                       <button ng-hide="schoolConcept.status == 'accepted'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept', $index)">AKZEPTIEREN</button>
-                      <button ng-hide="schoolConcept.status == 'rejected'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'reject', $index)" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+                      <button ng-hide="schoolConcept.status == 'rejected'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'reject', $index)" class="btn w-lg btn-lg btn-danger">ANMERKUNG</button>
                     </div>
                     <div class="text-right pull-right" ng-if="canFormEdit && !isTextareaShow && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
                       <h4 class="m-t-0"></h4>

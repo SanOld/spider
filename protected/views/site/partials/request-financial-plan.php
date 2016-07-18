@@ -3,7 +3,7 @@
     <div class="panel panel-default">
       <div ng-if="data.status_finance != 'unfinished'" class="alert" ng-class="{'alert-danger': data.status_finance == 'rejected', 'alert-success': data.status_finance == 'accepted', 'alert-warning': data.status_finance == 'in_progress'}">
         <div ng-switch="data.status_finance">
-          <strong ng-switch-when="rejected">Ablehnen</strong>
+          <strong ng-switch-when="rejected">Anmerkung der Programmagentur</strong>
           <strong ng-switch-when="accepted">Genehmigt</strong>
           <strong ng-switch-when="in_progress">Zur Prüfung übermittelt</strong>
         </div>
@@ -495,7 +495,7 @@
           <div class="col-lg-2">
             <div class="m-t-30 text-right pull-right" ng-if="canAccept">
               <button ng-hide="data.status_finance == 'accepted'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm('accepted')">AKZEPTIEREN</button>
-              <button ng-hide="data.status_finance == 'rejected'" ng-class="{disabled: !data.comment}" ng-click="submitForm('rejected')" class="btn w-lg btn-lg btn-danger">ABLEHNEN</button>
+              <button ng-hide="data.status_finance == 'rejected'" ng-class="{disabled: !data.comment}" ng-click="submitForm('rejected')" class="btn w-lg btn-lg btn-danger">ANMERKUNG</button>
             </div>
             <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && data.status_finance != 'in_progress' && data.status_finance != 'accepted'">
               <h4 class="m-t-0"></h4>
