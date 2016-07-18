@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="editUserTemplate.html">
+<!--<script type="text/ng-template" id="editUserTemplate.html">-->
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
       <h3 ng-if="isInsert" class="m-0 pull-left">Benutzer hinzufügen</h3>
@@ -51,9 +51,13 @@
         <div class="form-group">
           <label class="col-lg-2 control-label">Benutzerrollen</label>
 
-          <div ng-if="isCurrentUser || !isInsert" class="col-lg-10">
-            <span class="no-edit-text">{{type_name}}</span>
-            <span spi-hint text="_hint.type_id"></span>
+
+
+          <div ng-if="isCurrentUser || !isInsert" class="col-lg-4">
+            <div spi-hint text="_hint.type_id" class="has-hint"></div>
+            <div class="wrap-hint">
+              <input id="title" class="form-control"  type="text" value="{{type_name}}" disabled="">
+            </div>
           </div>
 
           <div ng-if="!isCurrentUser && isInsert" class="col-lg-4 custom-width">
@@ -117,9 +121,16 @@
         <div ng-if="(isInsert && isRelation) || (!isInsert && relation_name)" class="form-group">
           <label class="col-lg-2 control-label">Akteur</label>
 
-          <div ng-if="!isInsert" class="col-lg-10">
+<!--          <div ng-if="!isInsert" class="col-lg-10">
             <span class="no-edit-text">{{relation_name}}</span>
             <span spi-hint text="_hint.relation_id"></span>
+          </div>-->
+
+          <div ng-if="!isInsert" class="col-lg-4">
+            <div spi-hint text="_hint.relation_id" class="has-hint"></div>
+            <div class="wrap-hint">
+              <input id="title" class="form-control"  type="text" value="{{relation_name}}" disabled="">
+            </div>
           </div>
 
           <div ng-if="isInsert" class="col-lg-10">
