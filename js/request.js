@@ -611,6 +611,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.dublicate = [false];
   $scope.required = [false];  
   $scope.userLoading = false;
+  $scope.errorShow = false;
+  $scope.errorArray = [];
 
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
@@ -818,6 +820,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     });
     return finPlan;
   };
+
   var modelToName = { 'data.finance_user_id': 'Ansprechpartner für Rückfragen zum Finanzplan'
                     , 'data.bank_details_id': 'Bankverbindung'
                     , 'emploee.user_id': 'Mitarbeiter/in hinzufügen'
@@ -837,45 +840,45 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'data.revenue_description': 'Sonstige Einnahmen'
                     , 'data.revenue_sum': 'Sonstige Einnahmen Betrag'
                     }
+
+
+  $scope.fieldsError2 = function (model, modelName){
+
+    var name = modelName;
+    var result =( model == '' || model == 0 || model == '0' || model == '0,00' || model == undefined);
+
+    var index = $scope.errorArray.indexOf(name);
+
+    if(result && index==-1 && name != undefined ){
+      $scope.errorArray.push(name);
+    } else if(!result && index != -1) {
+        $scope.errorArray.splice(index,1);
+    }
+//    if(modelName != undefined){
+//      console.log('modelName '+modelName);
+//      console.log('model '+model);
+//      console.log('length '+$scope.errorArray.length);
+//      console.log($scope.errorArray);
+//    }
+    return result;
+ }
+
   $scope.submitForm = function(status) {
     if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
     var data = {};
     switch (status) {
       case 'accepted':
-        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
+        
+        $scope.errorShow = true;
+        if($scope.errorArray.length){
+          return   $scope.$parent.doErrorIncompleteFields($scope.errorArray);
+        } else {
+          $scope.errorShow = false;
+        }
+
         break;
       case 'in_progress':
-        
-        if($scope.financePlanForm.$invalid) {
-          var requriredFields = [];
-          $('#finance .ng-invalid').each(function(){
-            if($(this).prop("tagName") != 'NG-FORM' && $(this).attr("required") == 'required') {
-              var model = $(this).attr("ng-model");
-              var name = model.split('.');
-              var employee = '';
-              if(name[0] == 'emploee') {
-                employee = $(this).closest('.employee-row').attr('data-name')+': ';
-              }
-              var title = modelToName[model] || '';
 
-              if(title) {
-                requriredFields.push(employee+title)
-              }
-            }
-          })
-          console.log(requriredFields.join("\n"));
-          return $scope.$parent.doErrorIncompleteFields(requriredFields);
-        }
-
-        //start remove from validation
-        if ($scope.prof_associations.length <= 1){
-          $scope.financePlanFormGroup1.$removeControl($scope.financePlanFormGroup1[input.attr("first")]);
-        }
-        $scope.financePlanFormGroup2.$removeControl($scope.financePlanFormGroup1[input.attr("second")]);
-        //end remove from validation
-
-        
-        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
 
 
         var finPlan = RequestService.financePlanData();
@@ -885,6 +888,16 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         data.revenue_description = $scope.data.revenue_description;
         data.revenue_sum = $scope.data.revenue_sum;
         data.finance_plan = finPlan;
+
+
+
+        $scope.errorShow = true;
+        if($scope.errorArray.length){
+          return   $scope.$parent.doErrorIncompleteFields($scope.errorArray);
+        } else {
+          $scope.errorShow = false;
+        }
+
         break;
       case 'rejected':
         if(!$scope.data.comment) return false;
@@ -1105,6 +1118,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
       $scope.updateUserSelect();
       $scope.updateResultCost();
+
+      $scope.errorArray = [];
   }
   $scope.deleteProfAssociation = function(idx){
       if($scope.prof_associations[idx].id) {
@@ -1113,6 +1128,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         $scope.prof_associations.splice(idx, 1);
       }
       $scope.updateResultCost();
+
+      $scope.errorArray = [];
   }
 
 
