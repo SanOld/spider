@@ -126,13 +126,6 @@
             <div class="wrap-hint">
               <input id="title" class="form-control"  type="text" value="{{relation_name}}" disabled="">
             </div>
-          </div>-->
-
-          <div ng-if="!isInsert" class="col-lg-4">
-            <div spi-hint text="_hint.relation_id" class="has-hint"></div>
-            <div class="wrap-hint">
-              <input id="title" class="form-control"  type="text" value="{{relation_name}}" disabled="">
-            </div>
           </div>
 
           <div ng-if="isInsert" class="col-lg-10">
