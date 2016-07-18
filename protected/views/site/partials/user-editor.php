@@ -121,9 +121,11 @@
         <div ng-if="(isInsert && isRelation) || (!isInsert && relation_name)" class="form-group">
           <label class="col-lg-2 control-label">Akteur</label>
 
-<!--          <div ng-if="!isInsert" class="col-lg-10">
-            <span class="no-edit-text">{{relation_name}}</span>
-            <span spi-hint text="_hint.relation_id"></span>
+          <div ng-if="!isInsert" class="col-lg-4">
+            <div spi-hint text="_hint.relation_id" class="has-hint"></div>
+            <div class="wrap-hint">
+              <input id="title" class="form-control"  type="text" value="{{relation_name}}" disabled="">
+            </div>
           </div>-->
 
           <div ng-if="!isInsert" class="col-lg-4">
