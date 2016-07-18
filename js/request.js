@@ -1177,18 +1177,24 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   };
 
   $scope.schoolConcepts = [];
-  network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
-    if (result) {
-      $scope.schoolConcepts = response.result;
-      $scope.setBestStatusByUserType();
-      $timeout(function() {
-        angular.element('.changes-content .heading-changes').on('click', function(){
-          angular.element(this).toggleClass('open');
-          angular.element(this).next().slideToggle();
-        })
-      });
-    }
-  });
+  
+  $scope.requestSchoolConcept = function(){
+    network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
+      if (result) {
+        $scope.schoolConcepts = response.result;
+        $scope.setBestStatusByUserType();
+        $timeout(function() {
+          angular.element('.changes-content .heading-changes').on('click', function(){
+            angular.element(this).toggleClass('open');
+            angular.element(this).next().slideToggle();
+          })
+        });
+      }
+    });
+  }
+
+  $scope.requestSchoolConcept();
+
 
   $scope.setBestStatusByUserType = function() {
     var bestStatus = 'unfinished';
@@ -1255,8 +1261,12 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         concept.status = data.status;
         concept.comment = data.status == 'accepted' ? '' : data.comment;
         $scope.setBestStatusByUserType();
+
+        $scope.requestSchoolConcept();
       }
     });
+
+    
   };
 
   $scope.doCutText = function(newText, oldText, isNew) {
