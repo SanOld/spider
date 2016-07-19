@@ -18,16 +18,16 @@
           <div class="panel-body">
             <div class="tabs-vertical-env">
               <ul  class="nav tabs-vertical">
-                <li  ng-repeat="goal in school.goals" ng-click="activateTab(goal.id)"  ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
-                    <button class="goals" ng-click="deleteGoal(goal.id)" ng-if="goal.option == 1 && goal.is_active == 1">
+                <li  ng-repeat="goal in school.goals" ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
+                    <button class="goals" ng-click="activateTab(school.goals);deleteGoal(goal.id)" ng-if="goal.option == 1 && goal.is_active == 1">
                       <i class="ion-close-round"></i>
                     </button>
-                    <a  data-toggle="tab" href="#goal_{{::goal.id}}" ng-if="goal.is_active == 1">
+                    <a class="goal_{{goal.id}}" data-toggle="tab" href="#goal_{{::goal.id}}" ng-if="goal.is_active == 1">
                     <span class="notice">
                       <span  class="color-notice {{goal.status}}-row"></span>
                     </span>
                     {{::goal.name}}<span ng-if="goal.option == 1">(optional)</span></a>
-                </li>              
+                </li>
                 <button class="btn w-xs pull-right" ng-click="addGoal()" ng-hide="count >= 5">Weiteres Entwicklungsziel hunzufügen</button>                
               </ul>  
                
