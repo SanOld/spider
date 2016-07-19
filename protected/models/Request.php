@@ -69,7 +69,11 @@ class Request extends BaseModel {
 
                             ";
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-      $command -> join(     'spi_request_status rqs',     'tbl.status_id           = rqs.id' );
+      if($this->user['type'] == 't'){
+        $command -> join( 'spi_request_status rqs', 'tbl.status_id_ta        = rqs.id' );
+      } else {
+        $command -> join( 'spi_request_status rqs', 'tbl.status_id           = rqs.id' );
+      }
       $command -> join(     'spi_performer prf',          'tbl.performer_id        = prf.id' );
       $command -> leftJoin( 'spi_user prf_user',          'prf_user.id             = prf.representative_user_id' );
       $command -> join(     'spi_project prj',            'tbl.project_id          = prj.id' );
@@ -79,7 +83,11 @@ class Request extends BaseModel {
 
     } else {
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-      $command -> join( 'spi_request_status rqs', 'tbl.status_id           = rqs.id' );
+      if($this->user['type'] == 't'){
+        $command -> join( 'spi_request_status rqs', 'tbl.status_id_ta      = rqs.id' );
+      } else {
+        $command -> join( 'spi_request_status rqs', 'tbl.status_id         = rqs.id' );
+      }
       $command -> leftJoin( 'spi_performer prf',  'tbl.performer_id        = prf.id' );
       $command -> join( 'spi_project prj',        'tbl.project_id          = prj.id' );
       $command -> join( 'spi_finance_source fns', 'prj.programm_id         = fns.id' );
@@ -114,6 +122,11 @@ class Request extends BaseModel {
         $values = array($params['STATUS_ID']);
       }
       $command -> andWhere(array('in', 'rqs.id', $values));
+    }    
+    if (isset($params['SCHOOL_ID'])) {
+      $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.project_id');      
+      $command-> join( 'spi_school scl', 'sps.school_id = scl.id' );
+      $command -> andWhere("scl.id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
     if (isset($params['SCHOOL_ID'])) {
        $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.project_id');      
@@ -121,13 +134,13 @@ class Request extends BaseModel {
        $command -> andWhere("scl.id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
      }
     $command = $this->setWhereByRole($command);
+
     return $command;
   }
 
   protected function setWhereByRole($command) {
     switch($this->user['type']) {
       case SCHOOL:
-
         $command->join('spi_project_school sps', 'sps.project_id=tbl.project_id');
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
         break;
@@ -157,8 +170,11 @@ class Request extends BaseModel {
         if($row['last_change']  == '0000-00-00'){ $row['last_change'] = ''; }
         if($row['end_fill']     == '0000-00-00'){ $row['end_fill']    = ''; }
 
-        $row['status_goal'] = $this->calcGoalsStatus($row['id']);
-        $row['status_concept'] = $this->calcConceptStatus($row['id']);
+        if($this->user['type'] == 't'){
+          $row['status_goal'] = $row['status_goal_ta'];
+          $row['status_concept'] = $row['status_concept_ta'] ;
+        }
+
         $row['is_action_required'] = $this->isActionRequired(array(
                                                                   $row['status_goal']
                                                                   ,$row['status_concept']
@@ -170,17 +186,49 @@ class Request extends BaseModel {
     return $result;
   }
 
+  protected function calcStatusId($row, $userType) {
 
-  protected function calcConceptStatus($ID) {
-    $statusPriority = in_array($this->user['type'], array('a', 'p')) ? $this->paPriority : $this->taPriority;
+   
+  switch($userType){
+      case 'a':
+      case 'p':
+        $result = $row['status_id'];
+        if($row['status_concept'] === 'in_progress' && $row['status_finance'] !== 'unfinished' && $row['status_goal'] !== 'unfinished'){
+          $result = '3';//in_progress
+
+        }
+        if($row['status_concept'] !== 'unfinished' && $row['status_finance'] === 'in_progress' && $row['status_goal'] !== 'unfinished'){
+          $result = '3';//in_progress
+        }
+        if($row['status_concept'] !== 'unfinished' && $row['status_finance'] !== 'unfinished' && $row['status_goal'] === 'in_progress'){
+          $result = '3';//in_progress
+        }
+        break;
+      case 't':
+        $result = $row['status_id_ta'];
+        if($row['status_concept'] === 'rejected' || $row['status_finance'] === 'rejected' || $row['status_goal'] === 'rejected'){
+          $result = '3';//in_progress
+        }
+        break;
+      default:
+        $result = 1;//open
+    }
+
+    if($row['status_concept'] === 'accepted' && $row['status_finance'] === 'accepted' && $row['status_goal'] === 'accepted'){
+      $result = '1';//in_progress
+    }
+    
+    return $result;
+  }
+  protected function calcConceptStatus($ID, $userType) {
+    $statusPriority = in_array($userType, array('a', 'p')) ? $this->paPriority : $this->taPriority;
     $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
     $RequestSchoolConcept->user = $this->user;
     return $RequestSchoolConcept->getCommonStatus($ID, $statusPriority);
   }
-
-  protected function calcGoalsStatus($ID) {
+  protected function calcGoalsStatus($ID, $userType) {
     $resultStatus = 'unfinished';
-     if($this->user['type'] == 'a' || $this->user['type'] == 'p'){
+     if($userType == 'a'){
        $priority = $this->paPriority;
      } else {
        $priority = $this->taPriority;
@@ -206,7 +254,6 @@ class Request extends BaseModel {
     }
     return false;
   }
-
 
   protected function doBeforeInsert($post) {
     if($this->user['type'] == ADMIN || ($this->user['type'] == PA)) {
@@ -292,8 +339,29 @@ class Request extends BaseModel {
     return $result;
   }
 
+  public function statusUpdate($request_id){
+    $row = Yii::app()->db->createCommand()->select(array('status_finance', 'status_id', 'status_id_ta'))->from($this->table)->where('id=:id', array(':id' => $request_id))->queryRow();
+    $row['status_goal'] = $this->calcGoalsStatus($request_id, 'a');
+    $row['status_goal_ta'] = $this->calcGoalsStatus($request_id, 't');
+    $row['status_concept'] = $this->calcConceptStatus($request_id, 'a');
+    $row['status_concept_ta'] = $this->calcConceptStatus($request_id, 't');
+    $status_id = $this->calcStatusId($row, 'a');
+    $status_id_ta = $this->calcStatusId($row, 't');
+
+    Yii::app()->db->createCommand()->update($this->table, array(
+              'status_goal' => $row['status_goal']
+            , 'status_goal_ta' => $row['status_goal_ta']
+            , 'status_concept' => $row['status_concept']
+            , 'status_concept_ta' => $row['status_concept_ta']
+            , 'status_id' => $status_id
+            , 'status_id_ta' => $status_id_ta )
+            , 'id=:id', array(':id' => $request_id ));
+  }
+
   protected function doAfterUpdate($result, $params, $post, $request_id) {
     Yii::app()->db->createCommand()->update($this->table, array('last_change' => date("Y-m-d", time())), 'id=:id', array(':id' => $request_id ));
+    
+    $this->statusUpdate($request_id);
 
     if($this->school_concepts) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
@@ -427,9 +495,6 @@ class Request extends BaseModel {
     
     return $result;
   }
-
-
-
 
   protected function doAfterSelect($result) {
 

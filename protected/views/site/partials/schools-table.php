@@ -5,7 +5,7 @@
     <td data-title="'Schultyp'" sortable="'type_name'">{{row.type_name}}</td>
     <td ng-if="page != 'district'" data-title="'Bezirk'" sortable="'district_name'">{{row.district_name}}</td>
     <td data-title="'Adresse'" sortable="'full_address'">{{row.full_address}}</td>
-    <td data-title="'Ansprechpartner(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
+    <td data-title="'Schulleitung'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
     <td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
     <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
       <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit(row.id))">

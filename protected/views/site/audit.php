@@ -20,7 +20,7 @@ $this->breadcrumbs = array('Audit');
           <div class="row">
             <div class="col-lg-12">
               <div class="row datafilter">
-                <form action="#">
+                <form>
                   <div class="col-lg-3">
                     <div class="form-group">
                       <label>Suche nach Namen</label>
@@ -44,7 +44,7 @@ $this->breadcrumbs = array('Audit');
                     <label>Datum</label>
                     <div class="input-group">
                       <input uib-datepicker-popup="dd.MM.yyyy" is-open="popup.opened" datepicker-options="dateOptions"
-                             ng-change="updateGrid()" ng-model="filter.date" type="text" id="audit-date" class="form-control datepicker" placeholder="Alle Daten">
+                             ng-change="dateFormat(filter.date);updateGrid();" ng-model="filter.date" type="text" id="audit-date" class="form-control datepicker" placeholder="Alle Daten">
                       <span class="input-group-addon" ng-click="popup.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                   </div>

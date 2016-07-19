@@ -26,7 +26,7 @@ class School extends BaseModel {
         break;
       case DISTRICT:
         $command->andWhere('tbl.district_id = :district_id', array(':district_id' => $this->user['relation_id']));
-        break;
+        break;  
       case TA:
         $command->join('spi_project_school prs', 'prs.school_id=tbl.id');
         $command->join('spi_project prj', 'prs.project_id=prj.id');
@@ -50,8 +50,8 @@ class School extends BaseModel {
       $command -> andWhere("tbl.type_id = :type_id", array(':type_id' => $params['TYPE_ID']));
     }
     if (isset($params['REQUESTS'])) {
-       $command->join('spi_request req', 'req.project_id = prj.id');
-     }
+      $command->join('spi_request req', 'req.project_id = prj.id');
+    }
     return $command;
   }
 

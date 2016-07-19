@@ -9,8 +9,8 @@
                 Projekt <strong>{{data.code}}</strong>
               </h2>
               <div class="m-t-10 holder-head-date custom-dl">
-               <div class="wrap-data">
-                  <span>Letzte Änd.:</span>
+               <div class="wrap-data-project">
+                  <span class="data-project">Letzte Änderung:</span>
                  <em ng-if="request.last_change">{{getDate(request.last_change)| date : 'dd.MM.yyyy'}} </em>
                  <em ng-if="!request.last_change">-</em>
                </div>
@@ -29,7 +29,7 @@
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
-                    <button class="btn m-t-5" ng-click="setEndFillDate()">Dauer ändern</button>
+                    <button class="btn m-t-5" ng-click="setEndFillDate()">Datum ändern</button>
                   </div>
                 </div>
               </div>
@@ -53,7 +53,7 @@
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
-                    <button class="btn m-t-5" ng-click="setBulkDuration()">Dauer ändern</button>
+                    <button class="btn m-t-5" ng-click="setBulkDuration()">Datum ändern</button>
                   </div>
                 </div>
               </div>
@@ -140,7 +140,7 @@
                     </h4>
                     <div class="clearfix">
                       <div class="col-lg-9 p-l-0 m-b-15"  ng-class="{'wrap-line error': dublicate || required}" >  
-                      <input placeholder="Name Vorname" ng-keyup="escape($event)" ng-disabled="userLoading" 
+                      <input placeholder="Vorname Nachname" ng-keyup="escape($event)" ng-disabled="userLoading" 
                              ng-keypress="submitToAddUser($event, new_project_user)" ng-hide="!add_project_user" class="form-control popup-input" type="text" 
                              ng-model="new_project_user" ng-required="add_project_user" id="project_user">
                       <ui-select on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users')">
@@ -207,7 +207,7 @@
                       </div>
                       <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.user_name">
-                          <dt>Ansprechpartner(in):</dt>
+                          <dt>Schulleitung:</dt>
                           <dd>{{school.user_name}}</dd>
                         </ng-show>
                         <ng-show ng-show="school.user_function">

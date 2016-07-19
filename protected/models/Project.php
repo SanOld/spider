@@ -13,7 +13,7 @@ class Project extends BaseModel {
   protected function getCommand() {
 
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    $command->join('spi_project_school sps', 'sps.project_id=tbl.id');
+    $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.id');
     $command -> where(' 1=1 ', array());
 
     return $command;
@@ -29,13 +29,16 @@ class Project extends BaseModel {
       $command -> where(' rqt.project_id  IS NULL ', array());
       $command -> orWhere(' rqt.year <> :year', array(':year' => $params['YEAR']));
       $command->andWhere(' tbl.id NOT IN (SELECT project_id FROM spi_request WHERE year=:year )', array(':year' => $params['YEAR']));
+      $command->andWhere('tbl.code LIKE :code', array(':code' => '%'.$params['VALUE'].'%'));
       $command->andWhere(' tbl.is_old = 0');
-
     }
 
     if (safe($params, 'CODE')) {
-//      $command->andWhere("tbl.code = :code", array(':code' => $params['CODE']));
-      $command = $this->setLikeWhere($command,'tbl.code',safe($params, 'CODE'));
+      if($this->user['type'] == TA){        
+        $command->andWhere("tbl.id = :id", array(':id' => $params['CODE']));
+      }else{        
+        $command = $this->setLikeWhere($command,'tbl.code',safe($params, 'CODE'));
+      }
     }
     if (safe($params, 'SCHOOL_TYPE_ID')) {
       $command->andWhere("tbl.school_type_id = :school_type_id", array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
@@ -51,7 +54,14 @@ class Project extends BaseModel {
     }
     if (safe($params, 'SCHOOL_ID')) {
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
-    }    
+    }
+    if (safe($params, 'REAL_CODE')) {
+      $command->andWhere("tbl.code LIKE :real_code", array(':real_code' => ''.$params['REAL_CODE'].'%'));
+      $command->andWhere("tbl.is_old = 0");
+      if(strlen($params['REAL_CODE']) == 1){
+        $command->andWhere("tbl.type_id <> 3");
+      }
+    }
     $this->params = $params;
     $command = $this->setWhereByRole($command);
     $command -> group('tbl.id');
@@ -216,9 +226,9 @@ class Project extends BaseModel {
     unset($row['id']);
     $row['schools'] = safe($post,'schools');
     $row['performer_id'] = $post['performer_id'];
-    $code = explode('\\', $row['code']);
+    $code = explode('/', $row['code']);
 
-    $row['code'] = count($code)==1?$code[0].'\\2':$code[0].'\\'.($code[1]+1);
+    $row['code'] = count($code)==1 ? $code[0]. '/2 ':$code[0].'/'.($code[1]+1);
     Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
       ':id' => $id
     ));    

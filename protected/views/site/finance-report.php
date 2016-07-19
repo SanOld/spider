@@ -464,7 +464,7 @@ $this->breadcrumbs = array('Finanzen','Belege');
 									</div>
 									<div class="btn-row m-t-15 clearfix">
 										<button class="btn m-b-5">Akzeptieren</button>
-										<button class="btn m-b-5">Ablehnen</button>
+										<button class="btn m-b-5">ANMERKUNG</button>
 										<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Kommentar hinzufügen</button>
 									</div>
 									<div class="row m-t-30">
@@ -599,7 +599,7 @@ $this->breadcrumbs = array('Finanzen','Belege');
 							<div class="col-lg-3 m-t-30">
 								<div class="group-btn pull-right">
 									<button class="btn w-lg btn-lg btn-success disabled">AKZEPTIEREN</button>
-									<button class="btn w-lg btn-lg btn-danger disabled m-t-10">ABLEHNEN</button>
+									<button class="btn w-lg btn-lg btn-danger disabled m-t-10">ANMERKUNG</button>
 									
 								</div>
 							</div>

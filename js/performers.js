@@ -145,20 +145,20 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
 
   $scope.addBankForm = function() {
     if($scope.bank_details.length == 10 ){
-       SweetAlert.swal({
-         title: "",
-         text: "Es ist möglich nur zehn Konten hinzufügen!",
-         type: "warning",
-         confirmButtonText: "OK",
-         closeOnConfirm: true
-       });
-     }else{
-       $scope.bank_details.unshift({
-         performer_id: data.id,
-       });
-       $location.hash('formBank0');
-       $anchorScroll();
-     }
+      SweetAlert.swal({
+        title: "",
+        text: "Es ist möglich nur zehn Konten hinzufügen!",
+        type: "warning",
+        confirmButtonText: "OK",
+        closeOnConfirm: true
+      });
+    }else{
+      $scope.bank_details.unshift({
+        performer_id: data.id,
+      });
+      $location.hash('formBank0');
+      $anchorScroll();
+    }
   };
 
   $scope.changeRepresentativeUser = function (userId) {

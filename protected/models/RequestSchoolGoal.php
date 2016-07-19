@@ -120,6 +120,12 @@ class RequestSchoolGoal extends BaseModel {
         $result['emails'][] = 'concept_user_email is empty';
       }
     }
+
+    $Request = CActiveRecord::model('Request');
+    $Request->user = $this->user;
+    $request_id = Yii::app()->db->createCommand()->select(array('request_id'))->from($this->table)->where('id=:id', array(':id' => $id))->queryScalar();
+    $Request->statusUpdate($request_id);
+
     return $result;
   }
 
@@ -131,6 +137,7 @@ class RequestSchoolGoal extends BaseModel {
       -> from('spi_request_school_goal')
       -> where('request_id=:request_id', array(':request_id' => $request_id))
       -> queryAll();
+
 
     if($result){
       foreach($result as &$row) {

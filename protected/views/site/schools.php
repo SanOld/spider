@@ -24,7 +24,7 @@ $this->breadcrumbs = array('Schule');
 								<form class="class-form">
 									<div class="col-lg-5">
 										<div class="form-group">
-											<label>Suche nach Namen, Schul-Nr., Adresse oder Ansprechpartner(in)</label>
+											<label>Suche nach Namen, Schul-Nr., Adresse oder Schulleitung</label>
 											<input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control" placeholder="Eingegeben">
 										</div>
 									</div>

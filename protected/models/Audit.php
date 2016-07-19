@@ -48,8 +48,11 @@ class Audit extends BaseModel {
     if(safe($params, 'EVENT_TYPE')) {
       $command->andWhere('tbl.event_type = :et', array(':et' => safe($params, 'EVENT_TYPE')));
     }
+    if(safe($params, 'USER_NAME')) {
+      $command = $this->setLikeWhere($command, array('usr.first_name', 'usr.last_name'), safe($params, 'USER_NAME'));
+    }
     if(safe($params, 'EVENT_DATE')) {
-      $command->andWhere('tbl.event_date = :ed', array(':ed' => safe($params, 'EVENT_DATE')));
+      $command->andWhere('tbl.event_date LIKE "'.safe($params, 'EVENT_DATE').'%" ');
     }
     if(safe($params, 'TABLE_NAME')) {
       $command->andWhere('tbl.table_name = :tn', array(':tn' => 'spi_'.safe($params, 'TABLE_NAME')));

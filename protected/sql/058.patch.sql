@@ -1,0 +1,2 @@
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('8', 'employee_id', 'Mitarbeiter/in'); 
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `description`) VALUES ('8', '129', 'Mitarbeiter/in'); 

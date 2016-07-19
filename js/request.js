@@ -11,14 +11,40 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.goalsStatus = '';
   $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
 
+  $scope.tabs = ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
-  if(hash && ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'].indexOf(hash) !== -1) {
+  if(hash && $scope.tabs.indexOf(hash) !== -1) {
     $scope.tabActive = $location.hash();
   }
+
+
   $scope.setTab = function(name) {
     $location.hash(name);
+
+     //turn on next or back button
+     $scope.next = false; 
+     $scope.back = false;
+     if($scope.tabs.indexOf(name) != 0){
+       $scope.back = true;
+     }
+     if($scope.tabs.indexOf(name) != ($scope.tabs.length-1)){
+       $scope.next = true;
+     }
   };
 
+  $scope.toTab = function(value){
+    console.log('value:'+value);
+    var name = $location.hash();
+    console.log('name:'+name);
+    var index = $scope.tabs.indexOf(name);
+    console.log('index:'+index);
+    var newname = $scope.tabs[index + value];
+    console.log('newname:'+newname);
+    
+    $location.hash(newname);
+     $scope.tabActive = $location.hash();
+  }
+  
   $scope.setFinanceStatus = function(financeStatus){
     $scope.financeStatus = financeStatus;
   };
@@ -335,10 +361,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     if($scope.request) {
       switch(type)  {
         case 'dates':;
-        case 'additional_info':;
         case 'templates':;
           results = ((user == 'a' || user == 'p') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
           break;
+        case 'additional_info':;
         case 'users':;
           results = ((user == 'a' || user == 'p' || user == 't') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
           break
@@ -585,6 +611,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.dublicate = [false];
   $scope.required = [false];  
   $scope.userLoading = false;
+  $scope.errorShow = false;
+  $scope.errorArray = [];
 
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
@@ -792,6 +820,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     });
     return finPlan;
   };
+
   var modelToName = { 'data.finance_user_id': 'Ansprechpartner für Rückfragen zum Finanzplan'
                     , 'data.bank_details_id': 'Bankverbindung'
                     , 'emploee.user_id': 'Mitarbeiter/in hinzufügen'
@@ -811,34 +840,47 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'data.revenue_description': 'Sonstige Einnahmen'
                     , 'data.revenue_sum': 'Sonstige Einnahmen Betrag'
                     }
+
+
+  $scope.fieldsError2 = function (model, modelName){
+
+    var name = modelName;
+    var result =( model == '' || model == 0 || model == '0' || model == '0,00' || model == undefined);
+
+    var index = $scope.errorArray.indexOf(name);
+
+    if(result && index==-1 && name != undefined ){
+      $scope.errorArray.push(name);
+    } else if(!result && index != -1) {
+        $scope.errorArray.splice(index,1);
+    }
+//    if(modelName != undefined){
+//      console.log('modelName '+modelName);
+//      console.log('model '+model);
+//      console.log('length '+$scope.errorArray.length);
+//      console.log($scope.errorArray);
+//    }
+    return result;
+ }
+
   $scope.submitForm = function(status) {
     if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
     var data = {};
     switch (status) {
       case 'accepted':
-        if($scope.financePlanForm.$invalid) return $scope.$parent.doErrorIncompleteFields();
+        
+        $scope.errorShow = true;
+        if($scope.errorArray.length){
+          return   $scope.$parent.doErrorIncompleteFields($scope.errorArray);
+        } else {
+          $scope.errorShow = false;
+        }
+
         break;
       case 'in_progress':
-        if($scope.financePlanForm.$invalid) {
-          var requriredFields = [];
-          $('#finance .ng-invalid').each(function(){
-            if($(this).prop("tagName") != 'NG-FORM' && $(this).attr("required") == 'required') {
-              var model = $(this).attr("ng-model");
-              var name = model.split('.');
-              var employee = '';
-              if(name[0] == 'emploee') {
-                employee = $(this).closest('.employee-row').attr('data-name')+': ';
-              }
-              var title = modelToName[model] || '';
-              
-              if(title) {
-                requriredFields.push(employee+title)
-              }
-            }
-          })
-          console.log(requriredFields.join("\n"));
-          return $scope.$parent.doErrorIncompleteFields(requriredFields);
-        }
+
+
+
         var finPlan = RequestService.financePlanData();
         delete finPlan.request;
         data.finance_user_id = $scope.data.finance_user_id;
@@ -846,6 +888,16 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         data.revenue_description = $scope.data.revenue_description;
         data.revenue_sum = $scope.data.revenue_sum;
         data.finance_plan = finPlan;
+
+
+
+        $scope.errorShow = true;
+        if($scope.errorArray.length){
+          return   $scope.$parent.doErrorIncompleteFields($scope.errorArray);
+        } else {
+          $scope.errorShow = false;
+        }
+
         break;
       case 'rejected':
         if(!$scope.data.comment) return false;
@@ -1021,7 +1073,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
   }
   $scope.updateTrainingCost = function(school){
-    if(school.rate >= 1) {
+    if(num(school.rate) >= 1) {
       school.training_cost = 2250;
 //    } else if(school.rate <= 0,5) {
 //
@@ -1066,6 +1118,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
       $scope.updateUserSelect();
       $scope.updateResultCost();
+
+      $scope.errorArray = [];
   }
   $scope.deleteProfAssociation = function(idx){
       if($scope.prof_associations[idx].id) {
@@ -1074,6 +1128,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         $scope.prof_associations.splice(idx, 1);
       }
       $scope.updateResultCost();
+
+      $scope.errorArray = [];
   }
 
 
@@ -1110,29 +1166,35 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
-
   $scope.school_concept = {};
   $scope.conceptTab = {};
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
-
+  $scope.fullscreen = false;
+  $scope.equal = true;
   $scope.canAcceptEarly = function(status) {
     return !(network.user.type == 'p' && status != 'in_progress');
   };
 
   $scope.schoolConcepts = [];
-  network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
-    if (result) {
-      $scope.schoolConcepts = response.result;
-      $scope.setBestStatusByUserType();
-      $timeout(function() {
-        angular.element('.changes-content .heading-changes').on('click', function(){
-          angular.element(this).toggleClass('open');
-          angular.element(this).next().slideToggle();
-        })
-      });
-    }
-  });
+  
+  $scope.requestSchoolConcept = function(){
+    network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
+      if (result) {
+        $scope.schoolConcepts = response.result;
+        $scope.setBestStatusByUserType();
+        $timeout(function() {
+          angular.element('.changes-content .heading-changes').on('click', function(){
+            angular.element(this).toggleClass('open');
+            angular.element(this).next().slideToggle();
+          })
+        });
+      }
+    });
+  }
+
+  $scope.requestSchoolConcept();
+
 
   $scope.setBestStatusByUserType = function() {
     var bestStatus = 'unfinished';
@@ -1150,7 +1212,31 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     }
     $scope.$parent.setConceptStatus(bestStatus);
   };
-
+  $scope.textOnFocus = function(num, status){
+    angular.element('#area-' + num ).addClass('animate'); 
+    $scope.fullscreen = true;
+    $scope.textareaClass = 'area-' + num;
+    $scope.isTextareaShow = true;
+    $scope.canSave = !(!$scope.canFormEdit || (status == 'in_progress' && !$scope.canAccept) || status == 'accepted');
+    $timeout(function(){       
+        angular.element('#area-' + num ).focus();   
+    });
+  };
+  $scope.exit = function(index, num, id, type){
+    $scope.school_concept[id][type] = $scope.schoolConcepts[index].oldValue;
+    $scope.fullscreen = false;
+    $scope.isTextareaShow = false; 
+    $scope.textareaClass = '';    
+    angular.element('#' + num ).removeClass('animate');
+  };  
+  $scope.checkTextarea = function(index, newValue, conceptId, data, name, num){
+    if(newValue != $scope.schoolConcepts[index].oldValue){
+      $scope.equal = false;
+      if(!$scope.fullscreen){        
+        $scope.saveText(conceptId, data, name, num);
+      }
+    }
+  };
   RequestService.getSchoolConceptData = function() {
     return $scope.school_concept;
   };
@@ -1175,8 +1261,12 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         concept.status = data.status;
         concept.comment = data.status == 'accepted' ? '' : data.comment;
         $scope.setBestStatusByUserType();
+
+        $scope.requestSchoolConcept();
       }
     });
+
+    
   };
 
   $scope.doCutText = function(newText, oldText, isNew) {
@@ -1234,12 +1324,16 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   };
 
-  $scope.saveText = function (conceptId, data, name) {
+  $scope.saveText = function (conceptId, data, name, num) {
     if(data[name] != undefined) {
       var params = {};
       params[name] = data[name];
       network.put('request_school_concept/' + conceptId, params);
     }
+    $scope.isTextareaShow = false;     
+    $scope.fullscreen = false;
+    $scope.textareaClass = '';    
+    angular.element('#' + num ).removeClass('animate');
   };
 
   $scope.openComparePopup = function(history, change) {

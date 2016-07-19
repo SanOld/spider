@@ -527,17 +527,17 @@ class BaseModel extends CFormModel {
         'system_code' => 'ERR_PERMISSION'
       ));
     }
-  }
+  } 
   protected function getNextId() {
     $custom_codes = Yii::app()->db->createCommand('SELECT sct.id, UPPER(prj.real_code) AS real_code, MAX(prj.code) max_code, prj.is_manual, IF(pt.id="3",1,0) AS is_bonus FROM spi_project prj 
                                           JOIN spi_school_type sct ON prj.school_type_id=sct.id 
                                           JOIN spi_project_type pt ON prj.type_id=pt.id  
-                                          WHERE prj.code NOT LIKE "%\\\\\\\\%"
+                                          WHERE prj.code NOT LIKE "%/%"
                                           AND prj.is_manual = 0                                           
-                                          AND prj.real_code <> ""    
+                                          AND prj.real_code <> "" 
                                           GROUP BY prj.real_code, is_bonus')->queryAll();
     $pattern_number = "/[0-9]+$/";
-    $pattern = "/^[a-zA-Z]{1,2}/"; 
+    $pattern = "/^[a-zA-Z]{1,2}/";  
     
     foreach ($custom_codes as &$code){
       $code['code'] = preg_split($pattern_number, $code['max_code'],2,PREG_SPLIT_NO_EMPTY);
@@ -548,7 +548,7 @@ class BaseModel extends CFormModel {
               ->join('spi_school_type sct', 'prj.school_type_id=sct.id')
               ->where('prj.is_manual = 1')
               ->andWhere('prj.real_code <> ""')
-              ->andWhere('prj.code NOT LIKE "%\\\\\\\\%"')
+              ->andWhere('prj.code NOT LIKE "%/%"') 
               ->andWhere('prj.code > :max_code',array(':max_code'=>$code['max_code']))
               ->andWhere('prj.real_code = :real_code',array(':real_code'=>$code['real_code']))
               ->order('prj.code')          

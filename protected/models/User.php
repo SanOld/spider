@@ -246,21 +246,21 @@ class User extends BaseModel {
         'message' => 'Update fehlgeschlagen: Der Benutzername kann nicht geändert werden'
       );
     }
-
-    if (Yii::app() -> db -> createCommand()
+    
+      if ($post['login'] && Yii::app() -> db -> createCommand()
         -> select('*')
         -> from($this -> table)
         -> where('id != :id AND login=:login',
                   array(':id' => $id, ':login' => $post['login']))
          -> queryRow()) {
-      return array(
+        return array(
           'code' => '409',
           'result' => false,
           'silent' => true,
           'system_code' => 'ERR_DUPLICATED'
-      );
-    }
-
+        );
+      }
+    
 //    if (isset($param['EMAIL']) && $param['EMAIL'] && Yii::app() -> db -> createCommand()
 //        -> select('*')
 //        -> from($this -> table)

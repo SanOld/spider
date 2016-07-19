@@ -110,6 +110,8 @@ class BaseController extends Controller {
                   break;
                 case 'deleteTablesAudit':$this -> model ->deleteTablesAudit();
                   break;
+                case 'updateReuest':$this -> model ->updateReuest();
+                  break;
               }
 
             } else {

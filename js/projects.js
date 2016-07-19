@@ -4,6 +4,14 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
     }
     $scope.filter = {};
     
+    function getProjects() {
+      network.get('project', {}, function (result, response) {
+        if (result) {
+          $scope.projects = response.result;          
+        }
+      });
+    };
+    getProjects();
     if ($scope.page) {
       $scope.filter['performer_id'] = $scope.performerId;
     }
@@ -28,7 +36,14 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
             $scope.projectTypes = response.result;
         }
     });
-    
+    network.get('project', {'get_next_id':1}, function(result, response){
+        if(result) {
+          $scope.realCodes = response.next_id;
+          $scope.realCodes.forEach(function(item, i, arr){
+            $scope.realCodes[i].code = item.code[0];            
+          });
+        }
+    });
     network.get('school', {}, function (result, response) {
         if(result) {
             $scope.schools = response.result;
@@ -124,16 +139,16 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       var params = {};
       if(!isInit && $scope.isInsert) {
         delete $scope.project.district_id;
-      }
-      if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
+      }      
+      if($scope.project.school_type_id && $scope.project.school_type_id != 6) {
         params['school_type_id'] = $scope.project.school_type_id;
       }
       network.get('district', params, function (result, response) {
           if(result){
             if($scope.project.school_type_id == 5 || !result){
-               response.result.unshift({'name':"--Kein Bezirk--", 'id': 0});
+              response.result.unshift({'name':"--Kein Bezirk--", 'id': 0});
             }           
-            $scope.districts = response.result;              
+            $scope.districts = response.result; 
           } 
       });
     }
@@ -141,29 +156,29 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     
     
     $scope.getProgramms = function(isInit) {     
-       var params = {};
-       if(!isInit && $scope.isInsert) {
-        delete $scope.project.programm_id;
+      var params = {};
+      if(!isInit && $scope.isInsert) {
+       delete $scope.project.programm_id;
+      }
+      params['project_type_id'] = $scope.project.type_id;
+      network.get('finance_source', params, function (result, response) {
+       if(result) {          
+         $scope.programms = response.result;  
+         if($scope.programms.length < 2 && $scope.isInsert){
+           $scope.project.programm_id = $scope.programms[0].id;
+           $scope.updateCode();
+         }
        }
-       params['project_type_id'] = $scope.project.type_id;
-       network.get('finance_source', params, function (result, response) {
-        if(result) {          
-          $scope.programms = response.result;  
-          if($scope.programms.length < 2){
-            $scope.project.programm_id = $scope.programms[0].id;
-            $scope.updateCode();
-          }
-        }
-      });                
-    }    
+     });                
+    }
     $scope.getProgramms(true);
     
     function getProjects() {
-        network.get('project', {}, function(result, response){
-            if(result) {
-              $scope.projects = response.result;
-            }
-        });
+      network.get('project', {}, function(result, response){
+          if(result) {
+            $scope.projects = response.result;
+          }
+      });
     }    
     
     $scope.checkRate = function (project) {
@@ -180,29 +195,29 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     };
 
     $scope.fieldError = function(field) {
-        var form = $scope.formProjects;
-        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine) || ($scope.schoolError == field && form[field].$pristine);
+      var form = $scope.formProjects;
+      return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine) || ($scope.schoolError == field && form[field].$pristine);
     };
     $scope.placeholderFN = function(items) {
-        return items.length && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; 
+      return items.length && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; 
     };
     $scope.getNewCode = function(){
-        var project_type = '';
-        $scope.programms.forEach(function(item, i, arr){
-          if(item.id == $scope.project.programm_id && item.prefix){
-            project_type = item.prefix;  
-          }
-        });
-        var school_type = project_type + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase();
-        for(key in $scope.newCode){
-          if(school_type == $scope.newCode[key].code[0].toUpperCase()){
-            var code = school_type + $scope.newCode[key].next_code[0];                   
-          };
+      var project_type = '';
+      $scope.programms.forEach(function(item, i, arr){
+        if(item.id == $scope.project.programm_id && item.prefix){
+          project_type = item.prefix;  
+        }
+      });
+      var school_type = project_type + $scope.schoolTypesId[$scope.project.school_type_id].code.toUpperCase();
+      for(key in $scope.newCode){
+        if(school_type == $scope.newCode[key].code[0].toUpperCase()){
+          var code = school_type + $scope.newCode[key].next_code[0];                   
         };
-        if(!code){
-            code = school_type + "001";  
-        };
-        return code;
+      };
+      if(!code){
+          code = school_type + "001";  
+      };
+      return code;
     };
     $scope.updateCode = function() {
       try {        
@@ -249,6 +264,31 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     };
     
     $scope.updateSchools(true);
+    
+    $scope.checkIfChanged = function(project, data){
+      var similar = true;
+      if(typeof project.schools[0] != 'object' ){
+        for(var i = 0; i < project.schools.length; i++ ){
+          similar = true;  
+          for(var k = 0; k < data.schools.length; k++ ){
+            if(data.schools[k] && project.schools[i] && project.schools[i] == data.schools[k].id){
+              similar = true; 
+              break;
+            }else{
+              similar = false;  
+            };   
+          }
+          if(!similar){
+            break;  
+          }
+        } 
+        if(project.schools.length != data.schools.length){
+          similar = false;   
+        };
+      }          
+      return similar;
+    };
+    
     $scope.submitFormProjects = function () {
         $scope.submited = true;
         $scope.error = false;        
@@ -263,10 +303,10 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 $scope.submited = true;
             }
         };                
-        var $copyScopeProject = angular.copy($scope.project);         
+        var $copyScopeProject = angular.copy($scope.project);
         if($scope.schoolTypeCode != 's') {
           $copyScopeProject.schools = [$copyScopeProject.school];
-        };        
+        }
         if (!$scope.formProjects.$valid){
             $copyScopeProject.invalid = true;
         };             
@@ -292,7 +332,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //              }
           $scope.schoolError = "schools";
           return false;
-        }           
+        }
         if(!$copyScopeProject.district_id){
           delete $copyScopeProject.district_id;  
         };
@@ -309,13 +349,13 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 sch_types = sch_types + item.code;  
               }
             });
-            var reg = new RegExp('['+ prefix +']??['+ sch_types +']{1}[0-9]+/\?[0-9]*?','i');
+            var reg = new RegExp('['+ prefix +']??['+ sch_types +']{1}[0-9]+/?[0-9]*?','i');
             if(!$scope.project.code.match(reg)){ 
               $copyScopeProject['real_code'] = null;
             }else{
               var reg = new RegExp('^['+ prefix + sch_types +']{1,2}','i');    
               var result = $scope.project.code.match(reg); 
-              $copyScopeProject['real_code'] = result[0].slice(0,1) == 'B' ? result[0].slice(1) : result[0];
+              $copyScopeProject['real_code'] = result[0].slice(0,1) == 'B' && result[0].length > 1 ? result[0].slice(1) : result[0];
             };
             if($scope.project.code != this.getNewCode() && $scope.project.code.slice(-3) != '001'){          
               $scope.is_manual = 1;
@@ -325,14 +365,15 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0'; 
             network.post('project', $copyScopeProject, callback);              
         } else {
-          if($copyScopeProject.performer_id != data.performer_id || $scope.formProjects.$ditry || $copyScopeProject.schools != data.schools ) {          
+          var similar = $scope.checkIfChanged($copyScopeProject, data);
+          if($copyScopeProject.performer_id != data.performer_id || !similar) {          
             $copyScopeProject.schools.forEach(function(item, i, arr){
               if(typeof item == 'object'){
                 $copyScopeProject.schools[i] = item.id;
               };
             });
-            var newCode = $copyScopeProject.code.split('\\');
-            newCode = newCode[0] + '\\' + (newCode[1] ? +newCode[1] + 1 : 2);
+            var newCode = $copyScopeProject.code.split('/');
+            newCode = newCode[0] + '/' + (newCode[1] ? +newCode[1] + 1 : 2);
             SweetAlert.swal({
               title: "Projekt bearbeiten?",
               text: "Nächstes projekt wird erstellt " + newCode,

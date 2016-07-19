@@ -38,7 +38,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 				</uib-tabset>
 				<br>
 				<div class="form-group group-btn row">
-					<div class="col-lg-6 text-left">
+					<div class="col-lg-5 text-left">
 						<button ng-show="userCan('delete')" ng-click="block()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
 						<button ng-show="userCan('reopen')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(3)">
 							<i class="fa fa-rotate-left"></i>
@@ -47,10 +47,13 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<button ng-show="userCan('changeStatus_print')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(4)">Förderfähig</button>
 						<button ng-show="userCan('changeStatus_lock')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(5)">Genehmigt</button>
 					</div>
-					<div class="col-lg-6 text-right">
-						<button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
-						<button ng-show="userCan('save')" class="btn w-lg custom-btn btn-lg" ng-click="submitRequest()" title="Speichern und auf Seite bleiben">Speichern</button>
-						<button ng-show="userCan('save')"  class="btn w-lg custom-btn btn-lg" ng-click="submitRequest(true)" title="Speichern und zurück zur Übersicht">Fertig</button>
+          <div class="col-lg-2 text-left">
+            <button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Zur Übersicht</button>
+          </div>
+					<div class="col-lg-5 text-right">
+						<button ng-show="back" class="btn m-t-2 custom-btn btn-lg ion-skip-backward" ng-click="toTab(-1)" title="Speichern und auf Seite bleiben"></button>
+						<button ng-show="userCan('save')" class="btn w-lg save-btn btn-lg fa fa-floppy-o fa-5x" ng-click="submitRequest()" title="Speichern und auf Seite bleiben"></button>
+						<button ng-show="next"  class="btn m-t-2 custom-btn btn-lg ion-skip-forward" ng-click="toTab(1)" title="Speichern und zurück zur Übersicht"></button>
 					</div>
 				</div>
         </ng-form> 
@@ -63,7 +66,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 <script type="text/ng-template" id="setDuration.html">
 	<div class="panel panel-color panel-primary">
 		<div class="panel-heading clearfix">
-			<h3 class="m-0 pull-left">Dauer ändern</h3>
+			<h3 class="m-0 pull-left">Datum ändern</h3>
 			<button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
 		</div>
 		<div class="panel-body text-center">

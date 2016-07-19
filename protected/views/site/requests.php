@@ -32,14 +32,22 @@ $this->breadcrumbs = array('Anträge');
                     </ui-select-choices>
                   </ui-select>
                 </div>  
-                 <div class="form-group" ng-show="user.type  == 't'">  
-                   <label>Schule</label>  
-                   <ui-select ng-change="updateGrid()" ng-model="filter.school_id">
-                     <ui-select-match allow-clear="true" placeholder="Kennziffer eingegeben">{{$select.selected.name}}</ui-select-match>
-                     <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'code'">
-                       <span ng-bind="item.name"></span>
-                     </ui-select-choices>
-                   </ui-select>
+                <div class="form-group" ng-show="user.type  == 't'">  
+                  <label>Schule</label>  
+                  <ui-select ng-change="updateGrid()" ng-model="filter.school_id">
+                    <ui-select-match allow-clear="true" placeholder="Schule eingegeben">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'code'">
+                      <span ng-bind="item.name"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <div class="form-group">
+                    <label>Kennziffer</label>
+                    <input ng-change="updateGrid()" type="search" ng-model="filter.project_code" class="form-control" placeholder="Eingegeben">
+                  </div>
                 </div>
               </div>
               <div class="col-lg-1 custom-lg-1">
@@ -116,9 +124,7 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="user.type != 't' ? 'Träger' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
                     <!--<span class="performer-icon" ng-class="{'unchecked':row.performer_is_checked != '1'}">{{row.performer_name}}</span>-->
                     <i ng-if="+row.performer_is_checked" class="ion-checkmark"></i>
-                    <span ng-if="!+row.performer_is_checked" class="icon-no-icon"></span>
                    <div class="holder-school">
-                    <span ng-if="!+row.performer_is_checked" class="icon-no-icon"></span>
                     {{user.type  == 't' ? '' : row.performer_name}}
                     <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
                    </div>
@@ -157,7 +163,7 @@ $this->breadcrumbs = array('Anträge');
                 </tr>
               </table>
 
-              <div class="btn-row m-t-15 clearfix" ng-if="canEdit()">
+              <div class="btn-row m-t-15 clearfix" ng-if="canEdit() && canByType(['a','p'])">
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="chooseDocuments()">Druck-Template wählen</button>
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkDuration()">Laufzeit festlegen</button>
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(4)">Förderfähig</button>
@@ -370,7 +376,7 @@ $this->breadcrumbs = array('Anträge');
           <label>Jahr</label>
           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('year')}">
             <div class="input-group">
-              <input required type="text" ng-change="getProjects()" ng-click="dp_year_date_is_open = !dp_year_date_is_open" ng-model="year" uib-datepicker-popup="yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_year_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" name="year" >
+              <input required type="text" ng-change="search($select.search, 'year')" ng-click="dp_year_date_is_open = !dp_year_date_is_open" ng-model="year" uib-datepicker-popup="yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_year_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" name="year" >
               <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_year_date_is_open = !dp_year_date_is_open"></i></span>
             </div>
             <span ng-class="{hide: !fieldError('year')}" class="hide">
@@ -383,8 +389,8 @@ $this->breadcrumbs = array('Anträge');
           <label>Projekt</label>
           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('selected_project')}">
             <ui-select required class="type-document" ng-model="request.project_id" name="selected_project">
-              <ui-select-match placeholder="Alles anzeigen">{{$select.selected.code}}</ui-select-match>
-              <ui-select-choices repeat="item.id as item in  projects | filter: $select.search">
+              <ui-select-match placeholder="Kennziffer eingegeben">{{$select.selected.code}}</ui-select-match>
+              <ui-select-choices repeat="item.id as item in projects | filter: $select.search" refresh-delay="0" refresh="search($select.search)" >
                 <span ng-bind-html="item.code | highlight: $select.search"></span>
               </ui-select-choices>
             </ui-select>
