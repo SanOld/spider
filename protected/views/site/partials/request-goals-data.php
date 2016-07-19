@@ -17,21 +17,23 @@
         <div id="collapse_{{$index}}" class="panel-collapse" ng-class="!($first && $first == $last) ? 'collapse' : 'collapse in'"  >
           <div class="panel-body">
             <div class="tabs-vertical-env">
-              <ul class="nav tabs-vertical" >
-
-                <li  ng-repeat="goal in school.goals" ng-click="activateTab(goal.id) "  ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
-                  <a  data-toggle="tab" href="#goal_{{::goal.id}}" >
+              <ul  class="nav tabs-vertical">
+                <li  ng-repeat="goal in school.goals" ng-click="activateTab(goal.id)"  ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
+                    <button class="goals" ng-click="deleteGoal(goal.id)" ng-if="goal.option == 1 && goal.is_active == 1">
+                      <i class="ion-close-round"></i>
+                    </button>
+                    <a  data-toggle="tab" href="#goal_{{::goal.id}}" ng-if="goal.is_active == 1">
                     <span class="notice">
                       <span  class="color-notice {{goal.status}}-row"></span>
                     </span>
                     {{::goal.name}}<span ng-if="goal.option == 1">(optional)</span></a>
-                </li>
-
-              </ul>
+                </li>              
+                <button class="btn w-xs pull-right" ng-click="addGoal()" ng-hide="count >= 5">Weiteres Entwicklungsziel hunzufügen</button>                
+              </ul>  
+               
               <div class="tab-content" >
-                <div ng-repeat="goal in school.goals"    id="goal_{{goal.id}}" class="tab-pane {{$index == 0 ? 'active' : ''}}" >
-
-                  <div disable-all=" !userCan('allFields', goal.status) ">
+                <div ng-repeat="goal in school.goals" id="goal_{{goal.id}}" class="tab-pane {{$index == 0 ? 'active' : ''}}" >
+                  <div disable-all = " !userCan('allFields', goal.status)">
                   <div ng-hide="goal.status == 'unfinished'" class="alert-{{goal.status}} alert" >
                     <strong ng-if="goal.status == 'in_progress'">Zur Prüfung übermittelt
                       <br/>
@@ -58,8 +60,8 @@
 
                   <h4>Angebote für Schüler/innen und Eltern</h4>
 
-                  <span  ng-if="goal.groups.groupOffer.counter > 3" >
-                      <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel</label>
+                  <span  ng-if="goal.groups.groupOffer.counter > 2" >
+                      <label  class="error">Bitte wählen Sie nicht mehr als zwei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel.</label>
                   </span>
                   <div class="holder-radio">
                     <div class="p-0 text-center">
@@ -287,8 +289,8 @@
 
                   <h4 class="m-t-40">Interne / Externe Vernetzung</h4>
 
-                  <span  ng-if="goal.groups.groupNet.counter > 3" >
-                      <label  class="error">Bitte wählen Sie nach Möglichkeit nicht mehr als drei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel</label>
+                  <span  ng-if="goal.groups.groupNet.counter > 2" >
+                      <label  class="error">Bitte wählen Sie nicht mehr als zwei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel.</label>
                   </span>
                   <div class="holder-radio">
                     <div class="p-0 text-center">
@@ -522,13 +524,8 @@
                         3.
                       </label>
                       <div class="col-lg-11">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_3') && goal.showError)}">
+                        <div class="wrap-hint">
                           <input type="text" ng-model="goal.indicator_3" value="" class="form-control">
-
-                          <span ng-class="{hide: !(fieldError(goal, 'indicator_3')  && goal.showError)}" class="hide">
-                            <label  class="error">Feld ist erforderlich</label>
-                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                          </span>
                           <br>
                         </div>
                       </div>
@@ -538,13 +535,8 @@
                         4.
                       </label>
                       <div class="col-lg-11">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_4') && goal.showError)}">
+                        <div class="wrap-hint">
                           <input type="text" ng-model="goal.indicator_4" value="" class="form-control">
-
-                          <span ng-class="{hide: !(fieldError(goal, 'indicator_4')  && goal.showError)}" class="hide">
-                            <label  class="error">Feld ist erforderlich</label>
-                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                          </span>
                           <br>
                         </div>
                       </div>
@@ -554,13 +546,8 @@
                         5.
                       </label>
                       <div class="col-lg-11">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_5') && goal.showError)}">
+                        <div class="wrap-hint">
                           <input type="text" ng-model="goal.indicator_5" value="" class="form-control">
-
-                          <span ng-class="{hide: !(fieldError(goal, 'indicator_5')  && goal.showError)}" class="hide">
-                            <label  class="error">Feld ist erforderlich</label>
-                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                          </span>
                           <br>
                         </div>
                       </div>
