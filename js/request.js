@@ -78,6 +78,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     }
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
+    console.log(data['school_goals']);
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result && close) {
        location.href = '/requests';
@@ -1355,14 +1356,72 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.taPriority = {'rejected': 1, 'unfinished': 2, 'in_progress': 3, 'accepted': 4 };
   $scope.errorShow = false;
   $scope.error = false;
+  $scope.count = 0;
+  $scope.deleted = [];
   network.get('request_school_goal', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
       $scope.schoolGoals = response.result;
       $scope.checkSchoolStatus();
+      for (var school in $scope.schoolGoals) {
+        var schools = $scope.schoolGoals;
+        for (var goal in schools[school].goals) {                   
+          var goals = schools[school].goals;
+          if(goals[goal].is_active == 1){            
+            ++$scope.count;   //count active fields
+          }
+        }
+      }
     }
   });
-
-
+  
+  $scope.deleteGoal = function(id){  
+    $scope.activeTab = id*1 - 1;
+    for (var school in $scope.schoolGoals) {
+      var schools = $scope.schoolGoals;
+      for (var goal in schools[school].goals) {                   
+        var goals = schools[school].goals;
+        if(goals[goal].id == id){
+          goals[goal].is_active = 0;
+          --$scope.count;
+          $scope.deleted.unshift(id);
+          //location.href = "#goal_" + id - 1;
+        }
+      }
+    }
+  }
+  
+  $scope.addGoal = function (){ 
+    ++$scope.count;
+    for (var school in $scope.schoolGoals) {
+      var schools = $scope.schoolGoals;
+      top:
+      for (var goal in schools[school].goals) {                   
+        var goals = schools[school].goals;
+        for(var i = 0; i < $scope.deleted.length; i++){          
+          if(goals[goal].id == $scope.deleted[i] && $scope.count < 6){    
+            delete $scope.deleted[i];
+            goals[goal].is_active = 1;
+            break top;
+          }
+        }
+        if(goals[goal].is_active == 0 && $scope.count < 6){
+          for(var element in $scope.schoolGoals[school].goals[goal]){
+            if(element != 'id' && element != 'request_id' && element != 'school_id' && element != 'goal_id' && element != 'option' && element != 'name' && element != 'status'){
+              if($scope.schoolGoals[school].goals[goal][element] && $scope.schoolGoals[school].goals[goal][element] != '' && isNaN($scope.schoolGoals[school].goals[goal][element]*1)){
+                $scope.schoolGoals[school].goals[goal][element] = '';
+              }
+              if($scope.schoolGoals[school].goals[goal][element] && $scope.schoolGoals[school].goals[goal][element] != 0 && !isNaN($scope.schoolGoals[school].goals[goal][element]*1)){                 
+                $scope.schoolGoals[school].goals[goal][element] = '0';
+              }
+            }
+          };          
+          $scope.schoolGoals[school].goals[goal].is_active = 1;
+          break;
+        }
+      }
+    }   
+  }
+  
   $scope.checkCount = function(group, key, goal, flag){
     var init = flag || 0;
 
@@ -1402,7 +1461,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
           var tempSchoolStatus = '';
-          for (var goal in schools[school].goals) {
+          for (var goal in schools[school].goals) {            
             var goals = schools[school].goals;
             if(!(goals[goal].status === 'unfinished' && goals[goal].option === '1')){
               if($scope.paPriority[goals[goal].status] < $scope.paPriority[tempSchoolStatus] || tempSchoolStatus == ''){
@@ -1537,7 +1596,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         }
       }
     }
-
+    $scope.deleted = 0;
     return data;
   };
 
