@@ -26,9 +26,9 @@
                     <span class="notice">
                       <span  class="color-notice {{goal.status}}-row"></span>
                     </span>
-                    {{::goal.name}}<span ng-if="goal.option == 1">(optional)</span></a>
+                    {{::goal.name}}<span ng-if="goal.option == 1"> (optional)</span></a>
                 </li>
-                <button class="btn w-xs pull-right" ng-click="addGoal()" ng-hide="count >= 5">Weiteres Entwicklungsziel hunzufügen</button>                
+                <button class="btn w-xs pull-right" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hunzufügen</button>                
               </ul>  
                
               <div class="tab-content" >
@@ -281,7 +281,7 @@
                   <div class="wrap-hint" ng-class="{'wrap-line error': (groupError(goal, 'groupOffer') && goal.showError)}">
 
                     <span ng-class="{hide: !(groupError(goal, 'groupOffer') && goal.showError)}" class="hide">
-                      <label  class="error">Wählen Sie Ziel</label>
+                      <label  class="error">Wählen Sie ein Schwerpunktziel</label>
                       <!--<span class="glyphicon glyphicon-remove form-control-feedback"></span>-->
                     </span>
 
@@ -466,7 +466,7 @@
                   </div>
                   <div class="wrap-hint" ng-class="{'wrap-line error': (groupError(goal, 'groupNet') && goal.showError)}">
                     <span ng-class="{hide: !(groupError(goal, 'groupNet') && goal.showError)}" class="hide">
-                      <label  class="error">Wählen Sie Ziel</label>
+                      <label  class="error">Wählen Sie ein Schwerpunktziel</label>
                       <!--<span class="glyphicon glyphicon-remove form-control-feedback"></span>-->
                     </span>
                     <br>

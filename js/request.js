@@ -1395,7 +1395,8 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         for (var goal in schools[school].goals) {                   
           var goals = schools[school].goals;
           if(goals[goal].is_active == 1){            
-            ++$scope.count[school];   //count active fields
+            ++$scope.count[school];
+            $scope.schoolGoals[school].counter = $scope.count[school];  //count active fields
           }
         }
       }
@@ -1412,59 +1413,59 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           goals[goal].is_active = 0;
           --$scope.count[school];
           $scope.deleted[school].unshift(id);
+          $scope.schoolGoals[school].counter = $scope.count[school];
         }
       }
     }
   }
   
-  $scope.addGoal = function (){     
-    for (var school in $scope.schoolGoals) {
-      var schools = $scope.schoolGoals;
-      ++$scope.count[school];
-      top:
-      for (var goal in schools[school].goals) {                   
-        var goals = schools[school].goals;
-        if($scope.deleted[school]){
-          for(var i = 0; i < $scope.deleted[school].length; i++){          
-            if(goals[goal].id == $scope.deleted[school][i] && $scope.count[school] < 6){    
-              delete $scope.deleted[school][i];
-              goals[goal].is_active = 1;
-              break top;
-            }
+  $scope.addGoal = function (school_goals){
+    var school_id = school_goals[1].school_id;
+    ++$scope.count[school_id];
+    $scope.schoolGoals[school_id].counter = $scope.count[school_id];
+    top:
+    for (var goal in $scope.schoolGoals[school_id].goals) {
+      var goals = $scope.schoolGoals[school_id].goals;
+      if($scope.deleted[school_id]){
+        for(var i = 0; i < $scope.deleted[school_id].length; i++){          
+          if(goals[goal].id == $scope.deleted[school_id][i] && $scope.count[school_id] < 6){    
+            delete $scope.deleted[school_id][i];
+            goals[goal].is_active = 1;
+            break top;
           }
         }
-        if(goals[goal].is_active == 0 && $scope.count[school] < 6){
-          for(var element in $scope.schoolGoals[school].goals[goal]){                      
-            if(element == 'errors'){
-              for(var el in $scope.schoolGoals[school].goals[goal][element]){
-                $scope.schoolGoals[school].goals[goal][element][el] = true;                               
-              }              
-            }else if(element == 'groups'){              
-              for(var el in $scope.schoolGoals[school].goals[goal][element]){
-                for(var item in $scope.schoolGoals[school].goals[goal][element][el]){
-                  if(item == 'error'){                    
-                    $scope.schoolGoals[school].goals[goal][element][el][item] = true;  
-                  }else if(item == 'counter'){
-                    $scope.schoolGoals[school].goals[goal][element][el][item] = 0; 
-                  }else{
-                    $scope.schoolGoals[school].goals[goal][element][el][item] = '0';
-                  } 
-                }                            
-              }
-            }else if(element != 'id' && element != 'request_id' && element != 'school_id' && element != 'goal_id' && element != 'option' && element != 'name' && element != 'status'){
-              if($scope.schoolGoals[school].goals[goal][element] && $scope.schoolGoals[school].goals[goal][element] != '' && isNaN($scope.schoolGoals[school].goals[goal][element]*1)){
-                $scope.schoolGoals[school].goals[goal][element] = '';
-              }
-              if($scope.schoolGoals[school].goals[goal][element] && $scope.schoolGoals[school].goals[goal][element] != 0 && !isNaN($scope.schoolGoals[school].goals[goal][element]*1)){                 
-                $scope.schoolGoals[school].goals[goal][element] = '0';
-              }
-            }
-          };
-          $scope.schoolGoals[school].goals[goal].is_active = 1;
-          break;
-        }
       }
-    }   
+      if(goals[goal].is_active == 0 && $scope.count[school_id] < 6){
+        for(var element in $scope.schoolGoals[school_id].goals[goal]){                      
+          if(element == 'errors'){
+            for(var el in $scope.schoolGoals[school_id].goals[goal][element]){
+              $scope.schoolGoals[school_id].goals[goal][element][el] = true;                               
+            }              
+          }else if(element == 'groups'){              
+            for(var el in $scope.schoolGoals[school_id].goals[goal][element]){
+              for(var item in $scope.schoolGoals[school_id].goals[goal][element][el]){
+                if(item == 'error'){                    
+                  $scope.schoolGoals[school_id].goals[goal][element][el][item] = true;  
+                }else if(item == 'counter'){
+                  $scope.schoolGoals[school_id].goals[goal][element][el][item] = 0; 
+                }else{
+                  $scope.schoolGoals[school_id].goals[goal][element][el][item] = '0';
+                } 
+              }                            
+            }
+          }else if(element != 'id' && element != 'request_id' && element != 'school_id' && element != 'goal_id' && element != 'option' && element != 'name' && element != 'status'){
+            if($scope.schoolGoals[school_id].goals[goal][element] && $scope.schoolGoals[school_id].goals[goal][element] != '' && isNaN($scope.schoolGoals[school_id].goals[goal][element]*1)){
+              $scope.schoolGoals[school_id].goals[goal][element] = '';
+            }
+            if($scope.schoolGoals[school_id].goals[goal][element] && $scope.schoolGoals[school_id].goals[goal][element] != 0 && !isNaN($scope.schoolGoals[school_id].goals[goal][element]*1)){                 
+              $scope.schoolGoals[school_id].goals[goal][element] = '0';
+            }
+          }
+        };
+        $scope.schoolGoals[school_id].goals[goal].is_active = 1;
+        break;
+      }
+    }     
   }
   
   $scope.checkCount = function(group, key, goal, flag){
