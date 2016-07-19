@@ -28,4 +28,45 @@ class DocumentTemplatePlaceholder extends BaseModel {
 
     return $command;
   }
+
+
+  protected function calcResults($result) {
+    $Request = CActiveRecord::model('Request');
+    $Request->user = $this->user;
+
+    if (safe($_GET, 'request_id')) {
+      $requestFields = $Request->select(array('id' => safe($_GET, 'request_id')), true);
+
+      $i = count($result);
+      foreach ($requestFields['result'][0] as $key => $value) {
+        if($key == 'schools'){
+          foreach ($requestFields['result'][0][$key] as $key2 => $value2) {
+            $result['result']['request']['school'][$key2] = $value2 ;
+            $i++;
+          }
+        }
+        $result['result']['request'][$key] = $value ;
+        $i++;
+      }
+
+    } else {
+      $requestFields = $Request->select(array('id' => '14'), true);
+
+      $i = count($result);
+      foreach ($requestFields['result'][0] as $key => $value) {
+        if($key == 'schools'){
+          foreach ($requestFields['result'][0][$key] as $key2 => $value2) {
+            $result['result'][$i]['name'] ='{{request.school.'.$key2.'}}' ;
+            $result['result'][$i]['text'] = $key2 ;
+            $i++;
+          }
+        }
+        $result['result'][$i]['name'] ='{{request.'.$key.'}}' ;
+        $result['result'][$i]['text'] = $key ;
+        $i++;
+      }
+    }
+
+    return $result;
+  }
 }
