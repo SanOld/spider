@@ -49,23 +49,24 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 						<button ng-show="userCan('changeStatus_lock')" class="btn m-b-5" ng-click="setBulkStatus(5)">Genehmigt</button>
             </span>  
 					</div>
-          <div class="col-lg-1 text-left">
+          <div class="col-lg-8 text-right">
             <button class="btn m-b-5" ng-click="cancel()">Zur Übersicht</button>
-          </div>
-					<div class="col-lg-7 text-right btn-row">
-            <button ng-show="back" class="btn m-b-5" ng-click="submitRequest();toTab(-1);" title = "Speichern und zurück">
-							<i class="ion-skip-backward"></i>
-							<span> Speichern und zurück</span>
-						</button>
-            <button ng-show="userCan('save')" class="btn m-b-5" ng-click="submitRequest();" title = "Speichern und auf Seite bleiben">
-              <i class="fa fa-floppy-o"></i>  
-							<span> Speichern und auf Seite bleiben</span>
-						</button>
-            <button ng-show="next" class="btn m-b-5" ng-click="submitRequest();toTab(1);" title = "Speichern und weiter">
-							<span>Speichern und weiter </span>
-              <i class="ion-skip-forward"></i>
-						</button>
+            <span class="btn-row">
+              <button ng-show="back" class="btn m-b-5" ng-click="submitRequest();toTab(-1);" title = "Speichern und zurück">
+                <i class="fa fa-chevron-left"></i>
+                <span> Speichern und zurück</span>
+              </button>
+              <button ng-show="userCan('save')" class="btn m-b-5" ng-click="submitRequest();" title = "Speichern und auf Seite bleiben">
+                <i class="fa fa-floppy-o"></i>  
+                <span> Speichern und auf Seite bleiben</span>
+              </button>
+              <button ng-show="next" class="btn m-b-5" ng-click="submitRequest();toTab(1);" title = "Speichern und weiter">
+                <span>Speichern und weiter </span>
+                <i class="fa fa-chevron-right"></i>
+              </button>
+            </span>    
 					</div>
+         </div>  
 				</div>
         </ng-form> 
 			</div>
