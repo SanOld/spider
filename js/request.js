@@ -1212,22 +1212,23 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     }
     $scope.$parent.setConceptStatus(bestStatus);
   };
-  $scope.textOnFocus = function(num, status){
-    angular.element('#area-' + num ).addClass('animate'); 
+  $scope.textOnFocus = function(school_id, num, status){
+    angular.element('#area-' + school_id + '-' + num ).addClass('animate');
     $scope.fullscreen = true;
     $scope.textareaClass = 'area-' + num;
     $scope.isTextareaShow = true;
     $scope.canSave = !(!$scope.canFormEdit || (status == 'in_progress' && !$scope.canAccept) || status == 'accepted');
     $timeout(function(){       
-        angular.element('#area-' + num ).focus();   
+        angular.element('#area-' + school_id + '-' + num ).focus();
     });
   };
-  $scope.exit = function(index, num, id, type){
+  $scope.exit = function(school_id, index, num, id, type){
+    var number = num.split('-');
     $scope.school_concept[id][type] = $scope.schoolConcepts[index].oldValue;
     $scope.fullscreen = false;
     $scope.isTextareaShow = false; 
     $scope.textareaClass = '';    
-    angular.element('#' + num ).removeClass('animate');
+    angular.element('#' + number[0] + '-' + school_id + '-' + number[1]).removeClass('animate');
   };  
   $scope.checkTextarea = function(index, newValue, conceptId, data, name, num){
     if(newValue != $scope.schoolConcepts[index].oldValue){
@@ -1324,16 +1325,17 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   };
 
-  $scope.saveText = function (conceptId, data, name, num) {
+  $scope.saveText = function (school_id, data, name, num) {
+    var number = num.split('-');
     if(data[name] != undefined) {
       var params = {};
       params[name] = data[name];
-      network.put('request_school_concept/' + conceptId, params);
+      network.put('request_school_concept/' + school_id, params);
     }
     $scope.isTextareaShow = false;     
     $scope.fullscreen = false;
     $scope.textareaClass = '';    
-    angular.element('#' + num ).removeClass('animate');
+    angular.element( '#' + number[0] + '-' + school_id + '-' + number[1] ).removeClass('animate');
   };
 
   $scope.openComparePopup = function(history, change) {
