@@ -468,8 +468,10 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
       $scope.request.project_id = '';
       $scope.projects = '';
     }       
-    if(value.length == 2){      
+    if(value.length >= 2){
       $scope.getProjects(value);  
+    }else{
+      $scope.projects = '';
     }
   } 
   
