@@ -15,19 +15,19 @@
         </h2>
       </div>
       <hr />
-      <ng-form name="financePlanForm" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
-      <div class="panel-body p-t-0">
+      <ng-form name="financePlanForm"  disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
+      <div   class="panel-body p-t-0">
         <div class="row">
           <div class="col-lg-4 p-r-0 custom-box-btn">
             <div class="clearfix">
               <label>Ansprechperson für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
               <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['finance'] || required['finance']}">  
-                <input  placeholder="Vorname Nachname" ng-keyup="escapeFinanceUser($event)" ng-keypress="submitToAddUser($event, new_fina_user)"
+                  <input   placeholder="Vorname Nachname" ng-keyup="escapeFinanceUser($event)" ng-keypress="submitToAddUser($event, new_fina_user)"
                        ng-hide="!add_finance_user" class="form-control popup-input" type="text" ng-model="new_fina_user"
                        ng-disabled="userLoading" id="finance_user">                 
           
-                <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(data.finance_user_id, 'Ansprechperson') && errorShow) }">
-                      <ui-select required name = "Ansprechperson" on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id"
+                <div  class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(data.finance_user_id, 'Ansprechperson') && errorShow) }">
+                      <ui-select  required name = "Ansprechperson" on-select="onSelectCallback($item, $model, 3)" class="type-document" ng-model="data.finance_user_id"
                        ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
                         <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in users | filter: $select.search | filter: {is_finansist:1} | orderBy: 'name'">

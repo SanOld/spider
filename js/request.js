@@ -10,6 +10,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.conceptStatus = '';
   $scope.goalsStatus = '';
   $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
+  $scope.isChangedFinanceForm = false;
 
   $scope.tabs = ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
@@ -68,6 +69,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
 
   $scope.submitRequest = function (close) {
+    RequestService.setChangedFinanceForm();
+    
     close = close || false;
     var data = RequestService.getProjectData();
     var finPlan = RequestService.financePlanData();
@@ -78,7 +81,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     }
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
-    console.log(data['school_goals']);
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result && close) {
        location.href = '/requests';
@@ -109,7 +111,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
     
   $scope.cancel = function () {
-    Utils.modalClosing($scope.form, '', '', '', '/requests');
+    if(RequestService.isChangedFinanceForm()){
+       Utils.modalClosing($scope.form, '', '', '', '/requests');
+    } else {
+      location.href = '/requests'; 
+    }  
   };
 
   $scope.userCan = function(type) {
@@ -1163,6 +1169,14 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.employeeOnSelect = function (item, employee){
     $scope.updateUserSelect();
     employee.user = item;
+  }
+  
+  RequestService.isChangedFinanceForm = function(){
+    return $scope.financePlanForm.$dirty;
+  }
+  
+  RequestService.setChangedFinanceForm = function(){
+    $scope.financePlanForm.$dirty = false;
   }
 });
 
