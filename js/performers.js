@@ -147,7 +147,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     if($scope.bank_details.length == 10 ){
       SweetAlert.swal({
         title: "",
-        text: "Es ist möglich nur zehn Konten hinzufügen!",
+        text: "Es können nicht mehr als zehn Bankverbindungen erstellt werden.",
         type: "warning",
         confirmButtonText: "OK",
         closeOnConfirm: true
