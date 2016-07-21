@@ -123,6 +123,13 @@ class Request extends BaseModel {
       }
       $command -> andWhere(array('in', 'rqs.id', $values));
     }
+    if (safe($params, 'CODE')) {
+      if($this->user['type'] == TA){        
+        $command->andWhere("prj.code = :code", array(':code' => $params['CODE']));
+      }else{        
+        $command = $this->setLikeWhere($command, array('prj.code'), safe($params, 'CODE'));
+      }
+    }
     $command = $this->setWhereByRole($command);
 
     return $command;

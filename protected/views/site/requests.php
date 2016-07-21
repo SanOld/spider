@@ -37,7 +37,13 @@ $this->breadcrumbs = array('Anträge');
                 <div class="form-group">
                   <div class="form-group">
                     <label>Kennziffer</label>
-                    <input ng-change="updateGrid()" type="search" ng-model="filter.project_code" class="form-control" placeholder="Eingegeben">
+                    <input ng-change="updateGrid()" type="search" ng-model="filter.code" class="form-control popup-input" placeholder="Kennziffer eingegeben" ng-hide="user.type  == 't'">
+                    <ui-select ng-change="updateGrid()" ng-model="filter.code">
+                      <ui-select-match allow-clear="true" placeholder="Kennziffer eingegeben">{{$select.selected.code}}</ui-select-match>
+                      <ui-select-choices repeat="row.code as row in tableParams.data | filter: $select.search | orderBy: 'code'">
+                        <span ng-bind="row.code"></span>
+                      </ui-select-choices>
+                    </ui-select>
                   </div>
                 </div>
               </div>
