@@ -100,9 +100,6 @@ class Request extends BaseModel {
   protected function getParamCommand($command, array $params, array $logic = array()) {
     parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
-    if(safe($params, 'PROJECT_CODE')) {
-      $command = $this->setLikeWhere($command, array('prj.code'), safe($params, 'PROJECT_CODE'));
-    }
     if(safe($params, 'YEAR')) {
       $command -> andWhere('tbl.year = :year', array(':year' => $params['YEAR']));
     }
