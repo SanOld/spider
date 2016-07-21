@@ -128,6 +128,13 @@ class Request extends BaseModel {
       $command-> join( 'spi_school scl', 'sps.school_id = scl.id' );
       $command -> andWhere("scl.id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
+    if (safe($params, 'CODE')) {
+      if($this->user['type'] == TA){        
+        $command->andWhere("prj.code = :code", array(':code' => $params['CODE']));
+      }else{        
+        $command = $this->setLikeWhere($command, array('prj.code'), safe($params, 'CODE'));
+      }
+    }
     $command = $this->setWhereByRole($command);
 
     return $command;
