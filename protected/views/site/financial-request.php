@@ -1,6 +1,7 @@
 <?php
 $this->pageTitle = 'Mittelabrufe | ' . Yii::app()->name;
 $this->breadcrumbs = array('Finanzen','Mittelabrufe');
+session_start();
 ?>	
 			<!-- Page Content Start -->
 			<!-- ================== -->
@@ -13,7 +14,6 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 								<h1 class="panel-title col-lg-6">Mittelabrufe</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-modal="">Import aus DATEV</button>
 									<button class="btn w-lg custom-btn" data-modal="">Mittelabruf hinzufügen</button>
 								</div>
 							</div>
@@ -29,12 +29,11 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 										<div class="col-lg-2">
 											<div class="form-group">
 												<div class="form-group">
-													<label>Typ</label>
+													<label>Beleg Typ</label>
 													<select class="form-control">
-														<option>Alles anzeigen</option>
-														<option>Regulär</option>
-														<option>Extra</option>
-														<option>Rückgezahlt</option>
+														<option>Mittelabruf</option>
+														<option>Freimeldung</option>
+                            <option>Ergänzung</option>
 													</select>
 												</div>
 											</div>
@@ -164,7 +163,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 													<th>Beleg<br/>-Datum</th>
 													<th>Betrag</th>
 													<th>Zahl.<br/>-Datum</th>
-													<th>Druken /<br/> Bearbeiten</th>
+													<th>Drucken /<br/> Bearbeiten</th>
 												</tr>
 												
 											</thead>
@@ -438,7 +437,6 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 													<td>28.10.2015</td>
 													<td>€ 9,749.86</td>
 													<td></td>
-													<td></td>
 													<td>
 														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
@@ -449,7 +447,6 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 											</tbody>
 										</table>
 										<div class="btn-row m-t-15 clearfix">
-											<button class="btn m-b-5">Export zu DATEV</button>
 											<button class="btn m-b-5">Zahl. Datum hinzufügen</button>
 											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Druck-Template wählen</button>
 										</div>
@@ -502,16 +499,14 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 									<dt>Träger</dt>
 									<dd>Tandem BQG</dd>
 									<dt>Adresse</dt>
-									<dd>Potsdamer Str. 182 10783, Berlin</dd>
+									<dd>Potsdamer Str. 182, 10783 Berlin</dd>
 								</dl>
 								<hr />
 								<dl class="custom-dl">
-									<dt>Ansprechpartner(in)</dt>
+									<dt>Vertretungsberechtigte Person</dt>
 									<dd>Mr Werner Munk</dd>
 									<dt>Funktion</dt>
 									<dd>Some function</dd>
-									<dt>Titel</dt>
-									<dd>Some title</dd>
 									<dt>Telefon</dt>
 									<dd>(030) 2888 496</dd>
 									<dt>E-Mail</dt>
