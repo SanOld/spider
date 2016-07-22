@@ -111,17 +111,18 @@ class DocumentTemplate extends BaseModel {
   }
 
   private function repeat($data){
-    $loopData = $data[0];
-    $text='';
+    $text = array();
     foreach ($this->requestData['schools'] as $key => $school) {
       $params = array(
-          '{SCHOOLNAME}'    => $school['name'],
-          '{SCHOOLNUMBER}'  => $school['number'],
+          '{FOREACH=SCHOOL}'  => '',
+          '{FOREACH_END}'     => '',
+          '{SCHOOLNAME}'      => $school['name'],
+          '{SCHOOLNUMBER}'    => $school['number'],
         );
       
-      $text .=$this->doReplace($loopData,$params).'\n';
+      $text[] = $this->doReplace($data[0],$params);
     }
-
+    $text = implode('\n', $text);
     return $text;
   }
 
