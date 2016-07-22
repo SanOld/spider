@@ -50,16 +50,19 @@ class SiteController extends Controller
 			$params = array_change_key_case($_GET, CASE_UPPER);
 			if(!isset($params['RECOVERY_TOKEN']))
 				$this->redirect('/');
-		} else if($page == 'request') {
-			$id = safe($_GET, 'id');
-			if(!$id || !$this->validID($page, $id)) {
-				$this->redirect('/requests');
-			}
-		}     
+		}      
     if($_SESSION['rights'][$page] && !$_SESSION['rights'][$page]['show']){       
       $this->redirect('/dashboard');      
     }else {
-      try { 
+      try {
+
+        if($page == 'request') {
+          $id = safe($_GET, 'id');
+          if(!$id || !$this->validID($page, $id)) {
+            $this->redirect('/requests');
+          }
+        } 
+
         if (!safe($pageInfo,'layout') && empty($_SESSION) && $pages[$page]) {
           $this->redirect('/'); 
         }else{
