@@ -6,6 +6,7 @@ require_once ('utils/email.php');
 class User extends BaseModel {
   public $table = 'spi_user';
   public $post = array();
+  protected $insertPassword;
   public $select_all = "CONCAT(tbl.last_name, ', ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
@@ -159,6 +160,7 @@ class User extends BaseModel {
     $this->post = $post;
     $login = safe($post,'login');
     $email = safe($post,'email');
+    $this->insertPassword = safe($post,'password');
 
     if(safe($post, 'type_id')) {
       $post['type'] = Yii::app() -> db -> createCommand() -> select('type') -> from('spi_user_type')
@@ -333,7 +335,7 @@ class User extends BaseModel {
 
   protected function doAfterInsert($result, $params, $post) {
     if($result['result']) {
-      Email::doWelcome($result);
+      Email::doWelcome($result, $this->insertPassword);
     }
     return $result;
   }

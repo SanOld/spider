@@ -596,7 +596,7 @@ label.error {
 }
 
 .fa.fa-trash-o {
-	font-size: 23px;
+	font-size: 14px;
 }
 .edit-user .datafilter form .col-lg-4,
 .edit-user .datafilter ng-form .col-lg-4 {
@@ -1815,7 +1815,7 @@ body.safari .box-finance .sum strong {
 	display: inline-block;
 	margin: 8px 0 0 4px;
 }
-#finance .ion-close-round {
+#finance .ion-close-round, #schools-goals .ion-close-round{
 	color: #d63535;
 	font-size: 15px;
 	margin: 0 0 0 5px;
@@ -2482,6 +2482,15 @@ tfoot th.align-right {
 	float: right;
 	padding: 0;
 	background:none;
+}
+.goals{
+        border: 0;
+        padding: 0;
+        background: none;
+        position: absolute;
+        z-index: 1;
+        top: 10px;
+        left: 3px;
 }
 .holder-id-request span {
 	display:block;

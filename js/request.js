@@ -10,6 +10,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.conceptStatus = '';
   $scope.goalsStatus = '';
   $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
+  $scope.isChangedFinanceForm = false;
 
   $scope.tabs = ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
@@ -68,6 +69,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
 
   $scope.submitRequest = function (close) {
+    RequestService.setChangedFinanceForm();
+    
     close = close || false;
     var data = RequestService.getProjectData();
     var finPlan = RequestService.financePlanData();
@@ -108,7 +111,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
     
   $scope.cancel = function () {
-    Utils.modalClosing($scope.form, '', '', '', '/requests');
+    if(RequestService.isChangedFinanceForm()){
+       Utils.modalClosing($scope.form, '', '', '', '/requests');
+    } else {
+      location.href = '/requests'; 
+    }  
   };
 
   $scope.userCan = function(type) {
@@ -1163,6 +1170,14 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.updateUserSelect();
     employee.user = item;
   }
+  
+  RequestService.isChangedFinanceForm = function(){
+    return $scope.financePlanForm.$dirty;
+  }
+  
+  RequestService.setChangedFinanceForm = function(){
+    $scope.financePlanForm.$dirty = false;
+  }
 });
 
 spi.controller('RequestSchoolConceptController', function ($scope, network, $timeout, RequestService, $uibModal) {
@@ -1212,22 +1227,23 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     }
     $scope.$parent.setConceptStatus(bestStatus);
   };
-  $scope.textOnFocus = function(num, status){
-    angular.element('#area-' + num ).addClass('animate'); 
+  $scope.textOnFocus = function(school_id, num, status){
+    angular.element('#area-' + school_id + '-' + num ).addClass('animate');
     $scope.fullscreen = true;
     $scope.textareaClass = 'area-' + num;
     $scope.isTextareaShow = true;
     $scope.canSave = !(!$scope.canFormEdit || (status == 'in_progress' && !$scope.canAccept) || status == 'accepted');
     $timeout(function(){       
-        angular.element('#area-' + num ).focus();   
+        angular.element('#area-' + school_id + '-' + num ).focus();
     });
   };
-  $scope.exit = function(index, num, id, type){
+  $scope.exit = function(school_id, index, num, id, type){
+    var number = num.split('-');
     $scope.school_concept[id][type] = $scope.schoolConcepts[index].oldValue;
     $scope.fullscreen = false;
     $scope.isTextareaShow = false; 
     $scope.textareaClass = '';    
-    angular.element('#' + num ).removeClass('animate');
+    angular.element('#' + number[0] + '-' + school_id + '-' + number[1]).removeClass('animate');
   };  
   $scope.checkTextarea = function(index, newValue, conceptId, data, name, num){
     if(newValue != $scope.schoolConcepts[index].oldValue){
@@ -1324,16 +1340,17 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   };
 
-  $scope.saveText = function (conceptId, data, name, num) {
+  $scope.saveText = function (school_id, data, name, num) {
+    var number = num.split('-');
     if(data[name] != undefined) {
       var params = {};
       params[name] = data[name];
-      network.put('request_school_concept/' + conceptId, params);
+      network.put('request_school_concept/' + school_id, params);
     }
     $scope.isTextareaShow = false;     
     $scope.fullscreen = false;
     $scope.textareaClass = '';    
-    angular.element('#' + num ).removeClass('animate');
+    angular.element( '#' + number[0] + '-' + school_id + '-' + number[1] ).removeClass('animate');
   };
 
   $scope.openComparePopup = function(history, change) {
@@ -1382,14 +1399,91 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.taPriority = {'rejected': 1, 'unfinished': 2, 'in_progress': 3, 'accepted': 4 };
   $scope.errorShow = false;
   $scope.error = false;
+  $scope.count = [];
+  $scope.deleted = [];
   network.get('request_school_goal', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
       $scope.schoolGoals = response.result;
       $scope.checkSchoolStatus();
+      for (var school in $scope.schoolGoals) {
+        $scope.count[school] = 0;
+        var schools = $scope.schoolGoals;
+        for (var goal in schools[school].goals) {                   
+          var goals = schools[school].goals;
+          if(goals[goal].is_active == 1){            
+            ++$scope.count[school];
+            $scope.schoolGoals[school].counter = $scope.count[school];  //count active fields
+          }
+        }
+      }
     }
   });
-
-
+  
+  $scope.deleteGoal = function(id){
+    for (var school in $scope.schoolGoals) {
+      var schools = $scope.schoolGoals;
+      $scope.deleted[school] = [];
+      for (var goal in schools[school].goals) {                   
+        var goals = schools[school].goals;
+        if(goals[goal].id == id){
+          goals[goal].is_active = 0;
+          --$scope.count[school];
+          $scope.deleted[school].unshift(id);
+          $scope.schoolGoals[school].counter = $scope.count[school];
+        }
+      }
+    }
+  }
+  
+  $scope.addGoal = function (school_goals){
+    var school_id = school_goals[1].school_id;
+    ++$scope.count[school_id];
+    $scope.schoolGoals[school_id].counter = $scope.count[school_id];
+    top:
+    for (var goal in $scope.schoolGoals[school_id].goals) {
+      var goals = $scope.schoolGoals[school_id].goals;
+      if($scope.deleted[school_id]){
+        for(var i = 0; i < $scope.deleted[school_id].length; i++){          
+          if(goals[goal].id == $scope.deleted[school_id][i] && $scope.count[school_id] < 6){    
+            delete $scope.deleted[school_id][i];
+            goals[goal].is_active = 1;
+            break top;
+          }
+        }
+      }
+      if(goals[goal].is_active == 0 && $scope.count[school_id] < 6){
+        for(var element in $scope.schoolGoals[school_id].goals[goal]){                      
+          if(element == 'errors'){
+            for(var el in $scope.schoolGoals[school_id].goals[goal][element]){
+              $scope.schoolGoals[school_id].goals[goal][element][el] = true;                               
+            }              
+          }else if(element == 'groups'){              
+            for(var el in $scope.schoolGoals[school_id].goals[goal][element]){
+              for(var item in $scope.schoolGoals[school_id].goals[goal][element][el]){
+                if(item == 'error'){                    
+                  $scope.schoolGoals[school_id].goals[goal][element][el][item] = true;  
+                }else if(item == 'counter'){
+                  $scope.schoolGoals[school_id].goals[goal][element][el][item] = 0; 
+                }else{
+                  $scope.schoolGoals[school_id].goals[goal][element][el][item] = '0';
+                } 
+              }                            
+            }
+          }else if(element != 'id' && element != 'request_id' && element != 'school_id' && element != 'goal_id' && element != 'option' && element != 'name' && element != 'status'){
+            if($scope.schoolGoals[school_id].goals[goal][element] && $scope.schoolGoals[school_id].goals[goal][element] != '' && isNaN($scope.schoolGoals[school_id].goals[goal][element]*1)){
+              $scope.schoolGoals[school_id].goals[goal][element] = '';
+            }
+            if($scope.schoolGoals[school_id].goals[goal][element] && $scope.schoolGoals[school_id].goals[goal][element] != 0 && !isNaN($scope.schoolGoals[school_id].goals[goal][element]*1)){                 
+              $scope.schoolGoals[school_id].goals[goal][element] = '0';
+            }
+          }
+        };
+        $scope.schoolGoals[school_id].goals[goal].is_active = 1;
+        break;
+      }
+    }     
+  }
+  
   $scope.checkCount = function(group, key, goal, flag){
     var init = flag || 0;
 
@@ -1429,7 +1523,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         for (var school in $scope.schoolGoals) {
           var schools = $scope.schoolGoals;
           var tempSchoolStatus = '';
-          for (var goal in schools[school].goals) {
+          for (var goal in schools[school].goals) {            
             var goals = schools[school].goals;
             if(!(goals[goal].status === 'unfinished' && goals[goal].option === '1')){
               if($scope.paPriority[goals[goal].status] < $scope.paPriority[tempSchoolStatus] || tempSchoolStatus == ''){
@@ -1485,12 +1579,13 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     }
   }
 
-  $scope.activateTab = function(id, index, item){
+  $scope.activateTab = function(goals, index, item){
+    var id = goals[1].id;
     $scope.activeTab = id;
-//    if(!index){angular.element(item).click()}
+    $('.goal_' + id).trigger('click');
   }
 
-  $scope.getActivateTab = function(){
+  $scope.getActivateTab = function(){    
     return $scope.activeTab;
   }
 
@@ -1564,7 +1659,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         }
       }
     }
-
+    $scope.deleted = [];
     return data;
   };
 

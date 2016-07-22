@@ -321,12 +321,14 @@ class Request extends BaseModel {
         $RequestSchoolFinance->insert($data, true);
         for ($i=1; $i<=5; $i++){
           $opt = 0;
-          if ($i > 3){$opt = 1;}
+          $active = 1;
+          if ($i > 3){$opt = 1;$active = 0;}
           $goalData = array(
             'request_id' => $result['id'],
             'school_id'  => $school_id,
             'goal_id'  => $i,
-            'option'  => $opt,
+            'option'  => $opt,              
+            'is_active'  => $active,
             'name' => 'Entwicklungsziel ' . $i
           );
           $RequestSchoolGoal->insert($goalData, true);

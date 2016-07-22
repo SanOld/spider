@@ -22,6 +22,9 @@ class RequestSchoolGoal extends BaseModel {
     if(safe($params, 'REQUEST_ID')) {
       $command -> andWhere('tbl.request_id = :request_id', array(':request_id' => $params['REQUEST_ID']));
     }
+    if(safe($params, 'IS_ACTIVE')) {
+      $command -> andWhere('tbl.is_active = 1');
+    }
 //        print_r ($command->text);
     return $command;
   }
