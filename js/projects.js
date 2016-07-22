@@ -91,8 +91,9 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             school_type_id: data.school_type_id,
             type_id: data.type_id,
             is_old: data.is_old,
-            schools: data.school_type_id == 1 ? data.schools : [],
-            school: data.school_type_id != 1 ? data.schools[0] : {},
+            schools: data.schools ? data.schools : [],
+//            schools: data.school_type_id == 1 ? data.schools : [],
+//            school: data.school_type_id != 1 ? data.schools[0] : {},
             performer_id: data.performer_id,
             district_id: data.district_id == null ? 0 : data.district_id,
             programm_id: data.programm_id
@@ -229,13 +230,13 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       isInit = isInit || false;
         var schoolParams = {};
         if($scope.isInsert){
-          delete $scope.project.school;
+          //delete $scope.project.school;
           delete $scope.project.schools;  
         }        
         $scope.schools = [];
-        if((!$scope.project.school_type_id || !$scope.project.district_id) && $scope.project.school_type_id != 5) {
-          return;
-        }        
+//        if((!$scope.project.school_type_id || !$scope.project.district_id) && $scope.project.school_type_id != 5) {
+//          return;
+//        }
         if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
           schoolParams['type_id'] = $scope.project.school_type_id;
         }
@@ -248,7 +249,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                 $scope.schools = response.result;
                 if(isInit && $scope.isInsert ) {
                   var schools = [];
-                  $scope.project.school = $scope.schools[0];
+                 //$scope.project.school = $scope.schools[0];
                   $.each($scope.schools, function(){
                     if($scope.projectSchoolsID[this.id]) {
                       schools.push(this);                      
@@ -304,9 +305,9 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             }
         };                
         var $copyScopeProject = angular.copy($scope.project);
-        if($scope.schoolTypeCode != 's') {
-          $copyScopeProject.schools = [$copyScopeProject.school];
-        }
+//        if($scope.schoolTypeCode != 's') {
+//          $copyScopeProject.schools = [$copyScopeProject.school];
+//        }
         if (!$scope.formProjects.$valid){
             $copyScopeProject.invalid = true;
         };             
