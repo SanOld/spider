@@ -100,9 +100,6 @@ class Request extends BaseModel {
   protected function getParamCommand($command, array $params, array $logic = array()) {
     parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
-    if(safe($params, 'PROJECT_CODE')) {
-      $command = $this->setLikeWhere($command, array('prj.code'), safe($params, 'PROJECT_CODE'));
-    }
     if(safe($params, 'YEAR')) {
       $command -> andWhere('tbl.year = :year', array(':year' => $params['YEAR']));
     }
@@ -127,6 +124,13 @@ class Request extends BaseModel {
       $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.project_id');      
       $command-> join( 'spi_school scl', 'sps.school_id = scl.id' );
       $command -> andWhere("scl.id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
+    }
+    if (safe($params, 'CODE')) {
+      if($this->user['type'] == TA){        
+        $command->andWhere("prj.code = :code", array(':code' => $params['CODE']));
+      }else{        
+        $command = $this->setLikeWhere($command, array('prj.code'), safe($params, 'CODE'));
+      }
     }
     $command = $this->setWhereByRole($command);
 
