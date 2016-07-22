@@ -95,7 +95,7 @@ class DocumentTemplate extends BaseModel {
 
   protected function prepareText($text) {
 
-    $text = preg_replace_callback("/\{FOREACH=SCHOOL\}.+\{FOREACH_END\}/i", array($this, 'repeat'), $text);
+    $text = preg_replace_callback("/\{FOREACH=SCHOOL\}.+\{FOREACH_END\}/i", array($this, 'repeatSchool'), $text);
 
     $params = array(
         '{AUFLAGEN}'      => $this->requestData['senat_additional_info'],
@@ -110,7 +110,7 @@ class DocumentTemplate extends BaseModel {
     return $this->doReplace($text,$params);
   }
 
-  private function repeat($data){
+  private function repeatSchool($data){
     $text = array();
     foreach ($this->requestData['schools'] as $key => $school) {
       $params = array(
@@ -122,7 +122,7 @@ class DocumentTemplate extends BaseModel {
       
       $text[] = $this->doReplace($data[0],$params);
     }
-    $text = implode('\n', $text);
+    $text = implode('<br>', $text);
     return $text;
   }
 
