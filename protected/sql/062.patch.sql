@@ -1,0 +1,1 @@
+ALTER TABLE `spi_request_school_goal` ADD COLUMN `is_active` TINYINT(1) DEFAULT 1 NOT NULL AFTER `option`;

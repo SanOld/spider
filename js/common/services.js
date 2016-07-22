@@ -184,6 +184,9 @@ spi.service("RequestService", function () {
     this.initSchoolConcept(data);
     this.initSchoolGoal(data);
   };
+  
+  this.isChangedFinanceForm = function() {};
+  this.setChangedFinanceForm = function() {};
     
 });
 

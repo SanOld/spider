@@ -22,7 +22,7 @@ class Email {
     }
     return self::prepareMessage($template, $emailParams, $email, false);
   }
-  static function doWelcome($result) {
+  static function doWelcome($result, $password) {
 
     $table = 'spi_user';
     $select_all = "CONCAT(tbl.last_name, ', ', tbl.first_name) name, IF(tbl.is_active = 1, 'Aktiv', 'Nicht aktiv') status_name, IF(tbl.type = 't' AND tbl.is_finansist, CONCAT(ust.name, ' (F)'), ust.name) type_name, tbl.* ";
@@ -35,7 +35,7 @@ class Email {
         '{NAME}'            => $newUser['first_name'] . ' '. $newUser['last_name'],
         '{SITE_URL}'        => Yii::app()->getBaseUrl(true),
         '{LOGIN}'           => $newUser['login'],
-        '{PASSWORD}'        => $newUser['password'],
+        '{PASSWORD}'        => $password,
         '{BENUTZERROLLEN}'  => $newUser['type_name'],
       ), $newUser['email'], false);
 
