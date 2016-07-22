@@ -14,6 +14,7 @@
       </a>
     </td>
   </tr>
+  <tr ng-if="!$data.length"><td class="no-result" colspan="8">Keine Items sind verfügbar</td></tr>
 </table>
 <div class="notice">
   <span class="color-notice"></span>

@@ -3248,3 +3248,9 @@ form[name=conceptForm] .alert-danger {display: block;}
   left: 1088px;
   background:  url(../images/icon_fullscreen.png) no-repeat 50% 50%;
 }
+.no-result {
+  font-size: 32px;
+  color: #999;
+  height: 96px;
+  text-align: center !important;
+}

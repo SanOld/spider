@@ -73,6 +73,7 @@ $this->breadcrumbs = array('Träger');
                     </a>
                   </td>
 								</tr>
+                <tr ng-if="!$data.length"><td class="no-result" colspan="7">Keine Items sind verfügbar</td></tr>
 							</table>
 						</div>
 					</div>

@@ -52,6 +52,7 @@ $this->breadcrumbs = array('Bezirk');
                     </a>
                   </td>
                 </tr>
+                <tr ng-if="!$data.length"><td class="no-result" colspan="5">Keine Items sind verfügbar</td></tr>
               </table>
             </div>
           </div>

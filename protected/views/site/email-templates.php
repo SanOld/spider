@@ -47,6 +47,7 @@ $this->breadcrumbs = array('E-Mail-Vorlagen');
                 </a>
               </td>
 						</tr>
+            <tr ng-if="!$data.length"><td class="no-result" colspan="4">Keine Items sind verfügbar</td></tr>
 					</table>
 				</div>
 			</div>
