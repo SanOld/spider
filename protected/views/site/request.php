@@ -38,34 +38,22 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Anträg {{request_code}}');
 				</uib-tabset>
 				<br>
 				<div class="form-group group-btn row">
-					<div class="col-lg-4 text-left">
-						<button ng-show="userCan('delete')" ng-click="block()" class="btn m-b-5 btn-icon btn-danger  sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
-            <span class="btn-row">
-						<button ng-show="userCan('reopen')" class="btn m-b-5" ng-click="setBulkStatus(3)">
+					<div class="col-lg-5 text-left">
+						<button ng-show="userCan('delete')" ng-click="block()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>
+						<button ng-show="userCan('reopen')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(3)">
 							<i class="fa fa-rotate-left"></i>
 							<span>Neu eröffnen</span>
 						</button>
-						<button ng-show="userCan('changeStatus_print')" class="btn m-b-5" ng-click="setBulkStatus(4)">Förderfähig</button>
-						<button ng-show="userCan('changeStatus_lock')" class="btn m-b-5" ng-click="setBulkStatus(5)">Genehmigt</button>
-            </span>  
+						<button ng-show="userCan('changeStatus_print')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(4)">Förderfähig</button>
+						<button ng-show="userCan('changeStatus_lock')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(5)">Genehmigt</button>
 					</div>
-          <div class="col-lg-8 text-right">
-            <button class="btn m-b-5" ng-click="cancel()">Zur Übersicht</button>
-            <span class="btn-row">
-              <button ng-show="back" class="btn m-b-5" ng-click="submitRequest();toTab(-1);" title = "Speichern und zurück">
-                <i class="fa fa-chevron-left"></i>
-                <span> Speichern und zurück</span>
-              </button>
-              <button ng-show="userCan('save')" class="btn m-b-5" ng-click="submitRequest();" title = "Speichern und auf Seite bleiben">
-                <i class="fa fa-floppy-o"></i>  
-                <span> Speichern und auf Seite bleiben</span>
-              </button>
-              <button ng-show="next" class="btn m-b-5" ng-click="submitRequest();toTab(1);" title = "Speichern und weiter">
-                <span>Speichern und weiter </span>
-                <i class="fa fa-chevron-right"></i>
-              </button>
-            </span>    
+          <div class="col-lg-2 text-left">
+            <button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Zur Übersicht</button>
 					</div>
+					<div class="col-lg-5 text-right">
+						<button ng-show="back" class="btn m-t-2 custom-btn btn-lg ion-skip-backward" ng-click="submitRequest();toTab(-1)" title="Speichern und zurück"></button>
+						<button ng-show="userCan('save')" class="btn w-lg save-btn btn-lg fa fa-floppy-o fa-5x" ng-click="submitRequest()" title="Speichern und auf Seite bleiben"></button>
+						<button ng-show="next"  class="btn m-t-2 custom-btn btn-lg ion-skip-forward" ng-click="submitRequest();toTab(1)" title="Speichern und weiter"></button>
          </div>  
 				</div>
         </ng-form> 
