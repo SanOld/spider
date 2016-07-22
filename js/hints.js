@@ -85,7 +85,7 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
 
     $scope.page_name = data.page_name;
     $scope.position_name = data.position_name;
-    $scope.showTitle = data.position_code == 'header';
+    $scope.showTitle = data.is_double;
     $scope.hint = {
       title: data.title,
       description: data.description
