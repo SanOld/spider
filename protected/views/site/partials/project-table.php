@@ -12,6 +12,7 @@
         <i class="ion-edit" ng-if="canEdit() && row.is_old == 0"></i>
       </a>
     </td>
+    <tr ng-if="!$data.length"><td class="no-result" colspan="5">Keine Items sind verfügbar</td></tr>
   </tr>
   </table>
 <!-- <div class="notice">

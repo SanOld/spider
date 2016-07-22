@@ -167,6 +167,7 @@ $this->breadcrumbs = array('Anträge');
                     </a>
                   </td>
                 </tr>
+                <tr ng-if="!$data.length"><td class="no-result" colspan="10">Keine Items sind verfügbar</td></tr>
               </table>
 
               <div class="btn-row m-t-15 clearfix" ng-if="canEdit() && canByType(['a','p'])">
