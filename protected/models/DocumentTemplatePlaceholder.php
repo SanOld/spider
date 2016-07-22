@@ -40,7 +40,7 @@ class DocumentTemplatePlaceholder extends BaseModel {
       $i = count($result);
       foreach ($requestFields['result'][0] as $key => $value) {
         if($key == 'schools'){
-          foreach ($requestFields['result'][0][$key] as $key2 => $value2) {
+          foreach ($requestFields['result'][0][$key][0] as $key2 => $value2) {
             $result['result']['request']['school'][$key2] = $value2 ;
             $i++;
           }
@@ -55,7 +55,7 @@ class DocumentTemplatePlaceholder extends BaseModel {
       $i = count($result);
       foreach ($requestFields['result'][0] as $key => $value) {
         if($key == 'schools'){
-          foreach ($requestFields['result'][0][$key] as $key2 => $value2) {
+          foreach ($requestFields['result'][0][$key][0] as $key2 => $value2) {
             $result['result'][$i]['name'] ='{{request.school.'.$key2.'}}' ;
             $result['result'][$i]['text'] = $key2 ;
             $i++;

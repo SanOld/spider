@@ -7,6 +7,9 @@ class DocumentTemplate extends BaseModel {
   public $post = array();
   public $select_all = ' tbl.*, type.name type_name, CONCAT(user.first_name, " ", user.last_name ) user_name ';
 
+  public $requestData = array();
+  public $performerData = array();
+
 
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all)
@@ -70,32 +73,60 @@ class DocumentTemplate extends BaseModel {
 
   }
 
+
+
   protected function calcResults($result) {
     if(safe($_GET, 'prepare') == '1' && safe($_GET, 'request_id')) {
-      foreach($result['result'] as &$row) {
-        
-        $requestData = Yii::app() -> db -> createCommand() -> select("*, DATE_FORMAT(start_date,'%d.%m.%Y') start_date_formated,  DATE_FORMAT(due_date,'%d.%m.%Y') due_date_formated") -> from('spi_request') -> where('id=:id ', array(':id' => safe($_GET, 'request_id'))) -> queryRow();
-        $performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $requestData['performer_id'])) -> queryRow();
+      $Request = CActiveRecord::model('Request');
+      $Request->user = $this->user;
+      $requestInfo = $Request->select(array('id' => safe($_GET, 'request_id')), true);
+      $this->requestData = $requestInfo['result'][0];
 
-        $row['text'] = $this->prepareText($row['text'], $requestData, $performerData);
+
+      $requestTableData = Yii::app() -> db -> createCommand() -> select("*, DATE_FORMAT(start_date,'%d.%m.%Y') start_date_formated,  DATE_FORMAT(due_date,'%d.%m.%Y') due_date_formated") -> from('spi_request') -> where('id=:id ', array(':id' => safe($_GET, 'request_id'))) -> queryRow();
+      $this->performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $requestData['performer_id'])) -> queryRow();
+
+      foreach($result['result'] as &$row) {
+        $row['text'] = $this->prepareText($row['text'] );
       }
     }
     return $result;
   }
 
-  protected function prepareText($text, $requestData, $performerData) {
-    
+  protected function prepareText($text) {
+
+    $text = preg_replace_callback("/\{FOREACH=SCHOOL\}.+\{FOREACH_END\}/i", array($this, 'repeat'), $text);
+
     $params = array(
-        '{AUFLAGEN}'      => $requestData['senat_additional_info'],
-        '{FOERDERSUMME}'  => $requestData['total_cost'],
-        '{JAHR}'          => $requestData['year'],
-        '{KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $requestData['project_id']))->queryScalar(),
-        '{TRAEGER}'        => $performerData['name'],
-        '{TRAGERADRESSE}' => $performerData['address'],
-        '{ZEITRAUM}'      => 'Beginn: '.$requestData['start_date_formated'].' Ende: '.$requestData['due_date_formated']
-                             
+        '{AUFLAGEN}'      => $this->requestData['senat_additional_info'],
+        '{FOERDERSUMME}'  => $this->requestData['total_cost'],
+        '{JAHR}'          => $this->requestData['year'],
+        '{KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $this->requestData['project_id']))->queryScalar(),
+        '{TRAEGER}'        => $this->performerData['name'],
+        '{TRAGERADRESSE}' => $this->performerData['address'],
+        '{ZEITRAUM}'      => 'Beginn: '.$this->requestData['start_date_formated'].' Ende: '.$this->requestData['due_date_formated']
       );
     
+    return $this->doReplace($text,$params);
+  }
+
+  private function repeat($data){
+    $loopData = $data[0];
+    $text='';
+    foreach ($this->requestData['schools'] as $key => $school) {
+      $params = array(
+          '{SCHOOLNAME}'    => $school['name'],
+          '{SCHOOLNUMBER}'  => $school['number'],
+        );
+      
+      $text .=$this->doReplace($loopData,$params).'\n';
+    }
+
+    return $text;
+  }
+
+  private function doReplace($_text, $params){
+    $text = $_text;
     if($text && $text != '') {
       $data = array();
       $placeholders = array();
@@ -108,6 +139,4 @@ class DocumentTemplate extends BaseModel {
     }
     return '';
   }
-
-
 }
