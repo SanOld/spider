@@ -93,23 +93,23 @@
                         <dl class="custom-dl width-dt-2">
                           <ng-show ng-show="data.performer_contact_function">
                             <dt>Funktion:</dt>
-                            <dd>{{data.performer_contact_function}}</dd>
+                            <dd class="request-trager">{{data.performer_contact_function}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_address">
                             <dt>Adresse:</dt>
-                            <dd>{{data.performer_address}}</dd>
+                            <dd class="trager">{{data.performer_address}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_plz">
                             <dt>PLZ:</dt>
-                            <dd>{{data.performer_plz}}</dd>
+                            <dd class="trager">{{data.performer_plz}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_city">
                             <dt>Stadt:</dt>
-                            <dd>{{data.performer_city}}</dd>
+                            <dd class="trager">{{data.performer_city}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_homepage">
                             <dt>Webseite:</dt>
-                            <dd><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
+                            <dd class="trager"><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
                           </ng-show>
                         </dl>
                       </div>
@@ -124,7 +124,7 @@
                             <dd>{{data.performer_fax}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_email">
-                            <dt>E-mail:</dt>
+                            <dt>E-Mail:</dt>
                             <dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
                           </ng-show>
                         </dl>
