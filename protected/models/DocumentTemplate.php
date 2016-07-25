@@ -9,6 +9,13 @@ class DocumentTemplate extends BaseModel {
 
   public $requestData = array();
   public $performerData = array();
+  public $performerUsers = array();
+  public $requestSchoolFinance = array();
+  public $requestSchoolConcept = array();
+  public $requestSchoolGoal = array();
+  public $finPlanUsers = array();
+  public $bankDetails = array();
+  public $profAssociation = array();
 
 
   protected function getCommand() {
@@ -77,14 +84,96 @@ class DocumentTemplate extends BaseModel {
 
   protected function calcResults($result) {
     if(safe($_GET, 'prepare') == '1' && safe($_GET, 'request_id')) {
+
       $Request = CActiveRecord::model('Request');
       $Request->user = $this->user;
       $requestInfo = $Request->select(array('id' => safe($_GET, 'request_id')), true);
       $this->requestData = $requestInfo['result'][0];
 
-
       $requestTableData = Yii::app() -> db -> createCommand() -> select("*, DATE_FORMAT(start_date,'%d.%m.%Y') start_date_formated,  DATE_FORMAT(due_date,'%d.%m.%Y') due_date_formated") -> from('spi_request') -> where('id=:id ', array(':id' => safe($_GET, 'request_id'))) -> queryRow();
-      $this->performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $requestData['performer_id'])) -> queryRow();
+      $this->performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $this->requestData['performer_id'])) -> queryRow();
+
+
+
+
+
+        
+
+      /*start performerUsers*/
+      if ($this->requestData['status_id' == '5']){
+        $Request = CActiveRecord::model('UserLock');
+        $Request->user = $this->user;
+        $requestInfo = $Request->select(array('relation_id' => $this->requestData['performer_id']
+                                              , 'request_id' => $this->requestData['id']
+                                              , 'type' => 't'
+                                                ), true);
+        $this->performerUsers = $requestInfo['result'];
+      } else {
+        $Request = CActiveRecord::model('User');
+        $Request->user = $this->user;
+        $requestInfo = $Request->select(array('relation_id' => $this->requestData['performer_id'],
+                                        'type' => 't'
+                                        ), true);
+
+        $this->performerUsers = $requestInfo['result'];
+      }
+      foreach ($this->performerUsers as $key=>$value){
+        $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
+        if($this->performerUsers[$key]['sex'] == 1){
+          $this->performerUsers[$key]['gender'] = 'Herr';
+        }
+        if($this->performerUsers[$key]['sex'] == 2){
+          $this->performerUsers[$key]['gender'] = 'Frau';
+        }
+      }
+      /*end performerUsers*/
+
+      /*start finance information*/
+          /*start finPlanUsers*/
+          $Request = CActiveRecord::model('RequestUser');
+          $Request->user = $this->user;
+          $requestInfo = $Request->select(array('request_id' => $this->requestData['id']), true);
+          $this->finPlanUsers = $requestInfo['result'];
+          /*end finPlanUsers*/
+
+          /*start BankDetails*/
+          $Request = CActiveRecord::model('BankDetails');
+          $Request->user = $this->user;
+          $requestInfo = $Request->select(array('request_id' => $this->requestData['id']
+                                                , 'performer_id' => $this->requestData['performer_id'] ), true);
+          $this->bankDetails = $requestInfo['result'];
+          /*end BankDetails*/
+
+          /*start RequestProfAssociation*/
+          $Request = CActiveRecord::model('RequestProfAssociation');
+          $Request->user = $this->user;
+          $requestInfo = $Request->select(array('request_id' => $this->requestData['id']), true);
+          $this->profAssociation = $requestInfo['result'];
+          /*end RequestProfAssociation*/
+
+          /*start request_school_finance*/
+          $Request = CActiveRecord::model('RequestSchoolFinance');
+          $Request->user = $this->user;
+          $requestInfo = $Request->select(array('request_id' => safe($_GET, 'request_id')), true);
+          $this->requestSchoolFinance = $requestInfo['result'];
+          /*end request_school_finance*/
+      /*end finance information*/
+
+      /*start request_school_concept*/
+      $Request = CActiveRecord::model('RequestSchoolConcept');
+      $Request->user = $this->user;
+      $requestInfo = $Request->select(array('request_id' => safe($_GET, 'request_id')), true);
+      $this->requestSchoolConcept = $requestInfo['result'];
+      /*end request_school_concept*/
+
+      /*start request_school_goal*/
+      $Request = CActiveRecord::model('RequestSchoolGoal');
+      $Request->user = $this->user;
+      $requestInfo = $Request->select(array('request_id' => safe($_GET, 'request_id')), true);
+      $this->requestSchoolGoal = $requestInfo['result'];
+      /*end request_school_goal*/
+
+
 
       foreach($result['result'] as &$row) {
         $row['text'] = $this->prepareText($row['text'] );
