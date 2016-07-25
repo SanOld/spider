@@ -17,6 +17,9 @@ $this->breadcrumbs = array('Bezirk');
           <div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
             <button <?php $this->demo(); ?>  class="btn w-lg custom-btn" ng-if="canEdit() && canByType(['a'])" ng-click="openEdit()">Bezirk hinzufügen</button>
+            <button class="btn w-lg custom-btn" export-to-csv>Export Datum</button>
+            <button class="btn w-lg custom-btn" import-to-csv>Import Datum</button>
+            <input type="file" id="myFile">
           </div>
         </div>
         <div class="panel-body districts">

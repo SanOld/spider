@@ -156,3 +156,43 @@ spi.filter('nl2br', ['$sce', function ($sce) {
     return text ? $sce.trustAsHtml(text.replace(/\n/g, '<br/>')) : '';
   };
 }]);
+  
+spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
+  	return {
+    	restrict: 'A',
+    	link: function (scope, element, attrs) {
+        element.bind('click', function(e){
+          var districts = '';
+          network.get('district', {}, function (result, response) {
+            if (result) {
+              districts = response.result;
+            }
+          });
+          $timeout(function(){
+            var csvString = '';
+            for(var i = 0; i < districts.length; i++ ){
+              if(i == 0){
+                for(var column in districts[0]){
+                  csvString += column + ",";
+                }                                                           
+                csvString = csvString + "\n";
+              } 
+              for(var column in districts[i]){
+                csvString += districts[i][column] + "," ;
+              }
+              csvString = csvString.substring(0,csvString.length - 1);            
+              csvString = csvString + "\n";
+            }          
+            csvString = csvString.substring(0, csvString.length - 1);
+            var a = $('<a/>', {
+                style:'display:none',
+                href:'data:application/octet-stream;base64,' + btoa(csvString),
+                download:'emailStatistics.csv'
+            }).appendTo('body')
+            a[0].click();
+            a.remove();
+          }, 200);          
+        });
+    	}
+  	};
+	}]);
