@@ -3031,6 +3031,12 @@ p.check-text-history {
 .col-lg-1.custom-lg-1 {
     width: 14%;
 }
+.col-lg-1.custom-pr-2 {
+    width: 12%;
+}
+.col-lg-1.custom-pr-3 {
+    width: 15%;
+}
 .holder-radio label.error {
 	width:auto;
 	text-align:left;

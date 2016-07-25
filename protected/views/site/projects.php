@@ -23,7 +23,7 @@ $this->breadcrumbs = array('Projekte');
 						<div class="col-lg-12">
 							<div class="row datafilter">
                 <form action="javascript:;" class="class-form">
-                    <div class="col-lg-{{canByType(['d','s','t']) ? '2' : '1 custom-lg-1'}}">
+                    <div class="col-lg-{{canByType(['d','s','t']) ? '2' : '1 custom-pr-3'}}">
                       <div class="form-group">
                         <label>Kennziffer</label>
                         <input ng-change="updateGrid()" type="search" ng-model="filter.code" class="form-control popup-input" placeholder="Kennziffer eingegeben" ng-hide="user.type  == 't'">
@@ -35,7 +35,7 @@ $this->breadcrumbs = array('Projekte');
                         </ui-select>                    
                       </div>
                     </div>
-                    <div class="col-lg-{{canByType(['d','s','t']) ? 2 : 1}}">
+                    <div class="col-lg-{{canByType(['d','s','t']) ? 2 : '1 custom-pr-2'}}">
                       <div class="form-group">
                         <div class="form-group">
                           <label>Topf</label>
@@ -48,7 +48,7 @@ $this->breadcrumbs = array('Projekte');
                         </div>
                       </div>
                     </div>                    
-                    <div class="col-lg-{{canByType(['d','s','t'])? '2' : '1 custom-lg-1'}}">
+                    <div class="col-lg-{{canByType(['d','s','t'])? '2' : '1 custom-pr-2'}}">
                         <div class="form-group">
                             <label>Typ</label>
 <!--                                            <select class="type-user form-control">
@@ -76,7 +76,7 @@ $this->breadcrumbs = array('Projekte');
                             </ui-select>
                         </div>
                     </div>
-                    <div class="col-lg-2" ng-if="!canByType(['s'])">
+                    <div class="col-lg-{{canByType(['d','s','t'])? '2' : '1 custom-pr-3'}}" ng-if="!canByType(['s'])">
                         <div class="form-group">
                             <label>Schule</label>
 <!--                                            <select class="type-user form-control">
@@ -90,7 +90,7 @@ $this->breadcrumbs = array('Projekte');
                             </ui-select>
                         </div>
                     </div>
-                    <div class="col-lg-2" ng-if="!canByType(['t'])">
+                    <div class="col-lg-1 1 custom-pr-3" ng-if="!canByType(['t'])">
                         <div class="form-group">
                             <label>Träger</label>
                             <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
