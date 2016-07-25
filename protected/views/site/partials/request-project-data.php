@@ -97,19 +97,19 @@
                           </ng-show>
                           <ng-show ng-show="data.performer_address">
                             <dt>Adresse:</dt>
-                            <dd class="trager">{{data.performer_address}}</dd>
+                            <dd class="request-trager">{{data.performer_address}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_plz">
                             <dt>PLZ:</dt>
-                            <dd class="trager">{{data.performer_plz}}</dd>
+                            <dd class="request-trager">{{data.performer_plz}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_city">
                             <dt>Stadt:</dt>
-                            <dd class="trager">{{data.performer_city}}</dd>
+                            <dd class="request-trager">{{data.performer_city}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_homepage">
                             <dt>Webseite:</dt>
-                            <dd class="trager"><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
+                            <dd class="request-trager"><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
                           </ng-show>
                         </dl>
                       </div>
