@@ -53,7 +53,7 @@
                     </div>
                   </div>
                   <div class="btn-row" ng-show="userCan('dates')">
-                    <button class="btn m-t-5" ng-click="setBulkDuration()">Datum ändern</button>
+                    <button class="btn m-t-5" ng-click="setBulkDuration()">Dauer ändern</button>
                   </div>
                 </div>
               </div>
