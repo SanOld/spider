@@ -475,7 +475,7 @@
                   <div class="col-lg-6">
 
   
-                          <input name = "second" class="form-control" type="text" placeholder="Namen Sonstiger Einkommensquellen" ng-model="data.revenue_description" >
+                          <input name = "second" class="form-control" type="text" placeholder="Sonstige Einkommensquellen" ng-model="data.revenue_description" >
   
                   </div>
                   <label class="col-lg-1 control-label custom-width-label">

@@ -110,7 +110,7 @@ $this->breadcrumbs = array('Audit');
                     {{field.new_value}}
                   </td>
                 </tr>
-                <tr ng-show="!$groups.length"><td class="no-result" colspan="3">Keine Items sind verfügbar</td></tr>
+                <tr ng-show="!$groups.length"><td class="no-result" colspan="3">Keine Ergebnisse</td></tr>
               </table>
               <div class="clearfix">
                 <div class="notice" ng-repeat="type in types">
