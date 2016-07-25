@@ -140,8 +140,8 @@
           <div class="col-lg-10">
             <div spi-hint text="_hint.schools" class="has-hint"></div>
 
-            <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length, 'wrap-line error': fieldError('schools')}" ng-show="schoolTypeCode == 's'">
-              <ui-select ng-disabled="project.is_old == 1 || !schools.length || modeView" multiple ng-model="project.schools" required
+            <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length, 'wrap-line error': fieldError('schools')}">
+              <ui-select ng-disabled="project.is_old == 1 || !schools.length || modeView" multiple ng-model="project.schools" ng-required="schoolTypeCode != 'z'"
                          name="schools">
                 <ui-select-match placeholder="{{placeholderFN($select.items)}}">
                   {{$item.name}}
@@ -155,7 +155,7 @@
                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
             </div>
-            <div class="wrap-hint" ng-hide="schoolTypeCode == 's'" ng-class="{'select2-empty-list':!schools.length, 'wrap-line error': fieldError('school')}" >
+<!--            <div class="wrap-hint" ng-hide="schoolTypeCode == 's'" ng-class="{'select2-empty-list':!schools.length, 'wrap-line error': fieldError('school')}" >
               <ui-select ng-disabled="!$select.items.length || project.is_old == 1 || modeView" ng-model="project.school" ng-required="schoolTypeCode != 'z' && schoolTypeCode != 's' "
                          name="school">
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
@@ -169,7 +169,7 @@
                   <label class="error">Schule erforderlich</label>
                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
-            </div>
+            </div>-->
 
           </div>
         </div>
