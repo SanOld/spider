@@ -9,7 +9,7 @@ class Page extends BaseModel {
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     
-    $where = ' 1=1 ';
+    $where = ' 1=1 AND tbl.is_editable = 1';
     $conditions = array();
 
     if ($where) {
