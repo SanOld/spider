@@ -124,7 +124,7 @@
                             <dd>{{data.performer_fax}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_email">
-                            <dt>E-mail:</dt>
+                            <dt>E-Mail:</dt>
                             <dd><a href="mailto:them@stiftungs-spi.de">{{data.performer_email}}</a></dd>
                           </ng-show>
                         </dl>
