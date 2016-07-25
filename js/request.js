@@ -34,16 +34,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
 
   $scope.toTab = function(value){
-    console.log('value:'+value);
     var name = $location.hash();
-    console.log('name:'+name);
     var index = $scope.tabs.indexOf(name);
-    console.log('index:'+index);
     var newname = $scope.tabs[index + value];
-    console.log('newname:'+newname);
-    
     $location.hash(newname);
-     $scope.tabActive = $location.hash();
+    $scope.tabActive = $location.hash();
   }
   
   $scope.setFinanceStatus = function(financeStatus){
@@ -83,9 +78,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result && close) {
-       location.href = '/requests';
+       if(close){
+         location.href = '/requests';
+       }
+       RequestService.afterSave();
       }
-      RequestService.afterSave();
     });
   };
 
