@@ -16,6 +16,7 @@ $this->breadcrumbs = array('Anträge');
             <a href="javascript:window.print()" title="Drucken">
               Drucken <i class="ion-printer"></i>
             </a>
+            <button class="custom-btn btn w-xs" export-to-csv ng-click="">Export Datum</button>
             <button <?php $this->demo();?> ng-if="canByType(['a'])" ng-click="addRequest()" class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
           </div>
         </div>
