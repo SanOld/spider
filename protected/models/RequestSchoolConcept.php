@@ -10,7 +10,7 @@ class RequestSchoolConcept extends BaseModel {
     $command = Yii::app() -> db -> createCommand()
       -> select($this->select_all)
       -> from($this -> table . ' tbl')
-      -> join('spi_school scl', 'tbl.school_id = scl.id')
+      -> leftJoin('spi_school scl', 'tbl.school_id = scl.id')
       -> where('1=1 ', array())
       -> order('scl.number');
     return $command;

@@ -8,7 +8,7 @@ class RequestSchoolFinance extends BaseModel {
 
   protected function getCommand() {
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
-    $command -> join('spi_school scl', 'tbl.school_id = scl.id');
+    $command ->leftJoin('spi_school scl', 'tbl.school_id = scl.id');
     $command -> where('1=1 ', array());
     return $command;
   }
