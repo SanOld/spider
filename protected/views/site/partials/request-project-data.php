@@ -204,7 +204,9 @@
                     <div class="col-lg-12">
                       <div class="btn-row m-b-15">
                         <a class="btn" href="schools#id={{school.id}}" target="_blank" ng-click="setUpdater()"  >Bearbeiten</a>
-                      </div>
+                      </div>                      
+                    </div>
+                    <div class="col-lg-5">
                       <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.user_name">
                           <dt>Schulleitung:</dt>
@@ -215,8 +217,6 @@
                           <dd>{{school.user_function}}</dd>
                         </ng-show>
                       </dl>
-                    </div>
-                    <div class="col-lg-5">
                       <dl class="custom-dl width-dt-2">
                         <ng-show ng-show="school.address">
                           <dt>Adresse:</dt>
@@ -229,11 +229,7 @@
                         <ng-show ng-show="school.city">
                           <dt>Stadt:</dt>
                           <dd>{{school.city}}</dd>
-                        </ng-show>
-                        <ng-show ng-show="school.homepage">
-                          <dt>Webseite:</dt>
-                          <dd><a target="_blank" href="http://{{school.homepage}}">{{school.homepage}}</a></dd>
-                        </ng-show>
+                        </ng-show>                        
                       </dl>
                     </div>
                     <div class="col-lg-7">
@@ -247,9 +243,13 @@
                           <dd>{{school.fax}}</dd>
                         </ng-show>
                         <ng-show ng-show="school.email">
-                          <dt>E-mail:</dt>
+                          <dt>E-Mail:</dt>
                           <dd><a href="mailto:{{school.email}}">{{school.email}}</a></dd>
                         </ng-show>
+                        <ng-show ng-show="school.homepage">
+                          <dt>Webseite:</dt>
+                          <dd class="request-school"><a target="_blank" href="{{school.homepage}}">{{school.homepage}}</a></dd>
+                        </ng-show>                          
                       </dl>
                     </div>
                   </div>

@@ -3263,3 +3263,7 @@ form[name=conceptForm] .alert-danger {display: block;}
 .request-trager{
   margin-left: 149px;
 }
+.request-school{
+  word-break: break-all;
+  margin-left: 150px;
+}
