@@ -1,0 +1,1 @@
+ALTER TABLE `spi_request_school_goal` DROP INDEX `FK1_school`, DROP FOREIGN KEY `FK1_school`; 
