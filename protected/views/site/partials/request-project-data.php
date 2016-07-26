@@ -109,7 +109,7 @@
                           </ng-show>
                           <ng-show ng-show="data.performer_homepage">
                             <dt>Webseite:</dt>
-                            <dd class="request-trager"><a target="_blank" href="http://{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
+                            <dd class="request-trager"><a target="_blank" href="{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
                           </ng-show>
                         </dl>
                       </div>
