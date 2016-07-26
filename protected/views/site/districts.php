@@ -17,12 +17,9 @@ $this->breadcrumbs = array('Bezirk');
           <div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
             <button <?php $this->demo(); ?>  class="btn w-lg custom-btn" ng-if="canEdit() && canByType(['a'])" ng-click="openEdit()">Bezirk hinzufügen</button>
-            <button class="btn w-lg custom-btn" export-to-csv>Export Datum</button>
-          </div>          
-          <form name="uploadimages" method="post" enctype="multipart/form-data" action="">
-            <input id="importFile" type="FILE" name="importFile" id="importFile">
-            <input import-to-csv type="submit" value="load">
-          </form>          
+            <button class="btn w-lg custom-btn" export-to-csv>Export Datum</button>                
+            <div qq-file-upload setting="qqSetting"></div>      
+          </div>       
         </div>
         <div class="panel-body districts">
           <div class="row">

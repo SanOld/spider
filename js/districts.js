@@ -1,4 +1,4 @@
-spi.controller('DistrictController', function ($scope, $rootScope, network, GridService) {
+spi.controller('DistrictController', function ($scope, $rootScope, network, GridService, Notification) {
   $rootScope._m = 'district';
   $scope.filter = {};
 
@@ -35,7 +35,20 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
       controller: 'EditDistrictController'
     });
   };
-
+  $scope.qqSetting = {
+    model: 'financial_request_document',
+    customHeaders:{Authorization: network.token},
+    buttonText: 'Dokumente hinzufügen',
+    onCompile: function (id, fileName, responseJSON) {
+      if (responseJSON.result) {
+        Notification.success({title: 'File upload success!', message: responseJSON.message});
+        //getDocuments();
+      } else {
+        console.log(responseJSON.result);
+        Notification.error({title: 'File upload fail!', message: responseJSON.message});
+      }
+    }
+  }
   $scope.canEdit = function(id) {
     return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 'd' || network.user.type == 't');
   }

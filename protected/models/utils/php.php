@@ -197,10 +197,12 @@ class qqFileUploader {
       }
     }
     
-    if($this -> file -> save($uploadDirectory . $filename . '.' . $ext)) {
+    if($this -> file -> save($uploadDirectory . $filename . '.' . $ext)) {      
       return array(
           'success' => true,
-          'filename' => $filename . '.' . $ext
+          'filename' => $filename . '.' . $ext,
+          'extension' => $ext,
+          'file' => $filename
       );
     } else {
       return array(

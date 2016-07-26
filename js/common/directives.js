@@ -34,7 +34,7 @@ spi.directive("qqFileUpload", function (Notification) {
         uploadButtonText: scope.setting.buttonText || '',
         customHeaders: scope.setting.customHeaders || {},
         sizeLimit: scope.setting.sizeLimit || 10520000,
-        allowedExtensions: scope.setting.allowedExtensions || ['doc', 'docx', 'pdf'],
+        allowedExtensions: scope.setting.allowedExtensions || ['doc', 'docx', 'pdf', 'csv'],
         messages: {
           typeError: "Unfortunately the file(s) you selected weren't the type we were expecting. Only {extensions} files are allowed",
           sizeError: "{file} is too large, maximum file size is {sizeLimit}",
@@ -196,26 +196,3 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
     	}
   	};
 	}]);
-
-  spi.directive('importToCsv',['network', '$timeout', '$http', function(network, $timeout, $http){
-    return {
-      restrict: 'A',
-      link: function (scope, element, attrs) {
-        element.bind('click', function(e){
-          var uploadfile = $("#importFile").val();
-          $http({
-            , 'dataType': 'json'
-            , 'params': {'file': uploadfile}
-            , 'url': ''
-            })
-          .success(function (result) {
-            
-          })
-          .error(function (data, status, headers, config) {
-            $network.logout();
-            window.location = '/';
-          });
-        });
-      }
-    };
-  }]);
