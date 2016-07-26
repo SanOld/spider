@@ -196,3 +196,26 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
     	}
   	};
 	}]);
+
+  spi.directive('importToCsv',['network', '$timeout', '$http', function(network, $timeout, $http){
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.bind('click', function(e){
+          var uploadfile = $("#importFile").val();
+          $http({
+            , 'dataType': 'json'
+            , 'params': {'file': uploadfile}
+            , 'url': ''
+            })
+          .success(function (result) {
+            
+          })
+          .error(function (data, status, headers, config) {
+            $network.logout();
+            window.location = '/';
+          });
+        });
+      }
+    };
+  }]);
