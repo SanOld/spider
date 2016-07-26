@@ -388,6 +388,16 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   $scope.getData = function() {
     network.get('request', $scope.filter, function (result, response) {
       if (result) {
+                
+        if(!response.result.performer_homepage.match('^http[s]?')){
+          response.result.performer_homepage = 'http://' + response.result.performer_homepage;
+        };
+        for(var school in response.result.schools){
+          if(!response.result.schools[school].homepage.match('^http[s]?')){
+            response.result.schools[school].homepage = 'http://' + response.result.schools[school].homepage;
+          };
+        };
+        
         $scope.data = response.result;
 
         $scope.$parent.updateRights($scope.data.is_bonus_project);
