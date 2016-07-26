@@ -406,10 +406,18 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $scope.remove = function() {
       Utils.doConfirm(function() {
         network.delete('project/'+data.id, function (result) {
-            if(result) {
-              Utils.deleteSuccess();
-              $uibModalInstance.close();
-            }
+          if(result) {
+            Utils.deleteSuccess();
+            $uibModalInstance.close();
+          }else{
+            SweetAlert.swal({
+              title: "",
+              text: "Löschen Sie den Antrag zuerst damit diese Operation durchzuführen.",
+              type: "warning",
+              confirmButtonText: "OK",
+              closeOnConfirm: true
+            });
+          }
         });
       });
     };
