@@ -4,7 +4,7 @@
     <div class="panel panel-default" ng-repeat="schoolConcept in schoolConcepts">
       <div class="panel-heading" ng-init="conceptTab[schoolConcept.id] = 'data'">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-{{::schoolConcept.id}}" ng-class="{collapsed: schoolConcepts.length > 1}" class="collapse">
+          <a ng-if="schoolConcept.school_name" data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-{{::schoolConcept.id}}" ng-class="{collapsed: schoolConcepts.length > 1}" class="collapse">
             {{::schoolConcept.school_name}} ({{::schoolConcept.school_number}})
 												<span class="notice">
 													<span class="color-notice {{schoolConcept.status}}-row"></span>

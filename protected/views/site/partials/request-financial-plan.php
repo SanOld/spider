@@ -352,7 +352,7 @@
             Sachkosten
           </h3>
           <div ng-repeat="school in financeSchools">
-            <h4>{{school.school_name}} ({{school.school_number}})</h4>
+            <h4 ng-if="school.school_name">{{school.school_name}} ({{school.school_number}})</h4>
             <hr>
             <div class="form-group clearfix school-row">
               <div class="col-lg-2 custom-school-row">

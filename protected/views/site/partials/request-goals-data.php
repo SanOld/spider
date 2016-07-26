@@ -5,12 +5,12 @@
       <div ng-repeat="school in schoolGoals" class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding " ng-class="!($first && $first == $last) ? 'collapsed' : ''" aria-expanded="{{!($first && $first == $last)}}">
+            <a ng-if="school.school_name" data-toggle="collapse" data-parent="#accordion-order" href="#collapse_{{$index}}"  class="collapse ng-binding " ng-class="!($first && $first == $last) ? 'collapsed' : ''" aria-expanded="{{!($first && $first == $last)}}">
               {{school.school_name}} ({{school.school_number}})
               <span class="notice">
                 <span  class="color-notice {{school.status}}-row"></span>
               </span>
-            </a>
+            </a>              
           </h4>
         </div>
 
