@@ -91,7 +91,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             school_type_id: data.school_type_id,
             type_id: data.type_id,
             is_old: data.is_old,
-            schools: data.schools ? data.schools : [],
+            schools: data.school_type_id == 1 ? data.schools ? data.schools : [] : {},
 //            schools: data.school_type_id == 1 ? data.schools : [],
 //            school: data.school_type_id != 1 ? data.schools[0] : {},
             performer_id: data.performer_id,
@@ -310,7 +310,10 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //        }
         if (!$scope.formProjects.$valid){
             $copyScopeProject.invalid = true;
-        };             
+        };  
+        if($scope.schoolTypeCode == 'z') {
+          $copyScopeProject.schools = [0];
+        }
         delete $copyScopeProject.school; 
         $copyScopeProject['programm_id'] = $scope.programms[0].id;
         if((!$copyScopeProject.schools || !$copyScopeProject.schools.length) && $scope.schoolTypeCode != 'z') {
