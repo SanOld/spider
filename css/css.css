@@ -3037,6 +3037,9 @@ p.check-text-history {
 .col-lg-1.custom-pr-3 {
     width: 15%;
 }
+.col-lg-1.custom-pr-4 {
+	width: 13%;
+}
 .holder-radio label.error {
 	width:auto;
 	text-align:left;

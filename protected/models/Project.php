@@ -55,6 +55,9 @@ class Project extends BaseModel {
     if (safe($params, 'SCHOOL_ID')) {
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
+    if(safe($params, 'TYPE_ID')) {
+      $command -> andWhere('tbl.type_id = :type_id', array(':type_id' => $params['TYPE_ID']));
+    }
     if (safe($params, 'REAL_CODE')) {
       $command->andWhere("tbl.code LIKE :real_code", array(':real_code' => ''.$params['REAL_CODE'].'%'));
       $command->andWhere("tbl.is_old = 0");
