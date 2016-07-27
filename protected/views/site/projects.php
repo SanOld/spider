@@ -38,26 +38,23 @@ $this->breadcrumbs = array('Projekte');
                     <div class="col-lg-{{canByType(['d','s','t']) ? 2 : '1 custom-pr-2'}}">
                       <div class="form-group">
                         <div class="form-group">
-                          <label>Topf</label>
-                          <ui-select ng-change="updateGrid()" ng-model="filter.real_code">
-                            <ui-select-match allow-clear="true"  placeholder="Alles anzeigen">{{$select.selected.code}}</ui-select-match>
-                            <ui-select-choices repeat="item.code as item in realCodes | filter: $select.search | orderBy: code">
-                              <span ng-bind-html="item.code | highlight: $select.search"></span>
-                            </ui-select-choices>                      
+                          <label>Fördertopf</label>
+                          <ui-select ng-change="updateGrid()" ng-model="filter.type_id">
+                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="item.id as item in projectTypes | filter: $select.search | orderBy: 'name'">
+                              <span ng-bind="item.name"></span>
+                            </ui-select-choices>
                           </ui-select>
                         </div>
                       </div>
                     </div>                    
-                    <div class="col-lg-{{canByType(['d','s','t'])? '2' : '1 custom-pr-2'}}">
+                    <div class="col-lg-{{canByType(['d','s','t'])? '2' : '1 custom-lg-1'}}">
                         <div class="form-group">
-                            <label>Typ</label>
-<!--                                            <select class="type-user form-control">
-                                <option>Alles anzeigen</option>
-                            </select>-->
+                            <label>Schultyp</label>
                             <ui-select ng-change="updateGrid()" ng-model="filter.school_type_id">
                                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search | orderBy: 'name'">
-                                    <span ng-bind-html="item.name | highlight: $select.search"></span>
+                                    <span ng-bind="item.full_name"></span>
                                 </ui-select-choices>
                             </ui-select>
                         </div>
@@ -90,7 +87,7 @@ $this->breadcrumbs = array('Projekte');
                             </ui-select>
                         </div>
                     </div>
-                    <div class="col-lg-1 1 custom-pr-3" ng-if="!canByType(['t'])">
+                    <div class="col-lg-1 1 custom-pr-4" ng-if="!canByType(['t'])">
                         <div class="form-group">
                             <label>Träger</label>
                             <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
