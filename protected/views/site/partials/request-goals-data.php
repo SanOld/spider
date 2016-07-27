@@ -133,7 +133,7 @@
                             <input type="radio" value="0" ng-model="goal.reintegration" ng-change="checkCount('groupOffer', 'reintegration', goal)" checked="">
                             <i class="fa"></i>
                           </label>
-                        </div>
+                        </div>">Abbau
                         <p class="col-lg-8">Abbau von Schuldistanz; Reintegration in den schulischen Alltag</p>
                       </div>
 
