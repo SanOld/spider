@@ -349,7 +349,7 @@
         </div>
         <div class="m-b-30">
           <h3 class="panel-title title-custom m-b-15">
-            Sachkosten
+            Ausgaben: Sachkosten
           </h3>
           <div ng-repeat="school in financeSchools">
             <h4>{{school.school_name}} ({{school.school_number}})</h4>
@@ -461,7 +461,7 @@
         </div>
         <div class="m-b-30">
           <h3 class="panel-title title-custom">
-            Sonstige Einnahmen
+            Einnahmen
           </h3>
           <hr />
           <div class="row">
