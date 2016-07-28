@@ -1,7 +1,7 @@
 
   <div class="tab-pane" id="schools-goals" ng-controller="RequestSchoolGoalController">
     <div id="accordion-order" class="panel-group panel-group-joined">
-
+<form name="goalsForm" novalidate>
       <div ng-repeat="school in schoolGoals" class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
@@ -28,7 +28,7 @@
                     </span>
                     {{::goal.name}}<span ng-if="goal.option == 1"> (optional)</span></a>
                 </li>
-                <button class="btn w-xs pull-right" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hunzufügen</button>                
+                <button class="btn w-xs pull-right" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hinzufügen</button>                
               </ul>  
                
               <div class="tab-content" >
@@ -579,7 +579,7 @@
           </div>
         </div>
       </div>
-
+</form>
     </div>
 
 

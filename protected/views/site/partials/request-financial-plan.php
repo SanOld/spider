@@ -394,7 +394,7 @@
                       <span spi-hint text="_hint.fin_plan_school_traning_cost"></span>
                     </div>
                     <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.training_cost, 'Fortbildungskosten'))  && errorShow) }">
-                      <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost');"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept || school.rate*1 > 1 && school.rate*1 < 0.5">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost'); updateTrainingCost(school);"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept || school.rate*1 > 1 && school.rate*1 < 0.5">
                     </div>
 
                   </div>

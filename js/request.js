@@ -10,7 +10,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.conceptStatus = '';
   $scope.goalsStatus = '';
   $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
+  $scope.isChangedProjectForm = false;
   $scope.isChangedFinanceForm = false;
+  $scope.isChangedConceptForm = false;
+  $scope.isChangedGoalsForm = false;
 
   $scope.tabs = ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
@@ -64,7 +67,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
 
   $scope.submitRequest = function (close) {
+    RequestService.setChangedProjectForm();
     RequestService.setChangedFinanceForm();
+    RequestService.setChangedConceptForm();
+    RequestService.setChangedGoalsForm();
     
     close = close || false;
     var data = RequestService.getProjectData();
@@ -108,7 +114,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
     
   $scope.cancel = function () {
-    if(RequestService.isChangedFinanceForm()){
+    var p = RequestService.isChangedProjectForm();
+    var c = RequestService.isChangedConceptForm();
+    var g = RequestService.isChangedGoalsForm();
+
+    if(RequestService.isChangedProjectForm() || RequestService.isChangedFinanceForm() || RequestService.isChangedConceptForm() || RequestService.isChangedGoalsForm()){
        Utils.modalClosing($scope.form, '', '', '', '/requests');
     } else {
       location.href = '/requests'; 
@@ -612,6 +622,14 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       $scope.updateData();
       localStorageService.set('dataChanged', 0);
     }
+  }
+
+  RequestService.isChangedProjectForm = function(){
+    return $scope.projectData.$dirty;
+  }
+
+  RequestService.setChangedProjectForm = function(){
+    $scope.projectData.$dirty = false;
   }
   
 });
@@ -1382,6 +1400,14 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     });
   }
 
+  RequestService.isChangedConceptForm = function(){
+    return $scope.conceptForm.$dirty;
+  }
+
+  RequestService.setChangedConceptForm = function(){
+    $scope.conceptForm.$dirty = false;
+  }
+
 });
 
 spi.controller('СonceptCompareController', function($scope, history, $uibModalInstance) {
@@ -1772,6 +1798,13 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     }
   }
 
+  RequestService.isChangedGoalsForm = function(){
+    return $scope.goalsForm.$dirty;
+  }
+
+  RequestService.setChangedGoalsForm = function(){
+    $scope.goalsForm.$dirty = false;
+  }
 });
 
 spi.controller('ModalDurationController', function ($scope, start_date, due_date, end_fill,  $uibModalInstance) {
