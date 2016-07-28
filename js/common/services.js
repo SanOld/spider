@@ -184,10 +184,15 @@ spi.service("RequestService", function () {
     this.initSchoolConcept(data);
     this.initSchoolGoal(data);
   };
-  
+
+  this.isChangedProjectForm = function() {};
+  this.setChangedProjectForm = function() {};
   this.isChangedFinanceForm = function() {};
   this.setChangedFinanceForm = function() {};
-    
+  this.isChangedConceptForm = function() {};
+  this.setChangedConceptForm = function() {};
+  this.isChangedGoalsForm = function() {};
+  this.setChangedGoalsForm = function() {};
 });
 
 
