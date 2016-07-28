@@ -93,19 +93,19 @@
                         <dl class="custom-dl width-dt-2">
                           <ng-show ng-show="data.performer_contact_function">
                             <dt>Funktion:</dt>
-                            <dd class="request-trager">{{data.performer_contact_function}}</dd>
+                            <dd class="request-webseite">{{data.performer_contact_function}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_address">
                             <dt>Adresse:</dt>
-                            <dd class="request-trager">{{data.performer_address}}</dd>
+                            <dd class="request-webseite">{{data.performer_address}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_plz">
                             <dt>PLZ:</dt>
-                            <dd class="request-trager">{{data.performer_plz}}</dd>
+                            <dd class="request-webseite">{{data.performer_plz}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_city">
                             <dt>Stadt:</dt>
-                            <dd class="request-trager">{{data.performer_city}}</dd>
+                            <dd class="request-webseite">{{data.performer_city}}</dd>
                           </ng-show>
                           <ng-show ng-show="data.performer_homepage">
                             <dt>Webseite:</dt>
