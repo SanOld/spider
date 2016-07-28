@@ -83,7 +83,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             school_type_id: data.school_type_id,
             type_id: data.type_id,
             is_old: data.is_old,
-            schools: data.school_type_id == 1 ? data.schools ? data.schools : [] : {},
+            schools: data.schools[0].id ? data.schools : [],
 //            schools: data.school_type_id == 1 ? data.schools : [],
 //            school: data.school_type_id != 1 ? data.schools[0] : {},
             performer_id: data.performer_id,
@@ -192,7 +192,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid || ($scope.error && $scope.error[field] != undefined && form[field].$pristine) || ($scope.schoolError == field && form[field].$pristine);
     };
     $scope.placeholderFN = function(items) {
-      return items.length && false ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'; 
+      return items.length && false ? '(keine Items sind verfügbar)' :'(Bitte auswählen)'; 
     };
     $scope.getNewCode = function(){
       var project_type = '';
@@ -226,17 +226,17 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           delete $scope.project.schools;  
         }        
         $scope.schools = [];
-//        if((!$scope.project.school_type_id || !$scope.project.district_id) && $scope.project.school_type_id != 5) {
-//          return;
-//        }
-        if($scope.project.school_type_id && $scope.schoolTypeCode != 'z') {
+        if(!$scope.project.school_type_id && !$scope.project.district_id) {
+          return;
+        }
+        if($scope.project.school_type_id) {
           schoolParams['type_id'] = $scope.project.school_type_id;
         }
         if($scope.project.district_id) {
           schoolParams['district_id'] = $scope.project.district_id;
         }
         network.get('school', schoolParams, function (result, response) {
-            if(result) {
+            if(result && response.result[0] != 0) {
               $timeout(function(){                
                 $scope.schools = response.result;
                 if(isInit && $scope.isInsert ) {
@@ -372,7 +372,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             newCode = newCode[0] + '/' + (newCode[1] ? +newCode[1] + 1 : 2);
             SweetAlert.swal({
               title: "Projekt bearbeiten?",
-              text: "Nächstes projekt wird erstellt " + newCode,
+              text: "Nächstes Projekt wird erstellt " + newCode,
               type: "warning",
               confirmButtonText: "Ja, erstellen!",
               showCancelButton: true,
