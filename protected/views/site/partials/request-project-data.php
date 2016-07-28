@@ -109,7 +109,7 @@
                           </ng-show>
                           <ng-show ng-show="data.performer_homepage">
                             <dt>Webseite:</dt>
-                            <dd class="request-trager"><a target="_blank" href="{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
+                            <dd class="request-webseite"><a target="_blank" href="{{data.performer_homepage}}">{{data.performer_homepage}}</a></dd>
                           </ng-show>
                         </dl>
                       </div>
@@ -176,7 +176,7 @@
                         <dd>{{selectConceptResult.phone}}</dd>
                       </ng-show>
                       <ng-show ng-show="selectConceptResult.email">
-                        <dt>E-mail:</dt>
+                        <dt>E-Mail:</dt>
                         <dd><a class="visible-lg-block" href="mailto:{{selectConceptResult.email}}">{{selectConceptResult.email}}</a></dd>
                       </ng-show>
                     </dl>
@@ -248,7 +248,7 @@
                         </ng-show>
                         <ng-show ng-show="school.homepage">
                           <dt>Webseite:</dt>
-                          <dd class="request-school"><a target="_blank" href="{{school.homepage}}">{{school.homepage}}</a></dd>
+                          <dd class="request-webseite"><a target="_blank" href="{{school.homepage}}">{{school.homepage}}</a></dd>
                         </ng-show>                          
                       </dl>
                     </div>
@@ -291,6 +291,10 @@
                 <ng-show ng-show="data.district_city">
                   <dt>Stadt:</dt>
                   <dd>{{data.district_city}}</dd>
+                </ng-show>
+                <ng-show ng-show="data.district_homepage">
+                  <dt>Webseite:</dt>
+                  <dd class="request-webseite"><a target="_blank" href="{{data.district_homepage}}">{{data.district_homepage}}</a></dd>
                 </ng-show>
               </dl>
             </div>

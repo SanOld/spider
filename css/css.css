@@ -3263,10 +3263,7 @@ form[name=conceptForm] .alert-danger {display: block;}
   height: 96px;
   text-align: center !important;
 }
-.request-trager{
-  margin-left: 149px;
-}
-.request-school{
+.request-webseite{
+  margin-left: 150px;  
   word-break: break-all;
-  margin-left: 150px;
 }
