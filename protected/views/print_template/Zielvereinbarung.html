@@ -1,0 +1,143 @@
+<h4>Jugendsozialarbeit an Berliner Schulen</h4>
+<p>Die Zielvereinbarung ergänzt den Kooperationsvertrag und wird für jeden Förderzeitraum erneuert. Die jeweils geltende und unterschriebene Vereinbarung wird dem bezirklichen Jugendamt, der regionalen Schulaufsicht bzw. Schulverwaltung sowie der Programmagentur der Stiftung SPI zur Kenntnisnahme in Kopie übermittelt.</p>
+<h1>Zielvereinbarung für das Jahr {JAHR}</h1>
+<table>
+  <tbody>
+    <tr>
+       <td>
+        <b>Projektkennziffer:</b>
+      </td>
+       <td>
+        <span>
+          <b>{KENNZIFFER}</b>
+        </span>
+      </td>
+    </tr>
+    <tr>
+       <td>
+        <b>Trägername:</b>
+      </td>
+       <td>
+        <span>
+          <b>{TRAEGER}</b>
+        </span>
+      </td>
+    </tr>
+    {FOREACH=SCHOOL}
+    <tr>
+       <td>
+        <b>Schulname:</b>
+      </td>
+       <td>
+        <span>
+          <b>{PD_SCHOOLNAME} {PD_SCHOOLNUMBER}</b>
+        </span>
+      </td>
+    </tr>
+    {FOREACH_END=SCHOOL}
+  </tbody>
+</table>
+<p  >
+  <b>Für den kommenden Förderzeitraum werden im Rahmen des Programms "Jugendsozialarbeit an Berliner Schulen" folgende Ziele, Maßnahmen und Indikatoren vereinbart.</b>
+</p>
+
+{FOREACH=SCHOOLGOAL}
+<h3>{GD_SCHOOLNAME} {GD_SCHOOLNUMBER}</h3>
+{FOREACH=GOAL}
+  <div>
+    <div>
+      <dl>
+        <dt>{GD_name}</dt>
+        <dd>{GD_description}</dd>
+      </dl>
+    </div>
+    <h4>Angebote für Schüler/innen und Eltern</h4>
+    <div>
+      <dl>
+        <dt><b>als Schwerpunktziel:</b></dt>
+        <dd>{GD_groupOffer_Schwerpunktziel}</dd>
+
+        <dt><b>als weiteres Ziel:</b></dt>
+        <dd>{GD_groupOffer_WeiteresZiel}</dd>
+
+        <dt>{GD_groupOffer_other}</dt>
+      </dl>
+    </div>
+    <h4>Interne / Externe Vernetzung</h4>
+    <div>
+      <dl>
+        <dt><b>als Schwerpunktziel</b></dt>
+        <dd>{GD_groupNet_Schwerpunktziel}</dd>
+
+        <dt><b>als weiteres Ziel</b></dt>
+        <dd>{GD_groupNet_WeiteresZiel}</dd>
+
+        <dt>{GD_groupNet_other}</dt>
+      </dl>
+    </div>
+
+
+    <div>
+      <dl>
+        <dt><b>Umsetzung</b></dt>
+        <dd>{GD_Umsetzung}</dd>
+      </dl>
+    </div>
+    <div>
+      <dl>
+        <dt><b>Indikatoren und Zielwerte</b></dt>
+        <dd>{GD_Indikatoren1}</dd>
+        <dd>{GD_Indikatoren2}</dd>
+        <dd>{GD_Indikatoren3}</dd>
+        <dd>{GD_Indikatoren4}</dd>
+        <dd>{GD_Indikatoren5}</dd>
+      </dl>
+    </div>
+  </div>
+{FOREACH_END=GOAL}
+{FOREACH_END=SCHOOLGOAL}
+
+<ol>
+  <li>
+    <ul>
+      <li>Um eine bedarfsgerechte Weiterentwicklung des Konzepts unter Beteiligung der Mitwirkenden zu gewährleisten, werden Vertreter/innen des Jugendamtes, der Schulaufsicht sowie der Programmagentur zu dem jährlich durchzuführenden Auswertungsgespräch eingeladen.</li>
+    </ul>
+  </li>
+</ol>
+<p style="font-family: Arial, Verdana, sans-serif; font-size: 13.3333px; line-height: normal; margin-top: 50px;">(Bitte handschriftlich ergänzen:)</p>
+<table  >
+  <tbody>
+    <tr>
+       <td>Namen der Sozialpädagogen/innen:</td>
+       <td>____________________________________________________________________</td>
+    </tr>
+    <tr>
+       <td>Raum der Jugendsozialarbeit:</td>
+       <td>____________________________________________________________________</td>
+    </tr>
+    <tr>
+       <td>Name Tandem-Lehrer/in:</td>
+       <td>____________________________________________________________________</td>
+    </tr>
+    <tr>
+       <td>Name Tridem-Erzieher/in:</td>
+       <td>____________________________________________________________________</td>
+    </tr>
+  </tbody>
+</table>
+<table style="margin: 50px 0px 0px; font-family: Arial, Verdana, sans-serif; font-size: 13.3333px; line-height: normal; background-color: rgb(255, 255, 255);">
+  <tbody>
+    <tr>
+       <td>Berlin, den ___________________________________</td>
+      <td style="vertical-align: top; text-align: right;">Berlin, den ___________________________________</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; padding-top: 50px;">_____________________________________________</td>
+      <td style="vertical-align: top; padding-top: 50px; text-align: right;">_____________________________________________</td>
+    </tr>
+    <tr>
+       <td>Unterschrift für die Schule</td>
+      <td style="vertical-align: top; text-align: right;">Unterschrift für den freien Träger</td>
+    </tr>
+  </tbody>
+</table>

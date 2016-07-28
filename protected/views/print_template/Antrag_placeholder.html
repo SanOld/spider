@@ -1,0 +1,358 @@
+<h1>Jugendsozialarbeit an Berliner Schulen</h1>
+
+  <div  >
+    <div>
+      <div>
+        <ul>
+          <li>Antrag {JAHR}</li>
+          <li>Kennziffer: {KENNZIFFER}</li>
+        </ul>
+        <hr>
+      </div>
+    </div>
+  </div>
+
+<h2>
+  <a name="TOC-Finanzplan">
+  </a>Finanzplan</h2>
+<h3>
+  <a name="TOC-Einnahmen"  >
+  </a>Einnahmen</h3>
+
+  <div  >
+    <div>
+      <table  >
+        <tbody>
+          <tr>
+            <td>beantragte Fördermittel (in EUR)</td>
+            <td>{FOERDERSUMME}</td>
+          </tr>
+          <tr>
+            <td>Sonstige Einnahmen (in EUR)</td>
+            <td>{FD_revenue_sum}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<h3>Ausgaben</h3>
+<h3>Personalkosten</h3>
+{FOREACH=PERSONALKOSTEN}
+  <div>
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>{FD_USERNAME}</td>
+          </tr>
+          <tr>
+            <td  >Funktion</td>
+            <td  >{FD_USERFUNCTION}</td>
+          </tr>
+          <tr>
+            <td  >Kosten pro Monat (AN-Brutto)</td>
+            <td  >{FD_cost_per_month_brutto}</td>
+          </tr>
+          <tr>
+            <td  >Geplante Monate im Projekt</td>
+            <td  >{FD_month_count}</td>
+          </tr>
+          <tr>
+            <td  >Arbeitsstunden pro Woche</td>
+            <td  >{FD_hours_per_week}</td>
+          </tr>
+          <tr>
+            <td  >Jahressonderzahlungen</td>
+            <td  >{FD_annual_bonus}</td>
+          </tr>
+          <tr>
+            <td  >Zusatzversorgung (VWL)</td>
+            <td  >{FD_additional_provision_vwl}</td>
+          </tr>
+          <tr>
+            <td  >Zusatzversorgung (betriebl. Altersversorgung)</td>
+            <td  >{FD_supplementary_pension}</td>
+          </tr>
+          <tr>
+            <td  >brutto</td>
+            <td  >{FD_brutto}</td>
+          </tr>
+          <tr>
+            <td  >add_cost</td>
+            <td  >{FD_add_cost}</td>
+          </tr>
+          <tr>
+            <td  >full_cost</td>
+            <td  >{FD_full_cost}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{FOREACH_END=PERSONALKOSTEN}
+
+<h3>Sachkosten und Personalnebenkosten</h3>
+{FOREACH=SACHKOSTEN}
+<h4>{FD_SCHOOLNAME} {FD_SCHOOLNUMBER}</h4>
+  <div>
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <td>Stellenanteil</td>
+            <td>{FD_Stellenanteil}</td>
+          </tr>
+          <tr>
+            <td>Monat</td>
+            <td>{FD_Monat}</td>
+          </tr>
+          <tr>
+            <td>Fortbildungskosten</td>
+            <td>{FD_Fortbildungskosten}</td>
+          </tr>
+          <tr>
+            <td>Regiekosten</td>
+            <td>{FD_Regiekosten}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{FOREACH_END=SACHKOSTEN}
+
+<h2>Teilantrag</h2>
+<h2>1. Projektdaten</h2>
+<h3>Antragsrelevante Stammdaten</h3>
+<h4>Adresse des Trägers (Stammdaten)</h4>
+
+  <div  >
+    <div>
+      <div>
+        <dl>
+          <dt>Name</dt>
+          <dd>{TRAEGER}</dd>
+          <dt>PLZ</dt>
+          <dd>{PD_TRAEGER_PLZ}</dd>
+          <dt>Stadt</dt>
+          <dd>{PD_TRAEGER_Stadt}</dd>
+          <dt>Straße / Hausnummer oder Postfach</dt>
+          <dd>{PD_TRAGER_ADRESSE}</dd>
+          <dt>Telefon</dt>
+          <dd>{PD_TRAEGER_Telefon}</dd>
+          <dt>Telefax</dt>
+          <dd>{PD_TRAEGER_Telefax}</dd>
+          <dt>Homepage</dt>
+          <dd>{PD_TRAEGER_Homepage}</dd>
+          <dt>E-Mail</dt>
+          <dd>{PD_TRAEGER_Email}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+<h4>Vertretungsberechtigte Person (Stammdaten)</h4>
+
+  <div>
+    <div>
+      <div>
+        <dl>
+          <dt>Anrede</dt>
+          <dd>{PD_Vertretungsberechtigte_Anrede}</dd>
+          <dt>Vorname</dt>
+          <dd>{PD_Vertretungsberechtigte_Vorname}</dd>
+          <dt>Nachname</dt>
+          <dd>{PD_Vertretungsberechtigte_Nachname}</dd>
+          <dt>Function</dt>
+          <dd>{PD_Vertretungsberechtigte_Function}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+<h3>Antragsrelevante Projektdaten</h3>
+<h4>Ansprechperson für die Antragsbearbeitung (für Rückfragen zum Konzept)</h4>
+
+  <div>
+    <div>
+      <div>
+        <dl>
+          <dt>Anrede</dt>
+          <dd>{PD_Konzept_Anrede}</dd>
+          <dt>Vorname</dt>
+          <dd>{PD_Konzept_Vorname}</dd>
+          <dt>Nachname</dt>
+          <dd>{PD_Konzept_Nachname}</dd>
+          <dt>Telefon</dt>
+          <dd>{PD_Konzept_Telefon}</dd>
+          <dt>E-Mail</dt>
+          <dd>{PD_Konzept_Email}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+<h4>Ansprechperson für die Antragsbearbeitung (für Rückfragen zum Finanzplan)</h4>
+
+  <div>
+    <div>
+      <div>
+        <dl>
+          <dt>Anrede</dt>
+          <dd>{PD_Finance_Anrede}</dd>
+          <dt>Vorname</dt>
+          <dd>{PD_Finance_Vorname}</dd>
+          <dt>Nachname</dt>
+          <dd>{PD_Finance_Nachname}</dd>
+          <dt>Telefon</dt>
+          <dd>{PD_Finance_Telefon}</dd>
+          <dt>E-Mail</dt>
+          <dd>{PD_Finance_Email}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+<h4>Kontoverbindung</h4>
+
+  <div>
+    <div>
+      <div>
+        <dl>
+          <dt>Contact</dt>
+          <dd>{PD_Bank_Contact}</dd>
+          <dt>Bank Name</dt>
+          <dd>{PD_Bank_Name}</dd>
+          <dt>Bank_Outer</dt>
+          <dd>{PD_Bank_Outer}</dd>
+          <dt>Description</dt>
+          <dd>{PD_Bank_Descr}</dd>
+          <dt>IBAN</dt>
+          <dd>{PD_Bank_IBAN}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+<h3>Angaben zum Jugendamt</h3>
+<h4>Adresse des Jugendamtes</h4>
+
+  <div  >
+    <div>
+      <div>
+        <dl>
+          <dt>Bezirk</dt>
+          <dd>{PD_District_Bezirk}</dd>
+          <dt>PLZ</dt>
+          <dd>{PD_District_PLZ}</dd>
+          <dt>Stadt</dt>
+          <dd>{PD_District_Stadt}</dd>
+          <dt>Straße</dt>
+          <dd>{PD_District_Straße}</dd>
+          <dt>Telefon</dt>
+          <dd>{PD_District_Telefon}</dd>
+          <dt>Telefax</dt>
+          <dd>{PD_District_Telefax}</dd>
+          <dt>E-Mail</dt>
+          <dd>{PD_District_Email}</dd>
+          <dt>Homepage</dt>
+          <dd>{PD_District_Homepage}</dd>
+          <dt>Full Address</dt>
+          <dd>{PD_District_Address}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+<h3>
+  <a name="TOC-Beginn-und-Ende-der-Ma-nahme-Beantragung-"  >
+  </a>Beginn und Ende der Maßnahme (Beantragung)</h3>
+
+  <div  >
+    <div>
+      <div>
+        {ZEITRAUM}
+      </div>
+    </div>
+    <div>﻿</div>
+  </div>
+
+<h2>2. Konzept</h2>
+{FOREACH=CONCEPT}
+<h4>{CD_SCHOOLNAME} {CD_SCHOOLNUMBER}</h4>
+  <div  >
+    <div>
+      <dl>
+        <dt>2.1 Situation an der Schule</dt>
+        <dd>{CD_Situation}</dd>
+      </dl>
+    </div>
+    <div>
+      <dl>
+        <dt>2.2 Angebote der Jugendsozialarbeit an der Schule</dt>
+        <dd>{CD_Angebote}</dd>
+      </dl>
+    </div>
+  </div>
+{FOREACH_END=CONCEPT}
+
+<h2>3. Entwicklungsziel 1</h2>
+{FOREACH=SCHOOLGOAL}
+<h3>{GD_SCHOOLNAME} {GD_SCHOOLNUMBER}</h3>
+{FOREACH=GOAL}
+  <div>
+    <div>
+      <dl>
+        <dt>{GD_name}</dt>
+        <dd>{GD_description}</dd>
+      </dl>
+    </div>
+    <h4>Angebote für Schüler/innen und Eltern</h4>
+    <div>
+      <dl>
+        <dt><b>als Schwerpunktziel:</b></dt>
+        <dd>{GD_groupOffer_Schwerpunktziel}</dd>
+
+        <dt><b>als weiteres Ziel:</b></dt>
+        <dd>{GD_groupOffer_WeiteresZiel}</dd>
+
+        <dt>{GD_groupOffer_other}</dt>
+      </dl>
+    </div>
+    <h4>Interne / Externe Vernetzung</h4>
+    <div>
+      <dl>
+        <dt><b>als Schwerpunktziel</b></dt>
+        <dd>{GD_groupNet_Schwerpunktziel}</dd>
+
+        <dt><b>als weiteres Ziel</b></dt>
+        <dd>{GD_groupNet_WeiteresZiel}</dd>
+
+        <dt>{GD_groupNet_other}</dt>
+      </dl>
+    </div>
+
+
+    <div>
+      <dl>
+        <dt>Umsetzung</dt>
+        <dd>{GD_Umsetzung}</dd>
+      </dl>
+    </div>
+    <div>
+      <dl>
+        <dt>Indikatoren und Zielwerte</dt>
+        <dd>{GD_Indikatoren1}</dd>
+        <dd>{GD_Indikatoren2}</dd>
+        <dd>{GD_Indikatoren3}</dd>
+        <dd>{GD_Indikatoren4}</dd>
+        <dd>{GD_Indikatoren5}</dd>
+      </dl>
+    </div>
+  </div>
+{FOREACH_END=GOAL}
+{FOREACH_END=SCHOOLGOAL}
+
+<h2>Datum / Ort</h2>
+<h2>Unterschrift / Stempe</h2>
