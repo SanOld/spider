@@ -36,19 +36,14 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
     });
   };
   $scope.qqSetting = {
-    model: 'financial_request_document',
+    model: 'financial_document',
     customHeaders:{Authorization: network.token},
     buttonText: 'Dokumente hinzufügen',
-    onCompile: function (id, fileName, responseJSON) {
-      if (responseJSON.result) {
-        Notification.success({title: 'File upload success!', message: responseJSON.message});
-        //getDocuments();
-      } else {
-        console.log(responseJSON.result);
-        Notification.error({title: 'File upload fail!', message: responseJSON.message});
-      }
+    onUpload: function (id, fileName, responseJSON) {
+      Notification.success({title: 'File upload success!', message: 'file uploaded'});
+      grid.reload();
     }
-  }
+  };
   $scope.canEdit = function(id) {
     return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 'd' || network.user.type == 't');
   }
