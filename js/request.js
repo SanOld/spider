@@ -349,6 +349,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
             type_id: 3,
             email: $scope.user.email,
             type: 't',
+            password: '',
             relation_id: $scope.request.performer_id
           };
           var callback = function (result, response) {
@@ -748,6 +749,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             type_id: 3,
             email: network.user.email,
             type: 't',
+            password: '',
             relation_id: $scope.data.performer_id
         };
         var callback = function (result, response) {
@@ -800,6 +802,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             type_id: 3,
             email: network.user.email,
             type: 't',
+            password: '',
             relation_id: $scope.data.performer_id
           };     
           var callback = function (result, response) {
