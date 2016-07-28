@@ -140,10 +140,10 @@
           <div class="col-lg-10">
             <div spi-hint text="_hint.schools" class="has-hint"></div>
 
-            <div class="wrap-hint" ng-class="{'select2-empty-list':!schools.length, 'wrap-line error': fieldError('schools')}">
-              <ui-select ng-disabled="project.is_old == 1 || !schools.length || modeView" multiple ng-model="project.schools" ng-required="schoolTypeCode != 'z'"
+            <div class="wrap-hint" ng-class="{'select2-empty-list':(!schools.length && !project.school_type_id) || (!schools.length && project.school_type_id == 6), 'wrap-line error': fieldError('schools')}">
+              <ui-select ng-disabled="!schools.length || modeView || project.is_old == 1" multiple ng-model="project.schools" ng-required="schoolTypeCode != 'z'"
                          name="schools">
-                <ui-select-match placeholder="{{placeholderFN($select.items)}}">
+                <ui-select-match placeholder="{{!schools.length ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
                   {{$item.name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'name'">
