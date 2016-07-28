@@ -86,6 +86,12 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
   var grid = GridService();
   $scope.tableParams = grid('document_template_placeholder', $scope.filter, {sorting: {name: 'asc'}});
 
+    network.get('document_template_placeholder', {filter: 1}, function (result, response) {
+    if (result) {
+      window.console.log(response.result);
+    }
+  });
+
   $scope.options = {
   height: 200,                 // set editor height
   focus: true,
