@@ -202,7 +202,6 @@ class DocumentTemplate extends BaseModel {
   }
 
   protected function prepareText($text) {
-
     $text = $this->prepareProjectData($text);
     $text = $this->prepareFinanceData($text);
     $text = $this->prepareConceptData($text);
@@ -212,16 +211,16 @@ class DocumentTemplate extends BaseModel {
 
   private function prepareProjectData($text){
 
-    $text = preg_replace_callback("/\{FOREACH=SCHOOL\}.+\{FOREACH_END\}/is", array($this, 'repeatSchools'), $text);
+    $text = preg_replace_callback("/\{FOREACH=SCHOOL\}.+\{FOREACH_END=SCHOOL\}/is", array($this, 'repeatSchools'), $text);
 
     $params = array(
-          '{PD_AUFLAGEN}'      => $this->requestData['senat_additional_info']
-        , '{PD_FOERDERSUMME}'  => $this->requestData['total_cost']
-        , '{PD_JAHR}'          => $this->requestData['year']
-        , '{PD_KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $this->requestData['project_id']))->queryScalar()
-        , '{PD_ZEITRAUM}'      => 'Beginn: '.$this->requestData['start_date_formated'].' Ende: '.$this->requestData['due_date_formated']
+          '{AUFLAGEN}'      => $this->requestData['senat_additional_info']
+        , '{FOERDERSUMME}'  => $this->requestData['total_cost']
+        , '{JAHR}'          => $this->requestData['year']
+        , '{KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $this->requestData['project_id']))->queryScalar()
+        , '{ZEITRAUM}'      => 'Beginn: '.$this->requestData['start_date_formated'].' Ende: '.$this->requestData['due_date_formated']
+        , '{TRAEGER}'       => $this->performerData['name']
 
-        , '{PD_TRAEGER}'          => $this->performerData['name']
         , '{PD_TRAGER_ADRESSE}'   => $this->performerData['address']
         , '{PD_TRAEGER_PLZ}'      => $this->performerData['plz']
         , '{PD_TRAEGER_Stadt}'    => $this->performerData['city']
@@ -274,8 +273,8 @@ class DocumentTemplate extends BaseModel {
     $text = array();
     foreach ($this->requestData['schools'] as $key => $school) {
       $params = array(
-          '{FOREACH=SCHOOL}'  => '',
-          '{FOREACH_END}'     => '',
+          '{FOREACH=SCHOOL}'     => '',
+          '{FOREACH_END=SCHOOL}' => '',
           '{PD_SCHOOLNAME}'      => $school['name'],
           '{PD_SCHOOLNUMBER}'    => $school['number'],
         );
@@ -506,6 +505,5 @@ class DocumentTemplate extends BaseModel {
     }
     return '';
   }
-
 
 }
