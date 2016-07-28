@@ -48,7 +48,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 						<button ng-show="userCan('changeStatus_lock')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(5)">Genehmigt</button>
 					</div>
           <div class="col-lg-2 text-left">
-            <button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Zur Übersicht</button>
+            <button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()" title="Abbrechen">Zur Übersicht</button>
 					</div>
 					<div class="col-lg-5 text-right">
 						<button ng-show="userCan('save') && back" class="btn m-t-2 custom-btn btn-lg ion-skip-backward" ng-click="submitRequest();toTab(-1)" title="Speichern und zurück"></button>
