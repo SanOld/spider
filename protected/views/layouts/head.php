@@ -6,6 +6,7 @@
 <meta name="author" content="">
 <base href="/">
 
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300italic,600,700,600italic,400italic' rel='stylesheet' type='text/css'>
 <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/angular-ui-notification/angular-ui-notification.min.css" />
 <!-- Google-Fonts -->
