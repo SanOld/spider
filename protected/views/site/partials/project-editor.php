@@ -39,7 +39,7 @@
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.type_id"
                          name="type_id" required on-select="updateCode();getProgramms();">
-                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
+                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{$select.selected.name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in projectTypes | filter: $select.search  | orderBy: 'name'">
@@ -58,7 +58,7 @@
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('school_type_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.school_type_id"
                          name="school_type_id" required on-select="updateSchools();updateCode();getDistricts();">
-                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
+                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{$select.selected.fullName}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in schoolTypes | filter: $select.search | orderBy: 'fullName'">
@@ -79,7 +79,7 @@
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('programm_id')}">
               <ui-select ng-disabled="!project.type_id || modeView || !isInsert " ng-model="project.programm_id"
                          name="programm_id" required on-select="updateCode();" >
-                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
+                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                 {{$select.selected.programm}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in programms | filter: $select.search | orderBy: 'name'">
@@ -100,7 +100,7 @@
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('performer_id')}">
               <ui-select ng-disabled="!$select.items.length || project.is_old == 1 || modeView" ng-model="project.performer_id"
                          name="performer_id" required>
-                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
+                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{$select.selected.short_name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in performers | filter: $select.search | orderBy: 'name'">
@@ -121,7 +121,7 @@
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.district_id"
                          name="district_id" on-select="updateSchools()" ng-required="schoolTypeCode != 'z' && schoolTypeCode != 'b'">
-                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
+                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{project.district_id == "--Kein Bezirk--" ? project.district_id : $select.selected.name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in districts | filter: $select.search | orderBy: 'name'">
@@ -143,7 +143,7 @@
             <div class="wrap-hint" ng-class="{'select2-empty-list':(!schools.length && !project.school_type_id) || (!schools.length && project.school_type_id == 6), 'wrap-line error': fieldError('schools')}">
               <ui-select ng-disabled="!schools.length || modeView || project.is_old == 1" multiple ng-model="project.schools" ng-required="schoolTypeCode != 'z'"
                          name="schools">
-                <ui-select-match placeholder="{{!schools.length ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
+                <ui-select-match placeholder="{{!schools.length ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{$item.name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'name'">
@@ -158,7 +158,7 @@
 <!--            <div class="wrap-hint" ng-hide="schoolTypeCode == 's'" ng-class="{'select2-empty-list':!schools.length, 'wrap-line error': fieldError('school')}" >
               <ui-select ng-disabled="!$select.items.length || project.is_old == 1 || modeView" ng-model="project.school" ng-required="schoolTypeCode != 'z' && schoolTypeCode != 's' "
                          name="school">
-                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte wählen Sie)'}}">
+                <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{$select.selected.name}}
                 </ui-select-match>
                 <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'name'">
