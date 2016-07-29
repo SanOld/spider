@@ -535,7 +535,7 @@ class BaseModel extends CFormModel {
                                           WHERE prj.code NOT LIKE "%/%"
                                           AND prj.is_manual = 0                                           
                                           AND prj.real_code <> "" 
-                                          GROUP BY prj.real_code, is_bonus')->queryAll();
+                                          GROUP BY prj.real_code, is_bonus, sct.id')->queryAll();
     $pattern_number = "/[0-9]+$/";
     $pattern = "/^[a-zA-Z]{1,2}/";  
     
