@@ -296,7 +296,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   $scope.dublicate = false;
   $scope.required = false;
   $scope.userLoading = false;
-  
+  $scope.canFormEdit = ['a','p'].indexOf(network.user.type) !== -1;
+  $scope.user_type = network.user.type;
   $scope.addNewConceptUser = function(){      
     $scope.dublicate = false;
     $scope.required = false;
