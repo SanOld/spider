@@ -52,6 +52,15 @@ class Project extends BaseModel {
     if (isset($params['ID'])) {
       $command -> andWhere("tbl.id = :id", array(':id' => $params['ID']));
     }
+    if (isset($params['REQUEST'])) {
+      $command -> join ('spi_request req', 'req.project_id = tbl.id');
+      $command -> andWhere("tbl.id = :id", array(':id' => $params['REQUEST']));      
+    }
+    if (isset($params['REQUEST_ACTIVE'])) {
+      $command -> join ('spi_request req', 'req.project_id = tbl.id');
+      $command -> andWhere('req.status_id = 1');
+      $command -> andWhere("tbl.id = :id", array(':id' => $params['REQUEST_ACTIVE']));      
+    }
     if (safe($params, 'SCHOOL_ID')) {
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
@@ -202,8 +211,16 @@ class Project extends BaseModel {
 
     }
   }
-  protected function doBeforeUpdate($post, $id) {     
+  protected function doBeforeUpdate($post, $id) {    
     $params = $post;
+    if($params['is_old']){
+      Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
+        ':id' => $id
+      )); 
+      return array (
+              'result' => false
+            );
+    }
     unset($params['schools']);
     unset($params['performer_id']);
     $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id=:id ', array(
@@ -225,7 +242,7 @@ class Project extends BaseModel {
               'system_code' => 'ERR_UPDATE_FORBIDDEN',
             );
     } 
-    
+        
     unset($row['id']);
     $row['schools'] = safe($post,'schools');
     $row['performer_id'] = $post['performer_id'];
@@ -300,7 +317,7 @@ class Project extends BaseModel {
 //        'result' => true,
 //        'params' => $post
 //    );
-//  }
-
-
+//  } 
+    
+  
 }
