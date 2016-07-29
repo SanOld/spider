@@ -76,6 +76,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     $timeout(function () {
         $scope.$digest();
     },500);
+    
     if(!$scope.isInsert) {
         $scope.project = {
             code: data.code,
@@ -102,6 +103,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           }
       });
     }
+    
     $scope.schoolTypesId = {};
     network.get('school_type', {}, function (result, response) {
       if(result) {
@@ -282,6 +284,20 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       return similar;
     };
     
+    $scope.banToDelete = function (){
+      SweetAlert.swal({
+        title: "",
+        text: "Löschen Sie den Antrag zuerst damit diese Operation durchzuführen.",
+        type: "warning",
+        confirmButtonText: "OK",
+        closeOnConfirm: true
+      }, function(isConfirm){
+          if(isConfirm){
+            $uibModalInstance.close();
+          }   
+       });
+    };
+    
     $scope.submitFormProjects = function () {
         $scope.submited = true;
         $scope.error = false;        
@@ -306,26 +322,9 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         if($scope.schoolTypeCode == 'z') {
           $copyScopeProject.schools = [0];
         }
-        delete $copyScopeProject.school; 
+//        delete $copyScopeProject.school; 
         $copyScopeProject['programm_id'] = $scope.programms[0].id;
         if((!$copyScopeProject.schools || !$copyScopeProject.schools.length) && $scope.schoolTypeCode != 'z') {
-//              if($scope.schoolTypeCode != 's') {
-//                SweetAlert.swal({
-//                  title: "Школа не выбрана",
-//                  text: "Для проекта этого типа должны быть указана хотябы одна школа",
-//                  type: "warning",
-//                  confirmButtonText: "ОК",
-//                  closeOnConfirm: true
-//                });
-//              } else {
-//                SweetAlert.swal({
-//                  title: "Школа не выбрана",
-//                  text: "Для проекта этого типа должны быть указана школа",
-//                  type: "warning",
-//                  confirmButtonText: "ОК",
-//                  closeOnConfirm: true
-//                });
-//              }
           $scope.schoolError = "schools";
           return false;
         }
@@ -370,19 +369,25 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             });
             var newCode = $copyScopeProject.code.split('/');
             newCode = newCode[0] + '/' + (newCode[1] ? +newCode[1] + 1 : 2);
-            SweetAlert.swal({
-              title: "Projekt bearbeiten?",
-              text: "Nächstes Projekt wird erstellt " + newCode,
-              type: "warning",
-              confirmButtonText: "Ja, erstellen!",
-              showCancelButton: true,
-              cancelButtonText: "ABBRECHEN",
-              closeOnConfirm: true
-            }, function(isConfirm){
-              if(isConfirm) {
-                network.put('project/' + data.id, $copyScopeProject, callback);
+            network.get('project', {'request_active': data.id} , function (result, response) {
+              if(!response.result.length){
+                SweetAlert.swal({
+                  title: "Projekt bearbeiten?",
+                  text: "Nächstes Projekt wird erstellt " + newCode,
+                  type: "warning",
+                  confirmButtonText: "Ja, erstellen!",
+                  showCancelButton: true,
+                  cancelButtonText: "ABBRECHEN",
+                  closeOnConfirm: true
+                }, function(isConfirm){
+                  if(isConfirm) {
+                    network.put('project/' + data.id, $copyScopeProject, callback);
+                  }
+                });
+              }else{
+                $scope.banToDelete();
               }
-            });
+            });            
           }else{
               $uibModalInstance.close();
           }
@@ -399,21 +404,29 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     };
 
     $scope.remove = function() {
-      Utils.doConfirm(function() {
-        network.delete('project/'+data.id, function (result) {
-          if(result) {
-            Utils.deleteSuccess();
-            $uibModalInstance.close();
-          }else{
-            SweetAlert.swal({
-              title: "",
-              text: "Löschen Sie den Antrag zuerst damit diese Operation durchzuführen.",
-              type: "warning",
-              confirmButtonText: "OK",
-              closeOnConfirm: true
-            });
-          }
-        });
+      network.get('project', {'request': data.id} , function (result, response) {
+        if(response.result.length){
+          network.get('project', {'request_active': data.id} , function (result, response) {
+            if(!response.result.length){
+              $scope.project.is_old = 1;
+              network.put('project/' + data.id, $scope.project, function(){                  
+                Utils.deleteSuccess();
+                $uibModalInstance.close();
+              });
+            }else{
+              $scope.banToDelete();
+            }
+          });
+        }else{            
+          Utils.doConfirm(function() {
+            network.delete('project/'+data.id, function (result) {
+              if(result) {
+                Utils.deleteSuccess();
+                $uibModalInstance.close();
+              }
+            });                         
+          });
+        }
       });
     };
 
