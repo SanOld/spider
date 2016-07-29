@@ -101,7 +101,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   function getSelectedIds() {
     var ids = [];
     for(var k in $scope.checkboxes.items) {
-      if($scope.checkboxes.items[k]) {
+      if($scope.checkboxes.items[k] && Utils.getRowById($scope.tableParams.data, k)) {
         ids.push(k);
       }
     }
@@ -148,6 +148,56 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       });
 
 
+    }
+  };
+
+  $scope.copyRequest = function() {
+    var ids = getSelectedIds();
+    if (ids.length) {
+      var failCodes = [];
+      var selectedCodes = [];
+      for(var i=0; i<ids.length; i++) {
+        var row = Utils.getRowById($scope.tableParams.data, ids[i]);
+//        if(['acceptable', 'accept'].indexOf(row.status_code) !== -1) {
+//          failCodes.push(row.code);
+//        }
+        selectedCodes.push(row.code);
+      }
+
+      if(failCodes.length) {
+        SweetAlert.swal({
+          title: "Fehler",
+          text: "Anfragen "+failCodes.join(', ')+" können nicht copy sein",
+          type: "error",
+          confirmButtonText: "OK"
+        });
+        return false;
+      }
+
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'copyRequest.html',
+        controller: 'ModalCopyRequestController',
+        size: 'custom-width-request-duration',
+        resolve: {
+          ids: function () {
+            return ids;
+          },
+          selectedCodes: function () {
+            return selectedCodes;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (data) {
+        
+        network.post('request', {ids: ids, copy: true, year: data.year}, function(result) {
+          if(result) {
+            grid.reload();
+          }
+        });
+      });
+      
     }
   };
 
@@ -237,6 +287,17 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   };
 
   $scope.setBulkStatus = function(statusId) {
+  var required = [
+              'doc_target_agreement_id',
+              'doc_request_id',
+              'doc_financing_agreement_id',
+              'finance_user_id',
+              'concept_user_id',
+              'start_date',
+              'due_date'
+            ];
+
+
     var ids = getSelectedIds();
     if(ids.length) {
       var failCodes = [];
@@ -248,7 +309,15 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         } else if(row.status_concept != 'accepted' || row.status_finance != 'accepted' || row.status_goal != 'accepted') {
           failCodes.push(row.code);
         }
+
+        for(var field in required){
+          if(row[field] == '' || row[field] == '0'){
+            failCodes.push(row.code);
+          }
+        }
       }
+
+
       if(failCodes.length) {
         SweetAlert.swal({
           title: "Fehler",
@@ -258,6 +327,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         });
         return false;
       }
+
+
+      
       SweetAlert.swal({
         title: "Massenänderung der Anfragen",
         text: "Möchten Sie wirklich eine "+ids.length+" "+ids.length == 1 ? 'Anfrage' : 'Anfragen'+"?",
@@ -419,6 +491,43 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 });
 
+spi.controller('ModalCopyRequestController', function ($scope, ids, selectedCodes, $uibModalInstance) {
+  var d = new Date();
+  $scope.year = new Date(d.setFullYear(d.getFullYear() + 1));
+  $scope.countElements = ids.length;
+  if (selectedCodes.length > 0) {
+    $scope.selectedElements = selectedCodes.join(', ');
+  }
+  
+
+  $scope.dateOptions = {
+    datepickerMode: 'year',
+    minMode: 'year',
+    yearRows: 1,
+    yearColumns: 5,
+    minDate:  new Date()//(Default: null) - Defines the minimum available date. Requires a Javascript Date object.
+  };
+
+  $scope.fieldError = function(field) {
+      var form = $scope.copyRequest;
+      return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
+  };
+
+  $scope.ok = function () {
+    $scope.copyRequest.$setPristine();
+    if ($scope.copyRequest.$valid) {
+
+      $uibModalInstance.close({year:  $scope.year.getFullYear()});
+      $uibModalInstance.dismiss('cancel');
+    }
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+});
+
 spi.controller('ModalPrintDocumentsController', function ($scope,user, row,  userCan, $uibModalInstance, network) {
   $scope.row = row;
   $scope.userCan = userCan;
@@ -448,8 +557,6 @@ spi.controller('ModalPrintDocumentsController', function ($scope,user, row,  use
   };
 
 });
-
-
 
 spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance, network) {
   var d = new Date();
@@ -506,8 +613,6 @@ spi.controller('ModalRequestAddController', function ($scope, $uibModalInstance,
   };
 
 });
-
-
 
 spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $uibModalInstance, data, $sce, $rootScope) {
   $scope.isInsert = !data.id;

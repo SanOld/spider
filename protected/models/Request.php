@@ -7,6 +7,7 @@ use  yii\helpers\ArrayHelper ;
 class Request extends BaseModel {
   public $table = 'spi_request';
   public $post = array();
+  public $copy = false;
   public $school_concepts = array();
   public $finance_plan = array();
   public $school_goals = array();
@@ -288,7 +289,7 @@ class Request extends BaseModel {
     }
   }
   protected function doAfterInsert($result, $params, $post) {
-    if($result['code'] == '200' && safe($result, 'id')) {
+    if(!$this->copy && $result['code'] == '200' && safe($result, 'id')) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
       $RequestSchoolConcept ->user = $this->user;
       $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
@@ -336,6 +337,7 @@ class Request extends BaseModel {
       }
 
     }
+
 
     return $result;
   }
@@ -687,5 +689,59 @@ class Request extends BaseModel {
     return array(
       'result' => true
     );
+  }
+
+  public function copy($post){
+    if(safe($post, 'ids')) {
+      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+      $RequestSchoolConcept ->user = $this->user;
+      $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
+      $RequestSchoolFinance ->user = $this->user;
+      $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+      $RequestSchoolGoal ->user = $this->user;
+
+      $ids = !is_array($post['ids']) ? array($post['ids']) : $post['ids'];
+      $year = safe($post, 'year');
+      $this->copy = true;
+      unset($post['ids']);
+      unset($post['year']);
+      foreach($ids as $oldId) {
+        $res = $this->select(array('id'=>$oldId), true);
+        $command = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl');
+        $command -> where('id = :id', array(':id' => $oldId));
+        $value = $command ->queryRow();
+
+        if($value){
+          $value['year'] = $year;
+          unset ($value['id']);
+          unset ($value['start_date']);
+          unset ($value['due_date']);
+          unset ($value['end_fill']);
+          unset ($value['last_change']);
+          $newId = false;
+          $insertResult = $this->insert($value, true);
+          if($insertResult['result']){
+            $newId = $insertResult['id'];
+          }
+
+          $this->copyData('spi_request_school_concept',$RequestSchoolConcept, $oldId, $newId );
+          $this->copyData('spi_request_school_goal', $RequestSchoolGoal, $oldId, $newId );
+          $this->copyData('spi_request_school_finance', $RequestSchoolFinance, $oldId, $newId );
+        }
+      }
+      response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'copy');
+    }
+  }
+
+  protected function copyData($table, $model,$oldId, $newId){
+    $command = Yii::app() -> db -> createCommand() -> select('*') -> from($table);
+    $command -> where('request_id = :id', array(':id' => $oldId));
+    $value = $command ->queryAll();
+
+    foreach ($value as $row) {
+      unset($row['id']);
+      $row['request_id'] = $newId;
+      $model->insert($row, true);
+    }
   }
 }
