@@ -349,6 +349,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
             type_id: 3,
             email: $scope.user.email,
             type: 't',
+            password: '',
             relation_id: $scope.request.performer_id
           };
           var callback = function (result, response) {
@@ -748,6 +749,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             type_id: 3,
             email: network.user.email,
             type: 't',
+            password: '',
             relation_id: $scope.data.performer_id
         };
         var callback = function (result, response) {
@@ -800,6 +802,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             type_id: 3,
             email: network.user.email,
             type: 't',
+            password: '',
             relation_id: $scope.data.performer_id
           };     
           var callback = function (result, response) {
@@ -1137,6 +1140,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       var r = new RegExp('([0-9]+)([\,]{0,1})([0-9]{0,'+cnt+'})[0-9]*', 'i');
       var m = obj[key].match(r);
       try{
+        if(m[1][0]=='0' && m[1].length>1){
+          m[1] = m[1].substring(1,m[1].length);
+        }
         obj[key] = m[1]+m[2]+m[3];
       } catch(e) {
         obj[key] = '';
