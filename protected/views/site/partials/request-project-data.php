@@ -67,7 +67,7 @@
               <h3 class="panel-title">
                 Träger
                 <span class="btn-row m-l-15">
-                  <a class="btn" href="performers#id={{data.performer_id}}" target="_blank" ng-click="setUpdater()" >Bearbeiten</a>
+                  <a class="btn" ng-show="canFormEdit || user_type == 't'" href="performers#id={{data.performer_id}}" target="_blank" ng-click="setUpdater()" >Bearbeiten</a>
                 </span>
               </h3>
               <hr/>
@@ -203,7 +203,7 @@
                   <div class="row m-b-30 row-holder-dl">
                     <div class="col-lg-12">
                       <div class="btn-row m-b-15">
-                        <a class="btn" href="schools#id={{school.id}}" target="_blank" ng-click="setUpdater()"  >Bearbeiten</a>
+                        <a class="btn" ng-show="canFormEdit || user_type == 's'" href="schools#id={{school.id}}" target="_blank" ng-click="setUpdater()"  >Bearbeiten</a>
                       </div>                      
                     </div>
                     <div class="col-lg-5">
@@ -261,7 +261,7 @@
           <h3 class="panel-title">
             Angaben zum Jugendamt
             <span class="btn-row m-l-15">
-              <a class="btn" href="districts#id={{data.district_id}}" target="_blank" ng-click="setUpdater()" >Bearbeiten</a>
+              <a class="btn" ng-show="canFormEdit || user_type == 'd'" href="districts#id={{data.district_id}}" target="_blank" ng-click="setUpdater()">Bearbeiten</a>
             </span>
           </h3>
           <hr/>
