@@ -156,24 +156,13 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $scope.copyRequest = function() {
     var ids = getSelectedIds();
     if (ids.length) {
-      var failCodes = [];
+      
       var selectedCodes = [];
+      var selectedProjectIds = [];
       for(var i=0; i<ids.length; i++) {
         var row = Utils.getRowById($scope.tableParams.data, ids[i]);
-//        if(['acceptable', 'accept'].indexOf(row.status_code) !== -1) {
-//          failCodes.push(row.code);
-//        }
         selectedCodes.push(row.code);
-      }
-
-      if(failCodes.length) {
-        SweetAlert.swal({
-          title: "Fehler",
-          text: "Anfragen "+failCodes.join(', ')+" können nicht copy sein",
-          type: "error",
-          confirmButtonText: "OK"
-        });
-        return false;
+        selectedProjectIds.push(row.project_id)
       }
 
       var modalInstance = $uibModal.open({
@@ -192,12 +181,38 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       });
 
       modalInstance.result.then(function (data) {
-        
-        network.post('request', {ids: ids, copy: true, year: data.year}, function(result) {
-          if(result) {
-            grid.reload();
+
+        //TO DO - проверка на существование проекта
+
+        network.get('request', {project_ids: selectedProjectIds.join(','), year: data.year}, function(result, response) {
+          if(result && response.result.length>0) {
+            var failCodes = [];
+            for(var row in response.result){
+              failCodes.push(response.result[row]['code']);
+            }
+
+            SweetAlert.swal({
+              title: "Fehler",
+              text: "Anfragen "+failCodes.join(', ')+" können nicht copy sein \n"
+                   +"Dieses Projekt ist bereits vorhanden",
+              type: "error",
+              confirmButtonText: "OK"
+            });
+
+          } else {
+            
+            network.post('request', {ids: ids, copy: true, year: data.year}, function(result) {
+              if(result) {
+                grid.reload();
+              }
+            });
+            
           }
         });
+
+
+        
+        
       });
       
     }

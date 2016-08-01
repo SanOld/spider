@@ -207,8 +207,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       for(key in $scope.newCode){
         if(school_type == $scope.newCode[key].code[0].toUpperCase()){
           var code = school_type + $scope.newCode[key].next_code[0];                   
+          };
         };
-      };
       if(!code){
           code = school_type + "001";  
       };
@@ -323,7 +323,6 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           $copyScopeProject.schools = [0];
         }
 //        delete $copyScopeProject.school; 
-        $copyScopeProject['programm_id'] = $scope.programms[0].id;
         if((!$copyScopeProject.schools || !$copyScopeProject.schools.length) && $scope.schoolTypeCode != 'z') {
           $scope.schoolError = "schools";
           return false;

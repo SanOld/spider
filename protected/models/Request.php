@@ -120,7 +120,15 @@ class Request extends BaseModel {
         $values = array($params['STATUS_ID']);
       }
       $command -> andWhere(array('in', 'rqs.id', $values));
-    }    
+    }
+    if(safe($params, 'PROJECT_IDS')) {
+      if(!is_int($params['PROJECT_IDS'])) {
+        $values = explode(',', $params['PROJECT_IDS']);
+      } else {
+        $values = array($params['PROJECT_IDS']);
+      }
+      $command -> andWhere(array('in', 'tbl.project_id', $values));
+    }
     if (isset($params['SCHOOL_ID'])) {
       $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.project_id');      
       $command-> join( 'spi_school scl', 'sps.school_id = scl.id' );
@@ -255,13 +263,23 @@ class Request extends BaseModel {
     return false;
   }
 
+  protected function isProjectExist($project_id, $year){
+     $result = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('project_id=:project_id AND year=:year', array(
+          ':project_id' => $project_id,
+          ':year' => $year
+      )) -> queryRow();
+
+     if ($result){
+       return true;
+     }
+
+     return false;
+  }
+
   protected function doBeforeInsert($post) {
     if($this->user['type'] == ADMIN || ($this->user['type'] == PA)) {
 
-      if(Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('project_id=:project_id AND year=:year', array(
-          ':project_id' => safe($post,'project_id'),
-          ':year' => safe($post,'year')
-      )) -> queryRow()) {
+      if($this->isProjectExist(safe($post,'project_id'),safe($post,'year'))) {
         return array(
             'code' => '409',
             'result' => false,
