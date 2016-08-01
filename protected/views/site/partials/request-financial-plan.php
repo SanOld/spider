@@ -52,14 +52,14 @@
                 </div>             
             </div>
             <dl class="custom-dl" ng-show="selectFinanceResult && !add_finance_user">
-              <ng-show ng-show="selectFinanceResult.function">
+<!--              <ng-show ng-show="selectFinanceResult.function">
                 <dt>Funktion:</dt>
                 <dd>{{selectFinanceResult.function}}</dd>
               </ng-show>
               <ng-show ng-show="selectFinanceResult.gender">
                 <dt>Anrede:</dt>
                 <dd>{{selectFinanceResult.gender}}</dd>
-              </ng-show>
+              </ng-show>-->
               <ng-show ng-show="selectFinanceResult.phone">
                 <dt>Telefon:</dt>
                 <dd>{{selectFinanceResult.phone}}</dd>
