@@ -192,6 +192,17 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       });
 
       modalInstance.result.then(function (data) {
+
+        //TO DO - проверка на существование проекта
+
+//        network.get('request', {ids: ids, year: data.year}, function(result, response) {
+//          if(result) {
+//            alert(response.result);
+//            console.log(response.result);
+//          }
+//        });
+
+
         
         network.post('request', {ids: ids, copy: true, year: data.year}, function(result) {
           if(result) {
