@@ -26,11 +26,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   };
 
 
-  network.get('performer', {filter: 1}, function (result, response) {
-    if (result) {
-      $scope.performers = response.result;
-    }
-  });
+  network.get('performer', {}, function (result, response) {
+        if(result) {
+            $scope.performers = response.result;
+        }
+    });
 
   if(network.user.type == 't'){
     network.get('school', {filter: 1, requests: 1}, function (result, response) {
