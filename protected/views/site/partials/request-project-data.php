@@ -163,14 +163,14 @@
                       </div>
                     </div>                   
                     <dl class="custom-dl" ng-show="selectConceptResult && !add_project_user">                      
-                      <ng-show ng-show="selectConceptResult.function">
+<!--                      <ng-show ng-show="selectConceptResult.function">
                         <dt>Funktion:</dt>
                         <dd>{{selectConceptResult.function}}</dd>
                       </ng-show>
                       <ng-show ng-show="selectConceptResult.title">
                         <dt>Anrede:</dt>
                         <dd>{{selectConceptResult.gender}}</dd>
-                      </ng-show>
+                      </ng-show>-->
                       <ng-show ng-show="selectConceptResult.phone">
                         <dt>Telefon:</dt>
                         <dd>{{selectConceptResult.phone}}</dd>
