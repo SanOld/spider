@@ -136,7 +136,7 @@ class RequestSchoolConcept extends BaseModel {
       case 'in_progress':
         return 'Bereit zu überprüfen';
       case 'accepted':
-        return 'Genehmigt';
+        return 'Geprüft';
     }
     return '';
   }

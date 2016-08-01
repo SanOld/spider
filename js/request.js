@@ -67,6 +67,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
 
   $scope.submitRequest = function (close) {
+    
+    if(!RequestService.isChangedProjectForm() && !RequestService.isChangedFinanceForm() && !RequestService.isChangedConceptForm() && !RequestService.isChangedGoalsForm()){
+       return true;
+    }
+
     RequestService.setChangedProjectForm();
     RequestService.setChangedFinanceForm();
     RequestService.setChangedConceptForm();
@@ -114,10 +119,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
     
   $scope.cancel = function () {
-    var p = RequestService.isChangedProjectForm();
-    var c = RequestService.isChangedConceptForm();
-    var g = RequestService.isChangedGoalsForm();
-
     if(RequestService.isChangedProjectForm() || RequestService.isChangedFinanceForm() || RequestService.isChangedConceptForm() || RequestService.isChangedGoalsForm()){
        Utils.modalClosing($scope.form, '', '', '', '/requests');
     } else {
