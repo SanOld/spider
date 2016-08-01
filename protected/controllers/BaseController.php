@@ -120,7 +120,9 @@ class BaseController extends Controller {
                                     , 'code'        => '403'
                                     ));
             }
-          } else {
+          } elseif($_GET['model'] == 'request' && isset($_POST['copy']) ){
+            $this -> model ->copy($_POST);
+          }else {
             $this -> model ->insert($_POST);
           }
           break;

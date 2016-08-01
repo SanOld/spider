@@ -175,7 +175,7 @@ $this->breadcrumbs = array('Anträge');
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkDuration()">Laufzeit festlegen</button>
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(4)">Förderfähig</button>
                 <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(5)">Genehmigung</button>
-                <button class="btn m-b-5 pull-right" onclick="alert('ToDo')" disabled>Folgeantrag hinzufügen</button>
+                <button class="btn m-b-5 pull-right"  ng-disabled="!existsSelected()" ng-click="copyRequest()" disabled>Folgeantrag hinzufügen</button>
               </div>
             </div>
           </div>
@@ -308,6 +308,49 @@ $this->breadcrumbs = array('Anträge');
         <div class="col-lg-12">
           <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
           <button class="btn w-lg custom-btn" ng-click="ok()">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="copyRequest.html">
+  <div class="panel panel-color panel-primary">
+    <div class="panel-heading clearfix">
+      <h3 class="m-0 pull-left">Anfrage hinzufügen</h3>
+      <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
+    </div>
+
+    <div class="panel-body text-center">
+      <h3 class="m-b-30">Geben Sie die Jahr für die {{::countElements}} Elemente auswählen</h3>
+      <ng-form name="copyRequest">
+      <div class="col-lg-12 text-left">
+        <div class="form-group">
+          <label>Jahr</label>
+          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('year')}">
+            <div class="input-group">
+              <input required type="text" ng-change="search($select.search, 'year')" ng-click="dp_year_date_is_open = !dp_year_date_is_open" ng-model="year" uib-datepicker-popup="yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_year_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" name="year" >
+              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_year_date_is_open = !dp_year_date_is_open"></i></span>
+            </div>
+            <span ng-class="{hide: !fieldError('year')}" class="hide">
+              <label ng-show="copyRequest.year.$error.required" class="error">Jahr erforderlich</label>
+              <span class="glyphicon glyphicon-remove form-control-feedback" style="right: 38px;"></span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Kennziffer</label>
+          <li class="list-group-item">{{::selectedElements}}</li>
+        </div>
+      </div>
+      </ng-form>
+    </div>
+
+    <div class="row p-t-10 text-center">
+      <div class="form-group group-btn m-t-20">
+        <div class="col-lg-12">
+          <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+          <button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date">Speichern</button>
         </div>
       </div>
     </div>

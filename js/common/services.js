@@ -241,7 +241,7 @@ spi.factory('Utils', function (SweetAlert) {
     doCloseConfirm: function(callback) {
       SweetAlert.swal({
         title: "Sind Sie sicher?",
-        text: "Sie haben neue Daten auf diese Seite eingegeben. Falls Sie die Seite ohne Ihre Daten zu speichern verlassen, so werden die Veränderungen verloren sein.",
+        text: "Sie haben neue Daten auf dieser Seite eingegeben. Falls Sie die Seite ohne zu speichern verlassen, werden die Veränderungen verloren sein.",
         type: "warning",
         confirmButtonText: "OK",
         showCancelButton: true,
