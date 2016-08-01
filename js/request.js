@@ -1280,12 +1280,10 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     $scope.textareaClass = '';    
     angular.element('#' + number[0] + '-' + school_id + '-' + number[1]).removeClass('animate');
   };  
-  $scope.checkTextarea = function(index, newValue, conceptId, data, name, num){
+  $scope.checkTextarea = function(index, newValue){
     if(newValue != $scope.schoolConcepts[index].oldValue){
-      $scope.equal = false;
-      if(!$scope.fullscreen){        
-        $scope.saveText(conceptId, data, name, num);
-      }
+      $scope.equal = false;       
+      return true;
     }
   };
   RequestService.getSchoolConceptData = function() {
@@ -1375,13 +1373,15 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   };
 
-  $scope.saveText = function (school_id, data, name, num) {
+  $scope.saveText = function (school_id, data, name, num, $index) {    
     var number = num.split('-');
-    if(data[name] != undefined) {
-      var params = {};
-      params[name] = data[name];
-      network.put('request_school_concept/' + school_id, params);
-    }
+    if($scope.checkTextarea($index, data[name])){
+      if(data[name] != undefined) {
+        var params = {};
+        params[name] = data[name];
+        network.put('request_school_concept/' + school_id, params);
+      }
+    };    
     $scope.isTextareaShow = false;     
     $scope.fullscreen = false;
     $scope.textareaClass = '';    
