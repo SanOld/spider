@@ -121,13 +121,13 @@ class Request extends BaseModel {
       }
       $command -> andWhere(array('in', 'rqs.id', $values));
     }
-    if(safe($params, 'IDS')) {
-      if(!is_int($params['IDS'])) {
-        $values = explode(',', $params['IDS']);
+    if(safe($params, 'PROJECT_IDS')) {
+      if(!is_int($params['PROJECT_IDS'])) {
+        $values = explode(',', $params['PROJECT_IDS']);
       } else {
-        $values = array($params['IDS']);
+        $values = array($params['PROJECT_IDS']);
       }
-      $command -> andWhere(array('in', 'tbl.id', $values));
+      $command -> andWhere(array('in', 'tbl.project_id', $values));
     }
     if (isset($params['SCHOOL_ID'])) {
       $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.project_id');      
