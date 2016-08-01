@@ -15,7 +15,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.isChangedConceptForm = false;
   $scope.isChangedGoalsForm = false;
 
-  $scope.tabs = ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'];
+  $scope.tabs = $scope.isFinansist ? ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'] : ['project-data', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
   if(hash && $scope.tabs.indexOf(hash) !== -1) {
     $scope.tabActive = $location.hash();
