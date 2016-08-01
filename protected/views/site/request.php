@@ -45,7 +45,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 							<span>Neu eröffnen</span>
 						</button>
 						<button ng-show="userCan('changeStatus_print')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(4)">Förderfähig</button>
-						<button ng-show="userCan('changeStatus_lock')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(5)">Genehmigt</button>
+						<button ng-show="userCan('changeStatus_lock')" class="btn w-lg custom-btn btn-lg" ng-click="setBulkStatus(5)">Geprüft</button>
 					</div>
           <div class="col-lg-2 text-left">
             <button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()" title="Abbrechen">Zur Übersicht</button>

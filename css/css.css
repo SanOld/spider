@@ -927,6 +927,11 @@ body .nav.nav-tabs + .tab-content {
 	background:#f5f5f5;
 }
 
+.notice .open-row {
+	background: #FFFFFF;
+        border: solid 1px #808080;
+}
+
 .notice .decline-row {
 	background: #d3d3d3;
 }

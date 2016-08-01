@@ -23,7 +23,7 @@
             <div ng-if="schoolConcept.status != 'unfinished'" class="alert" ng-class="{'alert-danger': schoolConcept.status == 'rejected', 'alert-success': schoolConcept.status == 'accepted', 'alert-warning': schoolConcept.status == 'in_progress'}">
               <div ng-switch="schoolConcept.status">
                 <strong ng-switch-when="rejected">Anmerkung der Programmagentur</strong>
-                <strong ng-switch-when="accepted">Genehmigt</strong>
+                <strong ng-switch-when="accepted">Geprüft</strong>
                 <strong ng-switch-when="in_progress">Zur Prüfung übermittelt</strong>
               </div>
               <div ng-if="schoolConcept.comment && (schoolConcept.status == 'rejected' || schoolConcept.status == 'in_progress')" ng-bind="schoolConcept.comment"></div>
@@ -127,7 +127,7 @@
               </div>
             </div>
             <div ng-repeat-end class="alert alert-{{history.status_code}}">
-              <strong class="status-history" ng-bind="::history.status_name">Genehmigt</strong>
+              <strong class="status-history" ng-bind="::history.status_name">Geprüft</strong>
               <span class="check-history">Überpüft von {{::history.user_name}} {{::history.date}}</span>
               <p class="check-text-history" ng-bind="::history.comment"></p>
             </div>

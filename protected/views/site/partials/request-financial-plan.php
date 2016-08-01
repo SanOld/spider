@@ -4,7 +4,7 @@
       <div ng-if="data.status_finance != 'unfinished'" class="alert" ng-class="{'alert-danger': data.status_finance == 'rejected', 'alert-success': data.status_finance == 'accepted', 'alert-warning': data.status_finance == 'in_progress'}">
         <div ng-switch="data.status_finance">
           <strong ng-switch-when="rejected">Anmerkung der Programmagentur</strong>
-          <strong ng-switch-when="accepted">Genehmigt</strong>
+          <strong ng-switch-when="accepted">Geprüft</strong>
           <strong ng-switch-when="in_progress">Zur Prüfung übermittelt</strong>
         </div>
         <div ng-if="data.finance_comment && (data.status_finance == 'rejected' || data.status_finance == 'in_progress')" ng-bind="data.finance_comment"></div>

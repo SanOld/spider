@@ -192,7 +192,7 @@ $this->breadcrumbs = array('Anträge');
                 <span class="cell-concept unfinished status-icon"></span>
                 <span class="cell-school unfinished status-icon"></span>
               </div>
-              Unbearbeitet
+              Ungeprüft
             </div>
             <div class="notice">
               <div class="legends">
@@ -200,7 +200,7 @@ $this->breadcrumbs = array('Anträge');
                 <span class="cell-concept in_progress status-icon"></span>
                 <span class="cell-school in_progress status-icon"></span>
               </div>
-              In Bearbeitung
+              Zur Prüfung übermittelt
             </div>
             <div class="notice">
               <div class="legends">
@@ -208,7 +208,7 @@ $this->breadcrumbs = array('Anträge');
                 <span class="cell-concept accepted status-icon"></span>
                 <span class="cell-school accepted status-icon"></span>
               </div>
-              Förderfähig
+              Geprüft
             </div>
             <div class="notice">
               <div class="legends">
@@ -216,7 +216,7 @@ $this->breadcrumbs = array('Anträge');
                 <span class="cell-concept rejected status-icon"></span>
                 <span class="cell-school rejected status-icon"></span>
               </div>
-              Abgelehnt
+              Anmerkung
             </div>
           </div>
         </div>

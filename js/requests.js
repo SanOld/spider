@@ -69,6 +69,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   network.get('request_status', {}, function (result, response) {
     if (result) {
       $scope.statuses = response.result;
+      $scope.statuses.push($scope.statuses[3]);  //change order of icons to not to do changes to all pages
+      delete $scope.statuses[3];
       $scope.status_finance = 'r';
     }
   });
