@@ -87,7 +87,7 @@ $this->breadcrumbs = array('Projekte');
                             </ui-select>
                         </div>
                     </div>
-                    <div class="col-lg-1 1 custom-pr-4" ng-if="!canByType(['t'])">
+                    <div class="col-lg-{{canByType(['s']) ? '2' : '1 custom-pr-4'}}" ng-if="!canByType(['t'])">
                         <div class="form-group">
                             <label>Träger</label>
                             <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
