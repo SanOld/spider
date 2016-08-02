@@ -10,11 +10,11 @@ $this->breadcrumbs = array('Fördertöpfe');
       <div spi-hint-main header="_hint.header.title" text="_hint.header.text"></div>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
-          <h1 class="panel-title col-lg-6">Fördertöpfe</h1>
+          <h1 class="panel-title col-lg-6">Fördertöpfe und -programme</h1>
 
           <div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Fördertopf hinzufügen</button>
+            <button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Förderprogramm hinzufügen</button>
           </div>
         </div>
         <div class="panel-body schoole-user">
@@ -47,9 +47,9 @@ $this->breadcrumbs = array('Fördertöpfe');
 <script type="text/ng-template" id="editTemplate.html">
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
-      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Fördertopf bearbeiten</h3>
-      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Fördertopf ansicht</h3>
-      <h3 class="m-0 pull-left" ng-if="isInsert">Fördertopf hinzufügen</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Förderprogramm bearbeiten</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Förderprogramm ansicht</h3>
+      <h3 class="m-0 pull-left" ng-if="isInsert">Förderprogramm hinzufügen</h3>
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
     <div class="panel-body">
