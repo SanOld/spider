@@ -123,10 +123,10 @@ class DocumentTemplate extends BaseModel {
         $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
         switch ($this->performerUsers[$key]['sex']) {
           case 1:
-            $this->performerUsers[$key]['gender'] = 'Herr';
+          $this->performerUsers[$key]['gender'] = 'Herr';
             break;
           case 2:
-            $this->performerUsers[$key]['gender'] = 'Frau';
+          $this->performerUsers[$key]['gender'] = 'Frau';
             break;
           default:
             $this->performerUsers[$key]['gender']='';
@@ -166,7 +166,7 @@ class DocumentTemplate extends BaseModel {
           /*start BankDetails*/
           $Request = CActiveRecord::model('BankDetails');
           $Request->user = $this->user;
-          $requestInfo = $Request->select(array('id' => $this->requestData['bank_details_id'] ), true);
+          $requestInfo = $Request->select(array('performer_id' => $this->requestData['performer_id'] ), true);
           $this->bankDetails = $requestInfo['result'][0];
           /*end BankDetails*/
 
@@ -174,7 +174,7 @@ class DocumentTemplate extends BaseModel {
           $Request = CActiveRecord::model('RequestProfAssociation');
           $Request->user = $this->user;
           $requestInfo = $Request->select(array('request_id' => $this->requestData['id']), true);
-          $this->profAssociation = $requestInfo['result'];
+          $this->profAssociation = $requestInfo['result'][0];
           /*end RequestProfAssociation*/
 
       /*end finance information*/
@@ -235,16 +235,16 @@ class DocumentTemplate extends BaseModel {
     if($this->performerData){
       $data = array(
             '{PD_TRAGER_ADRESSE}'   => $this->performerData['address']
-          , '{PD_TRAEGER_PLZ}'      => $this->performerData['plz']
-          , '{PD_TRAEGER_Stadt}'    => $this->performerData['city']
-          , '{PD_TRAEGER_Telefon}'  => $this->performerData['phone']
-          , '{PD_TRAEGER_Telefax}'  => $this->performerData['fax']
-          , '{PD_TRAEGER_Homepage}' => $this->performerData['homepage']
-          , '{PD_TRAEGER_Email}'    => $this->performerData['email']
+        , '{PD_TRAEGER_PLZ}'      => $this->performerData['plz']
+        , '{PD_TRAEGER_Stadt}'    => $this->performerData['city']
+        , '{PD_TRAEGER_Telefon}'  => $this->performerData['phone']
+        , '{PD_TRAEGER_Telefax}'  => $this->performerData['fax']
+        , '{PD_TRAEGER_Homepage}' => $this->performerData['homepage']
+        , '{PD_TRAEGER_Email}'    => $this->performerData['email']
       );
       array_merge($params,$data);
     }
-
+            
     if($this->performerRepresentativeUser){
       $data = array(
           '{PD_Vertretungsberechtigte_Anrede}'   => $this->performerRepresentativeUser['gender']
@@ -350,6 +350,9 @@ class DocumentTemplate extends BaseModel {
                     , '{FD_USERNAME}'                      => $user_info['user_name']
                     , '{FD_USERFUNCTION}'                  => $user_info['user_function']
 
+                    , '{FD_KOSTEN_PRO_JAHR_BRUTTO}'        => $user['brutto']
+                    , '{FD_KOSTEN_PRO_JAHR_ANTEIL}'        => $user['add_cost']
+
                     , '{FD_other}'                         => $user['other']
                     , '{FD_cost_per_month_brutto}'         => $user['cost_per_month_brutto']
                     , '{FD_month_count}'                   => $user['month_count']
@@ -360,8 +363,6 @@ class DocumentTemplate extends BaseModel {
                     , '{FD_additional_provision_vwl}'      => $user['additional_provision_vwl']
                     , '{FD_have_supplementary_pension}'    => $user['have_supplementary_pension']
                     , '{FD_supplementary_pension}'         => $user['supplementary_pension']
-                    , '{FD_brutto}'                        => $user['brutto']
-                    , '{FD_add_cost}'                      => $user['add_cost']
                     , '{FD_full_cost}'                     => $user['full_cost']
                   );
       
