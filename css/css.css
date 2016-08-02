@@ -648,6 +648,30 @@ label.error {
 	top:50%;
 	margin: -27px 0 0;
 }
+.btn-deactivate {
+	color: #fff !important;
+        background: #cb2a2a;
+        border-radius: 5px;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 6px 0px 6px 45px;
+        position: absolute;
+        display: block;
+        font-size: 21px;
+        font-weight: 600;
+        min-width: 195px;
+}
+.btn-deactivate:before {
+	content: "";
+	background: url("../images/icon-deactivate.png") no-repeat;
+	position: absolute;
+        width: 53px;
+        height: 54px;
+        right: 128px;
+        top: 47%;
+        margin: -11px 0 0;
+}
 .box-home.box-2:after {
 	background-position: 0 -102px;
 	height: 57px;
@@ -3246,6 +3270,9 @@ form[name=conceptForm] .alert-danger {display: block;}
 
 .btn.confirm-btn {
   background: #F3F3F3 url(../images/icon-apply.png) no-repeat 50% 50%;
+}
+.btn.deactivate-btn {
+  background: #cb2a2a url(../images/icon-deactivate.png) no-repeat 50% 50%;
 }
 .btn.hide-btn {
   background: #F3F3F3 url(../images/icon-cancel.png) no-repeat 50% 50%;
