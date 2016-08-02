@@ -66,10 +66,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
   };
 
-  $scope.submitRequest = function (close) {
-    
-    if(!RequestService.isChangedProjectForm() && !RequestService.isChangedFinanceForm() && !RequestService.isChangedConceptForm() && !RequestService.isChangedGoalsForm()){
-       return true;
+  $scope.submitRequest = function (changeStatus) {
+    changeStatus = changeStatus || false;
+    if(!changeStatus){
+      if(!RequestService.isChangedProjectForm() && !RequestService.isChangedFinanceForm() && !RequestService.isChangedConceptForm() && !RequestService.isChangedGoalsForm()){
+         return true;
+      }
     }
 
     RequestService.setChangedProjectForm();
@@ -77,7 +79,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     RequestService.setChangedConceptForm();
     RequestService.setChangedGoalsForm();
     
-    close = close || false;
+    
     var data = RequestService.getProjectData();
     var finPlan = RequestService.financePlanData();
     if (finPlan != undefined){
@@ -88,10 +90,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
-      if(result && close) {
-       if(close){
-         location.href = '/requests';
-       }
+      if(result) {
        RequestService.afterSave();
       }
     });
@@ -271,15 +270,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
               break;
           }
 
-          $scope.submitRequest();
+          $scope.submitRequest(true);
 
-//          network.patch('request', {ids: ids, status_id: statusId}, function(result) {
-//            if(result) {
-//              request_data.status_code = 'in_progress';
-//              request_data.status_id = statusId;
-//              $scope.submitRequest();
-//            }
-//          });
         }
       });
     
