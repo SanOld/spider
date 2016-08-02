@@ -11,10 +11,3 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 
 require_once($yii);
 Yii::createWebApplication($config)->run();
-
-$session = new CHttpSession;
-$session->open();
-
-$session['login'] = '';
-$session['user_type'] = '';
-$session['rights'] = '';
