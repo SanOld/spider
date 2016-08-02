@@ -44,7 +44,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
   
     var grid = GridService();
     $scope.tableParams = grid('project', $scope.filter, {sorting: {code: 'asc'}});
-
+    
     $scope.resetFilter = function() {
         $scope.filter = grid.resetFilter();
     };
@@ -52,7 +52,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
     $scope.updateGrid = function() {
         grid.reload();
     };
-
+    
     $scope.openEdit = function (row, modeView) {
         grid.openEditor({
           data: row,
@@ -89,7 +89,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //            school: data.school_type_id != 1 ? data.schools[0] : {},
             performer_id: data.performer_id,
             district_id: data.district_id == null ? 0 : data.district_id,
-            programm_id: data.programm_id
+            programm_id: data.programm_id,
+            status_id: data.status_id
         };
         $.each(data.schools, function(){
           $scope.projectSchoolsID[this.id] = 1;
@@ -102,7 +103,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             $scope.newCode = response.next_id;
           }
       });
-    }
+    }   
     
     $scope.schoolTypesId = {};
     network.get('school_type', {}, function (result, response) {
@@ -368,9 +369,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             });
             var newCode = $copyScopeProject.code.split('/');
             newCode = newCode[0] + '/' + (newCode[1] ? +newCode[1] + 1 : 2);
-            network.get('project', {'request_active': data.id} , function (result, response) {
-              if(!response.result.length){
-                SweetAlert.swal({
+            if($scope.project.status_id == 2){
+              SweetAlert.swal({
                   title: "Projekt bearbeiten?",
                   text: "Nächstes Projekt wird erstellt " + newCode,
                   type: "warning",
@@ -382,13 +382,12 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                   if(isConfirm) {
                     network.put('project/' + data.id, $copyScopeProject, callback);
                   }
-                });
-              }else{
-                $scope.banToDelete();
-              }
-            });            
+              });
+            }else{
+              $scope.banToDelete();
+            }          
           }else{
-              $uibModalInstance.close();
+            $uibModalInstance.close();
           }
         } 
     };
@@ -401,32 +400,29 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         }
         return result;
     };
-
+    
     $scope.remove = function() {
-      network.get('project', {'request': data.id} , function (result, response) {
-        if(response.result.length){
-          network.get('project', {'request_active': data.id} , function (result, response) {
-            if(!response.result.length){
-              $scope.project.is_old = 1;
-              network.put('project/' + data.id, $scope.project, function(){                  
-                Utils.deleteSuccess();
-                $uibModalInstance.close();
-              });
-            }else{
-              $scope.banToDelete();
-            }
+      if($scope.project.status_id){
+        if($scope.project.status_id == 2){
+          $scope.project.is_old = 1;
+          network.put('project/' + data.id, $scope.project, function(){                  
+            Utils.deactivateSuccess(function(){              
+              $uibModalInstance.close();
+            });
           });
-        }else{            
-          Utils.doConfirm(function() {
-            network.delete('project/'+data.id, function (result) {
-              if(result) {
-                Utils.deleteSuccess();
-                $uibModalInstance.close();
-              }
-            });                         
-          });
+        }else{
+          $scope.banToDelete();
         }
-      });
+      }else{            
+        Utils.doConfirm(function() {
+          network.delete('project/'+data.id, function (result) {
+            if(result) {
+              Utils.deleteSuccess();
+              $uibModalInstance.close();
+            }
+          });                         
+        });
+      }
     };
 
     $scope.$on('modal.closing', function(event, reason, closed) {

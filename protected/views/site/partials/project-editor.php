@@ -177,8 +177,9 @@
         </div>
       </div>
       <div class="form-group group-btn m-t-15">
-        <div class="col-lg-2" ng-if="canEdit() && canByType(['a'])">
-          <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove()"><i class="fa fa-trash-o"></i></a>
+        <div class="col-lg-2" ng-if="canEdit() && canByType(['a']) && !isInsert && project.is_old != 1">  
+          <a ng-cloak ng-if="project.status_id" class="btn-deactivate" ng-click="remove()">DEAKTIVIEREN</a>
+          <a ng-cloak class="btn btn-icon btn-danger btn-lg sweet-4" ng-if="!project.status_id" ng-click="remove()"><i class="fa fa-trash-o"></i></a>        
         </div>
         <div class="group-btn clearfix m-t-20 hidden">
           <div class="pull-right">                  
