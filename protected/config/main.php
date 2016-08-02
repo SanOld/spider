@@ -46,7 +46,12 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
-
+    'session' => array(
+        'autoStart' => true,
+        'useTransparentSessionID' => true, 
+        'sessionName' => 'session',
+        'timeout' => 28800,
+    ),
 		// uncomment the following to enable URLs in path-format
 
 		'urlManager'=>array(
