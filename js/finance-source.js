@@ -43,7 +43,8 @@ spi.controller('EditFinanceSourceController', function ($scope, modeView, $uibMo
         $scope.finance = {
             project_type_id: data.project_type_id,
             programm: data.programm,
-            description: data.description
+            description: data.description,
+            prefix: data.prefix
         };
         
         getFinances();
