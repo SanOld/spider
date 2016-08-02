@@ -14,3 +14,7 @@ Yii::createWebApplication($config)->run();
 
 $session = new CHttpSession;
 $session->open();
+
+$session['login'] = '';
+$session['user_type'] = '';
+$session['rights'] = '';
