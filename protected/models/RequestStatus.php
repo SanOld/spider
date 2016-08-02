@@ -20,15 +20,15 @@ class RequestStatus extends BaseModel {
       if(in_array($row['code'], array('open', 'in_progress', 'acceptable', 'accept'))) {
         $activity_ids[] = $row['id'];
       }
-      if($row['code'] == 'decline') {
-        $deactivity_ids[] = $row['id'];
-      }
+//      if($row['code'] == 'decline') {
+//        $deactivity_ids[] = $row['id'];
+//      }
     }
-    if($deactivity_ids) {
-      array_unshift($result['result'], array('id' => implode(',', $deactivity_ids), 'code' => 'deactive_all', 'name' => '(Nicht aktiv)', 'virtual' => 1));
-    }
+//    if($deactivity_ids) {
+//      array_unshift($result['result'], array('id' => implode(',', $deactivity_ids), 'code' => 'deactive_all', 'name' => '(Nicht aktiv)', 'virtual' => 1));
+//    }
     if($activity_ids) {
-      array_unshift($result['result'], array('id' => implode(',', $activity_ids), 'code' => 'active_all', 'name' => '(Aktiv)', 'virtual' => 1));
+      array_unshift($result['result'], array('id' => implode(',', $activity_ids), 'code' => 'active_all', 'name' => 'Aktiv', 'virtual' => 1));
     }
     return $result;
   }
