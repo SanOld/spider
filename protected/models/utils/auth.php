@@ -148,10 +148,10 @@ class Auth {
                     , 'user'        => $this->user
                     , 'expiredAt'   => strtotime('+'.$this->live.' hour')
                     );
-        session_start();
-        $_SESSION['login'] = $login;
-        $_SESSION['user_type'] = $this->user['type'];
-        $_SESSION['rights'] = $session_rights;        
+        
+        Yii::app()->session['login'] = $login;
+        Yii::app()->session['user_type'] = $this->user['type'];
+        Yii::app()->session['rights'] = $session_rights;        
 
       } else {
         $res = array( 'result'      => false
@@ -173,8 +173,7 @@ class Auth {
 
   }
   public function logout(){
-    session_start();
-    session_destroy();   
+    Yii::app()->session->destroy();
   }
   public function getUser() {
     return $this->user;

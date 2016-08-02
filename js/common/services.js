@@ -298,6 +298,19 @@ spi.factory('Utils', function (SweetAlert) {
     deleteSuccess: function() {
       SweetAlert.swal("Gelöscht!", "Ihre Datei ist erfolgreich gelöscht!", "success");
     },
+    deactivateSuccess: function(callback) {
+      SweetAlert.swal({
+        title: "Deaktiviert!",
+        text: "Ihre Datei ist erfolgreich dearkiviert!",
+        type: "warning",
+        confirmButtonText: "OK",
+        closeOnConfirm: true
+      }, function(isConfirm){          
+         if(isConfirm) {
+          callback();
+         }
+      });
+    },
     getIdByPath: function() {
       var id = +location.pathname.split('/').pop();
       return !isNaN(id) ? id : 0;

@@ -1,6 +1,3 @@
-<?php 
-  session_start();
-?>
 <nav class="navbar navbar-default header-nav m-b-0">
 	<div class="container">
 		<ul class="nav navbar-nav">
@@ -13,7 +10,7 @@
 					<li><a href="/summary">Finanzübersicht</a></li>
 					<li><a href="/financial-request">Mittelabrufe</a></li>
 					<li><a href="/finance-report">Belege</a></li>
-          <?php if($_SESSION['rights']['finance-source']['show']): ?>
+          <?php if(Yii::app()->session['rights']['finance-source']['show']): ?>
 					<li><a href="/finance-source">Fördertöpfe</a></li>
           <?php endif; ?>
 				</ul>
@@ -25,54 +22,54 @@
 					<li><a href="#" style="color: #aaa;">Auswertung</a></li>
 				</ul>
 			</li>
-      <?php if($_SESSION['rights']['users']['show'] || $_SESSION['rights']['user-roles']['show']): ?>
+      <?php if(Yii::app()->session['rights']['users']['show'] || Yii::app()->session['rights']['user-roles']['show']): ?>
 			<li ng-class="{'active': ['user', 'user_type'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Benutzer</a>
 				<ul class="dropdown-menu">
-          <?php if($_SESSION['rights']['users']['show']): ?>
+          <?php if(Yii::app()->session['rights']['users']['show']): ?>
 					<li><a href="/users">Benutzerliste</a></li>
           <?php endif; ?>
-          <?php if($_SESSION['rights']['user-roles']['show']): ?>
+          <?php if(Yii::app()->session['rights']['user-roles']['show']): ?>
 					<li><a href="/user-roles">Benutzerrollen</a></li>
           <?php endif; ?>
 				</ul>
 			</li>
       <?php endif; ?>
-      <?php if($_SESSION['rights']['projects']['show']): ?>
+      <?php if(Yii::app()->session['rights']['projects']['show']): ?>
 			<li><a href="/projects">Projekte</a></li>
       <?php endif; ?>      
 			<li ng-class="{'active': ['performer', 'school', 'district'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
 				<ul class="dropdown-menu">
-          <?php if($_SESSION['rights']['performers']['show']): ?>  
+          <?php if(Yii::app()->session['rights']['performers']['show']): ?>  
 					<li><a href="/performers">Träger</a></li>
           <?php endif; ?>  
-          <?php if($_SESSION['rights']['schools']['show']): ?>
+          <?php if(Yii::app()->session['rights']['schools']['show']): ?>
 					<li><a href="/schools">Schule</a></li>
           <?php endif; ?>  
-          <?php if($_SESSION['rights']['districts']['show']): ?>          
+          <?php if(Yii::app()->session['rights']['districts']['show']): ?>          
 					<li><a href="/districts">Bezirk</a></li>
           <?php endif; ?>  
 				</ul>
 			</li>
-      <?php if($_SESSION['rights']['document-templates']['show'] || 
-               $_SESSION['rights']['email-templates']['show'] || 
-               $_SESSION['rights']['audit']['show'] || 
-               $_SESSION['rights']['hints']['show']): ?>
+      <?php if(Yii::app()->session['rights']['document-templates']['show'] || 
+               Yii::app()->session['rights']['email-templates']['show'] || 
+               Yii::app()->session['rights']['audit']['show'] || 
+               Yii::app()->session['rights']['hints']['show']): ?>
 			<li ng-class="{'active': ['hint'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Systemverwaltung</a>
 				<ul class="dropdown-menu">
-          <?php if($_SESSION['rights']['document-templates']['show']): ?>
+          <?php if(Yii::app()->session['rights']['document-templates']['show']): ?>
           <li><a href="/document-templates">Druck-Templates</a></li>
           <?php endif; ?>
-          <?php if($_SESSION['rights']['hints']['show']): ?>
+          <?php if(Yii::app()->session['rights']['hints']['show']): ?>
 					<li><a href="/hints">Hilfetexte</a></li>
           <?php endif; ?>
-          <?php if($_SESSION['rights']['email-templates']['show']): ?>          
+          <?php if(Yii::app()->session['rights']['email-templates']['show']): ?>          
           <li><a href="/email-templates">E-Mail-Vorlagen</a></li>
           <?php endif; ?>
 					<li><a href="#" style="color: #aaa;">E-Mail-Sendebericht</a></li>
-          <?php if($_SESSION['rights']['audit']['show']): ?>
+          <?php if(Yii::app()->session['rights']['audit']['show']): ?>
 					<li><a href="/audit">Audit</a></li>
           <?php endif; ?>
 				</ul>
