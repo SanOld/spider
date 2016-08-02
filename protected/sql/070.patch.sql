@@ -1,0 +1,1 @@
+UPDATE `spi_request_status` SET `name` = 'Nicht aktiv' WHERE `id` = '2'; 
