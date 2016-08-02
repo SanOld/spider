@@ -42,7 +42,6 @@ class SiteController extends Controller
 		$page = safe($_GET,'page','index');
     $pages = $this->get_pages();
 		$pageInfo = safe($pages,$page);
-    session_start();
 		if(safe($pageInfo,'layout')) {
 			$this->layout = $pageInfo['layout'];
 		}
@@ -51,7 +50,7 @@ class SiteController extends Controller
 			if(!isset($params['RECOVERY_TOKEN']))
 				$this->redirect('/');
 		}      
-    if($_SESSION['rights'][$page] && !$_SESSION['rights'][$page]['show']){       
+    if(Yii::app()->session['rights'][$page] && !Yii::app()->session['rights'][$page]['show']){       
       $this->redirect('/dashboard');      
     }else {
       try {
@@ -63,7 +62,7 @@ class SiteController extends Controller
           }
         } 
 
-        if (!safe($pageInfo,'layout') && empty($_SESSION) && $pages[$page]) {
+        if (!safe($pageInfo,'layout') && empty(Yii::app()->session) && $pages[$page]) {
           $this->redirect('/'); 
         }else{
           $this->render(safe($pageInfo,'render',$page)); 
