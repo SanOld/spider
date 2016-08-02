@@ -39,7 +39,7 @@
                       <br/>
                       {{goal.notice}}
                     </strong>
-                    <strong ng-if="goal.status == 'accepted'">Förderfähig</strong>
+                    <strong ng-if="goal.status == 'accepted'">Geprüft</strong>
                     <strong ng-if="goal.status == 'rejected'">Anmerkung der Programmagentur
                       <br/>
                       {{goal.notice}}
