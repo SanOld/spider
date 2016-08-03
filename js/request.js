@@ -72,8 +72,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       if(!RequestService.isChangedProjectForm() && !RequestService.isChangedFinanceForm() && !RequestService.isChangedConceptForm() && !RequestService.isChangedGoalsForm()){
          return true;
       }
-    }
-
+    };
+    if(close === 'setBulkStatus'){
+      close = false;
+    };
     RequestService.setChangedProjectForm();
     RequestService.setChangedFinanceForm();
     RequestService.setChangedConceptForm();

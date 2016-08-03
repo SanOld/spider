@@ -194,34 +194,32 @@ class Request extends BaseModel {
     return $result;
   }
 
-  protected function calcStatusId($row, $userType) {
-
-   
-  switch($userType){
+  protected function calcStatusId($row, $userType) {   
+    switch($userType){
       case 'a':
       case 'p':
         $result = $row['status_id'];
-        if($row['status_concept'] === 'in_progress' && $row['status_finance'] !== 'unfinished' && $row['status_goal'] !== 'unfinished'){
-          $result = '3';//in_progress
-
-        }
-        if($row['status_concept'] !== 'unfinished' && $row['status_finance'] === 'in_progress' && $row['status_goal'] !== 'unfinished'){
-          $result = '3';//in_progress
-        }
-        if($row['status_concept'] !== 'unfinished' && $row['status_finance'] !== 'unfinished' && $row['status_goal'] === 'in_progress'){
-          $result = '3';//in_progress
+        if($row['status_id'] != '4' && $row['status_id'] != '5'){
+          if($row['status_concept'] === 'in_progress' || $row['status_finance'] === 'in_progress' || $row['status_goal'] === 'in_progress'){
+            $result = '3';//in_progress
+          }else{
+            $result = '1';//open
+          }
         }
         break;
       case 't':
         $result = $row['status_id_ta'];
-        if($row['status_concept'] === 'rejected' || $row['status_finance'] === 'rejected' || $row['status_goal'] === 'rejected'){
-          $result = '3';//in_progress
+        if($row['status_id'] != '4' && $row['status_id'] != '5'){
+          if($row['status_concept'] === 'rejected' || $row['status_finance'] === 'rejected' || $row['status_goal'] === 'rejected'){
+            $result = '3';//in_progress
+          }else{
+            $result = '1';//open
+          } 
         }
         break;
       default:
         $result = 1;//open
     }
-
     if($row['status_concept'] === 'accepted' && $row['status_finance'] === 'accepted' && $row['status_goal'] === 'accepted' && $row['status_id'] != '4' && $row['status_id'] != '5'){
       $result = '1';//in_progress
     }
