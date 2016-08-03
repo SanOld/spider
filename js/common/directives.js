@@ -34,7 +34,7 @@ spi.directive("qqFileUpload", function (Notification) {
         uploadButtonText: scope.setting.buttonText || '',
         customHeaders: scope.setting.customHeaders || {},
         sizeLimit: scope.setting.sizeLimit || 10520000,
-        allowedExtensions: scope.setting.allowedExtensions || ['doc', 'docx', 'pdf'],
+        allowedExtensions: scope.setting.allowedExtensions || ['doc', 'docx', 'pdf', 'csv'],
         messages: {
           typeError: "Unfortunately the file(s) you selected weren't the type we were expecting. Only {extensions} files are allowed",
           sizeError: "{file} is too large, maximum file size is {sizeLimit}",
@@ -156,3 +156,46 @@ spi.filter('nl2br', ['$sce', function ($sce) {
     return text ? $sce.trustAsHtml(text.replace(/\n/g, '<br/>')) : '';
   };
 }]);
+  
+spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
+  	return {
+    	restrict: 'A',
+    	link: function (scope, element, attrs) {
+        element.bind('click', function(e){
+          network.get(scope.paramsForExport.model, scope.paramsForExport.param, function (result, response) {
+            if (result) {
+              var csvString = '';
+              for(var column in scope.paramsForExport.columns){
+                csvString += scope.paramsForExport.columns[column] + ",";
+              }
+              for(var i = 0; i < response.result.length; i++ ){
+                csvString = csvString.substring(0,csvString.length - 1);            
+                csvString = csvString + "\n";
+                for(var columns in scope.paramsForExport.columns){          
+                  c:
+                  for(var column in response.result[i]){                  
+                    if(columns == column){
+                      if(response.result[i][column]){
+                        csvString += '"' + response.result[i][column] + '"' + ',' ;
+                      }else{                          
+                        csvString += " ," ;
+                      }
+                      break c;
+                    }                
+                  }
+                }
+              }
+              csvString = csvString.substring(0, csvString.length - 1);
+              var a = $('<a/>', {
+                  style:'display:none',
+                  href:'data:application/octet-stream;base64,' + btoa(csvString),
+                  download:'emailStatistics.csv'
+              }).appendTo('body')
+              a[0].click();
+              a.remove();
+            }
+          });        
+        });
+    	}
+  	};
+	}]);

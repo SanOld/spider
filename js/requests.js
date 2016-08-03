@@ -78,6 +78,22 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   var grid = GridService();
   $scope.tableParams = grid('request', $scope.filter);
 
+  $scope.paramsForExport = {
+    model: 'request',
+    columns: {
+      'code'           : 'Kennziffer',
+      'performer_name' : 'Träger',
+      'programm'       : 'Programm',
+      'year'           : 'Jahr',
+      'status_name'    : 'Status',
+      'end_fill'       : 'Abgabe',
+      'last_change'    : 'Lezte Äaderung',
+      'status_finance' : 'Finanzplan Status',
+      'status_concept' : 'Konzept Status',
+      'status_goal'    : 'Entwicklungszielen Status'
+    }
+  };
+  
   $scope.resetFilter = function () {
     $scope.filter = angular.copy($scope.defaulFilter);
     $scope.setFilter();

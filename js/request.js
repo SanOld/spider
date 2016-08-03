@@ -650,7 +650,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
   $scope.comment = '';
-
+  
   $scope.canAcceptEarly = function(status) {
     return !(network.user.type == 'p' && status != 'in_progress');
   };
