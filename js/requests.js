@@ -80,6 +80,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
   $scope.resetFilter = function () {
     $scope.filter = angular.copy($scope.defaulFilter);
+    $scope.setFilter();
     grid.resetFilter($scope.filter);
   };
 
