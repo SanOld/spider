@@ -188,24 +188,25 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     var data = RequestService.getFullProjectData();
     var request_data = RequestService.getProjectData();
     
-    var required = [
-                    'doc_target_agreement_id',
-                    'doc_request_id',
-                    'doc_financing_agreement_id',
-                    'finance_user_id',
-                    'concept_user_id',
-                    'start_date',
-                    'due_date'
-                  ];
+    var required = {
+                  'doc_target_agreement_id': 'Druck-Template: Zielvereinbarung'
+                , 'doc_request_id': 'Druck-Template: Antrag'
+                , 'doc_financing_agreement_id': 'Druck-Template: Fördervertrag'
+                , 'finance_user_id': 'Ansprechperson für Rückfragen zum Finanzplan'
+                , 'concept_user_id': 'Ansprechperson für Rückfragen zum Konzept'
+                , 'start_date': 'Beginn:'
+                , 'due_date': 'Ende:'
+    };
 
 
     var failFields = [];
     if(statusId == 4 || statusId == 5){
-      required.forEach(function(item, i, required) {
-        if(!request_data[item]){
-          failFields.push(item);
+
+      for(var key in required){
+        if(!request_data[key]){
+          failFields.push(required[key]);
         }
-      });
+      }
     }
 
       var failCodes = [];
