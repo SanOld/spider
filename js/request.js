@@ -73,9 +73,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
          return true;
       }
     };
-    if(close === 'setBulkStatus'){
-      close = false;
-    };
+    
     RequestService.setChangedProjectForm();
     RequestService.setChangedFinanceForm();
     RequestService.setChangedConceptForm();
