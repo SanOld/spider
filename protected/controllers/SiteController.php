@@ -50,7 +50,7 @@ class SiteController extends Controller
 			if(!isset($params['RECOVERY_TOKEN']))
 				$this->redirect('/');
 		}      
-    if(Yii::app()->session['rights'][$page] && !Yii::app()->session['rights'][$page]['show']){       
+    if(safe(Yii::app()->session['rights'],$page) && !Yii::app()->session['rights'][$page]['show']){       
       $this->redirect('/dashboard');      
     }else {
       try {
