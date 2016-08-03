@@ -142,11 +142,37 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       });
 
       modalInstance.result.then(function (data) {
-        network.patch('request', {ids: ids, start_date: Utils.getSqlDate(data.start_date), due_date: Utils.getSqlDate(data.due_date), end_fill: Utils.getSqlDate(data.end_fill)}, function(result) {
-          if(result) {
-            grid.reload();
-          }
-        });
+        var sendData = {};
+        var flag = false;
+        sendData.ids = ids;
+
+        if(data.start_date){
+          sendData.start_date = Utils.getSqlDate(data.start_date);
+          flag = true;
+        }
+        if(data.due_date){
+          sendData.due_date = Utils.getSqlDate(data.due_date);
+          flag = true;
+        }
+        if(data.end_fill){
+          sendData.end_fill = Utils.getSqlDate(data.end_fill);
+          flag = true;
+        }
+        
+        if(flag){
+          network.patch('request', sendData, function(result) {
+            if(result) {
+              grid.reload();
+            }
+          });
+        } else {
+          SweetAlert.swal({
+            title: "Fehler",
+            text: "Sie müssen mindestens ein Feld auswählen",
+            type: "error",
+            confirmButtonText: "OK"
+          });
+        }
       });
 
 
