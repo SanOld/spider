@@ -264,10 +264,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
             case 4:;
               request_data.status_code = 'acceptable';
               request_data.status_id = statusId;
+              request_data.status_id_ta = statusId;
               break;
             case 5:;
               request_data.status_code = 'accept';
               request_data.status_id = statusId;
+              request_data.status_id_ta = statusId;
               break;
           }
 

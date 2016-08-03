@@ -1,0 +1,1 @@
+update spi_request set status_id_ta = status_id where status_id = 4 or status_id = 5;
