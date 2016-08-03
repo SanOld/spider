@@ -127,11 +127,11 @@ $this->breadcrumbs = array('Anträge');
                     </label>
                   </td>
                   <td data-title="'Kennz.'" sortable="'code'">{{row.code}}</td>
-                  <td data-title="user.type != 't' ? 'Träger' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
+                  <td data-title="user.type != 't' ? 'Träger / Profil' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
                     <!--<span class="performer-icon" ng-class="{'unchecked':row.performer_is_checked != '1'}">{{row.performer_name}}</span>-->
-                    <i ng-if="+row.performer_is_checked" class="ion-checkmark"></i>
                    <div class="holder-school">
-                    {{user.type  == 't' ? '' : row.performer_name}}
+                    <a ng-if="user.type != 't'" href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a>
+                    <i ng-if="user.type != 't' && +row.performer_is_checked" class="success fa fa-check-circle" aria-hidden="true"></i>
                     <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
                    </div>
                   </td>
