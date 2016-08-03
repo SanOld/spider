@@ -72,8 +72,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       if(!RequestService.isChangedProjectForm() && !RequestService.isChangedFinanceForm() && !RequestService.isChangedConceptForm() && !RequestService.isChangedGoalsForm()){
          return true;
       }
-    }
-
+    };
+    
     RequestService.setChangedProjectForm();
     RequestService.setChangedFinanceForm();
     RequestService.setChangedConceptForm();
@@ -188,24 +188,25 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     var data = RequestService.getFullProjectData();
     var request_data = RequestService.getProjectData();
     
-    var required = [
-                    'doc_target_agreement_id',
-                    'doc_request_id',
-                    'doc_financing_agreement_id',
-                    'finance_user_id',
-                    'concept_user_id',
-                    'start_date',
-                    'due_date'
-                  ];
+    var required = {
+                  'doc_target_agreement_id': 'Druck-Template: Zielvereinbarung'
+                , 'doc_request_id': 'Druck-Template: Antrag'
+                , 'doc_financing_agreement_id': 'Druck-Template: Fördervertrag'
+                , 'finance_user_id': 'Ansprechperson für Rückfragen zum Finanzplan'
+                , 'concept_user_id': 'Ansprechperson für Rückfragen zum Konzept'
+                , 'start_date': 'Beginn:'
+                , 'due_date': 'Ende:'
+    };
 
 
     var failFields = [];
     if(statusId == 4 || statusId == 5){
-      required.forEach(function(item, i, required) {
-        if(!request_data[item]){
-          failFields.push(item);
+
+      for(var key in required){
+        if(!request_data[key]){
+          failFields.push(required[key]);
         }
-      });
+      }
     }
 
       var failCodes = [];
@@ -263,10 +264,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
             case 4:;
               request_data.status_code = 'acceptable';
               request_data.status_id = statusId;
+              request_data.status_id_ta = statusId;
               break;
             case 5:;
               request_data.status_code = 'accept';
               request_data.status_id = statusId;
+              request_data.status_id_ta = statusId;
               break;
           }
 
@@ -650,7 +653,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
   $scope.comment = '';
-
+  
   $scope.canAcceptEarly = function(status) {
     return !(network.user.type == 'p' && status != 'in_progress');
   };

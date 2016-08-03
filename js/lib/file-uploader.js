@@ -1373,37 +1373,37 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
         xhr.send(file);
     },
     _onComplete: function(id, xhr){
-        // the request was aborted/cancelled
-        if (!this._files[id]) return;
+      // the request was aborted/cancelled
+      if (!this._files[id]) return;
+      var ext = this._files[0]['type'].split('/');
+      var name = this.getName(id);
+      var size = this.getSize(id);
 
-        var name = this.getName(id);
-        var size = this.getSize(id);
-
-        this._options.onProgress(id, name, size, size);
-
+      this._options.onProgress(id, name, size, size);
+      if(ext[1] != 'csv'){
         if (xhr.status == 200){
-            this.log("xhr - server response received");
-            this.log("responseText = " + xhr.responseText);
+          this.log("xhr - server response received");
+          this.log("responseText = " + xhr.responseText);
 
-            var response;
+          var response;
 
-            try {
-                response = eval("(" + xhr.responseText + ")");
-            } catch(err){
-                response = {};
-            }
+          try {
+            response = eval("(" + xhr.responseText + ")");
+          } catch(err){
+            response = {};
+          }
 
-            this._options.onComplete(id, name, response);
+          this._options.onComplete(id, name, response);
 
         } else {
-            this._options.onError(id, name, xhr);
-            this._options.onComplete(id, name, {});
+          this._options.onError(id, name, xhr);
+          this._options.onComplete(id, name, {});
         }
-
         this._files[id] = null;
         this._xhrs[id] = null;
         this._dequeue(id);
-    },
+      }
+},
     _cancel: function(id){
         this._options.onCancel(id, this.getName(id));
 

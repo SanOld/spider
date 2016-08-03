@@ -16,6 +16,7 @@ $this->breadcrumbs = array('Anträge');
             <a href="javascript:window.print()" title="Drucken">
               Drucken <i class="ion-printer"></i>
             </a>
+            <button class="custom-btn btn w-xs" export-to-csv ng-click="">Export Datum</button>
             <button <?php $this->demo();?> ng-if="canByType(['a'])" ng-click="addRequest()" class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
           </div>
         </div>
@@ -127,11 +128,11 @@ $this->breadcrumbs = array('Anträge');
                     </label>
                   </td>
                   <td data-title="'Kennz.'" sortable="'code'">{{row.code}}</td>
-                  <td data-title="user.type != 't' ? 'Träger' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
+                  <td data-title="user.type != 't' ? 'Träger / Profil' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
                     <!--<span class="performer-icon" ng-class="{'unchecked':row.performer_is_checked != '1'}">{{row.performer_name}}</span>-->
-                    <i ng-if="+row.performer_is_checked" class="ion-checkmark"></i>
                    <div class="holder-school">
-                    {{user.type  == 't' ? '' : row.performer_name}}
+                    <a ng-if="user.type != 't'" href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a>
+                    <i ng-if="user.type != 't' && +row.performer_is_checked" class="success fa fa-check-circle" aria-hidden="true"></i>
                     <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
                    </div>
                   </td>
@@ -406,7 +407,7 @@ $this->breadcrumbs = array('Anträge');
       <div class="form-group group-btn m-t-20">
         <div class="col-lg-12">
           <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-          <button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date">Speichern</button>
+          <button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.due_date < form.start_date">Speichern</button>
         </div>
       </div>
     </div>
