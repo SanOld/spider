@@ -3083,8 +3083,8 @@ form[name=conceptForm] .alert-danger {display: block;}
     background-color: #00529e !important;
     border-color: #00529e !important;
 }
-.table-requests i.ion-checkmark{
-    float: left;
+.table-requests i.fa-check-circle{
+    color: #a1e187;
     margin: 0 15px 0 0px;
 }
 .table-requests .holder-school {
