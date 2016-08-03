@@ -564,6 +564,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
         $scope.request.start_date = start;
         $scope.request.due_date = end;
+
+        $scope.submitRequest(true);
       });
 
     }
@@ -599,6 +601,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         var end_fill = isNaN(data.end_fill) ? '' : Utils.getSqlDate(new Date(data.end_fill));
 
         $scope.request.end_fill = end_fill;
+
+        $scope.submitRequest(true);
 
       });
     }
