@@ -35,15 +35,15 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
       controller: 'EditDistrictController'
     });
   };
-  $scope.qqSetting = {
-    model: 'financial_document',
-    customHeaders:{Authorization: network.token},
-    buttonText: 'Dokumente hinzufügen',
-    onUpload: function (id, fileName, responseJSON) {
-      Notification.success({title: 'File upload success!', message: 'file uploaded'});
-      grid.reload();
-    }
-  };
+//  $scope.qqSetting = {
+//    model: 'financial_document',
+//    customHeaders:{Authorization: network.token},
+//    buttonText: 'Dokumente hinzufügen',
+//    onUpload: function (id, fileName, responseJSON) {
+//      Notification.success({title: 'File upload success!', message: 'file uploaded'});
+//      grid.reload();
+//    }
+//  };
   $scope.canEdit = function(id) {
     return $rootScope.canEdit() || (id == network.user.relation_id && network.user.type == 'd' || network.user.type == 't');
   }
