@@ -210,7 +210,7 @@ class Request extends BaseModel {
       case 't':
         $result = $row['status_id_ta'];
         if($row['status_id'] != '4' && $row['status_id'] != '5'){
-          if($row['status_concept'] === 'rejected' || $row['status_finance'] === 'rejected' || $row['status_goal'] === 'rejected'){
+          if($row['status_concept_ta'] === 'rejected' || $row['status_finance_ta'] === 'rejected' || $row['status_goal_ta'] === 'rejected'){
             $result = '3';//in_progress
           }else{
             $result = '1';//open
