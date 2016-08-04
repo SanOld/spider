@@ -3317,3 +3317,6 @@ form[name=conceptForm] .alert-danger {display: block;}
 .btn.request-back{
     margin-left: 42px;
 }
+.concept-form-block .btn-question {
+    margin-top: 0;
+}
