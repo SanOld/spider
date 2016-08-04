@@ -181,7 +181,7 @@
                           <label ng-show="dublicate['employee']" class="error">Dieser Name existiert bereits</label>
                         </span>
                       </div>
-                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()">
+                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canEdit()">
                         <button class="btn m-t-2 add-user" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
                       </div>             
                       <div class="col-lg-3 p-0" ng-show="add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()">
