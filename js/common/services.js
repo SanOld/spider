@@ -175,6 +175,7 @@ spi.service("RequestService", function () {
   this.initSchoolConcept = function(data) {};
   this.initSchoolGoal = function(data) {};
   this.afterSave = function() {};
+  this.canEdit = function(){};
   
   this.updateFinansistPD = function(id) {};
   this.updateFinansistFP = function(id) {};

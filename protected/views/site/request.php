@@ -21,7 +21,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 					</div>
 				</div>
-        <ng-form name="form">       
+        <ng-form name="form">
 				<uib-tabset class="panel-body request-order-nav" active="tabActive" ng-cloack>
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>

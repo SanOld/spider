@@ -126,6 +126,19 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     }  
   };
 
+  RequestService.canEdit = function () {
+    var result = true;
+    var request = RequestService.getProjectData();
+    if(request){
+      result = (['2','4','5'].indexOf(request.status_id) === -1);
+    }
+    return result;
+  }
+
+  $scope.canEdit  = function (){
+    return  RequestService.canEdit();
+  }
+
   $scope.userCan = function(type) {
 
     var results = false;
@@ -153,8 +166,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
         case 'save':;
           results = ((user == 'a' || user == 'p' || user == 't') && status != 'accept' && status != 'decline');
           break;
-      }
+      } 
+
     }
+
     return results;
   };
 
@@ -307,6 +322,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       $scope.add_project_user = false;
       $scope.new_project_user = ""; 
     }      
+  }
+
+  $scope.canEdit  = function (){
+    return  RequestService.canEdit();
   }
   
   $scope.escape = function(event){
@@ -654,6 +673,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.canAccept = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
   $scope.comment = '';
+
+  $scope.canEdit  = function (){
+    return  RequestService.canEdit();
+  }
   
   $scope.canAcceptEarly = function(status) {
     return !(network.user.type == 'p' && status != 'in_progress');
@@ -1222,6 +1245,11 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
   $scope.fullscreen = false;
   $scope.equal = true;
+
+  $scope.canEdit  = function (){
+    return  RequestService.canEdit();
+  }
+
   $scope.canAcceptEarly = function(status) {
     return !(network.user.type == 'p' && status != 'in_progress');
   };
@@ -1461,6 +1489,10 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       }
     }
   });
+
+  $scope.canEdit  = function (){
+    return  RequestService.canEdit();
+  }
   
   $scope.deleteGoal = function(id){
     for (var school in $scope.schoolGoals) {
