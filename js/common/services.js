@@ -302,7 +302,7 @@ spi.factory('Utils', function (SweetAlert) {
       SweetAlert.swal({
         title: "Deaktiviert!",
         text: "Ihre Datei ist erfolgreich dearkiviert!",
-        type: "warning",
+        type: "success",
         confirmButtonText: "OK",
         closeOnConfirm: true
       }, function(isConfirm){          

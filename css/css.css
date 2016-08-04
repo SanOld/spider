@@ -3299,3 +3299,21 @@ form[name=conceptForm] .alert-danger {display: block;}
   margin-left: 150px;  
   word-break: break-all;
 }
+.btn-deactivate.request{
+    padding: 10px 0px 10px 45px !important;
+}
+.btn.request-acceptable{
+    position: absolute;
+    margin-left: 42%;
+}
+.btn.request-new-open{
+    position: absolute;
+    margin-left: 203px;
+}
+.btn.request-accept{
+    position: absolute;
+    margin-left: 408px;
+}
+.btn.request-back{
+    margin-left: 42px;
+}

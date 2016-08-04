@@ -100,8 +100,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     Utils.doConfirm(function() {
       network.put('request/' + $scope.requestID,{'status_id':2}, function (result) {
         if (result) {
-          Utils.deleteSuccess();
-          location.href = '/requests';
+          Utils.deactivateSuccess(function(){            
+            location.href = '/requests';
+          });
         }
       });
     });
