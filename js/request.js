@@ -225,13 +225,21 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       }
     }
 
-      var failCodes = [];
-        if(statusId == 5 && request_data.status_id < 4 ) {
-          failCodes.push(data.code);
-        } else if($scope.conceptStatus != 'accepted' || $scope.financeStatus != 'accepted' || $scope.goalsStatus != 'accepted') {
-          failCodes.push(data.code);
-        }
-
+    var failCodes = [];
+    switch (statusId) {
+    case 5:
+      if(request_data.status_id < 4){
+        failCodes.push(data.code);
+      }
+      break;
+    case 4:;
+    case 3:
+      var partStatus = ($scope.conceptStatus != 'accepted' || $scope.financeStatus != 'accepted' || $scope.goalsStatus != 'accepted');
+      if(partStatus && request_data.status_id != '2') {
+        failCodes.push(data.code);
+      }
+      break;
+    }
 
       if(failFields.length) {
         SweetAlert.swal({
