@@ -1,7 +1,7 @@
 
   <div class="tab-pane" id="schools-goals" ng-controller="RequestSchoolGoalController">
     <div id="accordion-order" class="panel-group panel-group-joined">
-<form name="goalsForm" novalidate>
+<form name="goalsForm" novalidate disable-all="{{!canEdit()}}">
       <div ng-repeat="school in schoolGoals" class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
@@ -564,9 +564,9 @@
                     <div class="col-lg-3 text-right pull-right" >
 
                       <div class="m-t-30 text-right pull-right">
-                        <button ng-show=" userCan('btnSenden', goal.status) " class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( goal, 'submit')" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
-                        <button ng-show=" userCan('btnAccept', goal.status) "  class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( goal, 'accept')">AKZEPTIEREN</button>
-                        <button ng-show=" userCan('btnReject', goal.status) " ng-class="{disabled: !goal.newNotice}" ng-click="submitForm( goal, 'declare')" class="btn w-lg btn-lg btn-danger">ANMERKUNG</button>
+                        <button ng-show=" userCan('btnSenden', goal.status) && canEdit()" class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm( goal, 'submit')" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
+                        <button ng-show=" userCan('btnAccept', goal.status) && canEdit()"  class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm( goal, 'accept')">AKZEPTIEREN</button>
+                        <button ng-show=" userCan('btnReject', goal.status) && canEdit()" ng-class="{disabled: !goal.newNotice}" ng-click="submitForm( goal, 'declare')" class="btn w-lg btn-lg btn-danger">ANMERKUNG</button>
                       </div>
                     </div>
                   </div>
