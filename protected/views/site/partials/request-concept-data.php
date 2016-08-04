@@ -1,6 +1,6 @@
 <div class="tab-pane" ng-controller="RequestSchoolConceptController">
   <div class="panel-group panel-group-joined" id="accordion-concepts">
-    <form name="conceptForm" novalidate>
+    <form name="conceptForm" novalidate >
     <div class="panel panel-default" ng-repeat="schoolConcept in schoolConcepts">
       <div class="panel-heading" ng-init="conceptTab[schoolConcept.id] = 'data'">
         <h4 class="panel-title">
@@ -18,7 +18,7 @@
       </div>
       <div id="collapse-{{::schoolConcept.id}}" class="panel-collapse collapse" ng-class="{in: schoolConcepts.length == 1}">
         <div class="panel-body">
-          <ng-form name="schoolForm{{$index}}" disable-all="schoolConcept.status == 'accepted'">
+          <ng-form name="schoolForm{{$index}}" disable-all="{{schoolConcept.status == 'accepted' || !canEdit()}}">
           <div ng-class="{current: conceptTab[schoolConcept.id] == 'data'}" id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
             <div ng-if="schoolConcept.status != 'unfinished'" class="alert" ng-class="{'alert-danger': schoolConcept.status == 'rejected', 'alert-success': schoolConcept.status == 'accepted', 'alert-warning': schoolConcept.status == 'in_progress'}">
               <div ng-switch="schoolConcept.status">
@@ -76,10 +76,10 @@
                   </div>
                   <div class="col-lg-2">
                     <div class="m-t-30 text-right pull-right" ng-if="canAccept">
-                      <button ng-hide="schoolConcept.status == 'accepted'" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept', $index)">AKZEPTIEREN</button>
-                      <button ng-hide="schoolConcept.status == 'rejected'" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'reject', $index)" class="btn w-lg btn-lg btn-danger">ANMERKUNG</button>
+                      <button ng-hide="schoolConcept.status == 'accepted' || !canEdit()" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept', $index)">AKZEPTIEREN</button>
+                      <button ng-hide="schoolConcept.status == 'rejected' || !canEdit()" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'reject', $index)" class="btn w-lg btn-lg btn-danger">ANMERKUNG</button>
                     </div>
-                    <div class="text-right pull-right" ng-if="canFormEdit && !isTextareaShow && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted'">
+                    <div class="text-right pull-right" ng-if="canFormEdit && !isTextareaShow && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted' && canEdit()">
                       <h4 class="m-t-0"></h4>
                       <button class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'submit', $index)" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
                     </div>

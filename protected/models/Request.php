@@ -222,7 +222,7 @@ class Request extends BaseModel {
         $result = 1;//open
     }
 
-    if($row['status_concept'] === 'accepted' && $row['status_finance'] === 'accepted' && $row['status_goal'] === 'accepted' && $row['status_id'] != '4' && $row['status_id'] != '5'){
+    if($row['status_concept'] === 'accepted' && $row['status_finance'] === 'accepted' && $row['status_goal'] === 'accepted' && $row['status_id'] != '4' && $row['status_id'] != '5' && $row['status_id'] != '2'){
       $result = '1';//in_progress
     }
     

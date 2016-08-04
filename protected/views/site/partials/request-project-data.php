@@ -1,5 +1,5 @@
 <div id="project" class="tab-pane active" ng-controller="RequestProjectDataController">
-  <ng-form name="projectData">
+  <ng-form name="projectData" disable-all="{{!canEdit()}}">
     <div class="panel-group panel-group-joined m-0">
       <div class="panel panel-default">
         <div class="panel-heading">
