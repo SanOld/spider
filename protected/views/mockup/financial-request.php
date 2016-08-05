@@ -1,28 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-
-		<title>Mittelabrufe | SPIder</title>
-		<?php include('templates/head.php'); ?>
-	</head>
-
-	<body>
-		<div id="page">
-			<!-- Header -->
-			<?php include('templates/header.php'); ?>
-			<!-- Header Ends -->
-			
-			<!-- Navbar Start -->
-			<?php include('templates/menu.php'); ?>
-				
-			<div class="container">
-				<ul class="breadcrumb p-0">
-					<li><a href="/dashboard">Startseite</a></li>
-					<li><a href="#">Finanzen</a></li>
-					<li class="active">Mittelabrufe</li>
-				</ul>
-			</div>
-			
+<?php
+$this->pageTitle = 'Mittelabrufe | ' . Yii::app()->name;
+$this->breadcrumbs = array('Finanzen','Mittelabrufe');
+session_start();
+?>	
 			<!-- Page Content Start -->
 			<!-- ================== -->
 			
@@ -34,7 +14,6 @@
 								<h1 class="panel-title col-lg-6">Mittelabrufe</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-modal="">Import aus DATEV</button>
 									<button class="btn w-lg custom-btn" data-modal="">Mittelabruf hinzufügen</button>
 								</div>
 							</div>
@@ -50,12 +29,11 @@
 										<div class="col-lg-2">
 											<div class="form-group">
 												<div class="form-group">
-													<label>Typ</label>
+													<label>Beleg Typ</label>
 													<select class="form-control">
-														<option>Alles anzeigen</option>
-														<option>Regulär</option>
-														<option>Extra</option>
-														<option>Rückgezahlt</option>
+														<option>Mittelabruf</option>
+														<option>Freimeldung</option>
+                            <option>Ergänzung</option>
 													</select>
 												</div>
 											</div>
@@ -185,7 +163,7 @@
 													<th>Beleg<br/>-Datum</th>
 													<th>Betrag</th>
 													<th>Zahl.<br/>-Datum</th>
-													<th>Druken /<br/> Bearbeiten</th>
+													<th>Drucken /<br/> Bearbeiten</th>
 												</tr>
 												
 											</thead>
@@ -459,7 +437,6 @@
 													<td>28.10.2015</td>
 													<td>€ 9,749.86</td>
 													<td></td>
-													<td></td>
 													<td>
 														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
 														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
@@ -470,7 +447,6 @@
 											</tbody>
 										</table>
 										<div class="btn-row m-t-15 clearfix">
-											<button class="btn m-b-5">Export zu DATEV</button>
 											<button class="btn m-b-5">Zahl. Datum hinzufügen</button>
 											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Druck-Template wählen</button>
 										</div>
@@ -491,26 +467,19 @@
 			</div>
 		</div>
 
-		<!-- Page Content Ends -->
-		<!-- ================== -->
-		<?php include('templates/footer.php'); ?>
+		
 		
 		<!-- Edit -->
 		<div id="modal-1" class="modal fade edit-summary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-width-full">
+            <div class="modal-dialog">
 				<div class="panel panel-color panel-primary">
-					<div class="panel-heading clearfix"> 
+					<div class="panel-heading m-b-30 clearfix"> 
 						<h3 class="m-0 pull-left">Mittelabruf bearbeiten G027 / 16-000092</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
 					</div>
-					<div class="panel-body">
-						<div class="alert alert-danger">
-                            <strong>Abgelehnt</strong>
-                        </div>
-					</div>
 					<div class="row">
 						<form role="form" class="form-horizontal">
-							<div class="col-lg-4 row-holder-dl">
+							<div class="col-lg-6 row-holder-dl">
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Projekte</label>
 									<div class="col-lg-8">
@@ -524,69 +493,81 @@
 									<dd>2016</dd>
 									<dt>Träger</dt>
 									<dd>Tandem BQG</dd>
-									<dt>Adresse</dt>
-									<dd>Potsdamer Str. 182 10783, Berlin</dd>
 								</dl>
 								<hr />
+								<div class="m-b-15">
+									<h5>Ansprechperson für Rückfragen</h5>
+									<select class="form-control">
+										<option>G027</option>
+									</select>
+								</div>
 								<dl class="custom-dl">
-									<dt>Ansprechpartner(in)</dt>
-									<dd>Mr Werner Munk</dd>
-									<dt>Funktion</dt>
-									<dd>Some function</dd>
-									<dt>Titel</dt>
-									<dd>Some title</dd>
 									<dt>Telefon</dt>
 									<dd>(030) 2888 496</dd>
 									<dt>E-Mail</dt>
-									<dd>admin@warenform.de  </dd>
+									<dd><a href="mailto:admin@warenform.de">admin@warenform.de</a></dd>
 								</dl>
-							</div>
-							<div class="col-lg-4 border-side">
+								<hr />
+								<h5>Bankverbindung</h5>
 								<div class="form-group">
-									<label class="col-lg-4 control-label">Typ</label>
+									<label class="col-lg-3 control-label">IBAN</label>
+									<div class="col-lg-9">
+										<select class="form-control">
+											<option>G027</option>
+										</select>
+									</div>
+								</div>
+								<dl class="custom-dl">
+									<dt>Beschreibung</dt>
+									<dd>---</dd>
+									<dt>Kreditor</dt>
+									<dd>3148800</dd>
+								</dl>
+								<h5>Bestätigung der Zahlung/ Änderung</h5>
+								<div class="form-group">
+									<label class="col-lg-5 control-label">Zahlungsdatum</label>
+                                	<div class="col-lg-7">
+	                                	<div class="input-group">
+	                                	    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
+	                                	    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+	                                	</div>
+	                                </div>
+                                </div>
+							</div>
+							<div class="col-lg-6 border-side">
+								<div class="form-group">
+									<label class="col-lg-4 control-label">Belegdatum</label>
+									<div class="col-lg-8">
+	                                	<div class="input-group">
+	                                	    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
+	                                	    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+	                                	</div>
+	                                </div>
+                                </div>
+								<div class="form-group">
+									<label class="col-lg-4 control-label">Beleg-Typ</label>
 									<div class="col-lg-8">
 										<select class="form-control">
 											<option>Regulär</option>
-											<option>Extra</option>
-											<option>Rückgezahlt</option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-lg-4 control-label">Dauer</label>
+									<label class="col-lg-4 p-t-0 control-label">Druck Template wählen</label>
 									<div class="col-lg-8">
 										<select class="form-control">
-											<option>Exceptional request</option>
-											<option>Januar/ Februar</option>
-											<option>März/ April</option>
-											<option>Mai / Juni</option>
-											<option>Juli / August</option>
-											<option>September/ Oktober</option>
-											<option>November / Dezember</option>
+											<option>Wählen</option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-lg-4 control-label">IBAN</label>
+									<label class="col-lg-4 control-label">Rate</label>
 									<div class="col-lg-8">
 										<select class="form-control">
-											<option>DE21 1204 0000 0622 2806 01</option>
+											<option></option>
 										</select>
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="col-lg-4 control-label">Kontoinhaber</label>
-									<div class="col-lg-8 control-label">
-										Mr Werner Munk
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-lg-4 control-label">Kreditor</label>
-									<div class="col-lg-8 control-label">
-										3148800
-									</div>
-								</div>
-								<hr />
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Betrag</label>
 									<div class="col-lg-7">
@@ -597,100 +578,24 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-lg-4 control-label">Beschreibung</label>
+									<label class="col-lg-4 control-label">Bemerkung</label>
 									<div class="col-lg-8">
 										<textarea class="form-control">Lorem ipsum dolor sit amet consectetur</textarea>
 									</div>
 								</div>
-							</div>
-							<div class="col-lg-4">
-								<div class="form-group">
-									<label class="col-lg-5 control-label">Belegdatum</label>
-									<div class="col-lg-7">
-	                                	<div class="input-group">
-	                                	    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
-	                                	    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-	                                	</div>
-	                                </div>
-                                </div>
-                                <div class="form-group">
-									<label class="col-lg-5 control-label">Buchungsdatum</label>
-                                	<div class="col-lg-7">
-	                                	<div class="input-group">
-	                                	    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
-	                                	    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-	                                	</div>
-	                                </div>
-                                </div>
-                                <div class="form-group">
-									<label class="col-lg-5 control-label">Zahlungsdatum</label>
-                                	<div class="col-lg-7">
-	                                	<div class="input-group">
-	                                	    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
-	                                	    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-	                                	</div>
-	                                </div>
-                                </div>
-                                <hr />
-                                <div class="form-group">
-									<div class="col-lg-12">
-										<label class="cr-styled">
-											<input type="checkbox" checked="checked">
-											<i class="fa"></i>
-											Drucken erlauben
-										</label>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-lg-12">
-										<label class="cr-styled">
-											<input type="checkbox">
-											<i class="fa"></i>
-											Brief ist erhalten und überprüft
-										</label>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-lg-12">
-										<label class="cr-styled">
-											<input type="checkbox">
-											<i class="fa"></i>
-											Exportiert
-										</label>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-lg-12">
-										<label class="cr-styled">
-											<input type="checkbox" checked="checked">
-											<i class="fa"></i>
-											Ausgefüllt
-										</label>
-										<span class="manual-by">Manuell von Mustermann </span>
-									</div>
-								</div>
+								<button class="custom-btn btn w-lg pull-right print_btn">
+									<i class="ion-printer"></i> 
+									<span class="text-capitalize">Drucken</span>
+								</button>
 							</div>
 						</div>
 						<hr />
-						<div class="row m-t-30">
-							<div class="col-lg-10">
-								<h4 class="m-t-0">Prüfnotiz</h4>
-								<textarea class="form-control custom-height-textarea2" placeholder="Tragen Sie den Text hier ein"></textarea>
-							</div>
-							<div class="col-lg-2 m-t-30 m-b-5">
-								<div class="group-btn pull-right">
-									<button class="btn w-lg btn-lg btn-success disabled" style="margin-bottom:10px">AKZEPTIEREN</button>
-									<button class="btn w-lg btn-lg btn-danger disabled">ABLEHNEN</button>
-									
-								</div>
-							</div>
-						</div>
 						<div class="form-group group-btn row m-t-30">
-							<div class="col-lg-7 text-left">
+							<div class="col-lg-6 text-left">
 								<a class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></a>
 								<button class="btn btn-icon btn-danger btn-lg" data-dismiss="modal">Mittelabrufe schließen</button>
 							</div>
-							<div class="col-lg-5 text-right">
+							<div class="col-lg-6 text-right">
 								<button class="btn w-lg cancel-btn btn-lg">Abbrechen</button>
 								<button class="btn w-lg custom-btn btn-lg">Speichern</button>
 							</div>
@@ -747,8 +652,7 @@
 		</div>
 
 		<div class="md-overlay"></div>
-		
-		<?php include('templates/scripts.php'); ?>
+	
 
 		<script type="text/javascript">
 
@@ -785,6 +689,43 @@
 			});
 		
 		</script>
-		<?php include('templates/edit-user.php'); ?>
-	</body>
-</html>
+    
+    <script src="js/lib/jquery.min.js"></script>
+
+		<!-- js placed at the end of the document so the pages load faster -->
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/pace.js"></script>
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/wow.js"></script>
+
+		<!--common script for all pages-->
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/jquery.js"></script>
+
+		<!-- validation form -->
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/jquery.validate.min.js"></script>
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/form-validation-init.js"></script>
+		
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/sweet-alert.js"></script>
+
+		
+		<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/plug-ins/1.10.9/api/fnFilterClear.js"></script>
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/datatables/dataTables.bootstrap.js"></script>
+
+		<!-- Modal-Effect -->
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/modal-effect/js/classie.js"></script>
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/modal-effect/js/modalEffects.js"></script>
+
+		<!-- Datepicker -->
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/timepicker/bootstrap-datepicker.js"></script>
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/timepicker/bootstrap-datepicker.de.js"></script>
+
+		<!-- Select -->
+		<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/jquery-multi-select/jquery.quicksearch.js"></script>
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/select2/select2.min.js" type="text/javascript"></script>
+
+		<!-- Wisiwig -->
+		<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
+        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
+
+    <!--form validation init-->
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/summernote/summernote.min.js"></script>
+	

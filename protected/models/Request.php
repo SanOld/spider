@@ -18,6 +18,7 @@ class Request extends BaseModel {
                       , rqs.name status_name
                       , rqs.code status_code
                       , prj.code code
+                      , prj.id project_id
                       , fns.programm
                       ,(SELECT name FROM spi_school scl WHERE scl.id=prj.id) AS `school_name`";
 
@@ -112,6 +113,9 @@ class Request extends BaseModel {
     }
     if(safe($params, 'SCHOOL_TYPE_ID')) {
       $command -> andWhere('prj.school_type_id = :school_type_id', array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
+    }
+    if(safe($params, 'PROJECT_ID')) {
+      $command -> andWhere('prj.id = :project_id', array(':project_id' => $params['PROJECT_ID']));
     }
     if(safe($params, 'STATUS_ID')) {
       if(!is_int($params['STATUS_ID'])) {

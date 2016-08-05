@@ -1,0 +1,349 @@
+spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService) {
+    $rootScope._m = 'financial_request';
+    $scope.filter = {};
+    
+    var grid = GridService();
+    $scope.tableParams = grid('financial_request', $scope.filter, {sorting: {}});
+    
+    $scope.updateGrid = function() {
+        grid.reload();
+    };
+    
+    $scope.checkboxes = {
+      checked: false,
+      items: {}
+    };
+    
+    $scope.headerChecked = function (value) {
+      angular.forEach($scope.tableParams.data, function (item) {
+        $scope.checkboxes.items[item.id] = value;
+      });
+    };
+    
+    $scope.getDate = function (date) {
+      var result = '';
+      if(date != '0000-00-00'){
+        result = new Date(date);
+      }
+      return result;
+    }
+    
+    $scope.setFilter = function(){
+       localStorageService.set('requestsFilter', $scope.filter );
+    }
+  
+    $scope.dateFormat = function(date, date_type){    
+      var day = date.getDate();
+      if(day < 10){
+        day = "0" + day;
+      };
+      var month = date.getMonth() + 1;
+      if(month < 10){
+        month = "0" + month;
+      };
+      var year = date.getFullYear();
+      if(date_type == 'payment_date'){        
+        $scope.filter.payment_date = year + '-' + month + '-' + day;
+      }else{
+        $scope.filter.receipt_date = year + '-' + month + '-' + day;
+      }
+    };
+    
+    $scope.resetFilter = function() {
+        $scope.filter = grid.resetFilter();
+        delete $scope.project;
+    };
+    
+    network.get('project_type', {}, function (result, response) {
+      if(result) {
+        $scope.projectTypes = response.result;
+      }
+    });
+    
+    network.get('financial_request', {list: 'project'}, function (result, response) {
+      if(result) {
+        $scope.projects = response.result;
+      }
+    });
+    
+    network.get('financial_request', {list: 'year'}, function (result, response) {
+      if(result) {
+        $scope.years = response.result;   
+        var d = new Date;    
+        $scope.filter.year = d.getFullYear();
+        if($scope.years.indexOf($scope.filter.year) == -1){
+           $scope.filter.year = $scope.years[0].year;
+           $scope.setFilter();
+           grid.reload();
+        }
+      }
+    });
+    
+    network.get('payment_type', {}, function (result, response) {
+      if(result) {
+        $scope.paymentTypes = response.result;
+      }
+    }); 
+  
+    network.get('performer', {}, function (result, response) {
+        if(result) {
+            $scope.performers = response.result;
+        }
+    });
+    
+    network.get('financial_request_status', {}, function (result, response) {
+      if (result) {
+        $scope.statuses = response.result;
+      }
+    });
+    
+    $scope.updateProject = function(id, year){
+      delete $scope.project;
+      network.get('financial_request', {'project_id': id ? id : '', 'year': year ? year : ''}, function (result, response) {
+        if(result) {
+          if(response.result.length == 1){
+            $scope.project = response.result[0];
+          }else{
+            var result = true;
+            for(var item = 1; item < response.result.length; item++){
+              if(response.result[item].project_id != response.result[item - 1].project_id){
+                result = false;
+              }
+            }
+            if(result){
+              $scope.project = response.result[0];
+            }
+          }
+        }
+      });
+    };
+    
+    $scope.canEdit = function(row) {
+      if(!row) {
+        return $rootScope.canEdit();
+      } else {
+        return row != 3 && row != 6 && (network.user.type == 'a' || network.user.type == 'p');
+      }
+    };
+    
+    $scope.openEdit = function (row, modeView) {
+        grid.openEditor({
+          data: row,
+          hint: $scope._hint,
+          modeView: !!modeView,
+          controller: 'EditFinancialRequestController'
+        });
+    };
+
+
+});
+
+
+spi.controller('EditFinancialRequestController', function ($scope, modeView, $uibModalInstance, data, network, hint, Utils, SweetAlert) {
+    $scope.isInsert = !data.id;
+    $scope._hint = hint;
+    $scope.modeView = modeView;
+    $scope.financial_request = {};
+    $scope.user = network.user;
+    $scope.IBAN = {};
+    $scope.financial_request = {};
+    $scope.payment_template_id = '';
+    $scope.project_id = data.project_id ? data.project_id : '';
+    
+    $scope.getPaymentTemplate = function(payment_template_id){
+      network.get('document_template', {id: payment_template_id}, function (result, response) {
+        if(result) {
+          $scope.payment_template_id = payment_template_id;
+          $scope.paymentTemplates = response.result;
+        }
+      });
+    };
+    
+    if(!$scope.isInsert) {
+      $scope.financial_request = {
+        representative_user_id: data.representative_user_id,
+        bank_account_id: data.bank_account_id,
+        payment_date: new Date (data.payment_date),
+        receipt_date: new Date (data.receipt_date),
+        payment_type_id: data.payment_type_id,
+        rate_id: data.rate_id,
+        request_cost: data.request_cost,
+        description: data.description,
+        request_id: data.request_id,
+      };
+      
+      $scope.getPaymentTemplate(data.payment_template_id);
+      getPerformerUsers(data.request_id);
+    }    
+    
+    getProjects();
+    
+    network.get('performer', {}, function (result, response) {
+      if(result) {
+        $scope.performers = response.result;
+      }
+    });
+
+    network.get('payment_type', {}, function (result, response) {
+      if(result) {
+        $scope.paymentTypes = response.result;
+      }
+    });
+    
+    network.get('document_template', {id: $scope.financial_request.payment_template_id}, function (result, response) {
+      if(result) {
+        $scope.paymentTemplates = response.result;
+      }
+    });
+    
+    network.get('rate', {}, function (result, response) {
+      if(result) {
+        $scope.rates = response.result;
+      }
+    });
+    
+    function getProjects () {
+      network.get('request', {status_id: 5}, function(result, response){
+        if(result) {
+          $scope.projects = response.result;
+          for (var i = 0; i < response.result.length; i++) {
+            if (response.result[i].project_id == $scope.project_id) {
+              $scope.selectProjectDetails = response.result[i];
+            }
+          };
+          $scope.updateBankDetails(data.performer_id, data.request_id);
+        }
+      });
+    }    
+    
+    $scope.dateFormat = function(date, date_type){    
+      var day = date.getDate();
+      if(day < 10){
+        day = "0" + day;
+      };
+      var month = date.getMonth() + 1;
+      if(month < 10){
+        month = "0" + month;
+      };
+      var year = date.getFullYear();
+      if(date_type == 'payment_date'){        
+        $scope.financial_request.payment_date = year + '-' + month + '-' + day;
+      }else{
+        $scope.financial_request.receipt_date = year + '-' + month + '-' + day;
+      }
+    };
+    
+    function getPerformerUsers (request_id){
+      network.get('user', {type: 't', relation_id: request_id}, function (result, response) {
+        if (result) {
+          $scope.performerUsers = response.result;
+          $scope.selectRepresentativeUser = Utils.getRowById(response.result, $scope.financial_request.representative_user_id);            
+        }
+      });         
+    };
+    
+    $scope.updatePerformerUsers = function (request_id){
+      delete $scope.financial_request.representative_user_id;
+      getPerformerUsers(request_id);
+    };
+    
+    $scope.onSelectUser = function (item, model, type){
+      $scope.selectRepresentativeUser = item;      
+    };
+    
+    $scope.onSelectProject = function (item, model, type){
+      $scope.selectProjectDetails = item;
+      delete $scope.IBAN;
+      delete $scope.financial_request.bank_account_id;
+    };
+    
+    $scope.updateIBAN = function (item){
+      $scope.IBAN = item;
+    }
+    
+    $scope.updateBankDetails = function(performer_id, request_id){
+      network.get('bank_details', {performer_id: performer_id, request_id: request_id}, function (result, response) {
+        if (result) {
+          $scope.bank_details = response.result;
+          angular.forEach($scope.bank_details, function(val, key) {
+            if(val.id == $scope.financial_request.bank_account_id) {
+              $scope.updateIBAN(val);
+              return false;
+            }
+          });
+
+        }
+      });
+    }
+        
+    $scope.fieldError = function(field) {
+        var form = $scope.formFinancialRequest;
+        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
+    };
+    
+    $scope.getRequestID = function (item){
+      $scope.financial_request.request_id = item.id;
+    };
+    
+    $scope.submitFormFinancialRequest = function () {
+      $scope.submited = true;
+      $scope.formFinancialRequest.$setPristine();
+      if ($scope.formFinancialRequest.$valid) {
+        var callback = function (result, response) {
+            if (result) {
+              $uibModalInstance.close();
+            }
+            $scope.submited = false;
+        };
+        $scope.dateFormat($scope.financial_request.receipt_date, 'receipt_date');
+        $scope.dateFormat($scope.financial_request.payment_date, 'payment_date');
+        $scope.financial_request.status_id = 1;
+        if ($scope.isInsert) {
+            network.post('financial_request', $scope.financial_request, callback);
+        } else {
+            network.put('financial_request/' + data.id, $scope.financial_request, callback);
+        }
+      }
+    };
+
+    $scope.accept = function (){
+      SweetAlert.swal({
+          title: "Mittelabruf akzeptieren?",
+          text: "Diese Aktion wird nicht wiederhergestellt!",
+          type: "warning",
+          confirmButtonText: "Ja, akzeptieren!",
+          showCancelButton: true,
+          cancelButtonText: "ABBRECHEN",
+          closeOnConfirm: true
+        }, function(isConfirm){
+          if(isConfirm) {            
+            $scope.financial_request.status_id = 3;
+            network.put('financial_request/' + data.id, $scope.financial_request, function (result, response) {
+              if (result) {
+                $uibModalInstance.close();
+              }
+            });
+          }
+      });
+    };
+
+    $scope.remove = function() {
+      Utils.doConfirm(function() {
+        network.delete('financial_request/'+data.id, function (result) {
+            if(result) {
+              Utils.deleteSuccess();
+              $uibModalInstance.close();
+            }
+        });
+      });
+    };
+
+    $scope.$on('modal.closing', function(event, reason, closed) {
+      Utils.modalClosing($scope.formFinancialRequest, $uibModalInstance, event, reason);
+    });
+
+    $scope.cancel = function () {
+      Utils.modalClosing($scope.formFinancialRequest, $uibModalInstance);
+    };
+
+});

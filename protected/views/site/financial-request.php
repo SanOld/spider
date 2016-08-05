@@ -1,12 +1,11 @@
 <?php
 $this->pageTitle = 'Mittelabrufe | ' . Yii::app()->name;
 $this->breadcrumbs = array('Finanzen','Mittelabrufe');
-session_start();
 ?>	
-			<!-- Page Content Start -->
-			<!-- ================== -->
-			
-			<div class="wraper container-fluid finance-request">
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/financial-request.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/users.js"></script>
+
+			<div ng-controller="FinancialRequestController" ng-cloak class="wraper container-fluid finance-request">
 				<div class="row">
 					<div class="container center-block">
 						<div class="panel panel-default">
@@ -14,437 +13,187 @@ session_start();
 								<h1 class="panel-title col-lg-6">Mittelabrufe</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" data-modal="">Mittelabruf hinzufügen</button>
+									<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Mittelabruf hinzufügen</button>
 								</div>
 							</div>
-							<div class="panel-body finacing-edit">
+							<div class="panel-body request-edit">
 								<div class="row datafilter">
-									<form action="#">
-										<div class="col-lg-2">
+									<form>
+                       <div class='clearfix'>
+										<div class="col-lg-2 p-r-0">
 											<div class="form-group">
 												<label>Suche nach Projekt</label>
-												<input class="form-control" type="text" value="G052" />
+												<ui-select on-select="updateProject(filter.project_id, filter.year)" ng-change="updateGrid()" ng-model="filter.project_id">
+                          <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.project_code}}</ui-select-match>
+                          <ui-select-choices repeat="item.project_id as item in projects | filter: $select.search | orderBy: 'project_code'">
+                            <span ng-bind="item.project_code"></span>
+                          </ui-select-choices>
+                        </ui-select>
 											</div>
 										</div>
-										<div class="col-lg-2">
+										<div class="col-lg-2 p-r-0">
 											<div class="form-group">
 												<div class="form-group">
 													<label>Beleg Typ</label>
-													<select class="form-control">
-														<option>Mittelabruf</option>
-														<option>Freimeldung</option>
-                            <option>Ergänzung</option>
-													</select>
+													<ui-select ng-change="updateGrid()" ng-model="filter.type_id">
+                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="item.id as item in paymentTypes | filter: $select.search | orderBy: 'name'">
+                              <span ng-bind-html="item.name | highlight: $select.search"></span>
+                            </ui-select-choices>
+                          </ui-select>
 												</div>
 											</div>
 										</div>
-										<div class="col-lg-2">
+										<div class="col-lg-2 p-r-0">
 											<div class="form-group">
 												<div class="form-group">
 													<label>Jahr</label>
-													<select class="form-control">
-														<option>Aktuell</option>
-														<option>2016</option>
-														<option>2017</option>
-													</select>
-												</div>
-											</div>
+													<ui-select on-select="updateProject(filter.project_id, filter.year)" ng-change="updateGrid()" ng-model="filter.year">
+                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.year}}</ui-select-match>
+                            <ui-select-choices repeat="item.year as item in years | filter: $select.search | orderBy: 'code'">
+                              <span ng-bind="item.year"></span>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </div>
 										</div>
-										<div class="col-lg-2">
+										<div class="col-lg-2 p-r-0">
 											<div class="form-group">
-												<div class="form-group">
-													<label>Status</label>
-													<select class="form-control">
-														<option>Alles anzeigen</option>
-														<option>Bitte bearbeiten </option>
-														<option>Abgelehnt</option>
-														<option>Genehmigt</option>
-														<option>Ready for export</option>
-														<option>Import from DATEVs</option>
-													</select>
-												</div>
-											</div>
+                        <div class="form-group">
+                          <label>Status</label>
+                          <ui-select ng-change="updateGrid()" ng-model="filter.status_id">
+                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="item.id as item in statuses | filter: $select.search | orderBy: 'name'">
+                              <span ng-bind="item.name"></span>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </div>
 										</div>
-										<div class="col-lg-2">
+										<div class="col-lg-2 p-r-0">
 											<div class="form-group">
-												<div class="form-group">
-													<label>Fördertopf</label>
-													<select class="form-control">
-														<option>LM</option>
-														<option>BP</option>
-													</select>
-												</div>
-											</div>
+                        <div class="form-group">
+                          <label>Fördertopf</label>
+                          <ui-select ng-change="updateGrid()" ng-model="filter.project_type_id">
+                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="item.id as item in projectTypes | filter: $select.search | orderBy: 'name'">
+                              <span ng-bind="item.name"></span>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </div>
 										</div>
-										<div class="col-lg-2 reset-btn-width">
-											<button class="btn pull-right w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
+										<div class="col-lg-2 p-r-0 reset-btn-width">
+											<button ng-click="resetFilter()" class="btn pull-right w-lg custom-reset"> <i class="fa fa-rotate-left"></i>
+                        <span>Filter zurücksetzen</span>
+                      </button>
 										</div>
-										<div class="col-lg-4">
-											<label>Träger</label>
-											<div class="input-group">
-			                                    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
-			                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-			                                </div>
+                      </div>
+                      <div class='clearfix'>
+										<div class="col-lg-4 p-r-0">
+                      <div class="form-group">
+                        <label>Träger</label>
+                        <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
+                          <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.short_name}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
+                            <span ng-bind="item.short_name"></span>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
 										</div>
-										<div class="col-lg-4">
+										<div class="col-lg-4 p-r-0">
 											<label>Belegdatum</label>
 											<div class="input-group">
-			                                    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
-			                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-			                                </div>
+                        <input uib-datepicker-popup="dd.MM.yyyy" is-open="popup_receipt_date.opened" datepicker-options="dateOptions"
+                               ng-change="dateFormat(filter.date1, 'receipt_date');updateGrid();" 
+                               ng-model="filter.date1" type="text" id="receipt_date" class="form-control datepicker" placeholder="Alle Daten">
+                        <span class="input-group-addon" ng-click="popup_receipt_date.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
+                      </div>
 										</div>
-										<div class="col-lg-4 p-r-15">
+										<div class="col-lg-4">
 											<label>Zahlungsdatum</label>
 											<div class="input-group">
-			                                    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
-			                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-			                                </div>
+                        <input uib-datepicker-popup="dd.MM.yyyy" is-open="popup_payment_date.opened" datepicker-options="dateOptions"
+                               ng-change="dateFormat(filter.date2, 'payment_date');updateGrid();" 
+                               ng-model="filter.date2" type="text" id="payment_date" class="form-control datepicker" placeholder="Alle Daten">
+                        <span class="input-group-addon" ng-click="popup_payment_date.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
+                      </div>
 										</div>
-										
+                    </div>
 									</form>
 								</div>
-								<div class="overview-finance m-t-20">
-									<h4>Zusammenfassung der Finanzen für G052 (01.01.2016 - 31.12.2016)</h4>
+								<div class="overview-finance m-t-20" ng-if="project">
+									<h4>Zusammenfassung der Finanzen für {{project.project_code}} ({{project.start_date}} - {{project.due_date}})</h4>
 									<div class="box-finance">
 										<span class="sum total">
-	                                    	<strong>Fördersumme</strong>
-											<span>€ 87.443</span>
-	                                    </span>
+	                    <strong>Fördersumme</strong>
+											<span>€ {{project.total_cost}}</span>
+	                  </span>
 									</div>
 									<div class="box-finance">
 										<span class="sum requested">
-	                                    	<strong>Änderungen</strong>
-											<span>€ 0.00</span>
-	                                    </span>
+	                    <strong>Änderungen</strong>
+											<span>€ {{}}</span>
+	                  </span>
 									</div>
 									<div class="box-finance box-custom-width">
 										<span class="sum refund">
-	                                    	<strong>aktuelle Fördersumme</strong>
-											<span>€ 100.00</span>
-	                                    </span>
+	                    <strong>aktuelle Fördersumme</strong>
+											<span>€ {{}}</span>
+	                  </span>
 									</div>
 									<div class="box-finance">
 										<span class="sum income">
-	                                    	<strong>Ausgezahlt</strong>
-											<span>€ 58.295</span>
-	                                    </span>
+	                    <strong>Ausgezahlt</strong>
+											<span>€ {{}}</span>
+	                  </span>
 									</div>
 									<div class="box-finance">
 										<span class="sum spent">
-	                                    	<strong>Verblieben</strong>
-											<span>€ 1.000</span>
-	                                    </span>
+	                    <strong>Verblieben</strong>
+											<span>€ {{}}</span>
+	                  </span>
 									</div>
 									<div class="box-finance">
 										<span class="sum expenditure">
-	                                    	<strong>Finanzbericht</strong>
-											<span>€ 29.147</span>
-	                                    </span>
+	                    <strong>Finanzbericht</strong>
+											<span>€ {{}}</span>
+	                  </span>
 									</div>
-									
 								</div>
 								<div class="row">
 									<div class="col-lg-12">
-										<table id="datatable" class="table table-hover table-bordered table-edit">
-											<thead>
-												<tr>
-													<th>
-														<label class="cr-styled">
-															<input type="checkbox">
-															<i class="fa"></i>
-														</label>
-													</th>
-													<th>Kennz.</th>
-													<th>Jahr</th>
-													<th>Rate</th>
-													<th>Träger </th>
-													<th>Kreditor</th>
-													<th>Beleg Typ</th>
-													<th>Beleg<br/>-Datum</th>
-													<th>Betrag</th>
-													<th>Zahl.<br/>-Datum</th>
-													<th>Drucken /<br/> Bearbeiten</th>
-												</tr>
-												
-											</thead>
-			
-											<tbody>
-												<tr class="inprogress-row">
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>Jan-Feb</td>
-													<td><a href="#">Tandem BQG</a></td>
-													<td>3148800</td>
-													<td>Mittelabruf</td>
-													<td>28.10.2015</td>
-													<td>€ 9,749.86</td>
-													<td></td>
-													<td>
-														<a class="btn document print-disable" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr class="inprogress-row">
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>Jan-Feb</td>
-													<td><a href="#">Tandem BQG</a></td>
-													<td>3148800</td>
-													<td>Mittelabruf</td>
-													<td>28.10.2015</td>
-													<td>€ 2,749.86</td>
-													<td></td>
-													<td>
-														<a class="btn document print-disable" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>Jan-Feb</td>
-													<td><a href="#">CJD Berlin</a></td>
-													<td>3148800</td>
-													<td>Mittelabruf</td>
-													<td>28.10.2015</td>
-													<td>€ 862.86</td>
-													<td></td>
-													<td>
-														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>März-Apr</td>
-													<td><a href="#">CJD Berlin</a></td>
-													<td>3148800</td>
-													<td>Freimeldung</td>
-													<td>28.10.2015</td>
-													<td>€ 862.86</td>
-													<td></td>
-													<td>
-														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>März-Apr</td>
-													<td><a href="#">Tandem BQG</a></td>
-													<td>3148800</td>
-													<td>Freimeldung</td>
-													<td>28.10.2015</td>
-													<td>€ 862.86</td>
-													<td></td>
-													<td>
-														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>März-Apr</td>
-													<td><a href="#">Tandem BQG</a></td>
-													<td>3148800</td>
-													<td>Freimeldung</td>
-													<td>28.10.2015</td>
-													<td>€ 2,749.86</td>
-													<td>28.10.2015</td>
-													<td>
-														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>März-Apr</td>
-													<td><a href="#">CJD Berlin</a></td>
-													<td>3148800</td>
-													<td>Freimeldung</td>
-													<td>28.10.2015</td>
-													<td>€ 2,749.86</td>
-													<td>28.10.2015</td>
-													<td>
-														<a class="btn document print-disable" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>März-Apr</td>
-													<td><a href="#">CJD Berlin</a></td>
-													<td>3148800</td>
-													<td>Freimeldung</td>
-													<td>28.10.2015</td>
-													<td>€ 9,749.86</td>
-													<td></td>
-													<td>
-														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr class="inprogress-row">
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>Jan-Feb</td>
-													<td><a href="#">CJD Berlin</a></td>
-													<td>3148800</td>
-													<td>Ergänzung</td>
-													<td>28.10.2015</td>
-													<td>€ 9,749.86</td>
-													<td></td>
-													<td>
-														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>Jan-Feb</td>
-													<td><a href="#">CJD Berlin</a></td>
-													<td>3148800</td>
-													<td>Ergänzung</td>
-													<td>28.10.2015</td>
-													<td>€ 2,749.86</td>
-													<td></td>
-													<td>
-														<a class="btn document print-disable" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<label class="cr-styled">
-															<input type="checkbox" checked="">
-															<i class="fa"></i>
-														</label>
-													</td>
-													<td>
-														<a class="id-request" href="order.php"><span>G052</span></a>
-													</td>
-													<td>2016</td>
-													<td>März-Apr</td>
-													<td><a href="#">CJD Berlin</a></td>
-													<td>3148800</td>
-													<td>Ergänzung</td>
-													<td>28.10.2015</td>
-													<td>€ 9,749.86</td>
-													<td></td>
-													<td>
-														<a class="btn document" href="#" title="Drucken"><i class="ion-printer"></i></a>
-														<a class="btn edit-btn" data-target="#modal-1" data-toggle="modal" title="Bearbeiten">
-															<i class="ion-edit"></i>
-														</a>
-													</td>
-												</tr>
-											</tbody>
+										<table id="datatable" ng-cloak ng-table="tableParams"  class="table dataTable table-hover table-bordered table-edit table-requests">
+											<tr ng-repeat="row in $data" ng-class="row.status_code+'-row'">
+                        <td header="'headerCheckbox.html'">
+                          <label class="cr-styled">
+                            <input type="checkbox" ng-model="checkboxes.items[row.id]">
+                            <i class="fa"></i>
+                          </label>
+                        </td>
+                        <td data-title="'Kennz'" sortable="'project_code'">
+                          <a href="/projects#id={{row.project_id}}" target="_blank">{{row.project_code}}</a></td>
+                        </td>
+                        <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
+                        <td data-title="'Rate'" sortable="'rate'">{{row.rate}}</td>
+                        <td data-title="'Träger'" sortable="'performer_name'">
+                          <a href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a></td>
+                        <td data-title="'Kreditor'" sortable="'kreditor'">{{row.kreditor}}</td>
+                        <td data-title="'Beleg Typ'" sortable="'payment_name'">{{row.payment_name}}</td>
+                        <td data-title="'Beleg -Datum'" sortable="'kreditor'">{{getDate(row.receipt_date) | date: "dd.MM.yyyy"}}</td>
+                        <td data-title="'Betrag'" sortable="'request_cost'">{{row.request_cost}} €</td>
+                        <td data-title="'Zahl. -Datum'" sortable="'payment_date'">{{getDate(row.payment_date) | date: "dd.MM.yyyy" }}</td>
+                        <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
+                          <a ng-click="printDocuments(row)"  ng-class=" {disabled: !userCan( 'btnPrintDocument', row.status_id)} " class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
+                            <a ng-if="canEdit(row.status_id)" ng-click="openEdit(row, !canEdit(row.status_id))" class="btn edit-btn" title="Bearbeiten">
+                              <i class="ion-edit"></i>
+                            </a>
+                            <a ng-if="!canEdit(row.status_id)" ng-click="openEdit(row, !canEdit(row.status_id))" class="btn edit-btn" title="Aussicht">
+                              <i class="ion-eye"></i>
+                            </a>
+                        </td>
+                      </tr>
+                      <tr ng-if="!$data.length"><td class="no-result" colspan="11">Keine Ergebnisse</td></tr>
 										</table>
 										<div class="btn-row m-t-15 clearfix">
 											<button class="btn m-b-5">Zahl. Datum hinzufügen</button>
@@ -452,160 +201,31 @@ session_start();
 										</div>
 									</div>
 								</div>
-								<div class="notice">
-									<span class="color-notice inprogress-row"></span>
-									In Bearbeitung
-								</div>
-								<div class="notice">
-									<span class="color-notice open"></span>
-									Erleding
-								</div>
+								<div class="clearfix">
+                  <div class="notice" ng-repeat="status in statuses ">
+                    <span class="color-notice" ng-class="status.code+'-row'"></span>
+                    {{status.name}}
+                  </div>
+                </div>
 							</div>
 						</div>
 					</div>
-				</div> <!-- End Row -->
+				</div> 
 			</div>
 		</div>
 
-		
-		
-		<!-- Edit -->
-		<div id="modal-1" class="modal fade edit-summary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-				<div class="panel panel-color panel-primary">
-					<div class="panel-heading m-b-30 clearfix"> 
-						<h3 class="m-0 pull-left">Mittelabruf bearbeiten G027 / 16-000092</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
-					</div>
-					<div class="row">
-						<form role="form" class="form-horizontal">
-							<div class="col-lg-6 row-holder-dl">
-								<div class="form-group">
-									<label class="col-lg-4 control-label">Projekte</label>
-									<div class="col-lg-8">
-										<select class="form-control">
-											<option>G027</option>
-										</select>
-									</div>
-								</div>
-								<dl class="custom-dl">
-									<dt>Haushaltsjahr</dt>
-									<dd>2016</dd>
-									<dt>Träger</dt>
-									<dd>Tandem BQG</dd>
-								</dl>
-								<hr />
-								<div class="m-b-15">
-									<h5>Ansprechperson für Rückfragen</h5>
-									<select class="form-control">
-										<option>G027</option>
-									</select>
-								</div>
-								<dl class="custom-dl">
-									<dt>Telefon</dt>
-									<dd>(030) 2888 496</dd>
-									<dt>E-Mail</dt>
-									<dd><a href="mailto:admin@warenform.de">admin@warenform.de</a></dd>
-								</dl>
-								<hr />
-								<h5>Bankverbindung</h5>
-								<div class="form-group">
-									<label class="col-lg-3 control-label">IBAN</label>
-									<div class="col-lg-9">
-										<select class="form-control">
-											<option>G027</option>
-										</select>
-									</div>
-								</div>
-								<dl class="custom-dl">
-									<dt>Beschreibung</dt>
-									<dd>---</dd>
-									<dt>Kreditor</dt>
-									<dd>3148800</dd>
-								</dl>
-								<h5>Bestätigung der Zahlung/ Änderung</h5>
-								<div class="form-group">
-									<label class="col-lg-5 control-label">Zahlungsdatum</label>
-                                	<div class="col-lg-7">
-	                                	<div class="input-group">
-	                                	    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
-	                                	    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-	                                	</div>
-	                                </div>
-                                </div>
-							</div>
-							<div class="col-lg-6 border-side">
-								<div class="form-group">
-									<label class="col-lg-4 control-label">Belegdatum</label>
-									<div class="col-lg-8">
-	                                	<div class="input-group">
-	                                	    <input type="text" class="form-control datepicker" placeholder="dd.mm.yyyy">
-	                                	    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-	                                	</div>
-	                                </div>
-                                </div>
-								<div class="form-group">
-									<label class="col-lg-4 control-label">Beleg-Typ</label>
-									<div class="col-lg-8">
-										<select class="form-control">
-											<option>Regulär</option>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-lg-4 p-t-0 control-label">Druck Template wählen</label>
-									<div class="col-lg-8">
-										<select class="form-control">
-											<option>Wählen</option>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-lg-4 control-label">Rate</label>
-									<div class="col-lg-8">
-										<select class="form-control">
-											<option></option>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-lg-4 control-label">Betrag</label>
-									<div class="col-lg-7">
-										<input class="form-control" type="text" value="33000">
-									</div>
-									<div class="col-lg-1 p-0  m-t-5">
-										<span class="symbol">€</span>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-lg-4 control-label">Bemerkung</label>
-									<div class="col-lg-8">
-										<textarea class="form-control">Lorem ipsum dolor sit amet consectetur</textarea>
-									</div>
-								</div>
-								<button class="custom-btn btn w-lg pull-right print_btn">
-									<i class="ion-printer"></i> 
-									<span class="text-capitalize">Drucken</span>
-								</button>
-							</div>
-						</div>
-						<hr />
-						<div class="form-group group-btn row m-t-30">
-							<div class="col-lg-6 text-left">
-								<a class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></a>
-								<button class="btn btn-icon btn-danger btn-lg" data-dismiss="modal">Mittelabrufe schließen</button>
-							</div>
-							<div class="col-lg-6 text-right">
-								<button class="btn w-lg cancel-btn btn-lg">Abbrechen</button>
-								<button class="btn w-lg custom-btn btn-lg">Speichern</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+    <script type="text/ng-template" id="headerCheckbox.html">
+      <label class="cr-styled">
+        <input type="checkbox" ng-model="checkboxes.checked" ng-click="headerChecked(checkboxes.checked)">
+        <i class="fa"></i>
+      </label>
+    </script>
 
-		<!-- Letter received and correctly  -->
+		<script type="text/ng-template" id="editTemplate.html">
+      <?php include(Yii::app()->getBasePath().'/views/site/partials/financial-request-editor.php'); ?>
+    </script>
+		
+<!--		 Letter received and correctly  
 		<div id="modal-2" class="modal fade request-alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog custom-width">
 				<div class="panel panel-color panel-primary">
@@ -649,83 +269,5 @@ session_start();
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
 
-		<div class="md-overlay"></div>
-	
-
-		<script type="text/javascript">
-
-			jQuery(window).load(function() {
-			 	jQuery(".select2").select2();
-			 	$('.datepicker').datepicker({
-			 		format: 'dd.mm.yyyy',
-					language: 'de',
-			 		orientation: "top"
-				});
-				$('.finacing-edit #datatable').DataTable({
-					"sDom": 'Rfrtlip',
-					"columnDefs": [
-						{ className:"dt-edit", "targets": [10] },
-						{ "width": "8%", "targets": [1, 3] },
-						{ className:"width-col", "targets": [1] },
-						{ className:"width-col2", "targets": [2] },
-						{ className:"align-right", "targets": [8] }
-					],
-					"oLanguage": {
-				      	"sLengthMenu": "_MENU_   Objekte pro Seite ",
-				      	"sInfo": "Seite _PAGE_ von _PAGES_ aus _TOTAL_ Einträgen",
-				      	"oPaginate": {
-			                "sPrevious": "Zurück", // This is the link to the previous page
-			                "sNext": "Weiter", // This is the link to the next page
-			            }
-				    },
-				});
-				 $('#datatable_length').insertAfter('#datatable_paginate');
-				        $('#datatable_info, #datatable_length, #datatable_paginate').wrapAll('<div class="wrap-paging clearfix">');
-				
-			
-
-			});
-		
-		</script>
-    
-    <script src="js/lib/jquery.min.js"></script>
-
-		<!-- js placed at the end of the document so the pages load faster -->
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/pace.js"></script>
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/wow.js"></script>
-
-		<!--common script for all pages-->
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/jquery.js"></script>
-
-		<!-- validation form -->
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/jquery.validate.min.js"></script>
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/form-validation-init.js"></script>
-		
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/sweet-alert.js"></script>
-
-		
-		<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-		<script src="https://cdn.datatables.net/plug-ins/1.10.9/api/fnFilterClear.js"></script>
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/datatables/dataTables.bootstrap.js"></script>
-
-		<!-- Modal-Effect -->
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/modal-effect/js/classie.js"></script>
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/modal-effect/js/modalEffects.js"></script>
-
-		<!-- Datepicker -->
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/timepicker/bootstrap-datepicker.js"></script>
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/timepicker/bootstrap-datepicker.de.js"></script>
-
-		<!-- Select -->
-		<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/jquery-multi-select/jquery.quicksearch.js"></script>
-		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/select2/select2.min.js" type="text/javascript"></script>
-
-		<!-- Wisiwig -->
-		<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
-        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
-
-    <!--form validation init-->
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/assets/summernote/summernote.min.js"></script>
-	

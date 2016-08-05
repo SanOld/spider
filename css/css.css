@@ -2290,6 +2290,7 @@ div.dataTables_length select {
 }
 .box-finance .sum.total,
 .total-th span {
+        width: 160px !important;
 	background: url("../images/ico-total.png") no-repeat 0 50%;
 }
 .box-finance {
@@ -3309,6 +3310,9 @@ form[name=conceptForm] .alert-danger {display: block;}
 .request-webseite{
   margin-left: 150px;  
   word-break: break-all;
+}
+.financial-request{
+  margin-left: 140px;
 }
 .btn-deactivate.request{
     padding: 10px 0px 10px 45px !important;
