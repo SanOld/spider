@@ -59,7 +59,7 @@ $this->breadcrumbs = array('Fördertöpfe');
             <label class="col-lg-3 control-label">Fördertopf</label>
 
             <div class="col-lg-9">
-              <div spi-hint text="_hint.finance_source_type" class="has-hint"></div>
+              <div spi-hint text="_hint.finance_source_type.text"  title="_hint.finance_source_type.title"  class="has-hint"></div>
               <span ng-if="!canEdit() || modeView" ng-bind="sourceTypeName"></span>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('finance_source_type')}">
                 <ui-select ng-disabled="!$select.items.length" ng-model="finance.project_type_id"
@@ -82,7 +82,7 @@ $this->breadcrumbs = array('Fördertöpfe');
             <label class="col-lg-3 control-label">Programm</label>
 
             <div class="col-lg-9">
-              <div spi-hint text="_hint.programm" class="has-hint"></div>
+              <div spi-hint text="_hint.programm.text"  title="_hint.programm.title"  class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('programm')}">
                 <input name="programm" ng-model="finance.programm" class="form-control" type="text" value="" required>
                 <span ng-class="{hide: !fieldError('programm')}" class="hide">
@@ -95,7 +95,7 @@ $this->breadcrumbs = array('Fördertöpfe');
           <div class="m-b-15 clearfix">
             <label class="col-lg-3 control-label">Präfix</label>
             <div class="col-lg-9">
-              <div spi-hint text="_hint.prefix" class="has-hint"></div>
+              <div spi-hint text="_hint.prefix.text"  title="_hint.prefix.title"  class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('prefix')}">
                 <input name="prefix" ng-model="finance.prefix" class="form-control" type="text" value="">                
               </div>
@@ -105,7 +105,7 @@ $this->breadcrumbs = array('Fördertöpfe');
             <label class="col-lg-3 control-label">Beschreibung</label>
 
             <div class="col-lg-9">
-              <div spi-hint text="_hint.description" class="has-hint"></div>
+              <div spi-hint text="_hint.description.text"  title="_hint.description.title"  class="has-hint"></div>
               <div class="wrap-hint">
                 <textarea ng-model="finance.description" class="form-control"></textarea>
               </div>

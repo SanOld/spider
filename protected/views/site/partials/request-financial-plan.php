@@ -20,7 +20,7 @@
         <div class="row">
           <div class="col-lg-4 p-r-0 custom-box-btn">
             <div class="clearfix">
-              <label>Ansprechperson für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id" class="has-hint"></span></label>
+              <label>Ansprechperson für Rückfragen zum Finanzplan<span spi-hint text="_hint.fin_plan_finance_user_id.text"  title="_hint.fin_plan_finance_user_id.title"  class="has-hint"></span></label>
               <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['finance'] || required['finance']}">  
                   <input   placeholder="Vorname Nachname" ng-keyup="escapeFinanceUser($event)" ng-keypress="submitToAddUser($event, new_fina_user)"
                        ng-hide="!add_finance_user" class="form-control popup-input" type="text" ng-model="new_fina_user"
@@ -72,7 +72,7 @@
           </div>
           <div class="col-lg-4">
             <div class="form-group">
-              <label>Bankverbindung<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></span></label>
+              <label>Bankverbindung<span spi-hint text="_hint.fin_plan_bank_details_id.text"  title="_hint.fin_plan_bank_details_id.title"  class="has-hint"></span></label>
                 <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(data.bank_details_id, 'Bankverbindung') && errorShow) }">
                   <ui-select required name = "Bankverbindung" class="type-document" on-select="updateIBAN($item)" ng-model="data.bank_details_id"  ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
                     <ui-select-match allow-clear="true" placeholder="Alles anzeigen">IBAN: {{$select.selected.iban}}</ui-select-match>
@@ -151,7 +151,7 @@
             <div class="panel-collapse collapse" id="account{{$index}}">
               <div class="panel-body">
                 <div class="row m-b-30">
-                  <label class="col-lg-2 control-label">Umlage 1<span spi-hint text="_hint.fin_plan_employee_is_umlage" class="has-hint"></span></label>
+                  <label class="col-lg-2 control-label">Umlage 1<span spi-hint text="_hint.fin_plan_employee_is_umlage.text"  title="_hint.fin_plan_employee_is_umlage.title"  class="has-hint"></span></label>
                   <div class="btn-group btn-toggle col-lg-2 control-label wrap-hint">
                     <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.is_umlage == 1 ? 'active' : 'btn-default'" ng-model="emploee.is_umlage" uib-btn-radio="1" class="btn btn-sm">JA</button>
                     <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.is_umlage != 1 ? 'active' : 'btn-default'" ng-model="emploee.is_umlage" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
@@ -160,7 +160,7 @@
                 <div class="row">
                   <div class="col-lg-4 p-r-0 custom-box-btn">
                     <div class="clearfix">
-                      <label>Mitarbeiter/in<span spi-hint text="_hint.employee_id" class="has-hint"></span></label>
+                      <label>Mitarbeiter/in<span spi-hint text="_hint.employee_id.text"  title="_hint.employee_id.title"  class="has-hint"></span></label>
                       <div class="col-lg-9 p-l-0 m-b-15" ng-class="{'wrap-line error': dublicate['employee'] || required['employee']}"> 
                         <input   placeholder="Vorname Nachname" ng-keyup="escapeEmployeeUser($event, $index)"
                                ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" 
@@ -193,7 +193,7 @@
                   <div class="col-lg-8">
                     <h4 class="col-lg-12 m-b-30 m-t-0">Vergleichsstellenbewertung entsprechend TV-L Berlin</h4>
                     <div class="form-group clearfix">
-                      <label class="col-lg-3 control-label">Entgeltgruppe<span spi-hint text="_hint.fin_plan_employee_group_id" class="has-hint"></span></label>
+                      <label class="col-lg-3 control-label">Entgeltgruppe<span spi-hint text="_hint.fin_plan_employee_group_id.text"  title="_hint.fin_plan_employee_group_id.title"  class="has-hint"></span></label>
                       <div class="col-lg-3">
 
                         <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.group_id, 'Entgeltgruppe') && errorShow) }">
@@ -208,7 +208,7 @@
                       </div>
                     </div>
                     <div class="form-group clearfix">
-                      <label class="col-lg-3 control-label">Entgeltstufe<span spi-hint text="_hint.fin_plan_employee_remuneration_level_id" class="has-hint"></span></label>
+                      <label class="col-lg-3 control-label">Entgeltstufe<span spi-hint text="_hint.fin_plan_employee_remuneration_level_id.text"  title="_hint.fin_plan_employee_remuneration_level_id.title"  class="has-hint"></span></label>
                       <div class="col-lg-9">
 
                         <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.remuneration_level_id, 'Entgeltstufe') && errorShow) }">
@@ -223,7 +223,7 @@
                       </div>
                     </div>
                     <div class="form-group clearfix">
-                      <label class="col-lg-3 control-label">Sonstiges<span spi-hint text="_hint.fin_plan_employee_other" class="has-hint"></span></label>
+                      <label class="col-lg-3 control-label">Sonstiges<span spi-hint text="_hint.fin_plan_employee_other.text"  title="_hint.fin_plan_employee_other.title"  class="has-hint"></span></label>
                       <div class="col-lg-9">
                         <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" class="form-control" ng-model="emploee.other" type="text" placeholder="Tragen Sie den Text hier ein">
                       </div>
@@ -236,7 +236,7 @@
                   <div class="clearfix costs-box">
                     <div class="col-lg-4 form-horizontal">
                       <div class="form-group">
-                        <label class="col-lg-6 control-label p-l-0">Kosten pro Monat (AN-Brutto)<span spi-hint text="_hint.fin_plan_employee_cost_per_month_brutto" class="has-hint"></span></label>
+                        <label class="col-lg-6 control-label p-l-0">Kosten pro Monat (AN-Brutto)<span spi-hint text="_hint.fin_plan_employee_cost_per_month_brutto.text"  title="_hint.fin_plan_employee_cost_per_month_brutto.title"  class="has-hint"></span></label>
                         <div class="col-lg-1"></div>
                         <div class="col-lg-4">
                           
@@ -249,7 +249,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-lg-7 control-label p-l-0">Geplante Monate im Projekt<span spi-hint text="_hint.fin_plan_employee_month_count" class="has-hint"></span></label>
+                        <label class="col-lg-7 control-label p-l-0">Geplante Monate im Projekt<span spi-hint text="_hint.fin_plan_employee_month_count.text"  title="_hint.fin_plan_employee_month_count.title"  class="has-hint"></span></label>
                         <div class="col-lg-4">
 
                           
@@ -274,7 +274,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-lg-7 control-label p-l-0">Arbeitsstunden pro Woche<span spi-hint text="_hint.fin_plan_employee_hours_per_week" class="has-hint"></span></label>
+                        <label class="col-lg-7 control-label p-l-0">Arbeitsstunden pro Woche<span spi-hint text="_hint.fin_plan_employee_hours_per_week.text"  title="_hint.fin_plan_employee_hours_per_week.title"  class="has-hint"></span></label>
                         <div class="col-lg-4">
                           
                         <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.hours_per_week, 'Arbeitsstunden pro Woche') && errorShow) }">
@@ -287,7 +287,7 @@
                     <div class="col-lg-8">
                       <div class="col-lg-12 form-horizontal">
                         <div class="form-group">
-                          <label class="col-lg-4 control-label ">Jahressonderzahlungen<span spi-hint text="_hint.fin_plan_employee_have_annual_bonus" class="has-hint"></span></label>
+                          <label class="col-lg-4 control-label ">Jahressonderzahlungen<span spi-hint text="_hint.fin_plan_employee_have_annual_bonus.text"  title="_hint.fin_plan_employee_have_annual_bonus.title"  class="has-hint"></span></label>
                           <div class="btn-group btn-toggle col-lg-2 control-label">
                             <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_annual_bonus == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_annual_bonus" uib-btn-radio="1" class="btn btn-sm">JA</button>
                             <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_annual_bonus != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_annual_bonus" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
@@ -305,7 +305,7 @@
                           </div>
                         </div>
                         <div class="form-group">
-                          <label class="col-lg-4 control-label">Zusatzversorgung (VWL)<span spi-hint text="_hint.fin_plan_employee_have_additional_provision_vwl" class="has-hint"></span></label>
+                          <label class="col-lg-4 control-label">Zusatzversorgung (VWL)<span spi-hint text="_hint.fin_plan_employee_have_additional_provision_vwl.text"  title="_hint.fin_plan_employee_have_additional_provision_vwl.title"  class="has-hint"></span></label>
                           <div class="btn-group btn-toggle col-lg-2 control-label">
                             <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_additional_provision_vwl == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_additional_provision_vwl" uib-btn-radio="1" class="btn btn-sm">JA</button>
                             <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_additional_provision_vwl != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_additional_provision_vwl" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
@@ -323,7 +323,7 @@
                           </div>
                         </div>
                         <div class="form-group">
-                          <label class="col-lg-4 control-label">Zusatzversorgung (betriebl. Altersversorgung)<span spi-hint text="_hint.fin_plan_employee_have_supplementary_pension" class="has-hint"></span></label>
+                          <label class="col-lg-4 control-label">Zusatzversorgung (betriebl. Altersversorgung)<span spi-hint text="_hint.fin_plan_employee_have_supplementary_pension.text"  title="_hint.fin_plan_employee_have_supplementary_pension.title"  class="has-hint"></span></label>
                           <div class="btn-group btn-toggle col-lg-2 control-label">
                             <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_supplementary_pension == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_supplementary_pension" uib-btn-radio="1" class="btn btn-sm">JA</button>
                             <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_supplementary_pension != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_supplementary_pension" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
@@ -360,7 +360,7 @@
                   <strong>Stellenanteil</strong>
                   <div class="col-lg-12 p-l-0 m-t-10">
                     <div class="has-hint has-hint2">
-                      <span spi-hint text="_hint.fin_plan_school_rate"></span>
+                      <span spi-hint text="_hint.fin_plan_school_rate.text"  title="_hint.fin_plan_school_rate.title" ></span>
                     </div>
 <!--                    <div class="wrap-hint">
                       <input required name = "Stellenanteil" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
@@ -378,7 +378,7 @@
                   <strong>Monat</strong>
                   <div class="col-lg-12 p-l-0 m-t-10">
                     <div class="has-hint has-hint2">
-                      <span spi-hint text="_hint.fin_plan_school_month_count"></span>
+                      <span spi-hint text="_hint.fin_plan_school_month_count.text"  title="_hint.fin_plan_school_month_count.title" ></span>
                     </div>
                     <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.month_count, 'Monat'))  && errorShow ) }">
                          <input type="text" class="form-control" ng-init = "numValidate2(school,'month_count');" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept || !canEdit()">
@@ -391,7 +391,7 @@
                   <strong>Fortbildungskosten</strong>
                   <div class="col-lg-9 p-l-0 m-t-10">
                     <div class="has-hint has-hint2">
-                      <span spi-hint text="_hint.fin_plan_school_traning_cost"></span>
+                      <span spi-hint text="_hint.fin_plan_school_traning_cost.text"  title="_hint.fin_plan_school_traning_cost.title" ></span>
                     </div>
                     <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.training_cost, 'Fortbildungskosten'))  && errorShow) }">
                       <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost'); updateTrainingCost(school);"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept || school.rate*1 > 1 && school.rate*1 < 0.5 || !canEdit()">
@@ -406,7 +406,7 @@
                   <!--<span>€ 11500,00</span>-->
                   <div class="col-lg-12 p-l-0 m-t-10">
                     <div class="has-hint has-hint2">
-                      <span spi-hint text="_hint.fin_plan_school_overhead_cost"></span>
+                      <span spi-hint text="_hint.fin_plan_school_overhead_cost.text"  title="_hint.fin_plan_school_overhead_cost.title" ></span>
                     </div>
                    <div class="wrap-hint" ng-class="{'wrap-line error': (( canAccept && fieldsError2(school.overhead_cost, 'Regiekosten'))  && errorShow)}">
                       <input type="text" class="form-control" ng-init = "numValidate2(school,'overhead_cost');" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept || !canEdit()">
@@ -432,7 +432,7 @@
           <!--<ng-form name="financePlanFormGroup1" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">-->
           <div class="row form-horizontal m-b-15" ng-repeat="association in prof_associations" ng-if="!association.is_deleted">
             <label class="col-lg-1 control-label">
-              Name<span spi-hint text="_hint.fin_plan_association_name" class="has-hint"></span>
+              Name<span spi-hint text="_hint.fin_plan_association_name.text"  title="_hint.fin_plan_association_name.title"  class="has-hint"></span>
             </label>
             <div class="col-lg-7">
 
@@ -441,7 +441,7 @@
               </div>
             </div>
             <label class="col-lg-1 p-r-0 control-label">
-              Beitrag<span spi-hint text="_hint.fin_plan_association_sum" class="has-hint"></span>
+              Beitrag<span spi-hint text="_hint.fin_plan_association_sum.text"  title="_hint.fin_plan_association_sum.title"  class="has-hint"></span>
             </label>
             <div class="col-lg-2">
               <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.sum,  'Berufsgenossenschaftsbeiträge-Beitrag') && errorShow) }">
@@ -470,7 +470,7 @@
                 <!--<ng-form name="financePlanFormGroup2" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">-->
                 <div class="form-group m-b-0">
                   <label class="col-lg-2 control-label bold-label">
-                    Sonstige Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description" class="has-hint"></span>
+                    Sonstige Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description.text"  title="_hint.fin_plan_revenue_description.title"  class="has-hint"></span>
                   </label>
                   <div class="col-lg-6">
 
@@ -479,7 +479,7 @@
   
                   </div>
                   <label class="col-lg-1 control-label custom-width-label">
-                    Betrag<span spi-hint text="_hint.fin_plan_revenue_sum" class="has-hint"></span>
+                    Betrag<span spi-hint text="_hint.fin_plan_revenue_sum.text"  title="_hint.fin_plan_revenue_sum.title"  class="has-hint"></span>
                   </label>
                   
                   <div class="col-lg-2">

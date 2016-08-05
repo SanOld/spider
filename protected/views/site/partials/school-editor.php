@@ -22,7 +22,7 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Name</label>
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.name" class="has-hint"></div>
+                          <div spi-hint text="_hint.name.text"  title="_hint.name.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                             <input name="name" ng-model="school.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                             <span ng-class="{hide: !fieldError('name')}" class="hide">
@@ -36,7 +36,7 @@
                       <div class="form-group">
                         <label class="col-lg-3 control-label">Bezirk</label>
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.district_id" class="has-hint"></div>
+                          <div spi-hint text="_hint.district_id.text"  title="_hint.district_id.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}">
                             <ui-select ng-disabled="(!$select.items.length || !canEdit()) && user_type != 't'" ng-model="school.district_id"
                                        name="district_id" required>
@@ -57,7 +57,7 @@
                       <div class="form-group" ng-if="!(modeView && !school.address)">
                         <label class="col-lg-3 control-label">Adresse</label>
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.address" class="has-hint"></div>
+                          <div spi-hint text="_hint.address.text"  title="_hint.address.title"  class="has-hint"></div>
                           <div class="wrap-hint">
                             <textarea name="address" ng-model="school.address" class="form-control scoole-textarea"></textarea>
                           </div>
@@ -67,7 +67,7 @@
                         <label class="col-lg-3 control-label">PLZ</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.plz" class="has-hint"></div>
+                          <div spi-hint text="_hint.plz.text"  title="_hint.plz.title"  class="has-hint"></div>
                           <div class="wrap-hint">
                             <input name="plz" ng-model="school.plz" type="text" value="" class="form-control">
                           </div>
@@ -77,7 +77,7 @@
                         <label class="col-lg-3 control-label">Stadt</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.city" class="has-hint"></div>
+                          <div spi-hint text="_hint.city.text"  title="_hint.city.title"  class="has-hint"></div>
                           <div class="wrap-hint">
                             <input name="city" ng-model="school.city" type="text" value="Berlin" class="form-control">
                           </div>
@@ -89,7 +89,7 @@
                         <label class="col-lg-3 control-label p-r-0">Schul-Nr.</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.number" class="has-hint"></div>
+                          <div spi-hint text="_hint.number.text"  title="_hint.number.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('number')}">
                             <input name="number" ng-model="school.number" class="form-control" type="text" value="" required  ng-disabled="!canEdit()">
                             <span ng-class="{hide: !fieldError('number')}" class="hide">
@@ -104,7 +104,7 @@
                         <label class="col-lg-3 control-label">Schultyp</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.type_id" class="has-hint"></div>
+                          <div spi-hint text="_hint.type_id.text"  title="_hint.type_id.title"  class="has-hint"></div>
                           <span class="valign-field" ng-if="!canEdit() || modeView" ng-bind="schoolName"></span>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}" ng-if="canEdit() && !modeView">
                             <ui-select ng-change="setNumber(school.type_id)" ng-disabled="!$select.items.length" ng-model="school.type_id" name="type_id"
@@ -127,7 +127,7 @@
                         <label class="col-lg-3 control-label">Telefon</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.phone" class="has-hint"></div>
+                          <div spi-hint text="_hint.phone.text"  title="_hint.phone.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
                             <input name="phone" ng-model="school.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-class="{hide: !fieldError('phone')}" class="hide">
@@ -141,7 +141,7 @@
                         <label class="col-lg-3 control-label">Fax</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.fax" class="has-hint"></div>
+                          <div spi-hint text="_hint.fax.text"  title="_hint.fax.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('fax')}">
                             <input name="fax" ng-model="school.fax" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-class="{hide: !fieldError('fax')}" class="hide">
@@ -155,7 +155,7 @@
                         <label class="col-lg-3 control-label">E-Mail</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.email" class="has-hint"></div>
+                          <div spi-hint text="_hint.email.text"  title="_hint.email.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                             <input name="email" ng-model="school.email" type="email" value="" class="form-control" ng-pattern="emailFormat">
                             <span ng-class="{hide: !fieldError('email')}" class="hide">
@@ -169,7 +169,7 @@
                         <label class="col-lg-3 control-label">Webseite</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.homepage" class="has-hint"></div>
+                          <div spi-hint text="_hint.homepage.text"  title="_hint.homepage.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('homepage')}">
                             <input name="homepage" ng-model="school.homepage" type="text" value=""
                                    ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/"
@@ -187,7 +187,7 @@
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
                   <h3 class="m-t-0 m-b-15">Schulleitung</h3>
                   <span ng-if="!canEdit() || modeView" ng-bind="contactUser.name || '-'"></span>
-                  <span spi-hint text="_hint.contact_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
+                  <span spi-hint text="_hint.contact_id.text"  title="_hint.contact_id.title"  class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="canEdit() && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(school.contact_id)"
                                ng-model="school.contact_id" name="contact_id">

@@ -1,5 +1,5 @@
 
-  <div class="tab-pane" id="schools-goals" ng-controller="RequestSchoolGoalController">
+  <div class="tab-pane" id="schools-goals" class="schools-goals" ng-controller="RequestSchoolGoalController">
     <div id="accordion-order" class="panel-group panel-group-joined">
 <form name="goalsForm" novalidate disable-all="{{!canEdit()}}">
       <div ng-repeat="school in schoolGoals" class="panel panel-default">
@@ -46,7 +46,10 @@
                     </strong>
                   </div>
 
-                  <h4>{{::goal.name}}</h4>
+
+                  <label class="control-label">
+                      <h4>{{::goal.name}}</h4> <span spi-hint text="_hint.goals_goal.text" title="_hint.goals_goal.title" class="has-hint"></span>
+                  </label>
                   <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'description') && goal.showError)}">
                     <textarea  ng-model="goal.description" name="description" class="form-control" placeholder="Tragen Sie den Text hier ein here" ></textarea>
 
@@ -57,9 +60,10 @@
                     <br>
                   </div>
 
-
-                  <h4>Angebote für Schüler/innen und Eltern</h4>
-
+                  <label class="control-label">
+                    <h4>Angebote für Schüler/innen und Eltern</h4>
+                    <span spi-hint text="_hint.goals_groupOffer.text"  title="_hint.goals_groupOffer.title" class="has-hint"></span>
+                  </label>  
                   <span  ng-if="goal.groups.groupOffer.counter > 2" >
                       <label  class="error">Bitte wählen Sie nicht mehr als zwei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel.</label>
                   </span>
@@ -287,8 +291,10 @@
 
                   </div>
 
-                  <h4 class="m-t-40">Interne / Externe Vernetzung</h4>
-
+                  <label class="control-label">
+                    <h4>Interne / Externe Vernetzung</h4>
+                    <span spi-hint text="_hint.goals_groupNet.text" text="_hint.goals_groupNet.title" class="has-hint"></span>
+                  </label>
                   <span  ng-if="goal.groups.groupNet.counter > 2" >
                       <label  class="error">Bitte wählen Sie nicht mehr als zwei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel.</label>
                   </span>
@@ -472,8 +478,10 @@
                     <br>
                   </div>
 
-
-                  <h4 class="m-t-40">Umsetzung</h4>
+                  <label class="control-label">
+                    <h4>Umsetzung</h4>
+                    <span spi-hint text="_hint.implementation.text" title="_hint.implementation.title" class="has-hint"></span>
+                  </label>
 
                   <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'implementation') && goal.showError)}">
                     <textarea ng-model="goal.implementation" class="form-control" placeholder="Tragen Sie den Text hier ein"></textarea>
@@ -484,7 +492,10 @@
                     </span>
                     <br>
                   </div>
-                  <h4 class="m-t-40">Indikatoren und Zielwerte</h4>
+                  <label class="control-label">
+                    <h4>Indikatoren und Zielwerte</h4>
+                    <span spi-hint text="_hint.indicators.text" title="_hint.indicators.title" class="has-hint"></span>
+                  </label>                    
                   <p class="">Formulierung von Indikatoren und Zielwerten zur Messung der Zielerreichung</p>
                   <div class="form-horizontal m-t-15">
                     <div class="form-group">

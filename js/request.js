@@ -1281,6 +1281,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   $scope.requestSchoolConcept();
 
+console.log($scope._hint);
 
   $scope.setBestStatusByUserType = function() {
     var bestStatus = 'unfinished';
@@ -1469,7 +1470,6 @@ spi.controller('СonceptCompareController', function($scope, history, $uibModalI
 });
 
 spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, SweetAlert) {
-
   $scope.userType = network.user.type;
   $scope.schoolGoals = [];
   $scope.activeTab = 0;

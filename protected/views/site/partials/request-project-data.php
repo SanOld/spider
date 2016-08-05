@@ -135,7 +135,7 @@
                     <h4 class="panel-title m-b-10">   
                       <label>
                         Ansprechperson für Rückfragen zum Konzept
-                        <span spi-hint text="_hint.project_data_concept_user_id" class="has-hint"></span>
+                        <span spi-hint text="_hint.project_data_concept_user_id.text"  title="_hint.project_data_concept_user_id.title"  class="has-hint"></span>
                       </label>
                     </h4>
                     <div class="clearfix">

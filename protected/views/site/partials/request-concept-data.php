@@ -32,7 +32,7 @@
                 <div class="wrap-area">
                   <div class="form-group">
                     <label class="control-label">
-                      1. Situation an der Schule<span spi-hint text="_hint.school_concept_situation" class="has-hint"></span>
+                      1. Situation an der Schule<span spi-hint text="_hint.school_concept_situation.text"  title="_hint.school_concept_situation.title"  class="has-hint"></span>
                     </label>
                     <div class="wrap-hint">                        
                       <textarea id="area-{{::schoolConcept.id}}-1" ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation"
@@ -46,7 +46,7 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">
-                      2. Angebote der Jugendsozialarbeit an der Schule<span spi-hint text="_hint.school_concept_offers_youth_social_work" class="has-hint"></span>
+                      2. Angebote der Jugendsozialarbeit an der Schule<span spi-hint text="_hint.school_concept_offers_youth_social_work.text"  title="_hint.school_concept_offers_youth_social_work.title"  class="has-hint"></span>
                     </label>
                     <div class="wrap-hint">                     
                       <textarea id="area-{{::schoolConcept.id}}-2" ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work"

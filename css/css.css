@@ -3331,3 +3331,6 @@ form[name=conceptForm] .alert-danger {display: block;}
 .concept-form-block .btn-question {
     margin-top: 0;
 }
+label>h4{
+  float: left;
+}

@@ -86,7 +86,7 @@ $this->breadcrumbs = array('Bezirk');
                   <div class="m-b-15 clearfix">
                     <label class="col-lg-2 control-label">Name</label>
                     <div class="col-lg-10">
-                      <div spi-hint text="_hint.name" class="has-hint"></div>
+                      <div spi-hint text="_hint.name.text"  title="_hint.name.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                         <input name="name" ng-model="district.name" class="form-control" type="text" value="" required ng-disabled="!canEdit()">
                         <span ng-class="{hide: !fieldError('name')}">
@@ -103,7 +103,7 @@ $this->breadcrumbs = array('Bezirk');
                         <label class="col-lg-4 control-label">Adresse</label>
 
                         <div class="col-lg-8">
-                          <div spi-hint text="_hint.address" class="has-hint"></div>
+                          <div spi-hint text="_hint.address.text"  title="_hint.address.title"  class="has-hint"></div>
                           <div class="wrap-hint">
                             <textarea name="address" ng-model="district.address" class="form-control"></textarea>
                           </div>
@@ -113,7 +113,7 @@ $this->breadcrumbs = array('Bezirk');
                         <label class="col-lg-4 control-label">PLZ</label>
 
                         <div class="col-lg-8">
-                          <div spi-hint text="_hint.plz" class="has-hint"></div>
+                          <div spi-hint text="_hint.plz.text"  title="_hint.plz.title"  class="has-hint"></div>
                           <div class="wrap-hint">
                             <input name="plz" ng-model="district.plz" type="text" value="" class="form-control">
                           </div>
@@ -123,7 +123,7 @@ $this->breadcrumbs = array('Bezirk');
                         <label class="col-lg-4 control-label">Stadt</label>
 
                         <div class="col-lg-8">
-                          <div spi-hint text="_hint.city" class="has-hint"></div>
+                          <div spi-hint text="_hint.city.text"  title="_hint.city.title"  class="has-hint"></div>
                           <div class="wrap-hint">
                             <input name="city" ng-model="district.city" type="text" value="" class="form-control">
                           </div>
@@ -136,7 +136,7 @@ $this->breadcrumbs = array('Bezirk');
                         <label class="col-lg-3 control-label">Telefon</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.phone" class="has-hint"></div>
+                          <div spi-hint text="_hint.phone.text"  title="_hint.phone.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
                             <input name="phone" ng-model="district.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-class="{hide: !fieldError('phone')}" class="hide">
@@ -150,7 +150,7 @@ $this->breadcrumbs = array('Bezirk');
                         <label class="col-lg-3 control-label">Fax</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.fax" class="has-hint"></div>
+                          <div spi-hint text="_hint.fax.text"  title="_hint.fax.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('fax')}">
                             <input name="fax" ng-model="district.fax" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                             <span ng-class="{hide: !fieldError('fax')}" class="hide">
@@ -164,7 +164,7 @@ $this->breadcrumbs = array('Bezirk');
                         <label class="col-lg-3 control-label">E-Mail</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.email" class="has-hint"></div>
+                          <div spi-hint text="_hint.email.text"  title="_hint.email.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                             <input name="email" ng-model="district.email" type="email" value="" class="form-control" ng-pattern="emailFormat">
                             <span ng-class="{hide: !fieldError('email')}" class="hide">
@@ -178,7 +178,7 @@ $this->breadcrumbs = array('Bezirk');
                         <label class="col-lg-3 control-label">Webseite</label>
 
                         <div class="col-lg-9">
-                          <div spi-hint text="_hint.homepage" class="has-hint"></div>
+                          <div spi-hint text="_hint.homepage.text"  title="_hint.homepage.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('homepage')}">
                             <input name="homepage" ng-model="district.homepage" type="text" value=""
                                    ng-pattern="/^(?:([a-z]+):(?:([a-z]*):)?\/\/)?(?:([^:@]*)(?::([^:@]*))?@)?((?:[a-z0-9_-]+\.)+[a-z]{2,}|localhost|(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.){3}(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])))(?::(\d+))?(?:([^:\?\#]+))?(?:\?([^\#]+))?(?:\#([^\s]+))?$/i"
@@ -196,7 +196,7 @@ $this->breadcrumbs = array('Bezirk');
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
                   <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
                   <span ng-if="!canEdit() || modeView" ng-bind="contactUser.name || '-'"></span>
-                  <span spi-hint text="_hint.contact_id" class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
+                  <span spi-hint text="_hint.contact_id.text"  title="_hint.contact_id.title"  class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="canEdit() && !modeView">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(district.contact_id)"
                                ng-model="district.contact_id" name="contact_id">

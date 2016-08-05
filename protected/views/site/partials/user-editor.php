@@ -30,7 +30,7 @@
               </button>
             </div>
             <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Nicht aktiv'}}</span>
-            <span spi-hint text="_hint.is_active"></span>
+            <span spi-hint text="_hint.is_active.text"  title="_hint.is_active.title" ></span>
           </div>
 
             <label class="col-lg-2 control-label p-r-0">Mit login</label>
@@ -45,7 +45,7 @@
                 </button>               
               </div>
               <span ng-if="modeView || (!isAdmin && !userIsPA && !user.type == 't')" class="no-edit-text">{{user.is_virtual ? 'Nein' : 'Ja'}}</span>
-              <span spi-hint text="_hint.is_virtual" ng-disabled="!can_change"></span>
+              <span spi-hint text="_hint.is_virtual.text"  title="_hint.is_virtual.title"  ng-disabled="!can_change"></span>
             </div>
         </div>
         <div class="form-group">
@@ -54,14 +54,14 @@
 
 
           <div ng-if="isCurrentUser || !isInsert" class="col-lg-4">
-            <div spi-hint text="_hint.type_id" class="has-hint"></div>
+            <div spi-hint text="_hint.type_id.text"  title="_hint.type_id.title"  class="has-hint"></div>
             <div class="wrap-hint">
               <input id="title" class="form-control"  type="text" value="{{type_name}}" disabled="">
             </div>
           </div>
 
           <div ng-if="!isCurrentUser && isInsert" class="col-lg-4 custom-width">
-            <div spi-hint text="_hint.type_id" class="has-hint"></div>
+            <div spi-hint text="_hint.type_id.text"  title="_hint.type_id.title"  class="has-hint"></div>
 
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
               <ui-select ng-change="reloadRelation()" ng-model="user.type_id" name="type_id" required ng-disabled="!can_change">
@@ -82,7 +82,7 @@
           <label class="col-lg-2 control-label" for="title">Funktion</label>
 
           <div class="col-lg-4">
-            <div spi-hint text="_hint.function" class="has-hint"></div>
+            <div spi-hint text="_hint.function.text"  title="_hint.function.title"  class="has-hint"></div>
             <div class="wrap-hint">
               <input id="title" class="form-control" ng-model="user.function" type="text" value="">
             </div>
@@ -107,7 +107,7 @@
                 Frau
               </label>
               <span ng-if="modeView || !canEdit()" class="no-edit-text">{{user.sex == '1' ? 'Herr' : 'Frau'}}</span>
-              <span spi-hint text="_hint.sex"></span>
+              <span spi-hint text="_hint.sex.text"  title="_hint.sex.title" ></span>
             </div>
             <div ng-class="{hide: !fieldError('sex')}" class="hide">
               <label class="error" ng-show="form.sex.$error.required">Anrede erforderlich</label>
@@ -122,14 +122,14 @@
           <label class="col-lg-2 control-label">Akteur</label>
 
           <div ng-if="!isInsert" class="col-lg-4">
-            <div spi-hint text="_hint.relation_id" class="has-hint"></div>
+            <div spi-hint text="_hint.relation_id.text"  title="_hint.relation_id.title"  class="has-hint"></div>
             <div class="wrap-hint">
               <input id="title" class="form-control"  type="text" value="{{relation_name}}" disabled="">
             </div>
           </div>
 
           <div ng-if="isInsert" class="col-lg-10">
-            <div spi-hint text="_hint.relation_id" class="has-hint"></div>
+            <div spi-hint text="_hint.relation_id.text"  title="_hint.relation_id.title"  class="has-hint"></div>
 
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('relation_id')}">
               <ui-select ng-disabled="!$select.items.length || !can_change" ng-model="user.relation_id" name="relation_id" required>
@@ -159,7 +159,7 @@
               </button>
             </div>
             <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_finansist ? 'Ja' : 'Nein'}}</span>
-            <span spi-hint text="_hint.is_finansist"></span>
+            <span spi-hint text="_hint.is_finansist.text"  title="_hint.is_finansist.title" ></span>
           </div>
         </div>
 <!--        <div class="form-group">
@@ -180,7 +180,7 @@
                 Frau
               </label>
               <span ng-if="modeView || !canEdit()" class="no-edit-text">{{user.sex == '1' ? 'Herr' : 'Frau'}}</span>
-              <span spi-hint text="_hint.sex"></span>
+              <span spi-hint text="_hint.sex.text"  title="_hint.sex.title" ></span>
             </div>
             <div ng-show="fieldError('sex')">
               <label class="error" ng-show="form.sex.$error.required">Anrede erforderlich</label>
@@ -194,7 +194,7 @@
           <label class="col-lg-4 control-label" for="title">Titel</label>
 
           <div class="col-lg-8">
-            <div spi-hint text="_hint.title" class="has-hint"></div>
+            <div spi-hint text="_hint.title.text"  title="_hint.title.title"  class="has-hint"></div>
             <div class="wrap-hint">
               <input id="title" class="form-control" ng-model="user.title" type="text" value="">
             </div>
@@ -204,7 +204,7 @@
         <div class="form-group has-feedback">
           <label class="col-lg-4 control-label" for="first_name">Vorname</label>
           <div class="col-lg-8">
-            <div spi-hint text="_hint.first_name" class="has-hint"></div>
+            <div spi-hint text="_hint.first_name.text"  title="_hint.first_name.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('first_name')}">
               <input class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name"
                      value="" ng-minlength="2" ng-maxlength="45" required>
@@ -220,7 +220,7 @@
         <div class="form-group has-feedback">
           <label class="col-lg-4 control-label" for="lname">Nachname</label>
           <div class="col-lg-8">
-            <div spi-hint text="_hint.last_name" class="has-hint"></div>
+            <div spi-hint text="_hint.last_name.text"  title="_hint.last_name.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('last_name')}">
               <input class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
                      ng-minlength="2" ng-maxlength="45" ng-required="!user.is_virtual">
@@ -238,7 +238,7 @@
               <label class="col-lg-4 control-label" for="title">Titel</label>
 
               <div class="col-lg-8">
-                <div spi-hint text="_hint.title" class="has-hint"></div>
+                <div spi-hint text="_hint.title.text"  title="_hint.title.title"  class="has-hint"></div>
                 <div class="wrap-hint">
                   <input id="title" class="form-control" ng-model="user.title" type="text" value="">
                 </div>
@@ -248,7 +248,7 @@
               <label class="col-lg-4 control-label" for="title">Funktion</label>
 
               <div class="col-lg-8">
-                <div spi-hint text="_hint.function" class="has-hint"></div>
+                <div spi-hint text="_hint.function.text"  title="_hint.function.title"  class="has-hint"></div>
                 <div class="wrap-hint">
                   <input id="title" class="form-control" ng-model="user.function" type="text" value="">
                 </div>
@@ -257,7 +257,7 @@
 <!--            <div class="form-group has-feedback">
               <label class="col-lg-4 control-label" for="first_name">Vorname</label>
               <div class="col-lg-8">
-                <div spi-hint text="_hint.first_name" class="has-hint"></div>
+                <div spi-hint text="_hint.first_name.text"  title="_hint.first_name.title"  class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('first_name')}">
                   <input class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name"
                          value="" ng-minlength="2" ng-maxlength="45" required>
@@ -273,7 +273,7 @@
             <div class="form-group has-feedback">
               <label class="col-lg-4 control-label" for="lname">Nachname</label>
               <div class="col-lg-8">
-                <div spi-hint text="_hint.last_name" class="has-hint"></div>
+                <div spi-hint text="_hint.last_name.text"  title="_hint.last_name.title"  class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('last_name')}">
                   <input class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
                          ng-minlength="2" ng-maxlength="45" ng-required="!user.is_virtual">
@@ -293,7 +293,7 @@
               <label class="col-lg-3 control-label" for="login">Benutzername</label>
 
               <div class="col-lg-9">
-                <div spi-hint text="_hint.login" class="has-hint"></div>
+                <div spi-hint text="_hint.login.text"  title="_hint.login.title"  class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('login')}">
                   <input class="form-control" type="text" name="login" ng-model="user.login" id="login" value=""
                          ng-disabled="isCurrentUser && !isAdmin" ng-minlength="3" ng-maxlength="45" ng-required="!user.is_virtual">
@@ -311,7 +311,7 @@
               <label class="col-lg-3 control-label" for="email">E-Mail</label>
 
               <div class="col-lg-9">
-                <div spi-hint text="_hint.email" class="has-hint"></div>
+                <div spi-hint text="_hint.email.text"  title="_hint.email.title"  class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
                   <input class="form-control" type="email" name="email" ng-model="user.email" id="email" value=""
                          ng-maxlength="45" ng-pattern="emailFormat" ng-required="!user.is_virtual">
@@ -330,7 +330,7 @@
               <label class="col-lg-3 control-label" for="phone">Telefon</label>
 
               <div class="col-lg-9">
-                <div spi-hint text="_hint.phone" class="has-hint"></div>
+                <div spi-hint text="_hint.phone.text"  title="_hint.phone.title"  class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
                   <input class="form-control" type="text" name="phone" ng-model="user.phone"  value="" ng-pattern="/^[^A-Za-z]*$/">
                   <span ng-class="{hide: !fieldError('phone')}" class="hide">

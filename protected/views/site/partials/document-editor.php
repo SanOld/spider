@@ -15,7 +15,7 @@
                   <div class="m-b-15 clearfix">
                     <label class="col-lg-1 control-label">Name</label>
                     <div class="col-lg-6">
-                      <div spi-hint text="_hint.name" class="has-hint"></div>
+                      <div spi-hint text="_hint.name.text"  title="_hint.name.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                         <input class="form-control" type="text" name="name" ng-model="document.name" value="{{document.name}}" required ng-disabled="!canEdit()">
 
@@ -28,7 +28,7 @@
                     </div>
                     <label class="col-lg-2 control-label label-type">Dokument-Typ</label>
                     <div class="col-lg-3">
-                      <div spi-hint text="_hint.document_type" class="has-hint"></div>
+                      <div spi-hint text="_hint.document_type.text"  title="_hint.document_type.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
                         <ui-select  class="type-document" ng-model="document.type_id" required name="type_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
@@ -45,7 +45,7 @@
                   </div>
                   <div class="m-b-15 clearfix wrap-summernote" >
                       <div class="col-sm-12">
-                        <div spi-hint text="_hint.text" class="has-hint"></div>
+                        <div spi-hint text="_hint.text.text"  title="_hint.text.title"  class="has-hint"></div>
                         <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('text')}">
                           <div class="">
                             <summernote config="options" ng-model="document.text"></summernote>
