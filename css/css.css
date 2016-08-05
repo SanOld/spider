@@ -3331,6 +3331,13 @@ form[name=conceptForm] .alert-danger {display: block;}
 .concept-form-block .btn-question {
     margin-top: 0;
 }
+.custom-btn.print_btn {
+	font-size:15px;
+}
+.custom-btn.print_btn i {
+	font-size:18px;
+	margin: 0 14px 0 0px;
+}
 label>h4{
   float: left;
 }
