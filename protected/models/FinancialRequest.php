@@ -63,16 +63,4 @@ class FinancialRequest extends BaseModel {
     return $command;
   }
   
-  protected function doBeforeUpdate($post, $id) {
-    
-    unset ($post['payment_date']);
-    unset ($post['receipt_date']);
-    
-    return array(
-      'result' => true,
-      'params' => $post
-    );
-    
-  }
-
 }
