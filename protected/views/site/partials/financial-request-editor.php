@@ -45,7 +45,7 @@
           <div class="m-b-15">
             <h5>Ansprechperson für Rückfragen<span spi-hint text="_hint.project_data_concept_user_id" class="has-hint"></span></h5>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('representative_user')}">
-              <ui-select required on-select="onSelectUser($item, $model, 2)" ng-model="financial_request.representative_user_id" name="representative_user"> 
+              <ui-select ng-disabled="!financial_request.request_id" required on-select="onSelectUser($item, $model, 2)" ng-model="financial_request.representative_user_id" name="representative_user"> 
                 <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
                   <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -64,12 +64,12 @@
               <dd ng-show="selectRepresentativeUser.email" class="dd-margin"><a class="visible-lg-block" href="mailto:{{selectRepresentativeUser.email}}">{{selectRepresentativeUser.email}}</a></dd>
           </dl>
           <hr />
-          <h5>Bankverbindung<span spi-hint text="_hint.project_data_concept_user_id" class="has-hint"></span></h5>
+          <h5 >Bankverbindung<span spi-hint text="_hint.project_data_concept_user_id" class="has-hint"></span></h5>
           <div class="form-group">
             <label class="col-lg-3 control-label">IBAN<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></label>
             <div class="col-lg-9">
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('bankverbindung')}">
-                <ui-select required name = "bankverbindung" class="type-document" on-select="updateIBAN($item)" ng-model="financial_request.bank_account_id">
+                <ui-select ng-disabled="!financial_request.representative_user_id" required name = "bankverbindung" class="type-document" on-select="updateIBAN($item)" ng-model="financial_request.bank_account_id">
                   <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.iban}}</ui-select-match>
                   <ui-select-choices repeat="item.id as item in bank_details | filter: $select.search | orderBy: 'iban'">
                     <span ng-bind-html="item.iban | highlight: $select.search"></span>
@@ -90,20 +90,17 @@
             <dt ng-show="IBAN.description">Beschreibung:</dt>
             <dd ng-show="IBAN.description" class="financial-request">{{IBAN.description}}</dd>
           </dl>
-          <h5>Bestätigung der Zahlung/ Änderung</h5>
-          <div class="form-group">
+          <h5 ng-if="user.type == 'a' || user.type == 'p'" >Bestätigung der Zahlung/ Änderung</h5>
+          <div class="form-group" ng-if="user.type == 'a' || user.type == 'p' ">
             <label class="col-lg-5 control-label">Zahlungsdatum</label>
             <div class="col-lg-7">
               <div class="input-group">
                 <input  uib-datepicker-popup="dd.MM.yyyy" is-open="popup_payment_date.opened" datepicker-options="dateOptions"
-                        ng-model="financial_request.payment_date" type="text" id="payment_date" 
+                        ng-model="payment_date" type="text" id="payment_date" 
                         class="form-control datepicker" placeholder="Alle Daten" name="payment_date">
                 <span class="input-group-addon" ng-click="popup_payment_date.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
               </div>
               <br>
-<!--              <span ng-class="{hide: !fieldError('payment_date')}" class="hide">
-                <label class="error">Zahlungsdatum erforderlich</label>
-              </span>-->
             </div>
           </div>
         </div>
@@ -113,7 +110,7 @@
             <div class="col-lg-8">
                 <div class="input-group" ng-class="{'wrap-line error': fieldError('receipt_date')}">
                   <input uib-datepicker-popup="dd.MM.yyyy" is-open="popup_receipt_date.opened" datepicker-options="dateOptions"
-                         ng-model="financial_request.receipt_date" type="text" id="receipt_date" 
+                         ng-model="receipt_date" type="text" id="receipt_date" 
                          class="form-control datepicker" placeholder="Alle Daten" required name="receipt_date">
                   <span class="input-group-addon" ng-click="popup_receipt_date.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
@@ -165,7 +162,7 @@
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('rate')}">
                 <ui-select required ng-model="financial_request.rate_id" name="rate">
                   <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="item.id as item in rates | filter: $select.search | orderBy: 'name'">
+                  <ui-select-choices repeat="item.id as item in rates | filter: $select.search | orderBy: 'id'">
                     <span ng-bind-html="item.name | highlight: $select.search"></span>
                   </ui-select-choices>
                 </ui-select>
@@ -195,7 +192,7 @@
               <textarea class="form-control" ng-model="financial_request.description"></textarea>
             </div>
           </div>
-          <button class="custom-btn btn w-lg pull-right print_btn">
+          <button class="custom-btn btn w-lg pull-right print_btn" ng-if="user.type == 't'">
             <i class="ion-printer"></i> 
             <span class="text-capitalize">Drucken</span>
           </button>
@@ -205,7 +202,7 @@
       <div class="form-group group-btn row m-t-30">
         <div class="col-lg-6 text-left">
           <a class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"  ng-click="remove()"><i class="fa fa-trash-o"></i></a>
-          <button class="btn btn-icon btn-danger btn-lg" data-dismiss="modal" ng-click="accept();">Mittelabrufe schließen</button>
+          <button class="btn btn-icon btn-danger btn-lg" data-dismiss="modal" ng-click="accept();">Mittelabrufe buchen</button>
         </div>
         <div class="col-lg-6 text-right">
           <button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
