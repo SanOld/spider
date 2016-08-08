@@ -28,7 +28,7 @@ $this->breadcrumbs = array('Träger');
 								</div>
 							</div>
 							<div ng-class="canEdit() ? 'col-lg-3' : 'col-lg-5'">
-								<div class="form-group">
+								<div ng-show="canEdit()" class="form-group">
 									<div class="form-group">
 										<label>Suche nach Bankverbindung</label>
 										<input ng-change="updateGrid()" type="search" ng-model="filter.bank_details" class="form-control" placeholder="Eingegeben">
