@@ -1767,6 +1767,10 @@ body.safari .box-finance .sum strong {
 .box-finance .sum span {
 	font-size:20px;
 }
+#accordion-account .panel-heading .sum span,
+.box-finance .sum-size{
+	font-size:20px;
+}
 #accordion-account .panel-heading .total-sum span {
 	font-weight:600;
 }
@@ -2264,9 +2268,8 @@ div.dataTables_length select {
 	padding-right: 15px;
 }
 .box-finance .sum {
-	display: block;
-	margin: 0 0 15px;
-	padding: 0 0 0 40px;
+	margin: 8px 4px 4px;
+        padding: 4px 28px 0px 30px;
 }
 .box-finance .sum.spent,
 .spent-th span {
@@ -2538,7 +2541,7 @@ tfoot th.align-right {
 	background: #f3f3f3;
 	border-radius: 5px;
 	box-sizing: border-box;
-	padding: 5px 20px 0;
+	padding: 5px 20px 12px;
 	margin-bottom: 20px;
 }
 .finacing-edit table.dataTable thead .sorting:after,

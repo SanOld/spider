@@ -122,43 +122,43 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                     </div>
 									</form>
 								</div>
-								<div class="overview-finance m-t-20" ng-if="project">
-									<h4>Zusammenfassung der Finanzen für {{project.project_code}} ({{project.start_date}} - {{project.due_date}})</h4>
+								<div class="overview-finance m-t-20" ng-if="summary">
+									<h4>Zusammenfassung der Finanzen für {{summary.project_code}} ({{summary.start_date}} - {{summary.due_date}})</h4>
 									<div class="box-finance">
 										<span class="sum total">
 	                    <strong>Fördersumme</strong>
-											<span>€ {{project.total_cost}}</span>
 	                  </span>
+									  <span class="sum-size">€ {{summary.total_cost | number:2}}</span>
 									</div>
 									<div class="box-finance">
 										<span class="sum requested">
 	                    <strong>Änderungen</strong>
-											<span>€ {{}}</span>
-	                  </span>
+	                  </span>                      
+										<span class="sum-size">€ {{summary.changes | number:2}}</span>
 									</div>
 									<div class="box-finance box-custom-width">
 										<span class="sum refund">
 	                    <strong>aktuelle Fördersumme</strong>
-											<span>€ {{}}</span>
-	                  </span>
+                    </span>                      
+									  <span class="sum-size">€ {{summary.actual | number:2}}</span>
 									</div>
 									<div class="box-finance">
 										<span class="sum income">
 	                    <strong>Ausgezahlt</strong>
-											<span>€ {{}}</span>
 	                  </span>
+										<span class="sum-size">€ {{summary.payed | number:2}}</span>
 									</div>
 									<div class="box-finance">
 										<span class="sum spent">
 	                    <strong>Verblieben</strong>
-											<span>€ {{}}</span>
 	                  </span>
+									 <span class="sum-size">€ {{summary.remained | number:2}}</span>
 									</div>
 									<div class="box-finance">
 										<span class="sum expenditure">
 	                    <strong>Finanzbericht</strong>
-											<span>€ {{}}</span>
 	                  </span>
+										<span class="sum-size">€ {{summary.spending | number:2}}</span>
 									</div>
 								</div>
 								<div class="row">

@@ -97,12 +97,46 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       }
     });
     
+    $scope.updateSummary = function (project){
+      var total_cost = project[0].total_cost.split('.');
+      $scope.summary = {
+        'project_code': project[0].project_code,
+        'start_date'  : project[0].start_date,
+        'due_date'    : project[0].due_date,
+        'total_cost'  : total_cost[0],
+        'changes'     : 0,
+        'spending'    : 0,
+        'remained'    : 0,
+        'payed'       : 0,
+        'actual'      : 0
+      };
+      for(var i = 0; i < project.length; i++){
+        if(project[i].status_id == 3){
+          $scope.summary['payed'] += Number(project[i].request_cost);
+        }else{          
+          if(project[i].payment_type_id == 2){
+            $scope.summary['changes'] -= Number(project[i].request_cost);
+          }
+          if(project[i].payment_type_id == 3){
+            $scope.summary['changes'] += Number(project[i].request_cost);
+          }
+          if(project[i].payment_type_id == 1){
+            $scope.summary['spending'] += Number(project[i].request_cost);
+          }
+        }
+      }
+      $scope.summary['actual'] = $scope.summary['total_cost'] - $scope.summary['changes'];
+      $scope.summary['remained'] = $scope.summary['actual'] - $scope.summary['payed'];
+      return $scope.summary;
+    };
+    
     $scope.updateProject = function(id, year){
+      delete $scope.summary;
       delete $scope.project;
       network.get('financial_request', {'project_id': id ? id : '', 'year': year ? year : ''}, function (result, response) {
-        if(result) {
+        if(response.result.length) {
           if(response.result.length == 1){
-            $scope.project = response.result[0];
+            $scope.project = $scope.updateSummary(response.result);
           }else{
             var result = true;
             for(var item = 1; item < response.result.length; item++){
@@ -111,7 +145,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
               }
             }
             if(result){
-              $scope.project = response.result[0];
+              $scope.project = $scope.updateSummary(response.result);
             }
           }
         }
@@ -174,7 +208,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       
       $scope.getPaymentTemplate(data.payment_template_id);
       getPerformerUsers(data.request_id);
-    }    
+    }else{
+      $scope.financial_request = {receipt_date: new Date ()};
+    }
     
     getProjects();
     
@@ -295,8 +331,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
             }
             $scope.submited = false;
         };
+        if(network.user.type == 'p'){          
+          $scope.dateFormat($scope.financial_request.payment_date, 'payment_date');
+        }
         $scope.dateFormat($scope.financial_request.receipt_date, 'receipt_date');
-        $scope.dateFormat($scope.financial_request.payment_date, 'payment_date');
         $scope.financial_request.status_id = 1;
         if ($scope.isInsert) {
             network.post('financial_request', $scope.financial_request, callback);
@@ -316,7 +354,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           cancelButtonText: "ABBRECHEN",
           closeOnConfirm: true
         }, function(isConfirm){
-          if(isConfirm) {            
+          if(isConfirm) {
+            $scope.dateFormat($scope.financial_request.receipt_date, 'receipt_date');
+            $scope.dateFormat($scope.financial_request.payment_date, 'payment_date');
             $scope.financial_request.status_id = 3;
             network.put('financial_request/' + data.id, $scope.financial_request, function (result, response) {
               if (result) {
