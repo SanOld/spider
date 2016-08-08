@@ -3,7 +3,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     $scope.filter = {};
     
     var grid = GridService();
-    $scope.tableParams = grid('financial_request', $scope.filter, {sorting: {}});
+    $scope.tableParams = grid('financial_request', $scope.filter);
     
     $scope.updateGrid = function() {
         grid.reload();
@@ -156,7 +156,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       if(!row) {
         return $rootScope.canEdit();
       } else {
-        return row != 3 && row != 6 && (network.user.type == 'a' || network.user.type == 'p');
+        return row != 3 && row != 6 && (network.user.type == 'a' || network.user.type == 'p' || network.user.type == 't');
       }
     };
     
@@ -180,9 +180,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.financial_request = {};
     $scope.user = network.user;
     $scope.IBAN = {};
-    $scope.financial_request = {};
     $scope.payment_template_id = '';
     $scope.project_id = data.project_id ? data.project_id : '';
+    $scope.receipt_date = '';
+    $scope.payment_date = '';
     
     $scope.getPaymentTemplate = function(payment_template_id){
       network.get('document_template', {id: payment_template_id}, function (result, response) {
@@ -197,8 +198,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       $scope.financial_request = {
         representative_user_id: data.representative_user_id,
         bank_account_id: data.bank_account_id,
-        payment_date: new Date (data.payment_date),
-        receipt_date: new Date (data.receipt_date),
         payment_type_id: data.payment_type_id,
         rate_id: data.rate_id,
         request_cost: data.request_cost,
@@ -206,10 +205,13 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         request_id: data.request_id,
       };
       
+      $scope.receipt_date = new Date (data.receipt_date);
+      $scope.payment_date = new Date (data.payment_date);
+      
       $scope.getPaymentTemplate(data.payment_template_id);
       getPerformerUsers(data.request_id);
     }else{
-      $scope.financial_request = {receipt_date: new Date ()};
+      $scope.receipt_date = new Date ();
     }
     
     getProjects();
@@ -331,9 +333,13 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
             }
             $scope.submited = false;
         };
-        if(network.user.type == 'p'){          
+        if(network.user.type == 'p'){
+          $scope.financial_request.payment_date = $scope.payment_date;
           $scope.dateFormat($scope.financial_request.payment_date, 'payment_date');
+        }else{
+          $scope.financial_request.payment_date = '000-00-00';
         }
+        $scope.financial_request.receipt_date = $scope.receipt_date;
         $scope.dateFormat($scope.financial_request.receipt_date, 'receipt_date');
         $scope.financial_request.status_id = 1;
         if ($scope.isInsert) {
