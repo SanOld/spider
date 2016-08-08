@@ -3281,12 +3281,7 @@ form[name=conceptForm] .alert-danger {display: block;}
 .concept-form-block .wrap-area .form-group {
 	position:relative;
 }
-/*.btn-row .btn.fullscreen1 {
-  position: absolute;    
-  top: 18px;
-  left: 1088px;
-  background:  url(../images/icon_fullscreen.png) no-repeat 50% 50%;
-}*/
+
 .btn-row .btn.fullscreen1,
 .btn-row .btn.fullscreen2 {
   border-radius: 0;
@@ -3301,6 +3296,15 @@ form[name=conceptForm] .alert-danger {display: block;}
   z-index: 9999;
   background:  #f0f0f0 url(../images/icon_fullscreen.png) no-repeat 50% 50%;
 }
+#profile .btn-row {
+  position: relative;
+  height: 0;
+  float: right;
+}
+#profile .btn.fullscreen1 {
+  top: 0;
+}
+
 .no-result {
   font-size: 32px;
   color: #999;
@@ -3344,4 +3348,21 @@ form[name=conceptForm] .alert-danger {display: block;}
 }
 label>h4{
   float: left;
+}
+
+#profile div.form-group.animate {
+  background-color: #fff;
+	bottom: auto;
+	height: 500px !important;
+	position: absolute;
+	width: 1095px !important;
+	z-index: 9999;
+	top: 0;
+	-webkit-transition:all .3s ease 0s;
+	-ms-transition:all .3s ease 0s;
+	transition:all .3s ease 0s;
+}
+div.form-group.animate textarea {
+	height:470px !important;
+	z-index: 9999;
 }

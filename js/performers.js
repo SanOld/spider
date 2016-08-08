@@ -61,6 +61,8 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope.isFinansist = network.user.type == 'a' || network.user.type == 'p' || (network.user.type == 't' && parseInt(network.user.is_finansist));
   $scope.tabActive = 0;
   $scope.user_type = network.user.type;
+  $scope.isTextareaShow = false;
+  $scope.textField = '';
   $scope.canEditPerformer = function() {
     return $rootScope.canEdit() || data.id == network.user.relation_id;
   };
@@ -334,12 +336,29 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     return result;
   }
 
-  $scope.saveText = function (name) {
-    if($scope.performer[name] != undefined) {
+  $scope.saveText = function () {
+    if($scope.performer[$scope.textField] != undefined) {
       var params = {};
-      params[name] = $scope.performer[name];
+      params[$scope.textField] = $scope.performer[$scope.textField];
       network.put('performer/' + data.id, params);
     }
+  };
+
+
+  $scope.textOnFocus = function(clickEvent, textField){
+    $scope.textField = textField || '';
+    $scope.groupOnFocus = angular.element(clickEvent.target.closest('.form-group'));
+    $scope.groupOnFocus.addClass('animate');
+    $scope.canSave = ($scope.canEditPerformer() && !$scope.modeView);
+    $scope.isTextareaShow = true;
+  };
+
+  $scope.cancelFocus = function(){
+    if($scope.groupOnFocus){
+      $scope.isTextareaShow = false;
+      $scope.groupOnFocus.removeClass('animate');
+    }
+
   };
 
 });
