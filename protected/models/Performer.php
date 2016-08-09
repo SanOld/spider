@@ -134,32 +134,36 @@ class Performer extends BaseModel {
       unset($post['representative_user_id']);
     }
 
-    if (Yii::app() -> db -> createCommand()
-      -> select('id')
-      -> from($this -> table)
-      -> where('id != :id AND name=:name',
-        array(':id' => $id, ':name' => $post['name']))
-      -> queryScalar()) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'silent' => true,
-        'system_code' => 'ERR_DUPLICATED'
-      );
+    if(isset($post['name'])){
+      if (Yii::app() -> db -> createCommand()
+        -> select('id')
+        -> from($this -> table)
+        -> where('id != :id AND name=:name',
+          array(':id' => $id, ':name' => $post['name']))
+        -> queryScalar()) {
+        return array(
+          'code' => '409',
+          'result' => false,
+          'silent' => true,
+          'system_code' => 'ERR_DUPLICATED'
+        );
+      }
     }
 
-    if (Yii::app() -> db -> createCommand()
-      -> select('id')
-      -> from($this -> table)
-      -> where('id != :id AND short_name=:short_name',
-        array(':id' => $id, ':short_name' => $post['short_name']))
-      -> queryScalar()) {
-      return array(
-        'code' => '409',
-        'result' => false,
-        'silent' => true,
-        'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
-      );
+    if(isset($post['short_name'])){
+      if (Yii::app() -> db -> createCommand()
+        -> select('id')
+        -> from($this -> table)
+        -> where('id != :id AND short_name=:short_name',
+          array(':id' => $id, ':short_name' => $post['short_name']))
+        -> queryScalar()) {
+        return array(
+          'code' => '409',
+          'result' => false,
+          'silent' => true,
+          'system_code' => 'ERR_DUPLICATED_SHORT_NAME'
+        );
+      }
     }
 
     return array(
