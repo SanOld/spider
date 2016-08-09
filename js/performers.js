@@ -61,6 +61,8 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
   $scope.isFinansist = network.user.type == 'a' || network.user.type == 'p' || (network.user.type == 't' && parseInt(network.user.is_finansist));
   $scope.tabActive = 0;
   $scope.user_type = network.user.type;
+  $scope.isTextareaShow = false;
+  $scope.textField = '';
   $scope.canEditPerformer = function() {
     return $rootScope.canEdit() || data.id == network.user.relation_id;
   };
@@ -171,12 +173,24 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid  || ($scope.error && $scope.error[field] != undefined && form[field].$pristine);
   };
 
+  $scope.checked = function (value){
+    if(!value){
+      $scope.performer.is_checked = 0;
+      $scope.performer.checked_by = '';
+      $scope.performer.checked_date = '';
+      window.console.log('false');
+    }
+  }
+
   $scope.submitFormPerformer = function () {
     var formBankValid = true;
     $scope.submited = true;
 
     for(var i=0; i<$scope.bank_details.length; i++) {
       var form = $scope.form['formBank'+i];
+      if ($scope.form.$dirty &&  network.user.type == 't') {
+        $scope.checked(false);
+      }
       form.$setPristine();
       if (form.$invalid) {
         $scope.tabActive = 0;
@@ -194,12 +208,17 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
       for(var i=0; i<$scope.bank_details.length; i++) {
         $scope.saveBankDetails($scope.bank_details[i], i, true);
       }
-      savePerformer();
+      $scope.savePerformer();
     }
+  };
 
-    function savePerformer() {
+  $scope.savePerformer = function() {
       $scope.error = false;
       $scope.submited = true;
+
+      if ($scope.form.formPerformer.$dirty &&  network.user.type == 't') {
+        $scope.checked(false);
+      }
       $scope.form.formPerformer.$setPristine();
       if ($scope.form.formPerformer.$valid) {
         var callback = function (result, response) {
@@ -220,11 +239,14 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
         $scope.tabActive = 0;
       }
     }
-  };
 
   $scope.saveBankDetails = function (formData, index, bulk, callback) {
     $scope.submited = true;
     var form = $scope.form['formBank'+index];
+    if ($scope.form.$dirty &&  network.user.type == 't') {
+      $scope.checked(false);
+      $scope.savePerformer();
+    }
     form.$setPristine();
     if (form.$valid) {
       delete formData['$$hashKey'];
@@ -334,12 +356,29 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     return result;
   }
 
-  $scope.saveText = function (name) {
-    if($scope.performer[name] != undefined) {
+  $scope.saveText = function () {
+    if($scope.performer[$scope.textField] != undefined) {
       var params = {};
-      params[name] = $scope.performer[name];
+      params[$scope.textField] = $scope.performer[$scope.textField];
       network.put('performer/' + data.id, params);
     }
+  };
+
+
+  $scope.textOnFocus = function(clickEvent, textField){
+    $scope.textField = textField || '';
+    $scope.groupOnFocus = angular.element(clickEvent.target.closest('.form-group'));
+    $scope.groupOnFocus.addClass('animate');
+    $scope.canSave = ($scope.canEditPerformer() && !$scope.modeView);
+    $scope.isTextareaShow = true;
+  };
+
+  $scope.cancelFocus = function(){
+    if($scope.groupOnFocus){
+      $scope.isTextareaShow = false;
+      $scope.groupOnFocus.removeClass('animate');
+    }
+
   };
 
 });

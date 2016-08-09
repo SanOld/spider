@@ -10,7 +10,7 @@
         <div class="m-b-15 clearfix">
           <label class="col-lg-2 control-label">Schultyp</label>
           <div class="col-lg-4">
-            <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
+            <div spi-hint text="_hint.school_type_id.text"  title="_hint.school_type_id.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('school_type_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.school_type_id"
                          name="school_type_id" required on-select="updateSchools();updateCode();getDistricts();">
@@ -31,7 +31,7 @@
         <div class="m-b-15 clearfix">
           <label class="col-lg-2 control-label">Fördertopf</label>
           <div class="col-lg-4">
-            <div spi-hint text="_hint.type_id" class="has-hint"></div>
+            <div spi-hint text="_hint.type_id.text"  title="_hint.type_id.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('type_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.type_id"
                          name="type_id" required on-select="updateCode();getProgramms();">
@@ -50,7 +50,7 @@
           </div>
           <label class="col-lg-2 control-label p-r-0">Programm</label>
           <div class="col-lg-4">
-            <div spi-hint text="_hint.performer_id" class="has-hint"></div>
+            <div spi-hint text="_hint.performer_id.text"  title="_hint.performer_id.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('programm_id')}">
               <ui-select ng-disabled="!project.type_id || modeView || !isInsert " ng-model="project.programm_id"
                          name="programm_id" required on-select="updateCode();" >
@@ -71,7 +71,7 @@
         <div class="m-b-15 clearfix">
           <label class="col-lg-2 control-label">Kennziffer</label>
           <div class="col-lg-4">
-            <div spi-hint text="_hint.code" class="has-hint"></div>
+            <div spi-hint text="_hint.code.text"  title="_hint.code.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('code')}">
               <input name="code" ng-model="project.code" class="form-control" type="text" value="" required ng-disabled="!isInsert || modeView">
               <span ng-class="{hide: !fieldError('code')}" class="hide">
@@ -84,7 +84,7 @@
           
           <label class="col-lg-2 control-label">Stellenanteil</label>
           <div class="col-lg-4">
-            <div spi-hint text="_hint.rate" class="has-hint"></div>
+            <div spi-hint text="_hint.rate.text"  title="_hint.rate.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('rate')}">
               <input name="rate" ng-model="project.rate" class="form-control" type="text" value="" required ng-change="checkRate(project)" ng-disabled="!isInsert || modeView">
               <span ng-class="{hide: !fieldError('rate')}" class="hide">
@@ -98,7 +98,7 @@
         <div class="m-b-15 clearfix">
           <label class="col-lg-2 control-label">Bezirk</label>
           <div class="col-lg-10">
-            <div spi-hint text="_hint.district_id" class="has-hint"></div>
+            <div spi-hint text="_hint.district_id.text"  title="_hint.district_id.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}">
               <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.district_id"
                          name="district_id" on-select="updateSchools()" ng-required="schoolTypeCode != 'z' && schoolTypeCode != 'b'">
@@ -119,7 +119,7 @@
         <div class="m-b-15 clearfix">
           <label class="col-lg-2 control-label">Schule</label>
           <div class="col-lg-10">
-            <div spi-hint text="_hint.schools" class="has-hint"></div>
+            <div spi-hint text="_hint.schools.text"  title="_hint.schools.title"  class="has-hint"></div>
 
             <div class="wrap-hint" ng-class="{'select2-empty-list':(!schools.length && !project.school_type_id) || (!schools.length && project.school_type_id == 6), 'wrap-line error': fieldError('schools')}">
               <ui-select ng-disabled="!schools.length || modeView || project.is_old == 1" multiple ng-model="project.schools" ng-required="schoolTypeCode != 'z'"
@@ -157,7 +157,7 @@
         <div class="m-b-15 clearfix">
           <label class="col-lg-2 control-label p-r-0">Träger</label>
           <div class="col-lg-10">
-            <div spi-hint text="_hint.performer_id" class="has-hint"></div>
+            <div spi-hint text="_hint.performer_id.text"  title="_hint.performer_id.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('performer_id')}">
               <ui-select ng-disabled="!$select.items.length || project.is_old == 1 || modeView" ng-model="project.performer_id"
                          name="performer_id" required>

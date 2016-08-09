@@ -76,10 +76,10 @@ $this->breadcrumbs = array('Hilfetexte');
 					<label class="col-lg-2 control-label">Seite</label>
 					<div ng-if="!isInsert" class="col-lg-10">
 						<span class="no-edit-text">{{page_name}}</span>
-						<span spi-hint text="_hint.page_id"></span>
+						<span spi-hint text="_hint.page_id.text"  title="_hint.page_id.title" ></span>
 					</div>
 					<div ng-if="isInsert" class="col-lg-10">
-						<span spi-hint text="_hint.page_id" class="has-hint"></span>
+						<span spi-hint text="_hint.page_id.text"  title="_hint.page_id.title"  class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('page_id')}">
 							<ui-select ng-change="changePage()" ng-model="hint.page_id" name="page_id" required>
 								<ui-select-match placeholder="(Bitte wählen Sie)">{{$select.selected.name}}</ui-select-match>
@@ -97,10 +97,10 @@ $this->breadcrumbs = array('Hilfetexte');
 					<label class="col-lg-2 control-label">Position</label>
 					<div ng-if="!isInsert" class="col-lg-10">
 						<span class="no-edit-text">{{position_name}}</span>
-						<span spi-hint text="_hint.position_id"></span>
+						<span spi-hint text="_hint.position_id.text"  title="_hint.position_id.title" ></span>
 					</div>
 					<div ng-if="isInsert && hint.page_id" class="col-lg-10">
-						<span spi-hint text="_hint.position_id" class="has-hint"></span>
+						<span spi-hint text="_hint.position_id.text"  title="_hint.position_id.title"  class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('position_id')}">
 							<ui-select ng-disabled="!$select.items.length" ng-change="changePosition(hint.position_id)" ng-model="hint.position_id" name="position_id" required>
 								<ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">{{$select.selected.name}}</ui-select-match>
@@ -117,7 +117,7 @@ $this->breadcrumbs = array('Hilfetexte');
 				<div class="form-group" ng-if="showTitle">
 					<label class="col-lg-2 control-label">Titel</label>
 					<div class="col-lg-10">
-						<span spi-hint text="_hint.title" class="has-hint"></span>
+						<span spi-hint text="_hint.title.text"  title="_hint.title.title"  class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('title')}">
 							<textarea ng-model="hint.title" ng-minlength="3" maxlength="255" name="title" class="form-control" rows="5" required></textarea>
 							<span ng-class="{hide: !fieldError('title')}" class="hide">
@@ -130,7 +130,7 @@ $this->breadcrumbs = array('Hilfetexte');
 				<div class="form-group">
 					<label class="col-lg-2 control-label">Hilfetext</label>
 					<div class="col-lg-10">
-						<span spi-hint text="_hint.description" class="has-hint"></span>
+						<span spi-hint text="_hint.description.text"  title="_hint.description.title"  class="has-hint"></span>
 						<div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
 							<textarea ng-model="hint.description" name="description" ng-minlength="3" maxlength="{{!showTitle ? 255 : 65000}}" class="form-control" rows="7" required></textarea>
 							<span ng-class="{hide: !fieldError('description')}" class="hide">

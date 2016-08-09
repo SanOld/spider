@@ -13,10 +13,11 @@ spi.directive("spiHint", function () {
   return {
     restrict: 'A',
     scope: {
+      title: '=',
       text: '=',
       class: '@'
     },
-    template: '<button ng-if="text" uib-popover="{{text}}" class="btn btn-question {{class}}" type="button"> <i class="fa fa-question"></i> </button>'
+    template: '<button ng-if="text" uib-popover="{{text}}" popover-title="{{title}}" class="btn btn-question {{class}}" type="button"> <i class="fa fa-question"></i> </button>'
   };
 });
 

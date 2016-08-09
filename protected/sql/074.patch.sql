@@ -1,0 +1,1 @@
+UPDATE `spi_page_position` SET `name`='<Überschrift>' WHERE  `code`= 'header';

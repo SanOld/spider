@@ -56,6 +56,9 @@ class Project extends BaseModel {
     if (safe($params, 'SCHOOL_ID')) {
         $command->andWhere("sps.school_id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
+    if (safe($params, 'FINANCIAL_REQUEST')) {
+      $command -> rightJoin( 'spi_financial_request freq',  'req.id  = freq.request_id');
+    }
     if(safe($params, 'TYPE_ID')) {
       $command -> andWhere('tbl.type_id = :type_id', array(':type_id' => $params['TYPE_ID']));
     }
@@ -203,7 +206,7 @@ class Project extends BaseModel {
 
     }
   }
-  protected function doBeforeUpdate($post, $id) {    
+  protected function doBeforeUpdate($post, $id) {
     $params = $post;
     if($params['is_old']){
       Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
@@ -240,8 +243,8 @@ class Project extends BaseModel {
     $row['performer_id'] = $post['performer_id'];
     $code = explode('/', $row['code']);
 
-    $row['code'] = count($code)==1 ? $code[0]. '/2 ':$code[0].'/'.($code[1]+1);
-    Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
+    $row['code'] = count($code)== 1 ? $code[0]. '/2 ' : $code[0].'/'.($code[1] + 1);
+    Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id = :id', array (
       ':id' => $id
     ));    
     $row['isUpdate'] = true;    

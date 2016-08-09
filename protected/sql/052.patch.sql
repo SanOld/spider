@@ -3,7 +3,7 @@ ALTER TABLE `spi_page_position` ADD COLUMN `is_double` TINYINT(1) DEFAULT 0 NOT 
 INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('8', 'projectData', 'Projektdaten'); 
 INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('8', 'finData', 'Finanzplan'); 
 INSERT INTO `spi_page_position` (`page_id`, `code`, `name`) VALUES ('8', 'conceptData', 'Konzept'); 
-INSERT INTO `spi_page_position` (`page_id`, `code`,`name`) VALUES ('8', 'goalData','Entwicklungsziele');
+INSERT INTO `spi_page_position` (`page_id`, `code`,`name`) VALUES ('8', 'goalData','Entwicklungsziele / Überschrift');
 
 DELETE FROM `spi_page_position` WHERE `code`= 'projectDataHeader'; 
 DELETE FROM `spi_page_position` WHERE `code`= 'projectDataText';

@@ -15,7 +15,7 @@
                   <div class="m-b-15 clearfix">
                     <label class="col-lg-1 control-label">Name</label>
                     <div class="col-lg-6">
-                      <div spi-hint text="_hint.name" class="has-hint"></div>
+                      <div spi-hint text="_hint.name.text"  title="_hint.name.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                         <input class="form-control" type="text" name="name" ng-model="document.name" value="{{document.name}}" required ng-disabled="!canEdit()">
 
@@ -30,7 +30,7 @@
                   <div class="m-b-15 clearfix">
                     <label class="col-lg-1 control-label">Beschreibung</label>
                     <div class="col-lg-6">
-                      <div spi-hint text="_hint.description" class="has-hint"></div>
+                      <div spi-hint text="_hint.description.text"  title="_hint.description.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
                         <input class="form-control" type="text" name="description" ng-model="document.description" value="{{document.description}}" required ng-disabled="!canEdit()">
 
@@ -44,7 +44,7 @@
                   <div class="m-b-15 clearfix">
                     <label class="col-lg-1 control-label">Betreff</label>
                     <div class="col-lg-6">
-                      <div spi-hint text="_hint.subject" class="has-hint"></div>
+                      <div spi-hint text="_hint.subject.text"  title="_hint.subject.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('subject')}">
                         <input class="form-control" type="text" name="subject" ng-model="document.subject" value="{{document.subject}}" required ng-disabled="!canEdit()">
 
@@ -57,7 +57,7 @@
                   </div>
                   <div class="m-b-15 clearfix wrap-summernote" >
                       <div class="col-sm-12">
-                        <div spi-hint text="_hint.text" class="has-hint"></div>
+                        <div spi-hint text="_hint.text.text"  title="_hint.text.title"  class="has-hint"></div>
                         <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                           <div class="">
                             <summernote config="options" ng-model="document.text"></summernote>

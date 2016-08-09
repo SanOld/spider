@@ -995,8 +995,11 @@ body .nav.nav-tabs + .tab-content {
 .request-edit tr.acceptable-row {
 	background: #dff0d8;
 }
-.request-edit tr.acceptable-row:hover {
-	background: #d1e9c4;
+.request-edit tr.wait-row {
+	background: #cacaca;
+}
+.request-edit tr.wait-row:hover {
+	background: #cacaca;
 }
 .notice .accept-row {
 	background: #86c7ff;
@@ -1767,6 +1770,10 @@ body.safari .box-finance .sum strong {
 .box-finance .sum span {
 	font-size:20px;
 }
+#accordion-account .panel-heading .sum span,
+.box-finance .sum-size{
+	font-size:20px;
+}
 #accordion-account .panel-heading .total-sum span {
 	font-weight:600;
 }
@@ -2264,9 +2271,8 @@ div.dataTables_length select {
 	padding-right: 15px;
 }
 .box-finance .sum {
-	display: block;
-	margin: 0 0 15px;
-	padding: 0 0 0 40px;
+	margin: 8px 4px 4px;
+        padding: 4px 28px 0px 30px;
 }
 .box-finance .sum.spent,
 .spent-th span {
@@ -2290,6 +2296,7 @@ div.dataTables_length select {
 }
 .box-finance .sum.total,
 .total-th span {
+        width: 160px !important;
 	background: url("../images/ico-total.png") no-repeat 0 50%;
 }
 .box-finance {
@@ -2537,7 +2544,7 @@ tfoot th.align-right {
 	background: #f3f3f3;
 	border-radius: 5px;
 	box-sizing: border-box;
-	padding: 5px 20px 0;
+	padding: 5px 20px 12px;
 	margin-bottom: 20px;
 }
 .finacing-edit table.dataTable thead .sorting:after,
@@ -3280,12 +3287,7 @@ form[name=conceptForm] .alert-danger {display: block;}
 .concept-form-block .wrap-area .form-group {
 	position:relative;
 }
-/*.btn-row .btn.fullscreen1 {
-  position: absolute;    
-  top: 18px;
-  left: 1088px;
-  background:  url(../images/icon_fullscreen.png) no-repeat 50% 50%;
-}*/
+
 .btn-row .btn.fullscreen1,
 .btn-row .btn.fullscreen2 {
   border-radius: 0;
@@ -3300,6 +3302,15 @@ form[name=conceptForm] .alert-danger {display: block;}
   z-index: 9999;
   background:  #f0f0f0 url(../images/icon_fullscreen.png) no-repeat 50% 50%;
 }
+#profile .btn-row {
+  position: relative;
+  height: 0;
+  float: right;
+}
+#profile .btn.fullscreen1 {
+  top: 0;
+}
+
 .no-result {
   font-size: 32px;
   color: #999;
@@ -3309,6 +3320,9 @@ form[name=conceptForm] .alert-danger {display: block;}
 .request-webseite{
   margin-left: 150px;  
   word-break: break-all;
+}
+.financial-request{
+  margin-left: 140px;
 }
 .btn-deactivate.request{
     padding: 10px 0px 10px 45px !important;
@@ -3330,4 +3344,35 @@ form[name=conceptForm] .alert-danger {display: block;}
 }
 .concept-form-block .btn-question {
     margin-top: 0;
+}
+.custom-btn.print_btn {
+	font-size:15px;
+}
+.custom-btn.print_btn i {
+	font-size:18px;
+	margin: 0 14px 0 0px;
+}
+label>h4{
+  float: left;
+}
+
+#profile div.form-group.animate {
+  background-color: #fff;
+	bottom: auto;
+	height: 500px !important;
+	position: absolute;
+	width: 1095px !important;
+	z-index: 9999;
+	top: 0;
+	left:0;
+	-webkit-transition:all .3s ease 0s;
+	-ms-transition:all .3s ease 0s;
+	transition:all .3s ease 0s;
+}
+#profile .collumn-right div.form-group.animate {
+	left:-541px;
+}
+div.form-group.animate textarea {
+	height:470px !important;
+	z-index: 9999;
 }

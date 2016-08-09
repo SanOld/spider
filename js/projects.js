@@ -223,40 +223,40 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     };
     $scope.updateSchools = function(isInit) {
       isInit = isInit || false;
-        var schoolParams = {};
-        if($scope.isInsert){
-          //delete $scope.project.school;
-          delete $scope.project.schools;  
-        }        
-        $scope.schools = [];
-        if(!$scope.project.school_type_id && !$scope.project.district_id) {
-          return;
-        }
-        if($scope.project.school_type_id) {
-          schoolParams['type_id'] = $scope.project.school_type_id;
-        }
-        if($scope.project.district_id) {
-          schoolParams['district_id'] = $scope.project.district_id;
-        }
-        network.get('school', schoolParams, function (result, response) {
-            if(result && response.result[0] != 0) {
-              $timeout(function(){                
-                $scope.schools = response.result;
-                if(isInit && $scope.isInsert ) {
-                  var schools = [];
-                 //$scope.project.school = $scope.schools[0];
-                  $.each($scope.schools, function(){
-                    if($scope.projectSchoolsID[this.id]) {
-                      schools.push(this);                      
-                    }
-                  })
-                  if(schools.length) {
-                    $scope.project.schools = schools;
-                  }
-                }                
-              });
-            };
-        });
+      var schoolParams = {};
+      if($scope.isInsert){
+        //delete $scope.project.school;
+        delete $scope.project.schools;  
+      }        
+      $scope.schools = [];
+      if(!$scope.project.school_type_id && !$scope.project.district_id) {
+        return;
+      }
+      if($scope.project.school_type_id) {
+        schoolParams['type_id'] = $scope.project.school_type_id;
+      }
+      if($scope.project.district_id) {
+        schoolParams['district_id'] = $scope.project.district_id;
+      }
+      network.get('school', schoolParams, function (result, response) {
+        if(result && response.result[0] != 0) {
+          $timeout(function(){                
+            $scope.schools = response.result;
+            if(isInit && $scope.isInsert ) {
+              var schools = [];
+             //$scope.project.school = $scope.schools[0];
+              $.each($scope.schools, function(){
+                if($scope.projectSchoolsID[this.id]) {
+                  schools.push(this);                      
+                }
+              })
+              if(schools.length) {
+                $scope.project.schools = schools;
+              }
+            }                
+          });
+        };
+      });
     };
     
     $scope.updateSchools(true);
@@ -357,7 +357,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             }else{
               $scope.is_manual = 0;  
             };        
-            $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0'; 
+            $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0';
             network.post('project', $copyScopeProject, callback);              
         } else {
           var similar = $scope.checkIfChanged($copyScopeProject, data);
@@ -369,7 +369,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             });
             var newCode = $copyScopeProject.code.split('/');
             newCode = newCode[0] + '/' + (newCode[1] ? +newCode[1] + 1 : 2);
-            if($scope.project.status_id == 2){
+            if(!$scope.project.status_id || $scope.project.status_id == 2){
               SweetAlert.swal({
                   title: "Projekt bearbeiten?",
                   text: "Nächstes Projekt wird erstellt " + newCode,
@@ -380,6 +380,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                   closeOnConfirm: true
                 }, function(isConfirm){
                   if(isConfirm) {
+                    delete $copyScopeProject.status_id;
                     network.put('project/' + data.id, $copyScopeProject, callback);
                   }
               });

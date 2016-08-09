@@ -49,7 +49,7 @@ $this->breadcrumbs = array('Benutzerrollen');
         <div class="form-group custom-field row clearfix">
           <div class="form-group col-lg-6">
             <label>Benutzerrollen</label>
-            <div spi-hint text="_hint.name" class="has-hint"></div>
+            <div spi-hint text="_hint.name.text"  title="_hint.name.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('user_type_name')}">
               <input class="form-control" placeholder="Benutzerdefinierter Typ" name="user_type_name" ng-model="user_type.name" type="text" value="" ng-minlength="2" ng-maxlength="255" required>
               <span ng-class="{hide: !fieldError('user_type_name')}" class="hide">
@@ -64,7 +64,7 @@ $this->breadcrumbs = array('Benutzerrollen');
             <label>Akteur-Typ</label>
             <div>
               <span ng-if="!isInsert" ng-bind="relation_name"></span>
-              <span spi-hint text="_hint.type" class="{{isInsert ? 'has-hint' : ''}}"></span>
+              <span spi-hint text="_hint.type.text"  title="_hint.type.title"  class="{{isInsert ? 'has-hint' : ''}}"></span>
               <div ng-if="isInsert" class="wrap-hint">
                 <select  name="user_type_type" ng-model="user_type.type" class="type-user form-control" ng-options="r.type as r.name for r in relations"></select>
               </div>
