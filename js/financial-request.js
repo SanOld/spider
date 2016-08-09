@@ -1,4 +1,4 @@
-spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService) {
+spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal) {
     $rootScope._m = 'financial_request';
     $scope.filter = {};
     
@@ -152,40 +152,59 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       });
     };
     
-    $scope.canEdit = function(status) {
-      if(!status) {
+    $scope.canEdit = function(row) {
+      if(!row.status) {
         return $rootScope.canEdit();
       } else {
         switch (network.user.type){
           case 't':
-            if(status != 1){
-              return false;
-            }else{
-              return true;
-            } 
+            return row.status == 1 || row.status == 2; 
           case 'p':
           case 'a':
-            if(status != 2){
-              return false;
-            }else{
-              return true;
-            } 
-          default:
-            return false;
-        }
+            return (row.status == 1 && row.status_id == 2) || (row.status == 2);
+        } 
       }
     };
     
     $scope.openEdit = function (row, modeView) {
-        grid.openEditor({
-          data: row,
-          hint: $scope._hint,
-          modeView: !!modeView,
-          controller: 'EditFinancialRequestController'
-        });
+      grid.openEditor({
+        data: row,
+        hint: $scope._hint,
+        modeView: !!modeView,
+        controller: 'EditFinancialRequestController'
+      });
     };
 
-
+//    $scope.setPaymentDate = function() {
+//      var ids = [1];
+//      if (ids.length) {
+//          var modalInstance = $uibModal.open({
+//            animation: true,
+//            templateUrl: 'setPaymentDate.html',
+//            controller: 'setPaymentDateController',
+//            size: 'custom-width-request-duration',
+//            resolve: {
+//              ids: function () {
+//                return ids;
+//              }
+//            }
+//          });
+//
+//          modalInstance.result.then(function (data) {
+//            network.post('request', { project_id: data.project_id
+//                                    , year: data.year}
+//                                    , function(result, response) {
+//                                        if(result) {
+//                                          $scope.setFilter();
+//                                          window.location = ' /request/' + response.id;
+//                                        }
+//                                      }
+//                                    );
+//          });
+//
+//        }
+//      };
+//
 });
 
 
@@ -199,7 +218,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.payment_template_id = '';
     $scope.project_id = data.project_id ? data.project_id : '';
     $scope.receipt_date = '';
-    
+    $scope.rights = {};
     
     $scope.getPaymentTemplate = function(payment_template_id){
       network.get('document_template', {id: payment_template_id}, function (result, response) {
@@ -268,23 +287,23 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.canEdit = function (){
       switch (network.user.type){
         case 't':
-          if(!$scope.isInsert && $scope.financial_request.status != 1){
-            return false;
-          }else{
-            return true;
-          } 
+          $scope.rights.print = $scope.financial_request.status == 1 || $scope.financial_request.status == 2 ? 1 : 0 ;
+          $scope.rights.receipt = 0;
+          $scope.rights.delete = $scope.financial_request.status == 1 ? 1 : 0 ;           
+          $scope.rights.fields = $scope.isInsert || $scope.financial_request.status == 1 ? 1 : 0 ;
+          break;
         case 'p':
         case 'a':
-          if(!$scope.isInsert && $scope.financial_request.status != 2){
-            return false;
-          }else{
-            return true;
-          } 
-        default:
-          return false;
-      } 
+          $scope.rights.print = 0;
+          $scope.rights.receipt = $scope.financial_request.status == 2 ? 1 : 0 ;
+          $scope.rights.delete = $scope.financial_request.status == 1 || $scope.financial_request.status == 2 ? 1 : 0 ;
+          $scope.rights.fields = $scope.isInsert || $scope.financial_request.status == 1 || $scope.financial_request.status == 2 ? 1 : 0 ;
+          break;
+      }
     };
-    
+     
+    $scope.canEdit(); 
+     
     function getProjects () {
       network.get('request', {status_id: 5}, function(result, response){
         if(result) {
@@ -378,16 +397,20 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         if(!$scope.financial_request.payment_date){
           $scope.financial_request.payment_date = "0000-00-00";
         };        
-        if(network.user.type == 'p' && $scope.financial_request.status == 2){
+        if((network.user.type == 'p' || network.user.type == 'a') && $scope.financial_request.status == 2){
           $scope.financial_request.payment_date = $scope.dateFormat($scope.financial_request.payment_date);
         };        
         $scope.financial_request.receipt_date = $scope.dateFormat($scope.receipt_date);        
         delete $scope.financial_request.status;
         $scope.financial_request.status_id = $scope.financial_request.status_id_pa = 1;        
         if ($scope.isInsert) {
+          if(network.user.type == 'p' || network.user.type == 'a'){
+            $scope.financial_request.status_id = 2;
+            $scope.financial_request.status_id_pa = 1;
+          }
           network.post('financial_request', $scope.financial_request, callback);
         } else {
-          if(network.user.type == 'p'){
+          if(network.user.type == 'p' || network.user.type == 'a'){
             $scope.financial_request.status_id = $scope.financial_request.status_id_pa = 3;
           }
           network.put('financial_request/' + data.id, $scope.financial_request, callback);
