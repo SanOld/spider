@@ -13,7 +13,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 								<h1 class="panel-title col-lg-6">Mittelabrufe</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-									<button class="btn w-lg custom-btn" ng-if="canEdit()" ng-click="openEdit()">Mittelabruf hinzufügen</button>
+									<button class="btn w-lg custom-btn" ng-click="openEdit()">Mittelabruf hinzufügen</button>
 								</div>
 							</div>
 							<div class="panel-body request-edit">

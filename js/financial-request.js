@@ -199,7 +199,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.payment_template_id = '';
     $scope.project_id = data.project_id ? data.project_id : '';
     $scope.receipt_date = '';
-    $scope.payment_date = '';
+    
     
     $scope.getPaymentTemplate = function(payment_template_id){
       network.get('document_template', {id: payment_template_id}, function (result, response) {
@@ -223,8 +223,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       };
       
       $scope.receipt_date = new Date (data.receipt_date);
-      $scope.payment_date = data.status == 2 && network.user.type == 'p' ? '' : data.payment_date ;
-      
+      if(data.payment_date){
+        $scope.payment_date = new Date (data.payment_date);
+      }
       $scope.getPaymentTemplate(data.payment_template_id);
       getPerformerUsers(data.request_id);
       
@@ -233,6 +234,12 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     }
     
     getProjects();
+    
+    $scope.setValue = function(value){
+      if(value){
+        $scope.financial_request.payment_date = value;
+      }
+    };
     
     network.get('performer', {}, function (result, response) {
       if(result) {
@@ -259,10 +266,22 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     });
     
     $scope.canEdit = function (){
-      if(!$scope.isInsert && $scope.financial_request.status != 1){
-        return false;
-      }else{
-        return true;
+      switch (network.user.type){
+        case 't':
+          if(!$scope.isInsert && $scope.financial_request.status != 1){
+            return false;
+          }else{
+            return true;
+          } 
+        case 'p':
+        case 'a':
+          if(!$scope.isInsert && $scope.financial_request.status != 2){
+            return false;
+          }else{
+            return true;
+          } 
+        default:
+          return false;
       } 
     };
     
@@ -280,7 +299,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       });
     }    
     
-    $scope.dateFormat = function(date, date_type){    
+    $scope.dateFormat = function(date){    
       var day = date.getDate();
       if(day < 10){
         day = "0" + day;
@@ -289,12 +308,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       if(month < 10){
         month = "0" + month;
       };
-      var year = date.getFullYear();
-      if(date_type == 'payment_date'){        
-        $scope.financial_request.payment_date = year + '-' + month + '-' + day;
-      }else{
-        $scope.financial_request.receipt_date = year + '-' + month + '-' + day;
-      }
+      var year = date.getFullYear(); 
+      return year + '-' + month + '-' + day;
+      
     };
     
     function getPerformerUsers (request_id){
@@ -359,53 +375,26 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
             }
             $scope.submited = false;
         };
-        if(network.user.type == 'p'){
-          $scope.financial_request.payment_date = $scope.payment_date;
-          $scope.dateFormat($scope.financial_request.payment_date, 'payment_date');
-        }else{
-          $scope.financial_request.payment_date = '000-00-00';
-        }
-        $scope.financial_request.receipt_date = $scope.receipt_date;
-        $scope.dateFormat($scope.financial_request.receipt_date, 'receipt_date');
-        if($scope.financial_request.status == 2){
-          $scope.financial_request.status_id = 3;
-          $scope.financial_request.status_id_pa = 3;
-        }
-        $scope.financial_request.status_id = 1;
-        $scope.financial_request.status_id_pa = 1;
+        if(!$scope.financial_request.payment_date){
+          $scope.financial_request.payment_date = "0000-00-00";
+        };        
+        if(network.user.type == 'p' && $scope.financial_request.status == 2){
+          $scope.financial_request.payment_date = $scope.dateFormat($scope.financial_request.payment_date);
+        };        
+        $scope.financial_request.receipt_date = $scope.dateFormat($scope.receipt_date);        
+        delete $scope.financial_request.status;
+        $scope.financial_request.status_id = $scope.financial_request.status_id_pa = 1;        
         if ($scope.isInsert) {
-            network.post('financial_request', $scope.financial_request, callback);
+          network.post('financial_request', $scope.financial_request, callback);
         } else {
-            network.put('financial_request/' + data.id, $scope.financial_request, callback);
+          if(network.user.type == 'p'){
+            $scope.financial_request.status_id = $scope.financial_request.status_id_pa = 3;
+          }
+          network.put('financial_request/' + data.id, $scope.financial_request, callback);
         }
       }
     };
-
-//    $scope.accept = function (){
-//      SweetAlert.swal({
-//          title: "Mittelabruf akzeptieren?",
-//          text: "Diese Aktion wird nicht wiederhergestellt!",
-//          type: "warning",
-//          confirmButtonText: "Ja, akzeptieren!",
-//          showCancelButton: true,
-//          cancelButtonText: "ABBRECHEN",
-//          closeOnConfirm: true
-//        }, function(isConfirm){
-//          if(isConfirm) {
-//            $scope.dateFormat($scope.financial_request.receipt_date, 'receipt_date');
-//            $scope.dateFormat($scope.financial_request.payment_date, 'payment_date');
-//            $scope.financial_request.status_id = 3;
-//            $scope.financial_request.status_id_pa = 3;
-//            network.put('financial_request/' + data.id, $scope.financial_request, function (result, response) {
-//              if (result) {
-//                $uibModalInstance.close();
-//              }
-//            });
-//          }
-//      });
-//    };
-
-
+    
     $scope.print = function (){
       SweetAlert.swal({
           title: "Sicher?",
@@ -417,6 +406,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           closeOnConfirm: true
         }, function(isConfirm){
           if(isConfirm) {
+            delete $scope.financial_request.status;
             $scope.financial_request.status_id = 4;
             $scope.financial_request.status_id_pa = 2;
             network.put('financial_request/' + data.id, $scope.financial_request, function (result, response) {
