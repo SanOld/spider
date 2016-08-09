@@ -357,7 +357,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             }else{
               $scope.is_manual = 0;  
             };        
-            $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0'; 
+            $copyScopeProject['is_manual'] = $scope.is_manual == 1 ? '1' : '0';
             network.post('project', $copyScopeProject, callback);              
         } else {
           var similar = $scope.checkIfChanged($copyScopeProject, data);
@@ -380,6 +380,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
                   closeOnConfirm: true
                 }, function(isConfirm){
                   if(isConfirm) {
+                    delete $copyScopeProject.status_id;
                     network.put('project/' + data.id, $copyScopeProject, callback);
                   }
               });
