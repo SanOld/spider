@@ -169,14 +169,6 @@ class Project extends BaseModel {
             'silent' => true,
             'system_code' => 'ERR_DUPLICATED'
         );
-      }      
-      if(safe($post,'invalid')){
-        return array(
-            'code' => '409',            
-            'result' => false,
-            'silent' => true,
-            'system_code' => 'ERR_MISSED_REQUIRED_PARAMETERS'
-        );
       }
       if($post['rate']){
         $post['rate'] = (float)str_replace(",", ".", $post['rate']);

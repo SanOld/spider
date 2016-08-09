@@ -305,21 +305,18 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         $scope.schoolError = false;
         $scope.formProjects.$setPristine();        
         var callback = function (result, response) {
-            if (result) {
-                $uibModalInstance.close();
-                $scope.submited = false;
-            }else{
-                $scope.error = getError(response);
-                $scope.submited = true;
-            }
+          if (result) {
+              $uibModalInstance.close();
+              $scope.submited = false;
+          }else{
+              $scope.error = getError(response);
+              $scope.submited = true;
+          }
         };                
         var $copyScopeProject = angular.copy($scope.project);
 //        if($scope.schoolTypeCode != 's') {
 //          $copyScopeProject.schools = [$copyScopeProject.school];
 //        }
-        if (!$scope.formProjects.$valid){
-            $copyScopeProject.invalid = true;
-        };  
         if($scope.schoolTypeCode == 'z') {
           $copyScopeProject.schools = [0];
         }
