@@ -3364,9 +3364,13 @@ label>h4{
 	width: 1095px !important;
 	z-index: 9999;
 	top: 0;
+	left:0;
 	-webkit-transition:all .3s ease 0s;
 	-ms-transition:all .3s ease 0s;
 	transition:all .3s ease 0s;
+}
+#profile .collumn-right div.form-group.animate {
+	left:-541px;
 }
 div.form-group.animate textarea {
 	height:470px !important;

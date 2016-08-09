@@ -303,7 +303,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="col-lg-6 clearfix">
+              <div class="col-lg-6 collumn-right clearfix">
                 <div class="form-group">
                   <label>Fortbildung</label>
                   <div class="holder-textarea">
