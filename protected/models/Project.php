@@ -210,6 +210,7 @@ class Project extends BaseModel {
     }
     unset($params['schools']);
     unset($params['performer_id']);
+    unset($params['district_id']);
     $row = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table) -> where('id=:id ', array(
         ':id' => $id
     )) -> queryRow();      
@@ -233,6 +234,7 @@ class Project extends BaseModel {
     unset($row['id']);
     $row['schools'] = safe($post,'schools');
     $row['performer_id'] = $post['performer_id'];
+    $row['district_id'] = $post['district_id'];
     $code = explode('/', $row['code']);
 
     $row['code'] = count($code)== 1 ? $code[0]. '/2 ' : $code[0].'/'.($code[1] + 1);
