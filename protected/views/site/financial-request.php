@@ -184,11 +184,11 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                         <td data-title="'Betrag'" sortable="'request_cost'">{{row.request_cost}} €</td>
                         <td data-title="'Zahl. -Datum'" sortable="'payment_date'">{{getDate(row.payment_date) | date: "dd.MM.yyyy" }}</td>
                         <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-                          <a ng-click="printDocuments(row)"  ng-class=" {disabled: !userCan( 'btnPrintDocument', row.status)} " class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
-                            <a ng-if="canEdit(row.status)" ng-click="openEdit(row, !canEdit(row.status))" class="btn edit-btn" title="Bearbeiten">
+                          <a ng-click="printDocuments(row)"  ng-class=" {disabled: !userCan( 'btnPrintDocument', row)} " class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
+                            <a ng-if="canEdit(row)" ng-click="openEdit(row, !canEdit(row))" class="btn edit-btn" title="Bearbeiten">
                               <i class="ion-edit"></i>
                             </a>
-                            <a ng-if="!canEdit(row.status)" ng-click="openEdit(row, !canEdit(row.status))" class="btn edit-btn" title="Aussicht">
+                            <a ng-if="!canEdit(row)" ng-click="openEdit(row, !canEdit(row))" class="btn edit-btn" title="Aussicht">
                               <i class="ion-eye"></i>
                             </a>
                         </td>
@@ -196,7 +196,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                       <tr ng-if="!$data.length"><td class="no-result" colspan="11">Keine Ergebnisse</td></tr>
 										</table>
 										<div class="btn-row m-t-15 clearfix">
-											<button class="btn m-b-5">Zahl. Datum hinzufügen</button>
+                        <button class="btn m-b-5" ng-click="setPaymentDate()">Zahl. Datum hinzufügen</button>
 											<button class="btn m-b-5" data-target="#modal-2" data-toggle="modal">Druck-Template wählen</button>
 										</div>
 									</div>
@@ -271,3 +271,48 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 			</div>
 		</div>-->
 
+<!--<script type="text/ng-template" id="setPaymentDate.html">
+  <div class="panel panel-color panel-primary">
+    <div class="modal-dialog custom-width">
+				<div class="panel panel-color panel-primary">
+					<div class="panel-heading clearfix"> 
+						<h3 class="m-0 pull-left">Druck-Template wählen</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
+					</div> 
+					<div class="panel-body text-center">
+						<h3 class="m-b-30">Vertragsvorlage für 4 Elemente auswählen</h3>
+						<div class="col-lg-12 text-left">
+							<div class="form-group">
+								<label>Document 1</label>
+								<select class="form-control">
+									<option>Document 1.doc</option>
+									<option>Document 2.doc</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Document 2</label>
+								<select class="form-control">
+									<option>Document 1.doc</option>
+									<option>Document 2.doc</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Document 3</label>
+								<select class="form-control">
+									<option>Document 1.doc</option>
+									<option>Document 2.doc</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row p-t-10 text-center">
+						<div class="form-group group-btn m-t-20">
+							<div class="col-lg-12">
+								<button class="btn w-lg cancel-btn" data-dismiss="modal">Abbrechen</button>
+								<button class="btn w-lg custom-btn" data-dismiss="modal">Speichern</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+</script>-->
