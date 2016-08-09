@@ -45,6 +45,7 @@ $this->breadcrumbs = array('Hilfetexte');
 						<tr ng-repeat="row in $data">
 							<td data-title="'Seite'" sortable="'page_name'">{{row.page_name}}</td>
 							<td data-title="'Position'" sortable="'position_name'">{{row.position_name}}</td>
+              <td data-title="'Titel'">{{row.title}}</td>
 							<td data-title="'Hilfetext'">{{row.description}}</td>
               <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
                 <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit())">
