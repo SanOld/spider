@@ -4,7 +4,8 @@ require_once ('utils/utils.php');
 class FinancialRequest extends BaseModel {
   public $table = 'spi_financial_request';
   public $post = array();
-  public $select_all = 'tbl.*,  frs.code status_code, 
+  public $select_all = 'tbl.*,  frs.code status_code,
+                                frs.id status,
                                 rte.name rate, 
                                 prj.id project_id,
                                 prj.code project_code,
@@ -37,7 +38,11 @@ class FinancialRequest extends BaseModel {
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> leftJoin ('spi_payment_type pat',               'tbl.payment_type_id = pat.id');
       $command -> join     ('spi_rate rte',                       'tbl.rate_id         = rte.id');
-      $command -> join     ('spi_financial_request_status frs',   'frs.id              = tbl.status_id');
+      if($this->user['type'] == 'p'){      
+        $command -> join   ('spi_financial_request_status frs',   'frs.id              = tbl.status_id_pa');
+      }else{
+        $command -> join   ('spi_financial_request_status frs',   'frs.id              = tbl.status_id');
+      }
       $command -> leftJoin ('spi_bank_details bnk',               'tbl.bank_account_id = bnk.id');
       $command -> leftJoin ('spi_request req',                    'tbl.request_id      = req.id');
       $command -> leftJoin ('spi_project prj',                    'req.project_id      = prj.id');

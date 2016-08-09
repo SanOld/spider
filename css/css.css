@@ -995,8 +995,11 @@ body .nav.nav-tabs + .tab-content {
 .request-edit tr.acceptable-row {
 	background: #dff0d8;
 }
-.request-edit tr.acceptable-row:hover {
-	background: #d1e9c4;
+.request-edit tr.wait-row {
+	background: #cacaca;
+}
+.request-edit tr.wait-row:hover {
+	background: #cacaca;
 }
 .notice .accept-row {
 	background: #86c7ff;

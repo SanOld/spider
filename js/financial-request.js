@@ -152,11 +152,27 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       });
     };
     
-    $scope.canEdit = function(row) {
-      if(!row) {
+    $scope.canEdit = function(status) {
+      if(!status) {
         return $rootScope.canEdit();
       } else {
-        return row != 3 && row != 6 && (network.user.type == 'a' || network.user.type == 'p' || network.user.type == 't');
+        switch (network.user.type){
+          case 't':
+            if(status != 1){
+              return false;
+            }else{
+              return true;
+            } 
+          case 'p':
+          case 'a':
+            if(status != 2){
+              return false;
+            }else{
+              return true;
+            } 
+          default:
+            return false;
+        }
       }
     };
     
@@ -203,13 +219,15 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         request_cost: data.request_cost,
         description: data.description,
         request_id: data.request_id,
+        status: data.status
       };
       
       $scope.receipt_date = new Date (data.receipt_date);
-      $scope.payment_date = new Date (data.payment_date);
+      $scope.payment_date = data.status == 2 && network.user.type == 'p' ? '' : data.payment_date ;
       
       $scope.getPaymentTemplate(data.payment_template_id);
       getPerformerUsers(data.request_id);
+      
     }else{
       $scope.receipt_date = new Date ();
     }
@@ -239,6 +257,14 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         $scope.rates = response.result;
       }
     });
+    
+    $scope.canEdit = function (){
+      if(!$scope.isInsert && $scope.financial_request.status != 1){
+        return false;
+      }else{
+        return true;
+      } 
+    };
     
     function getProjects () {
       network.get('request', {status_id: 5}, function(result, response){
@@ -341,7 +367,12 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         }
         $scope.financial_request.receipt_date = $scope.receipt_date;
         $scope.dateFormat($scope.financial_request.receipt_date, 'receipt_date');
+        if($scope.financial_request.status == 2){
+          $scope.financial_request.status_id = 3;
+          $scope.financial_request.status_id_pa = 3;
+        }
         $scope.financial_request.status_id = 1;
+        $scope.financial_request.status_id_pa = 1;
         if ($scope.isInsert) {
             network.post('financial_request', $scope.financial_request, callback);
         } else {
@@ -350,20 +381,44 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       }
     };
 
-    $scope.accept = function (){
+//    $scope.accept = function (){
+//      SweetAlert.swal({
+//          title: "Mittelabruf akzeptieren?",
+//          text: "Diese Aktion wird nicht wiederhergestellt!",
+//          type: "warning",
+//          confirmButtonText: "Ja, akzeptieren!",
+//          showCancelButton: true,
+//          cancelButtonText: "ABBRECHEN",
+//          closeOnConfirm: true
+//        }, function(isConfirm){
+//          if(isConfirm) {
+//            $scope.dateFormat($scope.financial_request.receipt_date, 'receipt_date');
+//            $scope.dateFormat($scope.financial_request.payment_date, 'payment_date');
+//            $scope.financial_request.status_id = 3;
+//            $scope.financial_request.status_id_pa = 3;
+//            network.put('financial_request/' + data.id, $scope.financial_request, function (result, response) {
+//              if (result) {
+//                $uibModalInstance.close();
+//              }
+//            });
+//          }
+//      });
+//    };
+
+
+    $scope.print = function (){
       SweetAlert.swal({
-          title: "Mittelabruf akzeptieren?",
-          text: "Diese Aktion wird nicht wiederhergestellt!",
+          title: "Sicher?",
+          text: "Mittelabruf kann nicht mehr geändert werden!",
           type: "warning",
-          confirmButtonText: "Ja, akzeptieren!",
+          confirmButtonText: "Ja, drucken!",
           showCancelButton: true,
           cancelButtonText: "ABBRECHEN",
           closeOnConfirm: true
         }, function(isConfirm){
           if(isConfirm) {
-            $scope.dateFormat($scope.financial_request.receipt_date, 'receipt_date');
-            $scope.dateFormat($scope.financial_request.payment_date, 'payment_date');
-            $scope.financial_request.status_id = 3;
+            $scope.financial_request.status_id = 4;
+            $scope.financial_request.status_id_pa = 2;
             network.put('financial_request/' + data.id, $scope.financial_request, function (result, response) {
               if (result) {
                 $uibModalInstance.close();
@@ -372,7 +427,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           }
       });
     };
-
+    
     $scope.remove = function() {
       Utils.doConfirm(function() {
         network.delete('financial_request/'+data.id, function (result) {
