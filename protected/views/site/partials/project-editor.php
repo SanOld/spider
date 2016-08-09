@@ -100,7 +100,7 @@
           <div class="col-lg-10">
             <div spi-hint text="_hint.district_id.text"  title="_hint.district_id.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}">
-              <ui-select ng-disabled="!$select.items.length || !isInsert || modeView" ng-model="project.district_id"
+              <ui-select ng-disabled="!$select.items.length || modeView || project.is_old == 1" ng-model="project.district_id"
                          name="district_id" on-select="updateSchools()" ng-required="schoolTypeCode != 'z' && schoolTypeCode != 'b'">
                 <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{project.district_id == "--Kein Bezirk--" ? project.district_id : $select.selected.name}}

@@ -326,7 +326,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           return false;
         }
         if(!$copyScopeProject.district_id){
-          delete $copyScopeProject.district_id;  
+          delete $copyScopeProject.district_id;
+          $copyScopeProject.district_id = 0;
         };
         if ($scope.isInsert) {            
             var prefix = "";
@@ -358,7 +359,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             network.post('project', $copyScopeProject, callback);              
         } else {
           var similar = $scope.checkIfChanged($copyScopeProject, data);
-          if($copyScopeProject.performer_id != data.performer_id || !similar) {          
+
+          if($copyScopeProject.district_id != data.district_id || $copyScopeProject.performer_id != data.performer_id || !similar) {
             $copyScopeProject.schools.forEach(function(item, i, arr){
               if(typeof item == 'object'){
                 $copyScopeProject.schools[i] = item.id;
