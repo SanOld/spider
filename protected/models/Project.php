@@ -170,7 +170,7 @@ class Project extends BaseModel {
             'system_code' => 'ERR_DUPLICATED'
         );
       }      
-      if($post['invalid']){
+      if(safe($post,'invalid')){
         return array(
             'code' => '409',            
             'result' => false,
