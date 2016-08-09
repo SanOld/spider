@@ -47,10 +47,7 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
   $scope.canShowElement = function(name){
     switch (name) {
       case 'filterBank':
-        if(['d','s'].indexOf(network.user.type) != -1){
-          return false;
-        }
-        if(network.user.type == 't' && network.user.is_finansist != '1'){
+        if(['d','s','t'].indexOf(network.user.type) != -1){
           return false;
         }
         return true;
