@@ -1,5 +1,5 @@
 <table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
-  <tr ng-repeat="row in $data" ng-class="{'disable': row.is_active == '0'}">
+  <tr ng-repeat="row in $data" ng-class="{'disable': row.is_active == '0', 'virtual-row': row.is_virtual == '1'} ">
     <td data-title="'Name'" sortable="'name'" ng-bind="::row.name"></td>
     <td ng-if="!page" data-title="'Benutzerrollen'" sortable="'type_name'" ng-bind="::row.type_name"></td>
     <td ng-if="!page" data-title="'Akteur'" sortable="'relation_name'" ng-bind="::row.relation_name"></td>
@@ -19,4 +19,8 @@
 <div class="notice">
   <span class="color-notice"></span>
   Nicht aktiv Benutzer
+</div>
+<div class="notice">
+  <span class="color-notice accept-row"></span>
+  Virtuelle Benutzer
 </div>

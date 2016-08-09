@@ -55,6 +55,9 @@ class User extends BaseModel {
     if (isset($params['IS_ACTIVE']) && in_array($this->user['type'], array('a','p','t'))) {
       $command -> andWhere("tbl.is_active = :is_active", array(':is_active' => $params['IS_ACTIVE']));
     }
+    if (isset($params['IS_VIRTUAL']) && in_array($this->user['type'], array('a','p','t'))) {
+      $command -> andWhere("tbl.is_virtual = :is_virtual", array(':is_virtual' => $params['IS_VIRTUAL']));
+    }
     if(!in_array($this->user['type'], array('a','p','t'))) {
       $command -> andWhere("tbl.is_active = 1");
     }

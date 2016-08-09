@@ -2,7 +2,7 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   if (!$rootScope._m) {
     $rootScope._m = 'user';
   }
-  $scope.filter = {is_active: 1};
+  $scope.filter = {is_active: 1, is_virtual: 0};
 
   if ($scope.page) {
     $scope.filter['type'] = $scope.page; // t - performer, d - district, s - school
@@ -12,6 +12,10 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   $scope.statuses = [
     {id: 1, name: 'Aktiv'},
     {id: 0, name: 'Nicht aktiv'}
+  ];
+  $scope.states = [
+    {id: 1, name: 'Virtuelle'},
+    {id: 0, name: 'Nicht virtuelle'}
   ];
 
   network.get('user_type', angular.merge({filter: 1}, $scope.filter['type'] ? {type: $scope.filter['type']} : {}), function (result, response) {
