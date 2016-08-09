@@ -44,6 +44,20 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
     return $rootScope.canEdit() || network.user.type == 'p' || (id == network.user.relation_id && network.user.type == 't');
   };
 
+  $scope.canShowElement = function(name){
+    switch (name) {
+      case 'filterBank':
+        if(['d','s'].indexOf(network.user.type) != -1){
+          return false;
+        }
+        if(network.user.type == 't' && network.user.is_finansist != '1'){
+          return false;
+        }
+        return true;
+        break;
+    }
+  }
+
   $scope.isOwn = function(id) {
     return id == network.user.relation_id;
   };
