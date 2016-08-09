@@ -34,7 +34,27 @@
 	font-weight: 400;
 	src: local('Source Sans Pro Italic'), local('SourceSansPro-It'), url(http://fonts.gstatic.com/s/sourcesanspro/v9/M2Jd71oPJhLKp0zdtTvoMxgy2Fsj5sj3EzlXpqVXRKo.woff2) format('woff2');
 }*/
+::-webkit-input-placeholder {
+	color: #202020 !important;
+	font-family: "Source Sans Pro", serif;
+}
 
+:-moz-placeholder {
+	color: #202020 !important;
+	font-family: "Source Sans Pro", serif;
+}
+
+::-moz-placeholder {
+	color: #202020 !important;
+	font-family: "Source Sans Pro", serif;
+	opacity: 1;
+	/* Since FF19 lowers the opacity of the placeholder by default */
+}
+
+:-ms-input-placeholder {
+	color: #202020 !important;
+	font-family: "Source Sans Pro", serif;
+}
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
 	font-weight:600 !important;
 }
@@ -3375,4 +3395,12 @@ label>h4{
 div.form-group.animate textarea {
 	height:470px !important;
 	z-index: 9999;
+}
+
+.select2-container .select2-choice > .select2-chosen {
+    color: #202020 !important;
+}
+.select2-container-multi .select2-choices .select2-search-field input {
+	font-size:13px;
+	color:#202020 !important;
 }
