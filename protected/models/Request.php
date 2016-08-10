@@ -489,7 +489,7 @@ class Request extends BaseModel {
       }
     }
 
-     if ($params['status_id'] == '5'){
+     if (safe($post, 'status_id') == 5 ){
 
       $Request = CActiveRecord::model('RequestLock');
       $Request->user = $this->user;
