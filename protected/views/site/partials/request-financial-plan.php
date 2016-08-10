@@ -175,12 +175,19 @@
                                   <span ng-bind-html="item.name | highlight: $select.search"></span>
                                 </ui-select-choices>
                               </ui-select>
-                        </div>
+                        </div>    
+                        <div class="m-b-15"></div>
+                        <dl class="custom-dl" ng-hide="emploee.user.sex == '3' || !emploee.user_id ">
+                          <dt>Anrede:</dt>
+                          <dd ng-show = "emploee.user.sex == '1'">Herr</dd>
+                          <dd ng-show = "emploee.user.sex == '0'">Frau</dd>
+                        </dl>
                         <span ng-class="{hide: !(dublicate['employee'] || required['employee'])}" class="hide">
                           <label ng-show="required['employee']" class="error">Füllen Sie die Daten</label>
                           <label ng-show="dublicate['employee']" class="error">Dieser Name existiert bereits</label>
-                        </span>
+                        </span>                      
                       </div>
+
                       <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canEdit()">
                         <button class="btn m-t-2 add-user" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
                       </div>             
@@ -196,7 +203,7 @@
                       <label class="col-lg-3 control-label">Entgeltgruppe<span spi-hint text="_hint.fin_plan_employee_group_id.text"  title="_hint.fin_plan_employee_group_id.title"  class="has-hint"></span></label>
                       <div class="col-lg-3">
 
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.group_id, 'Entgeltgruppe') && errorShow) }">
+                        <div  class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.group_id, 'Entgeltgruppe') && errorShow) }">
                               <ui-select required name = "{{'Entgeltgruppe'+String($index)}}" class="type-document" ng-model="emploee.group_id"  ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
                                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices repeat="item.id as item in request_financial_group | filter: $select.search | orderBy: 'name'">
@@ -204,6 +211,7 @@
                                 </ui-select-choices>
                               </ui-select>
                               <br>
+                        <ng-init  emploee.group_id = emploee.group_id || '4' >
                         </div>
                       </div>
                     </div>
@@ -278,7 +286,7 @@
                         <div class="col-lg-4">
                           
                         <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.hours_per_week, 'Arbeitsstunden pro Woche') && errorShow) }">
-                            <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  required name = "Arbeitsstunden_pro_Woche" ng-change="numValidate(emploee,'hours_per_week', 4)" class="form-control" type="text" ng-model="emploee.hours_per_week" >
+                            <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  required name = "Arbeitsstunden_pro_Woche" ng-change="numValidate(emploee,'hours_per_week', 4); maxValue(emploee,'hours_per_week', 40)" class="form-control" type="text" ng-model="emploee.hours_per_week" >
                         </div>                           
                         </div>
                         <div class="col-lg-1 p-0"><span class="symbol">Std.</span></div>
@@ -470,7 +478,7 @@
                 <!--<ng-form name="financePlanFormGroup2" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">-->
                 <div class="form-group m-b-0">
                   <label class="col-lg-2 control-label bold-label">
-                    Sonstige Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description.text"  title="_hint.fin_plan_revenue_description.title"  class="has-hint"></span>
+                    Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description.text"  title="_hint.fin_plan_revenue_description.title"  class="has-hint"></span>
                   </label>
                   <div class="col-lg-6">
 
@@ -518,7 +526,7 @@
               </div>
               <div class="col-lg-3 p-r-0 custom-col">
                 <div class="sum money-minus-ico">
-                  <strong>Sonstige Einnahmen</strong>
+                  <strong>Einnahmen</strong>
                   <span>€ {{revenue_sum||0| number:2}}</span>
                 </div>
               </div>
