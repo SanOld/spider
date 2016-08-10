@@ -424,7 +424,6 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   $scope.getData = function() {
     network.get('request', $scope.filter, function (result, response) {
       if (result) {
-        console.log(response.result);
         if(response.result.performer_homepage && !response.result.performer_homepage.match('^http[s]?')){
           response.result.performer_homepage = 'http://' + response.result.performer_homepage;
         };
@@ -924,12 +923,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     } else if(!result && index != -1) {
         $scope.errorArray.splice(index,1);
     }
-//    if(modelName != undefined){
-//      console.log('modelName '+modelName);
-//      console.log('model '+model);
-//      console.log('length '+$scope.errorArray.length);
-//      console.log($scope.errorArray);
-//    }
     return result;
  }
 
@@ -1201,6 +1194,16 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }
 
   }
+  $scope.maxValue = function(obj, key, value){
+    if(!obj[key]) {
+      obj[key] = '';
+    } else {
+      if (obj[key] > value){
+        obj[key] = value;
+      }
+    }
+
+  }
   $scope.deleteEmployee = function(idx){
       if($scope.request_users[idx].id) {
         $scope.request_users[idx].is_deleted = true;
@@ -1239,7 +1242,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }
   }
   $scope.updateIBAN = function (item){
-    // console.log(item);
     $scope.IBAN = item;
   }
   $scope.updateUserSelect = function (){
@@ -1254,6 +1256,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.employeeOnSelect = function (item, employee){
     $scope.updateUserSelect();
     employee.user = item;
+    window.console.log(employee.user);
   }
   
   RequestService.isChangedFinanceForm = function(){
@@ -1299,8 +1302,6 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   }
 
   $scope.requestSchoolConcept();
-
-console.log($scope._hint);
 
   $scope.setBestStatusByUserType = function() {
     var bestStatus = 'unfinished';
