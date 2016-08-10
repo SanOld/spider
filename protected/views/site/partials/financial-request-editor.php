@@ -130,7 +130,7 @@
                   <ui-select ng-change="updateGrid()" required on-select="updateTemplates(financial_request.payment_type_id);" 
                              ng-model="financial_request.payment_type_id"  name="payment_type" ng-disabled="!rights.fields">
                     <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                    <ui-select-choices repeat="item.id as item in paymentTypes | filter: $select.search | orderBy: 'name'">
+                    <ui-select-choices repeat="item.id as item in paymentTypes | filter: $select.search | orderBy: 'id'">
                       <span ng-bind-html="item.name | highlight: $select.search"></span>
                     </ui-select-choices>
                   </ui-select>
@@ -163,7 +163,7 @@
             <label class="col-lg-4 control-label">Rate<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></label>
             <div class="col-lg-8">
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('rate')}">
-                <ui-select required ng-model="financial_request.rate_id" name="rate" ng-disabled="!rights.fields">
+                <ui-select required ng-model="financial_request.rate_id" name="rate" ng-disabled="!selectProjectDetails || !rights.fields" on-select="countRequestCost()">
                   <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                   <ui-select-choices repeat="item.id as item in rates | filter: $select.search | orderBy: 'id'">
                     <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -179,7 +179,7 @@
           <div class="form-group">
             <label class="col-lg-4 control-label">Betrag</label>
             <div class="col-lg-7" ng-class="{'wrap-line error': fieldError('request_cost')}">
-              <input required class="form-control" type="text" ng-model="financial_request.request_cost" ng-disabled="!rights.fields" name="request_cost">
+              <input required class="form-control" type="text" ng-model="financial_request.request_cost | number:2" ng-disabled="!rights.fields" name="request_cost">
               <span ng-class="{hide: !fieldError('request_cost')}" class="hide">
                 <label class="error">Betrag erforderlich</label>
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>

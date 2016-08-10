@@ -196,8 +196,8 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                       <tr ng-if="!$data.length"><td class="no-result" colspan="11">Keine Ergebnisse</td></tr>
 										</table>
 										<div class="btn-row m-t-15 clearfix">
-                      <button class="btn m-b-5" ng-click="setPaymentDate()">Zahl. Datum hinzufügen</button>
-											<button class="btn m-b-5" ng-click="setDocumentTemplate()" data-toggle="modal">Druck-Template wählen</button>
+                      <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setPaymentDate()">Zahl. Datum hinzufügen</button>
+											<button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setDocumentTemplate()" data-toggle="modal">Druck-Template wählen</button>
 										</div>
 									</div>
 								</div>
@@ -214,62 +214,16 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 			</div>
 		</div>
 
-    <script type="text/ng-template" id="headerCheckbox.html">
-      <label class="cr-styled">
-        <input type="checkbox" ng-model="checkboxes.checked" ng-click="headerChecked(checkboxes.checked)">
-        <i class="fa"></i>
-      </label>
-    </script>
+<script type="text/ng-template" id="headerCheckbox.html">
+  <label class="cr-styled">
+    <input type="checkbox" ng-model="checkboxes.checked" ng-click="headerChecked(checkboxes.checked)">
+    <i class="fa"></i>
+  </label>
+</script>
 
-		<script type="text/ng-template" id="editTemplate.html">
-      <?php include(Yii::app()->getBasePath().'/views/site/partials/financial-request-editor.php'); ?>
-    </script>
-  
-<!--		 Letter received and correctly  
-		<div id="modal-2" class="modal fade request-alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog custom-width">
-				<div class="panel panel-color panel-primary">
-					<div class="panel-heading clearfix"> 
-						<h3 class="m-0 pull-left">Druck-Template wählen</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round "></i></button>
-					</div> 
-					<div class="panel-body text-center">
-						<h3 class="m-b-30">Vertragsvorlage für 4 Elemente auswählen</h3>
-						<div class="col-lg-12 text-left">
-							<div class="form-group">
-								<label>Document 1</label>
-								<select class="form-control">
-									<option>Document 1.doc</option>
-									<option>Document 2.doc</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label>Document 2</label>
-								<select class="form-control">
-									<option>Document 1.doc</option>
-									<option>Document 2.doc</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label>Document 3</label>
-								<select class="form-control">
-									<option>Document 1.doc</option>
-									<option>Document 2.doc</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row p-t-10 text-center">
-						<div class="form-group group-btn m-t-20">
-							<div class="col-lg-12">
-								<button class="btn w-lg cancel-btn" data-dismiss="modal">Abbrechen</button>
-								<button class="btn w-lg custom-btn" data-dismiss="modal">Speichern</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>-->
+<script type="text/ng-template" id="editTemplate.html">
+  <?php include(Yii::app()->getBasePath().'/views/site/partials/financial-request-editor.php'); ?>
+</script>
 
 <script type="text/ng-template" id="setDocumentTemplate.html">
   <div class="panel panel-color panel-primary">
@@ -278,10 +232,11 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
       <button type="button" class="close" ng-click="cancel()" aria-hidden="true"><i class="ion-close-round "></i></button>
     </div> 
     <div class="panel-body text-center">
-      <h3 class="m-b-30">Druck-Template für {{countElements}} Elemente wählen</h3>
-      <div class="col-lg-12 text-left">
-        <div class="form-group">
-          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_template')}">
+      <ng-form name="setDocumentTemplate">
+        <h3 class="m-b-30">Druck-Template für {{countElements}} Elemente wählen</h3>
+        <div class="col-lg-12 text-left">
+          <div class="form-group">
+            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_template')}">
               <ui-select required class="type-document" ng-model="request.document_template_id" name="payment_template">
                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="item.id as item in paymentTemplates | filter: $select.search | orderBy: 'name'">
@@ -293,12 +248,9 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
             </div>
-          <span ng-class="{hide: !fieldError('payment_date')}" class="hide">
-            <br>
-            <label class="error">Zahlungsdatum erforderlich</label>
-          </span>
+          </div>
         </div>
-      </div>
+      </ng-form>
     </div>
     <div class="row p-t-10 text-center">
       <div class="form-group group-btn m-t-20">
@@ -318,21 +270,23 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
       <button type="button" class="close" ng-click="cancel()" aria-hidden="true"><i class="ion-close-round "></i></button>
     </div> 
     <div class="panel-body text-center">
-      <h3 class="m-b-30">Zahlungsdatum für {{countElements}} Elemente hinzufügen</h3>
-      <div class="col-lg-12 text-left">
-        <div class="form-group">
-          <div class="input-group" ng-class="{'wrap-line error': fieldError('payment_date')}">
-            <input uib-datepicker-popup="dd.MM.yyyy" is-open="popup_payment_date.opened" datepicker-options="dateOptions"
-                   type="text" id="payment_date" ng-model="request.payment_date" required
-                   class="form-control datepicker" placeholder="Alle Daten" name="payment_date">
-            <span class="input-group-addon" ng-click="popup_payment_date.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
+      <ng-form name="setPaymentDate">
+        <h3 class="m-b-30">Zahlungsdatum für {{countElements}} Elemente hinzufügen</h3>
+        <div class="col-lg-12 text-left">
+          <div class="form-group">
+            <div class="input-group" ng-class="{'wrap-line error': fieldError('payment_date')}">
+              <input uib-datepicker-popup="dd.MM.yyyy" is-open="popup_payment_date.opened" datepicker-options="dateOptions"
+                     type="text" id="payment_date" ng-model="request.payment_date" required
+                     class="form-control datepicker" placeholder="Alle Daten" name="payment_date">
+              <span class="input-group-addon" ng-click="popup_payment_date.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+            <span ng-class="{hide: !fieldError('payment_date')}" class="hide">
+              <br>
+              <label class="error">Zahlungsdatum erforderlich</label>
+            </span>
           </div>
-          <span ng-class="{hide: !fieldError('payment_date')}" class="hide">
-            <br>
-            <label class="error">Zahlungsdatum erforderlich</label>
-          </span>
         </div>
-      </div>
+      </ng-form>
     </div>
     <div class="row p-t-10 text-center">
       <div class="form-group group-btn m-t-20">
