@@ -2310,7 +2310,7 @@ div.dataTables_length select {
 }
 .box-finance {
 	display: inline-block;
-	margin-right: 30px;
+	margin-right: 25px;
 	width: 150px;
 }
 .overview-finance .box-finance:last-child {
@@ -2942,7 +2942,7 @@ body.safari label {
     font-size: 21px;
 }
 .box-finance.box-custom-width {
-	width:190px;
+	width:220px;
 }
 .box-finance {
 	width:140px;
