@@ -47,7 +47,7 @@
                   <button class="btn m-t-2 add-user" ng-click="addNewFinanceUser()">&nbsp;</button>
                 </div>             
                 <div class="col-lg-3 p-0" ng-show="add_finance_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canEdit()">
-                  <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUser($event, new_fina_user)">&nbsp;</button>
+                  <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUser($event, new_fina_user); submitRequest();">&nbsp;</button>
                   <button class="btn m-t-2 hide-btn" ng-click="addNewFinanceUser()">&nbsp;</button>
                 </div>             
             </div>
@@ -192,7 +192,7 @@
                         <button class="btn m-t-2 add-user" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
                       </div>             
                       <div class="col-lg-3 p-0" ng-show="add_employee_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()">
-                        <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUserEmpl($event, emploee.new_user_name, $index)">&nbsp;</button>
+                        <button class="btn m-t-2 confirm-btn" ng-click="submitToAddUserEmpl($event, emploee.new_user_name, $index); submitRequest();">&nbsp;</button>
                         <button class="btn m-t-2 hide-btn" ng-click="addNewEmployeeUser($index)">&nbsp;</button>
                       </div>
                     </div>
