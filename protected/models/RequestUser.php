@@ -21,4 +21,26 @@ class RequestUser extends BaseModel {
     return $command;
   }
 
+
+   protected function doBeforeUpdate($post, $id) {
+    if(safe($post, 'other')){
+      $post['other'] = substr(safe($post, 'other'), 0, 50);
+    }
+    return array (
+        'result' => true,
+        'params' => $post,
+        'post' => $post
+    );
+  }
+
+  protected function doBeforeInsert($post) {
+    if(safe($post, 'other')){
+      $post['other'] = substr(safe($post, 'other'), 0, 50);
+    }
+    return array (
+        'result' => true,
+        'params' => $post,
+        'post' => $post
+    );
+  }
 }

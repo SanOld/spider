@@ -225,7 +225,7 @@
                     <div class="form-group clearfix">
                       <label class="col-lg-3 control-label">Sonstiges<span spi-hint text="_hint.fin_plan_employee_other.text"  title="_hint.fin_plan_employee_other.title"  class="has-hint"></span></label>
                       <div class="col-lg-9">
-                        <input ng-change="maxLength(emploee,'other', 50);" ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" class="form-control" ng-model="emploee.other" type="text" placeholder="max. 50 Zeichen">
+                        <input ng-change="maxLength(emploee,'other', 50);" maxlength="50" ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" class="form-control" ng-model="emploee.other" type="text" placeholder="max. 50 Zeichen">
                       </div>
                     </div>
                   </div>
