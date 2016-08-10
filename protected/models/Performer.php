@@ -24,16 +24,16 @@ class Performer extends BaseModel {
 
   protected function setWhereByRole($command) {
     switch($this->user['type']) {
-      case SCHOOL:
+      case 's':
         $command->join('spi_project prj', 'tbl.id = prj.performer_id');
         $command->join('spi_project_school pjs', 'prj.id = pjs.project_id');
         $command->andWhere('pjs.school_id = :school_id ', array(':school_id' => $this->user['relation_id']));
         break;
-      case DISTRICT:
+      case 'd':
         $command->join('spi_project prj', 'tbl.id = prj.performer_id');
         $command->andWhere('prj.district_id = :district_id', array(':district_id' => $this->user['relation_id']));
         break;
-      case TA:
+      case 't':
         $command->andWhere('tbl.id = :performer_id', array(':performer_id' => $this->user['relation_id']));
         break;
     }
