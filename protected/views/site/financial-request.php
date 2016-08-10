@@ -5,21 +5,23 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/financial-request.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/users.js"></script>
 
-			<div ng-controller="FinancialRequestController" ng-cloak class="wraper container-fluid finance-request">
+			<div ng-controller="FinancialRequestController" ng-cloak class="wraper container-fluid">
 				<div class="row">
 					<div class="container center-block">
 						<div class="panel panel-default">
 							<div class="panel-heading clearfix">
 								<h1 class="panel-title col-lg-6">Mittelabrufe</h1>
 								<div class="pull-right heading-box-print">
-									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
+									<a href="javascript:window.print()" title="Drucken">
+                    Drucken <i class="ion-printer"></i>
+                  </a>
 									<button class="btn w-lg custom-btn" ng-click="openEdit()">Mittelabruf hinzufügen</button>
 								</div>
 							</div>
 							<div class="panel-body request-edit">
 								<div class="row datafilter">
 									<form>
-                       <div class='clearfix'>
+                    <div class='clearfix'>
 										<div class="col-lg-2 p-r-0">
 											<div class="form-group">
 												<label>Suche nach Projekt</label>
