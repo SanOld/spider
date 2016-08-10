@@ -123,7 +123,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 									</form>
 								</div>
 								<div class="overview-finance m-t-20" ng-if="summary">
-									<h4>Zusammenfassung der Finanzen für {{summary.project_code}} ({{summary.start_date}} - {{summary.due_date}})</h4>
+									<h4>Zusammenfassung der Finanzen für {{summary.project_code}} ({{summary.start_date | date: "dd.MM.yyyy"}} - {{summary.due_date | date: "dd.MM.yyyy"}})</h4>
 									<div class="box-finance">
 										<span class="sum total">
 	                    <strong>Fördersumme</strong>
