@@ -1,4 +1,4 @@
-spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal) {
+spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal, Utils, SweetAlert) {
     $rootScope._m = 'financial_request';
     $scope.filter = {};
     
@@ -13,6 +13,16 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       checked: false,
       items: {}
     };
+    
+    function getSelectedIds() {
+      var ids = [];
+      for(var k in $scope.checkboxes.items) {
+        if($scope.checkboxes.items[k] && Utils.getRowById($scope.tableParams.data, k)) {
+          ids.push(k);
+        }
+      }
+      return ids;
+    }
     
     $scope.headerChecked = function (value) {
       angular.forEach($scope.tableParams.data, function (item) {
@@ -161,7 +171,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             return row.status == 1 || row.status == 2; 
           case 'p':
           case 'a':
-            return (row.status == 1 && row.status_id == 2) || (row.status == 2);
+            return row.status == 1 || row.status_id == 2;
         } 
       }
     };
@@ -175,36 +185,109 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       });
     };
 
-//    $scope.setPaymentDate = function() {
-//      var ids = [1];
-//      if (ids.length) {
-//          var modalInstance = $uibModal.open({
-//            animation: true,
-//            templateUrl: 'setPaymentDate.html',
-//            controller: 'setPaymentDateController',
-//            size: 'custom-width-request-duration',
-//            resolve: {
-//              ids: function () {
-//                return ids;
-//              }
-//            }
-//          });
-//
-//          modalInstance.result.then(function (data) {
-//            network.post('request', { project_id: data.project_id
-//                                    , year: data.year}
-//                                    , function(result, response) {
-//                                        if(result) {
-//                                          $scope.setFilter();
-//                                          window.location = ' /request/' + response.id;
-//                                        }
-//                                      }
-//                                    );
-//          });
-//
-//        }
-//      };
-//
+    $scope.setPaymentDate = function() {
+      var ids = getSelectedIds();
+      if (ids.length) {
+        var failCodes = [];
+        for(var i = 0; i < ids.length; i++) {
+          var row = Utils.getRowById($scope.tableParams.data, ids[i]);
+          if(row.status_code != 'in_progress') {
+            failCodes.push(row.project_code)
+          }
+        }
+        if(failCodes.length) {
+          SweetAlert.swal({
+            title: "Fehler",
+            text: "Anfragen " + failCodes.join(', ') + " können nicht aktualisiert sein",
+            type: "error",
+            confirmButtonText: "OK"
+          });
+          return false;
+        }        
+        var modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'setPaymentDate.html',
+          controller: 'SetPaymentDateController',
+          size: 'custom-width-financial-request-duration',
+          resolve: {
+            ids: function () {
+              return ids;
+            }
+          }
+        });
+        modalInstance.result.then(function (request) {
+          network.patch('financial_request', angular.extend({ids: ids}, request), function(result) {
+            if(result) {
+              grid.reload();
+              $scope.checkboxes.items = {};
+            }
+          });
+        });
+      }
+    };
+        
+    $scope.setDocumentTemplate = function() {
+      var ids = getSelectedIds();
+      var payment_type = '';
+      var failType = false;
+      if (ids.length) {
+        var failCodes = [];
+        for(var i = 0; i < ids.length; i++) {
+          var row_cur = Utils.getRowById($scope.tableParams.data, ids[i]);
+          payment_type = row_cur.payment_type_id;
+          if(i > 0){
+            var row_prv = Utils.getRowById($scope.tableParams.data, ids[i-1]);            
+            if(row_cur.payment_type_id != row_prv.payment_type_id){
+              failType = true;
+            }
+          }          
+          if(row_cur.status_code != 'open') {
+            failCodes.push(row_cur.project_code);
+          }
+        }
+        if(failCodes.length) {
+          SweetAlert.swal({
+            title: "Fehler",
+            text: "Mittelabrufe " + failCodes.join(', ') + " können nicht aktualisiert sein",
+            type: "error",
+            confirmButtonText: "OK"
+          });
+          return false;
+        }
+        if(failType) {
+          SweetAlert.swal({
+            title: "Fehler",
+            text: "Mittelabrufe den verschiedenen Beleg-Typen können nicht aktualisiert sein",
+            type: "error",
+            confirmButtonText: "OK"
+          });
+          return false;
+        }
+        var modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'setDocumentTemplate.html',
+          controller: 'SetDocumentTemplateController',
+          size: 'custom-width-financial-request-duration',
+          resolve: {
+            ids: function () {
+              return ids;
+            },
+            payment_type: function () {
+              return payment_type;
+            }
+          }
+        });
+        modalInstance.result.then(function (request) {
+          network.patch('financial_request', angular.extend({ids: ids}, request), function(result) {
+            if(result) {
+              grid.reload();
+              $scope.checkboxes.items = {};
+            }
+          });
+        });
+      }
+    };
+
 });
 
 
@@ -220,20 +303,12 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.receipt_date = '';
     $scope.rights = {};
     
-    $scope.getPaymentTemplate = function(payment_template_id){
-      network.get('document_template', {id: payment_template_id}, function (result, response) {
-        if(result) {
-          $scope.payment_template_id = payment_template_id;
-          $scope.paymentTemplates = response.result;
-        }
-      });
-    };
-    
     if(!$scope.isInsert) {
       $scope.financial_request = {
         representative_user_id: data.representative_user_id,
         bank_account_id: data.bank_account_id,
         payment_type_id: data.payment_type_id,
+        document_template_id: data.document_template_id,
         rate_id: data.rate_id,
         request_cost: data.request_cost,
         description: data.description,
@@ -245,9 +320,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       if(data.payment_date){
         $scope.payment_date = new Date (data.payment_date);
       }
-      $scope.getPaymentTemplate(data.payment_template_id);
       getPerformerUsers(data.request_id);
-      
     }else{
       $scope.receipt_date = new Date ();
     }
@@ -265,7 +338,13 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         $scope.performers = response.result;
       }
     });
-
+    
+    network.get('document_template', {}, function (result, response) {
+      if(result) {
+        $scope.paymentTemplates = response.result;
+      }
+    });
+      
     network.get('payment_type', {}, function (result, response) {
       if(result) {
         $scope.paymentTypes = response.result;
@@ -283,6 +362,14 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         $scope.rates = response.result;
       }
     });
+    
+    $scope.updateTemplates = function(payment_id){    
+      network.get('document_template', {payment_id: payment_id}, function (result, response) {
+        if(result) {
+          $scope.paymentTemplates = response.result;
+        }
+      });
+    };
     
     $scope.canEdit = function (){
       switch (network.user.type){
@@ -460,4 +547,67 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       Utils.modalClosing($scope.formFinancialRequest, $uibModalInstance);
     };
 
+});
+
+spi.controller('SetPaymentDateController', function ($scope, ids, $uibModalInstance, network) {
+  $scope.financialRequests = ids;
+  $scope.countElements = ids.length;
+  $scope.request = {
+    status_id: 3,    
+    status_id_pa: 3  
+  };
+  
+  $scope.fieldError = function(field) {
+    var form = $scope.setPaymentDate;
+    return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
+  };
+
+  $scope.dateFormat = function(date){    
+    var day = date.getDate();
+    if(day < 10){
+      day = "0" + day;
+    };
+    var month = date.getMonth() + 1;
+    if(month < 10){
+      month = "0" + month;
+    };
+    var year = date.getFullYear(); 
+    return year + '-' + month + '-' + day;
+  };
+  
+  $scope.submit = function (){
+    $scope.request.payment_date = $scope.dateFormat($scope.request.payment_date);
+    $uibModalInstance.close($scope.request);    
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+  
+});
+
+spi.controller('SetDocumentTemplateController', function ($scope, ids, payment_type, $uibModalInstance, network) {
+  $scope.financialRequests = ids;
+  $scope.countElements = ids.length;
+  $scope.request = {};
+  
+  network.get('document_template', {payment_id: payment_type}, function (result, response) {
+    if(result) {
+      $scope.paymentTemplates = response.result;
+    }
+  });
+      
+  $scope.fieldError = function(field) {
+    var form = $scope.setPaymentDate;
+    return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
+  };
+
+  $scope.submit = function (){
+    $uibModalInstance.close($scope.request);    
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+  
 });

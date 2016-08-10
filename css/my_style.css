@@ -31,6 +31,10 @@
 .modal-dialog.modal-custom-width-request-duration{
   width:700px !important;
 }
+.modal-dialog.modal-custom-width-financial-request-duration{
+  width:400px !important;
+  margin: 160px auto !important;
+}
 .modal-dialog.modal-custom-width{
   width:550px !important;
 }

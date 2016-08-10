@@ -127,7 +127,7 @@
             <label class="col-lg-4 control-label">Beleg-Typ<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></label>
             <div class="col-lg-8">
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_type')}">
-                  <ui-select ng-change="updateGrid()" required on-select="getPaymentTemplate($item.payment_template_id);" 
+                  <ui-select ng-change="updateGrid()" required on-select="updateTemplates(financial_request.payment_type_id);" 
                              ng-model="financial_request.payment_type_id"  name="payment_type" ng-disabled="!rights.fields">
                     <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in paymentTypes | filter: $select.search | orderBy: 'name'">
@@ -146,7 +146,7 @@
             <label class="col-lg-4 p-t-0 control-label">Druck Template wählen<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></label>
             <div class="col-lg-8">
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_template')}">
-                  <ui-select required class="type-document" ng-model="payment_template_id" name="payment_template" ng-disabled="!financial_request.payment_type_id || !rights.fields">
+                  <ui-select required class="type-document" ng-model="financial_request.document_template_id" name="payment_template" ng-disabled="!financial_request.payment_type_id || !rights.fields">
                     <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in paymentTemplates | filter: $select.search | orderBy: 'name'">
                       <span ng-bind-html="item.name | highlight: $select.search"></span>
