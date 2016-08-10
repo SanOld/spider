@@ -274,7 +274,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       if(failCodes.length) {
         SweetAlert.swal({
           title: "Fehler",
-          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert dein",
+          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert sein",
           type: "error",
           confirmButtonText: "OK"
         });

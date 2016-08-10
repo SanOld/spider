@@ -49,6 +49,10 @@ class DocumentTemplate extends BaseModel {
     if (isset($params['IDS'])) {
       $command -> andWhere(array('in', 'tbl.id', $params['IDS']));
     }
+    if (isset($params['PAYMENT_ID'])) {
+      $command -> join ('spi_payment_type_document_template pdoc', 'tbl.id = pdoc.document_template_id');
+      $command -> andWhere("pdoc.payment_id = :payment_id", array(':payment_id' => $params['PAYMENT_ID']));
+    }
     return $command;
   }
 

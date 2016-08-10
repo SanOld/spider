@@ -16,8 +16,7 @@ class FinancialRequest extends BaseModel {
                                 prf.name performer_name, 
                                 prf.address, req.year, 
                                 bnk.bank_name kreditor,
-                                pat.name payment_name, 
-                                pat.payment_template_id ';
+                                pat.name payment_name';
 
   protected function getCommand() {
     
@@ -38,7 +37,7 @@ class FinancialRequest extends BaseModel {
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> leftJoin ('spi_payment_type pat',               'tbl.payment_type_id = pat.id');
       $command -> join     ('spi_rate rte',                       'tbl.rate_id         = rte.id');
-      if($this->user['type'] == 'p'){      
+      if($this->user['type'] == 'p' || $this->user['type'] == 'a'){      
         $command -> join   ('spi_financial_request_status frs',   'frs.id              = tbl.status_id_pa');
       }else{
         $command -> join   ('spi_financial_request_status frs',   'frs.id              = tbl.status_id');
