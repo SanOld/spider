@@ -1,4 +1,4 @@
-spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal, Utils, SweetAlert) {
+spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal, Utils, SweetAlert, $timeout) {
     $rootScope._m = 'financial_request';
     $scope.filter = {};
     
@@ -6,12 +6,16 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     $scope.tableParams = grid('financial_request', $scope.filter);
     
     $scope.updateGrid = function() {
-        grid.reload();
+      grid.reload();
     };
     
     $scope.checkboxes = {
       checked: false,
       items: {}
+    };
+    
+    $scope.existsSelected = function() {
+      return !!getSelectedIds().length;
     };
     
     function getSelectedIds() {
@@ -36,11 +40,11 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         result = new Date(date);
       }
       return result;
-    }
+    };
     
     $scope.setFilter = function(){
        localStorageService.set('requestsFilter', $scope.filter );
-    }
+    };
   
     $scope.dateFormat = function(date, date_type){    
       var day = date.getDate();
@@ -70,42 +74,51 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       }
     });
     
-    network.get('financial_request', {list: 'project'}, function (result, response) {
-      if(result) {
-        $scope.projects = response.result;
-      }
-    });
-    
-    network.get('financial_request', {list: 'year'}, function (result, response) {
-      if(result) {
-        $scope.years = response.result;   
-        var d = new Date;    
-        $scope.filter.year = d.getFullYear();
-        if($scope.years.indexOf($scope.filter.year) == -1){
-           $scope.filter.year = $scope.years[0].year;
-           $scope.setFilter();
-           grid.reload();
-        }
-      }
-    });
-    
     network.get('payment_type', {}, function (result, response) {
       if(result) {
         $scope.paymentTypes = response.result;
       }
     }); 
-  
-    network.get('performer', {}, function (result, response) {
-        if(result) {
-            $scope.performers = response.result;
-        }
-    });
     
     network.get('financial_request_status', {}, function (result, response) {
       if (result) {
         $scope.statuses = response.result;
       }
     });
+    
+    $scope.getProjects = function(){    
+      network.get('financial_request', {list: 'project'}, function (result, response) {
+        if(result) {
+          $scope.projects = response.result;
+        }
+      });
+    };
+    $scope.getProjects();
+    
+    $scope.getYear = function(){
+      network.get('financial_request', {list: 'year'}, function (result, response) {
+        if(response.result.length) {
+          $scope.years = response.result;   
+          var d = new Date;    
+          $scope.filter.year = d.getFullYear();
+          if($scope.years.indexOf($scope.filter.year) == -1){
+             $scope.filter.year = $scope.years[0].year;
+             $scope.setFilter();
+             grid.reload();
+          }
+        }
+      });
+    };
+    $scope.getYear();
+  
+    $scope.getPerformers = function(){
+      network.get('performer', {}, function (result, response) {
+        if(result) {
+            $scope.performers = response.result;
+        }
+      });
+    };
+    $scope.getPerformers();
     
     $scope.updateSummary = function (project){
       var total_cost = project[0].total_cost.split('.');
@@ -161,6 +174,8 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         }
       });
     };
+        
+    $scope.updateProject();
     
     $scope.canEdit = function(row) {
       if(!row.status) {
@@ -182,6 +197,14 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         hint: $scope._hint,
         modeView: !!modeView,
         controller: 'EditFinancialRequestController'
+      }, function(){
+        $timeout(function(){          
+          $scope.updateProject();
+          $scope.getProjects();
+          $scope.getYear();
+          $scope.getPerformers();
+          grid.reload();
+        });
       });
     };
 
@@ -198,7 +221,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         if(failCodes.length) {
           SweetAlert.swal({
             title: "Fehler",
-            text: "Anfragen " + failCodes.join(', ') + " können nicht aktualisiert sein",
+            text: "Mittelabrufe ohne Signatur (" + failCodes.join(', ') + ") können nicht aktualisiert sein",
             type: "error",
             confirmButtonText: "OK"
           });
@@ -248,7 +271,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         if(failCodes.length) {
           SweetAlert.swal({
             title: "Fehler",
-            text: "Mittelabrufe " + failCodes.join(', ') + " können nicht aktualisiert sein",
+            text: "Mittelabrufe (" + failCodes.join(', ') + ") können nicht aktualisiert sein",
             type: "error",
             confirmButtonText: "OK"
           });
@@ -351,12 +374,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       }
     });
     
-    network.get('document_template', {id: $scope.financial_request.payment_template_id}, function (result, response) {
-      if(result) {
-        $scope.paymentTemplates = response.result;
-      }
-    });
-    
     network.get('rate', {}, function (result, response) {
       if(result) {
         $scope.rates = response.result;
@@ -367,6 +384,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       network.get('document_template', {payment_id: payment_id}, function (result, response) {
         if(result) {
           $scope.paymentTemplates = response.result;
+          if(response.result.length < 2){
+            $scope.financial_request.document_template_id = response.result[0].id;
+          }
         }
       });
     };
@@ -461,7 +481,11 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         }
       });
     }
-        
+    
+    $scope.countRequestCost = function (){
+      $scope.financial_request.request_cost = $scope.selectProjectDetails.total_cost / 6;
+    };
+    
     $scope.fieldError = function(field) {
         var form = $scope.formFinancialRequest;
         return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
@@ -598,7 +622,7 @@ spi.controller('SetDocumentTemplateController', function ($scope, ids, payment_t
   });
       
   $scope.fieldError = function(field) {
-    var form = $scope.setPaymentDate;
+    var form = $scope.setDocumentTemplate;
     return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
   };
 
