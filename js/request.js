@@ -1182,6 +1182,25 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
     }
   }
+  $scope.maxLength = function(obj, key, length){
+    length = length || 50;
+
+    
+    if(!obj[key]) {
+      obj[key] = '';
+    } else {
+        var r = new RegExp('.{' + length + '}','i');
+        var m = obj[key].match(r);
+      try{
+        if(m != null){
+          obj[key] = m[0];
+        } 
+      } catch(e) {
+        obj[key] = '';
+      }
+    }
+
+  }
   $scope.deleteEmployee = function(idx){
       if($scope.request_users[idx].id) {
         $scope.request_users[idx].is_deleted = true;
