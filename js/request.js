@@ -117,7 +117,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       });
     });
   };
-    
   $scope.cancel = function () {
     if(RequestService.isChangedProjectForm() || RequestService.isChangedFinanceForm() || RequestService.isChangedConceptForm() || RequestService.isChangedGoalsForm()){
        Utils.modalClosing($scope.form, '', '', '', '/requests');
@@ -802,7 +801,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }
   }
   
-  $scope.submitToAddUserEmpl = function(event, new_user, idx){ 
+  $scope.submitToAddUserEmpl = function(event, new_user, idx){
     $scope.dublicate['employee'] = false;
     $scope.required['employee'] = false;
     if(event.which == 13 || event.type == 'click'){
@@ -840,7 +839,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
           var callback = function (result, response) {
             if (result) { 
               $scope.getEmployeeUsers(response.id, $scope.request_users[idx], function(){
-                $scope.request_users[idx].user_id = response.id;  
+                $scope.request_users[idx].user_id = response.id;
+//                $scope.submitRequest();
               });             
               $scope.request_users[idx].new_user_name = "";               
               $scope.add_employee_user = false;             
@@ -1024,13 +1024,20 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         if(response.count == '0') {
           $scope.request_users = [{}];
         } else {
+
+          usersById=[];
+          angular.forEach($scope.users, function(val, key) {
+            usersById[val.id] = val;
+          });
+          
           angular.forEach($scope.request_users, function(val, key) {
             $scope.calculateEmployee(val);
             val.user = usersById[val.user_id];
-            $timeout(function(){
-              $scope.updateUserSelect();
-            },100)
           });
+
+          $timeout(function(){
+            $scope.updateUserSelect();
+          },100)
         }
       }
     });
