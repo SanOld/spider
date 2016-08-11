@@ -8,6 +8,24 @@
       <ng-form name="formFinancialRequest" class="form-horizontal">
         <div class="col-lg-6 row-holder-dl">
           <div class="form-group">
+            <label class="col-lg-4 control-label">Jahr</label>
+            <div class="col-lg-8">
+              <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('year')}">
+                <ui-select on-select="getProjects($item.year)" ng-model="year" name="year">
+                  <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">{{$select.selected.year}}</ui-select-match>
+                  <ui-select-choices repeat="item.year as item in years | filter: $select.search | orderBy: 'year'">
+                    <span ng-bind="item.year"></span>
+                  </ui-select-choices>
+                </ui-select>
+                <span ng-class="{hide: !fieldError('year')}" class="hide">
+                    <label class="error">Jahr erforderlich</label>
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-lg-4 control-label">Projekte</label>
             <div class="col-lg-8">
               <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
@@ -16,7 +34,7 @@
                            updateBankDetails(selectProjectDetails.performer_id, selectProjectDetails.request_id, $item);
                            updatePerformerUsers(selectProjectDetails.request_id);
                            getRequestID($item);
-                           updateRates($item);" required ng-disabled="!rights.fields"
+                           updateRates($item);" required ng-disabled="!projects || !rights.fields"
                            ng-model="project_id" name="project_code" required >
                   <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                     {{$select.selected.code}}
@@ -33,10 +51,6 @@
             </div>
           </div>
           <dl ng-show="selectProjectDetails" class="custom-dl">
-            <ng-show ng-show="selectProjectDetails.year">
-              <dt>Haushaltsjahr:</dt>
-              <dd>{{selectProjectDetails.year}}</dd>
-            </ng-show>
             <ng-show ng-show="selectProjectDetails.performer_name">
               <dt>Träger:</dt>
               <dd class="financial-request">{{selectProjectDetails.performer_name}}</dd>

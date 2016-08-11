@@ -3006,9 +3006,9 @@ body.safari label {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
-.table-requests thead tr th:nth-child(3) {
+/*.table-requests thead tr th:nth-child(3) {
 	width:200px;
-}
+}*/
 .alert-accepted {
 	border: none;
 	color: #3c763d;

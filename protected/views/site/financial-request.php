@@ -52,7 +52,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 													<label>Jahr</label>
 													<ui-select on-select="updateProject(filter.project_id, filter.year)" ng-change="updateGrid()" ng-model="filter.year">
                             <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.year}}</ui-select-match>
-                            <ui-select-choices repeat="item.year as item in years | filter: $select.search | orderBy: 'code'">
+                            <ui-select-choices repeat="item.year as item in years | filter: $select.search | orderBy: 'year'">
                               <span ng-bind="item.year"></span>
                             </ui-select-choices>
                           </ui-select>
@@ -183,7 +183,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                         <td data-title="'Kreditor'" sortable="'kreditor'">{{row.kreditor}}</td>
                         <td data-title="'Beleg Typ'" sortable="'payment_name'">{{row.payment_name}}</td>
                         <td data-title="'Beleg -Datum'" sortable="'kreditor'">{{getDate(row.receipt_date) | date: "dd.MM.yyyy"}}</td>
-                        <td data-title="'Betrag'" sortable="'request_cost'">{{row.request_cost}} €</td>
+                        <td data-title="'Betrag'" sortable="'request_cost'">{{row.request_cost | number:2 }} €</td>
                         <td data-title="'Zahl. -Datum'" sortable="'payment_date'">{{getDate(row.payment_date) | date: "dd.MM.yyyy" }}</td>
                         <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
                             <a ng-click="printDocuments(row)" ng-disabled="true" class="btn document" title="Drucken"><i class="ion-printer"></i></a>
@@ -193,7 +193,6 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                             <a ng-if="!canEdit(row)" ng-click="openEdit(row, !canEdit(row))" class="btn edit-btn" title="Ansicht">
                               <i class="ion-eye"></i>
                             </a>
-                            {{row.status}}
                         </td>
                       </tr>
                       <tr ng-if="!$data.length"><td class="no-result" colspan="11">Keine Ergebnisse</td></tr>

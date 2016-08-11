@@ -351,6 +351,23 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.financialRequests = [];
     $scope.request_id = data.id;
     
+    $scope.getProjects = function (year) {
+      if($scope.isInsert){
+        delete $scope.project_id;
+      }      
+      network.get('request', {status_id: 5,'year' : year, 'no_rate': 0}, function(result, response){
+        if(result) {
+          $scope.projects = response.result;
+          for (var i = 0; i < response.result.length; i++) {
+            if (response.result[i].project_id == $scope.project_id) {
+              $scope.selectProjectDetails = response.result[i];
+            }
+          };
+          $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.projects, data.request_id));
+        }
+      });
+    };
+    
     if(!$scope.isInsert) {
       $scope.financial_request = {
         representative_user_id: data.representative_user_id,
@@ -363,22 +380,28 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         request_id: data.request_id,
         status: data.status
       };
-      
+      $scope.year = data.year;
       $scope.receipt_date = new Date (data.receipt_date);
       if(data.payment_date){
         $scope.payment_date = new Date (data.payment_date);
       }
       getPerformerUsers(data.request_id);
+      $scope.getProjects(data.year);
     }else{
       $scope.receipt_date = new Date ();
-    }    
-    getProjects();
+    };
     
     $scope.setValue = function(value){
       if(value){
         $scope.financial_request.payment_date = value;
       }
     };
+    
+    network.get('financial_request', {list: 'year'}, function (result, response) {
+      if(response.result.length) {
+        $scope.years = response.result; 
+      }
+    });
     
     network.get('performer', {}, function (result, response) {
       if(result) {
@@ -406,20 +429,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         }
       });         
     }; 
-     
-    function getProjects () {
-      network.get('request', {status_id: 5}, function(result, response){
-        if(result) {
-          $scope.projects = response.result;
-          for (var i = 0; i < response.result.length; i++) {
-            if (response.result[i].project_id == $scope.project_id) {
-              $scope.selectProjectDetails = response.result[i];
-            }
-          };
-          $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.projects, data.request_id));
-        }
-      });
-    };    
     
     $scope.countRequestCost = function (payment_id){
       if(payment_id != 1){
@@ -567,7 +576,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           if(network.user.type == 'p' || network.user.type == 'a'){
             $scope.financial_request.status_id = 2;
             $scope.financial_request.status_id_pa = 1;
-          }
+          };
+          if($scope.financial_request.rate_id == 6){
+            $scope.financial_request.no_rate = 1;
+          };
           network.post('financial_request', $scope.financial_request, callback);
         } else {
           if(network.user.type == 'p' || network.user.type == 'a'){

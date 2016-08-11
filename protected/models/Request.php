@@ -117,6 +117,10 @@ class Request extends BaseModel {
     if(safe($params, 'PROJECT_ID')) {
       $command -> andWhere('prj.id = :project_id', array(':project_id' => $params['PROJECT_ID']));
     }
+    if(safe($params, 'NO_RATE')) {
+      $command -> leftJoin('spi_financial_request frq', 'frq.request_id = tbl.id');
+      $command -> andWhere('frq.no_rate = :no_rate', array(':no_rate' => $params['NO_RATE']));
+    }
     if(safe($params, 'STATUS_ID')) {
       if(!is_int($params['STATUS_ID'])) {
         $values = explode(',', $params['STATUS_ID']);
