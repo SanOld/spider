@@ -357,8 +357,6 @@ class Request extends BaseModel {
       }
 
     }
-
-
     return $result;
   }
 
@@ -751,6 +749,23 @@ class Request extends BaseModel {
       }
       response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'copy');
     }
+  }
+  public function massCreate ($post){
+     if(safe($post, 'project_ids')) {
+
+      $project_ids = !is_array($post['project_ids']) ? array($post['project_ids']) : $post['project_ids'];
+      $year = safe($post, 'year');
+
+      unset($post['project_ids']);
+      unset($post['year']);
+
+       foreach($project_ids as $project_id) {
+         $value['year'] = $year;
+         $value['project_id'] = $project_id;
+         $insertResult = $this->insert($value, true);
+       }
+     }
+     response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'created');
   }
 
   protected function copyData($table, $model,$oldId, $newId){

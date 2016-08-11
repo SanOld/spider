@@ -16,6 +16,7 @@ $this->breadcrumbs = array('Projekte');
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 						<button class="btn w-lg custom-btn" ng-if="canEdit() && canByType(['a'])" ng-click="openEdit()">Projekt hinzufügen</button>
+            <button <?php $this->demo();?> ng-disabled="!existsSelected()" ng-if="canByType(['a'])" ng-click="addRequest()" class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body edit-project">
@@ -117,4 +118,54 @@ $this->breadcrumbs = array('Projekte');
 
 <script type="text/ng-template" id="editProjectTemplate.html">
   <?php include(Yii::app()->getBasePath().'/views/site/partials/project-editor.php'); ?>
+</script>
+
+<script type="text/ng-template" id="createRequest.html">
+  <div class="panel panel-color panel-primary">
+    <div class="panel-heading clearfix">
+      <h3 class="m-0 pull-left">Anfrage hinzufügen</h3>
+      <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
+    </div>
+
+    <div class="panel-body text-center">
+      <h3 class="m-b-30">Geben Sie die Jahr für die {{::countElements}} Elemente auswählen</h3>
+      <ng-form name="copyRequest">
+      <div class="col-lg-12 text-left">
+        <div class="form-group">
+          <label>Jahr</label>
+          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('year')}">
+            <div class="input-group">
+              <input required type="text" ng-change="search($select.search, 'year')" ng-click="dp_year_date_is_open = !dp_year_date_is_open" ng-model="year" uib-datepicker-popup="yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_year_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" name="year" >
+              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="dp_year_date_is_open = !dp_year_date_is_open"></i></span>
+            </div>
+            <span ng-class="{hide: !fieldError('year')}" class="hide">
+              <label ng-show="copyRequest.year.$error.required" class="error">Jahr erforderlich</label>
+              <span class="glyphicon glyphicon-remove form-control-feedback" style="right: 38px;"></span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Kennziffer</label>
+          <li class="list-group-item">{{::selectedElements}}</li>
+        </div>
+      </div>
+      </ng-form>
+    </div>
+
+    <div class="row p-t-10 text-center">
+      <div class="form-group group-btn m-t-20">
+        <div class="col-lg-12">
+          <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+          <button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="headerCheckbox.html">
+  <label class="cr-styled">
+    <input type="checkbox" ng-model="checkboxes.checked" ng-click="headerChecked(checkboxes.checked)">
+    <i class="fa"></i>
+  </label>
 </script>

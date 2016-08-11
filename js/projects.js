@@ -1,8 +1,30 @@
-spi.controller('ProjectController', function($scope, $rootScope, network, GridService) {
+spi.controller('ProjectController', function($scope, $rootScope, network, GridService, $uibModal, Utils, SweetAlert) {
     if(!$rootScope._m) {
         $rootScope._m = 'project';
     }
     $scope.filter = {};
+    $scope.checkboxes = {
+      checked: false,
+      items: {}
+    };
+    $scope.headerChecked = function (value) {
+      angular.forEach($scope.tableParams.data, function (item) {
+        $scope.checkboxes.items[item.id] = value;
+      });
+    };
+    $scope.existsSelected = function() {
+      return !!getSelectedIds().length;
+    };
+    function getSelectedIds() {
+      var ids = [];
+      for(var k in $scope.checkboxes.items) {
+        if($scope.checkboxes.items[k] && Utils.getRowById($scope.tableParams.data, k)) {
+          ids.push(k);
+        }
+      }
+      return ids;
+    }
+
     
     function getProjects() {
       network.get('project', {}, function (result, response) {
@@ -61,6 +83,72 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
           controller: 'ProjectEditController',
           template: 'editProjectTemplate.html'
         });
+    };
+
+    $scope.addRequest = function() {
+        var ids = getSelectedIds();
+        if (ids.length) {
+
+          var selectedCodes = [];
+          var selectedProjectIds = [];
+          for(var i=0; i<ids.length; i++) {
+            var row = Utils.getRowById($scope.tableParams.data, ids[i]);
+            selectedCodes.push(row.code);
+            selectedProjectIds.push(row.id)
+          }
+
+          var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'createRequest.html',
+            controller: 'ModalRequestCreateController',
+            size: 'custom-width-request-duration',
+            resolve: {
+              ids: function () {
+                return ids;
+              },
+              selectedCodes: function () {
+                return selectedCodes;
+              }
+            }
+          });
+
+
+      modalInstance.result.then(function (data) {
+
+        //TO DO - проверка на существование проекта
+
+        network.get('request', {project_ids: selectedProjectIds.join(','), year: data.year}, function(result, response) {
+          if(result && response.result.length>0) {
+            var failCodes = [];
+            for(var row in response.result){
+              failCodes.push(response.result[row]['code']);
+            }
+
+            SweetAlert.swal({
+              title: "Fehler",
+              text: "Anfragen "+failCodes.join(', ')+" können nicht kreieren sein \n"
+                   +"Dieses Projekt ist bereits vorhanden",
+              type: "error",
+              confirmButtonText: "OK"
+            });
+
+          } else {
+
+            network.post('request', {project_ids: ids, massCreate: true, year: data.year}, function(result) {
+              if(result) {
+                grid.reload();
+              }
+            });
+
+          }
+        });
+
+
+
+
+      });
+
+      }
     };
 
 });
@@ -451,3 +539,39 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 });
 
 
+spi.controller('ModalRequestCreateController', function ($scope, $uibModalInstance, ids, selectedCodes) {
+  var d = new Date();
+  $scope.year = new Date(d.setFullYear(d.getFullYear() + 1));
+  $scope.countElements = ids.length;
+  if (selectedCodes.length > 0) {
+    $scope.selectedElements = selectedCodes.join(', ');
+  }
+
+
+  $scope.dateOptions = {
+    datepickerMode: 'year',
+    minMode: 'year',
+    yearRows: 1,
+    yearColumns: 5,
+    minDate:  new Date()//(Default: null) - Defines the minimum available date. Requires a Javascript Date object.
+  };
+
+  $scope.fieldError = function(field) {
+      var form = $scope.copyRequest;
+      return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
+  };
+
+  $scope.ok = function () {
+    $scope.copyRequest.$setPristine();
+    if ($scope.copyRequest.$valid) {
+
+      $uibModalInstance.close({year:  $scope.year.getFullYear()});
+      $uibModalInstance.dismiss('cancel');
+    }
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+});

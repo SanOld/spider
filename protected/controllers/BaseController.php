@@ -124,6 +124,8 @@ class BaseController extends Controller {
             }
           } elseif($_GET['model'] == 'request' && isset($_POST['copy']) ){
             $this -> model ->copy($_POST);
+          } elseif($_GET['model'] == 'request' && isset($_POST['massCreate']) ){
+            $this -> model ->massCreate($_POST);
           }else {
             $this -> model ->insert($_POST);
           }
