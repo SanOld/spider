@@ -36,7 +36,7 @@ class FinancialRequest extends BaseModel {
     }else{   
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> leftJoin ('spi_payment_type pat',               'tbl.payment_type_id = pat.id');
-      $command -> join     ('spi_rate rte',                       'tbl.rate_id         = rte.id');
+      $command -> leftJoin ('spi_rate rte',                       'tbl.rate_id         = rte.id');
       if($this->user['type'] == 'p' || $this->user['type'] == 'a'){      
         $command -> join   ('spi_financial_request_status frs',   'frs.id              = tbl.status_id_pa');
       }else{
@@ -72,11 +72,18 @@ class FinancialRequest extends BaseModel {
     if(safe($params, 'PERFORMER_ID')) {
       $command -> andWhere('prj.performer_id = :performer_id', array(':performer_id' => $params['PERFORMER_ID']));
     }
+    if(safe($params, 'PAYMENT_TYPE_ID')) {
+      $command -> andWhere('tbl.payment_type_id = :payment_type_id', array(':payment_type_id' => $params['PAYMENT_TYPE_ID']));
+    }
     if(safe($params, 'RECEIPT_DATE')) {
       $command->andWhere('tbl.receipt_date LIKE "'.safe($params, 'RECEIPT_DATE').'%" ');
     }
     if(safe($params, 'PAYMENT_DATE')) {
       $command->andWhere('tbl.payment_date LIKE "'.safe($params, 'PAYMENT_DATE').'%" ');
+    }
+    if(safe($params, 'REQUEST_ID')) {
+      $command -> andWhere('tbl.request_id = :request_id', array(':request_id' => $params['REQUEST_ID']));
+      $command -> order('tbl.rate_id');
     }
     $command = $this->setWhereByRole($command);
     

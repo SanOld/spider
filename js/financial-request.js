@@ -1,7 +1,7 @@
 spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal, Utils, SweetAlert, $timeout) {
     $rootScope._m = 'financial_request';
     $scope.filter = {};
-    
+    $rootScope.printed = 0;
     var grid = GridService();
     $scope.tableParams = grid('financial_request', $scope.filter);
     
@@ -186,7 +186,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             return row.status == 1 || row.status == 2; 
           case 'p':
           case 'a':
-            return row.status == 1 || row.status_id == 2;
+            return row.status == 1 || row.status_id_pa == 2;
         } 
       }
     };
@@ -203,7 +203,6 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
           $scope.getProjects();
           $scope.getYear();
           $scope.getPerformers();
-          grid.reload();
         });
       });
     };
@@ -310,6 +309,30 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         });
       }
     };
+    
+    $scope.printDocuments = function(row) {
+      network.get('document_template', {id: row.document_template_id}, function (result, response) {
+        if(result) {
+          SweetAlert.swal({
+            title: "Sicher?",
+            text: "Mittelabruf kann nicht mehr geändert werden!",
+            type: "warning",
+            confirmButtonText: "Ja, drucken!",
+            showCancelButton: true,
+            cancelButtonText: "ABBRECHEN",
+            closeOnConfirm: true
+            }, function(isConfirm){
+              if(isConfirm) {
+                if (result) {
+                  $rootScope.printed = 1;
+                  $uibModal.close(response.result[0], $rootScope.printed);                    
+                }
+              }
+          });
+          $rootScope.printed = 0;
+        }
+      });
+    };
 
 });
 
@@ -325,6 +348,8 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.project_id = data.project_id ? data.project_id : '';
     $scope.receipt_date = '';
     $scope.rights = {};
+    $scope.financialRequests = [];
+    $scope.request_id = data.id;
     
     if(!$scope.isInsert) {
       $scope.financial_request = {
@@ -346,8 +371,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       getPerformerUsers(data.request_id);
     }else{
       $scope.receipt_date = new Date ();
-    }
-    
+    }    
     getProjects();
     
     $scope.setValue = function(value){
@@ -374,11 +398,52 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       }
     });
     
-    network.get('rate', {}, function (result, response) {
-      if(result) {
-        $scope.rates = response.result;
-      }
-    });
+    function getPerformerUsers (request_id){
+      network.get('user', {type: 't', relation_id: request_id}, function (result, response) {
+        if (result) {
+          $scope.performerUsers = response.result;
+          $scope.selectRepresentativeUser = Utils.getRowById(response.result, $scope.financial_request.representative_user_id);            
+        }
+      });         
+    }; 
+     
+    function getProjects () {
+      network.get('request', {status_id: 5}, function(result, response){
+        if(result) {
+          $scope.projects = response.result;
+          for (var i = 0; i < response.result.length; i++) {
+            if (response.result[i].project_id == $scope.project_id) {
+              $scope.selectProjectDetails = response.result[i];
+            }
+          };
+          $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.projects, data.request_id));
+        }
+      });
+    };    
+    
+    $scope.countRequestCost = function (payment_id){
+      if(payment_id != 1){
+        delete $scope.financial_request.request_cost;
+      }else{
+        $scope.financial_request.request_cost =  $scope.request_cost = ($scope.selectProjectDetails.total_cost / 6).toFixed(2);
+      }      
+    };
+    
+    $scope.updateRates = function (item) {
+      var last_rate_id = 0;
+      network.get('financial_request', {request_id: item.id, payment_type_id: 1}, function (result, response) {
+        if(response.result.length) {
+          $scope.financialRequests = response.result;
+          last_rate_id = response.result[response.result.length - 1].rate_id; 
+        }
+        network.get('rate', {'last_rate_id': last_rate_id}, function (result, response) {
+          if(result) {
+            $scope.rates = response.result;
+            $scope.financial_request.rate_id = response.result[0].id;
+          }
+        });
+      });
+    };
     
     $scope.updateTemplates = function(payment_id){    
       network.get('document_template', {payment_id: payment_id}, function (result, response) {
@@ -410,20 +475,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     };
      
     $scope.canEdit(); 
-     
-    function getProjects () {
-      network.get('request', {status_id: 5}, function(result, response){
-        if(result) {
-          $scope.projects = response.result;
-          for (var i = 0; i < response.result.length; i++) {
-            if (response.result[i].project_id == $scope.project_id) {
-              $scope.selectProjectDetails = response.result[i];
-            }
-          };
-          $scope.updateBankDetails(data.performer_id, data.request_id);
-        }
-      });
-    }    
     
     $scope.dateFormat = function(date){    
       var day = date.getDate();
@@ -437,15 +488,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       var year = date.getFullYear(); 
       return year + '-' + month + '-' + day;
       
-    };
-    
-    function getPerformerUsers (request_id){
-      network.get('user', {type: 't', relation_id: request_id}, function (result, response) {
-        if (result) {
-          $scope.performerUsers = response.result;
-          $scope.selectRepresentativeUser = Utils.getRowById(response.result, $scope.financial_request.representative_user_id);            
-        }
-      });         
     };
     
     $scope.updatePerformerUsers = function (request_id){
@@ -467,23 +509,25 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       $scope.IBAN = item;
     }
     
-    $scope.updateBankDetails = function(performer_id, request_id){
+    $scope.updateBankDetails = function(performer_id, request_id, request){
       network.get('bank_details', {performer_id: performer_id, request_id: request_id}, function (result, response) {
         if (result) {
           $scope.bank_details = response.result;
+          var bank_account_id = '';
+          if(!$scope.financialRequests.length){  
+            bank_account_id = request.bank_details_id;
+          }else{
+            bank_account_id = $scope.financialRequests[$scope.financialRequests.length - 1].bank_account_id;
+          };
           angular.forEach($scope.bank_details, function(val, key) {
-            if(val.id == $scope.financial_request.bank_account_id) {
+            if(val.id == bank_account_id) {
+              $scope.financial_request.bank_account_id = bank_account_id;
               $scope.updateIBAN(val);
               return false;
             }
           });
-
         }
       });
-    }
-    
-    $scope.countRequestCost = function (){
-      $scope.financial_request.request_cost = $scope.selectProjectDetails.total_cost / 6;
     };
     
     $scope.fieldError = function(field) {
@@ -501,7 +545,12 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       if ($scope.formFinancialRequest.$valid) {
         var callback = function (result, response) {
             if (result) {
-              $uibModalInstance.close();
+              if(network.user.type != 't'){
+                $uibModalInstance.close();
+              }else{
+                $scope.request_id = response.id;
+                $scope.rights.print = 1;
+              }
             }
             $scope.submited = false;
         };
@@ -543,7 +592,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
             delete $scope.financial_request.status;
             $scope.financial_request.status_id = 4;
             $scope.financial_request.status_id_pa = 2;
-            network.put('financial_request/' + data.id, $scope.financial_request, function (result, response) {
+            network.put('financial_request/' + $scope.request_id, $scope.financial_request, function (result, response) {
               if (result) {
                 $uibModalInstance.close();
               }
