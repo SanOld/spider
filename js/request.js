@@ -802,6 +802,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   }
   
   $scope.submitToAddUserEmpl = function(event, new_user, idx){
+    $scope.collapsingUser = idx;
     $scope.dublicate['employee'] = false;
     $scope.required['employee'] = false;
     if(event.which == 13 || event.type == 'click'){
@@ -840,8 +841,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             if (result) { 
               $scope.getEmployeeUsers(response.id, $scope.request_users[idx], function(){
                 $scope.request_users[idx].user_id = response.id;
-                $scope.submitRequest();
-              });             
+              });
+              $scope.submitForm($scope.data.status_finance);
               $scope.request_users[idx].new_user_name = "";               
               $scope.add_employee_user = false;             
               $scope.userLoading = false;
@@ -927,6 +928,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
  }
 
   $scope.submitForm = function(status) {
+
     if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
     var data = {};
     switch (status) {
@@ -1035,9 +1037,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             val.user = usersById[val.user_id];
           });
 
+        
           $timeout(function(){
             $scope.updateUserSelect();
           },100)
+        
+
         }
       }
     });

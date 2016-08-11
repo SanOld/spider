@@ -131,7 +131,7 @@
               <button class="no-btn" title="Entfernen" ng-click="deleteEmployee($index)" ng-show="undelitetdCount(request_users) > 1 && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canFormEdit">
                 <i class="ion-close-round"></i>
               </button>
-              <a class="collapsed" href="#account{{$index}}" data-parent="#accordion-account" data-toggle="collapse">
+              <a  ng-class = "{'collapsed': collapsingUser != $index}" href="#account{{$index}}" data-parent="#accordion-account" data-toggle="collapse">
                 <strong>{{emploee.user.name || 'ALLES ANZEIGEN'}}
                 </strong>
                 <span class="sum">
@@ -148,7 +148,7 @@
                 </span>
               </a>
             </div>
-            <div class="panel-collapse collapse" id="account{{$index}}">
+            <div class="panel-collapse collapse" ng-class = "{'in': collapsingUser == $index}" id="account{{$index}}">
               <div class="panel-body">
                 <div class="row m-b-30">
                   <label class="col-lg-2 control-label">Umlage 1<span spi-hint text="_hint.fin_plan_employee_is_umlage.text"  title="_hint.fin_plan_employee_is_umlage.title"  class="has-hint"></span></label>
