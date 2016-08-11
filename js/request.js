@@ -840,7 +840,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             if (result) { 
               $scope.getEmployeeUsers(response.id, $scope.request_users[idx], function(){
                 $scope.request_users[idx].user_id = response.id;
-//                $scope.submitRequest();
+                $scope.submitRequest();
               });             
               $scope.request_users[idx].new_user_name = "";               
               $scope.add_employee_user = false;             
