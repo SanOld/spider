@@ -352,9 +352,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.request_id = data.id;
     
     $scope.getProjects = function (year) {
-      if($scope.isInsert){
-        delete $scope.project_id;
-      }      
       network.get('request', {status_id: 5,'year' : year, 'no_rate': 0}, function(result, response){
         if(result) {
           $scope.projects = response.result;
@@ -366,6 +363,8 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.projects, data.request_id));
         }
       });
+      delete $scope.project_id;
+      delete $scope.selectProjectDetails;
     };
     
     $scope.updateRates = function (item) {
@@ -421,9 +420,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       }
     });
         
-    network.get('financial_request', {list: 'year'}, function (result, response) {
-      if(response.result.length) {
-        $scope.years = response.result; 
+    network.get('request', {status_id: 5, group: 1}, function(result, response){
+      if(result) {
+        $scope.years = response.result;
       }
     });
     
