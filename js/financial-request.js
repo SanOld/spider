@@ -368,6 +368,23 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       });
     };
     
+    $scope.updateRates = function (item) {
+      var last_rate_id = 0;
+      network.get('financial_request', {request_id: item.id, payment_type_id: 1}, function (result, response) {
+        if(response.result.length) {
+          $scope.financialRequests = response.result;
+          last_rate_id = response.result[response.result.length - 1].rate_id; 
+        }
+        network.get('rate', {'last_rate_id': last_rate_id}, function (result, response) {
+          if(result) {
+            $scope.rates = response.result;
+            $scope.financial_request.rate_id = response.result[0].id;
+          }
+        });
+      });
+    };
+    
+    
     if(!$scope.isInsert) {
       $scope.financial_request = {
         representative_user_id: data.representative_user_id,
@@ -387,6 +404,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       }
       getPerformerUsers(data.request_id);
       $scope.getProjects(data.year);
+      $scope.updateRates(data.request_id);
     }else{
       $scope.receipt_date = new Date ();
     };
@@ -397,6 +415,12 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       }
     };
     
+    network.get('rate', {}, function (result, response) {
+      if(result) {
+        $scope.rates = response.result;
+      }
+    });
+        
     network.get('financial_request', {list: 'year'}, function (result, response) {
       if(response.result.length) {
         $scope.years = response.result; 
@@ -436,22 +460,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       }else{
         $scope.financial_request.request_cost =  $scope.request_cost = ($scope.selectProjectDetails.total_cost / 6).toFixed(2);
       }      
-    };
-    
-    $scope.updateRates = function (item) {
-      var last_rate_id = 0;
-      network.get('financial_request', {request_id: item.id, payment_type_id: 1}, function (result, response) {
-        if(response.result.length) {
-          $scope.financialRequests = response.result;
-          last_rate_id = response.result[response.result.length - 1].rate_id; 
-        }
-        network.get('rate', {'last_rate_id': last_rate_id}, function (result, response) {
-          if(result) {
-            $scope.rates = response.result;
-            $scope.financial_request.rate_id = response.result[0].id;
-          }
-        });
-      });
     };
     
     $scope.updateTemplates = function(payment_id){    
@@ -566,7 +574,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         if(!$scope.financial_request.payment_date){
           $scope.financial_request.payment_date = "0000-00-00";
         };        
-        if((network.user.type == 'p' || network.user.type == 'a') && $scope.financial_request.status == 2){
+        if((network.user.type == 'p' || network.user.type == 'a') && $scope.financial_request.payment_date != "0000-00-00"){
           $scope.financial_request.payment_date = $scope.dateFormat($scope.financial_request.payment_date);
         };        
         $scope.financial_request.receipt_date = $scope.dateFormat($scope.receipt_date);        
@@ -582,7 +590,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           };
           network.post('financial_request', $scope.financial_request, callback);
         } else {
-          if(network.user.type == 'p' || network.user.type == 'a'){
+          if((network.user.type == 'p' || network.user.type == 'a') && $scope.financial_request.payment_date != "0000-00-00"){
             $scope.financial_request.status_id = $scope.financial_request.status_id_pa = 3;
           }
           network.put('financial_request/' + data.id, $scope.financial_request, callback);
