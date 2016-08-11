@@ -352,6 +352,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.request_id = data.id;
     
     $scope.getProjects = function (year) {
+      if($scope.isInsert){
+        delete $scope.project_id;
+        delete $scope.selectProjectDetails;
+      };
       network.get('request', {status_id: 5,'year' : year, 'no_rate': 0}, function(result, response){
         if(result) {
           $scope.projects = response.result;
@@ -363,8 +367,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.projects, data.request_id));
         }
       });
-      delete $scope.project_id;
-      delete $scope.selectProjectDetails;
     };
     
     $scope.updateRates = function (item) {
