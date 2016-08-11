@@ -3393,3 +3393,7 @@ div.form-group.animate textarea {
 tr.virtual-row {
 	background: #dbf1fc;
 }
+
+.margin-textarea{
+      margin-left: 134px;  
+}

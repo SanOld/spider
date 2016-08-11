@@ -186,13 +186,14 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                         <td data-title="'Betrag'" sortable="'request_cost'">{{row.request_cost}} €</td>
                         <td data-title="'Zahl. -Datum'" sortable="'payment_date'">{{getDate(row.payment_date) | date: "dd.MM.yyyy" }}</td>
                         <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-                          <a ng-click="printDocuments(row)"  ng-class=" {disabled: !userCan( 'btnPrintDocument', row)} " class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
+                            <a ng-click="printDocuments(row)" ng-disabled="true" class="btn document" title="Drucken"><i class="ion-printer"></i></a>
                             <a ng-if="canEdit(row)" ng-click="openEdit(row, !canEdit(row))" class="btn edit-btn" title="Bearbeiten">
                               <i class="ion-edit"></i>
                             </a>
-                            <a ng-if="!canEdit(row)" ng-click="openEdit(row, !canEdit(row))" class="btn edit-btn" title="Aussicht">
+                            <a ng-if="!canEdit(row)" ng-click="openEdit(row, !canEdit(row))" class="btn edit-btn" title="Ansicht">
                               <i class="ion-eye"></i>
                             </a>
+                            {{row.status}}
                         </td>
                       </tr>
                       <tr ng-if="!$data.length"><td class="no-result" colspan="11">Keine Ergebnisse</td></tr>

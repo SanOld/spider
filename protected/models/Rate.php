@@ -11,4 +11,15 @@ class Rate extends BaseModel {
     $command -> where(' 1=1 ', array());
     return $command;
   }
+  
+  protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
+    $params = array_change_key_case($params, CASE_UPPER);
+    if(safe($params, 'LAST_RATE_ID')) {
+      $command -> andWhere('tbl.id = :last_rate_id + 1', array(':last_rate_id' => $params['LAST_RATE_ID']));
+    }
+    $command = $this->setWhereByRole($command);
+    
+    return $command;
+  }
 }
