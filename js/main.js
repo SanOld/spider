@@ -1,7 +1,8 @@
 spi.controller('main', function ($scope, $rootScope, $location, network, GridService, localStorageService, $timeout, HintService, RequestService) {
   $scope._r = localStorageService.get('rights');
   $scope.request_code = '';
-  $rootScope.emailFormat = /^[a-zA-Z0-9._\-]+@[a-z0-9\-]+\.[a-z.]{2,5}$/;
+//  $rootScope.emailFormat = /^[a-zA-Z0-9._\-]+@[a-z0-9\-]+\.[a-z.]{2,5}$/;
+  $rootScope.emailFormat = /^[^@]+@[^@]+\.[a-z]{2,5}$/;
   
   RequestService.setRequestCode = function(code){
     $scope.request_code = code;
