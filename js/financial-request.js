@@ -2,6 +2,8 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     $rootScope._m = 'financial_request';
     $scope.filter = {};
     $rootScope.printed = 0;
+    $scope.user = network.user;
+    
     var grid = GridService();
     $scope.tableParams = grid('financial_request', $scope.filter);
     
@@ -341,30 +343,28 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.modeView = modeView;
-    $scope.financial_request = {};
+    $scope.financialRequest = {};
     $scope.user = network.user;
     $scope.IBAN = {};
-    $scope.payment_template_id = '';
-    $scope.project_id = data.project_id ? data.project_id : '';
-    $scope.receipt_date = '';
+    $scope.receiptDate = '';
     $scope.rights = {};
     $scope.financialRequests = [];
-    $scope.request_id = data.id;
+    $scope.financialRequestId = data.id;
     
     $scope.getProjects = function (year) {
       if($scope.isInsert){
-        delete $scope.project_id;
+        delete $scope.financialRequest.request_id;
         delete $scope.selectProjectDetails;
       };
       network.get('request', {status_id: 5,'year' : year, 'no_rate': 0}, function(result, response){
         if(result) {
-          $scope.projects = response.result;
+          $scope.requests = response.result;          
           for (var i = 0; i < response.result.length; i++) {
-            if (response.result[i].project_id == $scope.project_id) {
+            if (response.result[i].project_id == data.project_id) {
               $scope.selectProjectDetails = response.result[i];
             }
           };
-          $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.projects, data.request_id));
+          $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.requests, data.request_id));
         }
       });
     };
@@ -379,7 +379,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         network.get('rate', {'last_rate_id': last_rate_id}, function (result, response) {
           if(result) {
             $scope.rates = response.result;
-            $scope.financial_request.rate_id = response.result[0].id;
+            $scope.financialRequest.rate_id = response.result[0].id;
           }
         });
       });
@@ -387,7 +387,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     
     
     if(!$scope.isInsert) {
-      $scope.financial_request = {
+      $scope.financialRequest = {
         representative_user_id: data.representative_user_id,
         bank_account_id: data.bank_account_id,
         payment_type_id: data.payment_type_id,
@@ -399,20 +399,20 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         status: data.status
       };
       $scope.year = data.year;
-      $scope.receipt_date = new Date (data.receipt_date);
+      $scope.receiptDate = new Date (data.receipt_date);
       if(data.payment_date){
-        $scope.payment_date = new Date (data.payment_date);
+        $scope.paymentDate = new Date (data.payment_date);
       }
       getPerformerUsers(data.request_id);
       $scope.getProjects(data.year);
       $scope.updateRates(data.request_id);
     }else{
-      $scope.receipt_date = new Date ();
+      $scope.receiptDate = new Date ();
     };
     
     $scope.setValue = function(value){
       if(value){
-        $scope.financial_request.payment_date = value;
+        $scope.financialRequest.payment_date = value;
       }
     };
     
@@ -450,16 +450,16 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       network.get('user', {type: 't', relation_id: request_id}, function (result, response) {
         if (result) {
           $scope.performerUsers = response.result;
-          $scope.selectRepresentativeUser = Utils.getRowById(response.result, $scope.financial_request.representative_user_id);            
+          $scope.selectRepresentativeUser = Utils.getRowById(response.result, $scope.financialRequest.representative_user_id);            
         }
       });         
     }; 
     
     $scope.countRequestCost = function (payment_id){
       if(payment_id != 1){
-        delete $scope.financial_request.request_cost;
+        delete $scope.financialRequest.request_cost;
       }else{
-        $scope.financial_request.request_cost =  $scope.request_cost = ($scope.selectProjectDetails.total_cost / 6).toFixed(2);
+        $scope.financialRequest.request_cost =  $scope.request_cost = ($scope.selectProjectDetails.total_cost / 6).toFixed(2);
       }      
     };
     
@@ -468,7 +468,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         if(result) {
           $scope.paymentTemplates = response.result;
           if(response.result.length < 2){
-            $scope.financial_request.document_template_id = response.result[0].id;
+            $scope.financialRequest.document_template_id = response.result[0].id;
           }
         }
       });
@@ -477,17 +477,17 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.canEdit = function (){
       switch (network.user.type){
         case 't':
-          $scope.rights.print = $scope.financial_request.status == 1 || $scope.financial_request.status == 2 ? 1 : 0 ;
+          $scope.rights.print = $scope.financialRequest.status == 1 || $scope.financialRequest.status == 2 ? 1 : 0 ;
           $scope.rights.receipt = 0;
-          $scope.rights.delete = $scope.financial_request.status == 1 ? 1 : 0 ;           
-          $scope.rights.fields = $scope.isInsert || $scope.financial_request.status == 1 ? 1 : 0 ;
+          $scope.rights.delete = $scope.financialRequest.status == 1 ? 1 : 0 ;           
+          $scope.rights.fields = $scope.isInsert || $scope.financialRequest.status == 1 ? 1 : 0 ;
           break;
         case 'p':
         case 'a':
           $scope.rights.print = 0;
-          $scope.rights.receipt = $scope.financial_request.status == 2 ? 1 : 0 ;
-          $scope.rights.delete = $scope.financial_request.status == 1 || $scope.financial_request.status == 2 ? 1 : 0 ;
-          $scope.rights.fields = $scope.isInsert || $scope.financial_request.status == 1 || $scope.financial_request.status == 2 ? 1 : 0 ;
+          $scope.rights.receipt = $scope.financialRequest.status == 2 ? 1 : 0 ;
+          $scope.rights.delete = $scope.financialRequest.status == 1 || $scope.financialRequest.status == 2 ? 1 : 0 ;
+          $scope.rights.fields = $scope.isInsert || $scope.financialRequest.status == 1 || $scope.financialRequest.status == 2 ? 1 : 0 ;
           break;
       }
     };
@@ -509,7 +509,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     };
     
     $scope.updatePerformerUsers = function (request_id){
-      delete $scope.financial_request.representative_user_id;
+      delete $scope.financialRequest.representative_user_id;
       getPerformerUsers(request_id);
     };
     
@@ -520,7 +520,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.onSelectProject = function (item, model, type){
       $scope.selectProjectDetails = item;
       delete $scope.IBAN;
-      delete $scope.financial_request.bank_account_id;
+      delete $scope.financialRequest.bank_account_id;
     };
     
     $scope.updateIBAN = function (item){
@@ -539,7 +539,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           };
           angular.forEach($scope.bank_details, function(val, key) {
             if(val.id == bank_account_id) {
-              $scope.financial_request.bank_account_id = bank_account_id;
+              $scope.financialRequest.bank_account_id = bank_account_id;
               $scope.updateIBAN(val);
               return false;
             }
@@ -553,10 +553,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
     };
     
-    $scope.getRequestID = function (item){
-      $scope.financial_request.request_id = item.id;
-    };
-    
     $scope.submitFormFinancialRequest = function () {
       $scope.submited = true;
       $scope.formFinancialRequest.$setPristine();
@@ -566,35 +562,35 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
               if(network.user.type != 't'){
                 $uibModalInstance.close();
               }else{
-                $scope.request_id = response.id;
+                $scope.financialRequestId = response.id;
                 $scope.rights.print = 1;
               }
             }
             $scope.submited = false;
         };
-        if(!$scope.financial_request.payment_date){
-          $scope.financial_request.payment_date = "0000-00-00";
+        if(!$scope.financialRequest.payment_date){
+          $scope.financialRequest.payment_date = "0000-00-00";
         };        
-        if((network.user.type == 'p' || network.user.type == 'a') && $scope.financial_request.payment_date != "0000-00-00"){
-          $scope.financial_request.payment_date = $scope.dateFormat($scope.financial_request.payment_date);
+        if((network.user.type == 'p' || network.user.type == 'a') && $scope.financialRequest.payment_date != "0000-00-00"){
+          $scope.financialRequest.payment_date = $scope.dateFormat($scope.financialRequest.payment_date);
         };        
-        $scope.financial_request.receipt_date = $scope.dateFormat($scope.receipt_date);        
-        delete $scope.financial_request.status;
-        $scope.financial_request.status_id = $scope.financial_request.status_id_pa = 1;        
-        if ($scope.isInsert) {
+        $scope.financialRequest.receipt_date = $scope.dateFormat($scope.receiptDate);        
+        delete $scope.financialRequest.status;
+        $scope.financialRequest.status_id = $scope.financialRequest.status_id_pa = 1;        
+        if($scope.isInsert) {
           if(network.user.type == 'p' || network.user.type == 'a'){
-            $scope.financial_request.status_id = 2;
-            $scope.financial_request.status_id_pa = 1;
+            $scope.financialRequest.status_id = 2;
+            $scope.financialRequest.status_id_pa = 1;
           };
-          if($scope.financial_request.rate_id == 6){
-            $scope.financial_request.no_rate = 1;
+          if($scope.financialRequest.rate_id == 6){
+            $scope.financialRequest.no_rate = 1;
           };
-          network.post('financial_request', $scope.financial_request, callback);
+          network.post('financial_request', $scope.financialRequest, callback);
         } else {
-          if((network.user.type == 'p' || network.user.type == 'a') && $scope.financial_request.payment_date != "0000-00-00"){
-            $scope.financial_request.status_id = $scope.financial_request.status_id_pa = 3;
+          if((network.user.type == 'p' || network.user.type == 'a') && $scope.financialRequest.payment_date != "0000-00-00"){
+            $scope.financialRequest.status_id = $scope.financialRequest.status_id_pa = 3;
           }
-          network.put('financial_request/' + data.id, $scope.financial_request, callback);
+          network.put('financial_request/' + data.id, $scope.financialRequest, callback);
         }
       }
     };
@@ -610,10 +606,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           closeOnConfirm: true
         }, function(isConfirm){
           if(isConfirm) {
-            delete $scope.financial_request.status;
-            $scope.financial_request.status_id = 4;
-            $scope.financial_request.status_id_pa = 2;
-            network.put('financial_request/' + $scope.request_id, $scope.financial_request, function (result, response) {
+            delete $scope.financialRequest.status;
+            $scope.financialRequest.status_id = 4;
+            $scope.financialRequest.status_id_pa = 2;
+            network.put('financial_request/' + $scope.financialRequestId, $scope.financialRequest, function (result, response) {
               if (result) {
                 $uibModalInstance.close();
               }
