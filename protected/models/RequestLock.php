@@ -211,7 +211,7 @@ class RequestLock extends BaseModel {
             $row['user_id'] = $row['id'];
             $row['request_id'] = $this->request_id ;
             unset($row['id']);
-            if(isset($row['login']) && $row['login'] == null){
+            if(!isset($row['login']) && $row['login'] == null){
               $row['login'] = '';
             }
             $UserLock->insert($row, true);
