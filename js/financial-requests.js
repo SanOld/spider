@@ -25,10 +25,10 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       for(var k in $scope.checkboxes.items) {
         if($scope.checkboxes.items[k] && Utils.getRowById($scope.tableParams.data, k)) {
           ids.push(k);
-        }
-      }
+        };
+      };
       return ids;
-    }
+    };
     
     $scope.headerChecked = function (value) {
       angular.forEach($scope.tableParams.data, function (item) {
@@ -40,7 +40,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       var result = '';
       if(date != '0000-00-00'){
         result = new Date(date);
-      }
+      };
       return result;
     };
     
@@ -62,53 +62,55 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         $scope.filter.payment_date = year + '-' + month + '-' + day;
       }else{
         $scope.filter.receipt_date = year + '-' + month + '-' + day;
-      }
+      };
     };
     
     $scope.resetFilter = function() {
-        $scope.filter = grid.resetFilter();
-        delete $scope.project;
+      $scope.filter = grid.resetFilter();
+      delete $scope.project;
     };
     
     network.get('project_type', {}, function (result, response) {
       if(result) {
         $scope.projectTypes = response.result;
-      }
+      };
     });
     
     network.get('payment_type', {}, function (result, response) {
       if(result) {
         $scope.paymentTypes = response.result;
-      }
+      };
     }); 
     
     network.get('financial_request_status', {}, function (result, response) {
       if (result) {
         $scope.statuses = response.result;
-      }
+      };
     });
     
     $scope.getProjects = function(){    
       network.get('financial_request', {list: 'project'}, function (result, response) {
         if(result) {
           $scope.projects = response.result;
-        }
+        };
       });
     };
     $scope.getProjects();
     
-    $scope.getYear = function(){
+    $scope.getYear = function(value){
       network.get('financial_request', {list: 'year'}, function (result, response) {
         if(response.result.length) {
-          $scope.years = response.result;   
-          var d = new Date;    
-          $scope.filter.year = d.getFullYear();
-          if($scope.years.indexOf($scope.filter.year) == -1){
-             $scope.filter.year = $scope.years[0].year;
-             $scope.setFilter();
-             grid.reload();
+          $scope.years = response.result;
+          if(value != 'reload'){
+            var d = new Date;    
+            $scope.filter.year = d.getFullYear();
+            if($scope.years.indexOf($scope.filter.year) == -1){
+              $scope.filter.year = $scope.years[0].year;
+              $scope.setFilter();
+              grid.reload();
+            };
           }
-        }
+        };
       });
     };
     $scope.getYear();
@@ -116,8 +118,8 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     $scope.getPerformers = function(){
       network.get('performer', {}, function (result, response) {
         if(result) {
-            $scope.performers = response.result;
-        }
+          $scope.performers = response.result;
+        };
       });
     };
     $scope.getPerformers();
@@ -141,15 +143,15 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         }else{          
           if(project[i].payment_type_id == 2){
             $scope.summary['changes'] -= Number(project[i].request_cost);
-          }
+          };
           if(project[i].payment_type_id == 3){
             $scope.summary['changes'] += Number(project[i].request_cost);
-          }
+          };
 //          if(project[i].payment_type_id == 1){
 //            $scope.summary['spending'] += Number(project[i].request_cost);
 //          }
-        }
-      }
+        };
+      };
       $scope.summary['actual'] = Number($scope.summary['total_cost']) + Number($scope.summary['changes']);
       $scope.summary['remained'] = Number($scope.summary['actual']) - Number($scope.summary['payed']);
       return $scope.summary;
@@ -167,13 +169,13 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             for(var item = 1; item < response.result.length; item++){
               if(response.result[item].project_id != response.result[item - 1].project_id){
                 result = false;
-              }
-            }
+              };
+            };
             if(result){
               $scope.project = $scope.updateSummary(response.result);
-            }
-          }
-        }
+            };
+          };
+        };
       });
     };
         
@@ -189,8 +191,8 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
           case 'p':
           case 'a':
             return row.status == 1 || row.status_id_pa == 2;
-        } 
-      }
+        };
+      };
     };
     
     $scope.openEdit = function (row, modeView) {
@@ -200,11 +202,12 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         modeView: !!modeView,
         controller: 'EditFinancialRequestController'
       }, function(){
-        $timeout(function(){          
+        $timeout(function(){      
           $scope.updateProject();
           $scope.getProjects();
-          $scope.getYear();
+          $scope.getYear('reload');
           $scope.getPerformers();
+          grid.reload();
         });
       });
     };
@@ -217,8 +220,8 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
           var row = Utils.getRowById($scope.tableParams.data, ids[i]);
           if(row.status_code != 'in_progress') {
             failCodes.push(row.project_code)
-          }
-        }
+          };
+        };
         if(failCodes.length) {
           SweetAlert.swal({
             title: "Fehler",
@@ -227,7 +230,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             confirmButtonText: "OK"
           });
           return false;
-        }        
+        };       
         var modalInstance = $uibModal.open({
           animation: true,
           templateUrl: 'setPaymentDate.html',
@@ -244,10 +247,10 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             if(result) {
               grid.reload();
               $scope.checkboxes.items = {};
-            }
+            };
           });
         });
-      }
+      };
     };
         
     $scope.setDocumentTemplate = function() {
@@ -263,12 +266,12 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             var row_prv = Utils.getRowById($scope.tableParams.data, ids[i-1]);            
             if(row_cur.payment_type_id != row_prv.payment_type_id){
               failType = true;
-            }
-          }          
+            };
+          };         
           if(row_cur.status_code != 'open') {
             failCodes.push(row_cur.project_code);
-          }
-        }
+          };
+        };
         if(failCodes.length) {
           SweetAlert.swal({
             title: "Fehler",
@@ -277,7 +280,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             confirmButtonText: "OK"
           });
           return false;
-        }
+        };
         if(failType) {
           SweetAlert.swal({
             title: "Fehler",
@@ -286,7 +289,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             confirmButtonText: "OK"
           });
           return false;
-        }
+        };
         var modalInstance = $uibModal.open({
           animation: true,
           templateUrl: 'setDocumentTemplate.html',
@@ -306,30 +309,50 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             if(result) {
               grid.reload();
               $scope.checkboxes.items = {};
-            }
+            };
           });
         });
-      }
+      };
     };
-    
+  
     $scope.printDocuments = function(row) {
-      network.get('document_template', {id: row.document_template_id}, function (result, response) {
-        if(result) {
-          
-          
-          var modalInstance = $uibModal.open({
-            animation: false,
-            templateUrl: 'printDocuments.html',
-            controller: 'PrintDocumentTemplatesController',
-            size: 'width-full',
-            resolve: {
-              document: function () {
-                return response.result[0];
-              }
-            }
+      var request = {
+        id: row.id
+      };
+      SweetAlert.swal({
+        title: "Sicher?",
+        text: "Mittelabruf kann nicht mehr geändert werden!",
+        type: "warning",
+        confirmButtonText: "Ja, drucken!",
+        showCancelButton: true,
+        cancelButtonText: "ABBRECHEN",
+        closeOnConfirm: true
+      }, function(isConfirm){
+        $timeout(function(){
+          network.get('document_template', {id: row.document_template_id}, function (result, response) {
+            if(result) {
+              var modalInstance = $uibModal.open({
+                animation: false,
+                templateUrl: 'printDocuments.html',
+                controller: 'PrintDocumentTemplatesController',
+                size: 'width-full',
+                resolve: {
+                  document: function () {
+                    return response.result[0];
+                  }
+                }
+              });
+              modalInstance.result.then(function () {
+                request.status_id = 4;
+                request.status_id_pa = 2;
+                network.put('financial_request/' + request.id, request, function (result, response) {
+                  grid.reload();
+                });
+              });
+            };
           });
-        };
-      });
+        });
+      });     
     };
 
 });
@@ -357,7 +380,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           for (var i = 0; i < response.result.length; i++) {
             if (response.result[i].project_id == data.project_id) {
               $scope.selectProjectDetails = response.result[i];
-            }
+            };
           };
           $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.requests, data.request_id));          
         };
@@ -370,14 +393,14 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         if(response.result.length) {
           $scope.financialRequests = response.result;
           last_rate_id = response.result[response.result.length - 1].rate_id; 
-        }
+        };
         network.get('rate', {'last_rate_id': last_rate_id}, function (result, response) {
           if(response.result.length) {
             $scope.rates = response.result;
             $scope.financialRequest.rate_id = response.result[0].id;
           }else{
             delete $scope.paymentTypes[0];
-          }
+          };
         });
       });
     };
@@ -399,7 +422,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       $scope.receiptDate = new Date (data.receipt_date);
       if(data.payment_date){
         $scope.paymentDate = new Date (data.payment_date);
-      }
+      };
       getPerformerUsers(data.request_id);
       $scope.getProjects(data.year);
       $scope.updateRates(data.request_id);
@@ -410,37 +433,37 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.setValue = function(value){
       if(value){
         $scope.financialRequest.payment_date = value;
-      }
+      };
     };
     
     network.get('rate', {}, function (result, response) {
       if(result) {
         $scope.rates = response.result;
-      }
+      };
     });
         
     network.get('request', {status_id: 5, group: 1}, function(result, response){
       if(result) {
         $scope.years = response.result;
-      }
+      };
     });
     
     network.get('performer', {}, function (result, response) {
       if(result) {
         $scope.performers = response.result;
-      }
+      };
     });
     
     network.get('document_template', {}, function (result, response) {
       if(result) {
         $scope.paymentTemplates = response.result;
-      }
+      };
     });
       
     network.get('payment_type', {}, function (result, response) {
       if(result) {
         $scope.paymentTypes = response.result;
-      }
+      };
     });
     
     function getPerformerUsers (request_id){
@@ -448,7 +471,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         if (result) {
           $scope.performerUsers = response.result;
           $scope.selectRepresentativeUser = Utils.getRowById(response.result, $scope.financialRequest.representative_user_id);            
-        }
+        };
       });         
     }; 
     
@@ -457,7 +480,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         delete $scope.financialRequest.request_cost;
       }else{
         $scope.financialRequest.request_cost =  $scope.request_cost = ($scope.selectProjectDetails.total_cost / 6).toFixed(2);
-      }      
+      };   
     };
     
     $scope.updateTemplates = function(payment_id){    
@@ -466,8 +489,8 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.paymentTemplates = response.result;
           if(response.result.length < 2){
             $scope.financialRequest.document_template_id = response.result[0].id;
-          }
-        }
+          };
+        };
       });
     };
     
@@ -478,6 +501,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.rights.receipt = 0;
           $scope.rights.delete = $scope.financialRequest.status == 1 ? 1 : 0 ;           
           $scope.rights.fields = $scope.isInsert || $scope.financialRequest.status == 1 ? 1 : 0 ;
+          $scope.rights.save = $scope.isInsert || $scope.financialRequest.status == 1 ? 1 : 0 ;
           break;
         case 'p':
         case 'a':
@@ -487,7 +511,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.rights.fields = $scope.isInsert || $scope.financialRequest.status == 1 ? 1 : 0 ;
           $scope.rights.save = $scope.isInsert || $scope.financialRequest.status == 1 || $scope.financialRequest.status == 2 ? 1 : 0 ;
           break;
-      }
+      };
     };
      
     $scope.canEdit(); 
@@ -503,7 +527,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       };
       var year = date.getFullYear(); 
       return year + '-' + month + '-' + day;
-      
     };
     
     $scope.updatePerformerUsers = function (request_id){
@@ -523,26 +546,26 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     
     $scope.updateIBAN = function (item){
       $scope.IBAN = item;
-    }
+    };
     
     $scope.updateBankDetails = function(performer_id, request_id, request){
       network.get('bank_details', {performer_id: performer_id, request_id: request_id}, function (result, response) {
         if (result) {
           $scope.bank_details = response.result;
-            var bank_account_id = '';
-            if(!$scope.financialRequests.length){  
-              bank_account_id = request.bank_details_id;
-            }else{
-              bank_account_id = $scope.financialRequests[$scope.financialRequests.length - 1].bank_account_id;
+          var bank_account_id = '';
+          if(!$scope.financialRequests.length){  
+            bank_account_id = request.bank_details_id;
+          }else{
+            bank_account_id = $scope.financialRequests[$scope.financialRequests.length - 1].bank_account_id;
+          };
+          angular.forEach($scope.bank_details, function(val, key) {
+            if(val.id == bank_account_id) {
+              $scope.financialRequest.bank_account_id = bank_account_id;
+              $scope.updateIBAN(val);
+              return false;
             };
-            angular.forEach($scope.bank_details, function(val, key) {
-              if(val.id == bank_account_id) {
-                $scope.financialRequest.bank_account_id = bank_account_id;
-                $scope.updateIBAN(val);
-                return false;
-              }
-            }); 
-        }
+          }); 
+        };
       });
     };
     
@@ -556,15 +579,15 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       $scope.formFinancialRequest.$setPristine();
       if ($scope.formFinancialRequest.$valid) {
         var callback = function (result, response) {
-            if (result) {
-              if(network.user.type != 't'){
-                $uibModalInstance.close();
-              }else{
-                $scope.financialRequestId = response.id;
-                $scope.rights.print = 1;
-              }
-            }
-            $scope.submited = false;
+          if (result) {
+            if(network.user.type != 't'){
+              $uibModalInstance.close();
+            }else{
+              $scope.financialRequestId = response.id;
+              $scope.rights.print = 1;
+            };
+          };
+          $scope.submited = false;
         };
         if(!$scope.financialRequest.payment_date){
           $scope.financialRequest.payment_date = "0000-00-00";
@@ -590,10 +613,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         } else {
           if((network.user.type == 'p' || network.user.type == 'a') && $scope.financialRequest.payment_date != "0000-00-00"){
             $scope.financialRequest.status_id = $scope.financialRequest.status_id_pa = 3;
-          }
+          };
           network.put('financial_request/' + data.id, $scope.financialRequest, callback);
-        }
-      }
+        };
+      };
     };
     
     $scope.print = function (){
@@ -639,10 +662,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.remove = function() {
       Utils.doConfirm(function() {
         network.delete('financial_request/'+data.id, function (result) {
-            if(result) {
-              Utils.deleteSuccess();
-              $uibModalInstance.close();
-            }
+          if(result) {
+            Utils.deleteSuccess();
+            $uibModalInstance.close();
+          };
         });
       });
     };
@@ -702,7 +725,7 @@ spi.controller('SetDocumentTemplateController', function ($scope, ids, payment_t
   network.get('document_template', {payment_id: payment_type}, function (result, response) {
     if(result) {
       $scope.paymentTemplates = response.result;
-    }
+    };
   });
       
   $scope.fieldError = function(field) {
@@ -729,9 +752,9 @@ spi.controller('PrintDocumentTemplatesController', function ($scope, document,  
    
   $rootScope.printed = 1;
   $timeout(function() {
-      window.print();
-      $rootScope.printed = 0;
-      $uibModalInstance.close();
+    window.print();
+    $rootScope.printed = 0;
+    $uibModalInstance.close();
   });
   
   $scope.trustAsHtml = function(string) {
