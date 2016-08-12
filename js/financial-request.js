@@ -150,8 +150,8 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
 //          }
         }
       }
-      $scope.summary['actual'] = $scope.summary['total_cost'] + $scope.summary['changes'];
-      $scope.summary['remained'] = $scope.summary['actual'] - $scope.summary['payed'];
+      $scope.summary['actual'] = Number($scope.summary['total_cost']) + Number($scope.summary['changes']);
+      $scope.summary['remained'] = Number($scope.summary['actual']) - Number($scope.summary['payed']);
       return $scope.summary;
     };
     
