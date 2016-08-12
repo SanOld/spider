@@ -145,12 +145,11 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
           if(project[i].payment_type_id == 3){
             $scope.summary['changes'] += Number(project[i].request_cost);
           }
-          if(project[i].payment_type_id == 1){
-            $scope.summary['spending'] += Number(project[i].request_cost);
-          }
-        }
+//          if(project[i].payment_type_id == 1){
+//            $scope.summary['spending'] += Number(project[i].request_cost);
+//          }
       }
-      $scope.summary['actual'] = $scope.summary['total_cost'] - $scope.summary['changes'];
+      $scope.summary['actual'] = $scope.summary['total_cost'] + $scope.summary['changes'];
       $scope.summary['remained'] = $scope.summary['actual'] - $scope.summary['payed'];
       return $scope.summary;
     };
@@ -487,7 +486,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.rights.print = 0;
           $scope.rights.receipt = $scope.financialRequest.status == 2 ? 1 : 0 ;
           $scope.rights.delete = $scope.financialRequest.status == 1 || $scope.financialRequest.status == 2 ? 1 : 0 ;
-          $scope.rights.fields = $scope.isInsert || $scope.financialRequest.status == 1 || $scope.financialRequest.status == 2 ? 1 : 0 ;
+          $scope.rights.fields = $scope.isInsert || $scope.financialRequest.status == 1 ? 1 : 0 ;
           break;
       }
     };
