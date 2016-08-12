@@ -315,30 +315,26 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     $scope.printDocuments = function(row) {
       network.get('document_template', {id: row.document_template_id}, function (result, response) {
         if(result) {
-          SweetAlert.swal({
-            title: "Sicher?",
-            text: "Mittelabruf kann nicht mehr geändert werden!",
-            type: "warning",
-            confirmButtonText: "Ja, drucken!",
-            showCancelButton: true,
-            cancelButtonText: "ABBRECHEN",
-            closeOnConfirm: true
-            }, function(isConfirm){
-              if(isConfirm) {
-                if (result) {
-                  $rootScope.printed = 1;
-                  $uibModal.close(response.result[0], $rootScope.printed);                    
-                }
+          
+          
+          var modalInstance = $uibModal.open({
+            animation: false,
+            templateUrl: 'printDocuments.html',
+            controller: 'PrintDocumentTemplatesController',
+            size: 'width-full',
+            resolve: {
+              document: function () {
+                return response.result[0];
               }
+            }
           });
-          $rootScope.printed = 0;
-        }
+        };
       });
     };
 
 });
 
-spi.controller('EditFinancialRequestController', function ($scope, modeView, $uibModalInstance, data, network, hint, Utils, SweetAlert) {
+spi.controller('EditFinancialRequestController', function ($scope, modeView, $uibModalInstance, data, network, hint, Utils, SweetAlert, $uibModal, $timeout) {
     $scope.isInsert = !data.id;
     $scope._hint = hint;
     $scope.modeView = modeView;
@@ -363,8 +359,8 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
               $scope.selectProjectDetails = response.result[i];
             }
           };
-          $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.requests, data.request_id));
-        }
+          $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.requests, data.request_id));          
+        };
       });
     };
     
@@ -478,7 +474,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.canEdit = function (){
       switch (network.user.type){
         case 't':
-          $scope.rights.print = $scope.financialRequest.status == 1 || $scope.financialRequest.status == 2 ? 1 : 0 ;
+          $scope.rights.print = $scope.financialRequest.status == 1 || $scope.financialRequest.status == 4 || $scope.financialRequest.status == 2 ? 1 : 0 ;
           $scope.rights.receipt = 0;
           $scope.rights.delete = $scope.financialRequest.status == 1 ? 1 : 0 ;           
           $scope.rights.fields = $scope.isInsert || $scope.financialRequest.status == 1 ? 1 : 0 ;
@@ -489,6 +485,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.rights.receipt = $scope.financialRequest.status == 2 ? 1 : 0 ;
           $scope.rights.delete = $scope.financialRequest.status == 1 || $scope.financialRequest.status == 2 ? 1 : 0 ;
           $scope.rights.fields = $scope.isInsert || $scope.financialRequest.status == 1 ? 1 : 0 ;
+          $scope.rights.save = $scope.isInsert || $scope.financialRequest.status == 1 || $scope.financialRequest.status == 2 ? 1 : 0 ;
           break;
       }
     };
@@ -532,19 +529,19 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       network.get('bank_details', {performer_id: performer_id, request_id: request_id}, function (result, response) {
         if (result) {
           $scope.bank_details = response.result;
-          var bank_account_id = '';
-          if(!$scope.financialRequests.length){  
-            bank_account_id = request.bank_details_id;
-          }else{
-            bank_account_id = $scope.financialRequests[$scope.financialRequests.length - 1].bank_account_id;
-          };
-          angular.forEach($scope.bank_details, function(val, key) {
-            if(val.id == bank_account_id) {
-              $scope.financialRequest.bank_account_id = bank_account_id;
-              $scope.updateIBAN(val);
-              return false;
-            }
-          });
+            var bank_account_id = '';
+            if(!$scope.financialRequests.length){  
+              bank_account_id = request.bank_details_id;
+            }else{
+              bank_account_id = $scope.financialRequests[$scope.financialRequests.length - 1].bank_account_id;
+            };
+            angular.forEach($scope.bank_details, function(val, key) {
+              if(val.id == bank_account_id) {
+                $scope.financialRequest.bank_account_id = bank_account_id;
+                $scope.updateIBAN(val);
+                return false;
+              }
+            }); 
         }
       });
     };
@@ -601,24 +598,41 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     
     $scope.print = function (){
       SweetAlert.swal({
-          title: "Sicher?",
-          text: "Mittelabruf kann nicht mehr geändert werden!",
-          type: "warning",
-          confirmButtonText: "Ja, drucken!",
-          showCancelButton: true,
-          cancelButtonText: "ABBRECHEN",
-          closeOnConfirm: true
-        }, function(isConfirm){
-          if(isConfirm) {
-            delete $scope.financialRequest.status;
-            $scope.financialRequest.status_id = 4;
-            $scope.financialRequest.status_id_pa = 2;
-            network.put('financial_request/' + $scope.financialRequestId, $scope.financialRequest, function (result, response) {
-              if (result) {
-                $uibModalInstance.close();
-              }
+        title: "Sicher?",
+        text: "Mittelabruf kann nicht mehr geändert werden!",
+        type: "warning",
+        confirmButtonText: "Ja, drucken!",
+        showCancelButton: true,
+        cancelButtonText: "ABBRECHEN",
+        closeOnConfirm: true
+      }, function(isConfirm){
+        if(isConfirm) {
+          $timeout(function(){
+            network.get('document_template', {id: $scope.financialRequest.document_template_id}, function (result, response) {
+              if(result) {
+                var modalInstance = $uibModal.open({
+                  animation: false,
+                  templateUrl: 'printDocuments.html',
+                  controller: 'PrintDocumentTemplatesController',
+                  size: 'width-full',
+                  resolve: {
+                    document: function () {
+                      return response.result[0];
+                    }
+                  }
+                });
+                modalInstance.result.then(function (template) {
+                  delete $scope.financialRequest.status;
+                  $scope.financialRequest.status_id = 4;
+                  $scope.financialRequest.status_id_pa = 2;
+                  network.put('financial_request/' + $scope.financialRequestId, $scope.financialRequest, function (result, response) {
+                    $uibModalInstance.close();
+                  });
+                });
+              };
             });
-          }
+          });
+        };
       });
     };
     
@@ -704,4 +718,28 @@ spi.controller('SetDocumentTemplateController', function ($scope, ids, payment_t
     $uibModalInstance.dismiss('cancel');
   };
   
+});
+
+spi.controller('PrintDocumentTemplatesController', function ($scope, document,  $timeout, network, $sce, $rootScope, $uibModalInstance) {
+ 
+  $scope.document = {
+    text: document.text,
+    name: document.name
+  };  
+   
+  $rootScope.printed = 1;
+  $timeout(function() {
+      window.print();
+      $rootScope.printed = 0;
+      $uibModalInstance.close();
+  });
+  
+  $scope.trustAsHtml = function(string) {
+    return $sce.trustAsHtml(string);
+  };  
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
 });
