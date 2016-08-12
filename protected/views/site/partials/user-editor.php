@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="editUserTemplate.html">
+<!--<script type="text/ng-template" id="editUserTemplate.html">-->
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
       <h3 ng-if="isInsert" class="m-0 pull-left">Benutzer hinzufügen</h3>

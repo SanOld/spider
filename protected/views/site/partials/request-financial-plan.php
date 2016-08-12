@@ -177,10 +177,10 @@
                               </ui-select>
                         </div>    
                         <div class="m-b-15"></div>
-                        <dl class="custom-dl" ng-hide="emploee.user.sex == '3' || !emploee.user_id ">
+                        <dl class="custom-dl" ng-hide="emploee.user.sex == '3' || emploee.user.sex == '0' || !emploee.user_id ">
                           <dt>Anrede:</dt>
                           <dd ng-show = "emploee.user.sex == '1'">Herr</dd>
-                          <dd ng-show = "emploee.user.sex == '0'">Frau</dd>
+                          <dd ng-show = "emploee.user.sex == '2'">Frau</dd>
                         </dl>
                         <span ng-class="{hide: !(dublicate['employee'] || required['employee'])}" class="hide">
                           <label ng-show="required['employee']" class="error">Füllen Sie die Daten</label>
