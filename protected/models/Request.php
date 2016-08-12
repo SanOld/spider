@@ -730,6 +730,7 @@ class Request extends BaseModel {
       $this->copy = true;
       unset($post['ids']);
       unset($post['year']);
+      unset($post['copy']);
       foreach($ids as $oldId) {
         $res = $this->select(array('id'=>$oldId), true);
         $command = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl');
@@ -765,6 +766,7 @@ class Request extends BaseModel {
 
       unset($post['project_ids']);
       unset($post['year']);
+      unset($post['massCreate']);
 
        foreach($project_ids as $project_id) {
          $value['year'] = $year;
