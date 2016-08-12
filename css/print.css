@@ -28,7 +28,9 @@ table .dt-edit,
 .table-requests th:nth-child(7),
 .print-request .panel > .request-edit,
 .print-request .panel > .panel-heading,
-.print-request #content {
+.print-request #content,
+.ui-notification,
+.print-financial-request {
 	display:none;
 }
 #page.print-request {
