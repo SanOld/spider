@@ -7,15 +7,11 @@
 			<li ng-class="{'active': ['finance_source'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 				<ul class="dropdown-menu">
-          <?php if(Yii::app()->session['rights']['summary']['show']): ?>
 					<li><a href="/summary">Finanzübersicht</a></li>
-          <?php endif; ?>
           <?php if(Yii::app()->session['rights']['financial-request']['show']): ?>
 					<li><a href="/financial-request">Mittelabrufe</a></li>
           <?php endif; ?>
-          <?php if(Yii::app()->session['rights']['finance-report']['show']): ?>
 					<li><a href="/finance-report">Belege</a></li>
-          <?php endif; ?>
           <?php if(Yii::app()->session['rights']['finance-source']['show']): ?>
 					<li><a href="/finance-source">Fördertöpfe</a></li>
           <?php endif; ?>
