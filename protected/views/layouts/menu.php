@@ -8,13 +8,15 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 				<ul class="dropdown-menu">
 					<li><a href="/summary">Finanzübersicht</a></li>
-          <?php if(Yii::app()->session['rights']['financial-request']['show']): ?>
+         <!--
+           <?php /*if(Yii::app()->session['rights']['financial-request']['show']): ?>
 					<li><a href="/financial-request">Mittelabrufe</a></li>
           <?php endif; ?>
 					<li><a href="/finance-report">Belege</a></li>
           <?php if(Yii::app()->session['rights']['finance-source']['show']): ?>
 					<li><a href="/finance-source">Fördertöpfe</a></li>
-          <?php endif; ?>
+          <?php endif; */?>
+         -->
 				</ul>
 			</li>
 			<li class="dropdown">
