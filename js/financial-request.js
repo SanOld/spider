@@ -376,9 +376,11 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           last_rate_id = response.result[response.result.length - 1].rate_id; 
         }
         network.get('rate', {'last_rate_id': last_rate_id}, function (result, response) {
-          if(result) {
+          if(response.result.length) {
             $scope.rates = response.result;
             $scope.financialRequest.rate_id = response.result[0].id;
+          }else{
+            delete $scope.paymentTypes[0];
           }
         });
       });
@@ -575,7 +577,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         };        
         $scope.financialRequest.receipt_date = $scope.dateFormat($scope.receiptDate);        
         delete $scope.financialRequest.status;
-        $scope.financialRequest.status_id = $scope.financialRequest.status_id_pa = 1;        
+        $scope.financialRequest.status_id = $scope.financialRequest.status_id_pa = 1;
+        if($scope.financialRequest.payment_type_id != 1){
+          delete $scope.financialRequest.rate_id;
+        };
         if($scope.isInsert) {
           if(network.user.type == 'p' || network.user.type == 'a'){
             $scope.financialRequest.status_id = 2;
