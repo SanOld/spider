@@ -755,7 +755,7 @@ class Request extends BaseModel {
           $this->copyData('spi_request_school_finance', $RequestSchoolFinance, $oldId, $newId );
         }
       }
-      response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'copy');
+      response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'post');
     }
   }
   public function massCreate ($post){
@@ -774,7 +774,7 @@ class Request extends BaseModel {
          $insertResult = $this->insert($value, true);
        }
      }
-     response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'created');
+     response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'post');
   }
 
   protected function copyData($table, $model,$oldId, $newId){
