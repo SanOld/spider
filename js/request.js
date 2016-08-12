@@ -838,11 +838,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             relation_id: $scope.data.performer_id
           };     
           var callback = function (result, response) {
-            if (result) { 
+            if (result) {
               $scope.getEmployeeUsers(response.id, $scope.request_users[idx], function(){
                 $scope.request_users[idx].user_id = response.id;
+                $scope.submitRequest();
               });
-              $scope.submitForm($scope.data.status_finance);
               $scope.request_users[idx].new_user_name = "";               
               $scope.add_employee_user = false;             
               $scope.userLoading = false;
@@ -1268,7 +1268,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.employeeOnSelect = function (item, employee){
     $scope.updateUserSelect();
     employee.user = item;
-    window.console.log(employee.user);
   }
   
   RequestService.isChangedFinanceForm = function(){
