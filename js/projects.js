@@ -91,10 +91,15 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
 
           var selectedCodes = [];
           var selectedProjectIds = [];
+          var objSelectedCodes = {};
           for(var i=0; i<ids.length; i++) {
             var row = Utils.getRowById($scope.tableParams.data, ids[i]);
-            selectedCodes.push(row.code);
             selectedProjectIds.push(row.id)
+            selectedCodes.push(row.code);
+
+            objSelectedCodes[row.code] = [];
+            objSelectedCodes[row.code]['code'] = row.code;
+            objSelectedCodes[row.code]['id'] = row.id;
           }
 
           var modalInstance = $uibModal.open({
@@ -112,39 +117,73 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
             }
           });
 
-
       modalInstance.result.then(function (data) {
 
         //TO DO - проверка на существование проекта
 
         network.get('request', {project_ids: selectedProjectIds.join(','), year: data.year}, function(result, response) {
           if(result && response.result.length>0) {
+
             var failCodes = [];
+            var objFailCodes = {};
             for(var row in response.result){
-              failCodes.push(response.result[row]['code']);
+              var code  = response.result[row]['code'];
+              var id  = response.result[row]['id'];
+              
+              failCodes.push(code);
+              objFailCodes[code] = [];
+              objFailCodes[code]['code'] = code;
+              objFailCodes[code]['id'] = id;
             }
+            
 
-            SweetAlert.swal({
-              title: "Fehler",
-              text: "Anfragen "+failCodes.join(', ')+" können nicht kreieren sein \n"
-                   +"Dieses Projekt ist bereits vorhanden",
-              type: "error",
-              confirmButtonText: "OK"
-            });
+            if(failCodes.length == selectedCodes.length){
+              SweetAlert.swal({
+                title: "Fehler",
+                text: "Anfragen "+failCodes.join(', ')+" können nicht kreieren sein \n"
+                     +"Dieses Projekt ist bereits vorhanden",
+                type: "error",
+                confirmButtonText: "OK"
+              });
+            } else {
+              var diffCodes = [];
+              var newIds = [];
+              diffCodes = selectedCodes.filter(function(item, i, arr){
+                if (objFailCodes[item]){
+                  return false;
+                }
+                newIds.push(objSelectedCodes[item]['id']);
+                return true;
+              })
 
+              SweetAlert.swal({
+                title: "Fehler",
+                text: "Anfragen "+failCodes.join(', ')+" können nicht kreieren sein \n"
+                     +"Dieses Projekt ist bereits vorhanden \n"
+                     +"\n"
+                     +"Anfragen "+diffCodes.join(', ')+" sie werden erstellt ",
+                type: "error",
+                confirmButtonText: "OK",
+                closeOnConfirm: true
+              },
+              function(isConfirm){
+                if (isConfirm) {
+                  network.post('request', {project_ids: newIds, massCreate: true, year: data.year}, function(result) {
+                    if(result) {
+                      grid.reload();
+                    }
+                  });
+                }
+              });
+            }
           } else {
-
             network.post('request', {project_ids: ids, massCreate: true, year: data.year}, function(result) {
               if(result) {
                 grid.reload();
               }
             });
-
           }
         });
-
-
-
 
       });
 
