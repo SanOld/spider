@@ -100,7 +100,8 @@ class DocumentTemplate extends BaseModel {
       $requestTableData = Yii::app() -> db -> createCommand() -> select("*, DATE_FORMAT(start_date,'%d.%m.%Y') start_date_formated,  DATE_FORMAT(due_date,'%d.%m.%Y') due_date_formated") -> from('spi_request') -> where('id=:id ', array(':id' => safe($_GET, 'request_id'))) -> queryRow();
       $this->performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $this->requestData['performer_id'])) -> queryRow();
 
-
+    echo json_encode ( $this->requestData );
+    exit ();
       /*start performerUsers*/
       if ($this->requestData['status_id' == '5']){
         $Request = CActiveRecord::model('UserLock');
@@ -119,6 +120,8 @@ class DocumentTemplate extends BaseModel {
 
         $this->performerUsers = $requestInfo['result'];
       }
+
+
       foreach ($this->performerUsers as $key=>$value){
         $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
         if($this->performerUsers[$key]['sex'] == 1){
