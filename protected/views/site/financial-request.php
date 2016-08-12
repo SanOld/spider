@@ -15,7 +15,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 									<a href="javascript:window.print()" title="Drucken">
                     Drucken <i class="ion-printer"></i>
                   </a>
-									<button class="btn w-lg custom-btn" ng-click="openEdit()">Mittelabruf hinzufügen</button>
+									<button ng-if="user.type == 'a' || user.type == 'p' || user.type == 't'" class="btn w-lg custom-btn" ng-click="openEdit()">Mittelabruf hinzufügen</button>
 								</div>
 							</div>
 							<div class="panel-body request-edit">
