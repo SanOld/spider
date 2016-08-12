@@ -164,8 +164,10 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
                      +"Anfragen "+diffCodes.join(', ')+" sie werden erstellt ",
                 type: "error",
                 confirmButtonText: "Speichern",
+                showCancelButton: true,
                 cancelButtonText: "Abbrechen",
-                closeOnConfirm: true
+                closeOnConfirm: true,
+                closeOnCancel: true
               },
               function(isConfirm){
                 if (isConfirm) {
