@@ -177,8 +177,6 @@
                               </ui-select>
                         </div>    
                         <div class="m-b-15"></div>
-                        111: {{emploee.user_id }}
-                        222: {{emploee.user_id == '' }}
                         <dl class="custom-dl" ng-hide="emploee.user.sex == '3' || emploee.user.sex == '0' || !emploee.user_id ">
                           <dt>Anrede:</dt>
                           <dd ng-show = "emploee.user.sex == '1'">Herr</dd>
