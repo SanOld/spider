@@ -101,7 +101,7 @@ class DocumentTemplate extends BaseModel {
       $this->performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $this->requestData['performer_id'])) -> queryRow();
 
     
-    exit ();
+   
       /*start performerUsers*/
       if ($this->requestData['status_id' == '5']){
         $Request = CActiveRecord::model('UserLock');
@@ -122,7 +122,7 @@ class DocumentTemplate extends BaseModel {
       }
 
 echo json_encode ( $this->performerUsers );
-
+ exit ();
       foreach ($this->performerUsers as $key=>$value){
         $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
         if($this->performerUsers[$key]['sex'] == 1){
