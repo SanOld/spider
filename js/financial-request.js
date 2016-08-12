@@ -148,6 +148,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
 //          if(project[i].payment_type_id == 1){
 //            $scope.summary['spending'] += Number(project[i].request_cost);
 //          }
+        }
       }
       $scope.summary['actual'] = $scope.summary['total_cost'] + $scope.summary['changes'];
       $scope.summary['remained'] = $scope.summary['actual'] - $scope.summary['payed'];
@@ -336,7 +337,6 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     };
 
 });
-
 
 spi.controller('EditFinancialRequestController', function ($scope, modeView, $uibModalInstance, data, network, hint, Utils, SweetAlert) {
     $scope.isInsert = !data.id;
