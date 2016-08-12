@@ -1,4 +1,4 @@
-<div class="panel panel-color panel-primary edit-summary">
+<div class="panel panel-color panel-primary edit-summary print-financial-request">
     <div class="panel-heading m-b-30 clearfix"> 
       <h3 class="m-0 pull-left" ng-if="!isInsert">Mittelabruf bearbeiten {{financialRequest.project_code}} / 16-000092</h3>
       <h3 class="m-0 pull-left" ng-if="isInsert">Mittelabruf hinzufügen</h3>
@@ -31,9 +31,9 @@
               <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('project_code')}">
                 <ui-select on-select="onSelectProject($item, $model, 2);
-                           updateBankDetails(selectProjectDetails.performer_id, selectProjectDetails.request_id, $item);
-                           updatePerformerUsers(selectProjectDetails.request_id);
-                           updateRates($item);" required ng-disabled="!requests || !isInsert"
+                           updateRates($item);updateBankDetails(selectProjectDetails.performer_id, selectProjectDetails.request_id, $item);
+                           updatePerformerUsers(selectProjectDetails.request_id);"
+                           required ng-disabled="!requests || !isInsert"
                            ng-model="financialRequest.request_id" name="project_code" required >
                   <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                     {{$select.selected.code}}
@@ -110,7 +110,7 @@
             <div class="col-lg-7">
               <div class="input-group"  ng-class="{'wrap-line error': fieldError('payment_date')}">
                 <input  uib-datepicker-popup="dd.MM.yyyy" is-open="popup_payment_date.opened" datepicker-options="dateOptions"
-                        ng-model="paymentDate" ng-change="setValue(payment_date)" type="text" id="payment_date" ng-required="financialRequest.status == 2 && (user.type == 'a' || user.type == 'p')"
+                        ng-model="paymentDate" ng-change="setValue(paymentDate)" type="text" id="payment_date" ng-required="financialRequest.status == 2 && (user.type == 'a' || user.type == 'p')"
                         class="form-control datepicker" placeholder="Alle Daten" name="payment_date" ng-disabled="!isInsert && financialRequest.status != 2">
                 <span class="input-group-addon" ng-click="popup_payment_date.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
               </div>
@@ -227,7 +227,7 @@
         </div>
         <div class="col-lg-6 text-right">
           <button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>
-          <button class="btn w-lg custom-btn btn-lg" ng-if="rights.fields" ng-click="submitFormFinancialRequest()">Speichern</button>
+          <button class="btn w-lg custom-btn btn-lg" ng-if="rights.save" ng-click="submitFormFinancialRequest()">Speichern</button>
         </div>
       </div>
     </ng-form>

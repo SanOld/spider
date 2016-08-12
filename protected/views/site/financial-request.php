@@ -2,7 +2,7 @@
 $this->pageTitle = 'Mittelabrufe | ' . Yii::app()->name;
 $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 ?>	
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/financial-request.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/financial-requests.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/users.js"></script>
 
 			<div ng-controller="FinancialRequestController" ng-cloak class="wraper container-fluid">
@@ -186,7 +186,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                         <td data-title="'Betrag'" sortable="'request_cost'">{{row.request_cost | number:2 }} €</td>
                         <td data-title="'Zahl. -Datum'" sortable="'payment_date'">{{getDate(row.payment_date) | date: "dd.MM.yyyy" }}</td>
                         <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
-                            <a ng-click="printDocuments(row)" ng-disabled="true" class="btn document" title="Drucken"><i class="ion-printer"></i></a>
+                            <a ng-click="printDocuments(row)" ng-class="{disabled: row.status == 3}" class="btn document" title="Drucken"><i class="ion-printer"></i></a>
                             <a ng-if="canEdit(row)" ng-click="openEdit(row, !canEdit(row))" class="btn edit-btn" title="Bearbeiten">
                               <i class="ion-edit"></i>
                             </a>
@@ -299,4 +299,8 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
       </div>
     </div>
   </div>
+</script>
+
+<script type="text/ng-template" id="printDocuments.html">
+  <?php include(Yii::app()->getBasePath().'/views/site/partials/document-template.php'); ?>
 </script>
