@@ -146,15 +146,15 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
             text['singular'][3] = 'wird hinzufügen.';
 
             if (failCodes.length == 1){
-              var text_show = text['singular'];
+              var text_cancel = text['singular'];
             } else {
-              var text_show = text['plural'];
+              var text_cancel = text['plural'];
             }
 
             if(failCodes.length == selectedCodes.length){
               SweetAlert.swal({
                 title: "Fehler",
-                text: text_show[1] + " "+failCodes.join(', ')+" " +  text_show[2],
+                text: text_cancel[1] + " "+failCodes.join(', ')+" " +  text_cancel[2],
                 type: "warning",
                 confirmButtonText: "OK"
               });
@@ -169,11 +169,17 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
                 return true;
               })
 
+              if (diffCodes.length == 1){
+                var text_ok = text['singular'];
+              } else {
+                var text_ok = text['plural'];
+              }
+
               SweetAlert.swal({
                 title: "Fehler",
-                text: text_show[1] + " " + failCodes.join(', ') + " " +  text_show[2]
+                text: text_cancel[1] + " " + failCodes.join(', ') + " " +  text_cancel[2]
                      +"\n"
-                     +text_show[1] + " " + diffCodes.join(', ') + " " +  text_show[3],
+                     +text_ok[1] + " " + diffCodes.join(', ') + " " +  text_ok[3],
                 type: "warning",
                 showConfirmButton: true,
                 confirmButtonText: "Speichern",
