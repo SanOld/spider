@@ -6,8 +6,8 @@
       <li><a href="/requests">Anträge</a></li>
       <?php if(safe(Yii::app()->session['rights']['summary'], 'show') ||
                safe(Yii::app()->session['rights']['financial-request'], 'show') ||
-               safe(Yii::app()->session['rights']['financial-report'], 'show') ||
-               safe(Yii::app()->session['rights']['financial-source'], 'show')): ?>
+               safe(Yii::app()->session['rights']['finance-report'], 'show') ||
+               safe(Yii::app()->session['rights']['finance-source'], 'show')): ?>
 			<li ng-class="{'active': ['finance_source'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
 				<ul class="dropdown-menu">
