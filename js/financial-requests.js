@@ -138,18 +138,20 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         'actual'      : 0
       };
       for(var i = 0; i < project.length; i++){
-        if(project[i].status_id == 3){
-          $scope.summary['payed'] += Number(project[i].request_cost);
-        }else{          
-          if(project[i].payment_type_id == 2){
-            $scope.summary['changes'] -= Number(project[i].request_cost);
-          };
-          if(project[i].payment_type_id == 3){
-            $scope.summary['changes'] += Number(project[i].request_cost);
-          };
-//          if(project[i].payment_type_id == 1){
-//            $scope.summary['spending'] += Number(project[i].request_cost);
-//          }
+        if(project[i].status_id == 3){          
+          if(project[i].payment_type_id == 1){
+            $scope.summary['payed'] += Number(project[i].request_cost);
+          }else{          
+            if(project[i].payment_type_id == 2){
+              $scope.summary['changes'] -= Number(project[i].request_cost);
+            };
+            if(project[i].payment_type_id == 3){
+              $scope.summary['changes'] += Number(project[i].request_cost);
+            };
+  //          if(project[i].payment_type_id == 1){
+  //            $scope.summary['spending'] += Number(project[i].request_cost);
+  //          }
+         }
         };
       };
       $scope.summary['actual'] = Number($scope.summary['total_cost']) + Number($scope.summary['changes']);
@@ -202,12 +204,12 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         modeView: !!modeView,
         controller: 'EditFinancialRequestController'
       }, function(){
-        $timeout(function(){      
-          $scope.updateProject();
+        $timeout(function(){  
+          grid.reload();    
+          $scope.updateProject($scope.filter.project_id, $scope.filter.year);
           $scope.getProjects();
           $scope.getYear('reload');
           $scope.getPerformers();
-          grid.reload();
         });
       });
     };
