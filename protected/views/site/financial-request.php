@@ -51,9 +51,9 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 												<div class="form-group">
 													<label>Jahr</label>
 													<ui-select on-select="updateProject(filter.project_id, filter.year)" ng-change="updateGrid()" ng-model="filter.year">
-                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.year}}</ui-select-match>
-                            <ui-select-choices repeat="item.year as item in years | filter: $select.search | orderBy: 'year'">
-                              <span ng-bind="item.year"></span>
+                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: 'item'">
+                              <span ng-bind="item"></span>
                             </ui-select-choices>
                           </ui-select>
                         </div>
