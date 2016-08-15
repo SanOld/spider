@@ -1073,6 +1073,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
   network.get('request_school_finance', {request_id: $scope.$parent.requestID}, function (result, response) {
     if (result) {
+      $scope.schools_data = response.result;
       $scope.financeSchools = response.result;
       $scope.updateResultCost();
     }
@@ -1161,15 +1162,20 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
   }
   $scope.updateTrainingCost = function(school){
-    if(num(school.rate) >= 1) {
-      school.training_cost = 2250;
-//    } else if(school.rate <= 0,5) {
-//
+    var definer = 0;
+    if(num(school.rate) <= 0.5){
+      definer = 0.5;
+      school.training_cost = 1800 * definer;
+    }else if(num(school.rate) % 1 == 0.5) {
+      definer = num(school.rate);
+      school.training_cost = 1800 * definer;
     } else {
-      school.training_cost = 1125;
+      definer = Math.round(num(school.rate));
+      school.training_cost = 1800 * definer;
     }
     $scope.updateResultCost();
   }
+  
   $scope.numValidate2 = function(obj, key,cnt){
     cnt = cnt || 2;
     if(obj != undefined) {
