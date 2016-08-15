@@ -222,23 +222,19 @@ class Request extends BaseModel {
       case 'a':
       case 'p':
         $result = $row['status_id'];
-        if($row['status_id'] != '4' && $row['status_id'] != '5' && $row['status_id'] != '2'){
           if($row['status_concept'] === 'in_progress' || $row['status_finance'] === 'in_progress' || $row['status_goal'] === 'in_progress'){
             $result = '3';//in_progress
           }else{
             $result = '1';//open
           }
-        }
         break;
       case 't':
         $result = $row['status_id_ta'];
-        if($row['status_id'] != '4' && $row['status_id'] != '5'){
           if($row['status_concept_ta'] === 'rejected' || $row['status_finance'] === 'rejected' || $row['status_goal_ta'] === 'rejected'){
             $result = '3';//in_progress
           }else{
             $result = '1';//open
           } 
-        }
         break;
       default:
         $result = 1;//open
