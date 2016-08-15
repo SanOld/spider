@@ -440,8 +440,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         }
 
         for(var field in required){
-          if(row[field] == '' || row[field] == '0'){
+          if(row[field] == '' || row[field] == '0' || row[field] == undefined ){
             failCodes.push(row.code);
+            break;
           }
         }
       }
