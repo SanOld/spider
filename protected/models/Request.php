@@ -345,7 +345,7 @@ class Request extends BaseModel {
         $RequestSchoolConcept->insert($data, true);
 
         $data['rate'] = $rate;
-        $data['overhead_cost'] = 1800;
+        $data['overhead_cost'] = 3000;
         $RequestSchoolFinance->insert($data, true);
         for ($i=1; $i<=5; $i++){
           $opt = 0;
