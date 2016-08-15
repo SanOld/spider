@@ -188,7 +188,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         };
       });
     };
-    $scope.updateProject();
+    $scope.updateProject($scope.filter.project_id, $scope.filter.year);
     
     $scope.canEdit = function(row) {
       if(!row.status) {
