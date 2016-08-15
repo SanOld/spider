@@ -321,15 +321,42 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       var request = {
         id: row.id
       };
-      SweetAlert.swal({
-        title: "Sicher?",
-        text: "Mittelabruf kann nicht mehr geändert werden!",
-        type: "warning",
-        confirmButtonText: "Ja, drucken!",
-        showCancelButton: true,
-        cancelButtonText: "ABBRECHEN",
-        closeOnConfirm: true
-      }, function(isConfirm){
+      if($scope.user.type == 't'){       
+        SweetAlert.swal({
+          title: "Sicher?",
+          text: "Mittelabruf kann nicht mehr geändert werden!",
+          type: "warning",
+          confirmButtonText: "Ja, drucken!",
+          showCancelButton: true,
+          cancelButtonText: "ABBRECHEN",
+          closeOnConfirm: true
+        }, function(isConfirm){
+          $timeout(function(){
+            network.get('document_template', {id: row.document_template_id}, function (result, response) {
+              if(result) {
+                var modalInstance = $uibModal.open({
+                  animation: false,
+                  templateUrl: 'printDocuments.html',
+                  controller: 'PrintDocumentTemplatesController',
+                  size: 'width-full',
+                  resolve: {
+                    document: function () {
+                      return response.result[0];
+                    }
+                  }
+                });
+                modalInstance.result.then(function () {
+                  request.status_id = 4;
+                  request.status_id_pa = 2;
+                  network.put('financial_request/' + request.id, request, function (result, response) {
+                    grid.reload();
+                  });
+                });
+              };
+            });
+          });
+        }); 
+      }else{
         $timeout(function(){
           network.get('document_template', {id: row.document_template_id}, function (result, response) {
             if(result) {
@@ -344,17 +371,10 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
                   }
                 }
               });
-              modalInstance.result.then(function () {
-                request.status_id = 4;
-                request.status_id_pa = 2;
-                network.put('financial_request/' + request.id, request, function (result, response) {
-                  grid.reload();
-                });
-              });
             };
           });
         });
-      });     
+      }; 
     };
 
 });
@@ -543,7 +563,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.onSelectProject = function (item, model, type){
       $scope.selectProjectDetails = item;
       delete $scope.IBAN;
-      delete $scope.financialRequest.bank_account_id;
+      $scope.financialRequest = {request_id:item.id};
     };
     
     $scope.updateIBAN = function (item){
@@ -587,6 +607,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
             }else{
               $scope.financialRequestId = response.id;
               $scope.rights.print = 1;
+              $scope.isInsert = false;
             };
           };
           $scope.submited = false;
@@ -601,7 +622,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         delete $scope.financialRequest.status;
         $scope.financialRequest.status_id = $scope.financialRequest.status_id_pa = 1;
         if($scope.financialRequest.payment_type_id != 1){
-          delete $scope.financialRequest.rate_id;
+          $scope.financialRequest.rate_id = null;
         };
         if($scope.isInsert) {
           if(network.user.type == 'p' || network.user.type == 'a'){
@@ -616,7 +637,8 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           if((network.user.type == 'p' || network.user.type == 'a') && $scope.financialRequest.payment_date != "0000-00-00"){
             $scope.financialRequest.status_id = $scope.financialRequest.status_id_pa = 3;
           };
-          network.put('financial_request/' + data.id, $scope.financialRequest, callback);
+          var id = data.id ? data.id : $scope.financialRequestId;
+          network.put('financial_request/' + id, $scope.financialRequest, callback);
         };
       };
     };
