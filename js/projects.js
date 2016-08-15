@@ -156,7 +156,6 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
                 title: "Fehler",
                 text: text_show[1] + " "+failCodes.join(', ')+" " +  text_show[2],
                 type: "warning",
-                confirmButtonColor: "#0d5799",
                 confirmButtonText: "OK"
               });
             } else {
@@ -177,10 +176,8 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
                      +text_show[1] + " " + diffCodes.join(', ') + " " +  text_show[3],
                 type: "warning",
                 showConfirmButton: true,
-                confirmButtonColor: "#0d5799",
                 confirmButtonText: "Speichern",
                 showCancelButton: true,
-                cancelButtonColor: "#ccc",
                 cancelButtonText: "Abbrechen",
                 closeOnConfirm: true,
                 closeOnCancel: true
