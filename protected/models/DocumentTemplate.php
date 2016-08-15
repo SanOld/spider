@@ -101,7 +101,7 @@ class DocumentTemplate extends BaseModel {
       $this->performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $this->requestData['performer_id'])) -> queryRow();
 
       /*start performerUsers*/
-      if ($this->requestData['status_id' == '5']){
+      if ($this->requestData['status_id'] == '5'){
         $Request = CActiveRecord::model('UserLock');
         $Request->user = $this->user;
         $requestInfo = $Request->select(array('relation_id' => $this->requestData['performer_id']
