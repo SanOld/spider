@@ -975,16 +975,23 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         data.finance_comment = $scope.data.comment;
         break;
     }
-    data['status_finance'] = status;
 
-    network.put('request/'+$scope.$parent.requestID, data, function(result, response) {
-      if(result) {
-        $scope.data.status_finance = status;
-        $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
-        $scope.$parent.setFinanceStatus(status);
-        RequestService.afterSave();
-      }
-    });
+      data['status_finance'] = status;
+      network.put('request/'+$scope.$parent.requestID, data, function(result, response) {
+        if(result) {
+          $scope.data.status_finance = status;
+          $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
+          $scope.$parent.setFinanceStatus(status);
+          RequestService.afterSave();
+          if (network.user.type == 'a') {
+            $scope.$parent.submitRequest();
+          }
+        }
+      });
+
+
+
+
   };
 
   RequestService.initFinancePlan = function(data){
