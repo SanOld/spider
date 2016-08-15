@@ -136,13 +136,27 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
               objFailCodes[code]['id'] = id;
             }
             
+            var text = {plural : [], singular: []};
+            text['plural'][1] = 'Anträge';
+            text['plural'][2] = 'können nicht aktualisiert sein. Anträge für diese Projekte schon existieren.';
+            text['plural'][3] = 'werden hinzufügen.';
+
+            text['singular'][1] = 'Antrag';
+            text['singular'][2] = 'kann nicht aktualisiert sein. Antrag für dieses Projekt schon existiert.';
+            text['singular'][3] = 'wird hinzufügen.';
+
+            if (failCodes.length == 1){
+              var text_show = text['singular'];
+            } else {
+              var text_show = text['plural'];
+            }
 
             if(failCodes.length == selectedCodes.length){
               SweetAlert.swal({
                 title: "Fehler",
-                text: "Anfragen "+failCodes.join(', ')+" können nicht kreieren sein \n"
-                     +"Dieses Projekt ist bereits vorhanden",
-                type: "error",
+                text: text_show[1] + " "+failCodes.join(', ')+" " +  text_show[2],
+                type: "warning",
+                confirmButtonColor: "#0d5799",
                 confirmButtonText: "OK"
               });
             } else {
@@ -158,13 +172,15 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
 
               SweetAlert.swal({
                 title: "Fehler",
-                text: "Anfragen "+failCodes.join(', ')+" können nicht kreieren sein \n"
-                     +"Dieses Projekt ist bereits vorhanden \n"
+                text: text_show[1] + " " + failCodes.join(', ') + " " +  text_show[2]
                      +"\n"
-                     +"Anfragen "+diffCodes.join(', ')+" sie werden erstellt ",
-                type: "error",
+                     +text_show[1] + " " + diffCodes.join(', ') + " " +  text_show[3],
+                type: "warning",
+                showConfirmButton: true,
+                confirmButtonColor: "#0d5799",
                 confirmButtonText: "Speichern",
                 showCancelButton: true,
+                cancelButtonColor: "#ccc",
                 cancelButtonText: "Abbrechen",
                 closeOnConfirm: true,
                 closeOnCancel: true

@@ -3397,3 +3397,11 @@ tr.virtual-row {
 .margin-textarea{
       margin-left: 134px;  
 }
+
+.confirm btn-error {
+	background-color:#00529e !important;
+}
+
+.cancel btn-default {
+  background-color: rgb(221, 221, 221);
+}
