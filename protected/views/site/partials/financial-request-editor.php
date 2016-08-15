@@ -32,7 +32,7 @@
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('project_code')}">
                 <ui-select on-select="onSelectProject($item, $model, 2);
                            updateRates($item);updateBankDetails(selectProjectDetails.performer_id, selectProjectDetails.request_id, $item);
-                           updatePerformerUsers(selectProjectDetails.request_id);"
+                           updatePerformerUsers(selectProjectDetails.performer_id);"
                            required ng-disabled="!requests || !isInsert"
                            ng-model="financialRequest.request_id" name="project_code" required >
                   <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
@@ -192,15 +192,20 @@
           </div>
           <div class="form-group">
             <label class="col-lg-4 control-label">Betrag</label>
-            <div class="col-lg-7" ng-class="{'wrap-line error': fieldError('request_cost')}">
+            <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('request_cost')}">
               <input required class="form-control" type="text" ng-model="financialRequest.request_cost" ng-disabled="!rights.fields" name="request_cost">
               <span ng-class="{hide: !fieldError('request_cost')}" class="hide">
                 <label class="error">Betrag erforderlich</label>
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
               </span>
             </div>
-            <div class="col-lg-1 p-0  m-t-5">
+            <div class="col-lg-2 p-0  m-t-5">
               <span class="symbol">€</span>
+            </div>
+            <div class="col-lg-1">
+               <button class="btn custom-btn refresh-summ" ng-click="refreshSumm()">
+							  <i class="fa fa-rotate-left"></i>
+						  </button>
             </div>
           </div>
           <div class="form-group">
