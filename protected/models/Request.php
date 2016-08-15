@@ -206,7 +206,13 @@ class Request extends BaseModel {
     return $result;
   }
 
-  protected function calcStatusId($row, $userType) {   
+  protected function calcStatusId($row, $userType) {
+    
+    if($row['status_id'] == '2'){
+     $result = '2' ;
+     return $result;
+    }
+
     switch($userType){
       case 'a':
       case 'p':
