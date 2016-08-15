@@ -141,7 +141,7 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
                   <td data-title="'Prüfstatus'">
                     <div class="col-lg-4 p-0">
-                      <a ng-if="isFinansist" class="request-button edit-btn" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
+                      <a ng-if="isFinansist || (row.is_bonus_project == '1' && user.type == 's')" class="request-button edit-btn" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
                         <span class="cell-finplan status-icon" ng-class="row.status_finance"></span>
                       </a>
                     </div>

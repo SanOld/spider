@@ -18,6 +18,7 @@ class Request extends BaseModel {
                       , rqs.name status_name
                       , rqs.code status_code
                       , prj.code code
+                      , IF(prj.type_id = 3, 1, 0) is_bonus_project
                       , prj.id project_id
                       , fns.programm
                       ,(SELECT name FROM spi_school scl WHERE scl.id=prj.id) AS `school_name`";

@@ -26,7 +26,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
           </uib-tab>
-					<uib-tab ng-if="isFinansist" class="finance {{financeStatus}}" index="'finance-plan'" select="setTab('finance-plan')" heading="Finanzplan">
+					<uib-tab ng-if="isFinansist || (is_bonus_project == '1' && user_type == 's')" class="finance {{financeStatus}}" index="'finance-plan'" select="setTab('finance-plan')" heading="Finanzplan">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-financial-plan.php'); ?>
 					</uib-tab>
 					<uib-tab class="concepts {{conceptStatus}}" index="'school-concepts'" select="setTab('school-concepts')" heading="Konzept">
