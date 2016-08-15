@@ -14,8 +14,8 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
     {id: 0, name: 'Nicht aktiv'}
   ];
   $scope.states = [
-    {id: 1, name: 'Virtuelle'},
-    {id: 0, name: 'Nicht virtuelle'}
+    {id: 1, name: 'Ohne Login'},
+    {id: 0, name: 'Mit Login'}
   ];
 
   network.get('user_type', angular.merge({filter: 1}, $scope.filter['type'] ? {type: $scope.filter['type']} : {}), function (result, response) {

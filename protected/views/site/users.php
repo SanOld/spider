@@ -56,7 +56,7 @@ $this->breadcrumbs = array('Benutzerliste');
                     </div>
                     <div class="col-lg-2" ng-if="canByType(['a','p','t'])">
                       <div class="form-group">
-                        <label>Virtuelle</label>
+                        <label>Benutzerlogin</label>
                         <ui-select ng-change="updateGrid()" ng-model="filter.is_virtual">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                           <ui-select-choices repeat="item.id as item in states | filter: $select.search | orderBy: 'name'">
