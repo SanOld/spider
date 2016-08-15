@@ -24,7 +24,7 @@ class FinancialRequest extends BaseModel {
       $command = Yii::app() -> db -> createCommand()->selectDistinct('req.year')
                 ->from('spi_request req')->group('year');
       $command -> leftJoin ('spi_project prj',                    'req.project_id      = prj.id');
-      
+      $command  ->where ('req.status_id = 5');
     }else if(safe($_GET, 'list') == 'project'){      
       $command = Yii::app() -> db -> createCommand()
                 ->selectDistinct('prj.id project_id, prj.code project_code')
