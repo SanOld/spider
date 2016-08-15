@@ -198,8 +198,8 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                       <tr ng-if="!$data.length"><td class="no-result" colspan="11">Keine Ergebnisse</td></tr>
 										</table>
 										<div class="btn-row m-t-15 clearfix">
-                      <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setPaymentDate()">Zahl. Datum hinzufügen</button>
-											<button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setDocumentTemplate()" data-toggle="modal">Druck-Template wählen</button>
+                      <button class="btn m-b-5" ng-if="user.type == 'a' || user.type == 'p'" ng-disabled="!existsSelected()" ng-click="setPaymentDate()">Zahl. Datum hinzufügen</button>
+											<button class="btn m-b-5" ng-if="user.type == 'a' || user.type == 'p' || user.type == 't'"ng-disabled="!existsSelected()" ng-click="setDocumentTemplate()" data-toggle="modal">Druck-Template wählen</button>
 										</div>
 									</div>
 								</div>

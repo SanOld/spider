@@ -3397,3 +3397,7 @@ tr.virtual-row {
 .margin-textarea{
       margin-left: 134px;  
 }
+.refresh-summ{
+      font-size: 14px !important;
+      margin: -1px 0px 0px -36px;
+}
