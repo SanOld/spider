@@ -445,7 +445,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       if(data.payment_date){
         $scope.paymentDate = new Date (data.payment_date);
       };
-      getPerformerUsers(data.request_id);
+      getPerformerUsers(data.performer_id);
       $scope.getProjects(data.year);
       $scope.updateRates(data.request_id);
     }else{
@@ -505,6 +505,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       };   
     };
     
+    $scope.refreshSumm = function (){
+      $scope.financialRequest.request_cost =  $scope.request_cost;
+    };
+    
     $scope.updateTemplates = function(payment_id){    
       network.get('document_template', {payment_id: payment_id}, function (result, response) {
         if(result) {
@@ -551,9 +555,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       return year + '-' + month + '-' + day;
     };
     
-    $scope.updatePerformerUsers = function (request_id){
+    $scope.updatePerformerUsers = function (performer_id){
       delete $scope.financialRequest.representative_user_id;
-      getPerformerUsers(request_id);
+      getPerformerUsers(performer_id);
     };
     
     $scope.onSelectUser = function (item, model, type){
@@ -589,6 +593,13 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           }); 
         };
       });
+    };
+    
+    $scope.getError = function (request_cost) {
+      if(request_cost > $scope.request_cost){
+        return false;
+      }
+      return true;
     };
     
     $scope.fieldError = function(field) {
