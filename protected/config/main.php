@@ -49,8 +49,7 @@ return array(
     'session' => array(
         'autoStart' => true,
         'useTransparentSessionID' => true, 
-        'sessionName' => 'session',
-        'timeout' => 28800,
+        'sessionName' => 'session'
     ),
 		// uncomment the following to enable URLs in path-format
 
