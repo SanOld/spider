@@ -97,19 +97,17 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     };
     $scope.getProjects();
     
-    $scope.getYear = function(value){
+    $scope.getYear = function(){
       network.get('financial_request', {list: 'year'}, function (result, response) {
         if(response.result.length) {
           $scope.years = response.result;
-          if(value != 'reload'){
-            var d = new Date;    
-            $scope.filter.year = d.getFullYear();
-            if($scope.years.indexOf($scope.filter.year) == -1){
-              $scope.filter.year = $scope.years[0].year;
-              $scope.setFilter();
-              grid.reload();
-            };
-          }
+          var d = new Date;    
+          $scope.filter.year = d.getFullYear();
+          if($scope.years.indexOf($scope.filter.year) == -1){
+            $scope.filter.year = $scope.years[0].year;
+            $scope.setFilter();
+            grid.reload();
+          };          
         };
       });
     };
@@ -125,6 +123,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     $scope.getPerformers();
     
     $scope.updateSummary = function (project){
+      console.log(project);
       var total_cost = project[0].total_cost.split('.');
       $scope.summary = {
         'project_code': project[0].project_code,
@@ -162,7 +161,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     $scope.updateProject = function(id, year){
       delete $scope.summary;
       delete $scope.project;
-      network.get('financial_request', {'project_id': id ? id : '', 'year': year ? year : ''}, function (result, response) {
+      network.get('financial_request', {'project_id': id ? id : '', 'year': year ? year : '', list: 'summary'}, function (result, response) {
         if(response.result.length) {
           if(response.result.length == 1){
             $scope.project = $scope.updateSummary(response.result);
@@ -180,7 +179,6 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         };
       });
     };
-        
     $scope.updateProject();
     
     $scope.canEdit = function(row) {
@@ -207,9 +205,6 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         $timeout(function(){  
           grid.reload();    
           $scope.updateProject($scope.filter.project_id, $scope.filter.year);
-          $scope.getProjects();
-          $scope.getYear('reload');
-          $scope.getPerformers();
         });
       });
     };

@@ -180,7 +180,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                         <td data-title="'Rate'" sortable="'rate'">{{row.rate}}</td>
                         <td data-title="'Träger'" sortable="'performer_name'">
                           <a href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a></td>
-                        <td data-title="'Kreditor'" sortable="'kreditor'">{{row.kreditor}}</td>
+                        <td data-title="'Kreditor'" ng-if="user.type == 'a' || user.type == 'p'" sortable="'kreditor'">{{row.kreditor}}</td>
                         <td data-title="'Beleg Typ'" sortable="'payment_name'">{{row.payment_name}}</td>
                         <td data-title="'Beleg -Datum'" sortable="'kreditor'">{{getDate(row.receipt_date) | date: "dd.MM.yyyy"}}</td>
                         <td data-title="'Betrag'" sortable="'request_cost'">{{row.request_cost | number:2 }} €</td>
@@ -195,7 +195,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                             </a>
                         </td>
                       </tr>
-                      <tr ng-if="!$data.length"><td class="no-result" colspan="11">Keine Ergebnisse</td></tr>
+                      <tr ng-if="!$data.length"><td class="no-result" colspan="{{user.type == 'a' || user.type == 'p' ? '10' : '11'}}" >Keine Ergebnisse</td></tr>
 										</table>
 										<div class="btn-row m-t-15 clearfix">
                       <button class="btn m-b-5" ng-if="user.type == 'a' || user.type == 'p'" ng-disabled="!existsSelected()" ng-click="setPaymentDate()">Zahl. Datum hinzufügen</button>
