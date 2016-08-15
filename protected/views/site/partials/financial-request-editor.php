@@ -202,7 +202,7 @@
             <div class="col-lg-2 p-0  m-t-5">
               <span class="symbol">€</span>
             </div>
-            <div class="col-lg-1">
+            <div class="col-lg-1" ng-if="isInsert || financialRequest.status == 1">
                <button class="btn custom-btn refresh-summ" ng-click="refreshSumm()">
 							  <i class="fa fa-rotate-left"></i>
 						  </button>

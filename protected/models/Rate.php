@@ -18,6 +18,9 @@ class Rate extends BaseModel {
     if(safe($params, 'LAST_RATE_ID')) {
       $command -> andWhere('tbl.id = :last_rate_id + 1', array(':last_rate_id' => $params['LAST_RATE_ID']));
     }
+    if(safe($params, 'RATE_ID')) {
+      $command -> andWhere('tbl.id = :rate_id', array(':rate_id' => $params['RATE_ID']));
+    }
     $command = $this->setWhereByRole($command);
     
     return $command;

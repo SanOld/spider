@@ -21,18 +21,23 @@ class FinancialRequest extends BaseModel {
   protected function getCommand() {
     
     if(safe($_GET, 'list') == 'year') {      
-      $command = Yii::app() -> db -> createCommand()->select('req.year')
+      $command = Yii::app() -> db -> createCommand()->selectDistinct('req.year')
                 ->from('spi_request req')->group('year');
-      $command  ->rightJoin ($this -> table . ' tbl',              'tbl.request_id = req.id' );
       $command -> leftJoin ('spi_project prj',                    'req.project_id      = prj.id');
-      
+      $command  ->where ('req.status_id = 5');
     }else if(safe($_GET, 'list') == 'project'){      
       $command = Yii::app() -> db -> createCommand()
-                ->select('prj.id project_id, prj.code project_code')
+                ->selectDistinct('prj.id project_id, prj.code project_code')
                 ->from('spi_project prj')->group('prj.code');      
       $command  ->leftJoin  ('spi_request req',                    'req.project_id = prj.id' );
-      $command  ->rightJoin ($this -> table . ' tbl',              'tbl.request_id = req.id' );
-      
+      $command  ->where ('req.status_id = 5');
+    }else if(safe($_GET, 'list') == 'summary'){      
+      $command = Yii::app() -> db -> createCommand()
+                ->select('prj.id project_id, prj.code project_code, req.*, tbl.*')
+                ->from('spi_project prj');      
+      $command  ->join  ('spi_request req',                       'req.project_id = prj.id' );
+      $command  ->leftJoin($this -> table . ' tbl',               'tbl.request_id = req.id');
+      $command  ->where ('req.status_id = 5');
     }else{   
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> leftJoin ('spi_payment_type pat',               'tbl.payment_type_id = pat.id');
