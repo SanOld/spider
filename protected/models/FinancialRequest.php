@@ -111,31 +111,33 @@ class FinancialRequest extends BaseModel {
   }
   
   protected function doAfterSelect($result) {
-    if (isset($_GET['id'])){
-      $row = $result['result'][0];
-      $row['schools'] = Yii::app() -> db -> createCommand()
-                                      -> select("sch.*
-                                                ,CONCAT(IF(user.sex = 1, 'Herr', 'Frau' ), ' ' , user.first_name, ' ', user.last_name)  user_name
-                                                , user.function user_function")
-                                      -> from('spi_project_school prj_sch')
-                                      -> join( 'spi_school sch', 'prj_sch.school_id = sch.id' )
-                                      -> leftJoin( 'spi_user user', 'user.id = sch.contact_id' )
-                                      -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
-                                      -> queryAll();
-      $result['result'] =  $row;
-    }else {
-      if($this->user['type'] == TA){
-      foreach($result['result'] as &$row) {        
-          $schools = Yii::app() -> db -> createCommand()
-          -> select('scl.*') -> from('spi_project_school prs')
-          -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
-          -> leftJoin('spi_request req', 'req.project_id=prs.project_id')
-          -> where('req.id=:id', array(':id' => $row['request_id'])) 
-          -> queryAll();
-          $row['schools'] = $schools;
+    if(!safe($_GET, 'list')){
+      if (isset($_GET['id'])){
+        $row = $result['result'][0];
+        $row['schools'] = Yii::app() -> db -> createCommand()
+                                        -> select("sch.*
+                                                  ,CONCAT(IF(user.sex = 1, 'Herr', 'Frau' ), ' ' , user.first_name, ' ', user.last_name)  user_name
+                                                  , user.function user_function")
+                                        -> from('spi_project_school prj_sch')
+                                        -> join( 'spi_school sch', 'prj_sch.school_id = sch.id' )
+                                        -> leftJoin( 'spi_user user', 'user.id = sch.contact_id' )
+                                        -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
+                                        -> queryAll();
+        $result['result'] =  $row;
+      }else {
+        if($this->user['type'] == TA){
+        foreach($result['result'] as &$row) {        
+            $schools = Yii::app() -> db -> createCommand()
+            -> select('scl.*') -> from('spi_project_school prs')
+            -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
+            -> leftJoin('spi_request req', 'req.project_id=prs.project_id')
+            -> where('req.id=:id', array(':id' => $row['request_id'])) 
+            -> queryAll();
+            $row['schools'] = $schools;
+          };
         };
       };
-    };
+    };    
     return $result;
   }
   
