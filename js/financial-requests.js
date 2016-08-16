@@ -96,41 +96,41 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       };
     });
     
-    $scope.getProjects = function(){    
-      network.get('financial_request', {list: 'project'}, function (result, response) {
-        if(result) {
-          $scope.projects = response.result;
-        };
-      });
-    };
-    $scope.getProjects();
+       
+    network.get('financial_request', {list: 'project'}, function (result, response) {
+      if(result) {
+        $scope.projects = response.result;
+      };
+    });    
     
-    $scope.getYear = function(){
-      network.get('financial_request', {list: 'year'}, function (result, response) {
-        if(response.result.length > 0) {
-          for(var i = 0; i < response.result.length; i++){
-            $scope.years.push(response.result[i].year);
-          };
-          $scope.defaulFilter = {year: $scope.years[0]};
-          
-          if($scope.years.indexOf($scope.filter.year) == -1){
-            $scope.filter.year = $scope.years[0].year;
-            $scope.setFilter();
-            grid.reload();
-          };          
+    network.get('financial_request', {list: 'year'}, function (result, response) {
+      if(response.result.length > 0) {
+        for(var i = 0; i < response.result.length; i++){
+          $scope.years.push(response.result[i].year);
         };
-      });
-    };
-    $scope.getYear();
-  
-    $scope.getPerformers = function(){
-      network.get('performer', {}, function (result, response) {
-        if(result) {
-          $scope.performers = response.result;
+        $scope.defaulFilter = {year: $scope.years[0]};
+
+        if($scope.years.indexOf($scope.filter.year) == -1){
+          $scope.filter.year = $scope.years[0].year;
+          $scope.setFilter();
+          grid.reload();
+        };          
+      };
+    });
+    
+    network.get('performer', {}, function (result, response) {
+      if(result) {
+        $scope.performers = response.result;
+      };
+    });
+    
+    if(network.user.type == 't'){
+      network.get('school', {filter: 1, requests: 1}, function (result, response) {
+        if (result) {
+          $scope.schools = response.result;
         };
-      });
+      }); 
     };
-    $scope.getPerformers();
     
     $scope.updateSummary = function (project){
       $scope.summary = {
@@ -166,10 +166,10 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       return $scope.summary;
     };
     
-    $scope.updateProject = function(id, year){
+    $scope.updateProject = function(id, year, school_id, performer_id){
       delete $scope.summary;
       delete $scope.project;
-      network.get('financial_request', {'project_id': id ? id : '', 'year': year ? year : '', list: 'summary'}, function (result, response) {
+      network.get('financial_request', {'project_id': id ? id : '', 'year': year ? year : '', list: 'summary', school_id: school_id, performer_id: performer_id}, function (result, response) {
         if(response.result.length) {
           if(response.result.length == 1){
             $scope.project = $scope.updateSummary(response.result);

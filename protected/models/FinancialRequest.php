@@ -16,7 +16,8 @@ class FinancialRequest extends BaseModel {
                                 prf.name performer_name, 
                                 prf.address, req.year, 
                                 bnk.bank_name kreditor,
-                                pat.name payment_name';
+                                pat.name payment_name,
+                                (SELECT name FROM spi_school scl WHERE scl.id=prj.id) AS `school_name`';
 
   protected function getCommand() {
     
@@ -74,6 +75,11 @@ class FinancialRequest extends BaseModel {
     if(safe($params, 'PROJECT_TYPE_ID')) {
       $command -> andWhere('prj.type_id = :project_type_id',   array(':project_type_id' => $params['PROJECT_TYPE_ID']));
     }
+    if(safe($params, 'SCHOOL_ID')) {      
+      $command -> leftJoin('spi_project_school sps',           'sps.project_id=prj.id');      
+      $command -> join    ( 'spi_school scl',                  'sps.school_id = scl.id' );
+      $command -> andWhere("scl.id = :school_id",              array(':school_id' => $params['SCHOOL_ID']));
+    }
     if(safe($params, 'PERFORMER_ID')) {
       $command -> andWhere('prj.performer_id = :performer_id', array(':performer_id' => $params['PERFORMER_ID']));
     }
@@ -102,6 +108,34 @@ class FinancialRequest extends BaseModel {
         break;
     }
     return $command;
+  }
+  
+  protected function doAfterSelect($result) {
+    if (isset($_GET['id'])){
+      $row = $result['result'][0];
+      $row['schools'] = Yii::app() -> db -> createCommand()
+                                      -> select("sch.*
+                                                ,CONCAT(IF(user.sex = 1, 'Herr', 'Frau' ), ' ' , user.first_name, ' ', user.last_name)  user_name
+                                                , user.function user_function")
+                                      -> from('spi_project_school prj_sch')
+                                      -> join( 'spi_school sch', 'prj_sch.school_id = sch.id' )
+                                      -> leftJoin( 'spi_user user', 'user.id = sch.contact_id' )
+                                      -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
+                                      -> queryAll();
+      $result['result'] =  $row;
+    }else {
+      foreach($result['result'] as &$row) {
+        if($row['project_id']){
+          $schools = Yii::app() -> db -> createCommand()
+          -> select('scl.*') -> from('spi_project_school prs')
+          -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
+          -> where('prs.project_id=:id', array(':id' => $row['project_id'])) 
+          -> queryAll();
+          $row['schools'] = $schools;
+        };
+      };
+    };
+    return $result;
   }
   
 }
