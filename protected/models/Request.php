@@ -208,7 +208,7 @@ class Request extends BaseModel {
 
   protected function calcStatusId($row, $userType) {
 
-    if (in_array($row['status_id'], array('2', '4', '5'))) {
+    if (in_array($row['status_id'], ['2', '4', '5'])) {
       $result = $row['status_id'];
       return $result;
     }
