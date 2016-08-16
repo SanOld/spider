@@ -163,9 +163,3 @@ $this->breadcrumbs = array('Projekte');
   </div>
 </script>
 
-<script type="text/ng-template" id="headerCheckbox.html">
-  <label class="cr-styled">
-    <input type="checkbox" ng-model="checkboxes.checked" ng-click="headerChecked(checkboxes.checked)">
-    <i class="fa"></i>
-  </label>
-</script>

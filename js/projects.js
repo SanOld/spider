@@ -15,6 +15,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
     $scope.existsSelected = function() {
       return !!getSelectedIds().length;
     };
+    $scope.user_type = network.user.type;
     function getSelectedIds() {
       var ids = [];
       for(var k in $scope.checkboxes.items) {
