@@ -1,4 +1,4 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, Utils, $location, RequestService, SweetAlert) {
+spi.controller('RequestController', function ($scope, $rootScope, network, Utils, $location, RequestService, SweetAlert, $timeout) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
@@ -17,12 +17,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.isChangedConceptForm = false;
   $scope.isChangedGoalsForm = false;
 
-  $scope.tabs = $scope.isFinansist ? ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'] : ['project-data', 'school-concepts', 'schools-goals'];
+
+  $scope.tabs = ($scope.isFinansist ) ? ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'] : ['project-data', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
   if(hash && $scope.tabs.indexOf(hash) !== -1) {
     $scope.tabActive = $location.hash();
   }
-
 
   $scope.setTab = function(name) {
     $location.hash(name);
@@ -56,11 +56,17 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $scope.goalsStatus = goalsStatus;
   };
 
-  $scope.updateRights = function(){
-    $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
+
   };
+
   $scope.setBonusProject = function(is_bonus_project){
     $scope.is_bonus_project = is_bonus_project;
+    if($scope.user_type == 's' && is_bonus_project && hash == 'finance-plan'){
+      $location.hash('finance-plan');
+      $timeout(function(){
+        $scope.tabActive = $location.hash();
+      });      
+    }
   }
   $scope.setProjectID = function(projectID){
     $scope.projectID = projectID;
