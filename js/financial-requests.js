@@ -133,12 +133,11 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     $scope.getPerformers();
     
     $scope.updateSummary = function (project){
-      var total_cost = project[0].total_cost.split('.');
       $scope.summary = {
         'project_code': project[0].project_code,
         'start_date'  : project[0].start_date,
         'due_date'    : project[0].due_date,
-        'total_cost'  : total_cost[0],
+        'total_cost'  : Number(project[0].total_cost),
         'changes'     : 0,
         'spending'    : 0,
         'remained'    : 0,
@@ -397,6 +396,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.error = false;
     
     $scope.getProjects = function (year) {
+      $scope.year = year;
       if($scope.isInsert){
         delete $scope.financialRequest.request_id;
         delete $scope.selectProjectDetails;
@@ -504,13 +504,45 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.selectRepresentativeUser = Utils.getRowById(response.result, $scope.financialRequest.representative_user_id);            
         };
       });         
-    }; 
+    };
     
-    $scope.countRequestCost = function (payment_id){
+    $scope.countRequestCost = function (request_id){
+      var summary = {};
+      network.get('financial_request', {request_id: request_id, year: $scope.year}, function(result, response){
+        if(response.result.length) {
+          var number_of_payments = 0;
+          summary = {
+            'total_cost'  : Number(response.result[0].total_cost),
+            'changes'     : 0,
+            'actual'      : 0
+          };
+          for(var i = 0; i < response.result.length; i++){
+            if(response.result[i].status_id == 3){
+              if(response.result[i].payment_type_id == 1){                
+                ++number_of_payments;
+              };
+              if(response.result[i].payment_type_id == 2){
+                summary['changes'] -= Number(response.result[i].request_cost);
+              };
+              if(response.result[i].payment_type_id == 3){
+                summary['changes'] += Number(response.result[i].request_cost);
+              };
+            };
+          };
+          summary['actual'] = Number(summary['total_cost']) + Number(summary['changes']);
+          summary['actual'] = summary['actual'] / (6 - number_of_payments);
+        }else{
+          summary['actual'] = Number($scope.selectProjectDetails.total_cost) / 6;
+        };
+        $scope.financialRequest.request_cost =  $scope.request_cost = summary['actual'].toFixed(2);
+      });
+    };
+    
+    $scope.updateCost = function (payment_id, request_id){
       if(payment_id != 1){
         delete $scope.financialRequest.request_cost;
       }else{
-        $scope.financialRequest.request_cost =  $scope.request_cost = ($scope.selectProjectDetails.total_cost / 6).toFixed(2);
+        $scope.countRequestCost(request_id);
       };   
     };
     
