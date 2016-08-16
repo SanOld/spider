@@ -224,41 +224,66 @@ class DocumentTemplate extends BaseModel {
         , '{KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $this->requestData['project_id']))->queryScalar()
         , '{ZEITRAUM}'      => 'Beginn: '.$this->requestData['start_date'].' Ende: '.$this->requestData['due_date']
         , '{TRAEGER}'       => $this->performerData['name']
+     );
 
-        , '{PD_TRAGER_ADRESSE}'   => $this->performerData['address']
-        , '{PD_TRAEGER_PLZ}'      => $this->performerData['plz']
-        , '{PD_TRAEGER_Stadt}'    => $this->performerData['city']
-        , '{PD_TRAEGER_Telefon}'  => $this->performerData['phone']
-        , '{PD_TRAEGER_Telefax}'  => $this->performerData['fax']
-        , '{PD_TRAEGER_Homepage}' => $this->performerData['homepage']
-        , '{PD_TRAEGER_Email}'    => $this->performerData['email']
-            
-        , '{PD_Vertretungsberechtigte_Anrede}'   => $this->performerRepresentativeUser['gender']
+
+    if($this->performerData){
+      $data = array(
+            '{PD_TRAGER_ADRESSE}'   => $this->performerData['address']
+          , '{PD_TRAEGER_PLZ}'      => $this->performerData['plz']
+          , '{PD_TRAEGER_Stadt}'    => $this->performerData['city']
+          , '{PD_TRAEGER_Telefon}'  => $this->performerData['phone']
+          , '{PD_TRAEGER_Telefax}'  => $this->performerData['fax']
+          , '{PD_TRAEGER_Homepage}' => $this->performerData['homepage']
+          , '{PD_TRAEGER_Email}'    => $this->performerData['email']
+      );
+      array_merge($params,$data);
+    }
+
+    if($this->performerData){
+      $data = array(
+          '{PD_Vertretungsberechtigte_Anrede}'   => $this->performerRepresentativeUser['gender']
         , '{PD_Vertretungsberechtigte_Function}' => $this->performerRepresentativeUser['function']
         , '{PD_Vertretungsberechtigte_Vorname}'  => $this->performerRepresentativeUser['first_name']
         , '{PD_Vertretungsberechtigte_Nachname}' => $this->performerRepresentativeUser['last_name']
-
-        , '{PD_Konzept_Anrede}'   => $this->requestConceptUser['gender']
+      );
+      array_merge($params,$data);
+    }
+    if($this->performerData){
+      $data = array(
+          '{PD_Konzept_Anrede}'   => $this->requestConceptUser['gender']
         , '{PD_Konzept_Function}' => $this->requestConceptUser['function']
         , '{PD_Konzept_Vorname}'  => $this->requestConceptUser['first_name']
         , '{PD_Konzept_Nachname}' => $this->requestConceptUser['last_name']
         , '{PD_Konzept_Telefon}'  => $this->requestConceptUser['phone']
         , '{PD_Konzept_Email}'    => $this->requestConceptUser['email']
-
-        , '{PD_Finance_Anrede}'   => $this->requestFinanceUser['gender']
+      );
+      array_merge($params,$data);
+    }
+    if($this->performerData){
+      $data = array(
+          '{PD_Finance_Anrede}'   => $this->requestFinanceUser['gender']
         , '{PD_Finance_Function}' => $this->requestFinanceUser['function']
         , '{PD_Finance_Vorname}'  => $this->requestFinanceUser['first_name']
         , '{PD_Finance_Nachname}' => $this->requestFinanceUser['last_name']
         , '{PD_Finance_Telefon}'  => $this->requestFinanceUser['phone']
         , '{PD_Finance_Email}'    => $this->requestFinanceUser['email']
-
-        , '{PD_Bank_Contact}' => $this->bankDetails['contact_person']
+      );
+      array_merge($params,$data);
+    }
+    if($this->performerData){
+      $data = array(
+          '{PD_Bank_Contact}' => $this->bankDetails['contact_person']
         , '{PD_Bank_Name}'    => $this->bankDetails['bank_name']
         , '{PD_Bank_Outer}'   => $this->bankDetails['outer_id']
         , '{PD_Bank_Descr}'   => $this->bankDetails['description']
         , '{PD_Bank_IBAN}'    => $this->bankDetails['iban']
-
-        , '{PD_District_Bezirk}'          => $this->districtData['name']
+      );
+      array_merge($params,$data);
+    }
+    if($this->performerData){
+      $data = array(
+          '{PD_District_Bezirk}'          => $this->districtData['name']
         , '{PD_District_PLZ}'             => $this->districtData['plz']
         , '{PD_District_Stadt}'           => $this->districtData['city']
         , '{PD_District_Straße}'          => $this->districtData['address']
@@ -267,9 +292,9 @@ class DocumentTemplate extends BaseModel {
         , '{PD_District_Email}'           => $this->districtData['email']
         , '{PD_District_Homepage}'        => $this->districtData['homepage']
         , '{PD_District_Address}'         => $this->districtData['full_address']
-
-
       );
+      array_merge($params,$data);
+    } 
 
     return $this->doReplace($text,$params);
   }
