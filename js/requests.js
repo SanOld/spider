@@ -564,6 +564,13 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     }
     return result;
   }
+
+    window.onfocus = function() {
+    if (localStorageService.get('dataChanged') === '1'){
+      grid.reload();
+      localStorageService.set('dataChanged', 0);
+    }
+  }
 });
 
 
