@@ -192,20 +192,23 @@
           </div>
           <div class="form-group">
             <label class="col-lg-4 control-label">Betrag</label>
-            <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('request_cost')}">
-              <input required class="form-control" type="text" ng-model="financialRequest.request_cost" ng-disabled="!rights.fields" name="request_cost">
-              <span ng-class="{hide: !fieldError('request_cost')}" class="hide">
-                <label class="error">Betrag erforderlich</label>
-                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-              </span>
+            <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('request_cost') || error}">
+              <input required ng-change="checkCost(financialRequest.request_cost, financialRequest.payment_type_id)" class="form-control" type="text" ng-model="financialRequest.request_cost" ng-disabled="!rights.fields" name="request_cost">
             </div>
             <div class="col-lg-2 p-0  m-t-5">
               <span class="symbol">€</span>
             </div>
             <div class="col-lg-1" ng-if="isInsert || financialRequest.status == 1">
-               <button class="btn custom-btn refresh-summ" ng-click="refreshSumm()">
+                <button class="btn custom-btn refresh-summ" ng-click="refreshSumm()" title="Refresh Betrag">
 							  <i class="fa fa-rotate-left"></i>
 						  </button>
+            </div>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-8 m-t-5">
+              <span ng-class="{hide: !fieldError('request_cost'),hide: !error}" class="hide">
+                <label ng-show="fieldError('request_cost')" class="error">Betrag erforderlich</label>
+                <label ng-show="error" class="error">Nur kleinere Betrag ist erlaubt </label>
+              </span>
             </div>
           </div>
           <div class="form-group">
