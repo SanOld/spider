@@ -141,8 +141,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     var result = true;
     var request = RequestService.getProjectData();
     if(request){
-      result = (['2','4','5'].indexOf(request.status_id) === -1);
+      var result1 = (['2','4','5'].indexOf(request.status_id) === -1);
+      var result2 = (['a','p','t'].indexOf($scope.user_type) !== -1);
+      result = result1 && result2;
     }
+      
+
     return result;
   }
 
