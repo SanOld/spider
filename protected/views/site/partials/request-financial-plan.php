@@ -204,14 +204,13 @@
                       <div class="col-lg-3">
 
                         <div  class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.group_id, 'Entgeltgruppe') && errorShow) }">
-                              <ui-select required name = "{{'Entgeltgruppe'+String($index)}}" class="type-document" ng-model="emploee.group_id"  ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
+                              <ui-select required name = "{{'Entgeltgruppe'+String($index)}}" class="type-document" ng-model="emploee.group_id" ng-init="emploee.group_id = emploee.group_id || '4'" ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
                                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices repeat="item.id as item in request_financial_group | filter: $select.search | orderBy: 'name'">
                                   <span ng-bind-html="item.name | highlight: $select.search"></span>
                                 </ui-select-choices>
                               </ui-select>
                               <br>
-                        <ng-init  emploee.group_id = emploee.group_id || '4' >
                         </div>
                       </div>
                     </div>
