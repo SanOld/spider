@@ -161,8 +161,8 @@ class DocumentTemplate extends BaseModel {
           /*start BankDetails*/
           $Request = CActiveRecord::model('BankDetails');
           $Request->user = $this->user;
-          $requestInfo = $Request->select(array('performer_id' => $this->requestData['performer_id'] ), true);
-          $this->bankDetails = $requestInfo['result'];
+          $requestInfo = $Request->select(array('id' => $this->requestData['bank_details_id'] ), true);
+          $this->bankDetails = $requestInfo['result'][0];
           /*end BankDetails*/
 
           /*start RequestProfAssociation*/
