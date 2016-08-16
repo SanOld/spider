@@ -25,7 +25,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 										<div class="col-lg-2 p-r-0">
 											<div class="form-group">
 												<label>Suche nach Projekt</label>
-												<ui-select on-select="updateProject(filter.project_id, filter.year)" ng-change="updateGrid()" ng-model="filter.project_id">
+												<ui-select on-select="updateProject(filter.project_id, filter.year, filter.school_id, filter.performer_id)" ng-change="updateGrid()" ng-model="filter.project_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.project_code}}</ui-select-match>
                           <ui-select-choices repeat="item.project_id as item in projects | filter: $select.search | orderBy: 'project_code'">
                             <span ng-bind="item.project_code"></span>
@@ -50,7 +50,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 											<div class="form-group">
 												<div class="form-group">
 													<label>Jahr</label>
-													<ui-select on-select="updateProject(filter.project_id, filter.year)" ng-change="updateGrid()" ng-model="filter.year">
+													<ui-select on-select="updateProject(filter.project_id, filter.year, filter.school_id, filter.performer_id)" ng-change="updateGrid()" ng-model="filter.year">
                             <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected}}</ui-select-match>
                             <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: 'item'">
                               <span ng-bind="item"></span>
@@ -93,12 +93,21 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                       </div>
                       <div class='clearfix'>
 										<div class="col-lg-4 p-r-0">
-                      <div class="form-group">
+                      <div class="form-group" ng-hide="user.type  == 't'">
                         <label>Träger</label>
-                        <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
+                        <ui-select on-select="updateProject(filter.project_id, filter.year, filter.school_id, filter.performer_id)" ng-change="updateGrid()" ng-model="filter.performer_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.short_name}}</ui-select-match>
                           <ui-select-choices repeat="item.id as item in performers | filter: $select.search">
                             <span ng-bind="item.short_name"></span>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>  
+                      <div class="form-group" ng-show="user.type  == 't'">  
+                        <label>Schule</label>  
+                        <ui-select on-select="updateProject(filter.project_id, filter.year, filter.school_id, filter.performer_id)" ng-change="updateGrid()" ng-model="filter.school_id">
+                          <ui-select-match allow-clear="true" placeholder="Schule eingegeben">{{$select.selected.name}}</ui-select-match>
+                          <ui-select-choices repeat="item.id as item in schools | filter: $select.search | orderBy: 'code'">
+                            <span ng-bind="item.name"></span>
                           </ui-select-choices>
                         </ui-select>
                       </div>
@@ -178,8 +187,13 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                         </td>
                         <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
                         <td data-title="'Rate'" sortable="'rate'">{{row.rate}}</td>
-                        <td data-title="'Träger'" sortable="'performer_name'">
-                          <a href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a></td>
+                        <td data-title="user.type != 't' ? 'Träger / Profil' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
+                         <div class="holder-school">
+                          <a ng-if="user.type != 't'" href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a>
+                          <i ng-if="user.type != 't' && +row.performer_is_checked" class="success fa fa-check-circle" aria-hidden="true"></i>
+                          <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
+                         </div>
+                        </td>
                         <td data-title="'Kreditor'" ng-if="user.type == 'a' || user.type == 'p'" sortable="'kreditor'">{{row.kreditor}}</td>
                         <td data-title="'Beleg Typ'" sortable="'payment_name'">{{row.payment_name}}</td>
                         <td data-title="'Beleg -Datum'" sortable="'kreditor'">{{getDate(row.receipt_date) | date: "dd.MM.yyyy"}}</td>

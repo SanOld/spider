@@ -38,7 +38,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         $scope.schools = response.result;
       }
     }); 
-   } 
+  } 
   network.get('school_type', {}, function (result, response) {
     if (result) {
       $scope.schoolTypes = response.result;
