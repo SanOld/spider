@@ -134,7 +134,7 @@ class DocumentTemplate extends BaseModel {
         if($this->performerUsers[$key]['user_id'] == $this->requestData['finance_user_id']){
           $this->requestFinanceUser = $this->performerUsers[$key];
         }
-        if($this->performerUsers[$key]['user_id'] == $this->performerData['representative_user_id']){
+        if($this->performerUsers[$key]['user_id'] == $this->performerData['representative_user_id'] && 1==2){
           $this->performerRepresentativeUser = $this->performerUsers[$key];
         }
       }
@@ -240,7 +240,7 @@ class DocumentTemplate extends BaseModel {
       array_merge($params,$data);
     }
 
-    if($this->performerData){
+    if($this->performerRepresentativeUser){
       $data = array(
           '{PD_Vertretungsberechtigte_Anrede}'   => $this->performerRepresentativeUser['gender']
         , '{PD_Vertretungsberechtigte_Function}' => $this->performerRepresentativeUser['function']
@@ -249,7 +249,7 @@ class DocumentTemplate extends BaseModel {
       );
       array_merge($params,$data);
     }
-    if($this->performerData){
+    if($this->requestConceptUser){
       $data = array(
           '{PD_Konzept_Anrede}'   => $this->requestConceptUser['gender']
         , '{PD_Konzept_Function}' => $this->requestConceptUser['function']
@@ -260,7 +260,7 @@ class DocumentTemplate extends BaseModel {
       );
       array_merge($params,$data);
     }
-    if($this->performerData){
+    if($this->requestFinanceUser){
       $data = array(
           '{PD_Finance_Anrede}'   => $this->requestFinanceUser['gender']
         , '{PD_Finance_Function}' => $this->requestFinanceUser['function']
@@ -271,7 +271,7 @@ class DocumentTemplate extends BaseModel {
       );
       array_merge($params,$data);
     }
-    if($this->performerData){
+    if($this->bankDetails){
       $data = array(
           '{PD_Bank_Contact}' => $this->bankDetails['contact_person']
         , '{PD_Bank_Name}'    => $this->bankDetails['bank_name']
@@ -281,7 +281,7 @@ class DocumentTemplate extends BaseModel {
       );
       array_merge($params,$data);
     }
-    if($this->performerData){
+    if($this->districtData){
       $data = array(
           '{PD_District_Bezirk}'          => $this->districtData['name']
         , '{PD_District_PLZ}'             => $this->districtData['plz']
