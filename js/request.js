@@ -1165,13 +1165,13 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     var definer = 0;
     if(num(school.rate) <= 0.5){
       definer = 0.5;
-      school.training_cost = 1800 * definer;
+      school.overhead_cost = 3000 * definer;
     }else if(num(school.rate) % 1 == 0.5) {
       definer = num(school.rate);
-      school.training_cost = 1800 * definer;
+      school.overhead_cost = 3000 * definer;
     } else {
       definer = Math.round(num(school.rate));
-      school.training_cost = 1800 * definer;
+      school.overhead_cost = 3000 * definer;
     }
     $scope.updateResultCost();
   }
