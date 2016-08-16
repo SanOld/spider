@@ -124,12 +124,13 @@ class FinancialRequest extends BaseModel {
                                       -> queryAll();
       $result['result'] =  $row;
     }else {
-      foreach($result['result'] as &$row) {
-        if($row['project_id']){
+      if($this->user['type'] == TA){
+      foreach($result['result'] as &$row) {        
           $schools = Yii::app() -> db -> createCommand()
           -> select('scl.*') -> from('spi_project_school prs')
           -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
-          -> where('prs.project_id=:id', array(':id' => $row['project_id'])) 
+          -> leftJoin('spi_request req', 'req.project_id=prs.project_id')
+          -> where('req.id=:id', array(':id' => $row['request_id'])) 
           -> queryAll();
           $row['schools'] = $schools;
         };
