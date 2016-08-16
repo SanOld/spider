@@ -394,6 +394,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.rights = {};
     $scope.financialRequests = [];
     $scope.financialRequestId = data.id;
+    $scope.error = false;
     
     $scope.getProjects = function (year) {
       if($scope.isInsert){
@@ -514,6 +515,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     };
     
     $scope.refreshSumm = function (){
+      $scope.error = false;
       $scope.financialRequest.request_cost =  $scope.request_cost;
     };
     
@@ -603,11 +605,13 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       });
     };
     
-    $scope.getError = function (request_cost) {
-      if(request_cost > $scope.request_cost){
-        return false;
-      }
-      return true;
+    $scope.checkCost = function (request_cost, payment_type) {
+      if(payment_type == 1){
+        $scope.error = false;
+        if(request_cost > Number($scope.request_cost)){
+          $scope.error = true;
+        };
+      };
     };
     
     $scope.fieldError = function(field) {
@@ -618,7 +622,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.submitFormFinancialRequest = function () {
       $scope.submited = true;
       $scope.formFinancialRequest.$setPristine();
-      if ($scope.formFinancialRequest.$valid) {
+      if ($scope.formFinancialRequest.$valid && !$scope.error) {
         var callback = function (result, response) {
           if (result) {
             if(network.user.type != 't'){
