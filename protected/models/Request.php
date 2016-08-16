@@ -208,7 +208,7 @@ class Request extends BaseModel {
 
   protected function calcStatusId($row, $userType) {
 
-    if (in_array($row['status_id'], ['2', '4', '5'])) {
+    if (in_array($row['status_id'], array('2', '4', '5'))) {
       $result = $row['status_id'];
       return $result;
     }
@@ -353,7 +353,15 @@ class Request extends BaseModel {
         $RequestSchoolConcept->insert($data, true);
 
         $data['rate'] = $rate;
-        $data['overhead_cost'] = 3000;
+        if($rate <= 0.5){
+          $data['overhead_cost'] = 3000 * 0.5;
+        }else if($rate % 1 == 0.5) {
+          $data['overhead_cost'] = 3000 * $rate;
+        } else {
+          $data['overhead_cost'] = 3000 * round($rate);
+        };
+        $data['training_cost'] = 1800;
+        
         $RequestSchoolFinance->insert($data, true);
         for ($i=1; $i<=5; $i++){
           $opt = 0;
