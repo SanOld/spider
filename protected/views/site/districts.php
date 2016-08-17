@@ -68,8 +68,8 @@ $this->breadcrumbs = array('Bezirk');
 
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
-      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Bezirk bearbeiten - {{district.name}}</h3>
-      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Bezirk ansicht - {{district.name}}</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Bezirk bearbeiten - {{district.name}}  #{{districtId}}</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Bezirk ansicht - {{district.name}} #{{districtId}}</h3>
       <h3 class="m-0 pull-left" ng-if="isInsert">Bezirk hinzufügen</h3>
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>

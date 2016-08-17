@@ -82,7 +82,7 @@ spi.controller('EditHintController', function ($scope, $uibModalInstance, data, 
   };
 
   if (!$scope.isInsert) {
-
+    $scope.hintId = data.id;
     $scope.page_name = data.page_name;
     $scope.position_name = data.position_name;
     $scope.showTitle = data.is_double;

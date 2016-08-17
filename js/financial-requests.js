@@ -1,7 +1,7 @@
 spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal, Utils, SweetAlert, $timeout) {
     $rootScope._m = 'financial_request';
     var d = new Date;
-    $scope.defaulFilter = {year: d.getFullYear()};
+    $scope.defaulFilter = {year: d.getFullYear(), status_id: 3};
     $scope.years = [];
     $scope.filter = localStorageService.get('requestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
     if(!$scope.filter == $scope.defaulFilter ){
@@ -510,7 +510,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       var summary = {};
       network.get('financial_request', {request_id: request_id, year: $scope.year}, function(result, response){
         if(response.result.length) {
-          var number_of_payments = 0;
           summary = {
             'total_cost'  : Number(response.result[0].total_cost),
             'changes'     : 0,
@@ -518,8 +517,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           };
           for(var i = 0; i < response.result.length; i++){
             if(response.result[i].status_id == 3){
-              if(response.result[i].payment_type_id == 1){                
-                ++number_of_payments;
+              if(response.result[i].payment_type_id == 1){
               };
               if(response.result[i].payment_type_id == 2){
                 summary['changes'] -= Number(response.result[i].request_cost);
@@ -530,7 +528,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
             };
           };
           summary['actual'] = Number(summary['total_cost']) + Number(summary['changes']);
-          summary['actual'] = summary['actual'] / (6 - number_of_payments);
+          summary['actual'] = summary['actual'] / 6 ;
         }else{
           summary['actual'] = Number($scope.selectProjectDetails.total_cost) / 6;
         };

@@ -65,7 +65,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                           <label>Status</label>
                           <ui-select ng-change="updateGrid()" ng-model="filter.status_id">
                             <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                            <ui-select-choices repeat="item.id as item in statuses | filter: $select.search | orderBy: 'name'">
+                            <ui-select-choices repeat="item.id as item in statuses | filter: $select.search | orderBy: 'id'">
                               <span ng-bind="item.name"></span>
                             </ui-select-choices>
                           </ui-select>

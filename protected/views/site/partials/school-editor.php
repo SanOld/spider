@@ -2,8 +2,8 @@
 
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
-      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Schule bearbeiten - {{school.name}}</h3>
-      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Schule ansicht - {{school.number}}</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Schule bearbeiten - {{school.name}} #{{schoolId}}</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Schule ansicht - {{school.number}} #{{schoolId}}</h3>
       <h3 class="m-0 pull-left" ng-if="isInsert">Schule hinzufügen</h3>
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
