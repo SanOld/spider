@@ -227,6 +227,7 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     },500);
     
     if(!$scope.isInsert) {
+        $scope.ProjectId = data.id;
         $scope.project = {
             code: data.code,
             rate: data.rate,

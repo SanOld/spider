@@ -19,11 +19,11 @@ $this->breadcrumbs = array('Audit');
         <div id="tab-history" class="panel-body">
           <div class="row">
             <div class="col-lg-12">
-              <div class="row datafilter">
-                <form>
+              <form>
+                <div class="row datafilter">
                   <div class="col-lg-3">
                     <div class="form-group">
-                      <label>Suche nach Namen</label>
+                      <label>Suche nach Benutzer oder ID</label>
                       <input ng-change="updateGrid()" ng-model="filter.user_name" class="form-control" type="text" placeholder="Eingegeben"/>
                     </div>
                   </div>
@@ -65,8 +65,38 @@ $this->breadcrumbs = array('Audit');
                   <div class="col-lg-2 reset-btn-width">
                     <button ng-click="resetFilter()" class="btn pull-right w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
                   </div>
-                </form>
-              </div>
+                </div>
+                <div class="row datafilter-1" ng-show="filter.table_name == 'request'">
+                  <div class="col-lg-2">
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label>Kennziffer</label>
+                        <input ng-change="updateGrid()" ng-model="filter.request_code" class="form-control" type="text" placeholder="Kennziffer eingegeben"/>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <label>Jahr</label>
+                    <ui-select ng-change="updateGrid()" ng-model="filter.request_year">
+                      <ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+                      <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: item">
+                        <span ng-bind="item"></span>
+                      </ui-select-choices>
+                    </ui-select>
+                  </div>
+                </div>
+                <div class="row datafilter-1" ng-show="filter.table_name == 'performer'">
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label>Suche nach Träger oder E-Mail</label>
+                        <input ng-change="updateGrid()" ng-model="filter.performer_name" class="form-control" type="text" placeholder="Eingegeben"/>
+                       </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </form>
 
 <!--              <table id="datatable" ng-cloak ng-table="tableParams"
                      class="table dataTable table-hover table-bordered table-edit">
@@ -86,6 +116,11 @@ $this->breadcrumbs = array('Audit');
                 </colgroup>
                 <tr ng-click="group.$hideRows = !group.$hideRows" class="ng-table-group thead" ng-repeat-start="group in $groups" ng-class="{'open':group.$hideRows, 'delete': group.data[0].event_type == 'DEL', 'insert':  group.data[0].event_type == 'INS'}">
                   <td>
+                    <div class="row-title">
+                      <strong>#{{group.data[0].record_id}}</strong> 
+                      <spna>- {{group.data[0].table_name}}</spna> 
+                      <strong style="float: right;" ng-show="group.data[0].main_code">{{group.data[0].main_code}}</strong>
+                    </div>
                     <strong>{{group.data[0].operation_name}}</strong>
                     <span>von {{group.data[0].user_name}} am {{group.data[0].date_formated}}</span> 
                   </td>
