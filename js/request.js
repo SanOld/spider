@@ -149,6 +149,42 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
 
     return result;
   }
+  RequestService.sendMSG = function(callback){
+
+    SweetAlert.swal({
+      title: "Sind Sie sicher, dass Sie diesen Teil des Antrags zur Prüfung übermitteln möchten?",
+      text: "Wenn Sie den Antragsteil noch nicht übermitteln wollen, verwenden Sie die Speichern Schaltfläche, um den aktuellen Bearbeitungsstand zu sichern.",
+      type: "warning",
+      confirmButtonText: "Ja, senden",
+      showCancelButton: true,
+      cancelButtonText: "Abbrechen",
+      closeOnConfirm: true,
+      closeOnCancel: true
+    }, function(isConfirm){
+      if(isConfirm) {
+        callback();
+      }
+    });
+
+  };
+  RequestService.acceptMSG = function(callback){
+    callback = callback || function(){};
+     SweetAlert.swal({
+      title: "Ist die Prüfung abgeschlossen?",
+      text: "",
+      type: "warning",
+      confirmButtonText: "Ja, senden",
+      showCancelButton: true,
+      cancelButtonText: "Abbrechen",
+      closeOnConfirm: true,
+      closeOnCancel: true
+    }, function(isConfirm){
+      if(isConfirm) {
+        callback();
+      } 
+    });
+
+  };
 
   $scope.canEdit  = function (){
     return  RequestService.canEdit();
@@ -946,22 +982,20 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
   $scope.submitForm = function(status) {
 
+    
     if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
     var data = {};
     switch (status) {
       case 'accepted':
-        
+
         $scope.errorShow = true;
         if($scope.errorArray.length){
           return   $scope.$parent.doErrorIncompleteFields($scope.errorArray);
         } else {
           $scope.errorShow = false;
         }
-
         break;
       case 'in_progress':
-
-
 
         var finPlan = RequestService.financePlanData();
         delete finPlan.request;
@@ -970,8 +1004,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         data.revenue_description = $scope.data.revenue_description;
         data.revenue_sum = $scope.data.revenue_sum;
         data.finance_plan = finPlan;
-
-
 
         $scope.errorShow = true;
         if($scope.errorArray.length){
@@ -987,22 +1019,30 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         break;
     }
 
-      data['status_finance'] = status;
-      network.put('request/'+$scope.$parent.requestID, data, function(result, response) {
-        if(result) {
-          $scope.data.status_finance = status;
-          $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
-          $scope.$parent.setFinanceStatus(status);
-          RequestService.afterSave();
-          if (network.user.type == 'a') {
-            $scope.$parent.submitRequest();
+    callback = function(){
+        data['status_finance'] = status;
+        network.put('request/'+$scope.$parent.requestID, data, function(result, response) {
+          if(result) {
+            $scope.data.status_finance = status;
+            $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
+            $scope.$parent.setFinanceStatus(status);
+            RequestService.afterSave();
+            if (network.user.type == 'a') {
+              $scope.$parent.submitRequest();
+            }
           }
-        }
-      });
+        });
+    }
 
-
-
-
+    switch (status) {
+      case 'in_progress':
+        RequestService.sendMSG(callback);
+        break;
+      default:
+        RequestService.acceptMSG(callback);
+        break;
+    }
+    
   };
 
   RequestService.initFinancePlan = function(data){
@@ -1392,31 +1432,41 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   };
 
   $scope.submitForm = function(data, concept, action, index) {
-    switch (action) {
-      case 'submit':
-        if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteFields();
-        data.status = 'in_progress';
-        break;
-      case 'reject':
-        data.status = 'rejected';
-        if(!data.comment) return false;
-        break;
-      case 'accept':
-        if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteFields();
-        data.status = 'accepted';
-        break;
-    }
-    network.put('request_school_concept/' + concept.id, data, function(result){
-      if(result) {
-        concept.status = data.status;
-        concept.comment = data.status == 'accepted' ? '' : data.comment;
-        $scope.setBestStatusByUserType();
 
-        $scope.requestSchoolConcept();
+      callback = function(){
+        network.put('request_school_concept/' + concept.id, data, function(result){
+          if(result) {
+            concept.status = data.status;
+            concept.comment = data.status == 'accepted' ? '' : data.comment;
+            $scope.setBestStatusByUserType();
+
+            $scope.requestSchoolConcept();
+          }
+        });
       }
-    });
 
     
+      switch (action) {
+        case 'submit':
+          if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteFields();
+          data.status = 'in_progress';
+
+          RequestService.sendMSG(callback);
+          break;
+        case 'reject':
+          data.status = 'rejected';
+          if(!data.comment) return false;
+
+          RequestService.acceptMSG(callback);
+          break;
+        case 'accept':
+          if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteFields();
+          data.status = 'accepted';
+
+          RequestService.acceptMSG(callback);
+          break;
+      }
+
   };
 
   $scope.doCutText = function(newText, oldText, isNew) {
@@ -1738,55 +1788,59 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
   $scope.submitForm = function( goal, action ) {
 
-    submitRequest = function(){
-      var sendGoal = angular.copy(goal);
-      if ('groups' in sendGoal){delete sendGoal.groups;}
-      if ('errors' in sendGoal){delete sendGoal.errors;}
-      if ('showError' in sendGoal){delete sendGoal.showError;}
-      if ('newNotice' in sendGoal){delete sendGoal.newNotice;}
-        network.put('request_school_goal/' + sendGoal.id, sendGoal, function(result){
-          if(result) {
-            $scope.checkSchoolStatus();
-          }
-      });
-    }
 
-    isEmptyObject = function(obj) {
-      for (var i in obj) {
-          return false;
+      submitRequest = function(){
+        var sendGoal = angular.copy(goal);
+        if ('groups' in sendGoal){delete sendGoal.groups;}
+        if ('errors' in sendGoal){delete sendGoal.errors;}
+        if ('showError' in sendGoal){delete sendGoal.showError;}
+        if ('newNotice' in sendGoal){delete sendGoal.newNotice;}
+          network.put('request_school_goal/' + sendGoal.id, sendGoal, function(result){
+            if(result) {
+              $scope.checkSchoolStatus();
+            }
+        });
       }
-      return true;
-    }
-
-
-    switch (action) {
-      case 'submit':
-        if(isEmptyObject(goal.errors)){
-          goal.showError = false;
-          goal.status = 'in_progress';
-          submitRequest(goal);
-        } else {
-          goal.showError = true;
-          $scope.$parent.doErrorIncompleteFields();
+      isEmptyObject = function(obj) {
+        for (var i in obj) {
+            return false;
         }
-        break;
-      case 'declare':
-        goal.notice = goal.newNotice;
-        if (!goal.notice){
-          $scope.$parent.doErrorIncompleteField('Prüfnotiz');
-          return false;
-        }
-        goal.status = 'rejected';
-        submitRequest(goal);
+        return true;
+      }
 
-        break;
-      case 'accept':
-        goal.notice = goal.newNotice;
-        goal.status = 'accepted';
+      callback = function(){
+        goal.showError = false;
+        goal.status = $scope.tempStatus;
         submitRequest(goal);
-        break;
-    }
+      }
 
+      switch (action) {
+        case 'submit':
+          
+          if(isEmptyObject(goal.errors)){
+            $scope.tempStatus = 'in_progress';
+            RequestService.sendMSG(callback);
+          } else {
+            goal.showError = true;
+            $scope.$parent.doErrorIncompleteFields();
+          }
+          break;
+        case 'declare':
+          goal.notice = goal.newNotice;
+          if (!goal.notice){
+            $scope.$parent.doErrorIncompleteField('Prüfnotiz');
+            return false;
+          }
+          $scope.tempStatus = 'rejected';
+          RequestService.acceptMSG(callback);
+
+          break;
+        case 'accept':
+          goal.notice = goal.newNotice;
+          $scope.tempStatus = 'accepted';
+          RequestService.acceptMSG(callback);
+          break;
+      }
 
   };
 
