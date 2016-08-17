@@ -458,8 +458,8 @@
             <div class="col-lg-1 p-0 custom-col-1 m-t-5">
               <span class="symbol">€</span>
             </div>
-            <div class="col-lg-1 custom-col-1 m-t-5" ng-hide="undelitetdCount(prof_associations) <= 1" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress'">
-              <button ng-click="deleteProfAssociation($index)" class="no-btn" title="Entfernen">
+            <div class="col-lg-1 custom-col-1 m-t-5" ng-show="undelitetdCount(prof_associations) > 1 && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canFormEdit">
+              <button ng-click="deleteProfAssociation($index)" class="no-btn" title="Entfernen" >
                 <i class="ion-close-round"></i>
               </button>
             </div>

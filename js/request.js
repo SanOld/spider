@@ -11,14 +11,14 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.conceptStatus = '';
   $scope.goalsStatus = '';
   $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
-  $scope.is_bonus_project = false;
+  $scope.is_bonus_project = true;
   $scope.isChangedProjectForm = false;
   $scope.isChangedFinanceForm = false;
   $scope.isChangedConceptForm = false;
   $scope.isChangedGoalsForm = false;
 
 
-  $scope.tabs = ($scope.isFinansist ) ? ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'] : ['project-data', 'school-concepts', 'schools-goals'];
+  $scope.tabs = ($scope.isFinansist || $scope.user_type == 's' ) ? ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'] : ['project-data', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
   if(hash && $scope.tabs.indexOf(hash) !== -1) {
     $scope.tabActive = $location.hash();
@@ -56,9 +56,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $scope.goalsStatus = goalsStatus;
   };
 
-  $scope.updateRights = function(is_bonus_project){
-    $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist) || (is_bonus_project == '1' && network.user.type == 's');
-  };
 
   $scope.setBonusProject = function(is_bonus_project){
     $scope.is_bonus_project = is_bonus_project;
@@ -488,7 +485,6 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         };
         $scope.data = response.result;
 
-        $scope.$parent.updateRights();
         $scope.$parent.setProjectID($scope.data.code);
         $scope.$parent.setRequestYear($scope.data.year);
         $scope.$parent.setBonusProject($scope.data.is_bonus_project);
