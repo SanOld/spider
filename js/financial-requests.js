@@ -393,7 +393,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.rights = {};
     $scope.financialRequests = [];
     $scope.financialRequestId = data.id;
-    $scope.error = false;
+    $scope.error = false;    
     
     $scope.getProjects = function (year) {
       $scope.year = year;
@@ -415,22 +415,40 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     };
     
     $scope.updateRates = function (item) {
+      $scope.updatedRates = [];
       $scope.getPaymentTypes();
       var last_rate_id = 0;
       network.get('financial_request', {request_id: item.id, payment_type_id: 1}, function (result, response) {
         if(response.result.length) {
           $scope.financialRequests = response.result;
           last_rate_id = response.result[response.result.length - 1].rate_id; 
+        }else{
+          $scope.financialRequest.rate_id = response.result[0].id;
         };
-        network.get('rate', {'last_rate_id': last_rate_id}, function (result, response) {
-          $timeout(function () {
-            if(response.result.length) {
-              $scope.rates = response.result;
-              $scope.financialRequest.rate_id = response.result[0].id;
-            }else{
-              delete $scope.paymentTypes[0];
+        network.get('rate', {}, function (result, response) {
+          if(result) {
+            $scope.rates = response.result;
+            var k = 0;
+            for(var i = 0; i < $scope.rates.length; i++){
+              if($scope.rates[i].id == last_rate_id && last_rate_id != 6){
+                $scope.updatedRates.push($scope.rates[i+1]);
+                break;
+              };
+              if($scope.financialRequests[k].rate_id != $scope.rates[i].id){
+                $scope.updatedRates.push($scope.rates[i]);
+              }else{
+                k++;
+              };
             };
-          });
+            if(!$scope.updatedRates.length && last_rate_id == 6){
+              delete $scope.paymentTypes[0];
+            }else{              
+              if($scope.updatedRates.length == 1){
+                $scope.financialRequest.rate_id = $scope.updatedRates[0].id;
+              };
+            };            
+            $scope.rates = $scope.updatedRates;
+          };
         });
       });
     };
@@ -455,6 +473,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         request_id: data.request_id,
         status: data.status
       };
+      $scope.id = data.id;
       $scope.year = data.year;
       $scope.receiptDate = new Date (data.receipt_date);
       if(data.payment_date){
