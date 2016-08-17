@@ -220,27 +220,49 @@ class Request extends BaseModel {
 
     switch($userType){
       case 'a':
-      case 'p':
+      case 'p':        
         $result = $row['status_id'];
-          if($row['status_concept'] === 'in_progress' || $row['status_finance'] === 'in_progress' || $row['status_goal'] === 'in_progress'){
-            $result = '3';//in_progress
-          }else{
-            $result = '1';//open
+          if(          $row['status_concept']   === 'in_progress' 
+                    || $row['status_finance']   === 'in_progress'
+                    || $row['status_goal']      === 'in_progress'){
+            $result = '3'; //in_progress
+          } else if(   $row['status_concept']   === 'accepted' 
+                    && $row['status_finance']   === 'accepted' 
+                    && $row['status_goal']      === 'accepted' 
+                    && $row['status_id']        != '4' 
+                    && $row['status_id']        != '5' 
+                    && $row['status_id']        != '2'){
+            $result = '3'; //in_progress
+          } else if(   ($row['status_concept']  !== 'in_progress' && $row['status_concept'] !== 'unfinished') 
+                    && ($row['status_finance']  !== 'in_progress' && $row['status_finance'] !== 'unfinished') 
+                    && ($row['status_goal']     !== 'in_progress' && $row['status_goal']    !== 'unfinished')){
+            $result = '6';  //wait
+          }else {
+            $result = '1'; //open
           }
         break;
-      case 't':
+        
+      case 't':        
         $result = $row['status_id_ta'];
-          if($row['status_concept_ta'] === 'rejected' || $row['status_finance'] === 'rejected' || $row['status_goal_ta'] === 'rejected'){
-            $result = '3';//in_progress
+          if(          $row['status_concept_ta'] === 'rejected' 
+                    || $row['status_finance']    === 'rejected' 
+                    || $row['status_goal_ta']    === 'rejected'){
+            $result = '3'; //in_progress
+          }else if ((  $row['status_concept']    === 'accepted' 
+                    && $row['status_finance']    === 'accepted' 
+                    && $row['status_goal']       === 'accepted' 
+                    && $row['status_id']         != '4' 
+                    && $row['status_id']         != '5' 
+                    && $row['status_id']         != '2') 
+                    ||
+                   ((  $row['status_concept_ta'] !== 'in_progress'   && $row['status_concept_ta'] !== 'unfinished') 
+                    && ($row['status_finance']   !== 'in_progress'   && $row['status_finance']    !== 'unfinished') 
+                    && ($row['status_goal_ta']   !== 'in_progress'   && $row['status_goal_ta']    !== 'unfinished'))){
+            $result = '6'; //wait
           }else{
-            $result = '1';//open
+            $result = '1'; //open
           } 
         break;
-      default:
-        $result = 1;//open
-    }
-    if($row['status_concept'] === 'accepted' && $row['status_finance'] === 'accepted' && $row['status_goal'] === 'accepted' && $row['status_id'] != '4' && $row['status_id'] != '5' && $row['status_id'] != '2'){
-      $result = '1';//in_progress
     }
     
     return $result;

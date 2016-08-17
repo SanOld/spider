@@ -966,7 +966,12 @@ body .nav.nav-tabs + .tab-content {
 }
 
 .notice .decline-row {
-	background: #d3d3d3;
+	background: #FFFFFF;
+        border: solid 1px #808080;
+        color: gainsboro;
+}
+.decline-div {
+        color: gainsboro;
 }
 .notice .decline-row-red,
 .notice .rejected-row{
@@ -975,8 +980,24 @@ body .nav.nav-tabs + .tab-content {
 
 .request-edit tr.decline-row,
 .edit-project tr.decline-row,
-.finacing-edit tr.decline-row {
-	background:#e7e7e7;
+.finacing-edit tr.decline-row,
+.edit-project tr.decline-row a,
+.finacing-edit tr.decline-row a,
+.request-edit tr.decline-row a{
+        color: gainsboro;
+}
+.edit-project tr.decline-row .edit-btn,
+.finacing-edit tr.decline-row .edit-btn,
+.request-edit tr.decline-row .edit-btn{
+        border: 1px solid gainsboro;
+}
+.edit-project tr.decline-row .ion-eye,
+.finacing-edit tr.decline-row .ion-eye,
+.request-edit tr.decline-row .ion-eye,
+.edit-project tr.decline-row .ion-edit,
+.finacing-edit tr.decline-row .ion-edit,
+.request-edit tr.decline-row .ion-edit{
+        color: gainsboro;
 }
 .request-edit tr.decline-row:hover,
 .finacing-edit tr.decline-row:hover {
