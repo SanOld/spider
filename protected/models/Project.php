@@ -250,11 +250,6 @@ class Project extends BaseModel {
         
     $this->insert($row);
     
-    return array (
-      'result' => true,
-      'code' => '200'
-    );
-    
 //    return array(
 //        'result' => true,
 //        'params' => $oldRow
