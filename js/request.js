@@ -457,7 +457,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           break;
         case 'additional_info':;
         case 'users':;
-          results = ((user == 'a' || user == 'p' || user == 't') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
+          results = ((user == 'a' || user == 'p' || user == 't') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline' && $scope.request.status_code != 'acceptable');
           break
       }
     }
