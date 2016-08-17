@@ -556,9 +556,11 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       if($scope.project.status_id){
         if($scope.project.status_id == 2){
           $scope.project.is_old = 1;
-          network.put('project/' + data.id, $scope.project, function(){                  
-            Utils.deactivateSuccess(function(){              
-              $uibModalInstance.close();
+          Utils.doDeactivateConfirm(function() {
+            network.put('project/' + data.id, $scope.project, function(){                  
+              Utils.deactivateSuccess(function(){              
+                $uibModalInstance.close();
+              });
             });
           });
         }else{

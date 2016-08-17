@@ -41,7 +41,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 					<div class="col-lg-{{(userCan('changeStatus_print') || userCan('changeStatus_lock')) && userCan('reopen') ? '6' : '5'}} text-left">
             <a ng-show="userCan('delete')" class="btn-deactivate request" ng-click="block()" id="sa-warning">DEAKTIVIEREN</a>
 <!--						<button ng-show="userCan('delete')" ng-click="block()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>-->
-						<button ng-show="userCan('reopen')" class="btn w-lg custom-btn btn-lg {{userCan('changeStatus_print') || userCan('changeStatus_lock') ? 'request-new-open' : ''}}" ng-click="setBulkStatus(3)">
+						<button ng-show="userCan('reopen') && !banToReopen" class="btn w-lg custom-btn btn-lg {{userCan('changeStatus_print') || userCan('changeStatus_lock') ? 'request-new-open' : ''}}" ng-click="setBulkStatus(3)">
 							<i class="fa fa-rotate-left"></i>
 							<span>Neu eröffnen</span>
 						</button>
