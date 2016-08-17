@@ -423,7 +423,8 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.financialRequests = response.result;
           last_rate_id = response.result[response.result.length - 1].rate_id; 
         }else{
-          $scope.financialRequest.rate_id = response.result[0].id;
+          $scope.financialRequest.rate_id = 1;
+          return;
         };
         network.get('rate', {}, function (result, response) {
           if(result) {
