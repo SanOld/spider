@@ -101,7 +101,7 @@ class RequestSchoolGoal extends BaseModel {
       $request = Yii::app() -> db -> createCommand()
         -> select('rq.id request_id, (SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email, (SELECT email FROM spi_user WHERE id = rq.concept_user_id) concept_user_email')
         -> from('spi_request rq')
-        -> where('rq.id=:id', array(':id' => safe($request, 'request_id')))
+        -> where('rq.id=:id', array(':id' => safe($params, 'request_id')))
         ->queryRow();
       
       $emailParams = array(
