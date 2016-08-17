@@ -241,7 +241,22 @@ spi.factory('Utils', function (SweetAlert) {
           callback();
         }
       });
-    },    
+    }, 
+    doDeactivateConfirm: function(callback) {
+      SweetAlert.swal({
+        title: "Sind Sie sicher?",
+        text: "Diese Datei wird nicht wiederhergestellt!",
+        type: "warning",
+        confirmButtonText: "JA, DEAKTIVIEREN!",
+        showCancelButton: true,
+        cancelButtonText: "ABBRECHEN",
+        closeOnConfirm: false
+      }, function(isConfirm){
+        if(isConfirm) {
+          callback();
+        }
+      });
+    },
     doCloseConfirm: function(callback) {
       SweetAlert.swal({
         title: "Sind Sie sicher?",

@@ -44,6 +44,9 @@ class Project extends BaseModel {
     if (safe($params, 'SCHOOL_TYPE_ID')) {
       $command->andWhere("tbl.school_type_id = :school_type_id", array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
     }
+    if (safe($params, 'REQUEST_ID')) {
+      $command->andWhere("req.id = :id", array(':id' => $params['REQUEST_ID']));
+    }
     if (isset($params['DISTRICT_ID'])) {
       $command -> andWhere("tbl.district_id = :district_id", array(':district_id' => $params['DISTRICT_ID']));
     }
@@ -244,7 +247,12 @@ class Project extends BaseModel {
     $row['isUpdate'] = true;    
         
     $this->insert($row);
-
+    
+    return array (
+      'result' => true,
+      'code' => '200'
+    );
+    
 //    return array(
 //        'result' => true,
 //        'params' => $oldRow

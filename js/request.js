@@ -6,7 +6,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.projectID = '';
   $scope.requestYear = '';
   $scope.user_type = network.user.type;
-
+  $scope.banToReopen = false;
   $scope.financeStatus = '';
   $scope.conceptStatus = '';
   $scope.goalsStatus = '';
@@ -106,7 +106,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   };
 
   $scope.block = function ()  {
-    Utils.doConfirm(function() {
+    Utils.doDeactivateConfirm(function() {
       network.put('request/' + $scope.requestID,{'status_id':2}, function (result) {
         if (result) {
           Utils.deactivateSuccess(function(){            
@@ -116,6 +116,17 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       });
     });
   };
+  
+  $scope.checkIfCanNewOpen = function (){
+    network.get('project', {request_id: $scope.requestID}, function(result, response){
+      if(response.result[0].is_old == '1') {
+        $scope.banToReopen = true;
+      };
+    });
+  };
+  $scope.checkIfCanNewOpen();
+  
+  
   $scope.remove = function () {
     Utils.doConfirm(function() {
       network.delete('request/' + $scope.requestID, function (result) {
