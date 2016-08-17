@@ -120,7 +120,8 @@ $this->breadcrumbs = array('Anträge');
             <div class="col-lg-12">
 
               <table id="datatable" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit table-requests">
-                <tr ng-repeat="row in $data" ng-class="row.status_code+'-row'">
+                <tr ng-repeat="row in $data" ng-class="row.status_code == 'in_progress' && (user.type == 's' || user.type == 'd' || user.type == 'g') ?
+                                                       'wait-row' : row.status_code + '-row'">
                   <td header="'headerCheckbox.html'">
                     <label class="cr-styled">
                       <input type="checkbox" ng-model="checkboxes.items[row.id]">
@@ -138,7 +139,13 @@ $this->breadcrumbs = array('Anträge');
                   </td>
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
                   <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
-                  <td data-title="'Status'" sortable="'status_name'">{{row.status_name}}</td>
+                  <td data-title="'Status'" sortable="'status_name'">
+                      {{(row.status_code == 'in_progress' && user.type == 't')                       ? 'Antrag bearbeiten'              : 
+                        (row.status_code == 'acceptable'  && (user.type == 'p' || user.type == 'a')) ? 'Antrag akzeptiert'              :
+                        (row.status_code == 'acceptable'  && user.type == 't')                       ? 'Bitte Zielvereinbarung drucken' :
+                        (row.status_code == 'in_progress' && (user.type == 's' || user.type == 'd' || user.type == 'g')) ? 'Nach Überprüfung' :
+                         row.status_name}}
+                  </td>
                   <td data-title="'Prüfstatus'">
                     <div class="col-lg-4 p-0">
                       <a ng-if="isFinansist || (row.is_bonus_project == '1' && user.type == 's')" class="request-button edit-btn" href="/request/{{row.id}}#finance-plan" title="Finanzplan">
@@ -181,9 +188,12 @@ $this->breadcrumbs = array('Anträge');
             </div>
           </div>
           <div class="clearfix">
-            <div class="notice" ng-repeat="status in statuses | filter:{virtual: 0}">
+            <div class="notice {{status.code == 'decline' ? 'decline-div' : ''}}" ng-repeat="status in statuses | filter:{virtual: 0}">
               <span class="color-notice" ng-class="status.code+'-row'"></span>
-              {{status.name}}
+              {{(status.code == 'in_progress' && user.type == 't')                      ? 'Antrag bearbeiten'              : 
+                (status.code == 'acceptable' && (user.type == 'p' || user.type == 'a')) ? 'Antrag akzeptiert'              :
+                (status.code == 'acceptable' && user.type == 't')                       ? 'Bitte Zielvereinbarung drucken' : 
+                 status.name}}
             </div>
           </div>
           <div class="clearfix square-legend">

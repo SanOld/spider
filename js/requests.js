@@ -71,6 +71,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       $scope.statuses = response.result;
       $scope.statuses.push($scope.statuses[2]);  //change order of icons to not to do changes to all pages
       delete $scope.statuses[2];
+      if($scope.userType == 's' || $scope.userType == 'd' || $scope.userType == 'g'){
+        delete $scope.statuses[3];
+      };
       $scope.status_finance = 'r';
     }
   });
