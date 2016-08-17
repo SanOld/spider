@@ -204,13 +204,15 @@ class Project extends BaseModel {
   protected function doBeforeUpdate($post, $id) {
     $params = $post;
     if($params['is_old']){
-      Yii::app ()->db->createCommand ()->update ( $this->table, array('is_old' => 1), 'id=:id', array (
-        ':id' => $id
-      )); 
+      unset($post['is_old']);
+      $post['is_old'] = 1;
+      unset($post['schools']);
+      unset($post['status_id']);
       return array (
-              'result' => false
+              'result' => true,
+              'params' => $post
             );
-    }
+    };
     unset($params['schools']);
     unset($params['performer_id']);
     unset($params['district_id']);
