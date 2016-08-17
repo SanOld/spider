@@ -452,10 +452,12 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         case 'templates':;
           results = ((user == 'a' || user == 'p') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
           break;
-        case 'additional_info':;
+        case 'additional_info':
+          results = ((user == 'a' || user == 'p' ) && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline');
+          break;
         case 'users':;
           results = ((user == 'a' || user == 'p' || user == 't') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline' && $scope.request.status_code != 'acceptable');
-          break
+          break;
       }
     }
     return results;
