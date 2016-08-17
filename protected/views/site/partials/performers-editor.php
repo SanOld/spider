@@ -1,8 +1,8 @@
 <div class="panel panel-color panel-primary">
   <div class="panel-heading clearfix">
     <h3 class="m-0 pull-left" ng-if="isInsert">Agentur hinzufügen</h3>
-    <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Trägerdaten - {{performer.name}}</h3>
-    <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Trägerdaten - {{performer.name}}</h3>
+    <h3 class="m-0 pull-left" ng-if="!isInsert && !modeView">Trägerdaten - {{performer.name}} #{{performerId}}</h3>
+    <h3 class="m-0 pull-left" ng-if="!isInsert && modeView">Trägerdaten - {{performer.name}} #{{performerId}}</h3>
     <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
   </div>
 
@@ -181,9 +181,18 @@
                   <div class="form-custom-box bank-details">
                     <ng-form id="formBank{{$index}}" name="formBank{{$index}}" class="form-horizontal" disable-all="!canEditBankInfo() || modeView">
                       <div class="heading-bank clearfix m-b-15">
+                        <strong>#{{bank.id}}</strong>
                         <!-- <h4 class="pull-left">Bankverbindungen</h4> -->
                         <!-- <button class="btn btn-icon btn-danger btn-sm pull-right"><i class="fa fa-trash-o"></i></button> -->
                       </div>
+<!--                      <div class="form-group">
+                        <label class="col-lg-4 p-r-0 control-label">#{{bank.id}}</label>
+                        <div class="col-lg-8 p-l-0">
+                          <div spi-hint text="_hint.iban.text"  title="_hint.iban.id"  class="has-hint"></div>
+                          <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
+                          </div>
+                        </div>
+                      </div>-->
                       <div class="form-group">
                         <label class="col-lg-4 p-r-0 control-label">Kontoinhaber</label>
                         <div class="col-lg-8 p-l-0">

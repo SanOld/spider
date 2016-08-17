@@ -2,8 +2,8 @@
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
       <h3 ng-if="isInsert" class="m-0 pull-left">Benutzer hinzufügen</h3>
-      <h3 ng-if="!isInsert && !modeView" class="m-0 pull-left">Benutzerprofil editieren</h3>
-      <h3 ng-if="!isInsert && modeView" class="m-0 pull-left">Benutzerprofil ansicht</h3>
+      <h3 ng-if="!isInsert && !modeView" class="m-0 pull-left">Benutzerprofil editieren  #{{userId}}</h3>
+      <h3 ng-if="!isInsert && modeView" class="m-0 pull-left">Benutzerprofil ansicht  #{{userId}}</h3>
       <button type="button" ng-click="cancel()" class="close"><i class="ion-close-round "></i></button>
     </div>
     <div ng-show="(submited && form.$invalid) || error" class="alert alert-danger m-t-20">

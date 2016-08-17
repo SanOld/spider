@@ -20,9 +20,26 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
     $scope.filter.event_date = year + '-' + month + '-' + day;
   };
   
+  
+  network.get('request', {list: 'year'}, function (result, response) {
+    if (result) {
+      $scope.years = response.result;
+//      if($scope.years.length > 0){
+//        $scope.defaulFilter = {year: $scope.years[0], status_id: '1,3,4,5'};
+        
+//        if($scope.years.indexOf($scope.filter.year) == -1){
+//           $scope.filter.year = $scope.years[0];
+////           $scope.setFilter();
+////           grid.reload();
+//        }
+//      }
+    }
+  });
+  
   $scope.tableParams = grid('audit', $scope.filter, {group: "id", sorting: {event_date: 'desc'}});
 
   $scope.updateGrid = function () {
+    //$scope.year.getFullYear()
     grid.reload();
   };
   
@@ -42,6 +59,14 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
         $scope.tables = response.result;
       }
   });
+  
+  $scope.yearOptions = {
+    datepickerMode: 'year',
+    minMode: 'year',
+    yearRows: 1,
+    yearColumns: 5,
+//    minDate:  new Date()//(Default: null) - Defines the minimum available date. Requires a Javascript Date object.
+  };
 
 //  $scope.updateGrid = function () {
 ////    $scope.filter['limit'] = params.count();
