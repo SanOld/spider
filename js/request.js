@@ -1027,6 +1027,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       case 'rejected':
         if(!$scope.data.comment) return false;
         data.finance_comment = $scope.data.comment;
+        RequestService.acceptMSG(callback);
         break;
     }
   };
@@ -1442,6 +1443,8 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         case 'reject':
           data.status = 'rejected';
           if(!data.comment) return false;
+
+          RequestService.acceptMSG(callback);
           break;
         case 'accept':
           if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteFields();
@@ -1815,8 +1818,8 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
             $scope.$parent.doErrorIncompleteField('Prüfnotiz');
             return false;
           }
-          goal.status = 'rejected';
-
+          $scope.tempStatus = 'rejected';
+          RequestService.acceptMSG(callback);
           break;
         case 'accept':
           goal.notice = goal.newNotice;
