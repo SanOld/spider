@@ -69,6 +69,15 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   network.get('request_status', {}, function (result, response) {
     if (result) {
       $scope.statuses = response.result;
+      for(var i = 0; i < $scope.statuses.length; i++){
+        if($scope.statuses[i].code == 'in_progress' && $scope.user.type == 't'){
+          $scope.statuses[i].name = 'Antrag bearbeiten';
+        }else if($scope.statuses[i].code == 'acceptable' && ($scope.user.type == 'p' || $scope.user.type == 'a')){
+          $scope.statuses[i].name = 'Antrag akzeptiert';
+        }else if($scope.statuses[i].code == 'acceptable' && $scope.user.type == 't'){
+          $scope.statuses[i].name = 'Bitte Zielvereinbarung drucken';
+        };
+      };
       $scope.statuses.push($scope.statuses[2]);  //change order of icons to not to do changes to all pages
       delete $scope.statuses[2];
       if($scope.userType == 's' || $scope.userType == 'd' || $scope.userType == 'g'){

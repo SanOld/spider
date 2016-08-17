@@ -190,10 +190,7 @@ $this->breadcrumbs = array('Anträge');
           <div class="clearfix">
             <div class="notice {{status.code == 'decline' ? 'decline-div' : ''}}" ng-repeat="status in statuses | filter:{virtual: 0}">
               <span class="color-notice" ng-class="status.code+'-row'"></span>
-              {{(status.code == 'in_progress' && user.type == 't')                      ? 'Antrag bearbeiten'              : 
-                (status.code == 'acceptable' && (user.type == 'p' || user.type == 'a')) ? 'Antrag akzeptiert'              :
-                (status.code == 'acceptable' && user.type == 't')                       ? 'Bitte Zielvereinbarung drucken' : 
-                 status.name}}
+              {{status.name}}
             </div>
           </div>
           <div class="clearfix square-legend">
