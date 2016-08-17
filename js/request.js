@@ -982,6 +982,20 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
   $scope.submitForm = function(status) {
 
+    callback = function(){
+        data['status_finance'] = status;
+        network.put('request/'+$scope.$parent.requestID, data, function(result, response) {
+          if(result) {
+            $scope.data.status_finance = status;
+            $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
+            $scope.$parent.setFinanceStatus(status);
+            RequestService.afterSave();
+            if (network.user.type == 'a') {
+              $scope.$parent.submitRequest();
+            }
+          }
+        });
+    }
     
     if(['in_progress', 'accepted', 'rejected'].indexOf(status) === -1) return false;
     var data = {};
@@ -994,6 +1008,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         } else {
           $scope.errorShow = false;
         }
+        RequestService.acceptMSG(callback);
         break;
       case 'in_progress':
 
@@ -1011,38 +1026,13 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         } else {
           $scope.errorShow = false;
         }
-
+        RequestService.sendMSG(callback);
         break;
       case 'rejected':
         if(!$scope.data.comment) return false;
         data.finance_comment = $scope.data.comment;
         break;
     }
-
-    callback = function(){
-        data['status_finance'] = status;
-        network.put('request/'+$scope.$parent.requestID, data, function(result, response) {
-          if(result) {
-            $scope.data.status_finance = status;
-            $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
-            $scope.$parent.setFinanceStatus(status);
-            RequestService.afterSave();
-            if (network.user.type == 'a') {
-              $scope.$parent.submitRequest();
-            }
-          }
-        });
-    }
-
-    switch (status) {
-      case 'in_progress':
-        RequestService.sendMSG(callback);
-        break;
-      default:
-        RequestService.acceptMSG(callback);
-        break;
-    }
-    
   };
 
   RequestService.initFinancePlan = function(data){
@@ -1456,8 +1446,6 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         case 'reject':
           data.status = 'rejected';
           if(!data.comment) return false;
-
-          RequestService.acceptMSG(callback);
           break;
         case 'accept':
           if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteFields();
@@ -1831,8 +1819,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
             $scope.$parent.doErrorIncompleteField('Prüfnotiz');
             return false;
           }
-          $scope.tempStatus = 'rejected';
-          RequestService.acceptMSG(callback);
+          goal.status = 'rejected';
 
           break;
         case 'accept':
