@@ -1,4 +1,4 @@
-spi.controller('ProjectController', function($scope, $rootScope, network, GridService, $uibModal, Utils, SweetAlert) {
+spi.controller('ProjectController', function($scope, $rootScope, network, GridService, $uibModal, Utils, SweetAlert, $timeout) {
     if(!$rootScope._m) {
         $rootScope._m = 'project';
     }
@@ -85,134 +85,151 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
           template: 'editProjectTemplate.html'
         });
     };
-
+    
     $scope.addRequest = function() {
-        var ids = getSelectedIds();
-        if (ids.length) {
-
-          var selectedCodes = [];
-          var selectedProjectIds = [];
-          var objSelectedCodes = {};
-          for(var i=0; i<ids.length; i++) {
-            var row = Utils.getRowById($scope.tableParams.data, ids[i]);
+      var ids = getSelectedIds();
+      if (ids.length) {
+        var failCodes = [];
+        var fineCodes = [];
+        var selectedCodes = [];
+        var selectedProjectIds = [];
+        var objSelectedCodes = {};
+        for(var i = 0; i < ids.length; i++) {
+          var row = Utils.getRowById($scope.tableParams.data, ids[i]);            
+          if(row.is_old == '1') {
+            failCodes.push(row.code);
+            delete ids[i];
+          }else{
+            fineCodes.push(row.code);            
             selectedProjectIds.push(row.id)
             selectedCodes.push(row.code);
 
             objSelectedCodes[row.code] = [];
             objSelectedCodes[row.code]['code'] = row.code;
             objSelectedCodes[row.code]['id'] = row.id;
-          }
-
-          var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'createRequest.html',
-            controller: 'ModalRequestCreateController',
-            size: 'custom-width-request-duration',
-            resolve: {
-              ids: function () {
-                return ids;
-              },
-              selectedCodes: function () {
-                return selectedCodes;
-              }
-            }
+          };
+        }
+        if(failCodes.length) {
+          SweetAlert.swal({
+            title: "Fehler",
+            text: "Anträge für nicht aktiv Projekte  (" + failCodes.join(', ') + ") können nicht aktualisiert sein.",
+            type: "error",
+            confirmButtonText: "OK"
+          },function(isConfirm){
+            if (isConfirm && !fineCodes.length) {
+              return false;        
+            }else{
+              $scope.openAddRequestForm(ids, selectedCodes, selectedProjectIds, objSelectedCodes);
+            };
           });
-
-      modalInstance.result.then(function (data) {
-
-        //TO DO - проверка на существование проекта
-
-        network.get('request', {project_ids: selectedProjectIds.join(','), year: data.year}, function(result, response) {
-          if(result && response.result.length>0) {
-
-            var failCodes = [];
-            var objFailCodes = {};
-            for(var row in response.result){
-              var code  = response.result[row]['code'];
-              var id  = response.result[row]['id'];
-              
-              failCodes.push(code);
-              objFailCodes[code] = [];
-              objFailCodes[code]['code'] = code;
-              objFailCodes[code]['id'] = id;
-            }
-            
-            var text = {plural : [], singular: []};
-            text['plural'][1] = 'Anträge';
-            text['plural'][2] = 'können nicht aktualisiert sein. Anträge für diese Projekte schon existieren.';
-            text['plural'][3] = 'werden hinzufügen.';
-
-            text['singular'][1] = 'Antrag';
-            text['singular'][2] = 'kann nicht aktualisiert sein. Antrag für dieses Projekt schon existiert.';
-            text['singular'][3] = 'wird hinzufügen.';
-
-            if (failCodes.length == 1){
-              var text_cancel = text['singular'];
-            } else {
-              var text_cancel = text['plural'];
-            }
-
-            if(failCodes.length == selectedCodes.length){
-              SweetAlert.swal({
-                title: "Fehler",
-                text: text_cancel[1] + " "+failCodes.join(', ')+" " +  text_cancel[2],
-                type: "warning",
-                confirmButtonText: "OK"
-              });
-            } else {
-              var diffCodes = [];
-              var newIds = [];
-              diffCodes = selectedCodes.filter(function(item, i, arr){
-                if (objFailCodes[item]){
-                  return false;
-                }
-                newIds.push(objSelectedCodes[item]['id']);
-                return true;
-              })
-
-              if (diffCodes.length == 1){
-                var text_ok = text['singular'];
-              } else {
-                var text_ok = text['plural'];
-              }
-
-              SweetAlert.swal({
-                title: "Fehler",
-                text: text_cancel[1] + " " + failCodes.join(', ') + " " +  text_cancel[2]
-                     +"\n"
-                     +text_ok[1] + " " + diffCodes.join(', ') + " " +  text_ok[3],
-                type: "warning",
-                showConfirmButton: true,
-                confirmButtonText: "Speichern",
-                showCancelButton: true,
-                cancelButtonText: "Abbrechen",
-                closeOnConfirm: true,
-                closeOnCancel: true
-              },
-              function(isConfirm){
-                if (isConfirm) {
-                  network.post('request', {project_ids: newIds, massCreate: true, year: data.year}, function(result) {
-                    if(result) {
-                      grid.reload();
-                    }
-                  });
-                }
-              });
-            }
-          } else {
-            network.post('request', {project_ids: ids, massCreate: true, year: data.year}, function(result) {
-              if(result) {
-                grid.reload();
-              }
-            });
-          }
-        });
-
-      });
-
-      }
+        }else{
+          $scope.openAddRequestForm(ids, selectedCodes, selectedProjectIds, objSelectedCodes);
+        };        
+      };
     };
+    
+    $scope.openAddRequestForm = function(ids, selectedCodes, selectedProjectIds, objSelectedCodes){
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'createRequest.html',
+        controller: 'ModalRequestCreateController',
+        size: 'custom-width-request-duration',
+        resolve: {
+          ids: function () {
+            return ids;
+          },
+          selectedCodes: function () {
+            return selectedCodes;
+          }
+        }
+      });
+      modalInstance.result.then(function (data) {
+        //TO DO - проверка на существование проекта
+        network.get('request', {project_ids: selectedProjectIds.join(','), year: data.year}, function(result, response) {
+          $timeout(function(){
+            if(result && response.result.length>0) {
+              var failCodes = [];
+              var objFailCodes = {};
+              for(var row in response.result){
+                var code  = response.result[row]['code'];
+                var id  = response.result[row]['id'];
+                failCodes.push(code);
+                objFailCodes[code] = [];
+                objFailCodes[code]['code'] = code;
+                objFailCodes[code]['id'] = id;
+              };
+              var text = {plural : [], singular: []};
+              text['plural'][1] = 'Anträge';
+              text['plural'][2] = 'können nicht aktualisiert sein. Anträge für diese Projekte schon existieren.';
+              text['plural'][3] = 'werden hinzufügen.';
 
+              text['singular'][1] = 'Antrag';
+              text['singular'][2] = 'kann nicht aktualisiert sein. Antrag für dieses Projekt schon existiert.';
+              text['singular'][3] = 'wird hinzufügen.';
+
+              if (failCodes.length == 1){
+                var text_cancel = text['singular'];
+              } else {
+                var text_cancel = text['plural'];
+              }            
+              if(failCodes.length == selectedCodes.length){
+                SweetAlert.swal({
+                  title: "Fehler",
+                  text: text_cancel[1] + " "+failCodes.join(', ')+" " +  text_cancel[2],
+                  type: "warning",
+                  confirmButtonText: "OK"
+                });
+              } else {
+                var diffCodes = [];
+                var newIds = [];
+                diffCodes = selectedCodes.filter(function(item, i, arr){
+                  if (objFailCodes[item]){
+                    return false;
+                  }
+                  newIds.push(objSelectedCodes[item]['id']);
+                  return true;
+                })
+
+                if (diffCodes.length == 1){
+                  var text_ok = text['singular'];
+                } else {
+                  var text_ok = text['plural'];
+                };
+
+                SweetAlert.swal({
+                  title: "Fehler",
+                  text: text_cancel[1] + " " + failCodes.join(', ') + " " +  text_cancel[2]
+                       +"\n"
+                       +text_ok[1] + " " + diffCodes.join(', ') + " " +  text_ok[3],
+                  type: "warning",
+                  showConfirmButton: true,
+                  confirmButtonText: "Speichern",
+                  showCancelButton: true,
+                  cancelButtonText: "Abbrechen",
+                  closeOnConfirm: true,
+                  closeOnCancel: true
+                },
+                function(isConfirm){
+                  if (isConfirm) {
+                    network.post('request', {project_ids: newIds, massCreate: true, year: data.year}, function(result) {
+                      if(result) {
+                        grid.reload();
+                      };
+                    });
+                  };
+                });
+              };
+            } else {
+              network.post('request', {project_ids: ids, massCreate: true, year: data.year}, function(result) {
+                if(result) {
+                  grid.reload();
+                }
+              });
+            };
+          });
+        });
+      });
+    };
 });
 
 spi.controller('ProjectEditController', function ($scope, $uibModalInstance, modeView, data, network, hint, $timeout, Utils, SweetAlert) {
