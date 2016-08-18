@@ -639,9 +639,10 @@ class Request extends BaseModel {
                                           -> andWhere('tbl.school_id=:s_id', array(':s_id' => $school['id']))
                                           -> queryRow();
         unset($school_lock_result['id']);
-
+        
+      if(is_array($school_lock_result)){
         $school = array_replace ($school , $school_lock_result);
-
+      }
         }
         
       }
