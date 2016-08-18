@@ -50,6 +50,10 @@ class RequestLock extends BaseModel {
                       , tbl.doc_target_agreement_id
                       , tbl.doc_request_id
                       , tbl.doc_financing_agreement_id
+
+                      , tbl.additional_info
+                      , tbl.senat_additional_info
+                      , tbl.finance_comment
                       
                       , tbl.request_user_id
                       , CONCAT(IF(rqs_user.sex = 1, 'Herr', 'Frau' ), ' ' , rqs_user.first_name, ' ', rqs_user.last_name) request_user
