@@ -16,7 +16,6 @@ $this->breadcrumbs = array('Projekte');
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 						<button class="btn w-lg custom-btn" ng-if="canEdit() && canByType(['a'])" ng-click="openEdit()">Projekt hinzufügen</button>
-            <button <?php $this->demo();?> ng-disabled="!existsSelected()" ng-if="canByType(['a'])" ng-click="addRequest()" class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
 					</div>
 				</div>
 				<div class="panel-body edit-project">
@@ -108,6 +107,9 @@ $this->breadcrumbs = array('Projekte');
                 </form>
 							</div>
 							<?php include(Yii::app()->getBasePath().'/views/site/partials/project-table.php'); ?>
+              <div class="btn-row m-t-15 clearfix" ng-if="canByType(['a'])">
+                  <button <?php $this->demo();?> ng-disabled="!existsSelected()" ng-click="addRequest()" class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
+              </div>
 						</div>
 					</div>
 				</div>
