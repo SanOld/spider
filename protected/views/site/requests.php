@@ -116,6 +116,76 @@ $this->breadcrumbs = array('Anträge');
               </div>
             </form>
           </div>
+          <div class="custom-checkbox row m-b-10">
+            <div class="col-lg-8">
+              <div class="col-lg-2">
+                <span>
+                    <input type="checkbox" name="name1" id="ids01">
+                    <label class="cell-finplan unfinished status-icon" for='ids01'><i class="fa fa-check-circle"></i></label>
+                </span>
+                <span>
+                    <input type="checkbox" name="name1" id="ids02">
+                    <label class="cell-concept unfinished status-icon" for='ids02'><i class="fa fa-check-circle"></i></label>
+                </span>
+                <span>
+                  <input type="checkbox" name="name1" id="ids03">
+                  <label class="cell-school unfinished status-icon" for='ids03'><i class="fa fa-check-circle"></i></label>
+                </span>
+              </div>
+              <div class="col-lg-2">
+                  <span>
+                    <input type="checkbox" name="name2" id="ids1">
+                    <label class="cell-finplan in_progress status-icon" for='ids1'><i class="fa fa-check-circle"></i></label>
+                </span>
+                <span>
+                    <input type="checkbox" name="name2" id="ids2">
+                    <label class="cell-concept in_progress status-icon" for='ids2'><i class="fa fa-check-circle"></i></label>
+                </span>
+                <span>
+                  <input type="checkbox" name="name2" id="ids3">
+                  <label class="cell-school in_progress status-icon" for='ids3'><i class="fa fa-check-circle"></i></label>
+                </span>
+              </div>
+              <div class="col-lg-2">
+                  <span>
+                    <input type="checkbox" name="name3" id="ids001">
+                    <label class="cell-finplan accepted status-icon" for='ids001'><i class="fa fa-check-circle"></i></label>
+                </span>
+                <span>
+                    <input type="checkbox" name="name3" id="ids002">
+                    <label class="cell-concept accepted status-icon" for='ids002'><i class="fa fa-check-circle"></i></label>
+                </span>
+                <span>
+                  <input type="checkbox" name="name3" id="ids003">
+                  <label class="cell-school accepted status-icon" for='ids003'><i class="fa fa-check-circle"></i></label>
+                </span>
+              </div>
+              <div class="col-lg-2">
+                  <span>
+                    <input type="checkbox" name="name4" id="ids0001">
+                    <label class="cell-finplan rejected status-icon" for='ids0001'><i class="fa fa-check-circle"></i></label>
+                </span>
+                <span>
+                    <input type="checkbox" name="name4" id="ids0002">
+                    <label class="cell-concept rejected status-icon" for='ids0002'><i class="fa fa-check-circle"></i></label>
+                </span>
+                <span>
+                  <input type="checkbox" name="name4" id="ids0003">
+                  <label class="cell-school rejected status-icon" for='ids0003'><i class="fa fa-check-circle"></i></label>
+                </span>
+              </div>
+            </div>
+            <div class="col-lg-2 p-r-0">
+                <button class="btn pull-right w-lg custom-reset"><i class="fa fa-check-circle"></i></i>
+                  <span>Alles Auswählen</span>
+                </button>
+              </div>
+               <div class="col-lg-2 p-l-0">
+                <button class="btn pull-right w-lg custom-reset"> <i class="fa ion-close-circled "></i>
+                  <span>Alle Abzuwählen</span>
+                </button>
+              </div>
+          </div>
           <div class="row">
             <div class="col-lg-12">
 
