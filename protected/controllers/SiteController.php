@@ -54,23 +54,21 @@ class SiteController extends Controller
       $this->redirect('/dashboard');      
     }else {
       try {
-
         if($page == 'request') {
           $id = safe($_GET, 'id');
           if(!$id || !$this->validID($page, $id)) {
             $this->redirect('/requests');
-          }
-        } 
-
-        if (!safe($pageInfo,'layout') && empty(Yii::app()->session) && $pages[$page]) {
+          };
+        };
+        if (!safe($pageInfo,'layout') && !Yii::app()->session['rights'] && $pages[$page]) {
           $this->redirect('/'); 
         }else{
           $this->render(safe($pageInfo,'render',$page)); 
         }
       } catch (Exception $e) {
         throw new CHttpException(404);        
-      }    
-    }
+      };    
+    };
   }
 
 	protected function validID($page, $id) {
