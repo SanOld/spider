@@ -3027,6 +3027,14 @@ body.safari label {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
+.modal-dialog.modal-custom-width-financial-request-duration{
+  width:400px !important;
+  margin: 160px auto !important;
+}
+.modal-dialog.modal-custom-width-request-send-duration{
+  width:  480px !important;
+  margin: 160px auto !important;
+}
 /*.table-requests thead tr th:nth-child(3) {
 	width:200px;
 }*/
