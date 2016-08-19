@@ -197,6 +197,9 @@ spi.service("RequestService", function () {
   this.setChangedConceptForm = function() {};
   this.isChangedGoalsForm = function() {};
   this.setChangedGoalsForm = function() {};
+
+  this.resetGoalsStatus = function() {};
+  this.resetConceptStatus = function() {};
 });
 
 

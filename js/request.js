@@ -75,9 +75,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
   };
 
-  $scope.submitRequest = function (changeStatus) {
+  $scope.submitRequest = function (changeStatus, reset) {
+
     changeStatus = changeStatus || false;
-    if(!changeStatus){
+    reset = reset || false;
+
+    if(!changeStatus && !reset){
       if(!RequestService.isChangedProjectForm() && !RequestService.isChangedFinanceForm() && !RequestService.isChangedConceptForm() && !RequestService.isChangedGoalsForm()){
          return true;
       }
@@ -98,6 +101,29 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     }
     data['school_concepts'] = RequestService.getSchoolConceptData();
     data['school_goals']    = RequestService.getSchoolGoalData();
+    
+    if(reset){
+          if(data['status_finance'] != 'unfinished' && data['status_finance'] != 'rejected'){
+            data['status_finance'] = 'in_progress';
+          }
+          angular.forEach(data['school_concepts'], function(val, key) {
+            if(val.status != 'unfinished' && val.status != 'rejected'){
+              val.status = 'in_progress';
+            }
+          });
+          angular.forEach(data['school_goals'], function(val, key) {
+            if(val.status != 'unfinished' && val.status != 'rejected'){
+              val.status = 'in_progress';
+            }
+          });
+
+          $scope.financeStatus  = 'in_progress';
+          $scope.conceptStatus  = 'in_progress';
+          $scope.goalsStatus    = 'in_progress';
+          RequestService.resetGoalsStatus();
+          RequestService.resetConceptStatus();
+    }
+
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result) {
        RequestService.afterSave();
@@ -343,6 +369,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
                   }
                 }
               });
+              $scope.submitRequest(true, true);
+              return true;
               break;
             case 4:;
               request_data.status_code = 'acceptable';
@@ -934,6 +962,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'prof_association_cost':  $scope.prof_association_cost
                     , 'total_cost':             $scope.total_cost
                     , 'bank_details_id':        $scope.data.bank_details_id
+                    , 'status_finance':         $scope.data.status_finance
                     };
     data.users = $scope.request_users;
     data.prof_associations = $scope.prof_associations;
@@ -1567,6 +1596,13 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     $scope.conceptForm.$dirty = false;
   }
 
+  RequestService.resetConceptStatus = function(){
+      angular.forEach($scope.schoolConcepts, function(val, key) {
+        if(val.status != 'unfinished' && val.status != 'rejected'){
+          val.status = 'in_progress';
+        }
+      })
+    }
 });
 
 spi.controller('СonceptCompareController', function($scope, history, $uibModalInstance) {
@@ -1970,6 +2006,19 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   RequestService.setChangedGoalsForm = function(){
     $scope.goalsForm.$dirty = false;
   }
+
+  RequestService.resetGoalsStatus = function(){
+      angular.forEach($scope.schoolGoals, function(val, key) {
+        if(val.status != 'unfinished' && val.status != 'rejected'){
+          val.status = 'in_progress';
+          angular.forEach(val['goals'], function(val, key) {
+            if(val.status != 'unfinished' && val.status != 'rejected'){
+              val.status = 'in_progress';
+            }
+          })
+        }
+      })
+    }
 });
 
 spi.controller('ModalDurationController', function ($scope, start_date, due_date, end_fill,  $uibModalInstance) {

@@ -799,6 +799,15 @@ class Request extends BaseModel {
 
         if($value){
           $value['year'] = $year;
+          $value['status_id'] = '3';
+          $value['status_id_ta'] = '3';
+
+          $value['status_finance']    = 'in_progress';
+          $value['status_concept']    = 'in_progress';
+          $value['status_concept_ta'] = 'in_progress';
+          $value['status_goal']       = 'in_progress';
+          $value['status_goal_ta']    = 'in_progress';
+
           unset ($value['id']);
           unset ($value['start_date']);
           unset ($value['due_date']);
@@ -844,6 +853,9 @@ class Request extends BaseModel {
 
     foreach ($value as $row) {
       unset($row['id']);
+      if($table != 'spi_request_school_finance'){
+        $row['status'] = 'in_progress';
+      }
       $row['request_id'] = $newId;
       $model->insert($row, true);
     }
