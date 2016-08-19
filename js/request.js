@@ -1,4 +1,4 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, Utils, $location, RequestService, SweetAlert, $timeout) {
+spi.controller('RequestController', function ($scope, $rootScope, network, Utils, $location, RequestService, SweetAlert, $timeout, $uibModal) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
@@ -75,7 +75,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
   };
 
-  $scope.submitRequest = function (changeStatus) {
+  $scope.submitRequest = function (changeStatus, formsToSend) {
     changeStatus = changeStatus || false;
     if(!changeStatus){
       if(!RequestService.isChangedProjectForm() && !RequestService.isChangedFinanceForm() && !RequestService.isChangedConceptForm() && !RequestService.isChangedGoalsForm()){
@@ -88,19 +88,40 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     RequestService.setChangedConceptForm();
     RequestService.setChangedGoalsForm();
     
-    
     var data = RequestService.getProjectData();
-    var finPlan = RequestService.financePlanData();
+    var finPlan = RequestService.financePlanData();    
     if (finPlan != undefined){
       data = angular.extend(data, finPlan.request);
       delete finPlan.request;
       data['finance_plan']    = finPlan;
+    };
+    data['school_concepts'] = RequestService.getSchoolConceptData();    
+    data['school_goals']    = RequestService.getSchoolGoalData();       
+    if(formsToSend){
+      data.status_id = 3;
+      if(formsToSend.indexOf('finance') != -1){
+        data.status_finance = 'in_progress' 
+      }else{
+        delete data['finance_plan'];
+      }
+      if(formsToSend.indexOf('concept') != -1){
+        for(var item in  data['school_concepts']){
+          data['school_concepts'][item]['status'] = 'in_progress';
+        };
+      }else{
+        delete data['school_concepts'];
+      }
+      if(formsToSend.indexOf('goal') != -1){
+        for(var item in data['school_goals']){
+          data['school_goals'][item].status = 'in_progress';
+        };
+      }else{
+        delete data['school_goals'];      
+      };
     }
-    data['school_concepts'] = RequestService.getSchoolConceptData();
-    data['school_goals']    = RequestService.getSchoolGoalData();
     network.put('request/' + $scope.requestID, data, function(result, response) {
       if(result) {
-       RequestService.afterSave();
+        RequestService.afterSave();
       }
     });
   };
@@ -160,7 +181,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   RequestService.sendMSG = function(callback){
 
     SweetAlert.swal({
-      title: "Sind Sie sicher, dass Sie diesen Teil des Antrags zur Prüfung übermitteln möchten?",
+      title: "Sind Sie sicher, dass Sie diesen Teile des Antrags zur Prüfung übermitteln möchten?",
       text: "Wenn Sie den Antragsteil noch nicht übermitteln wollen, verwenden Sie die Speichern Schaltfläche, um den aktuellen Bearbeitungsstand zu sichern.",
       type: "warning",
       confirmButtonText: "Ja, senden",
@@ -363,7 +384,35 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     
 
   };
-
+  
+    $scope.sendToAccept = function() {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'sendToAccept.html',
+        controller: 'SendToAcceptController',
+        size: 'custom-width-request-send-duration'
+      });
+      modalInstance.result.then(function (formsToSend) {
+        if(formsToSend.length){
+          if(formsToSend.indexOf('finance') != -1){
+            $scope.setFinanceStatus('in_progress');
+            RequestService.setStatusFinanceForm('in_progress');
+          };
+          if(formsToSend.indexOf('concept') != -1){
+            $scope.setConceptStatus('in_progress');
+            RequestService.setStatusConceptForm('in_progress');
+          };
+          if(formsToSend.indexOf('goal') != -1){
+            $scope.setGoalsStatus('in_progress');
+            RequestService.setStatusGoalForm('in_progress');
+          };
+        };
+      });
+    };
+    
+    $scope.$on('sendToAccept', function(event,status, pages){
+      $scope.submitRequest(status, pages);
+    });
 });
 
 spi.controller('RequestProjectDataController', function ($scope, network, Utils, $uibModal, SweetAlert, RequestService, localStorageService, $timeout) {
@@ -1343,6 +1392,14 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     employee.user = item;
   }
   
+  RequestService.hasErrorsFinanceForm = function(){      
+    return $scope.errorArray;
+  };
+  
+  RequestService.setStatusFinanceForm = function(status){
+    $scope.data.status_finance = status;
+  };
+  
   RequestService.isChangedFinanceForm = function(){
     return $scope.financePlanForm.$dirty;
   }
@@ -1432,7 +1489,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   };
 
   $scope.submitForm = function(data, concept, action, index) {
-
+    
       callback = function(){
         network.put('request_school_concept/' + concept.id, data, function(result){
           if(result) {
@@ -1558,6 +1615,16 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
       }
     });
   }
+  
+  RequestService.hasErrorsConceptForm = function(){      
+    return $scope.conceptForm.$invalid;
+  };
+  
+  RequestService.setStatusConceptForm = function(status){
+    for(var item in $scope.schoolConcepts){
+      $scope.schoolConcepts[item].status = status;
+    };
+  };
 
   RequestService.isChangedConceptForm = function(){
     return $scope.conceptForm.$dirty;
@@ -1962,6 +2029,27 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       return true;
     }
   }
+  
+  RequestService.hasErrorsGoalsForm = function(){      
+    var errors = [];
+    for(var item in $scope.schoolGoals){
+      for(var i in $scope.schoolGoals[item].goals){
+        if(Object.keys($scope.schoolGoals[item].goals[i].errors).length && $scope.schoolGoals[item].goals[i].is_active == '1'){          
+          errors[i] = $scope.schoolGoals[item].goals[i].errors;
+        };
+      };        
+    };    
+    return errors;
+  };
+  
+  RequestService.setStatusGoalForm = function(status){
+    for(var item in $scope.schoolGoals){
+      $scope.schoolGoals[item].status = status;
+      for(var i in $scope.schoolGoals[item].goals){
+        $scope.schoolGoals[item].goals[i].status = status;
+      };
+    };
+  };
 
   RequestService.isChangedGoalsForm = function(){
     return $scope.goalsForm.$dirty;
@@ -2022,5 +2110,101 @@ spi.controller('ModalEndFillController', function ($scope, start_date, due_date,
 
 });
 
+spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModalInstance, network, RequestService, SweetAlert, Utils) {
+  $scope.checkboxes = {
+    'finance' : false,
+    'concept' : true,
+    'goal'    : true
+  };
+  $scope.user = network.user;
+  $scope.errors = '';
+  
+  var goalErors     = RequestService.hasErrorsGoalsForm();   //array[array]
+  var conceptErors  = RequestService.hasErrorsConceptForm(); //boolean
+  var financeErors  = RequestService.hasErrorsFinanceForm(); //array[]
+  
+  $scope.doErrorIncompleteFields = function(formsToSend) {
+    formsToSend.forEach(function(item, i, arr){
+      if(item == 'finance' && financeErors.length){
+        $scope.errors += 'Finanzplan\n';
+      }else if(item == 'concept' && conceptErors){
+        $scope.errors += 'Konzept\n';
+      }else if(item == 'goal' && goalErors.length){
+        $scope.errors += 'Entwicklungsziele\n';
+      };
+    });
+    SweetAlert.swal({
+      html:true,
+      title: "Die Antragteile können nur vollständig ausgefüllt übermittelt werden!",
+      text: "Bitte überprüfen Sie folgende Antragsteile:\n" + $scope.errors,
+      type: "error",
+      confirmButtonText: "OK"
+    },function(isConfirm){
+       if(isConfirm){
+         $uibModalInstance.close();
+       }
+    });
+    return false;
+  };
+  
+  $scope.doSuccessFields = function(callback) {
+    SweetAlert.swal({
+      html:true,
+      title: "Die ausgewählten Antragsteile wurden zur Prüfung übermittelt.",
+      type: "warning",
+      confirmButtonText: "OK"
+    },function(isConfirm){
+       if(isConfirm){
+         callback();
+         $uibModalInstance.close($scope.formsToSend);
+       }
+    });
+  };
+      
+  $scope.fieldError = function(field) {
+    var form = $scope.setDocumentTemplate;
+    return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
+  };
+  
+  $scope.send = function (){
+    if((!$scope.checkboxes.concept && $scope.checkboxes.goal) || ($scope.checkboxes.concept && !$scope.checkboxes.goal)){
+      SweetAlert.swal({
+        html:true,
+        title: "Die Antragsteile Konzept und Entwicklungsziele können nur zusammen senden werden.",
+        type: "warning",
+        confirmButtonText: "OK"
+      },function(isConfirm){
+         if(isConfirm){
+           $uibModalInstance.close();
+         }
+      });
+    }else{
+      $scope.formsToSend = [];
+      for(var checkbox in $scope.checkboxes){
+        if($scope.checkboxes[checkbox]){
+          $scope.formsToSend.push(checkbox);
+        };
+      };
 
+      var condition = true;
+      $scope.formsToSend.forEach(function(item, i, arr){
+        if((item == 'finance' && financeErors.length) || (item == 'concept' && conceptErors) || (item == 'goal' && goalErors.length)){
+          condition = false;
+        };
+      });
+
+      if(!condition){
+        return $scope.doErrorIncompleteFields($scope.formsToSend);
+      }else{
+        $scope.doSuccessFields( function(){
+          $rootScope.$broadcast('sendToAccept', true, $scope.formsToSend)
+        });
+      };
+    };    
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});
 

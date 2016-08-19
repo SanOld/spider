@@ -35,6 +35,10 @@
   width:400px !important;
   margin: 160px auto !important;
 }
+.modal-dialog.modal-custom-width-request-send-duration{
+  width:  480px !important;
+  margin: 160px auto !important;
+}
 .modal-dialog.modal-custom-width{
   width:550px !important;
 }
