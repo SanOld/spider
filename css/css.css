@@ -3422,3 +3422,54 @@ tr.virtual-row {
       font-size: 14px !important;
       margin: -1px 0px 0px -36px;
 }
+.custom-checkbox input[type="checkbox"]{
+	position: absolute;
+	left: -9999px;
+}
+.custom-checkbox input[type="checkbox"] + label {
+  position: relative;
+  cursor: pointer;
+  height:30px;
+  width:30px;
+  border-radius: 3px;
+}
+.custom-checkbox input[type="checkbox"]:not(:checked) + label {
+  border:1px solid #dedede;
+}
+.custom-checkbox input[type="checkbox"]:checked + label {
+  border:1px solid #00529e;
+}
+.custom-checkbox input[type="checkbox"]:checked + label i {
+  opacity: 1;
+}
+.custom-checkbox >div > .col-lg-2 {
+	background:#f7f7f7;
+	padding:2px !important;
+	margin: 0 30px 0 0;
+	border-radius: 3px;
+	width:auto;
+	line-height: 0;
+}
+.custom-checkbox span {
+	display:inline-block;
+	padding: 2px;
+	border-radius: 3px;
+}
+.custom-checkbox span label i {
+	bottom: -1px;
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    color:#00529e;
+}
+.custom-checkbox .btn.custom-reset {
+	margin:0;
+	line-height:1.2em;
+}
+.custom-checkbox .custom-reset i {
+    color: #909090;
+    font-size: 20px;
+    left: 7px;
+    position: absolute;
+    top: 7px;
+}

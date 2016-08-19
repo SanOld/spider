@@ -146,6 +146,27 @@ class Request extends BaseModel {
       $command-> join( 'spi_school scl', 'sps.school_id = scl.id' );
       $command -> andWhere("scl.id = :school_id", array(':school_id' => $params['SCHOOL_ID']));
     }
+    if (safe($params,'STATUSES')) {
+      $string = '';
+      if(!is_int($params['STATUSES'])) {
+        $values = explode(',', $params['STATUSES']);
+        unset($values[sizeof($values)-1]);
+      };
+      foreach ($values as $key){
+        $element = explode('_', $key);
+        $page = '';
+        if(sizeof($element) > 2){          
+          $status = $element[0].'_'.$element[1];
+          $page = 'status_'.$element[2];
+        }else{
+          $status = $element[0];
+          $page = 'status_'.$element[1];
+        }
+        $string .= "tbl.".$page." = '".$status."' OR ";
+      };
+      $string = substr($string,0,-4);
+      $command->andWhere($string);      
+    };
     if (safe($params, 'CODE')) {
       if($this->user['type'] == TA){        
         $command->andWhere("prj.code = :code", array(':code' => $params['CODE']));

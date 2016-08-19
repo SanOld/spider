@@ -5,14 +5,18 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $rootScope.printed = 0;
   var d = new Date;
   $scope.defaulFilter = {year: d.getFullYear(), status_id: '1,3,4,5'}
-
   $scope.filter = localStorageService.get('requestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
   if(!$scope.filter == $scope.defaulFilter ){
     localStorageService.set('requestsFilter', $scope.filter );
   }
-
+  $scope.filter.statuses = '';
   $scope.userType = network.user.type;
-
+  $scope.checks = {
+    'unfinished'  : {'finance':true,'concept':true,'goal':true},
+    'in_progress' : {'finance':true,'concept':true,'goal':true},
+    'accepted'    : {'finance':true,'concept':true,'goal':true},
+    'rejected'    : {'finance':true,'concept':true,'goal':true}
+  };
   $scope.checkboxes = {
     checked: false,
     items: {}
@@ -24,7 +28,39 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       $scope.checkboxes.items[item.id] = value;
     });
   };
-
+  $scope.allSelect = function(satus){
+    angular.forEach($scope.checks, function (item, i, arr) {
+      angular.forEach(item, function (item2, i2, arr2) {
+        $scope.checks[i][i2] = satus;
+      });
+    });
+  };
+  
+  $scope.part_statuses = ['unfinished', 'in_progress', 'accepted', 'rejected'];
+  
+  $scope.deleteStatus = function(type, value){
+    if(!$scope.filter.statuses){
+      $scope.filter.statuses = '';
+    };
+    if(value){
+      $scope.filter.statuses += type + ',';
+    }else{
+      var statuses = $scope.filter.statuses.split(',');
+      for(var i = 0; i < statuses.length; i++){
+        if(statuses[i] == type){
+          statuses.splice(i, 1);
+          break;
+        };
+      };
+      statuses.splice((statuses.length - 1), 1);
+      if(statuses.length){
+        $scope.filter.statuses = statuses.join(',');
+        $scope.filter.statuses += ',';
+      }else{
+        delete $scope.filter.statuses;
+      };
+    };    
+  };
 
   network.get('performer', {}, function (result, response) {
         if(result) {
