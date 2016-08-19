@@ -22,6 +22,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 					</div>
 				</div>
         <ng-form name="form">
+            <button ng-if="(financeStatus == 'unfinished' || conceptStatus == 'unfinished' || goalsStatus == 'unfinished') && user.type == 't' " class="btn w-lg btn-lg btn-success m-b-10 m-t-30 pull-right" ng-click="sendToAccept()">Zur Prüfung übermitteln</button>
 				<uib-tabset class="panel-body request-order-nav" active="tabActive" ng-cloack>
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
@@ -169,4 +170,38 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 			</div>
 		</div>
 	</div>
+</script>
+
+<script type="text/ng-template" id="sendToAccept.html">
+  <div class="panel panel-color panel-primary">
+    <div class="panel-heading clearfix"> 
+      <h3 class="m-0 pull-left">Antragsteile zur Prüfung übermitteln</h3>
+      <button type="button" class="close" ng-click="cancel()" aria-hidden="true"><i class="ion-close-round "></i></button>
+    </div> 
+    <div class="panel-body text-center">
+      <ng-form name="sendToAccept">
+        <h3 class="m-b-10 p-b-10">Folgende Antragsteile werden zur Prüfung übermittelt:</h3>
+          <div class="checkbox p-b-10 clearfix custom-m-l-30">
+            <label class="cr-styled pull-left" for="finance"><input name="finance" id="finance" type="checkbox" ng-model="checkboxes.finance"><i class="fa"></i>Finanzplan</label>
+          </div>
+          <div class="checkbox p-b-10 clearfix custom-m-l-30">
+            <label class="cr-styled pull-left" for="concept"><input name="concept" id="concept" type="checkbox" ng-model="checkboxes.concept"><i class="fa"></i>Konzept</label>
+          </div>
+          <div class="checkbox p-b-10 clearfix custom-m-l-30">
+            <label class="cr-styled pull-left" for="goal"><input name="goal" id="goal" type="checkbox" ng-model="checkboxes.goal"><i class="fa"></i>Entwicklungsziele</label>
+          </div>
+        <div class="col-lg-12">
+          <span>Hinweis: Abgesendete Antragsteile können während der Prüfung nicht bearbeitet werden.</span>
+        </div>
+      </ng-form>
+    </div>
+    <div class="row p-t-10 text-center">
+      <div class="form-group group-btn m-t-20">
+        <div class="col-lg-12">
+          <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+          <button class="btn w-lg custom-btn" ng-click="send()">Senden</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </script>

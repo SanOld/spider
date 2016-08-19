@@ -191,12 +191,21 @@ spi.service("RequestService", function () {
 
   this.isChangedProjectForm = function() {};
   this.setChangedProjectForm = function() {};
+  this.setStatusConceptForm = function() {};  
+  this.setStatusFinanceForm = function() {};  
+  this.setStatusGoalForm = function() {};  
+  
   this.isChangedFinanceForm = function() {};
-  this.setChangedFinanceForm = function() {};
+  this.setChangedFinanceForm = function() {}; 
+  this.hasErrorsFinanceForm = function() {};
+  
   this.isChangedConceptForm = function() {};
   this.setChangedConceptForm = function() {};
+  this.hasErrorsConceptForm = function() {};
+  
   this.isChangedGoalsForm = function() {};
   this.setChangedGoalsForm = function() {};
+  this.hasErrorsGoalsForm = function() {};
 
   this.resetGoalsStatus = function() {};
   this.resetConceptStatus = function() {};
