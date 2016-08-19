@@ -121,11 +121,16 @@ class DocumentTemplate extends BaseModel {
 
       foreach ($this->performerUsers as $key=>$value){
         $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
-        if($this->performerUsers[$key]['sex'] == 1){
-          $this->performerUsers[$key]['gender'] = 'Herr';
-        }
-        if($this->performerUsers[$key]['sex'] == 2){
-          $this->performerUsers[$key]['gender'] = 'Frau';
+        switch ($this->performerUsers[$key]['sex']) {
+          case 1:
+            $this->performerUsers[$key]['gender'] = 'Herr';
+            break;
+          case 2:
+            $this->performerUsers[$key]['gender'] = 'Frau';
+            break;
+          default:
+            $this->performerUsers[$key]['gender']='';
+            break;
         }
 
         if($this->performerUsers[$key]['user_id'] == $this->requestData['concept_user_id']){
