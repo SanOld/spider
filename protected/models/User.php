@@ -265,6 +265,10 @@ class User extends BaseModel {
           'system_code' => 'ERR_DUPLICATED'
         );
       }
+      
+    if(!safe($post, 'is_virtual') && $row['is_virtual']) {
+      Email::doWelcome($result, safe($post,'password'));
+    }
     
 //    if (isset($param['EMAIL']) && $param['EMAIL'] && Yii::app() -> db -> createCommand()
 //        -> select('*')
@@ -337,7 +341,7 @@ class User extends BaseModel {
   }
 
   protected function doAfterInsert($result, $params, $post) {
-    if($result['result']) {
+    if($result['result'] && !safe($params,'is_virtual')) {
       Email::doWelcome($result, $this->insertPassword);
     }
     return $result;
