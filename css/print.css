@@ -30,7 +30,8 @@ table .dt-edit,
 .print-request .panel > .panel-heading,
 .print-request #content,
 .ui-notification,
-.print-financial-request {
+.print-financial-request,
+.no-print {
 	display:none;
 }
 #page.print-request {
@@ -134,3 +135,7 @@ a[href]:after {
     float: left;
 }
 .finance-request .datafilter > form {overflow:hidden;}
+.holder-radio .cr-styled input[type=radio]:checked + i:before, 
+.holder-label-radio .cr-styled input[type=radio]:checked + i:before {
+	background: #0625cd !important;
+}
