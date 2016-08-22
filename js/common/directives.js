@@ -163,6 +163,8 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
     	restrict: 'A',
     	link: function (scope, element, attrs) {
         element.bind('click', function(e){
+          var reg_date = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+          var reg_number = /[0-9]+\.[0-9]+/;
           network.get(scope.paramsForExport.model, scope.paramsForExport.param, function (result, response) {
             if (result) {
               var csvString = '';
@@ -177,7 +179,16 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
                   for(var column in response.result[i]){                  
                     if(columns == column){
                       if(response.result[i][column]){
-                        csvString += '"' + response.result[i][column] + '"' + ',' ;
+                        if(response.result[i][column].match(reg_date)){
+                          var day = response.result[i][column].substring(8);
+                          var month = response.result[i][column].substring(5,7);
+                          var year = response.result[i][column].substring(0,4);
+                          csvString += '"' + day + '-' + month + '-' + year + '"' + ',' ;
+                        }else if(response.result[i][column].match(reg_number)){
+                          response.result[i][column].replace(/\./gi, ",");
+                        }else{
+                          csvString += '"' + response.result[i][column] + '"' + ',' ;
+                        };
                       }else{                          
                         csvString += " ," ;
                       }

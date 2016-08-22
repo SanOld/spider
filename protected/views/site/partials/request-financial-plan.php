@@ -136,15 +136,15 @@
                 </strong>
                 <span class="sum">
                   <strong>Summe AN-Brutto mit Zusatzversorgung</strong>
-                  <span>€ {{emploee.brutto || 0}}</span>
+                  <span>€ {{emploee.brutto || 0| number:2}}</span>
                 </span>
                 <span class="sum">
                   <strong>Summe AG-Anteil nur SV und Umlagen</strong>
-                  <span>€ {{emploee.addCost || 0}}</span>
+                  <span>€ {{emploee.addCost || 0| number:2}}</span>
                 </span>
                 <span class="sum total-sum">
                   <strong>Anrechenbare Personalkosten</strong>
-                  <span>€ {{emploee.fullCost || 0}}</span>
+                  <span>€ {{emploee.fullCost || 0| number:2}}</span>
                 </span>
               </a>
             </div>
