@@ -33,19 +33,6 @@
 					<li><a href="#" style="color: #aaa;">Auswertung</a></li>
 				</ul>
 			</li>
-      <?php if(safe(Yii::app()->session['rights']['users'], 'show') || safe(Yii::app()->session['rights']['user-roles'], 'show')): ?>
-			<li ng-class="{'active': ['user', 'user_type'].indexOf(_m) !== -1}" class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Benutzer</a>
-				<ul class="dropdown-menu">
-          <?php if(safe(Yii::app()->session['rights']['users'], 'show')): ?>
-					  <li><a href="/users">Benutzerliste</a></li>
-          <?php endif; ?>
-          <?php if(safe(Yii::app()->session['rights']['user-roles'], 'show')): ?>
-					  <li><a href="/user-roles">Benutzerrollen</a></li>
-          <?php endif; ?>
-				</ul>
-			</li>
-      <?php endif; ?>
       <?php if(safe(Yii::app()->session['rights']['projects'], 'show')): ?>
 			<li><a href="/projects">Projekte</a></li>
       <?php endif; ?>      
@@ -63,6 +50,19 @@
           <?php endif; ?>  
 				</ul>
 			</li>
+      <?php if(safe(Yii::app()->session['rights']['users'], 'show') || safe(Yii::app()->session['rights']['user-roles'], 'show')): ?>
+			<li ng-class="{'active': ['user', 'user_type'].indexOf(_m) !== -1}" class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Benutzer</a>
+				<ul class="dropdown-menu">
+          <?php if(safe(Yii::app()->session['rights']['users'], 'show')): ?>
+					  <li><a href="/users">Benutzerliste</a></li>
+          <?php endif; ?>
+          <?php if(safe(Yii::app()->session['rights']['user-roles'], 'show')): ?>
+					  <li><a href="/user-roles">Benutzerrollen</a></li>
+          <?php endif; ?>
+				</ul>
+			</li>
+      <?php endif; ?>
       <?php if(safe(Yii::app()->session['rights']['document-templates'], 'show') || 
                safe(Yii::app()->session['rights']['hints'], 'show') || 
                safe(Yii::app()->session['rights']['email-templates'], 'show') || 
