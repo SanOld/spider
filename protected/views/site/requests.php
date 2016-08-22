@@ -179,8 +179,9 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="'Status'" sortable="'status_name'">
                       {{(row.status_code == 'in_progress' && user.type == 't')                       ? 'Antrag bearbeiten'              : 
                         (row.status_code == 'acceptable'  && (user.type == 'p' || user.type == 'a')) ? 'Antrag förderfähig'              :
-                        (row.status_code == 'acceptable'  && user.type == 't')                       ? 'Bitte Zielvereinbarung drucken' :
-                        (row.status_code == 'in_progress' && (user.type == 's' || user.type == 'd' || user.type == 'g')) ? 'Nach Überprüfung' :
+                        (row.status_code == 'acceptable'  && user.type == 't')                       ? 'Förderfähig – Antrag drucken' :
+                        (row.status_code == 'accept'      && user.type == 't')                       ? 'Genehmigt – Fördervertrag drucken' :
+                        (row.status_code == 'wait'        && (user.type == 'a' || user.type == 'p')) ? 'Zur Korrektur übermittelt' :
                          row.status_name}}
                   </td>
                   <td data-title="'Prüfstatus'">
@@ -253,7 +254,7 @@ $this->breadcrumbs = array('Anträge');
                 <span class="cell-concept accepted status-icon"></span>
                 <span class="cell-school accepted status-icon"></span>
               </div>
-              Geprüft
+              Geprüft{{user.type == 't' ? ' – Zielvereinbarung drucken' : ''}} 
             </div>
             <div class="notice">
               <div class="legends">

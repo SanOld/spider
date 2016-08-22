@@ -111,7 +111,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         }else if($scope.statuses[i].code == 'acceptable' && ($scope.user.type == 'p' || $scope.user.type == 'a')){
           $scope.statuses[i].name = 'Antrag förderfähig';
         }else if($scope.statuses[i].code == 'acceptable' && $scope.user.type == 't'){
-          $scope.statuses[i].name = 'Bitte Zielvereinbarung drucken';
+          $scope.statuses[i].name = 'Förderfähig – Antrag drucken';
+        }else if($scope.statuses[i].code == 'accept' && $scope.user.type == 't'){
+          $scope.statuses[i].name = 'Genehmigt – Fördervertrag drucken';
+        }else if($scope.statuses[i].code == 'wait' && ($scope.user.type == 'p' || $scope.user.type == 'a')){
+          $scope.statuses[i].name = 'Zur Korrektur übermittelt';
         };
       };
       $scope.statuses.push($scope.statuses[2]);  //change order of icons to not to do changes to all pages
