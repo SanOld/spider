@@ -15,7 +15,7 @@
 					<li><a href="/summary">Finanzübersicht</a></li>
           <?php endif; ?>
           <?php if(safe(Yii::app()->session['rights']['financial-request'], 'show')):?>
-					  <li><a href="/financial-request">Mittelabrufe</a></li>
+					  <li ng-hide="user.type == 't' && user.is_finansist == 0"><a href="/financial-request">Mittelabrufe</a></li>
           <?php endif; ?>
           <?php if(safe(Yii::app()->session['rights']['finance-report'], 'show')):?>
 					  <li><a href="/finance-report">Belege</a></li>

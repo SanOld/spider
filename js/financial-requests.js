@@ -7,7 +7,9 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     if(!$scope.filter == $scope.defaulFilter ){
       localStorageService.set('requestsFilter', $scope.filter );
     }
-    
+    if(network.user.type == 't' && network.user.is_finansist == 0){
+      window.location = '/';
+    };
     $rootScope.printed = 0;
     $scope.user = network.user;
     

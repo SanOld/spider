@@ -16,7 +16,7 @@ $this->breadcrumbs = array('Anträge');
             <a href="javascript:window.print()" title="Drucken">
               Drucken <i class="ion-printer"></i>
             </a>
-            <button class="custom-btn btn w-xs" export-to-csv ng-click="">Export Datum</button>
+            <button class="custom-btn btn w-xs" export-to-csv ng-click="">csv Export</button>
             <button <?php $this->demo();?> ng-if="canByType(['a'])" ng-click="addRequest()" class="btn w-lg custom-btn" data-modal="">Antrag hinzufügen</button>
           </div>
         </div>
@@ -115,21 +115,26 @@ $this->breadcrumbs = array('Anträge');
                 </button>
               </div>
             </form>
+          </div>            
+          <div class="row m-t-10 m-b-10">
+            <div class="col-lg-12">
+              <span>Prüfstatus filtern</span>
+            </div>                  
           </div>
           <div class="custom-checkbox row m-b-10">              
             <div class="col-lg-8">
               <div class="col-lg-2" ng-repeat="item in part_statuses">
-                <span>
+                <span title="Finanzplan" >
                     <input type="checkbox" name="name_{{item}}+ 'finance'" ng-model="checks[item]['finance']" 
                            ng-change="deleteStatus(item + '_finance', checks[item]['finance']);updateGrid();" id="{{item}}_finance">
                     <label class="cell-finplan {{item}} status-icon" for='{{item}}_finance'><i class="fa fa-check-circle"></i></label>
                 </span>
-                <span>
+                <span title="Konzept">
                     <input type="checkbox" name="name_{{item}}+ '_concept'" ng-model="checks[item]['concept']" 
                            ng-change="deleteStatus(item + '_concept', checks[item]['concept']);updateGrid();" id="{{item}}_concept">
                     <label class="cell-concept {{item}} status-icon" for='{{item}}_concept'><i class="fa fa-check-circle"></i></label>
                 </span>
-                <span>
+                <span title="Entwicklungsziele">
                   <input type="checkbox" name="name_{{item}}+ '_goal'" ng-model="checks[item]['goal']" 
                            ng-change="deleteStatus(item + '_goal', checks[item]['goal']);updateGrid();" id="{{item}}_goal">
                   <label class="cell-school {{item}} status-icon" for='{{item}}_goal'><i class="fa fa-check-circle"></i></label>
@@ -139,12 +144,12 @@ $this->breadcrumbs = array('Anträge');
             <div class="col-lg-2 p-r-0">
                 <button class="btn pull-right w-lg custom-reset" ng-click="allSelect(true)">
                   <i class="fa fa-check-circle"></i></i>
-                  <span>Alles Auswählen</span>
+                  <span>Alles auswählen</span>
                 </button>
               </div>
                <div class="col-lg-2 p-l-0">
                 <button class="btn pull-right w-lg custom-reset" ng-click="allSelect(false)"> <i class="fa ion-close-circled "></i>
-                  <span>Alle Abzuwählen</span>
+                  <span>Alles abwählen</span>
                 </button>
               </div>
           </div>
@@ -173,7 +178,7 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
                   <td data-title="'Status'" sortable="'status_name'">
                       {{(row.status_code == 'in_progress' && user.type == 't')                       ? 'Antrag bearbeiten'              : 
-                        (row.status_code == 'acceptable'  && (user.type == 'p' || user.type == 'a')) ? 'Antrag akzeptiert'              :
+                        (row.status_code == 'acceptable'  && (user.type == 'p' || user.type == 'a')) ? 'Antrag förderfähig'              :
                         (row.status_code == 'acceptable'  && user.type == 't')                       ? 'Bitte Zielvereinbarung drucken' :
                         (row.status_code == 'in_progress' && (user.type == 's' || user.type == 'd' || user.type == 'g')) ? 'Nach Überprüfung' :
                          row.status_name}}

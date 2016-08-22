@@ -109,7 +109,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         if($scope.statuses[i].code == 'in_progress' && $scope.user.type == 't'){
           $scope.statuses[i].name = 'Antrag bearbeiten';
         }else if($scope.statuses[i].code == 'acceptable' && ($scope.user.type == 'p' || $scope.user.type == 'a')){
-          $scope.statuses[i].name = 'Antrag akzeptiert';
+          $scope.statuses[i].name = 'Antrag förderfähig';
         }else if($scope.statuses[i].code == 'acceptable' && $scope.user.type == 't'){
           $scope.statuses[i].name = 'Bitte Zielvereinbarung drucken';
         };
