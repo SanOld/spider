@@ -14,7 +14,7 @@ $this->pageTitle = 'Startseite | ' . Yii::app()->name;
             <p ng-bind-html="_hint.header.text | nl2br"></p>
         </div>
         <div class="row text-left">
-            <div class="col-lg-4">
+            <div class="col-lg-4 {{user.type == 't' && user.is_finansist == 0 ? 'm-l-200' : ''}}">
                 <a class="box-home box-1" href="/performers">
                     <h2>Träger</h2>
                 </a>
@@ -24,7 +24,7 @@ $this->pageTitle = 'Startseite | ' . Yii::app()->name;
                     <h2>Antrag</h2>
                 </a>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4" ng-hide="user.type == 't' && user.is_finansist == 0">
                 <a class="box-home box-3" href="/financial-request">
                     <h2>Mittelabruf</h2>
                 </a>
