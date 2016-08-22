@@ -267,7 +267,7 @@ class User extends BaseModel {
       }
       
     if(!safe($post, 'is_virtual') && $row['is_virtual']) {
-      Email::doWelcome($result, safe($post,'password'));
+      Email::doWelcome(array('id' => $id), safe($post,'password'));
     }
     
 //    if (isset($param['EMAIL']) && $param['EMAIL'] && Yii::app() -> db -> createCommand()
