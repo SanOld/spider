@@ -101,14 +101,13 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     };
     data['school_concepts'] = RequestService.getSchoolConceptData();    
     data['school_goals']    = RequestService.getSchoolGoalData();       
-    if(formsToSend.length){
+    if(formsToSend && formsToSend.length){
       data.status_id = 3;
       if(formsToSend.indexOf('finance') != -1){
         data.status_finance = 'in_progress' 
       }else{
         delete data['finance_plan'];
-    }
-    
+      }    
       if(formsToSend.indexOf('concept') != -1){
         for(var item in  data['school_concepts']){
           data['school_concepts'][item]['status'] = 'in_progress';
@@ -1066,7 +1065,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     if(result && index==-1 && name != undefined ){
       $scope.errorArray.push(name);
     } else if(!result && index != -1) {
-        $scope.errorArray.splice(index,1);
+      $scope.errorArray.splice(index,1);
     }
     return result;
  }

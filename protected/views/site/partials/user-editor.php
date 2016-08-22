@@ -1,3 +1,4 @@
+
 <script type="text/ng-template" id="editUserTemplate.html">
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
@@ -21,30 +22,30 @@
             </div>
           </div>         
           <div class="col-lg-4">
-            <div ng-if="!isCurrentUser && !modeView" class="btn-group btn-toggle">
+            <div class="btn-group btn-toggle">
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 1}" ng-model="user.is_active"
-                      uib-btn-radio="1">AKTIV
+                      uib-btn-radio="1" ng-disabled="!can_change">AKTIV
               </button>
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 0}" ng-model="user.is_active"
-                      uib-btn-radio="0">NICHT AKTIV
+                      uib-btn-radio="0" ng-disabled="!can_change">NICHT AKTIV
               </button>
             </div>
-            <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Nicht aktiv'}}</span>
+            <!--<span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Nicht aktiv'}}</span>-->
             <span spi-hint text="_hint.is_active.text"  title="_hint.is_active.title" ></span>
           </div>
 
             <label class="col-lg-2 control-label p-r-0">Mit login</label>
 
             <div class="col-lg-4 p-l-0">
-              <div class="btn-group btn-toggle" ng-if="!(modeView || (!isAdmin && !userIsPA && user.type == 't'))">
+              <div class="btn-group btn-toggle">
                  <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 0}" ng-model="user.is_virtual"
                         uib-btn-radio="0" ng-disabled="!can_change">JA
                 </button>
                 <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 1}" ng-model="user.is_virtual"
-                        uib-btn-radio="1">NEIN
+                        uib-btn-radio="1" ng-disabled="!can_change">NEIN
                 </button>               
               </div>
-              <span ng-if="modeView || (!isAdmin && !userIsPA && !user.type == 't')" class="no-edit-text">{{user.is_virtual ? 'Nein' : 'Ja'}}</span>
+              <!--<span ng-if="modeView || (!isAdmin && !userIsPA && !user.type == 't')" class="no-edit-text">{{user.is_virtual ? 'Nein' : 'Ja'}}</span>-->
               <span spi-hint text="_hint.is_virtual.text"  title="_hint.is_virtual.title"  ng-disabled="!can_change"></span>
             </div>
         </div>
@@ -89,7 +90,7 @@
           </div>
         </div>
         
-        <div class="form-group">
+        <div class="form-group" ng-show="(modeView || !canEdit()) && user.sex != '3'">
           <label class="col-lg-2 control-label">Anrede</label>
 
           <div class="col-lg-10 holder-label-radio">
@@ -150,15 +151,15 @@
           <label class="col-lg-2 control-label two-line">Finanzielle Rechte</label>
 
           <div class="col-lg-10">
-            <div ng-if="!isCurrentUser && !modeView" class="btn-group btn-toggle">
+            <div class="btn-group btn-toggle">
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 1}" ng-model="user.is_finansist"
-                      uib-btn-radio="1">JA
+                      uib-btn-radio="1" ng-disabled="!can_change">JA
               </button>
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 0}" ng-model="user.is_finansist"
-                      uib-btn-radio="0">NEIN
+                      uib-btn-radio="0" ng-disabled="!can_change">NEIN
               </button>
             </div>
-            <span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_finansist ? 'Ja' : 'Nein'}}</span>
+            <!--<span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_finansist ? 'Ja' : 'Nein'}}</span>-->
             <span spi-hint text="_hint.is_finansist.text"  title="_hint.is_finansist.title" ></span>
           </div>
         </div>
