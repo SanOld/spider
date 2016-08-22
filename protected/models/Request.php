@@ -799,14 +799,15 @@ class Request extends BaseModel {
 
         if($value){
           $value['year'] = $year;
-          $value['status_id'] = '3';
-          $value['status_id_ta'] = '3';
 
-          $value['status_finance']    = 'in_progress';
-          $value['status_concept']    = 'in_progress';
-          $value['status_concept_ta'] = 'in_progress';
-          $value['status_goal']       = 'in_progress';
-          $value['status_goal_ta']    = 'in_progress';
+          $value['status_finance']    = ($value['status_finance']    == 'unfinished') ? $value['status_finance']    : 'in_progress';
+          $value['status_concept']    = ($value['status_concept']    == 'unfinished') ? $value['status_concept']    : 'in_progress';
+          $value['status_concept_ta'] = ($value['status_concept_ta'] == 'unfinished') ? $value['status_concept_ta'] : 'in_progress';
+          $value['status_goal']       = ($value['status_goal']       == 'unfinished') ? $value['status_goal']       : 'in_progress';
+          $value['status_goal_ta']    = ($value['status_goal_ta']    == 'unfinished') ? $value['status_goal_ta']    : 'in_progress';
+
+          $value['status_id'] = $this->calcStatusId($value, 'a');
+          $value['status_id_ta'] = $this->calcStatusId($value, 't');
 
           unset ($value['id']);
           unset ($value['start_date']);
@@ -853,7 +854,7 @@ class Request extends BaseModel {
 
     foreach ($value as $row) {
       unset($row['id']);
-      if($table != 'spi_request_school_finance'){
+      if($table != 'spi_request_school_finance' && $row['status'] != 'unfinished'){
         $row['status'] = 'in_progress';
       }
       $row['request_id'] = $newId;
