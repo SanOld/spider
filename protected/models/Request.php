@@ -276,9 +276,9 @@ class Request extends BaseModel {
                     && $row['status_id']         != '5' 
                     && $row['status_id']         != '2') 
                     ||
-                   ((  $row['status_concept_ta'] !== 'in_progress'   && $row['status_concept_ta'] !== 'unfinished') 
-                    && ($row['status_finance']   !== 'in_progress'   && $row['status_finance']    !== 'unfinished') 
-                    && ($row['status_goal_ta']   !== 'in_progress'   && $row['status_goal_ta']    !== 'unfinished'))){
+                   (   $row['status_concept_ta'] !== 'unfinished' 
+                    && $row['status_finance']    !== 'unfinished'
+                    && $row['status_goal_ta']    !== 'unfinished')){
             $result = '6'; //wait
           }else{
             $result = '1'; //open

@@ -1470,6 +1470,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   
   RequestService.hasErrorsFinanceForm = function(){      
     return $scope.errorArray;
+  };  
+  
+  RequestService.setErrorsFinanceForm = function(value){      
+    $scope.errorShow = value;
   };
   
   RequestService.setStatusFinanceForm = function(status){
@@ -2130,6 +2134,16 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return errors;
   };
   
+  RequestService.setErrorsGoalsForm = function(value){ 
+    for(var item in $scope.schoolGoals){
+      for(var i in $scope.schoolGoals[item].goals){
+        if(Object.keys($scope.schoolGoals[item].goals[i].errors).length && $scope.schoolGoals[item].goals[i].is_active == '1'){          
+          $scope.schoolGoals[item].goals[i].showError = value;
+        };
+      };        
+    };
+  };
+  
   RequestService.setStatusGoalForm = function(status){
     for(var item in $scope.schoolGoals){
       $scope.schoolGoals[item].status = status;
@@ -2241,7 +2255,9 @@ spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModal
       type: "error",
       confirmButtonText: "OK"
     },function(isConfirm){
-       if(isConfirm){
+       if(isConfirm){         
+         RequestService.setErrorsFinanceForm(true);
+         RequestService.setErrorsGoalsForm(true);
          $uibModalInstance.close();
        }
     });

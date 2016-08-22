@@ -198,6 +198,7 @@ spi.service("RequestService", function () {
   this.isChangedFinanceForm = function() {};
   this.setChangedFinanceForm = function() {}; 
   this.hasErrorsFinanceForm = function() {};
+  this.setErrorsFinanceForm = function() {};
   
   this.isChangedConceptForm = function() {};
   this.setChangedConceptForm = function() {};
@@ -206,6 +207,7 @@ spi.service("RequestService", function () {
   this.isChangedGoalsForm = function() {};
   this.setChangedGoalsForm = function() {};
   this.hasErrorsGoalsForm = function() {};
+  this.setErrorsGoalsForm = function() {};
 
   this.resetGoalsStatus = function() {};
   this.resetConceptStatus = function() {};
