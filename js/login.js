@@ -42,7 +42,7 @@ spi.controller('LoginController', function ($scope, network, localStorageService
       case 'ERR_USER_NOT_VERIFIED':
         return response.message;
     }
-    return 'Bitte geben Sie die markierten Felder korrekt ein.';
+    return 'Bitte geben Sie Ihre Zugangsdaten korrekt ein.';
   }
 
 });
