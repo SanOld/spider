@@ -126,7 +126,7 @@
           </div>
         </div>
         <div id="accordion-account" class="panel-group panel-group-joined row">
-          <div class="panel panel-default row employee-row" data-name="{{emploee.user.name || 'ALLES ANZEIGEN'}}" ng-if="!emploee.is_deleted" ng-repeat="emploee in request_users">
+          <div class="panel panel-default row employee-row" data-name="{{emploee.user.name || 'ALLES ANZEIGEN'}}" ng-if="!emploee.is_deleted" ng-repeat="(key, emploee) in request_users">
             <div class="panel-heading">
               <button class="no-btn" title="Entfernen" ng-click="deleteEmployee($index)" ng-show="undelitetdCount(request_users) > 1 && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canFormEdit">
                 <i class="ion-close-round"></i>
@@ -166,7 +166,7 @@
                                ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" 
                                ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name"
                                ng-disabled="userLoading" id="employee_user">  
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.user_id, 'Mitarbeiter') && errorShow) }">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.user_id, 'Mitarbeiter' + '-' + key) && errorShow) }">
 
                               <ui-select required   on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id"
                                          ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
@@ -201,7 +201,7 @@
                     <div class="form-group clearfix">
                       <label class="col-lg-3 control-label">Entgeltgruppe<span spi-hint text="_hint.fin_plan_employee_group_id.text"  title="_hint.fin_plan_employee_group_id.title"  class="has-hint"></span></label>
                       <div class="col-lg-3">
-                        <div  class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.group_id, 'Entgeltgruppe') && errorShow) }">
+                        <div  class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.group_id, 'Entgeltgruppe' + '-' + key) && errorShow) }">
                               <ui-select required name = "{{'Entgeltgruppe'+String($index)}}" class="type-document" ng-model="emploee.group_id" ng-init="emploee.group_id = emploee.group_id || '4'" ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
                                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices repeat="item.id as item in request_financial_group | filter: $select.search | orderBy: 'name'">
@@ -215,7 +215,7 @@
                     <div class="form-group clearfix">
                       <label class="col-lg-3 control-label">Entgeltstufe<span spi-hint text="_hint.fin_plan_employee_remuneration_level_id.text"  title="_hint.fin_plan_employee_remuneration_level_id.title"  class="has-hint"></span></label>
                       <div class="col-lg-9">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.remuneration_level_id, 'Entgeltstufe') && errorShow) }">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.remuneration_level_id, 'Entgeltstufe' + '-' + key) && errorShow) }">
                               <ui-select required name = "{{'Entgeltstufe'+$index}}" class="type-document" ng-model="emploee.remuneration_level_id"  ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
                                 <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices repeat="item.id as item in remuneration_level | filter: $select.search | orderBy: 'name'">
@@ -243,7 +243,7 @@
                         <label class="col-lg-6 control-label p-l-0">Kosten pro Monat (AN-Brutto)<span spi-hint text="_hint.fin_plan_employee_cost_per_month_brutto.text"  title="_hint.fin_plan_employee_cost_per_month_brutto.title"  class="has-hint"></span></label>
                         <div class="col-lg-1"></div>
                         <div class="col-lg-4">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.cost_per_month_brutto, 'Kosten pro Monat (AN-Brutto)') && errorShow) }">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.cost_per_month_brutto, 'Kosten pro Monat (AN-Brutto)' + '-' + key) && errorShow) }">
                             <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()" required name = "Kosten_pro_Monat" ng-change="calculateEmployee(emploee)" ng-model="emploee.cost_per_month_brutto" class="form-control" type="text" >
                         </div>                          
                         </div>
@@ -254,7 +254,7 @@
                       <div class="form-group">
                         <label class="col-lg-7 control-label p-l-0">Geplante Monate im Projekt<span spi-hint text="_hint.fin_plan_employee_month_count.text"  title="_hint.fin_plan_employee_month_count.title"  class="has-hint"></span></label>
                         <div class="col-lg-4">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.month_count, 'Geplante Monate im Projekt') && errorShow) }">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.month_count, 'Geplante Monate im Projekt' + '-' + key) && errorShow) }">
                           <select ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()" required  name = "{{'Geplante_Monate'+$index}}" class="form-control" ng-model="emploee.month_count" ng-change="calculateEmployee(emploee)" required>
                             <option value="12">12</option>
                             <option value="11">11</option>
@@ -276,7 +276,7 @@
                       <div class="form-group">
                         <label class="col-lg-7 control-label p-l-0">Arbeitsstunden pro Woche<span spi-hint text="_hint.fin_plan_employee_hours_per_week.text"  title="_hint.fin_plan_employee_hours_per_week.title"  class="has-hint"></span></label>
                         <div class="col-lg-4">
-                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.hours_per_week, 'Arbeitsstunden pro Woche') && errorShow) }">
+                        <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.hours_per_week, 'Arbeitsstunden pro Woche' + '-' + key) && errorShow) }">
                             <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  required name = "Arbeitsstunden_pro_Woche" ng-change="numValidate(emploee,'hours_per_week', 4); maxValue(emploee,'hours_per_week', 40)" class="form-control" type="text" ng-model="emploee.hours_per_week" >
                         </div>                           
                         </div>
@@ -348,7 +348,7 @@
           <h3 class="panel-title title-custom m-b-15">
             Ausgaben: Sachkosten
           </h3>
-          <div ng-repeat="school in financeSchools">
+          <div ng-repeat="(key, school) in financeSchools">
             <h4 ng-if="school.school_name">{{school.school_name}} ({{school.school_number}})</h4>
             <hr>
             <div class="form-group clearfix school-row">
@@ -362,8 +362,8 @@
 <!--                    <div class="wrap-hint">
                       <input required name = "Stellenanteil" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
                     </div>-->
-                    <div class="wrap-hint" ng-class="{'wrap-line error': ( canAccept && fieldsError2(school.rate, 'Stellenanteil')  && errorShow ) }">
-                          <input required name = "{{('Stellenanteil'+$index)}}" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept || !canEdit()">
+                    <div class="wrap-hint" ng-class="{'wrap-line error': (( canAccept && fieldsError2(school.rate, 'Stellenanteil' + '-' + key)  && errorShow) || errorArray.indexOf('Stellenanteil'+ '-' + key) != -1) }">
+                      <input required name = "{{('Stellenanteil'+$index)}}" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept || !canEdit()">
                     </div>
                   </div>
                 </div>
@@ -375,7 +375,7 @@
                     <div class="has-hint has-hint2">
                       <span spi-hint text="_hint.fin_plan_school_month_count.text"  title="_hint.fin_plan_school_month_count.title" ></span>
                     </div>
-                    <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.month_count, 'Monat'))  && errorShow ) }">
+                    <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.month_count, 'Monat' + '-' + key))  && errorShow ) }">
                       <input type="text" class="form-control" ng-init = "numValidate2(school,'month_count');" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept || !canEdit()">
                     </div>
                   </div>
@@ -388,7 +388,7 @@
                     <div class="has-hint has-hint2">
                       <span spi-hint text="_hint.fin_plan_school_traning_cost.text"  title="_hint.fin_plan_school_traning_cost.title" ></span>
                     </div>
-                    <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.training_cost, 'Fortbildungskosten'))  && errorShow) }">
+                    <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.training_cost, 'Fortbildungskosten' + '-' + key))  && errorShow) }">
                       <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost');"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept || school.rate*1 > 1 && school.rate*1 < 0.5 || !canEdit()">
                     </div>
                   </div>
@@ -402,7 +402,7 @@
                     <div class="has-hint has-hint2">
                       <span spi-hint text="_hint.fin_plan_school_overhead_cost.text"  title="_hint.fin_plan_school_overhead_cost.title" ></span>
                     </div>
-                   <div class="wrap-hint" ng-class="{'wrap-line error': (( canAccept && fieldsError2(school.overhead_cost, 'Regiekosten'))  && errorShow)}">
+                   <div class="wrap-hint" ng-class="{'wrap-line error': (( canAccept && fieldsError2(school.overhead_cost, 'Regiekosten' + '-' + key))  && errorShow)}">
                       <input type="text" class="form-control" ng-init = "numValidate2(school,'overhead_cost');" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept || !canEdit()">
                    </div>
                   </div>
@@ -422,12 +422,12 @@
           </div>
           <hr />
           <!--<ng-form name="financePlanFormGroup1" disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">-->
-          <div class="row form-horizontal m-b-15" ng-repeat="association in prof_associations" ng-if="!association.is_deleted">
+          <div class="row form-horizontal m-b-15" ng-repeat="(key, association) in prof_associations" ng-if="!association.is_deleted">
             <label class="col-lg-1 control-label">
               Name<span spi-hint text="_hint.fin_plan_association_name.text"  title="_hint.fin_plan_association_name.title"  class="has-hint"></span>
             </label>
             <div class="col-lg-7">
-              <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.name, 'Berufsgenossenschaftsbeiträge-Name') && errorShow) }">
+              <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.name, 'Berufsgenossenschaftsbeiträge-Name' + '-' + key) && errorShow) }">
                 <input name = "first" class="form-control" type="text" ng-model="association.name" ng-disabled="!canFormEdit">
               </div>
             </div>
@@ -435,7 +435,7 @@
               Beitrag<span spi-hint text="_hint.fin_plan_association_sum.text"  title="_hint.fin_plan_association_sum.title"  class="has-hint"></span>
             </label>
             <div class="col-lg-2">
-              <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.sum,  'Berufsgenossenschaftsbeiträge-Beitrag') && errorShow) }">
+              <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.sum,  'Berufsgenossenschaftsbeiträge-Beitrag' + '-' + key) && errorShow) }">
                 <input class="form-control" type="text" ng-disabled="!canFormEdit" ng-init = "association.sum = (association.sum || '0,00'); numValidate2(association,'sum');"  ng-change="numValidate(association,'sum') ; updateResultCost();" ng-model="association.sum" >
               </div>
             </div>
