@@ -145,12 +145,23 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
           RequestService.resetGoalsStatus();
           RequestService.resetConceptStatus();
     }
-
-    network.put('request/' + $scope.requestID, data, function(result, response) {
-      if(result) {
-       RequestService.afterSave();
-      }
-    });
+    
+    var financeErors  = angular.copy(RequestService.hasErrorsFinanceForm());
+    financeErors = $scope.unique(financeErors);
+    if(financeErors.indexOf("Stellenanteil") == -1){
+      network.put('request/' + $scope.requestID, data, function(result, response) {
+        if(result) {
+          RequestService.afterSave();
+        };
+      });
+    }else{
+      SweetAlert.swal({
+        title: "Fehler",
+        text: "Field(s) Stellenanteil kann nicht null sein.",
+        type: "error",
+        confirmButtonText: "OK"
+      });
+    };   
   };
 
   $scope.block = function ()  {
@@ -279,11 +290,42 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
 
     return results;
   };
+  
+  $scope.unique = function(arr){
+    var equal = false;
+    var array = arr;
+    var reg = /.+[0-9]/;
+    array.forEach(function(item, i, arr){
+      if(item.match(reg)){
+        equal = true;
+        array[i] = item.slice(0,-2); 
+      };
+    });
+    if(equal){
+      var result = [];
+      nextInput:
+      for (var i = 0; i < arr.length; i++) {
+        var str = arr[i];
+        for (var j = 0; j < result.length; j++) {
+          if (result[j] == str) continue nextInput; 
+        }
+        result.push(str);
+      }
+      return result;
+    }else{
+      return arr;
+    }  
+  };
 
   $scope.doErrorIncompleteFields = function(fields) {
+    var arr_fields = angular.copy(fields);
+    if(arr_fields){      
+      arr_fields = $scope.unique(arr_fields);      
+    };
+    
     var text = '';
-    if(fields) {
-      text = "\n\n"+fields.join("\n")
+    if(arr_fields) {
+      text = "\n\n" + arr_fields.join("\n")
     }
     SweetAlert.swal({
       html:true,
@@ -1058,7 +1100,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.fieldsError2 = function (model, modelName){
 
     var name = modelName;
-    var result =( model == '' || model == 0 || model == '0' || model == '0,00' || model == undefined);
+    var result = (model == '' || model == 0 || model == '0' || model == '0,00' || model == undefined);
 
     var index = $scope.errorArray.indexOf(name);
 
@@ -1094,7 +1136,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
         $scope.errorShow = true;
         if($scope.errorArray.length){
-          return   $scope.$parent.doErrorIncompleteFields($scope.errorArray);
+          return $scope.$parent.doErrorIncompleteFields($scope.errorArray);
         } else {
           $scope.errorShow = false;
         }
@@ -1925,7 +1967,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       switch (action) {
         case 'submit':
           
-          if(isEmptyObject(goal.errors)){
+          if(isEmptyObject(goal.errors) && goal.groups.groupOffer.counter < 3){
             $scope.tempStatus = 'in_progress';
             RequestService.sendMSG(callback);
           } else {
@@ -1943,9 +1985,14 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           RequestService.acceptMSG(callback);
           break;
         case 'accept':
-          goal.notice = goal.newNotice;
-          $scope.tempStatus = 'accepted';
-          RequestService.acceptMSG(callback);
+          if(isEmptyObject(goal.errors) && goal.groups.groupOffer.counter < 3){
+            goal.notice = goal.newNotice;
+            $scope.tempStatus = 'accepted';
+            RequestService.acceptMSG(callback);
+          } else {
+            goal.showError = true;
+            $scope.$parent.doErrorIncompleteFields();
+          }
           break;
       }
 

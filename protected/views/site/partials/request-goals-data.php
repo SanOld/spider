@@ -51,7 +51,7 @@
                       <h4>{{::goal.name}}</h4> <span spi-hint text="_hint.goals_goal.text" title="_hint.goals_goal.title" class="has-hint"></span>
                   </label>
                   <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'description') && goal.showError)}">
-                    <textarea  ng-model="goal.description" name="description" class="form-control" placeholder="Tragen Sie den Text hier ein here" ></textarea>
+                      <textarea  required ng-model="goal.description" name="description" class="form-control" placeholder="Tragen Sie den Text hier ein here" ></textarea>
 
                     <span ng-class="{hide: !(fieldError(goal, 'description')  && goal.showError)}" class="hide">
                       <label  class="error">Feld ist erforderlich</label>
@@ -484,7 +484,7 @@
                   </label>
 
                   <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'implementation') && goal.showError)}">
-                    <textarea ng-model="goal.implementation" class="form-control" placeholder="Tragen Sie den Text hier ein"></textarea>
+                    <textarea required ng-model="goal.implementation" class="form-control" placeholder="Tragen Sie den Text hier ein"></textarea>
 
                     <span ng-class="{hide: !(fieldError(goal, 'implementation')  && goal.showError)}" class="hide">
                       <label  class="error">Feld ist erforderlich</label>
@@ -504,7 +504,7 @@
                       </label>
                       <div class="col-lg-11">
                         <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_1') && goal.showError)}">
-                          <input type="text" ng-model="goal.indicator_1" value="" class="form-control">
+                          <input type="text" required ng-model="goal.indicator_1" value="" class="form-control">
 
                           <span ng-class="{hide: !(fieldError(goal, 'indicator_1')  && goal.showError)}" class="hide">
                             <label  class="error">Feld ist erforderlich</label>
@@ -520,7 +520,7 @@
                       </label>
                       <div class="col-lg-11">
                         <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'indicator_2') && goal.showError)}">
-                          <input type="text" ng-model="goal.indicator_2" value="" class="form-control">
+                          <input type="text" required ng-model="goal.indicator_2" value="" class="form-control">
 
                           <span ng-class="{hide: !(fieldError(goal, 'indicator_2')  && goal.showError)}" class="hide">
                             <label  class="error">Feld ist erforderlich</label>
