@@ -871,9 +871,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   }
   $scope.getPerformerUsers = function(){
     network.get('User', {type: 't', relation_id: $scope.data.performer_id}, function (result, response) {
-      if (result) {
+      if (result) {        
         $scope.users = response.result;
-        $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.data.finance_user_id);            
+        $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.data.finance_user_id);
       }
     });         
   };
@@ -1414,10 +1414,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   $scope.updateUserSelect = function (){
     var idx = {};
     angular.forEach($scope.request_users, function(empl, key) {
+      empl.user_id = empl.user_id != '0'?empl.user_id:'';
       idx[empl.user_id] = true;
     });
     angular.forEach($scope.users, function(empl, key) {
       empl.is_selected = idx[empl.id]?1:0;
+      
     });
   }
   $scope.employeeOnSelect = function (item, employee){
