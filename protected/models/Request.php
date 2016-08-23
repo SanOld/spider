@@ -112,7 +112,7 @@ class Request extends BaseModel {
 
     if(safe($params, 'PROJECT_IS_OLD') && safe($params, 'YEAR')) {
       $command -> andWhere('prj.is_old = :is_old OR tbl.year = :year', array(':is_old' => $params['PROJECT_IS_OLD'], ':year' => $params['YEAR']));
-      $command -> selectDistinct('prj.code');
+      $command -> group(array('prj.code'));
     } elseif (!safe($params, 'PROJECT_IS_OLD') && safe($params, 'YEAR')) {
       $command -> andWhere('tbl.year = :year', array(':year' => $params['YEAR']));
     }
