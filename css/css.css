@@ -3436,6 +3436,7 @@ tr.virtual-row {
 }
 .custom-checkbox input[type="checkbox"] + label {
   position: relative;
+  background-color: white;
   cursor: pointer;
   height:30px;
   width:30px;
@@ -3464,11 +3465,14 @@ tr.virtual-row {
 	border-radius: 3px;
 }
 .custom-checkbox span label i {
-	bottom: -1px;
+	bottom: 0px;
     position: absolute;
-    right: 0;
+    right: 1px;
     opacity: 0;
     color:#00529e;
+}
+.custom-checkbox span label .bg-color {
+    background-color: white !important;
 }
 .custom-checkbox .btn.custom-reset {
 	margin:0;

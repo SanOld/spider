@@ -127,17 +127,17 @@ $this->breadcrumbs = array('Anträge');
                 <span title="Finanzplan" >
                     <input type="checkbox" name="name_{{item}}+ 'finance'" ng-model="checks[item]['finance']" 
                            ng-change="deleteStatus(item + '_finance', checks[item]['finance']);updateGrid();" id="{{item}}_finance">
-                    <label class="cell-finplan {{item}} status-icon" for='{{item}}_finance'><i class="fa fa-check-circle"></i></label>
+                    <label class="cell-finplan {{item}} status-icon" for='{{item}}_finance'><i class="fa fa-check-circle bg-color"></i></label>
                 </span>
                 <span title="Konzept">
                     <input type="checkbox" name="name_{{item}}+ '_concept'" ng-model="checks[item]['concept']" 
                            ng-change="deleteStatus(item + '_concept', checks[item]['concept']);updateGrid();" id="{{item}}_concept">
-                    <label class="cell-concept {{item}} status-icon" for='{{item}}_concept'><i class="fa fa-check-circle"></i></label>
+                    <label class="cell-concept {{item}} status-icon" for='{{item}}_concept'><i class="fa fa-check-circle bg-color"></i></label>
                 </span>
                 <span title="Entwicklungsziele">
                   <input type="checkbox" name="name_{{item}}+ '_goal'" ng-model="checks[item]['goal']" 
                            ng-change="deleteStatus(item + '_goal', checks[item]['goal']);updateGrid();" id="{{item}}_goal">
-                  <label class="cell-school {{item}} status-icon" for='{{item}}_goal'><i class="fa fa-check-circle"></i></label>
+                  <label class="cell-school {{item}} status-icon" for='{{item}}_goal'><i class="fa fa-check-circle "></i></label>
                 </span>
               </div>
             </div>
