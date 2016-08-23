@@ -74,9 +74,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     $scope.requestYear = requestYear;
     RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
   };
-
-
-
+  
   $scope.submitRequest = function (changeStatus, formsToSend, reset) {
     changeStatus = changeStatus || false;
     reset = reset || false;
@@ -87,24 +85,31 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       }
     };
     
-    RequestService.setChangedProjectForm();
-    RequestService.setChangedFinanceForm();
-    RequestService.setChangedConceptForm();
-    RequestService.setChangedGoalsForm();
-    
     var data = RequestService.getProjectData();
     var finPlan = RequestService.financePlanData();    
     if (finPlan != undefined){
       data = angular.extend(data, finPlan.request);
       delete finPlan.request;
-      data['finance_plan']    = finPlan;
+      if(RequestService.isChangedFinanceForm()){
+        data['finance_plan']    = finPlan;
+      };      
     };
-    data['school_concepts'] = RequestService.getSchoolConceptData();    
-    data['school_goals']    = RequestService.getSchoolGoalData();       
+    if(RequestService.isChangedConceptForm()){      
+      data['school_concepts'] = RequestService.getSchoolConceptData();
+    };
+    if(RequestService.isChangedGoalsForm()){
+      data['school_goals']    = RequestService.getSchoolGoalData();
+    };
+    
+    RequestService.setChangedProjectForm();
+    RequestService.setChangedFinanceForm();
+    RequestService.setChangedConceptForm();
+    RequestService.setChangedGoalsForm();
+    
     if(formsToSend && formsToSend.length){
       data.status_id = 3;
       if(formsToSend.indexOf('finance') != -1){
-        data.status_finance = 'in_progress' 
+        data.status_finance = 'in_progress';
       }else{
         delete data['finance_plan'];
       }    
@@ -125,25 +130,25 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     }
     
     if(reset){
-          if(data['status_finance'] != 'unfinished' && data['status_finance'] != 'rejected'){
-            data['status_finance'] = 'in_progress';
-          }
-          angular.forEach(data['school_concepts'], function(val, key) {
-            if(val.status != 'unfinished' && val.status != 'rejected'){
-              val.status = 'in_progress';
-            }
-          });
-          angular.forEach(data['school_goals'], function(val, key) {
-            if(val.status != 'unfinished' && val.status != 'rejected'){
-              val.status = 'in_progress';
-            }
-          });
+      if(data['status_finance'] != 'unfinished' && data['status_finance'] != 'rejected'){
+        data['status_finance'] = 'in_progress';
+      }
+      angular.forEach(data['school_concepts'], function(val, key) {
+        if(val.status != 'unfinished' && val.status != 'rejected'){
+          val.status = 'in_progress';
+        }
+      });
+      angular.forEach(data['school_goals'], function(val, key) {
+        if(val.status != 'unfinished' && val.status != 'rejected'){
+          val.status = 'in_progress';
+        }
+      });
 
-          $scope.financeStatus  = 'in_progress';
-          $scope.conceptStatus  = 'in_progress';
-          $scope.goalsStatus    = 'in_progress';
-          RequestService.resetGoalsStatus();
-          RequestService.resetConceptStatus();
+      $scope.financeStatus  = 'in_progress';
+      $scope.conceptStatus  = 'in_progress';
+      $scope.goalsStatus    = 'in_progress';
+      RequestService.resetGoalsStatus();
+      RequestService.resetConceptStatus();
     }
     
     var financeErors  = angular.copy(RequestService.hasErrorsFinanceForm());
@@ -843,6 +848,18 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   RequestService.setChangedProjectForm = function(){
     $scope.projectData.$dirty = false;
   }
+  
+  RequestService.getChangedProjectFields = function(){
+    var changed_fields = [];
+    for(var field in $scope.projectData){
+      if(!field.match(/^\$.+/)){
+        if($scope.projectData[field].$dirty){
+          changed_fields.push(field);
+        };
+      };
+    };
+    return changed_fields;
+  };
   
 });
 
