@@ -6,7 +6,7 @@ class Project extends BaseModel {
   public $table = 'spi_project';
   public $post = array();
   public $params = array();
-  public $select_all = "tbl.*, req.status_id,
+  public $select_all = "tbl.*,
           (SELECT short_name FROM spi_performer prf WHERE prf.id=tbl.performer_id) AS `performer_name`,
           (SELECT name FROM spi_district dst WHERE dst.id=tbl.district_id) AS `district_name`,
           (SELECT name FROM spi_school scl WHERE scl.id=sps.school_id) AS `school_name`";
@@ -105,6 +105,17 @@ class Project extends BaseModel {
 //  }
 
   protected function doAfterSelect($results) {
+    foreach ($results['result'] as &$row){
+      $requests = Yii::app() -> db -> createCommand()
+          -> select('req.status_id') -> from('spi_project prj')
+          -> join('spi_request req', 'req.project_id = prj.id')
+          -> where('project_id=:id', array(
+          ':id' => $row['id']
+        )) -> queryAll();
+      
+      $row['requests'] = $requests;
+    };    
+    
     foreach ($results['result'] as &$row){
       if(safe($row, 'is_old')){
         $row['status'] = 'decline';

@@ -257,9 +257,9 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 //            school: data.school_type_id != 1 ? data.schools[0] : {},
             performer_id: data.performer_id,
             district_id: data.district_id == null ? 0 : data.district_id,
-            programm_id: data.programm_id,
-            status_id: data.status_id
+            programm_id: data.programm_id
         };
+        $scope.requests = data.requests;
         $.each(data.schools, function(){
           $scope.projectSchoolsID[this.id] = 1;
         })
@@ -308,12 +308,12 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
         params['school_type_id'] = $scope.project.school_type_id;
       }
       network.get('district', params, function (result, response) {
-          if(result){
-            if($scope.project.school_type_id == 5 || !result){
-              response.result.unshift({'name':"--Kein Bezirk--", 'id': 0});
-            }           
-            $scope.districts = response.result; 
-          } 
+        if(result){
+          if($scope.project.school_type_id == 5 || !result){
+            response.result.unshift({'name':"--Kein Bezirk--", 'id': 0});
+          }           
+          $scope.districts = response.result; 
+        } 
       });
     }
     $scope.getDistricts(true);
@@ -467,6 +467,24 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
        });
     };
     
+    $scope.checkRequests = function (requests){
+      var result = {
+        length: true,
+        status: true
+      };
+      if(!requests.length){
+        result.length = false;
+      }else{
+        requests.forEach(function(item, i, arr){
+          if(item.status_id != 2){
+            result.status = false;
+          };
+        });
+      };
+      
+      return result;
+    };
+    
     $scope.submitFormProjects = function () {
         $scope.submited = true;
         $scope.error = false;        
@@ -536,7 +554,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
             });
             var newCode = $copyScopeProject.code.split('/');
             newCode = newCode[0] + '/' + (newCode[1] ? +newCode[1] + 1 : 2);
-            if(!$scope.project.status_id || $scope.project.status_id == 2){
+            var result = $scope.checkRequests($scope.requests);
+            if(result.status){
               SweetAlert.swal({
                   title: "Projekt bearbeiten?",
                   text: "Nächstes Projekt wird erstellt " + newCode,
@@ -570,10 +589,11 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     };
     
     $scope.remove = function() {
-      if($scope.project.status_id){
-        if($scope.project.status_id == 2){
-          $scope.project.is_old = 1;
-          Utils.doDeactivateConfirm(function() {
+      var result = $scope.checkRequests($scope.requests);
+      if(result.length){
+        if(result.status){
+          Utils.doDeactivateConfirm(function() {            
+            $scope.project.is_old = 1;
             network.put('project/' + data.id, $scope.project, function(){                  
               Utils.deactivateSuccess(function(){              
                 $uibModalInstance.close();
