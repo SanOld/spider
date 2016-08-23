@@ -63,10 +63,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   };
 
   network.get('performer', {}, function (result, response) {
-        if(result) {
-            $scope.performers = response.result;
-        }
-    });
+      if(result) {
+          $scope.performers = response.result;
+      }
+  });
 
   if(network.user.type == 't'){
     network.get('school', {filter: 1, requests: 1}, function (result, response) {
@@ -84,6 +84,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   network.get('project_type', {}, function (result, response) {
     if(result) {
       $scope.projectTypes = response.result;
+    }
+  });
+  
+  network.get('request', {group_codes:1}, function (result, response) {
+    if(result) {
+      $scope.requests = response.result;
     }
   });
 
