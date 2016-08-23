@@ -291,8 +291,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
 
         //TO DO - проверка на существование проекта
 
-        network.get('request', {project_ids: selectedProjectIds.join(','), year: data.year}, function(result, response) {
-          if(result && response.result.length>0) {
+        network.get('request', {project_ids: selectedProjectIds.join(','), year: data.year, project_is_old: '1'}, function(result, response) {
+          if(result && response.result.length > 0) {
             var failCodes = [];
             var objFailCodes = {};
 

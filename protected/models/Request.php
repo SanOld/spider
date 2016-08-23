@@ -103,15 +103,20 @@ class Request extends BaseModel {
   protected function getParamCommand($command, array $params, array $logic = array()) {
     parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
-    if(safe($params, 'YEAR')) {
-      $command -> andWhere('tbl.year = :year', array(':year' => $params['YEAR']));
-    }
     if(safe($params, 'PERFORMER_ID')) {
       $command -> andWhere('prf.id = :performer_id', array(':performer_id' => $params['PERFORMER_ID']));
     }
     if(safe($params, 'PROJECT_TYPE_ID')) {
       $command -> andWhere('prj.type_id = :type_id', array(':type_id' => $params['PROJECT_TYPE_ID']));
     }
+
+    if(safe($params, 'PROJECT_IS_OLD') && safe($params, 'YEAR')) {
+      $command -> andWhere('prj.is_old = :is_old OR tbl.year = :year', array(':is_old' => $params['PROJECT_IS_OLD'], ':year' => $params['YEAR']));
+      $command -> selectDistinct('prj.code');
+    } elseif (!safe($params, 'PROJECT_IS_OLD') && safe($params, 'YEAR')) {
+      $command -> andWhere('tbl.year = :year', array(':year' => $params['YEAR']));
+    }
+
     if(safe($params, 'SCHOOL_TYPE_ID')) {
       $command -> andWhere('prj.school_type_id = :school_type_id', array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
     }
@@ -142,7 +147,7 @@ class Request extends BaseModel {
       } else {
         $values = array($params['PROJECT_IDS']);
       }
-      $command -> andWhere(array('in', 'tbl.project_id', $values));
+      $command -> andWhere(array('in', 'tbl.project_id', $values));   
     }
     if (isset($params['SCHOOL_ID'])) {
       $command->leftJoin('spi_project_school sps', 'sps.project_id=tbl.project_id');      

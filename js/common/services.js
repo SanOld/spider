@@ -347,6 +347,16 @@ spi.factory('Utils', function (SweetAlert) {
     getIdByPath: function() {
       var id = +location.pathname.split('/').pop();
       return !isNaN(id) ? id : 0;
+    },
+    array_unique: function(array){
+      var result = [];
+      array.sort();
+      while(i--){
+          if(result.join('').search(array[i]) == '-1') {
+              result.push(array[i]);
+          }
+      }
+      return result;
     }
   };
 });
