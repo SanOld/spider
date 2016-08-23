@@ -914,6 +914,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     network.get('User', {type: 't', relation_id: $scope.data.performer_id}, function (result, response) {
       if (result) {        
         $scope.users = response.result;
+        $scope.updateUserSelect();
         $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.data.finance_user_id);
       }
     });         
