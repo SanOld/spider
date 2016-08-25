@@ -201,7 +201,7 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
               var a = $('<a/>', {
                   style:'display:none',
                   href:'data:application/octet-stream;base64,' + btoa(csvString),
-                  download:'emailStatistics.csv'
+                  download:'Antragsliste.csv'
               }).appendTo('body')
               a[0].click();
               a.remove();
