@@ -93,6 +93,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     }
   });
 
+ $scope.getYears = function(){
   network.get('request', {list: 'year'}, function (result, response) {
     if (result) {
       $scope.years = response.result;
@@ -106,7 +107,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         }
       }
     }
-  });
+  });   
+ };
+ $scope.getYears();
 
   network.get('request_status', {}, function (result, response) {
     if (result) {
@@ -368,23 +371,16 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
                 }
               });
             }
-
           } else {
-            
             network.post('request', {ids: ids, copy: true, year: data.year}, function(result) {
               if(result) {
+                $scope.getYears();
                 grid.reload();
               }
             });
-            
           }
-        });
-
-
-        
-        
+        });        
       });
-      
     }
   };
 
