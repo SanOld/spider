@@ -59,12 +59,13 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
     localStorageService.set('rights', false);
     localStorageService.set('loginKey', false);
     $cookies.remove('isLogined'); 
-    $network.onLogout();
-    $http({
+    $cookies.remove('session'); 
+     $http({
         'method': 'JSON'
         , 'dataType': 'json'
         , 'url': configs.getOutPath()
-    }); 
+    });     
+    $network.onLogout();
   };
   $network.isLogined = function () {
     var token = localStorageService.get('token');
