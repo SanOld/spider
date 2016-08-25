@@ -34,6 +34,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         $scope.checks[i][i2] = satus;
       });
     });
+    delete $scope.filter.statuses;
+    grid.reload();
   };
   
   $scope.part_statuses = ['unfinished', 'in_progress', 'accepted', 'rejected'];
