@@ -106,6 +106,9 @@ class FinancialRequest extends BaseModel {
       case TA:
         $command->andWhere("prj.performer_id = :performer_id",  array(':performer_id' => $this->user['relation_id']));
         break;
+      case SCHOOL:
+        $command->andWhere("prj.type_id = 3");
+        break;
     }
     return $command;
   }
