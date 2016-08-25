@@ -124,10 +124,10 @@ $this->breadcrumbs = array('Anträge');
           <div class="custom-checkbox row m-b-10">              
             <div class="col-lg-8">
               <div class="col-lg-2" ng-repeat="item in part_statuses">
-                <span title="Finanzplan" >
-                    <input type="checkbox" name="name_{{item}}+ 'finance'" ng-model="checks[item]['finance']" 
+                <span title="Finanzplan"  ng-show="user.type != 'd'">
+                    <input  type="checkbox" name="name_{{item}}+ 'finance'" ng-model="checks[item]['finance']" 
                            ng-change="deleteStatus(item + '_finance', checks[item]['finance']);updateGrid();" id="{{item}}_finance">
-                    <label class="cell-finplan {{item}} status-icon" for='{{item}}_finance'><i class="fa fa-check-circle bg-color"></i></label>
+                    <label  class="cell-finplan {{item}} status-icon" for='{{item}}_finance'><i class="fa fa-check-circle bg-color"></i></label>
                 </span>
                 <span title="Konzept">
                     <input type="checkbox" name="name_{{item}}+ '_concept'" ng-model="checks[item]['concept']" 

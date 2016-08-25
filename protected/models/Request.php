@@ -173,7 +173,10 @@ class Request extends BaseModel {
         $string .= "tbl.".$page." = '".$status."' OR ";
       };
       $string = substr($string,0,-4);
-      $command->andWhere($string);      
+      $command->andWhere($string);
+      if(!$this->user['is_finansist'] && ($this->user['type'] == TA || $this->user['type'] == SCHOOL)){
+        $command->andWhere('prj.type_id = 3');
+      };     
     };
     if (safe($params, 'CODE')) {
       if($this->user['type'] == TA){        
