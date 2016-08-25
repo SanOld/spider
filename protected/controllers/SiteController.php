@@ -50,24 +50,22 @@ class SiteController extends Controller
 			if(!isset($params['RECOVERY_TOKEN']))
 				$this->redirect('/');
 		}      
-    if(safe(Yii::app()->session['rights'],$page) && !Yii::app()->session['rights'][$page]['show']){       
-      $this->redirect('/dashboard');      
-    }else {
-      try {
+    try {      
+      if (!safe($pageInfo,'layout') && !Yii::app()->session['rights'] && $pages[$page]) {
+        $this->redirect('/'); 
+      }else if(safe(Yii::app()->session['rights'],$page) && !Yii::app()->session['rights'][$page]['show']){       
+        $this->redirect('/dashboard');      
+      }else{        
         if($page == 'request') {
           $id = safe($_GET, 'id');
           if(!$id || !$this->validID($page, $id)) {
             $this->redirect('/requests');
           };
         };
-        if (!safe($pageInfo,'layout') && !Yii::app()->session['rights'] && $pages[$page]) {
-          $this->redirect('/'); 
-        }else{
-          $this->render(safe($pageInfo,'render',$page)); 
-        }
-      } catch (Exception $e) {
-        throw new CHttpException(404);        
-      };    
+        $this->render(safe($pageInfo,'render',$page)); 
+      }      
+    } catch (Exception $e) {
+      throw new CHttpException(404);        
     };
   }
 
