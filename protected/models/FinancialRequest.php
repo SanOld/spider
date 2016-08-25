@@ -107,6 +107,8 @@ class FinancialRequest extends BaseModel {
         $command->andWhere("prj.performer_id = :performer_id",  array(':performer_id' => $this->user['relation_id']));
         break;
       case SCHOOL:
+        $command -> leftJoin('spi_project_school sps',           'sps.project_id=prj.id');  
+        $command->andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
         $command->andWhere("prj.type_id = 3");
         break;
     }
