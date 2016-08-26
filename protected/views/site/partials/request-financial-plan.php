@@ -15,7 +15,7 @@
         </h2>
       </div>
       <hr />
-      <ng-form name="financePlanForm"  disable-all="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
+      <ng-form name="financePlanForm">
       <div   class="panel-body p-t-0">
         <div class="row">
           <div class="col-lg-4 p-r-0 custom-box-btn">
@@ -363,7 +363,8 @@
                       <input required name = "Stellenanteil" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
                     </div>-->
                     <div class="wrap-hint" ng-class="{'wrap-line error': (( canAccept && fieldsError2(school.rate, 'Stellenanteil' + '-' + key)  && errorShow) || errorArray.indexOf('Stellenanteil'+ '-' + key) != -1) }">
-                      <input required name = "{{('Stellenanteil'+$index)}}" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept || !canEdit()">
+                      <input required name = "{{('Stellenanteil'+$index)}}" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" 
+                             ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
                     </div>
                   </div>
                 </div>
@@ -376,7 +377,8 @@
                       <span spi-hint text="_hint.fin_plan_school_month_count.text"  title="_hint.fin_plan_school_month_count.title" ></span>
                     </div>
                     <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.month_count, 'Monat' + '-' + key))  && errorShow ) }">
-                      <input type="text" class="form-control" ng-init = "numValidate2(school,'month_count');" ng-change="numValidate(school,'month_count');" ng-model="school.month_count" ng-disabled="!canAccept || !canEdit()">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'month_count');" ng-change="numValidate(school,'month_count');" ng-model="school.month_count"
+                             ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
                     </div>
                   </div>
                 </span>
@@ -389,7 +391,8 @@
                       <span spi-hint text="_hint.fin_plan_school_traning_cost.text"  title="_hint.fin_plan_school_traning_cost.title" ></span>
                     </div>
                     <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.training_cost, 'Fortbildungskosten' + '-' + key))  && errorShow) }">
-                      <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost');"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" ng-disabled="!canAccept || school.rate*1 > 1 && school.rate*1 < 0.5 || !canEdit()">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost');"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" 
+                             ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit() || school.rate*1 > 1 && school.rate*1 < 0.5">
                     </div>
                   </div>
                 </span>
@@ -403,7 +406,8 @@
                       <span spi-hint text="_hint.fin_plan_school_overhead_cost.text"  title="_hint.fin_plan_school_overhead_cost.title" ></span>
                     </div>
                    <div class="wrap-hint" ng-class="{'wrap-line error': (( canAccept && fieldsError2(school.overhead_cost, 'Regiekosten' + '-' + key))  && errorShow)}">
-                      <input type="text" class="form-control" ng-init = "numValidate2(school,'overhead_cost');" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" ng-disabled="!canAccept || !canEdit()">
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'overhead_cost');" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" 
+                             ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()">
                    </div>
                   </div>
                 </span>
@@ -428,7 +432,7 @@
             </label>
             <div class="col-lg-7">
               <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.name, 'Berufsgenossenschaftsbeiträge-Name' + '-' + key) && errorShow) }">
-                <input name = "first" class="form-control" type="text" ng-model="association.name" ng-disabled="!canFormEdit">
+                <input name = "first" class="form-control" type="text" ng-model="association.name" ng-disabled="!canFormEdit || data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
               </div>
             </div>
             <label class="col-lg-1 p-r-0 control-label">
@@ -436,7 +440,7 @@
             </label>
             <div class="col-lg-2">
               <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.sum,  'Berufsgenossenschaftsbeiträge-Beitrag' + '-' + key) && errorShow) }">
-                <input class="form-control" type="text" ng-disabled="!canFormEdit" ng-init = "association.sum = (association.sum || '0,00'); numValidate2(association,'sum');"  ng-change="numValidate(association,'sum') ; updateResultCost();" ng-model="association.sum" >
+                <input class="form-control" type="text" ng-disabled="!canFormEdit || data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)" ng-init = "association.sum = (association.sum || '0,00'); numValidate2(association,'sum');"  ng-change="numValidate(association,'sum') ; updateResultCost();" ng-model="association.sum" >
               </div>
             </div>
             <div class="col-lg-1 p-0 custom-col-1 m-t-5">
@@ -464,13 +468,17 @@
                     Einnahmen<span spi-hint text="_hint.fin_plan_revenue_description.text"  title="_hint.fin_plan_revenue_description.title"  class="has-hint"></span>
                   </label>
                   <div class="col-lg-6">
-                    <input name = "second" class="form-control" type="text" placeholder="Sonstige Einkommensquellen" ng-disabled="!canFormEdit" ng-model="data.revenue_description" >
+                    <input name = "second" class="form-control" type="text" placeholder="Sonstige Einkommensquellen" 
+                           ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()" 
+                           ng-model="data.revenue_description" >
                   </div>
                   <label class="col-lg-1 control-label custom-width-label">
                     Betrag<span spi-hint text="_hint.fin_plan_revenue_sum.text"  title="_hint.fin_plan_revenue_sum.title"  class="has-hint"></span>
                   </label>
                   <div class="col-lg-2">
-                    <input class="form-control" type="text" ng-disabled="!canFormEdit" ng-init = "data.revenue_sum = (data.revenue_sum || '0,00'); numValidate2(data,'revenue_sum');"  ng-change="numValidate(data,'revenue_sum'); updateResultCost(); " ng-model="data.revenue_sum" >
+                    <input class="form-control" type="text" ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()" 
+                           ng-init = "data.revenue_sum = (data.revenue_sum || '0,00'); numValidate2(data,'revenue_sum');"  
+                           ng-change="numValidate(data,'revenue_sum'); updateResultCost(); " ng-model="data.revenue_sum" >
                   </div>
                   <span class="symbol m-t-5">€</span>
                 </div>
