@@ -186,9 +186,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       $scope.financeStatus  = $scope.financeStatus != 'unfinished' ? 'in_progress' : $scope.financeStatus;
       $scope.conceptStatus  = $scope.conceptStatus != 'unfinished' ? 'in_progress' : $scope.conceptStatus;
       $scope.goalsStatus    = $scope.goalsStatus != 'unfinished' ? 'in_progress' : $scope.goalsStatus;
-      RequestService.setStatusFinanceForm('in_progress');
-      RequestService.setStatusConceptForm('in_progress', 'reset');
-      RequestService.setStatusGoalForm('in_progress', 'reset');
+      RequestService.setStatusFinanceForm($scope.financeStatus);
+      RequestService.setStatusConceptForm($scope.conceptStatus, 'reset');
+      RequestService.setStatusGoalForm($scope.goalsStatus, 'reset');
       data = data_reset;
     };
     var financeErors  = angular.copy(RequestService.hasErrorsFinanceForm());
@@ -1790,6 +1790,9 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
       if(action == 'reset' && $scope.schoolConcepts[item].status != 'unfinished' && $scope.schoolConcepts[item].status != 'rejected'){
         $scope.schoolConcepts[item].status = status;
       };
+      if(action == 'accept'){
+        $scope.schoolConcepts[item].status = status;
+      };
     };
   };
 
@@ -2230,7 +2233,10 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       for(var i in $scope.schoolGoals[item].goals){
         if($scope.schoolGoals[item].goals[i].status != 'unfinished' && $scope.schoolGoals[item].goals[i].status != 'rejected' && action == 'reset'){          
           $scope.schoolGoals[item].goals[i].status = status;
-        }
+        };
+        if(action == 'accept'){
+          $scope.schoolGoals[item].goals[i].status = status;
+        };
       };
     };
   };
