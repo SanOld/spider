@@ -3369,6 +3369,10 @@ form[name=conceptForm] .alert-danger {display: block;}
     position: absolute;
     margin-left: 42%;
 }
+.btn.request-acceptable-reopen{
+    position: absolute;
+    margin-left: 72%;
+}
 .btn.request-new-open{
     position: absolute;
     margin-left: 203px;

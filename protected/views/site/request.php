@@ -22,7 +22,12 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 					</div>
 				</div>
         <ng-form name="form">
-            <button ng-if="(financeStatus == 'unfinished' || conceptStatus == 'unfinished' || goalsStatus == 'unfinished') && user.type == 't' " class="btn w-lg btn-lg btn-success m-b-10 m-t-30 pull-right" ng-click="sendToAccept()">Zur Prüfung übermitteln</button>
+            <button ng-if="((financeStatus == 'unfinished' || 
+                            financeStatus == 'rejected')   || 
+                            (conceptStatus == 'unfinished' || 
+                            conceptStatus == 'rejected')   || 
+                            (goalsStatus == 'unfinished'   ||
+                            goalsStatus == 'rejected')) && user.type == 't' " class="btn w-lg btn-lg btn-success m-b-10 m-t-30 pull-right" ng-click="sendToAccept()">Zur Prüfung übermitteln</button>
 				<uib-tabset class="panel-body request-order-nav" active="tabActive" ng-cloack>
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
@@ -42,15 +47,15 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 					<div class="col-lg-{{(userCan('changeStatus_print') || userCan('changeStatus_lock')) && userCan('reopen') ? '6' : '5'}} text-left">
             <a ng-show="userCan('delete')" class="btn-deactivate request" ng-click="block()" id="sa-warning">DEAKTIVIEREN</a>
 <!--						<button ng-show="userCan('delete')" ng-click="block()" class="btn btn-icon btn-danger btn-lg sweet-4" id="sa-warning"><i class="fa fa-trash-o"></i></button>-->
-						<button ng-show="userCan('reopen') && !banToReopen" class="btn w-lg custom-btn btn-lg {{userCan('changeStatus_print') || userCan('changeStatus_lock') ? 'request-new-open' : ''}}" ng-click="setBulkStatus(3)">
+						<button ng-show="userCan('reopen') && !banToReopen" class="btn w-lg custom-btn btn-lg {{userCan('changeStatus_print') || userCan('changeStatus_lock') && userCan('reopen')? 'request-new-open' : ''}}" ng-click="setBulkStatus(3)">
 							<i class="fa fa-rotate-left"></i>
 							<span>Neu eröffnen</span>
 						</button>
-						<button ng-show="userCan('changeStatus_print')" class="btn w-lg custom-btn btn-lg {{userCan('changeStatus_print') && userCan('delete') ? 'request-acceptable' : ''}}" ng-click="setBulkStatus(4)" title="Antrag ist förderfähig">Förderfähig</button>
+						<button ng-show="userCan('changeStatus_print')" class="btn w-lg custom-btn btn-lg {{userCan('changeStatus_print') && userCan('delete') && !userCan('reopen') ? 'request-acceptable' : user.type != 'p' ? 'request-acceptable-reopen' : ''}}" ng-click="setBulkStatus(4)" title="Antrag ist förderfähig">Förderfähig</button>
 						<button ng-show="userCan('changeStatus_lock')" class="btn w-lg custom-btn btn-lg {{userCan('changeStatus_lock') && userCan('delete') ? 'request-accept' : ''}}" ng-click="setBulkStatus(5)" title="Antrag genehmigen">GENEHMIGEN</button>
 					</div>
           <div class="col-lg-2 text-left">
-            <button class="btn w-lg cancel-btn btn-lg {{userCan('changeStatus_print') || userCan('changeStatus_lock') && userCan('delete') ? 'request-back' : ''}}" ng-click="cancel()" title="Abbrechen">Zur Übersicht</button>
+            <button class="btn w-lg cancel-btn btn-lg {{(userCan('changeStatus_print') || userCan('changeStatus_lock') || userCan('reopen')) && userCan('delete') ? 'request-back' : ''}}" ng-click="cancel()" title="Abbrechen">Zur Übersicht</button>
 					</div>
 					<div class="col-lg-{{(userCan('changeStatus_print') || userCan('changeStatus_lock')) && userCan('reopen') ? '4' : '5'}} text-right">
 						<button ng-show="userCan('save') && back" class="btn m-t-2 custom-btn btn-lg ion-skip-backward" ng-click="submitRequest();toTab(-1)" title="Speichern und zurück"></button>

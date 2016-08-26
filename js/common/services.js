@@ -191,6 +191,7 @@ spi.service("RequestService", function () {
 
   this.isChangedProjectForm = function() {};
   this.setChangedProjectForm = function() {};
+  
   this.setStatusConceptForm = function() {};  
   this.setStatusFinanceForm = function() {};  
   this.setStatusGoalForm = function() {};  
@@ -208,9 +209,6 @@ spi.service("RequestService", function () {
   this.setChangedGoalsForm = function() {};
   this.hasErrorsGoalsForm = function() {};
   this.setErrorsGoalsForm = function() {};
-
-  this.resetGoalsStatus = function() {};
-  this.resetConceptStatus = function() {};
 });
 
 
