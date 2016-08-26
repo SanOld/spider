@@ -102,7 +102,7 @@ class DocumentTemplate extends BaseModel {
 
       /*start performerUsers*/
 
-      if ($this->requestData['status_id' == '5']){
+      if ($this->requestData['status_id'] == '5'){
         $Request = CActiveRecord::model('UserLock');
         $Request->user = $this->user;
 
@@ -122,7 +122,11 @@ class DocumentTemplate extends BaseModel {
       }
 
       foreach ($this->performerUsers as $key=>$value){
-//        $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
+
+        if ($this->requestData['status_id'] != '5' ){
+          $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
+        }
+
         switch ($this->performerUsers[$key]['sex']) {
           case 1:
           $this->performerUsers[$key]['gender'] = 'Herr';
