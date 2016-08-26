@@ -101,9 +101,11 @@ class DocumentTemplate extends BaseModel {
       $this->performerData = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_performer') -> where('id=:id ', array(':id' => $this->requestData['performer_id'])) -> queryRow();
 
       /*start performerUsers*/
-      if ($this->requestData['status_id'] == '5'){
+
+      if ($this->requestData['status_id' == '5']){
         $Request = CActiveRecord::model('UserLock');
         $Request->user = $this->user;
+
         $requestInfo = $Request->select(array('relation_id' => $this->requestData['performer_id']
                                               , 'request_id' => $this->requestData['id']
                                               , 'type' => 't'
@@ -120,7 +122,7 @@ class DocumentTemplate extends BaseModel {
       }
 
       foreach ($this->performerUsers as $key=>$value){
-        $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
+//        $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
         switch ($this->performerUsers[$key]['sex']) {
           case 1:
           $this->performerUsers[$key]['gender'] = 'Herr';
@@ -139,7 +141,8 @@ class DocumentTemplate extends BaseModel {
         if($this->performerUsers[$key]['user_id'] == $this->requestData['finance_user_id']){
           $this->requestFinanceUser = $this->performerUsers[$key];
         }
-        if($this->performerUsers[$key]['user_id'] == $this->performerData['representative_user_id'] && 1==2){
+
+        if($this->performerUsers[$key]['user_id'] == $this->performerData['representative_user_id']){
           $this->performerRepresentativeUser = $this->performerUsers[$key];
         }
       }
@@ -166,6 +169,7 @@ class DocumentTemplate extends BaseModel {
           /*start BankDetails*/
           $Request = CActiveRecord::model('BankDetails');
           $Request->user = $this->user;
+
           $requestInfo = $Request->select(array('performer_id' => $this->requestData['performer_id'] ), true);
           $this->bankDetails = $requestInfo['result'][0];
           /*end BankDetails*/
@@ -174,6 +178,7 @@ class DocumentTemplate extends BaseModel {
           $Request = CActiveRecord::model('RequestProfAssociation');
           $Request->user = $this->user;
           $requestInfo = $Request->select(array('request_id' => $this->requestData['id']), true);
+
           $this->profAssociation = $requestInfo['result'][0];
           /*end RequestProfAssociation*/
 
@@ -234,7 +239,7 @@ class DocumentTemplate extends BaseModel {
 
     if($this->performerData){
       $data = array(
-            '{PD_TRAGER_ADRESSE}'   => $this->performerData['address']
+          '{PD_TRAGER_ADRESSE}'   => $this->performerData['address']
         , '{PD_TRAEGER_PLZ}'      => $this->performerData['plz']
         , '{PD_TRAEGER_Stadt}'    => $this->performerData['city']
         , '{PD_TRAEGER_Telefon}'  => $this->performerData['phone']
@@ -244,15 +249,19 @@ class DocumentTemplate extends BaseModel {
       );
       array_merge($params,$data);
     }
+
+      );
+      $params = array_merge($params,$data);
+    }
             
     if($this->performerRepresentativeUser){
       $data = array(
-          '{PD_Vertretungsberechtigte_Anrede}'   => $this->performerRepresentativeUser['gender']
+          '{PD_Vertretungberechtigte_Anrede}'   => $this->performerRepresentativeUser['gender']
         , '{PD_Vertretungsberechtigte_Function}' => $this->performerRepresentativeUser['function']
         , '{PD_Vertretungsberechtigte_Vorname}'  => $this->performerRepresentativeUser['first_name']
         , '{PD_Vertretungsberechtigte_Nachname}' => $this->performerRepresentativeUser['last_name']
       );
-      array_merge($params,$data);
+      $params = array_merge($params,$data);
     }
     if($this->requestConceptUser){
       $data = array(
@@ -263,7 +272,7 @@ class DocumentTemplate extends BaseModel {
         , '{PD_Konzept_Telefon}'  => $this->requestConceptUser['phone']
         , '{PD_Konzept_Email}'    => $this->requestConceptUser['email']
       );
-      array_merge($params,$data);
+      $params = array_merge($params,$data);
     }
     if($this->requestFinanceUser){
       $data = array(
@@ -274,7 +283,7 @@ class DocumentTemplate extends BaseModel {
         , '{PD_Finance_Telefon}'  => $this->requestFinanceUser['phone']
         , '{PD_Finance_Email}'    => $this->requestFinanceUser['email']
       );
-      array_merge($params,$data);
+      $params = array_merge($params,$data);
     }
     if($this->bankDetails){
       $data = array(
@@ -284,7 +293,7 @@ class DocumentTemplate extends BaseModel {
         , '{PD_Bank_Descr}'   => $this->bankDetails['description']
         , '{PD_Bank_IBAN}'    => $this->bankDetails['iban']
       );
-      array_merge($params,$data);
+      $params = array_merge($params,$data);
     }
     if($this->districtData){
       $data = array(
@@ -298,7 +307,7 @@ class DocumentTemplate extends BaseModel {
         , '{PD_District_Homepage}'        => $this->districtData['homepage']
         , '{PD_District_Address}'         => $this->districtData['full_address']
       );
-      array_merge($params,$data);
+      $params = array_merge($params,$data);
     } 
 
     return $this->doReplace($text,$params);
@@ -363,6 +372,8 @@ class DocumentTemplate extends BaseModel {
                     , '{FD_additional_provision_vwl}'      => $user['additional_provision_vwl']
                     , '{FD_have_supplementary_pension}'    => $user['have_supplementary_pension']
                     , '{FD_supplementary_pension}'         => $user['supplementary_pension']
+                    , '{FD_brutto}'                        => $user['brutto']
+                    , '{FD_add_cost}'                      => $user['add_cost']
                     , '{FD_full_cost}'                     => $user['full_cost']
                   );
       
