@@ -247,10 +247,6 @@ class DocumentTemplate extends BaseModel {
         , '{PD_TRAEGER_Homepage}' => $this->performerData['homepage']
         , '{PD_TRAEGER_Email}'    => $this->performerData['email']
       );
-      array_merge($params,$data);
-    }
-
-      );
       $params = array_merge($params,$data);
     }
             
