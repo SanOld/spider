@@ -90,7 +90,7 @@
           </div>
         </div>
         
-        <div class="form-group" ng-show="(modeView || !canEdit()) && user.sex != '3'">
+        <div class="form-group" ng-show="user.sex != '3'">
           <label class="col-lg-2 control-label">Anrede</label>
 
           <div class="col-lg-10 holder-label-radio">
