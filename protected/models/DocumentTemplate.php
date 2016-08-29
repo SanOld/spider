@@ -251,67 +251,67 @@ class DocumentTemplate extends BaseModel {
       $data = array(
           '{PD_TRAGER_ADRESSE}'   => $this->performerData['address']
         , '{PD_TRAEGER_PLZ}'      => $this->performerData['plz']
-        , '{PD_TRAEGER_Stadt}'    => $this->performerData['city']
-        , '{PD_TRAEGER_Telefon}'  => $this->performerData['phone']
-        , '{PD_TRAEGER_Telefax}'  => $this->performerData['fax']
-        , '{PD_TRAEGER_Homepage}' => $this->performerData['homepage']
-        , '{PD_TRAEGER_Email}'    => $this->performerData['email']
+        , '{PD_TRAEGER_STADT}'    => $this->performerData['city']
+        , '{PD_TRAEGER_TELEFON}'  => $this->performerData['phone']
+        , '{PD_TRAEGER_TELEFAX}'  => $this->performerData['fax']
+        , '{PD_TRAEGER_HOMEPAGE}' => $this->performerData['homepage']
+        , '{PD_TRAEGER_EMAIL}'    => $this->performerData['email']
       );
       $params = array_merge($params,$data);
     }
             
     if($this->performerRepresentativeUser){
       $data = array(
-          '{PD_Vertretungberechtigte_Anrede}'   => $this->performerRepresentativeUser['gender']
-        , '{PD_Vertretungsberechtigte_Function}' => $this->performerRepresentativeUser['function']
-        , '{PD_Vertretungsberechtigte_Vorname}'  => $this->performerRepresentativeUser['first_name']
-        , '{PD_Vertretungsberechtigte_Nachname}' => $this->performerRepresentativeUser['last_name']
+          '{PD_VERTRETUNGBERECHTIGTE_ANREDE}'   => $this->performerRepresentativeUser['gender']
+        , '{PD_VERTRETUNGSBERECHTIGTE_FUNCTION}' => $this->performerRepresentativeUser['function']
+        , '{PD_VERTRETUNGSBERECHTIGTE_VORNAME}'  => $this->performerRepresentativeUser['first_name']
+        , '{PD_VERTRETUNGSBERECHTIGTE_NACHNAME}' => $this->performerRepresentativeUser['last_name']
       );
       $params = array_merge($params,$data);
     }
     if($this->requestConceptUser){
       $data = array(
-          '{PD_Konzept_Anrede}'   => $this->requestConceptUser['gender']
-        , '{PD_Konzept_Function}' => $this->requestConceptUser['function']
-        , '{PD_Konzept_Vorname}'  => $this->requestConceptUser['first_name']
-        , '{PD_Konzept_Nachname}' => $this->requestConceptUser['last_name']
-        , '{PD_Konzept_Telefon}'  => $this->requestConceptUser['phone']
-        , '{PD_Konzept_Email}'    => $this->requestConceptUser['email']
+          '{PD_KONZEPT_ANREDE}'   => $this->requestConceptUser['gender']
+        , '{PD_KONZEPT_FUNCTION}' => $this->requestConceptUser['function']
+        , '{PD_KONZEPT_VORNAME}'  => $this->requestConceptUser['first_name']
+        , '{PD_KONZEPT_NACHNAME}' => $this->requestConceptUser['last_name']
+        , '{PD_KONZEPT_TELEFON}'  => $this->requestConceptUser['phone']
+        , '{PD_KONZEPT_EMAIL}'    => $this->requestConceptUser['email']
       );
       $params = array_merge($params,$data);
     }
     if($this->requestFinanceUser){
       $data = array(
-          '{PD_Finance_Anrede}'   => $this->requestFinanceUser['gender']
-        , '{PD_Finance_Function}' => $this->requestFinanceUser['function']
-        , '{PD_Finance_Vorname}'  => $this->requestFinanceUser['first_name']
-        , '{PD_Finance_Nachname}' => $this->requestFinanceUser['last_name']
-        , '{PD_Finance_Telefon}'  => $this->requestFinanceUser['phone']
-        , '{PD_Finance_Email}'    => $this->requestFinanceUser['email']
+          '{PD_FINANCE_ANREDE}'   => $this->requestFinanceUser['gender']
+        , '{PD_FINANCE_FUNCTION}' => $this->requestFinanceUser['function']
+        , '{PD_FINANCE_VORNAME}'  => $this->requestFinanceUser['first_name']
+        , '{PD_FINANCE_NACHNAME}' => $this->requestFinanceUser['last_name']
+        , '{PD_FINANCE_TELEFON}'  => $this->requestFinanceUser['phone']
+        , '{PD_FINANCE_EMAIL}'    => $this->requestFinanceUser['email']
       );
       $params = array_merge($params,$data);
     }
     if($this->bankDetails){
       $data = array(
-          '{PD_Bank_Contact}' => $this->bankDetails['contact_person']
-        , '{PD_Bank_Name}'    => $this->bankDetails['bank_name']
-        , '{PD_Bank_Outer}'   => $this->bankDetails['outer_id']
-        , '{PD_Bank_Descr}'   => $this->bankDetails['description']
-        , '{PD_Bank_IBAN}'    => $this->bankDetails['iban']
+          '{PD_BANK_CONTACT}' => $this->bankDetails['contact_person']
+        , '{PD_BANK_NAME}'    => $this->bankDetails['bank_name']
+        , '{PD_BANK_OUTER}'   => $this->bankDetails['outer_id']
+        , '{PD_BANK_DESCR}'   => $this->bankDetails['description']
+        , '{PD_BANK_IBAN}'    => $this->bankDetails['iban']
       );
       $params = array_merge($params,$data);
     }
     if($this->districtData){
       $data = array(
-          '{PD_District_Bezirk}'          => $this->districtData['name']
-        , '{PD_District_PLZ}'             => $this->districtData['plz']
-        , '{PD_District_Stadt}'           => $this->districtData['city']
-        , '{PD_District_StraГџe}'          => $this->districtData['address']
-        , '{PD_District_Telefon}'         => $this->districtData['phone']
-        , '{PD_District_Telefax}'         => $this->districtData['fax']
-        , '{PD_District_Email}'           => $this->districtData['email']
-        , '{PD_District_Homepage}'        => $this->districtData['homepage']
-        , '{PD_District_Address}'         => $this->districtData['full_address']
+          '{PD_DISTRICT_BEZIRK}'          => $this->districtData['name']
+        , '{PD_DISTRICT_PLZ}'             => $this->districtData['plz']
+        , '{PD_DISTRICT_STADT}'           => $this->districtData['city']
+        , '{PD_DISTRICT_ADRESSE}'          => $this->districtData['address']
+        , '{PD_DISTRICT_TELEFON}'         => $this->districtData['phone']
+        , '{PD_DISTRICT_TELEFAX}'         => $this->districtData['fax']
+        , '{PD_DISTRICT_EMAIL}'           => $this->districtData['email']
+        , '{PD_DISTRICT_HOMEPAGE}'        => $this->districtData['homepage']
+        , '{PD_DISTRICT_ADDRESS}'         => $this->districtData['full_address']
       );
       $params = array_merge($params,$data);
     } 
@@ -332,13 +332,13 @@ class DocumentTemplate extends BaseModel {
           , '{SC_SCHOOLNAME}'           => $school['name']
           , '{SC_SCHOOLNUMBER}'         => $school['number']
 
-          , '{SC_Stellenanteil}'       => $school['rate']
-          , '{SC_Monat}'               => $school['month_count']
-          , '{SC_Fortbildungskosten}'  => $school['training_cost']
-          , '{SC_Regiekosten}'         => $school['overhead_cost']
+          , '{SC_STELLENANTEIL}'       => $school['rate']
+          , '{SC_MONAT}'               => $school['month_count']
+          , '{SC_FORTBILDUNGSKOSTEN}'  => $school['training_cost']
+          , '{SC_REGIEKOSTEN}'         => $school['overhead_cost']
 
-          , '{SC_Situation}'           => $school['situation']
-          , '{SC_Angebote}'            => $school['offers_youth_social_work']
+          , '{SC_SITUATION}'           => $school['situation']
+          , '{SC_ANGEBOTE}'            => $school['offers_youth_social_work']
 
         );
       $text[] = $this->doReplace($withGoal,$params);
@@ -353,12 +353,12 @@ class DocumentTemplate extends BaseModel {
 //    $text = preg_replace_callback("/\{FOREACH=SACHKOSTEN\}.+\{FOREACH_END=SACHKOSTEN\}/is", array($this, 'repeatSchools'), $text);
 
     $params = array(
-                    '{FD_revenue_sum}'           => $this->requestData['revenue_sum']
-                  , '{FD_emoloyees_cost}'        => $this->requestData['emoloyees_cost']
-                  , '{FD_training_cost}'         => $this->requestData['training_cost']
-                  , '{FD_overhead_cost}'         => $this->requestData['overhead_cost']
-                  , '{FD_prof_association_cost}' => $this->requestData['prof_association_cost']
-                  , '{FD_total_cost}'            => $this->requestData['total_cost']
+                    '{FD_REVENUE_SUM}'           => $this->requestData['revenue_sum']
+                  , '{FD_EMOLOYEES_COST}'        => $this->requestData['emoloyees_cost']
+                  , '{FD_TRAINING_COST}'         => $this->requestData['training_cost']
+                  , '{FD_OVERHEAD_COST}'         => $this->requestData['overhead_cost']
+                  , '{FD_PROF_ASSOCIATION_COST}' => $this->requestData['prof_association_cost']
+                  , '{FD_TOTAL_COST}'            => $this->requestData['total_cost']
                 );
 
     return $this->doReplace($text,$params);
@@ -382,19 +382,19 @@ class DocumentTemplate extends BaseModel {
                     , '{PK_KOSTEN_PRO_JAHR_BRUTTO}'        => $user['brutto']
                     , '{PK_KOSTEN_PRO_JAHR_ANTEIL}'        => $user['add_cost']
 
-                    , '{PK_other}'                         => $user['other']
-                    , '{PK_cost_per_month_brutto}'         => $user['cost_per_month_brutto']
-                    , '{PK_month_count}'                   => $user['month_count']
-                    , '{PK_hours_per_week}'                => $user['hours_per_week']
-                    , '{PK_have_annual_bonus}'             => $user['have_annual_bonus']
-                    , '{PK_annual_bonus}'                  => $user['annual_bonus']
-                    , '{PK_have_additional_provision_vwl}' => $user['have_additional_provision_vwl']
-                    , '{PK_additional_provision_vwl}'      => $user['additional_provision_vwl']
-                    , '{PK_have_supplementary_pension}'    => $user['have_supplementary_pension']
-                    , '{PK_supplementary_pension}'         => $user['supplementary_pension']
-                    , '{PK_brutto}'                        => $user['brutto']
-                    , '{PK_add_cost}'                      => $user['add_cost']
-                    , '{PK_full_cost}'                     => $user['full_cost']
+                    , '{PK_OTHER}'                         => $user['other']
+                    , '{PK_COST_PER_MONTH_BRUTTO}'         => $user['cost_per_month_brutto']
+                    , '{PK_MONTH_COUNT}'                   => $user['month_count']
+                    , '{PK_HOURS_PER_WEEK}'                => $user['hours_per_week']
+                    , '{PK_HAVE_ANNUAL_BONUS}'             => $user['have_annual_bonus']
+                    , '{PK_ANNUAL_BONUS}'                  => $user['annual_bonus']
+                    , '{PK_HAVE_ADDITIONAL_PROVISION_VWL}' => $user['have_additional_provision_vwl']
+                    , '{PK_ADDITIONAL_PROVISION_VWL}'      => $user['additional_provision_vwl']
+                    , '{PK_HAVE_SUPPLEMENTARY_PENSION}'    => $user['have_supplementary_pension']
+                    , '{PK_SUPPLEMENTARY_PENSION}'         => $user['supplementary_pension']
+                    , '{PK_BRUTTO}'                        => $user['brutto']
+                    , '{PK_ADD_COST}'                      => $user['add_cost']
+                    , '{PK_FULL_COST}'                     => $user['full_cost']
                   );
       
       $text[] = $this->doReplace($data[0],$params);
@@ -459,24 +459,24 @@ class DocumentTemplate extends BaseModel {
       $params = array(
             '{FOREACH=GOAL KEY=GD}'           => ''
           , '{FOREACH_END=GOAL}'              => ''
-          , '{GD_name}'                       => $goal['name']
-          , '{GD_description}'                => $goal['description']
+          , '{GD_NAME}'                       => $goal['name']
+          , '{GD_DESCRIPTION}'                => $goal['description']
 
-          , '{GD_groupOffer_Schwerpunktziel}' => $groupOffer_priorityGoal
-          , '{GD_groupOffer_WeiteresZiel}'    => $groupOffer_plainGoal
-          , '{GD_groupOffer_other}'           => $goal['other_description']
+          , '{GD_GROUPOFFER_SCHWERPUNKTZIEL}' => $groupOffer_priorityGoal
+          , '{GD_GROUPOFFER_WEITERESZIEL}'    => $groupOffer_plainGoal
+          , '{GD_GROUPOFFER_OTHER}'           => $goal['other_description']
 
-          , '{GD_groupNet_Schwerpunktziel}'   => $groupNet_priorityGoal
-          , '{GD_groupNet_WeiteresZiel}'      => $groupNet_plainGoal
-          , '{GD_groupNet_other}'             => $goal['network_text']
+          , '{GD_GROUPNET_SCHWERPUNKTZIEL}'   => $groupNet_priorityGoal
+          , '{GD_GROUPNET_WEITERESZIEL}'      => $groupNet_plainGoal
+          , '{GD_GROUPNET_OTHER}'             => $goal['network_text']
               
-          , '{GD_Umsetzung}'                  => $goal['implementation']
+          , '{GD_UMSETZUNG}'                  => $goal['implementation']
 
-          , '{GD_Indikatoren1}'               => $goal['indicator_1']
-          , '{GD_Indikatoren2}'               => $goal['indicator_2']
-          , '{GD_Indikatoren3}'               => $goal['indicator_3']
-          , '{GD_Indikatoren4}'               => $goal['indicator_4']
-          , '{GD_Indikatoren5}'               => $goal['indicator_5'] 
+          , '{GD_INDIKATOREN1}'               => $goal['indicator_1']
+          , '{GD_INDIKATOREN2}'               => $goal['indicator_2']
+          , '{GD_INDIKATOREN3}'               => $goal['indicator_3']
+          , '{GD_INDIKATOREN4}'               => $goal['indicator_4']
+          , '{GD_INDIKATOREN5}'               => $goal['indicator_5']
 
         );
 

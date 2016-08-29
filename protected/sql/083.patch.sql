@@ -1,53 +1,52 @@
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAGER_ADRESSE}', '');
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_PLZ}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_Stadt}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_Telefon}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_Telefax}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_Homepage}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_Email}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_STADT}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_TELEFON}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_TELEFAX}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_HOMEPAGE}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_TRAEGER_EMAIL}', '');
 
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_VERTRETUNGBERECHTIGTE_ANREDE}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_VERTRETUNGSBERECHTIGTE_FUNCTION}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_VERTRETUNGSBERECHTIGTE_VORNAME}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_VERTRETUNGSBERECHTIGTE_NACHNAME}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Vertretungberechtigte_Anrede}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Vertretungsberechtigte_Function}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Vertretungsberechtigte_Vorname}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Vertretungsberechtigte_Nachname}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_KONZEPT_ANREDE}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_KONZEPT_FUNCTION}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_KONZEPT_VORNAME}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_KONZEPT_NACHNAME}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_KONZEPT_TELEFON}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_KONZEPT_EMAIL}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Konzept_Anrede}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Konzept_Function}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Konzept_Vorname}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Konzept_Nachname}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Konzept_Telefon}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Konzept_Email}', '');
-
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Finance_Anrede}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Finance_Function}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_FINANCE_ANREDE}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_FINANCE_FUNCTION}', '');
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Finance_Vorname}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Finance_Nachname}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Finance_Telefon}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_FINANCE_NACHNAME}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_FINANCE_TELEFON}', '');
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Finance_Email}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Bank_Contact}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Bank_Name}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Bank_Outer}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Bank_Descr}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_Bank_IBAN}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_BANK_CONTACT}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_BANK_NAME}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_BANK_OUTER}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_BANK_DESCR}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_BANK_IBAN}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_District_Bezirk}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_District_PLZ}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_District_Stadt}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_District_StraГџe}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_District_Telefon}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_District_Telefax}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_District_Email}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_District_Homepage}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_District_Address}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_DISTRICT_BEZIRK}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_DISTRICT_PLZ}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_DISTRICT_STADT}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_DISTRICT_ADRESSE}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_DISTRICT_TELEFON}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_DISTRICT_TELEFAX}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_DISTRICT_EMAIL}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_DISTRICT_HOMEPAGE}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PD_DISTRICT_ADDRESS}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_revenue_sum}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_emoloyees_cost}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_training_cost}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_overhead_cost}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_prof_association_cost}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_total_cost}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_REVENUE_SUM}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_EMOLOYEES_COST}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_TRAINING_COST}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_OVERHEAD_COST}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_PROF_ASSOCIATION_COST}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FD_TOTAL_COST}', '');
 
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FOREACH=PERSONALKOSTEN KEY=PK}', '');
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FOREACH_END=PERSONALKOSTEN}', '');
@@ -56,51 +55,51 @@ INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_US
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_USERFUNCTION}', '');
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_KOSTEN_PRO_JAHR_BRUTTO}', '');
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_KOSTEN_PRO_JAHR_ANTEIL}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_other}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_cost_per_month_brutto}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_month_count}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_hours_per_week}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_have_annual_bonus}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_annual_bonus}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_have_additional_provision_vwl}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_additional_provision_vwl}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_have_supplementary_pension}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_supplementary_pension}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_brutto}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_add_cost}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_full_cost}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_OTHER}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_COST_PER_MONTH_BRUTTO}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_MONTH_COUNT}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_HOURS_PER_WEEK}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_HAVE_ANNUAL_BONUS}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_ANNUAL_BONUS}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_HAVE_ADDITIONAL_PROVISION_VWL}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_ADDITIONAL_PROVISION_VWL}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_HAVE_SUPPLEMENTARY_PENSION}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_SUPPLEMENTARY_PENSION}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_BRUTTO}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_ADD_COST}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{PK_FULL_COST}', '');
 
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FOREACH=SCHOOL KEY=SC}', '');
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FOREACH_END=SCHOOL}', '');
 
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_SCHOOLNAME}', '');
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_SCHOOLNUMBER}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Stellenanteil}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Monat}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Fortbildungskosten}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Regiekosten}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Situation}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Angebote}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_STELLENANTEIL}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_MONAT}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_FORTBILDUNGSKOSTEN}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_REGIEKOSTEN}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_SITUATION}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_ANGEBOTE}', '');
 
 
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FOREACH=GOAL KEY=GD}', '');
 INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{FOREACH_END=GOAL}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_name}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_description}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_NAME}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_DESCRIPTION}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_groupOffer_Schwerpunktziel}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_groupOffer_WeiteresZiel}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_groupOffer_other}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_GROUPOFFER_SCHWERPUNKTZIEL}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_GROUPOFFER_WEITERESZIEL}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_GROUPOFFER_OTHER}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Situation}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Angebote}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Situation}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_GROUPNET_SCHWERPUNKTZIEL}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_GROUPNET_WEITERESZIEL}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_GROUPNET_OTHER}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Situation}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_UMSETZUNG}', '');
 
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Angebote}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Situation}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Situation}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Angebote}', '');
-INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{SC_Situation}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_INDIKATOREN1}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_INDIKATOREN2}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_INDIKATOREN3}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_INDIKATOREN4}', '');
+INSERT INTO `spi_document_template_placeholder` (`name`, `text`) VALUES ('{GD_INDIKATOREN5}', '');
