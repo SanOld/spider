@@ -393,7 +393,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       if(failFields.length) {
         SweetAlert.swal({
           title: "Fehler",
-          text: "Field(s): \n "+failFields.join(',\n ')+"\n Sie müssen füllen",
+          text: "Der Antrag ist nicht vollständig. Bitte ergänzen: \n "+failFields.join(',\n '),
           type: "error",
           confirmButtonText: "OK"
         });
@@ -411,8 +411,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       }
 
       SweetAlert.swal({
-        title: "Massenänderung der Anfragen",
-        text: "Möchten Sie wirklich eine Anfrage",
+        title: "Sind Sie sicher?",
+        text: "Möchten SIe den Status des Antrags wirklich ändern?",
         type: "warning",
         confirmButtonText: "JA",
         showCancelButton: true,
