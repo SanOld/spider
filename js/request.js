@@ -988,12 +988,14 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         $scope.request_users[idx].new_user_name = "";
       }              
   }
-  $scope.getPerformerUsers = function(){
+  $scope.getPerformerUsers = function(callback){
     network.get('User', {type: 't', relation_id: $scope.data.performer_id}, function (result, response) {
       if (result) {        
         $scope.users = response.result;
         $scope.updateUserSelect();
         $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.data.finance_user_id);
+        callback = callback || function(){};
+        callback();
       }
     });         
   };
@@ -1049,7 +1051,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         var callback = function (result, response) {
           if (result) {
             $scope.data.finance_user_id = response.id;
-            $scope.getPerformerUsers();            
+            $scope.getPerformerUsers(function(){
+              $scope.submitRequest();
+            });
             $scope.add_finance_user = false; 
             $scope.new_fina_user = "";
             $scope.userLoading = false;
@@ -1122,7 +1126,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   var usersById = {};
 
   RequestService.afterSave = function(){
-    $scope.updateFinPlanUsers();
+    //$scope.updateFinPlanUsers();
     $scope.updateFinPlanProfAssociation();
   }
   RequestService.financePlanData = function(){
@@ -1303,11 +1307,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             val.user = usersById[val.user_id];
           });
 
-        
+
           $timeout(function(){
             $scope.updateUserSelect();
-          },100)
-        
+          })
+
 
         }
       }
