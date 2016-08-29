@@ -229,7 +229,7 @@ class DocumentTemplate extends BaseModel {
 
   private function prepareProjectData($text){
 
-    $text = preg_replace_callback("/\{FOREACH=SCHOOL\}.+\{FOREACH_END=SCHOOL\}/is", array($this, 'repeatSchools'), $text);
+    $text = preg_replace_callback("/\{FOREACH=SCHOOL KEY=SC\}.+\{FOREACH_END=SCHOOL\}/is", array($this, 'repeatSchools'), $text);
 
     $params = array(
           '{AUFLAGEN}'      => $this->requestData['senat_additional_info']
@@ -300,7 +300,7 @@ class DocumentTemplate extends BaseModel {
           '{PD_District_Bezirk}'          => $this->districtData['name']
         , '{PD_District_PLZ}'             => $this->districtData['plz']
         , '{PD_District_Stadt}'           => $this->districtData['city']
-        , '{PD_District_Straße}'          => $this->districtData['address']
+        , '{PD_District_StraГџe}'          => $this->districtData['address']
         , '{PD_District_Telefon}'         => $this->districtData['phone']
         , '{PD_District_Telefax}'         => $this->districtData['fax']
         , '{PD_District_Email}'           => $this->districtData['email']
@@ -316,13 +316,61 @@ class DocumentTemplate extends BaseModel {
     $text = array();
     foreach ($this->requestData['schools'] as $key => $school) {
       $params = array(
-          '{FOREACH=SCHOOL}'     => '',
+          '{FOREACH=SCHOOL KEY=SC}'     => '',
           '{FOREACH_END=SCHOOL}' => '',
-          '{PD_SCHOOLNAME}'      => $school['name'],
-          '{PD_SCHOOLNUMBER}'    => $school['number'],
+          '{SC_SCHOOLNAME}'      => $school['name'],
+          '{SC_SCHOOLNUMBER}'    => $school['number'],
         );
       $text[] = $this->doReplace($data[0],$params);
     }
+
+    foreach ($this->requestSchoolFinance as $key => $school) {
+      $params = array(
+            '{FOREACH=SACHKOSTEN}'  => ''
+          , '{FOREACH_END=SACHKOSTEN}'         => ''
+//          , '{FD_SCHOOLNAME}'          => $school['school_name']
+//          , '{FD_SCHOOLNUMBER}'        => $school['school_number']
+
+          , '{SC_Stellenanteil}'       => $school['rate']
+          , '{SC_Monat}'               => $school['month_count']
+          , '{SC_Fortbildungskosten}'  => $school['training_cost']
+          , '{SC_Regiekosten}'         => $school['overhead_cost']
+        );
+
+      $text[] = $this->doReplace($data[0],$params);
+    }
+
+    foreach ($this->requestSchoolConcept as $key => $school) {
+      $params = array(
+            '{FOREACH=CONCEPT}'  => ''
+          , '{FOREACH_END=CONCEPT}'         => ''
+//          , '{CD_SCHOOLNAME}'       => $school['school_name']
+//          , '{CD_SCHOOLNUMBER}'     => $school['school_number']
+
+          , '{SC_Situation}'        => $school['situation']
+          , '{SC_Angebote}'         => $school['offers_youth_social_work']
+        );
+
+      $text[] = $this->doReplace($data[0],$params);
+    }
+
+    foreach ($this->requestSchoolGoal as $key => $school) {
+      $this->goals = $school['goals'];
+
+      $withGoal = preg_replace_callback("/\{FOREACH=GOAL\}.+\{FOREACH_END=GOAL\}/is", array($this, 'repeatGoal'), $data[0]);
+
+      $params = array(
+            '{FOREACH=SCHOOLGOAL}'      => ''
+          , '{FOREACH_END=SCHOOLGOAL}'  => ''
+          , '{GD_SCHOOLNAME}'           => $school['school_name']
+          , '{GD_SCHOOLNUMBER}'         => $school['school_number']
+        );
+
+      $text[] = $this->doReplace($withGoal,$params);
+    }
+
+
+
     $text = implode('<br>', $text);
     return $text;
   }
@@ -330,7 +378,7 @@ class DocumentTemplate extends BaseModel {
   private function prepareFinanceData($text){
 //    var_dump($text);
     $text = preg_replace_callback("/\{FOREACH=PERSONALKOSTEN\}.+\{FOREACH_END=PERSONALKOSTEN\}/is", array($this, 'repeatFinUsers'), $text);
-    $text = preg_replace_callback("/\{FOREACH=SACHKOSTEN\}.+\{FOREACH_END=SACHKOSTEN\}/is", array($this, 'repeatSchoolFinance'), $text);
+    $text = preg_replace_callback("/\{FOREACH=SACHKOSTEN\}.+\{FOREACH_END=SACHKOSTEN\}/is", array($this, 'repeatSchools'), $text);
 
     $params = array(
                     '{FD_revenue_sum}'           => $this->requestData['revenue_sum']
@@ -404,7 +452,7 @@ class DocumentTemplate extends BaseModel {
   }
 
   private function prepareConceptData($text){
-    $text = preg_replace_callback("/\{FOREACH=CONCEPT\}.+\{FOREACH_END=CONCEPT\}/is", array($this, 'repeatSchoolConcept'), $text);
+    $text = preg_replace_callback("/\{FOREACH=CONCEPT\}.+\{FOREACH_END=CONCEPT\}/is", array($this, 'repeatSchools'), $text);
     return $text;
   }
   private function repeatSchoolConcept($data){
@@ -427,7 +475,7 @@ class DocumentTemplate extends BaseModel {
   }
 
   private function prepareGoalsData($text){
-    $text = preg_replace_callback("/\{FOREACH=SCHOOLGOAL\}[\d\D]+\{FOREACH_END=SCHOOLGOAL\}/is", array($this, 'repeatSchoolGoal'), $text);
+    $text = preg_replace_callback("/\{FOREACH=SCHOOLGOAL\}[\d\D]+\{FOREACH_END=SCHOOLGOAL\}/is", array($this, 'repeatSchools'), $text);
     return $text;
   }
   private function repeatSchoolGoal($data){
@@ -455,20 +503,20 @@ class DocumentTemplate extends BaseModel {
     $groupOffer_plainGoal = '';
     $groupOffer = array(
           'capacity' => 'Verbesserung der (vorberuflichen) Handlungskompetenzen'
-        , 'transition' => 'Verbesserung aller Übergänge in Schule (Kita-GS-Sek I-Sek II) und in Aus'
+        , 'transition' => 'Verbesserung aller ГњbergГ¤nge in Schule (Kita-GS-Sek I-Sek II) und in Aus'
         , 'reintegration' => 'Abbau von Schuldistanz; Reintegration in den schulischen Alltag'
-        , 'social_skill' => 'Stärkung der sozialen Kompetenzen und des Selbstvertrauen'
-        , 'prevantion_violence' => 'Gewaltprävention und -intervention'
-        , 'health' => 'Gesundheitsförderung'
-        , 'sport' => 'Förderung sportlicher, kultureller und sportlicher Interessen'
-        , 'parent_skill' => 'Einbindung der Eltern und Stärkung der Erziehungskompetenzen'
+        , 'social_skill' => 'StГ¤rkung der sozialen Kompetenzen und des Selbstvertrauen'
+        , 'prevantion_violence' => 'GewaltprГ¤vention und -intervention'
+        , 'health' => 'GesundheitsfГ¶rderung'
+        , 'sport' => 'FГ¶rderung sportlicher, kultureller und sportlicher Interessen'
+        , 'parent_skill' => 'Einbindung der Eltern und StГ¤rkung der Erziehungskompetenzen'
         , 'other_goal' => 'Sonstiges (Bezug in extra Textfeld benennen)'
     );
 
     $groupNet = array(
           'cooperation' => 'Zusammenarbeit im Tandem oder Tridem'
         , 'participation' => 'Mitarbeit in schulischen Gremien, Treffen mit Schulleitung, Mitwirkung in AGs'
-        , 'social_area' => 'Öffnung der Schule in den Sozialraum'
+        , 'social_area' => 'Г–ffnung der Schule in den Sozialraum'
         , 'third_part' => 'Einbindung des Sozialraums bzw. Angebote Dritter in die Schule'
         , 'regional' => 'Mitarbeit in regionalen Arbeitsgemeinschaften / Netzwerken'
         , 'concept' => 'Gemeinsame Handlungs- und Bildungskonzepte'
