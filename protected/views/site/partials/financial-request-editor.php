@@ -208,7 +208,7 @@
             <div class="col-lg-8 m-t-5">
               <span ng-class="{hide: !fieldError('request_cost'),hide: !error}" class="hide">
                 <label ng-show="fieldError('request_cost')" class="error">Betrag erforderlich</label>
-                <label ng-show="error" class="error">Nur kleinere Betrag ist erlaubt </label>
+                <label ng-show="error" class="error">Nur kleinere Raten erlaubt </label>
               </span>
             </div>
           </div>
