@@ -99,8 +99,8 @@
           <dl class="custom-dl">
             <dt ng-show="IBAN.contact_person">Kontoinhaber: </dt>
             <dd ng-show="IBAN.contact_person" class="dd-margin">{{IBAN.contact_person}}</dd>
-            <dt ng-show="IBAN.bank_name && (user.type == 'a' || user.type == 'p') ">Kreditor:</dt>
-            <dd ng-show="IBAN.bank_name && (user.type == 'a' || user.type == 'p') " class="dd-margin">{{IBAN.bank_name}}</dd>
+            <dt ng-show="user.type == 'a' || user.type == 'p'">Kreditor:</dt>
+            <dd ng-show="user.type == 'a' || user.type == 'p'" class="dd-margin">{{IBAN.bank_name}}</dd>
             <dt ng-show="IBAN.description">Beschreibung:</dt>
             <dd ng-show="IBAN.description" class="financial-request">{{IBAN.description}}</dd>
           </dl>
