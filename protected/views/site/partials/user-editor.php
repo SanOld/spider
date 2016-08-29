@@ -1,5 +1,5 @@
 
-<script type="text/ng-template" id="editUserTemplate.html">
+<!--<script type="text/ng-template" id="editUserTemplate.html">-->
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
       <h3 ng-if="isInsert" class="m-0 pull-left">Benutzer hinzufügen</h3>
@@ -90,7 +90,7 @@
           </div>
         </div>
         
-        <div class="form-group" ng-show="user.sex != '3'">
+        <div class="form-group" ng-hide="user.sex == '3' && (modeView || !canEdit())">
           <label class="col-lg-2 control-label">Anrede</label>
 
           <div class="col-lg-10 holder-label-radio">
