@@ -23,7 +23,7 @@
         </span>
       </td>
     </tr>
-    {FOREACH=SCHOOL}
+    {FOREACH=SCHOOL KEY=SC}
     <tr>
        <td>
         <b>Schulname:</b>
@@ -41,9 +41,9 @@
   <b>Für den kommenden Förderzeitraum werden im Rahmen des Programms "Jugendsozialarbeit an Berliner Schulen" folgende Ziele, Maßnahmen und Indikatoren vereinbart.</b>
 </p>
 
-{FOREACH=SCHOOL}
+{FOREACH=SCHOOL KEY=SC}
 <h3>{SC_SCHOOLNAME} {SC_SCHOOLNUMBER}</h3>
-{FOREACH=GOAL}
+{FOREACH=GOAL KEY=GD}
   <div>
     <div>
       <dl>
