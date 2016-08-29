@@ -211,7 +211,19 @@ class DocumentTemplate extends BaseModel {
       /*end request_school_goal*/
 
 
+//      $this->requestData['schools'] = array_merge($this->requestData['schools']
+//                                                    , $this->requestSchoolFinance
+//                                                    , $this->requestSchoolConcept
+//                                                    , $this->requestSchoolGoal
+//              );
 
+      foreach($this->requestData['schools'] as $key=>$value) {
+      $this->requestData['schools'][$key] = array_merge($this->requestData['schools'][$key]
+                                                    , $this->requestSchoolFinance[$key]
+                                                    , $this->requestSchoolConcept[$key]
+                                                    , $this->requestSchoolGoal[$key]
+              );
+      }
       foreach($result['result'] as &$row) {
         $row['text'] = $this->prepareText($row['text']);
       }
@@ -222,8 +234,8 @@ class DocumentTemplate extends BaseModel {
   protected function prepareText($text) {
     $text = $this->prepareProjectData($text);
     $text = $this->prepareFinanceData($text);
-    $text = $this->prepareConceptData($text);
-    $text = $this->prepareGoalsData($text);
+//    $text = $this->prepareConceptData($text);
+//    $text = $this->prepareGoalsData($text);
     return $text;
   }
 
@@ -315,70 +327,37 @@ class DocumentTemplate extends BaseModel {
   private function repeatSchools($data){
     $text = array();
     foreach ($this->requestData['schools'] as $key => $school) {
-      $params = array(
-          '{FOREACH=SCHOOL KEY=SC}'     => '',
-          '{FOREACH_END=SCHOOL}' => '',
-          '{SC_SCHOOLNAME}'      => $school['name'],
-          '{SC_SCHOOLNUMBER}'    => $school['number'],
-        );
-      $text[] = $this->doReplace($data[0],$params);
-    }
 
-    foreach ($this->requestSchoolFinance as $key => $school) {
+      $this->goals = $school['goals'];
+      $withGoal = preg_replace_callback("/\{{FOREACH=GOAL KEY=GD\}.+\{FOREACH_END=GOAL\}/is", array($this, 'repeatGoal'), $data[0]);
+
       $params = array(
-            '{FOREACH=SACHKOSTEN}'  => ''
-          , '{FOREACH_END=SACHKOSTEN}'         => ''
-//          , '{FD_SCHOOLNAME}'          => $school['school_name']
-//          , '{FD_SCHOOLNUMBER}'        => $school['school_number']
+          '{FOREACH=SCHOOL KEY=SC}'    => ''
+          ,'{FOREACH_END=SCHOOL}'      => ''
+
+          , '{SC_SCHOOLNAME}'           => $school['name']
+          , '{SC_SCHOOLNUMBER}'         => $school['number']
 
           , '{SC_Stellenanteil}'       => $school['rate']
           , '{SC_Monat}'               => $school['month_count']
           , '{SC_Fortbildungskosten}'  => $school['training_cost']
           , '{SC_Regiekosten}'         => $school['overhead_cost']
+
+          , '{SC_Situation}'           => $school['situation']
+          , '{SC_Angebote}'            => $school['offers_youth_social_work']
+
         );
-
-      $text[] = $this->doReplace($data[0],$params);
-    }
-
-    foreach ($this->requestSchoolConcept as $key => $school) {
-      $params = array(
-            '{FOREACH=CONCEPT}'  => ''
-          , '{FOREACH_END=CONCEPT}'         => ''
-//          , '{CD_SCHOOLNAME}'       => $school['school_name']
-//          , '{CD_SCHOOLNUMBER}'     => $school['school_number']
-
-          , '{SC_Situation}'        => $school['situation']
-          , '{SC_Angebote}'         => $school['offers_youth_social_work']
-        );
-
-      $text[] = $this->doReplace($data[0],$params);
-    }
-
-    foreach ($this->requestSchoolGoal as $key => $school) {
-      $this->goals = $school['goals'];
-
-      $withGoal = preg_replace_callback("/\{FOREACH=GOAL\}.+\{FOREACH_END=GOAL\}/is", array($this, 'repeatGoal'), $data[0]);
-
-      $params = array(
-            '{FOREACH=SCHOOLGOAL}'      => ''
-          , '{FOREACH_END=SCHOOLGOAL}'  => ''
-          , '{GD_SCHOOLNAME}'           => $school['school_name']
-          , '{GD_SCHOOLNUMBER}'         => $school['school_number']
-        );
-
+//      $text[] = $this->doReplace($data[0],$params);
       $text[] = $this->doReplace($withGoal,$params);
     }
-
-
-
     $text = implode('<br>', $text);
     return $text;
   }
 
   private function prepareFinanceData($text){
 //    var_dump($text);
-    $text = preg_replace_callback("/\{FOREACH=PERSONALKOSTEN\}.+\{FOREACH_END=PERSONALKOSTEN\}/is", array($this, 'repeatFinUsers'), $text);
-    $text = preg_replace_callback("/\{FOREACH=SACHKOSTEN\}.+\{FOREACH_END=SACHKOSTEN\}/is", array($this, 'repeatSchools'), $text);
+    $text = preg_replace_callback("/\{FOREACH=PERSONALKOSTEN KEY=PK\}.+\{FOREACH_END=PERSONALKOSTEN\}/is", array($this, 'repeatFinUsers'), $text);
+//    $text = preg_replace_callback("/\{FOREACH=SACHKOSTEN\}.+\{FOREACH_END=SACHKOSTEN\}/is", array($this, 'repeatSchools'), $text);
 
     $params = array(
                     '{FD_revenue_sum}'           => $this->requestData['revenue_sum']
@@ -401,28 +380,28 @@ class DocumentTemplate extends BaseModel {
                                       -> where('id=:id', array(':id' => $user['user_id']))
                                       -> queryRow();
       $params = array(
-                      '{FOREACH=PERSONALKOSTEN}'           => ''
+                      '{FOREACH=PERSONALKOSTEN KEY=PK}'    => ''
                     , '{FOREACH_END=PERSONALKOSTEN}'       => ''
 
-                    , '{FD_USERNAME}'                      => $user_info['user_name']
-                    , '{FD_USERFUNCTION}'                  => $user_info['user_function']
+                    , '{PK_USERNAME}'                      => $user_info['user_name']
+                    , '{PK_USERFUNCTION}'                  => $user_info['user_function']
 
-                    , '{FD_KOSTEN_PRO_JAHR_BRUTTO}'        => $user['brutto']
-                    , '{FD_KOSTEN_PRO_JAHR_ANTEIL}'        => $user['add_cost']
+                    , '{PK_KOSTEN_PRO_JAHR_BRUTTO}'        => $user['brutto']
+                    , '{PK_KOSTEN_PRO_JAHR_ANTEIL}'        => $user['add_cost']
 
-                    , '{FD_other}'                         => $user['other']
-                    , '{FD_cost_per_month_brutto}'         => $user['cost_per_month_brutto']
-                    , '{FD_month_count}'                   => $user['month_count']
-                    , '{FD_hours_per_week}'                => $user['hours_per_week']
-                    , '{FD_have_annual_bonus}'             => $user['have_annual_bonus']
-                    , '{FD_annual_bonus}'                  => $user['annual_bonus']
-                    , '{FD_have_additional_provision_vwl}' => $user['have_additional_provision_vwl']
-                    , '{FD_additional_provision_vwl}'      => $user['additional_provision_vwl']
-                    , '{FD_have_supplementary_pension}'    => $user['have_supplementary_pension']
-                    , '{FD_supplementary_pension}'         => $user['supplementary_pension']
-                    , '{FD_brutto}'                        => $user['brutto']
-                    , '{FD_add_cost}'                      => $user['add_cost']
-                    , '{FD_full_cost}'                     => $user['full_cost']
+                    , '{PK_other}'                         => $user['other']
+                    , '{PK_cost_per_month_brutto}'         => $user['cost_per_month_brutto']
+                    , '{PK_month_count}'                   => $user['month_count']
+                    , '{PK_hours_per_week}'                => $user['hours_per_week']
+                    , '{PK_have_annual_bonus}'             => $user['have_annual_bonus']
+                    , '{PK_annual_bonus}'                  => $user['annual_bonus']
+                    , '{PK_have_additional_provision_vwl}' => $user['have_additional_provision_vwl']
+                    , '{PK_additional_provision_vwl}'      => $user['additional_provision_vwl']
+                    , '{PK_have_supplementary_pension}'    => $user['have_supplementary_pension']
+                    , '{PK_supplementary_pension}'         => $user['supplementary_pension']
+                    , '{PK_brutto}'                        => $user['brutto']
+                    , '{PK_add_cost}'                      => $user['add_cost']
+                    , '{PK_full_cost}'                     => $user['full_cost']
                   );
       
       $text[] = $this->doReplace($data[0],$params);
@@ -430,73 +409,73 @@ class DocumentTemplate extends BaseModel {
     $text = implode('<br>', $text);
     return $text;
   }  
-  private function repeatSchoolFinance($data){
-    $text = array();
-    foreach ($this->requestSchoolFinance as $key => $school) {
-      $params = array(
-            '{FOREACH=SACHKOSTEN}'  => ''
-          , '{FOREACH_END=SACHKOSTEN}'         => ''
-          , '{FD_SCHOOLNAME}'          => $school['school_name']
-          , '{FD_SCHOOLNUMBER}'        => $school['school_number']
+//  private function repeatSchoolFinance($data){
+//    $text = array();
+//    foreach ($this->requestSchoolFinance as $key => $school) {
+//      $params = array(
+//            '{FOREACH=SACHKOSTEN}'  => ''
+//          , '{FOREACH_END=SACHKOSTEN}'         => ''
+//          , '{FD_SCHOOLNAME}'          => $school['school_name']
+//          , '{FD_SCHOOLNUMBER}'        => $school['school_number']
+//
+//          , '{FD_Stellenanteil}'       => $school['rate']
+//          , '{FD_Monat}'               => $school['month_count']
+//          , '{FD_Fortbildungskosten}'  => $school['training_cost']
+//          , '{FD_Regiekosten}'         => $school['overhead_cost']
+//        );
+//
+//      $text[] = $this->doReplace($data[0],$params);
+//    }
+//    $text = implode('<br>', $text);
+//    return $text;
+//  }
+////
+//  private function prepareConceptData($text){
+//    $text = preg_replace_callback("/\{FOREACH=CONCEPT\}.+\{FOREACH_END=CONCEPT\}/is", array($this, 'repeatSchools'), $text);
+//    return $text;
+//  }
+//  private function repeatSchoolConcept($data){
+//    $text = array();
+//    foreach ($this->requestSchoolConcept as $key => $school) {
+//      $params = array(
+//            '{FOREACH=CONCEPT}'  => ''
+//          , '{FOREACH_END=CONCEPT}'         => ''
+//          , '{CD_SCHOOLNAME}'       => $school['school_name']
+//          , '{CD_SCHOOLNUMBER}'     => $school['school_number']
+//
+//          , '{CD_Situation}'        => $school['situation']
+//          , '{CD_Angebote}'         => $school['offers_youth_social_work']
+//        );
+//
+//      $text[] = $this->doReplace($data[0],$params);
+//    }
+//    $text = implode('<br>', $text);
+//    return $text;
+//  }
 
-          , '{FD_Stellenanteil}'       => $school['rate']
-          , '{FD_Monat}'               => $school['month_count']
-          , '{FD_Fortbildungskosten}'  => $school['training_cost']
-          , '{FD_Regiekosten}'         => $school['overhead_cost']
-        );
-
-      $text[] = $this->doReplace($data[0],$params);
-    }
-    $text = implode('<br>', $text);
-    return $text;
-  }
-
-  private function prepareConceptData($text){
-    $text = preg_replace_callback("/\{FOREACH=CONCEPT\}.+\{FOREACH_END=CONCEPT\}/is", array($this, 'repeatSchools'), $text);
-    return $text;
-  }
-  private function repeatSchoolConcept($data){
-    $text = array();
-    foreach ($this->requestSchoolConcept as $key => $school) {
-      $params = array(
-            '{FOREACH=CONCEPT}'  => ''
-          , '{FOREACH_END=CONCEPT}'         => ''
-          , '{CD_SCHOOLNAME}'       => $school['school_name']
-          , '{CD_SCHOOLNUMBER}'     => $school['school_number']
-
-          , '{CD_Situation}'        => $school['situation']
-          , '{CD_Angebote}'         => $school['offers_youth_social_work']
-        );
-
-      $text[] = $this->doReplace($data[0],$params);
-    }
-    $text = implode('<br>', $text);
-    return $text;
-  }
-
-  private function prepareGoalsData($text){
-    $text = preg_replace_callback("/\{FOREACH=SCHOOLGOAL\}[\d\D]+\{FOREACH_END=SCHOOLGOAL\}/is", array($this, 'repeatSchools'), $text);
-    return $text;
-  }
-  private function repeatSchoolGoal($data){
-    $text = array();
-    foreach ($this->requestSchoolGoal as $key => $school) {
-      $this->goals = $school['goals'];
-
-      $withGoal = preg_replace_callback("/\{FOREACH=GOAL\}.+\{FOREACH_END=GOAL\}/is", array($this, 'repeatGoal'), $data[0]);
-
-      $params = array(
-            '{FOREACH=SCHOOLGOAL}'      => ''
-          , '{FOREACH_END=SCHOOLGOAL}'  => ''
-          , '{GD_SCHOOLNAME}'           => $school['school_name']
-          , '{GD_SCHOOLNUMBER}'         => $school['school_number']
-        );
-
-      $text[] = $this->doReplace($withGoal,$params);
-    }
-    $text = implode('<br>', $text);
-    return $text;
-  }
+//  private function prepareGoalsData($text){
+//    $text = preg_replace_callback("/\{FOREACH=SCHOOLGOAL\}[\d\D]+\{FOREACH_END=SCHOOLGOAL\}/is", array($this, 'repeatSchools'), $text);
+//    return $text;
+//  }
+//  private function repeatSchoolGoal($data){
+//    $text = array();
+//    foreach ($this->requestSchoolGoal as $key => $school) {
+//      $this->goals = $school['goals'];
+//
+//      $withGoal = preg_replace_callback("/\{FOREACH=GOAL\}.+\{FOREACH_END=GOAL\}/is", array($this, 'repeatGoal'), $data[0]);
+//
+//      $params = array(
+//            '{FOREACH=SCHOOLGOAL}'      => ''
+//          , '{FOREACH_END=SCHOOLGOAL}'  => ''
+//          , '{GD_SCHOOLNAME}'           => $school['school_name']
+//          , '{GD_SCHOOLNUMBER}'         => $school['school_number']
+//        );
+//
+//      $text[] = $this->doReplace($withGoal,$params);
+//    }
+//    $text = implode('<br>', $text);
+//    return $text;
+//  }
   private function repeatGoal($data){
     $text = array();
     $groupOffer_priorityGoal = '';
@@ -551,7 +530,7 @@ class DocumentTemplate extends BaseModel {
       }
       
       $params = array(
-            '{FOREACH=GOAL}'                  => ''
+            '{FOREACH=GOAL KEY=GD}'           => ''
           , '{FOREACH_END=GOAL}'              => ''
           , '{GD_name}'                       => $goal['name']
           , '{GD_description}'                => $goal['description']

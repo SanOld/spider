@@ -38,30 +38,30 @@
 
 <h3>Ausgaben</h3>
 <h3>Personalkosten</h3>
-{FOREACH=PERSONALKOSTEN}
+{FOREACH=PERSONALKOSTEN KEY=PK}
   <div>
     <div>
       <table>
         <tbody>
           <tr>
             <td>Name</td>
-            <td>{FD_USERNAME}</td>
+            <td>{PK_USERNAME}</td>
           </tr>
           <tr>
             <td  >Funktion</td>
-            <td  >{FD_USERFUNCTION}</td>
+            <td  >{PK_USERFUNCTION}</td>
           </tr>
           <tr>
             <td  >Kosten pro Jahr (AN-Brutto)</td>
-            <td  >{FD_KOSTEN_PRO_JAHR_BRUTTO}</td>
+            <td  >{PK_KOSTEN_PRO_JAHR_BRUTTO}</td>
           </tr>
           <tr>
             <td  >Kosten pro Jahr (AG-Anteil SV)</td>
-            <td  >{FD_KOSTEN_PRO_JAHR_ANTEIL}</td>
+            <td  >{PK_KOSTEN_PRO_JAHR_ANTEIL}</td>
           </tr>
           <tr>
             <td  >Arbeitsstunden / Woche</td>
-            <td  >{FD_hours_per_week}</td>
+            <td  >{PK_hours_per_week}</td>
           </tr>
           <tr>
             <td  >Urlaubstage / Jahr</td>
@@ -78,7 +78,7 @@
 
           <tr>
             <td  >anrechenbare Personalkosten</td>
-            <td  >{FD_full_cost}</td>
+            <td  >{PK_full_cost}</td>
           </tr>
         </tbody>
       </table>
@@ -87,29 +87,29 @@
 {FOREACH_END=PERSONALKOSTEN}
 
 <h3>Sachkosten und Personalnebenkosten</h3>
-{FOREACH=SACHKOSTEN}
-<h4>{FD_SCHOOLNAME} {FD_SCHOOLNUMBER}</h4>
+{FOREACH=SCHOOL KEY=SC}
+<h4>{SC_SCHOOLNAME} {SC_SCHOOLNUMBER}</h4>
   <div>
     <div>
       <table>
         <tbody>
           <tr>
             <td>Anteil</td>
-            <td>{FD_Stellenanteil}</td>
+            <td>{SC_Stellenanteil}</td>
           </tr>
           <tr>
             <td>Fortbildungskosten</td>
-            <td>{FD_Fortbildungskosten}</td>
+            <td>{SC_Fortbildungskosten}</td>
           </tr>
           <tr>
             <td>Regiekosten</td>
-            <td>{FD_Regiekosten}</td>
+            <td>{SC_Regiekosten}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-{FOREACH_END=SACHKOSTEN}
+{FOREACH_END=SCHOOL}
 
 <h2>Teilantrag</h2>
 <h2>1. Projektdaten</h2>
@@ -266,27 +266,27 @@
   </div>
 
 <h2>2. Konzept</h2>
-{FOREACH=CONCEPT}
-<h4>{CD_SCHOOLNAME} {CD_SCHOOLNUMBER}</h4>
+{FOREACH=SCHOOL KEY=SC}
+<h4>{SC_SCHOOLNAME} {SC_SCHOOLNUMBER}</h4>
   <div  >
     <div>
       <dl>
         <dt>2.1 Situation an der Schule</dt>
-        <dd>{CD_Situation}</dd>
+        <dd>{SC_Situation}</dd>
       </dl>
     </div>
     <div>
       <dl>
         <dt>2.2 Angebote der Jugendsozialarbeit an der Schule</dt>
-        <dd>{CD_Angebote}</dd>
+        <dd>{SC_Angebote}</dd>
       </dl>
     </div>
   </div>
-{FOREACH_END=CONCEPT}
+{FOREACH_END=SCHOOL}
 
 <h2>3. Entwicklungsziel 1</h2>
-{FOREACH=SCHOOLGOAL}
-<h3>{GD_SCHOOLNAME} {GD_SCHOOLNUMBER}</h3>
+{FOREACH=SCHOOL KEY=SC}
+<h3>{SC_SCHOOLNAME} {SC_SCHOOLNUMBER}</h3>
 {FOREACH=GOAL}
   <div>
     <div>
@@ -339,7 +339,7 @@
     </div>
   </div>
 {FOREACH_END=GOAL}
-{FOREACH_END=SCHOOLGOAL}
+{FOREACH_END=SCHOOL}
 
 <h2>Datum / Ort</h2>
 <h2>Unterschrift / Stempe</h2>

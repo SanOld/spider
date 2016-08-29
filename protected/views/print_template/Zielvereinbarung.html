@@ -30,7 +30,7 @@
       </td>
        <td>
         <span>
-          <b>{PD_SCHOOLNAME} {PD_SCHOOLNUMBER}</b>
+          <b>{SC_SCHOOLNAME} {SC_SCHOOLNUMBER}</b>
         </span>
       </td>
     </tr>
@@ -41,8 +41,8 @@
   <b>Für den kommenden Förderzeitraum werden im Rahmen des Programms "Jugendsozialarbeit an Berliner Schulen" folgende Ziele, Maßnahmen und Indikatoren vereinbart.</b>
 </p>
 
-{FOREACH=SCHOOLGOAL}
-<h3>{GD_SCHOOLNAME} {GD_SCHOOLNUMBER}</h3>
+{FOREACH=SCHOOL}
+<h3>{SC_SCHOOLNAME} {SC_SCHOOLNUMBER}</h3>
 {FOREACH=GOAL}
   <div>
     <div>
@@ -95,7 +95,7 @@
     </div>
   </div>
 {FOREACH_END=GOAL}
-{FOREACH_END=SCHOOLGOAL}
+{FOREACH_END=SCHOOL}
 
 <ol>
   <li>

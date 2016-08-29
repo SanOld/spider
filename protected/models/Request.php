@@ -608,6 +608,10 @@ class Request extends BaseModel {
                                       -> leftJoin( 'spi_user user', 'user.id = sch.contact_id' )
                                       -> where('prj_sch.project_id=:id', array(':id' => $row['project_id']))
                                       -> queryAll();
+      foreach ($row['schools'] as $key=>$schoolData) {
+        $row['schools'][$schoolData['id']] = $schoolData;
+        unset ($row['schools'][$key]);
+      }
 
       if($row['status_id'] == '5'){
         $row = $this->changeToLock($row);
@@ -625,6 +629,13 @@ class Request extends BaseModel {
           -> queryAll();
           $row['schools'] = $schools;
         }
+
+      if(isset($row['schools']))  {
+        foreach ($row['schools'] as $key=>$schoolData) {
+          $row['schools'][$schoolData['id']] = $schoolData;
+          unset ($row['schools'][$key]);
+        }
+      }
 
         $old = $row;
         if($row['status_id'] == '5'){
