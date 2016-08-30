@@ -231,10 +231,9 @@ class DocumentTemplate extends BaseModel {
       $finRequestInfo = $FinRequest->select(array('id' => safe($_GET, 'fin_request_id')), true);
       $this->finRequestData = $finRequestInfo['result'][0];      
       
-      $Request = CActiveRecord::model('Request');
-      $Request->user = $this->user;
-      $requestInfo = $Request->select(array('id' => $this->finRequestData['request_id']), true);      
-      $this->requestData = $requestInfo['result'][0];     
+      $this->requestData = Yii::app() -> db -> createCommand()
+                             -> select('*') -> from('spi_request') 
+                             -> where('id=:id ', array(':id' => $this->finRequestData['request_id'])) -> queryRow();     
       
       $this->performerData = Yii::app() -> db -> createCommand()
                              -> select('*') -> from('spi_performer') 
