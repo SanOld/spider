@@ -130,4 +130,40 @@ class FinancialRequest extends BaseModel {
     return $result;
   }
   
+  public function getSummary ($request_id, $year, $total_cost) {
+    $summary = [
+        'changes'     =>  0,
+        'spending'    =>  0,
+        'remained'    =>  0,
+        'payed'       =>  0,
+        'actual'      =>  0
+      ];
+    
+    $financial_requests = Yii::app() -> db -> createCommand()
+                          ->select('tbl.*')
+                          ->from($this -> table . ' tbl')
+                          ->join('spi_request req', 'req.id = tbl.request_id')
+                          ->where ('tbl.request_id = :id', array(':id' => $request_id))
+                          ->andWhere ('req.year = :year', array(':year' => $year))
+                          -> queryAll();
+    
+    foreach($financial_requests as $request){
+        if($request['status_id'] == '3'){          
+          if($request['payment_type_id'] == '1'){
+            $summary['payed'] += (integer) $request['request_cost'];
+          }else{          
+            if($request['payment_type_id'] == '2'){
+              $summary['changes'] -= (integer) $request['request_cost'];
+            };
+            if($request['payment_type_id'] == '3'){
+              $summary['changes'] += (integer) $request['request_cost'];
+            };
+         }
+        };
+      $summary['actual'] = $total_cost +  (integer) $summary['changes'];
+      $summary['remained'] = $summary['actual'] -(integer) $summary['payed'];
+    };
+    return $summary;
+  }
+  
 }
