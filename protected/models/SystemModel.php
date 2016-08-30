@@ -84,7 +84,7 @@ class SystemModel extends BaseModel
             DROP TRIGGER IF EXISTS `{$tableName}_A{$operation['code']}`;
 
             CREATE
-                /*[DEFINER = { spider_user | CURRENT_USER }]*/
+                /*[DEFINER = { spider_user@localhost | CURRENT_USER }]*/
                 TRIGGER `{$tableName}_A{$operation['code']}` {$operation['when']} ON `{$tableName}` 
                 FOR EACH ROW BEGIN    
                 DECLARE ev_id INT; 	     
