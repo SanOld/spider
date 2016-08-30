@@ -82,9 +82,9 @@ class SystemModel extends BaseModel
 
           $trigger = "
             DROP TRIGGER IF EXISTS `{$tableName}_A{$operation['code']}`;
-
+            DELIMITER $$
             CREATE
-                /*[DEFINER = { user | CURRENT_USER }]*/
+                DEFINER = CURRENT_USER 
                 TRIGGER `{$tableName}_A{$operation['code']}` {$operation['when']} ON `{$tableName}` 
                 FOR EACH ROW BEGIN    
                 DECLARE ev_id INT; 	     
@@ -97,7 +97,7 @@ class SystemModel extends BaseModel
                       {$insert}
 
                 END IF;
-            END;\n\n";
+            END\n\n";
 
 
 
@@ -107,11 +107,8 @@ class SystemModel extends BaseModel
         }
         Yii::app ()->db->createCommand ()->update ( 'spi_audit_setting', array('hash' => $hash), 'id=:id', array (':id' => $table['id'] ));
       }
-//      header ( 'Content-Type: application/json' );
-//      echo json_encode ( array('results' => 'done') );
-       echo ($trigger) ;
-       echo (1111) ;
-
+      header ( 'Content-Type: application/json' );
+      echo json_encode ( array('results' => 'done') );
       exit ();
     }
 
