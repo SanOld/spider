@@ -97,7 +97,8 @@ class SystemModel extends BaseModel
             END
             \n\n";
 
-
+      echo $trigger;
+      exit ();
 
           Yii::app()->db
                     ->createCommand($trigger)
