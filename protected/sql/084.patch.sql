@@ -1,3 +1,18 @@
+CREATE TABLE `spi_document_type_placeholder` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`document_type_id` INT(11) NULL DEFAULT NULL,
+	`placeholder_id` INT(11) NOT NULL,
+	`is_email` TINYINT(1) NOT NULL DEFAULT '0',
+	`email_document_id` INT(11) NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=COMPACT
+AUTO_INCREMENT=0
+;
+
+
 INSERT INTO spi_document_type_placeholder (document_type_id, placeholder_id)
 select  3 as d, tbl.id from spi_document_template_placeholder  tbl where tbl.is_email = '0';
 
