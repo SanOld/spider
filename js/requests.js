@@ -398,8 +398,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       }
       if(failCodes.length) {
         SweetAlert.swal({
-          title: "Fehler",
-          text: "Anfragen "+failCodes.join(', ')+" können nicht aktualisiert sein",
+          title: "Hinweis",
+          text: "Die Anfrage für "+failCodes.join(', ')+" kann nicht durchgeführt werden.\n\
+          Förderfähige und genehmigte Anträge können nicht verändert werden.",
           type: "error",
           confirmButtonText: "OK"
         });
