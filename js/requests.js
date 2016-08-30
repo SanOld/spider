@@ -830,16 +830,23 @@ spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $u
       text: ''
     };
   }
+  
+  $scope.print = function(){
+    $rootScope.printed = 1;
+    $timeout(function() {
+      window.print();
+      $rootScope.printed = 0;
+    });
+  };
 
   $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+    $uibModalInstance.close($scope.request);
   };
 
   $rootScope.printed = 1;
   $timeout(function() {
       window.print();
       $rootScope.printed = 0;
-      $uibModalInstance.close($scope.request);
   });
 
 });
