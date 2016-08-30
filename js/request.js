@@ -710,21 +710,47 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         };
         
         if(response.result.status_id == '5'){
-          network.get('user_lock', {type: 't', relation_id: $scope.request.performer_id, request_id: $scope.request.id}, function (result, response) {
-                  if (result) {
-                    $scope.performerUsers = response.result;
-                    for (var key in $scope.performerUsers){
-                      $scope.performerUsers[key]['id']=$scope.performerUsers[key]['user_id'];
-                      if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
-                      if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
-                    }
-                    $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
-                    $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
-                    $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
-                    $scope.data['users'] = $scope.performerUsers;
-                    RequestService.initAll($scope.data);
-                  }
-                });
+        
+
+          
+
+         network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
+            if (result) {
+              $scope.performerUsers = response.result;
+              for (var key in $scope.performerUsers){
+                if($scope.performerUsers[key].sex == 1){$scope.performerUsers[key].gender = 'Herr'}
+                if($scope.performerUsers[key].sex == 2){$scope.performerUsers[key].gender = 'Frau'}
+              }
+              $scope.selectRequestResult = Utils.getRowById(response.result, $scope.request.request_user_id);
+              $scope.selectConceptResult = Utils.getRowById(response.result, $scope.request.concept_user_id);
+              $scope.selectFinanceResult = Utils.getRowById(response.result, $scope.request.finance_user_id);
+
+              network.get('user_lock', {type: 't', relation_id: $scope.request.performer_id, request_id: $scope.request.id}, function (result, response) {
+                      if (result) {
+                        $scope.performerUsersLock = response.result;
+
+                        //To Do change data
+                        for (var i = 0; i < $scope.performerUsers.length; i++) {
+                          for (var y = 0; y < $scope.performerUsersLock.length; y++) {
+                            if( $scope.performerUsers[i]['id'] = $scope.performerUsersLock[y]['user_id'] ){
+                                for(var key in $scope.performerUsersLock[y]){
+                                  $scope.performerUsers[i][key] = $scope.performerUsersLock[y][key];
+                                }
+                            }
+                          }
+                        }
+
+                        $scope.data['users'] = $scope.performerUsers;
+                        RequestService.initAll($scope.data);
+                      } else {
+                        $scope.data['users'] = $scope.performerUsers;
+                        RequestService.initAll($scope.data);
+                      }
+                    });
+            }
+          });
+
+
         } else {
           $scope.getPerformerUsers();
         }

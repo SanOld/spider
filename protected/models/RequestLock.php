@@ -214,7 +214,18 @@ class RequestLock extends BaseModel {
           foreach($user_result as &$row) {
             $row['user_id'] = $row['id'];
             $row['request_id'] = $this->request_id ;
+
             unset($row['id']);
+            unset($row['email']);
+            unset($row['phone']);
+            unset($row['auth_token']);
+            unset($row['auth_token_created_at']);
+            unset($row['recovery_token']);
+            unset($row['is_super_user']);
+            unset($row['is_virtual']);
+            unset($row['is_finansist']);
+            
+
             if(!isset($row['login']) && $row['login'] == null){
               $row['login'] = '';
             }

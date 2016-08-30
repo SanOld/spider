@@ -1,0 +1,9 @@
+ALTER TABLE `spi_user_lock`
+drop COLUMN `email`,
+drop COLUMN `phone`,
+drop COLUMN `auth_token`,
+drop COLUMN `auth_token_created_at`,
+drop COLUMN `recovery_token`,
+drop COLUMN `is_super_user`,
+drop COLUMN `is_virtual`,
+drop COLUMN `is_finansist`;
