@@ -86,6 +86,14 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
   var grid = GridService();
   $scope.tableParams = grid('document_template_placeholder', $scope.filter, {sorting: {name: 'asc'}});
 
+  $scope.updateGrid = function () {
+    grid.reload();
+  };
+
+  $scope.resetFilter = function () {
+    $scope.filter = grid.resetFilter({type_id: data.type_id, is_email: 0});
+  };
+
     network.get('document_template_placeholder', {filter: 1}, function (result, response) {
     if (result) {
       window.console.log(response.result);

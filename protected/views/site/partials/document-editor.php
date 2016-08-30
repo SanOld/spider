@@ -77,6 +77,22 @@
         </uib-tab>
 
 				<uib-tab index="1" heading="Platzhalter" active="tabs[1].active" ng-click="tabs[1].active = true">
+            <div class="row datafilter m-t-30">
+              <form>
+                <div class="col-lg-5">
+                  <div class="form-group">
+                    <label>Suche nach Namen und Beschreibung</label>
+                    <input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control" placeholder="Eingegeben">
+                  </div>
+                </div>
+                <div class="col-lg-5">
+
+                </div>
+                <div class="col-lg-2">
+                  <button ng-click="resetFilter()" class="btn w-lg custom-reset"><i class="fa fa-rotate-left"></i><span>Filter zurücksetzen</span></button>
+                </div>
+              </form>
+            </div>
             <div>
               <table id="placeholder" ng-cloak ng-table="tableParams" class="table dataTable table-hover table-bordered table-edit">
                 <tr ng-repeat="row in $data">
