@@ -397,6 +397,9 @@ class DocumentTemplate extends BaseModel {
     $year = substr($date, 0,4);
     $date = substr($date, 8,2).'-'.substr($date, 5,2).'-'.substr($date, 0,4);
     
+    $request_cost = $this->finRequestData['request_cost'];
+    str_replace('.', ',', $request_cost);
+    
     $params = array(
                     '{TRAEGERADRESSE}'           => $this->performerData['address']
                   , '{KONTOVERBINDUNG}'          => "Bank: ".$this->bankData['bank_name']."<br> IBAN: ".$this->bankData['iban']
