@@ -97,13 +97,15 @@ class SystemModel extends BaseModel
             END
             \n\n";
 
+
       echo $trigger;
-      exit ();
+     
 
           Yii::app()->db
                     ->createCommand($trigger)
                     ->execute();
         }
+echo (11111)        ;
         Yii::app ()->db->createCommand ()->update ( 'spi_audit_setting', array('hash' => $hash), 'id=:id', array (':id' => $table['id'] ));
       }
 //      header ( 'Content-Type: application/json' );
