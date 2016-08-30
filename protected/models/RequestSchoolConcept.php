@@ -27,7 +27,9 @@ class RequestSchoolConcept extends BaseModel {
 
   protected function doAfterSelect($result) {
     foreach($result['result'] as $key=>$value) {
-      $row['histories'] = $this->getHistoriesById($row['id']);
+      if (isset($row['histories'])){
+        $row['histories'] = $this->getHistoriesById($row['id']);
+      }
 
       $status_id = Yii::app() -> db -> createCommand()
                                     -> select('status_id')
