@@ -852,6 +852,14 @@ spi.controller('PrintDocumentTemplatesController', function ($scope, document,  
     $rootScope.printed = 0;
   });
   
+  $scope.print = function(){
+    $rootScope.printed = 1;
+    $timeout(function() {
+      window.print();
+      $rootScope.printed = 0;
+    });
+  };
+  
   $scope.trustAsHtml = function(string) {
     return $sce.trustAsHtml(string);
   };  
