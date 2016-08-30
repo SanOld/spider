@@ -395,7 +395,7 @@ class DocumentTemplate extends BaseModel {
     $day = substr($date, 8,2);
     $month = substr($date, 5,2);
     $year = substr($date, 0,4);
-    $date = substr($date, 8,2).substr($date, 5,2).substr($date, 0,4);
+    $date = substr($date, 8,2).'-'.substr($date, 5,2).'-'.substr($date, 0,4);
     
     $params = array(
                     '{TRAEGERADRESSE}'           => $this->performerData['address']
