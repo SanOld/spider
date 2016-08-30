@@ -415,7 +415,7 @@ $this->breadcrumbs = array('Anträge');
         <ng-form name="form">
           <div class="holder-datepicker text-right">
             <div class="col-lg-3 p-0">
-              <label>Anfangsdatum</label>
+              <label>Beginn</label>
             </div>
             <div class="col-lg-3 p-0">
               <div class="input-group">
@@ -437,7 +437,7 @@ $this->breadcrumbs = array('Anträge');
           <br>
           <div class="holder-datepicker text-right">
             <div class="col-lg-3 p-0">
-              <label>Fälligkeitstermin</label>
+              <label>Ende</label>
             </div>
             <div class="col-lg-3 p-0">
               <div class="input-group">
