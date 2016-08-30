@@ -146,7 +146,7 @@
             <div class="col-lg-8">
                 <div spi-hint text="_hint.payment_type.text"  title="_hint.payment_type.title" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_type')}">
-                  <ui-select ng-change="updateGrid()" required on-select="updateTemplates(financialRequest.payment_type_id);updateCost(financialRequest.payment_type_id, financialRequest.request_id);" 
+                  <ui-select required on-select="updateTemplates(financialRequest.payment_type_id);updateCost(financialRequest.payment_type_id, financialRequest.request_id);"
                              ng-model="financialRequest.payment_type_id"  name="payment_type" ng-disabled="!rights.fields">
                     <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in paymentTypes | filter: $select.search | orderBy: 'id'">

@@ -395,7 +395,21 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.rights = {};
     $scope.financialRequests = [];
     $scope.financialRequestId = data.id;
-    $scope.error = false;    
+    $scope.error = false;
+    $scope.months = {
+      m01  : {pair:0,rate:1},   // month_number : is_even for creating pairs
+      m02  : {pair:1,rate:1},
+      m03  : {pair:0,rate:2},
+      m04  : {pair:1,rate:2},
+      m05  : {pair:0,rate:3},
+      m06  : {pair:1,rate:3},
+      m07  : {pair:0,rate:4},
+      m08  : {pair:1,rate:4},
+      m09  : {pair:0,rate:5},
+      m10  : {pair:1,rate:5},
+      m11  : {pair:0,rate:6},
+      m12  : {pair:1,rate:6}
+    };
     
     $scope.getProjects = function (year) {
       $scope.year = year;
@@ -416,16 +430,45 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       });
     };
     
-    $scope.updateRates = function (item) {
+    $scope.updateRates = function (project) {
+      var month = 'm' + project.start_date.substring(5,7);
+      var pair = true;
+      $scope.rate = 0;
+      for(var item in $scope.months){
+        if(month == item){
+          $scope.rate = $scope.months[item].rate;
+          if($scope.months[item].pair == 1){
+            pair = false;
+          }
+        };
+      };
       $scope.updatedRates = [];
       $scope.getPaymentTypes();
       var last_rate_id = 0;
-      network.get('financial_request', {request_id: item.id, payment_type_id: 1}, function (result, response) {
+      var partial_rate = false;
+      var first_rate_id = 0;
+      network.get('financial_request', {request_id: project.id, payment_type_id: 1}, function (result, response) {
         if(response.result.length) {
           $scope.financialRequests = response.result;
-          last_rate_id = response.result[response.result.length - 1].rate_id; 
+          last_rate_id = response.result[response.result.length - 1].rate_id;
+          first_rate_id = response.result[0].rate_id;
+          partial_rate = response.result[0].is_patrial_rate;
+          pair = true;
         }else{
-          $scope.financialRequest.rate_id = 1;
+          $scope.financialRequest.rate_id = $scope.rate;
+          pair = pair;
+          var rates = [];
+          if(!pair){
+            for(var i in $scope.rates){
+              if($scope.rates[i].id == $scope.rate){
+                rates[0] = $scope.rates[i];
+                rates[0].name = rates[0].name.substring(4,7);
+                $scope.financialRequest.is_partial_rate = 1;
+                $scope.rates = rates;
+                return;
+              };
+            };
+          };
           return;
         };
         network.get('rate', {}, function (result, response) {
@@ -437,7 +480,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
                 $scope.updatedRates.push($scope.rates[i+1]);
                 break;
               };
-              if($scope.financialRequests[k].rate_id != $scope.rates[i].id){
+              if($scope.financialRequests[k] && $scope.financialRequests[k].rate_id != $scope.rates[i].id && first_rate_id > $scope.financialRequests[k].rate_id){
                 $scope.updatedRates.push($scope.rates[i]);
               }else{
                 k++;
@@ -449,7 +492,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
               if($scope.updatedRates.length == 1){
                 $scope.financialRequest.rate_id = $scope.updatedRates[0].id;
               };
-            };            
+            };
             $scope.rates = $scope.updatedRates;
           };
         });
@@ -497,6 +540,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         
     network.get('rate', {rate_id: data.rate_id}, function (result, response) {
       if(result) {
+        if(data.is_partial_rate == '1'){
+          response.result[0].name = response.result[0].name.substring(4,7);
+        };
         $scope.rates = response.result;
       };
     });
@@ -530,6 +576,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     
     $scope.countRequestCost = function (request_id){
       var summary = {};
+      var cost = 0;
+      var partial_rate = false;
+      var number_of_rates = 6 - Number($scope.rate) + 1;
       network.get('financial_request', {request_id: request_id, year: $scope.year}, function(result, response){
         if(response.result.length) {
           summary = {
@@ -550,11 +599,18 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
             };
           };
           summary['actual'] = Number(summary['total_cost']) + Number(summary['changes']);
-          summary['actual'] = summary['actual'] / 6 ;
+          if(response.result[0].is_partial_rate == "1"){
+            summary['actual'] = summary['actual'] - Number(response.result[0].request_cost);
+            number_of_rates = number_of_rates - 1;
+          };
+          cost = summary['actual'] / number_of_rates ;
         }else{
-          summary['actual'] = Number($scope.selectProjectDetails.total_cost) / 6;
+          cost = Number($scope.selectProjectDetails.total_cost) / number_of_rates;
         };
-        $scope.financialRequest.request_cost =  $scope.request_cost = summary['actual'].toFixed(2);
+        if($scope.financialRequest.is_partial_rate){
+          cost = cost / 2;
+        };
+        $scope.financialRequest.request_cost =  $scope.request_cost = cost.toFixed(2);
       });
     };
     
