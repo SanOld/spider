@@ -1,0 +1,23 @@
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'year', 'Jahr', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'project_code', 'Projekt Kennziffer', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'representative_user', 'Ansprechperson für Rückfragen', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'bank_account', 'Bankverbindung', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'payment_date', 'Zahlungsdatum', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'receipt_date', 'Belegdatum', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'payment_type', 'Beleg-Typ', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'payment_template', 'Formular', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'rate', 'Rate', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'request_cost', 'Betrag', 1);
+INSERT INTO `spi_page_position` (`page_id`, `code`, `name`, `is_double`) VALUES ('38', 'description', 'Bemerkung', 1);
+
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '135', 'Title', 'Jahr');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '136', 'Title', 'Projekt Kennziffer');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '137', 'Title', 'Ansprechperson für Rückfragen');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '138', 'Title', 'Bankverbindung');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '139', 'Title', 'Zahlungsdatum');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '140', 'Title', 'Belegdatum');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '141', 'Title', 'Beleg-Typ');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '142', 'Title', 'Formular');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '143', 'Title', 'Rate');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '144', 'Title', 'Betrag');
+INSERT INTO `spi_hint` (`page_id`, `position_id`, `title`, `description`) VALUES ('38', '145', 'Title', 'Bemerkung');
