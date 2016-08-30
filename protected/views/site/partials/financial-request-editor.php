@@ -141,7 +141,7 @@
             <label class="col-lg-4 control-label">Beleg-Typ<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></label>
             <div class="col-lg-8">
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_type')}">
-                  <ui-select ng-change="updateGrid()" required on-select="updateTemplates(financialRequest.payment_type_id);updateCost(financialRequest.payment_type_id, financialRequest.request_id);" 
+                  <ui-select required on-select="updateTemplates(financialRequest.payment_type_id);updateCost(financialRequest.payment_type_id, financialRequest.request_id);"
                              ng-model="financialRequest.payment_type_id"  name="payment_type" ng-disabled="!rights.fields">
                     <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in paymentTypes | filter: $select.search | orderBy: 'id'">
