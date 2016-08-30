@@ -1,7 +1,7 @@
 spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal, Utils, SweetAlert, $timeout) {
     $rootScope._m = 'financial_request';
     var d = new Date;
-    $scope.defaulFilter = {year: d.getFullYear(), status_id: 3};
+    $scope.defaulFilter = {year: d.getFullYear()};
     $scope.years = [];
     $scope.filter = localStorageService.get('requestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
     if(!$scope.filter == $scope.defaulFilter ){

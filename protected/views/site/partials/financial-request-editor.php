@@ -10,7 +10,7 @@
           <div class="form-group">
             <label class="col-lg-4 control-label">Jahr</label>
             <div class="col-lg-8">
-              <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
+              <div spi-hint text="_hint.year.text"  title="_hint.year.title" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('year')}">
                 <ui-select ng-disabled="!rights.fields || !isInsert" on-select="getProjects($item.year)" ng-model="year" name="year">
                   <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">{{$select.selected.year}}</ui-select-match>
@@ -28,7 +28,7 @@
           <div class="form-group">
             <label class="col-lg-4 control-label">Projekte</label>
             <div class="col-lg-8">
-              <div spi-hint text="_hint.school_type_id" class="has-hint"></div>
+              <div spi-hint text="_hint.project_code.text"  title="_hint.project_code.title" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('project_code')}">
                 <ui-select on-select="onSelectProject($item, $model, 2);
                            updateRates($item);updateBankDetails(selectProjectDetails.performer_id, selectProjectDetails.request_id, $item);
@@ -57,7 +57,8 @@
           </dl>
           <hr />
           <div class="m-b-15">
-            <h5>Ansprechperson für Rückfragen<span spi-hint text="_hint.project_data_concept_user_id" class="has-hint"></span></h5>
+            <h5>Ansprechperson für Rückfragen</span></h5>
+            <div spi-hint text="_hint.representative_user.text"  title="_hint.representative_user.title" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('representative_user')}">
               <ui-select ng-disabled="!financialRequest.request_id || !rights.fields" required on-select="onSelectUser($item, $model, 2)" ng-model="financialRequest.representative_user_id" name="representative_user"> 
                 <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">{{$select.selected.name}}</ui-select-match>
@@ -78,10 +79,11 @@
               <dd ng-show="selectRepresentativeUser.email" class="dd-margin"><a class="visible-lg-block" href="mailto:{{selectRepresentativeUser.email}}">{{selectRepresentativeUser.email}}</a></dd>
           </dl>
           <hr />
-          <h5 >Bankverbindung<span spi-hint text="_hint.project_data_concept_user_id" class="has-hint"></span></h5>
+          <h5 >Bankverbindung</span></h5>
           <div class="form-group">
-            <label class="col-lg-3 control-label">IBAN<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></label>
-            <div class="col-lg-9">
+            <label class="col-lg-3 control-label">IBAN</label>
+            <div class="col-lg-9">    
+              <div spi-hint text="_hint.bank_account.text"  title="_hint.bank_account.title" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('bankverbindung')}">
                 <ui-select ng-disabled="!financialRequest.request_id || !rights.fields" required name = "bankverbindung" class="type-document" on-select="updateIBAN($item)" ng-model="financialRequest.bank_account_id">
                   <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">{{$select.selected.iban}}</ui-select-match>
@@ -108,6 +110,7 @@
           <div class="form-group" ng-if="rights.receipt">
             <label class="col-lg-5 control-label">Zahlungsdatum</label>
             <div class="col-lg-7">
+              <div spi-hint text="_hint.payment_date.text"  title="_hint.payment_date.title" class="has-hint"></div>
               <div class="input-group"  ng-class="{'wrap-line error': fieldError('payment_date')}">
                 <input  uib-datepicker-popup="dd.MM.yyyy" is-open="popup_payment_date.opened" datepicker-options="dateOptions"
                         ng-model="paymentDate" ng-change="setValue(paymentDate)" type="text" id="payment_date" ng-required="financialRequest.status == 2 && (user.type == 'a' || user.type == 'p')"
@@ -125,6 +128,7 @@
           <div class="form-group">
             <label class="col-lg-4 control-label">Belegdatum</label>
             <div class="col-lg-8">
+                <div spi-hint text="_hint.receipt_date.text"  title="_hint.receipt_date.title" class="has-hint"></div>
                 <div class="input-group" ng-class="{'wrap-line error': fieldError('receipt_date')}">
                   <input uib-datepicker-popup="dd.MM.yyyy" is-open="popup_receipt_date.opened" datepicker-options="dateOptions"
                          ng-model="receiptDate" type="text" id="receipt_date" ng-disabled="!rights.fields"
@@ -138,8 +142,9 @@
             </div>
             </div>
           <div class="form-group">
-            <label class="col-lg-4 control-label">Beleg-Typ<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></label>
+            <label class="col-lg-4 control-label">Beleg-Typ</label>
             <div class="col-lg-8">
+                <div spi-hint text="_hint.payment_type.text"  title="_hint.payment_type.title" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_type')}">
                   <ui-select ng-change="updateGrid()" required on-select="updateTemplates(financialRequest.payment_type_id);updateCost(financialRequest.payment_type_id, financialRequest.request_id);" 
                              ng-model="financialRequest.payment_type_id"  name="payment_type" ng-disabled="!rights.fields">
@@ -157,8 +162,9 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-4 p-t-0 control-label">Formular wählen<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></label>
+            <label class="col-lg-4 p-t-0 control-label">Formular wählen</label>
             <div class="col-lg-8">
+                <div spi-hint text="_hint.payment_template.text"  title="_hint.payment_template.title" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_template')}">
                   <ui-select required class="type-document" ng-model="financialRequest.document_template_id" name="payment_template" ng-disabled="!financialRequest.payment_type_id || !rights.fields">
                     <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
@@ -174,8 +180,9 @@
             </div>
           </div>
           <div class="form-group" ng-if="financialRequest.payment_type_id == 1">
-            <label class="col-lg-4 control-label">Rate<span spi-hint text="_hint.fin_plan_bank_details_id" class="has-hint"></label>
+            <label class="col-lg-4 control-label">Rate</label>
             <div class="col-lg-8">
+              <div spi-hint text="_hint.rate.text"  title="_hint.rate.title" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('rate')}">
                 <ui-select ng-required="financialRequest.payment_type_id == 1" ng-model="financialRequest.rate_id" name="rate" ng-disabled="!selectProjectDetails || !rights.fields" 
                            on-select="updateCost(financialRequest.payment_type_id, financialRequest.request_id);">
@@ -196,15 +203,15 @@
             <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('request_cost') || error}">
               <input required ng-change="checkCost(financialRequest.request_cost, financialRequest.payment_type_id)" class="form-control" type="text" ng-model="financialRequest.request_cost | number:2" ng-disabled="!rights.fields" name="request_cost">
             </div>
-            <div class="col-lg-2 p-0  m-t-5">
+            <div class="col-lg-1 p-0  m-t-5">
               <span class="symbol">€</span>
             </div>
-            <div class="col-lg-1" ng-if="isInsert || financialRequest.status == 1">
+            <div class="col-lg-2" ng-if="isInsert || financialRequest.status == 1">
+                <div spi-hint text="_hint.request_cost.text"  title="_hint.request_cost.title" class="has-hint"></div>
                 <button class="btn custom-btn refresh-summ" ng-click="refreshSumm()" title="Refresh Betrag">
 							  <i class="fa fa-rotate-left"></i>
 						  </button>
             </div>
-            <div class="col-lg-4"></div>
             <div class="col-lg-8 m-t-5">
               <span ng-class="{hide: !fieldError('request_cost'),hide: !error}" class="hide">
                 <label ng-show="fieldError('request_cost')" class="error">Betrag erforderlich</label>
@@ -214,9 +221,12 @@
           </div>
           <div class="form-group">
             <label class="col-lg-4 control-label">Bemerkung</label>
-            <div class="col-lg-8" ng-class="{'wrap-line error': fieldError('description')}">
-              <textarea ng-required="(request_cost != financialRequest.request_cost && isInsert) || financialRequest.payment_type_id != 1" name="description" class="form-control" ng-model="financialRequest.description" ng-disabled="!rights.fields"></textarea>
-              <span ng-if="fieldError('description')" class="glyphicon glyphicon-remove form-control-feedback"></span>
+            <div class="col-lg-8">
+              <div spi-hint text="_hint.description.text"  title="_hint.description.title" class="has-hint"></div>
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
+                <textarea ng-required="(request_cost != financialRequest.request_cost && isInsert) || financialRequest.payment_type_id != 1" name="description" class="form-control" ng-model="financialRequest.description" ng-disabled="!rights.fields"></textarea>
+                <span ng-if="fieldError('description')" class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </div>
             </div>
           </div>            
           <span ng-class="{hide: !fieldError('description')}" class="hide margin-textarea">
