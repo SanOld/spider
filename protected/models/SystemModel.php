@@ -91,13 +91,11 @@ class SystemModel extends BaseModel
                     IF check_audit('{$tableName}')=1 THEN	
                   INSERT INTO spi_audit_event(table_name, record_id,event_type,user_id)
                   VALUES('{$tableName}',{$operation['from']}.id,'{$operation['code']}',@user_id);
-
                       SELECT LAST_INSERT_ID() INTO ev_id;
-
                       {$insert}
-
                 END IF;
-            END\n\n";
+            END
+            \n\n";
 
 
 
