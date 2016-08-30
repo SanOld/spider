@@ -8,6 +8,9 @@ class DocumentTemplate extends BaseModel {
   public $select_all = ' tbl.*, type.name type_name, CONCAT(user.first_name, " ", user.last_name ) user_name ';
 
   public $requestData = array();
+  public $finRequestData = array();
+  public $projectData = array();
+  public $bankData = array();
   public $performerData = array();
   public $performerUsers = array();
   public $performerRepresentativeUser = array();
@@ -222,12 +225,37 @@ class DocumentTemplate extends BaseModel {
         $row['text'] = $this->prepareText($row['text']);
       }
     }
+    if(safe($_GET, 'prepare_fin_request') == '1' && safe($_GET, 'fin_request_id')){
+      $FinRequest = CActiveRecord::model('FinancialRequest');      
+      $FinRequest->user = $this->user;
+      $finRequestInfo = $FinRequest->select(array('id' => safe($_GET, 'fin_request_id')), true);
+      $this->finRequestData = $finRequestInfo['result'][0];      
+      
+      $Request = CActiveRecord::model('Request');
+      $Request->user = $this->user;
+      $requestInfo = $Request->select(array('id' => $this->finRequestData['request_id']), true);      
+      $this->requestData = $requestInfo['result'][0];     
+      
+      $this->performerData = Yii::app() -> db -> createCommand()
+                             -> select('*') -> from('spi_performer') 
+                             -> where('id=:id ', array(':id' => $this->requestData['performer_id'])) -> queryRow();
+      
+      $Bank = CActiveRecord::model('BankDetails');
+      $Bank->user = $this->user;
+      $bankInfo = $Bank->select(array('id' => $this->finRequestData['bank_account_id']), true);      
+      $this->bankData = $bankInfo['result'][0];      
+      
+      foreach($result['result'] as &$row) {
+        $row['text'] = $this->prepareText($row['text']);
+      }
+    }
     return $result;
   }
 
   protected function prepareText($text) {
     $text = $this->prepareProjectData($text);
     $text = $this->prepareFinanceData($text);
+    $text = $this->prepareFinancialRequestData($text);
 //    $text = $this->prepareConceptData($text);
 //    $text = $this->prepareGoalsData($text);
     return $text;
@@ -359,6 +387,30 @@ class DocumentTemplate extends BaseModel {
                   , '{FD_OVERHEAD_COST}'         => $this->requestData['overhead_cost']
                   , '{FD_PROF_ASSOCIATION_COST}' => $this->requestData['prof_association_cost']
                   , '{FD_TOTAL_COST}'            => $this->requestData['total_cost']
+                );
+
+    return $this->doReplace($text,$params);
+  }  
+  private function prepareFinancialRequestData($text){
+    $date = $this->finRequestData['receipt_date'];
+    $day = substr($date, 8,2);
+    $month = substr($date, 5,2);
+    $year = substr($date, 0,4);
+    $date = substr($date, 8,2).substr($date, 5,2).substr($date, 0,4);
+    
+    $params = array(
+                    '{TRAGERADRESSE}'            => $this->performerData['address']
+                  , '{KONTOVERBINDUNG}'          => "Bank ".$this->bankData['bank_name']."; IBAN ".$this->bankData['iban']
+                  , '{TRAEGER}'                  => $this->performerData['name']
+                  , '{JAHR}'                     => $this->finRequestData['year']
+                  , '{KENNZIFFER}'               => $this->finRequestData['project_code']
+                  //, '{KONTO}'                    => $this->bankData
+                  //, '{BLZ}'                      => $this->bankData['']
+                  , '{KREDITOR}'                 => $this->bankData['bank_name']
+                  , '{IBAN}'                     => $this->bankData['iban']
+                  , '{BELEGDATUM MITTELABRUF}'   => $date
+                  , '{RATE MITTELABRUF}'         => Yii::app()->db->createCommand()->select('name')->from('spi_rate')->where('id=:id', array(':id' => $this->finRequestData['rate_id']))->queryScalar()
+                  , '{BETRAG MITTELABRUF}'       => $this->finRequestData['request_cost']
                 );
 
     return $this->doReplace($text,$params);

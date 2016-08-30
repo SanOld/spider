@@ -337,7 +337,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
           closeOnConfirm: true
         }, function(isConfirm){
           $timeout(function(){
-            network.get('document_template', {id: row.document_template_id}, function (result, response) {
+            network.get('document_template', {id: row.document_template_id, prepare_fin_request: 1, fin_request_id: row.id }, function (result, response) {
               if(result) {
                 var modalInstance = $uibModal.open({
                   animation: false,
@@ -363,7 +363,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         }); 
       }else{
         $timeout(function(){
-          network.get('document_template', {id: row.document_template_id}, function (result, response) {
+          network.get('document_template', {id: row.document_template_id, prepare_fin_request: 1, fin_request_id: row.id }, function (result, response) {
             if(result) {
               var modalInstance = $uibModal.open({
                 animation: false,
@@ -727,7 +727,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       }, function(isConfirm){
         if(isConfirm) {
           $timeout(function(){
-            network.get('document_template', {id: $scope.financialRequest.document_template_id}, function (result, response) {
+            network.get('document_template', {id: data.document_template_id, prepare_fin_request: 1, fin_request_id: data.id}, function (result, response) {
               if(result) {
                 var modalInstance = $uibModal.open({
                   animation: false,
@@ -850,7 +850,6 @@ spi.controller('PrintDocumentTemplatesController', function ($scope, document,  
   $timeout(function() {
     window.print();
     $rootScope.printed = 0;
-    $uibModalInstance.close();
   });
   
   $scope.trustAsHtml = function(string) {
