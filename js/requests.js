@@ -286,6 +286,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
           ids: function () {
             return ids;
           },
+          year: function () {
+            return row.year;
+          },
           selectedCodes: function () {
             return selectedCodes;
           }
@@ -685,9 +688,9 @@ spi.controller('ModalDurationController', function ($scope, ids, $uibModalInstan
 
 });
 
-spi.controller('ModalCopyRequestController', function ($scope, ids, selectedCodes, $uibModalInstance) {
+spi.controller('ModalCopyRequestController', function ($scope, ids, year,  selectedCodes, $uibModalInstance) {
   var d = new Date();
-  $scope.year = new Date(d.setFullYear(d.getFullYear() + 1));
+  $scope.year = new Date(d.setFullYear(+year + 1));
   $scope.countElements = ids.length;
   if (selectedCodes.length > 0) {
     $scope.selectedElements = selectedCodes.join(', ');
