@@ -398,21 +398,18 @@ class DocumentTemplate extends BaseModel {
     $date = substr($date, 8,2).'-'.substr($date, 5,2).'-'.substr($date, 0,4);
     
     $request_cost = $this->finRequestData['request_cost'];
-    str_replace('.', ',', $request_cost);
+    $request_cost = str_replace('.', ',', $request_cost);
     
     $params = array(
                     '{TRAEGERADRESSE}'           => $this->performerData['address']
                   , '{KONTOVERBINDUNG}'          => "Bank: ".$this->bankData['bank_name']."<br> IBAN: ".$this->bankData['iban']
-                  , '{TRAEGER}'                  => $this->performerData['name']
-                  , '{JAHR}'                     => $this->finRequestData['year']
-                  , '{KENNZIFFER}'               => $this->finRequestData['project_code']
                   //, '{KONTO}'                    => $this->bankData
                   //, '{BLZ}'                      => $this->bankData['']
                   , '{KREDITOR}'                 => $this->bankData['bank_name']
                   , '{IBAN}'                     => $this->bankData['iban']
                   , '{BELEGDATUM MITTELABRUF}'   => $date
                   , '{RATE MITTELABRUF}'         => Yii::app()->db->createCommand()->select('name')->from('spi_rate')->where('id=:id', array(':id' => $this->finRequestData['rate_id']))->queryScalar()
-                  , '{BETRAG MITTELABRUF}'       => $this->finRequestData['request_cost']
+                  , '{BETRAG MITTELABRUF}'       => $request_cost
                 );
 
     return $this->doReplace($text,$params);

@@ -194,7 +194,7 @@
           <div class="form-group">
             <label class="col-lg-4 control-label">Betrag</label>
             <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('request_cost') || error}">
-              <input required ng-change="checkCost(financialRequest.request_cost, financialRequest.payment_type_id)" class="form-control" type="text" ng-model="financialRequest.request_cost" ng-disabled="!rights.fields" name="request_cost">
+              <input required ng-change="checkCost(financialRequest.request_cost, financialRequest.payment_type_id)" class="form-control" type="text" ng-model="financialRequest.request_cost | number:2" ng-disabled="!rights.fields" name="request_cost">
             </div>
             <div class="col-lg-2 p-0  m-t-5">
               <span class="symbol">€</span>
