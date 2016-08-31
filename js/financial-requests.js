@@ -3,7 +3,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     var d = new Date;
     $scope.defaulFilter = {year: d.getFullYear()};
     $scope.years = [];
-    $scope.filter = localStorageService.get('requestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
+    $scope.filter = localStorageService.get('finRequestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
     if(!$scope.filter == $scope.defaulFilter ){
       localStorageService.set('finRequestsFilter', $scope.filter );
     }

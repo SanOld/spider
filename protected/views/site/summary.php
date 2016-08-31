@@ -65,9 +65,9 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
 													<div class="form-group">
 														<label>Jahr</label>
 														<ui-select ng-change="updateGrid()" ng-model="filter.year">
-                              <ui-select-match>{{$select.selected}}</ui-select-match>
-                              <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: item">
-                                <span ng-bind="item"></span>
+                              <ui-select-match placeholder="Alles anzeigen">{{$select.selected.year}}</ui-select-match>
+                              <ui-select-choices repeat="item.year as item in years | filter: $select.search | orderBy: year">
+                                <span ng-bind="item.year"></span>
                               </ui-select-choices>                      
                             </ui-select>
 													</div>
@@ -105,10 +105,10 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
                         <td data-title="'F-Berichte'"></td>
                         <td data-title="'Verblieben'" sortable="'remained'">{{row.remained | number:2}} €</td>
                         <td data-title="'Mittelabrufe / Finanzberichte'" class="dt-edit">
-                          <a title="Mittelabrufe" class="btn requsted-btn" href="financial-request.php">
+                          <a title="Mittelabrufe" ng-click="link('financial-request', row)" class="btn requsted-btn">
                             <span></span>
                           </a>
-                          <a title="Belege" class="btn requsted-btn" href="finance-report.php">
+                          <a title="Belege" class="btn requsted-btn" href="/finance-report">
                             <span></span>
                           </a>
                         </td>
