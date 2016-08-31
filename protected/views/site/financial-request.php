@@ -25,7 +25,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 										<div class="col-lg-2 p-r-0">
 											<div class="form-group">
 												<label>Suche nach Projekt</label>
-												<ui-select on-select="updateProject(filter.project_id, filter.year, filter.school_id, filter.performer_id)" ng-change="updateGrid()" ng-model="filter.project_id">
+												<ui-select on-select="updateProject(filter.project_id, filter.year)" ng-change="updateGrid()" ng-model="filter.project_id">
                           <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.project_code}}</ui-select-match>
                           <ui-select-choices repeat="item.project_id as item in projects | filter: $select.search | orderBy: 'project_code'">
                             <span ng-bind="item.project_code"></span>
@@ -133,43 +133,43 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                     </div>
 									</form>
 								</div>
-								<div class="overview-finance m-t-20" ng-if="summary">
-									<h4>Zusammenfassung der Finanzen für {{summary.project_code}} ({{summary.start_date | date: "dd.MM.yyyy"}} - {{summary.due_date | date: "dd.MM.yyyy"}})</h4>
+								<div class="overview-finance m-t-20" ng-if="project">
+									<h4>Zusammenfassung der Finanzen für {{project.project_code}} ({{project.start_date | date: "dd.MM.yyyy"}} - {{project.due_date | date: "dd.MM.yyyy"}})</h4>
 									<div class="box-finance">
 										<span class="sum total">
 	                    <strong>Fördersumme</strong>
 	                  </span>
-									  <span class="sum-size">€ {{summary.total_cost | number:2}}</span>
+									  <span class="sum-size">€ {{project.total_cost | number:2}}</span>
 									</div>
 									<div class="box-finance">
 										<span class="sum requested">
 	                    <strong>Änderungen</strong>
 	                  </span>                      
-										<span class="sum-size">€ {{summary.changes | number:2}}</span>
+										<span class="sum-size">€ {{project.changes | number:2}}</span>
 									</div>
 									<div class="box-finance box-custom-width">
 										<span class="sum refund">
 	                    <strong>aktuelle Fördersumme</strong>
                     </span>                      
-									  <span class="sum-size">€ {{summary.actual | number:2}}</span>
+									  <span class="sum-size">€ {{project.actual | number:2}}</span>
 									</div>
 									<div class="box-finance">
 										<span class="sum income">
 	                    <strong>Ausgezahlt</strong>
 	                  </span>
-										<span class="sum-size">€ {{summary.payed | number:2}}</span>
+										<span class="sum-size">€ {{project.payed | number:2}}</span>
 									</div>
 									<div class="box-finance">
 										<span class="sum spent">
 	                    <strong>Verblieben</strong>
 	                  </span>
-									 <span class="sum-size">€ {{summary.remained | number:2}}</span>
+									 <span class="sum-size">€ {{project.remained | number:2}}</span>
 									</div>
 									<div class="box-finance">
 										<span class="sum expenditure">
 	                    <strong>Finanzbericht</strong>
 	                  </span>
-										<span class="sum-size">€ {{summary.spending | number:2}}</span>
+										<span class="sum-size">€ {{project.spending | number:2}}</span>
 									</div>
 								</div>
 								<div class="row">
@@ -186,7 +186,7 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
                           <a href="/projects#id={{row.project_id}}" target="_blank">{{row.project_code}}</a></td>
                         </td>
                         <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
-                        <td data-title="'Rate'" sortable="'rate'">{{row.rate}}</td>
+                        <td data-title="'Rate'" sortable="'rate'">{{row.is_partial_rate ? row.is_partial_rate : row.rate}}</td>
                         <td data-title="user.type != 't' ? 'Träger / Profil' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
                          <div class="holder-school">
                           <a ng-if="user.type != 't'" href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a>

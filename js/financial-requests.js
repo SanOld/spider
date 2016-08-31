@@ -134,57 +134,40 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       }); 
     };
     
-    $scope.updateSummary = function (project){
-      $scope.summary = {
-        'project_code': project[0].project_code,
-        'start_date'  : project[0].start_date,
-        'due_date'    : project[0].due_date,
-        'total_cost'  : Number(project[0].total_cost),
-        'changes'     : 0,
-        'spending'    : 0,
-        'remained'    : 0,
-        'payed'       : 0,
-        'actual'      : 0
-      };
-      for(var i = 0; i < project.length; i++){
-        if(project[i].status_id == 3){          
-          if(project[i].payment_type_id == 1){
-            $scope.summary['payed'] += Number(project[i].request_cost);
-          }else{          
-            if(project[i].payment_type_id == 2){
-              $scope.summary['changes'] -= Number(project[i].request_cost);
-            };
-            if(project[i].payment_type_id == 3){
-              $scope.summary['changes'] += Number(project[i].request_cost);
-            };
-  //          if(project[i].payment_type_id == 1){
-  //            $scope.summary['spending'] += Number(project[i].request_cost);
-  //          }
-         }
-        };
-      };
-      $scope.summary['actual'] = Number($scope.summary['total_cost']) + Number($scope.summary['changes']);
-      $scope.summary['remained'] = Number($scope.summary['actual']) - Number($scope.summary['payed']);
-      return $scope.summary;
-    };
-    
-    $scope.updateProject = function(id, year, school_id, performer_id){
-      delete $scope.summary;
+    $scope.updateProject = function(id, year){
       delete $scope.project;
-      network.get('financial_request', {'project_id': id ? id : '', 'year': year ? year : '', list: 'summary', school_id: school_id, performer_id: performer_id}, function (result, response) {
-        if(response.result.length) {
-          if(response.result.length == 1){
-            $scope.project = $scope.updateSummary(response.result);
-          }else{
-            var result = true;
-            for(var item = 1; item < response.result.length; item++){
-              if(response.result[item].project_id != response.result[item - 1].project_id){
-                result = false;
+      network.get('financial_request', {'project_id': id ? id : '', 'year': year ? year : '', list: 'summary'}, function (result, response) {
+        if(result) {
+          if(response.result.length && response.result[0].actual){
+            $timeout(function(){
+              $scope.project = {
+                'project_code': response.result[0].project_code,
+                'start_date'  : response.result[0].start_date,
+                'due_date'    : response.result[0].due_date,
+                'total_cost'  : response.result[0].total_cost,
+                'changes'     : response.result[0].changes,
+                'spending'    : response.result[0].spending,
+                'remained'    : response.result[0].remained,
+                'payed'       : response.result[0].payed,
+                'actual'      : response.result[0].actual
               };
-            };
-            if(result){
-              $scope.project = $scope.updateSummary(response.result);
-            };
+            })
+          }else{
+            network.get('request', {'project_id': id ? id : '', 'year': year ? year : ''}, function (result, response) {
+              if(result) {
+                $scope.project = {
+                  'project_code': response.result[0].code,
+                  'start_date'  : response.result[0].start_date,
+                  'due_date'    : response.result[0].due_date,
+                  'total_cost'  : response.result[0].total_cost,
+                  'changes'     : 0,
+                  'spending'    : 0,
+                  'remained'    : response.result[0].total_cost,
+                  'payed'       : 0,
+                  'actual'      : response.result[0].total_cost
+                };
+              }
+            });
           };
         };
       });
@@ -431,7 +414,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     };
     
     $scope.updateRates = function (project) {
+      $scope.project = project;
       var month = 'm' + project.start_date.substring(5,7);
+      var receipt_rate = 'm' + $scope.dateFormat($scope.receiptDate).substring(5,7);
       var pair = true;
       $scope.rate = 0;
       for(var item in $scope.months){
@@ -440,6 +425,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           if($scope.months[item].pair == 1){
             pair = false;
           }
+        };
+        if(receipt_rate == item){
+          receipt_rate = $scope.months[item].rate;
         };
       };
       $scope.updatedRates = [];
@@ -463,7 +451,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
               if($scope.rates[i].id == $scope.rate){
                 rates[0] = $scope.rates[i];
                 rates[0].name = rates[0].name.substring(4,7);
-                $scope.financialRequest.is_partial_rate = 1;
+                $scope.financialRequest.is_partial_rate = rates[0].name;
                 $scope.rates = rates;
                 return;
               };
@@ -493,6 +481,11 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
                 $scope.financialRequest.rate_id = $scope.updatedRates[0].id;
               };
             };
+            $scope.updatedRates.forEach(function(item, i, arr){
+              if(receipt_rate + 1 < item['id']){
+                $scope.updatedRates = {};
+              };
+            });
             $scope.rates = $scope.updatedRates;
           };
         });
@@ -540,8 +533,8 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         
     network.get('rate', {rate_id: data.rate_id}, function (result, response) {
       if(result) {
-        if(data.is_partial_rate == '1'){
-          response.result[0].name = response.result[0].name.substring(4,7);
+        if(data.is_partial_rate){
+          response.result[0].name = data.is_partial_rate;
         };
         $scope.rates = response.result;
       };
@@ -577,28 +570,14 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.countRequestCost = function (request_id){
       var summary = {};
       var cost = 0;
-      var partial_rate = false;
       var number_of_rates = 6 - Number($scope.rate) + 1;
-      network.get('financial_request', {request_id: request_id, year: $scope.year}, function(result, response){
+      network.get('financial_request', {request_id: request_id, year: $scope.year, list: 'summary'}, function(result, response){
         if(response.result.length) {
           summary = {
             'total_cost'  : Number(response.result[0].total_cost),
-            'changes'     : 0,
-            'actual'      : 0
+            'changes'     : Number(response.result[0].changes),
+            'actual'      : Number(response.result[0].actual)
           };
-          for(var i = 0; i < response.result.length; i++){
-            if(response.result[i].status_id == 3){
-              if(response.result[i].payment_type_id == 1){
-              };
-              if(response.result[i].payment_type_id == 2){
-                summary['changes'] -= Number(response.result[i].request_cost);
-              };
-              if(response.result[i].payment_type_id == 3){
-                summary['changes'] += Number(response.result[i].request_cost);
-              };
-            };
-          };
-          summary['actual'] = Number(summary['total_cost']) + Number(summary['changes']);
           if(response.result[0].is_partial_rate == "1"){
             summary['actual'] = summary['actual'] - Number(response.result[0].request_cost);
             number_of_rates = number_of_rates - 1;
