@@ -227,6 +227,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
         $scope.banToReopen = true;
       };
     });
+    network.get('financial_request', {request_id: $scope.requestID}, function(result, response){
+      if(response.result.length) {
+        $scope.banToReopen = true;
+      };
+    });
   };
   $scope.checkIfCanNewOpen();
   
