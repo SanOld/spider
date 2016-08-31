@@ -54,6 +54,7 @@ class SystemModel extends BaseModel
         $fields = Yii::app ()->db->createCommand ( $query )->queryAll ();
 
         echo 1111;
+        exit ();
         $arr['one'] = true;
         $hash = md5(serialize($fields));
         if($hash == $table['hash']) {
