@@ -45,19 +45,21 @@ class SystemModel extends BaseModel
                           ->from('spi_audit_setting tbl')
                           ->where(' is_enabled_audit = 1 ', array())
                           ->queryAll();
-      
+      $arr = array();
       foreach($tables as $table) {
         $tableName = $table['table_name'];
         $query = "SELECT `COLUMN_NAME`, `DATA_TYPE`
                     FROM `INFORMATION_SCHEMA`.`COLUMNS`
                    WHERE `TABLE_NAME`='" . $tableName . "'";
         $fields = Yii::app ()->db->createCommand ( $query )->queryAll ();
-        
+
+        echo 1111;
+        $arr['one'] = true;
         $hash = md5(serialize($fields));
         if($hash == $table['hash']) {
           continue;
         }
-        
+        $arr['two'] = true;
         foreach($operations as $operation) {
           
           $insert = "\n\n";
@@ -100,12 +102,12 @@ class SystemModel extends BaseModel
 
 
      
- echo 1111;
+
           Yii::app()->db
                     ->createCommand($trigger)
                     ->execute();
         }
-
+$arr['three'] = true;
         Yii::app ()->db->createCommand ()->update ( 'spi_audit_setting', array('hash' => $hash), 'id=:id', array (':id' => $table['id'] ));
       }
 //      header ( 'Content-Type: application/json' );
