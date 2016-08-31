@@ -187,13 +187,13 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
       <ng-form name="sendToAccept">
         <h3 class="m-b-10 p-b-10">Folgende Antragsteile werden zur Prüfung übermittelt:</h3>
           <div class="checkbox p-b-10 clearfix custom-m-l-30">
-            <label class="cr-styled pull-left" for="finance"><input name="finance" id="finance" type="checkbox" ng-model="checkboxes.finance"><i class="fa"></i>Finanzplan</label>
+            <label class="cr-styled pull-left" for="finance"><input disabled name="finance" id="finance" type="checkbox" ng-model="checkboxes.finance"><i class="fa"></i>Finanzplan</label>
           </div>
           <div class="checkbox p-b-10 clearfix custom-m-l-30">
-            <label class="cr-styled pull-left" for="concept"><input name="concept" id="concept" type="checkbox" ng-model="checkboxes.concept"><i class="fa"></i>Konzept</label>
+            <label class="cr-styled pull-left" for="concept"><input disabled name="concept" id="concept" type="checkbox" ng-model="checkboxes.concept"><i class="fa"></i>Konzept</label>
           </div>
           <div class="checkbox p-b-10 clearfix custom-m-l-30">
-            <label class="cr-styled pull-left" for="goal"><input name="goal" id="goal" type="checkbox" ng-model="checkboxes.goal"><i class="fa"></i>Entwicklungsziele</label>
+            <label class="cr-styled pull-left" for="goal"><input disabled name="goal" id="goal" type="checkbox" ng-model="checkboxes.goal"><i class="fa"></i>Entwicklungsziele</label>
           </div>
         <div class="col-lg-12">
           <span>Hinweis: Abgesendete Antragsteile können während der Prüfung nicht bearbeitet werden.</span>
