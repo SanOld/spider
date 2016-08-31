@@ -52,7 +52,7 @@ spi.controller('DocumentTemplatesController', function ($scope, $rootScope, netw
   }
 });
 
-spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, GridService) {
+spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, modeView, $uibModalInstance, data, network, hint, Utils, GridService, SweetAlert) {
   $scope.isInsert = !data.id;
   $scope._hint = hint;
   $scope.modeView = modeView;
@@ -64,6 +64,7 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
       name:         data.name,
       type_id:      data.type_id,
       text:         data.text,
+      is_prototype: data.is_prototype
     };
   } else {
     $scope.document = {
@@ -134,14 +135,23 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
         }
         $scope.submited = false;
       };
-      if ($scope.isInsert) {
-        network.post('document_template', $scope.document, callback);
-      } else {
-        network.put('document_template/' + data.id, $scope.document, callback);
+      if(data.is_prototype == 0){
+        if ($scope.isInsert) {
+          network.post('document_template', $scope.document, callback);
+        } else {
+          network.put('document_template/' + data.id, $scope.document, callback);
+        }
+      }else{
+        SweetAlert.swal({
+          title: "Fehler",
+          text: "Dieses Druck-Template kann nicht bearbeiten sein.",
+          type: "error",
+          confirmButtonText: "OK"
+        });
       }
     }
   };
-
+ 
   $scope.remove = function () {
     Utils.doConfirm(function() {
       network.delete('document_template/' + data.id, function (result) {

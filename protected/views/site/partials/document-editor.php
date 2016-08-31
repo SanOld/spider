@@ -48,7 +48,7 @@
                         <div spi-hint text="_hint.text.text"  title="_hint.text.title"  class="has-hint"></div>
                         <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('text')}">
                           <div class="">
-                            <summernote config="options" ng-model="document.text"></summernote>
+                              <summernote disabled config="options" ng-model="document.text"></summernote>
                           </div>
                         </div>
                       </div>
@@ -64,7 +64,7 @@
                 <hr />
                 <div class="form-group group-btn m-t-15">
                   <div class="col-lg-2">
-                    <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-click="remove()"><i class="fa fa-trash-o"></i></a>
+                    <a class="btn btn-icon btn-danger btn-lg sweet-4" ng-show="document.is_prototype == 0" ng-click="remove()"><i class="fa fa-trash-o"></i></a>
                   </div>
                   <div class="col-lg-10 text-right pull-right">
                     <button class="btn w-lg cancel-btn" ng-click="cancel()" data-dismiss="modal">Abbrechen</button>
