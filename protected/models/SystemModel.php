@@ -100,7 +100,7 @@ class SystemModel extends BaseModel
 
 
      
-
+ echo 1111;
           Yii::app()->db
                     ->createCommand($trigger)
                     ->execute();
