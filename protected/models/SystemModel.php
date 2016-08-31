@@ -97,12 +97,18 @@ class SystemModel extends BaseModel
 
 
 
-echo $trigger;
-exit ();
 
+try {
           Yii::app()->db
                     ->createCommand($trigger)
                     ->execute();
+} catch (Exception $e) {
+    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+    exit ();
+}
+
+
+
         }
 //echo 3333;
 //exit ();
