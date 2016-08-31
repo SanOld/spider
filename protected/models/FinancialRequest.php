@@ -125,9 +125,13 @@ class FinancialRequest extends BaseModel {
       };        
     };
     if(safe($_GET, 'list') == 'summary'){
-      $summary = array();
       if(sizeof($result['result']) == 1){
         $summary = $this->getSummary($result['result'][0]['request_id'], $result['result'][0]['year'], $result['result'][0]['total_cost']);
+        $result['result'][0]['changes']  = $summary['changes'];
+        $result['result'][0]['spending'] = $summary['spending'];
+        $result['result'][0]['remained'] = $summary['remained'];
+        $result['result'][0]['payed']    = $summary['payed'];
+        $result['result'][0]['actual']   = $summary['actual'];
       }else if(sizeof($result['result']) > 1){
         $res = true;
         for($item = 1; $item < sizeof($result['result']); $item++){
@@ -137,6 +141,11 @@ class FinancialRequest extends BaseModel {
         };
         if($res){
           $summary = $this->getSummary($result['result'][0]['request_id'], $result['result'][0]['year'], $result['result'][0]['total_cost']);
+          $result['result'][0]['changes']  = $summary['changes'];
+          $result['result'][0]['spending'] = $summary['spending'];
+          $result['result'][0]['remained'] = $summary['remained'];
+          $result['result'][0]['payed']    = $summary['payed'];
+          $result['result'][0]['actual']   = $summary['actual'];
         };
       }else{
         $command = Yii::app() -> db -> createCommand()
@@ -150,13 +159,6 @@ class FinancialRequest extends BaseModel {
                   ->queryAll();
         $result['result'] = $command;
       };
-      if(safe($summary,'actual')){   
-        $result['result'][0]['changes']  = $summary['changes'];
-        $result['result'][0]['spending'] = $summary['spending'];
-        $result['result'][0]['remained'] = $summary['remained'];
-        $result['result'][0]['payed']    = $summary['payed'];
-        $result['result'][0]['actual']   = $summary['actual'];
-      }
     };
     
     return $result;
