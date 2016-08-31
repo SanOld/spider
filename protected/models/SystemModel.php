@@ -1,7 +1,18 @@
 <?php
 class SystemModel extends BaseModel
 {
+
+
     //TODO: добавить подключение в апиху для юзеров с правами админа
+  private function getDsnAttribute($name, $dsn)
+    {
+        if (preg_match('/' . $name . '=([^;]*)/', $dsn, $match)) {
+            return $match[1];
+        } else {
+            return null;
+        }
+    }
+
     public function startAllTablesAudit() {
       //TODO: выбираем список всех таблиц, кроме аудита и, если нету записи в сеттингах - добавляем.
       //;
@@ -22,7 +33,7 @@ class SystemModel extends BaseModel
           
           $query2 = "SELECT `COLUMN_NAME`, `DATA_TYPE`
                       FROM `INFORMATION_SCHEMA`.`COLUMNS`
-                     WHERE `TABLE_NAME`='" . $table['table_name'] . "'";
+                     WHERE `TABLE_NAME`='" . $table['table_name'] . "' AND  table_schema='" .$dbName. "'"  ;
           $fields = Yii::app ()->db->createCommand ( $query2 )->queryAll ();
           $tables_hashes[] ="'". md5(serialize($fields))."'";
         }
@@ -35,6 +46,11 @@ class SystemModel extends BaseModel
       }
     }
     public function updateTablesAudit() {
+      $triggers = array();
+//      $dbName = $this->getDsnAttribute('dbname', Yii::$app->getDb()->dsn);
+      $dbName = $this->getDsnAttribute('dbname', Yii::app()->db->connectionString);
+
+      
       $operations =  array( array('code' => 'INS', 'from' => 'new', 'when' => 'AFTER INSERT', 'message' => 'Created', 'system_code' => 'insert')
                           , array('code' => 'DEL', 'from' => 'old', 'when' => 'AFTER DELETE', 'message' => 'Deleted', 'system_code' => 'delete')
                           , array('code' => 'UPD', 'from' => 'new', 'when' => 'AFTER UPDATE', 'message' => 'Changed', 'system_code' => 'update')
@@ -46,10 +62,12 @@ class SystemModel extends BaseModel
                           ->where(' is_enabled_audit = 1 ', array())
                           ->queryAll();
       foreach($tables as $table) {
+        
         $tableName = $table['table_name'];
         $query = "SELECT `COLUMN_NAME`, `DATA_TYPE`
                     FROM `INFORMATION_SCHEMA`.`COLUMNS`
-                   WHERE `TABLE_NAME`='" . $tableName . "'";
+                   WHERE `TABLE_NAME`='" . $tableName . "' AND  table_schema='" .$dbName. "'"  ;
+        $fields=null;
         $fields = Yii::app ()->db->createCommand ( $query )->queryAll ();
 
         $hash = md5(serialize($fields));
@@ -59,22 +77,16 @@ class SystemModel extends BaseModel
         foreach($operations as $operation) {
           
           $insert = "\n\n";
-          $fieldsCounter = array(); //костыль от дублирования столбцов
           foreach($fields as $field) {
             $fieldName = $field['COLUMN_NAME'];
-
-
 
             if($operation['code'] != 'UPD') {
               $insert .= "INSERT INTO spi_audit_data(event_id,column_name,{$operation['from']}_value) VALUES(ev_id,'{$fieldName}',{$operation['from']}.{$fieldName});\n";
             } else {
-              if (!$fieldsCounter[$fieldName]){
                 $insert .= "
                         IF  ( old.{$fieldName}<>new.{$fieldName} OR  (ISNULL(old.{$fieldName}) AND new.{$fieldName}<>'') )  THEN
                          INSERT INTO spi_audit_data(event_id,column_name,old_value,new_value) VALUES(ev_id,'{$fieldName}',old.{$fieldName},new.{$fieldName});
                         END IF;\n";
-                $fieldsCounter[$fieldName] = 1;
-              }
             }
           }
 
@@ -92,32 +104,21 @@ class SystemModel extends BaseModel
                       SELECT LAST_INSERT_ID() INTO ev_id;
                       {$insert}
                 END IF;
-            END
+            END$$
             \n\n";
 
+        $triggers[] = $trigger; //массив для получения текста запроса в окне результатов
+//        Yii::app()->db
+//                  ->createCommand($trigger)
+//                  ->execute();
+        };
 
-
-
-try {
-          Yii::app()->db
-                    ->createCommand($trigger)
-                    ->execute();
-} catch (Exception $e) {
-    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
-    exit ();
-}
-
-
-
-        }
-//echo 3333;
-//exit ();
 
         Yii::app ()->db->createCommand ()->update ( 'spi_audit_setting', array('hash' => $hash), 'id=:id', array (':id' => $table['id'] ));
       }
-//      header ( 'Content-Type: application/json' );
+      header ( 'Content-Type: application/json' );
 //      echo json_encode ( array('results' => 'done') );
-      echo $trigger;
+      echo implode("\n", $triggers); //вывод текста запроса в окне результатов
       exit ();
     }
 
