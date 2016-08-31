@@ -131,13 +131,13 @@ class FinancialRequest extends BaseModel {
   }
   
   public function getSummary ($request_id, $year, $total_cost) {
-    $summary = [
+    $summary = array (
         'changes'     =>  0,
         'spending'    =>  0,
         'remained'    =>  0,
         'payed'       =>  0,
         'actual'      =>  0
-      ];
+      );
     
     $financial_requests = Yii::app() -> db -> createCommand()
                           ->select('tbl.*')
