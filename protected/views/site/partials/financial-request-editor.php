@@ -224,7 +224,7 @@
             <div class="col-lg-8">
               <div spi-hint text="_hint.description.text"  title="_hint.description.title" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('description')}">
-                <textarea ng-required="(request_cost != financialRequest.request_cost && isInsert) || financialRequest.payment_type_id != 1" name="description" class="form-control" ng-model="financialRequest.description" ng-disabled="!rights.fields"></textarea>
+                <textarea ng-required="(checkCostError(request_cost, financialRequest.request_cost) && isInsert) || financialRequest.payment_type_id != 1" name="description" class="form-control" ng-model="financialRequest.description" ng-disabled="!rights.fields"></textarea>
                 <span ng-if="fieldError('description')" class="glyphicon glyphicon-remove form-control-feedback"></span>
               </div>
             </div>
