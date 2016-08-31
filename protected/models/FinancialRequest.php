@@ -13,6 +13,7 @@ class FinancialRequest extends BaseModel {
                                 req.start_date, 
                                 req.due_date, 
                                 req.total_cost,
+                                req.year,
                                 prf.name performer_name, 
                                 prf.address, req.year, 
                                 bnk.bank_name kreditor,
@@ -32,13 +33,6 @@ class FinancialRequest extends BaseModel {
                 ->from('spi_project prj')->group('prj.code');      
       $command  ->leftJoin  ('spi_request req',                    'req.project_id = prj.id' );
       $command  ->where ('req.status_id = 5');
-    }else if(safe($_GET, 'list') == 'summary'){      
-      $command = Yii::app() -> db -> createCommand()
-                ->select('prj.id project_id, prj.code project_code, req.*, tbl.*')
-                ->from('spi_project prj');      
-      $command  ->join  ('spi_request req',                       'req.project_id = prj.id' );
-      $command  ->leftJoin($this -> table . ' tbl',               'tbl.request_id = req.id');
-      $command  ->where ('req.status_id = 5');
     }else{   
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> leftJoin ('spi_payment_type pat',               'tbl.payment_type_id = pat.id');
@@ -53,6 +47,9 @@ class FinancialRequest extends BaseModel {
       $command -> leftJoin ('spi_project prj',                    'req.project_id      = prj.id');
       $command -> leftJoin ('spi_performer prf',                  'prj.performer_id    = prf.id');
       $command -> where    (' 1=1 ', array());
+      if(safe($_GET, 'list') == 'summary'){ 
+        $command ->andWhere ('req.status_id = 5');
+      }
     }
     return $command;
   }
@@ -126,7 +123,41 @@ class FinancialRequest extends BaseModel {
           -> queryAll();
           $row['schools'] = $schools;
       };        
-    };    
+    };
+    if(safe($_GET, 'list') == 'summary'){
+      if(sizeof($result['result']) == 1){
+        $summary = $this->getSummary($result['result'][0]['request_id'], $result['result'][0]['year'], $result['result'][0]['total_cost']);
+      }else if(sizeof($result['result']) > 1){
+        $res = true;
+        for($item = 1; $item < sizeof($result['result']); $item++){
+          if($result['result'][$item]['request_id'] != $result['result'][$item - 1]['request_id']){
+            $res = false;
+          };
+        };
+        if($res){
+          $summary = $this->getSummary($result['result'][0]['request_id'], $result['result'][0]['year'], $result['result'][0]['total_cost']);
+        };
+      }else{
+        $command = Yii::app() -> db -> createCommand()
+                  ->select('prj.id project_id, prj.code project_code, req.*')
+                  ->from('spi_project prj')    
+                  ->join  ('spi_request req','req.project_id = prj.id' )
+                  ->leftJoin($this->table.' tbl', 'tbl.request_id = req.id')
+                  ->where ('req.status_id = 5')
+                  ->andWhere ('req.id = :id', array(':id' => safe($_GET, 'request_id')))
+                  ->andWhere ('req.year = :year',     array(':year' => safe($_GET, 'year')))
+                  ->queryAll();
+        $result['result'] = $command;
+      };
+      if(safe($summary,'actual')){   
+        $result['result'][0]['changes']  = $summary['changes'];
+        $result['result'][0]['spending'] = $summary['spending'];
+        $result['result'][0]['remained'] = $summary['remained'];
+        $result['result'][0]['payed']    = $summary['payed'];
+        $result['result'][0]['actual']   = $summary['actual'];
+      }
+    };
+    
     return $result;
   }
   
