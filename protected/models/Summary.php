@@ -8,16 +8,21 @@ class Summary extends BaseModel {
       
     $command = Yii::app() -> db -> createCommand()
               ->select('prj.code project_code,
+                        prj.id project_id,
                         prf.short_name performer_name,
+                        prf.id performer_id,
                         fsr.programm,
                         req.year, 
                         req.total_cost,
-                        req.id request_id')
-              ->from('spi_request req')
-              ->join('spi_project prj', 'prj.id = req.project_id')
-              ->join('spi_performer prf', 'prf.id = req.performer_id')
-              ->join('spi_finance_source fsr', 'fsr.id = prj.programm_id')
-              ->where('req.status_id = 5');
+                        req.id request_id');
+    $command->from('spi_request req');
+    if(safe($_GET, 'list') == 'year') {      
+      $command ->group('req.year');
+    };
+    $command->join('spi_project prj', 'prj.id = req.project_id');
+    $command->join('spi_performer prf', 'prf.id = req.performer_id');
+    $command->join('spi_finance_source fsr', 'fsr.id = prj.programm_id');
+    $command->where('req.status_id = 5');
     
     return $command;
   }
@@ -25,8 +30,18 @@ class Summary extends BaseModel {
   protected function getParamCommand($command, array $params, array $logic = array()) {
     parent::getParamCommand($command, $params);
     $params = array_change_key_case($params, CASE_UPPER);
-    
-    $command = $this->setWhereByRole($command);
+    if(safe($params, 'PERFORMER_ID')) {
+      $command -> andWhere('req.performer_id = :performer_id',           array(':performer_id' => $params['PERFORMER_ID']));
+    }
+    if(safe($params, 'SCHOOL_TYPE_ID')) {
+      $command -> andWhere('prj.school_type_id = :school_type_id',       array(':school_type_id' => $params['SCHOOL_TYPE_ID']));
+    }
+    if(safe($params, 'PROJECT_TYPE_ID')) {
+      $command -> andWhere('prj.type_id = :project_type_id',                array(':project_type_id' => $params['PROJECT_TYPE_ID']));
+    }
+    if(safe($params, 'YEAR')) {
+      $command -> andWhere('req.year = :year',                array(':year' => $params['YEAR']));
+    }
     
     return $command;
   }
