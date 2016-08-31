@@ -12,6 +12,7 @@ class Summary extends BaseModel {
                         prf.short_name performer_name,
                         prf.id performer_id,
                         fsr.programm,
+                        pjt.name type,
                         req.year, 
                         req.total_cost,
                         req.id request_id');
@@ -20,6 +21,7 @@ class Summary extends BaseModel {
       $command ->group('req.year');
     };
     $command->join('spi_project prj', 'prj.id = req.project_id');
+    $command->join('spi_project_type pjt', 'pjt.id = prj.type_id');
     $command->join('spi_performer prf', 'prf.id = req.performer_id');
     $command->join('spi_finance_source fsr', 'fsr.id = prj.programm_id');
     $command->where('req.status_id = 5');

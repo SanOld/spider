@@ -96,11 +96,11 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
                           <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
                          </div>
                         </td>
-                        <td data-title="'Topf'" sortable="'programm'">{{row.programm}}</td>
+                        <td data-title="'Topf'" sortable="'programm'">{{row.programm == "Bonusprogramm" ? row.type : row.programm }}</td>
                         <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
                         <td data-title="'Fördersumme'" sortable="'totalt_cost'">{{row.total_cost | number:2}} €</td>
                         <td data-title="'Änderung'" sortable="'changes'">{{row.changes | number:2}} €</td>
-                        <td data-title="'Budget'" sortable="'end_fill'"></td>
+                        <td title="aktuelle Fördersumme" data-title="'aktuelle FS'" sortable="'end_fill'"></td>
                         <td data-title="'Ausgezahlt'" sortable="'payed'">{{row.payed | number:2}} €</td>
                         <td data-title="'F-Berichte'"></td>
                         <td data-title="'Verblieben'" sortable="'remained'">{{row.remained | number:2}} €</td>
