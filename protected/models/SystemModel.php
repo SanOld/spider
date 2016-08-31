@@ -97,14 +97,15 @@ class SystemModel extends BaseModel
 
 
 
-           echo 2222;
-        exit ();
+//        echo 2222;
+//        exit ();
 
           Yii::app()->db
                     ->createCommand($trigger)
                     ->execute();
         }
-
+        echo 3333;
+        exit ();
 
         Yii::app ()->db->createCommand ()->update ( 'spi_audit_setting', array('hash' => $hash), 'id=:id', array (':id' => $table['id'] ));
       }
