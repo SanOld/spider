@@ -15,7 +15,7 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
 								</div>
 							</div>
-							<div class="panel-body summary-user">
+							<div class="panel-body summary-user request-edit">
 								<div class="row">
 									<div class="col-lg-12">
 										<div class="row datafilter">
@@ -104,8 +104,17 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
                         <td data-title="'Ausgezahlt'" sortable="'payed'">{{row.payed | number:2}} €</td>
                         <td data-title="'F-Berichte'"></td>
                         <td data-title="'Verblieben'" sortable="'remained'">{{row.remained | number:2}} €</td>
-                        <td data-title="'Mittelabrufe / Finanzberichte'"></td>
-                        <td data-title="'VN'"></td>
+                        <td data-title="'Mittelabrufe / Finanzberichte'" class="dt-edit">
+                          <a title="Mittelabrufe" class="btn requsted-btn" href="financial-request.php">
+                            <span></span>
+                          </a>
+                          <a title="Belege" class="btn requsted-btn" href="finance-report.php">
+                            <span></span>
+                          </a>
+                        </td>
+                        <td data-title="'VN'">
+                          <a title="Drucken" href="#" class="btn document"><i class="ion-printer"></i></a>
+                        </td>
                       </tr>
                       <tr ng-if="!$data.length"><td class="no-result" colspan="13">Keine Ergebnisse</td></tr>
                     </table>
