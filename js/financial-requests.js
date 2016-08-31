@@ -5,7 +5,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     $scope.years = [];
     $scope.filter = localStorageService.get('requestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
     if(!$scope.filter == $scope.defaulFilter ){
-      localStorageService.set('requestsFilter', $scope.filter );
+      localStorageService.set('finRequestsFilter', $scope.filter );
     }
     if(network.user.type == 't' && network.user.is_finansist == 0){
       window.location = '/';
