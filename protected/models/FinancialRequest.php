@@ -125,6 +125,7 @@ class FinancialRequest extends BaseModel {
       };        
     };
     if(safe($_GET, 'list') == 'summary'){
+      $summary = array();
       if(sizeof($result['result']) == 1){
         $summary = $this->getSummary($result['result'][0]['request_id'], $result['result'][0]['year'], $result['result'][0]['total_cost']);
       }else if(sizeof($result['result']) > 1){
