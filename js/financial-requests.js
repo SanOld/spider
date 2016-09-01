@@ -178,7 +178,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             if(!id || !year){
               return;
             };
-            network.get('request', {'project_id': id ? id : '', 'year': year ? year : ''}, function (result, response) {
+            network.get('request', {'project_id': id ? id : '', 'year': year ? year : '', status_id: 5}, function (result, response) {
               if(result) {
                 $scope.project = {
                   'project_code': response.result[0].code,
