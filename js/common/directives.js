@@ -165,30 +165,66 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
         element.bind('click', function(e){
           var reg_date = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
           var reg_number = /[0-9]+\.[0-9]+/;
+          if(scope.paramsForExport.model == 'audit'){
+            scope.paramsForExport.param.limit = 40;
+          }else{            
+            delete scope.paramsForExport.param.limit;
+          };
           network.get(scope.paramsForExport.model, scope.paramsForExport.param, function (result, response) {
             if (result) {
               var csvString = '';
               for(var column in scope.paramsForExport.columns){
-                csvString += scope.paramsForExport.columns[column] + ",";
-              }
+                  csvString += scope.paramsForExport.columns[column] + ",";
+              };
+              var counter = 0;
               for(var i = 0; i < response.result.length; i++ ){
                 csvString = csvString.substring(0,csvString.length - 1);            
                 csvString = csvString + "\n";
-                for(var columns in scope.paramsForExport.columns){          
+                a:
+                for(var columns in scope.paramsForExport.columns){
+                  b:
+                  if(scope.paramsForExport.recursive && scope.paramsForExport.recursive.indexOf(columns) != -1){
+                    csvString += response.result[i].data[counter][columns] + ",";
+                    if(scope.paramsForExport.recursive.indexOf(columns) == scope.paramsForExport.recursive.length - 1){
+                      if(response.result[i].data.length == counter +1){
+                        counter = 0;
+                      }else{
+                        counter++;
+                        i --;                      
+                      };
+                      break a;
+                    }else{
+                      break b;
+                    }
+                  };
                   c:
-                  for(var column in response.result[i]){                  
+                  for(var column in response.result[i]){
+                    if(columns == 'null'){
+                      csvString += ',';
+                    };
                     if(columns == column){
                       if(response.result[i][column]){
-                        if(response.result[i][column].match(reg_date)){
-                          var day = response.result[i][column].substring(8);
-                          var month = response.result[i][column].substring(5,7);
-                          var year = response.result[i][column].substring(0,4);
-                          csvString += '"' + day + '-' + month + '-' + year + '"' + ',' ;
-                        }else if(response.result[i][column].match(reg_number)){
-                          response.result[i][column].replace(/\./gi, ",");
+                        if(typeof response.result[i][column] == 'object'){
+                          var csvObjectString = '';
+                          for(var k in response.result[i][column]){
+                            var count = Number(k) + 1;
+                            csvObjectString += count + ". " + response.result[i][column][k][scope.paramsForExport[column]] + " ";
+                          };
+                          csvString += '"' + csvObjectString + ',' ;
+                          csvString = csvString.substring(0, csvString.length - 1);
                         }else{
-                          csvString += '"' + response.result[i][column] + '"' + ',' ;
-                        };
+                          if(typeof response.result[i][column] == 'number' || response.result[i][column].match(reg_number)){
+                            String(response.result[i][column]).replace(/\./gi, ",");
+                            csvString += '"' + response.result[i][column] + '"' + ',' ;
+                          }else if(response.result[i][column].match(reg_date)){
+                            var day = response.result[i][column].substring(8);
+                            var month = response.result[i][column].substring(5,7);
+                            var year = response.result[i][column].substring(0,4);
+                            csvString += '"' + day + '-' + month + '-' + year + '"' + ',' ;
+                          }else{
+                            csvString += '"' + response.result[i][column] + '"' + ',' ;
+                          }; 
+                        };                                                
                       }else{                          
                         csvString += " ," ;
                       }
@@ -201,7 +237,7 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
               var a = $('<a/>', {
                   style:'display:none',
                   href:'data:application/octet-stream;base64,' + btoa(csvString),
-                  download:'Antragsliste.csv'
+                  download: scope.paramsForExport.fileName
               }).appendTo('body')
               a[0].click();
               a.remove();

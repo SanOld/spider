@@ -14,8 +14,18 @@ spi.controller('DocumentTemplatesController', function ($scope, $rootScope, netw
       $scope.documentTypes = response.result;
     }
   });
-
-
+  
+  $scope.paramsForExport = {
+    fileName: 'Druck-Templatesliste.csv',
+    model: 'document_template',
+    columns: {
+      'name'        : 'Name',
+      'type_name'   : 'Dokument-Typ',
+      'last_change' : 'Letzte Änderung',
+      'user_name'   : 'Benutzer des Änderung'
+    },
+    param: $scope.filter
+  };
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();

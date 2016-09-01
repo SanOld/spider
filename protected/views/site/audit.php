@@ -14,6 +14,7 @@ $this->breadcrumbs = array('Audit');
 
           <div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
+            <button class="custom-btn btn w-xs" export-to-csv ng-click="">csv Export</button>
           </div>
         </div>
         <div id="tab-history" class="panel-body">
