@@ -801,12 +801,15 @@ class Request extends BaseModel {
 
   public function copy($post){
     if(safe($post, 'ids')) {
-      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
-      $RequestSchoolConcept ->user = $this->user;
+//      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+//      $RequestSchoolConcept ->user = $this->user;
+//      $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+//      $RequestSchoolGoal ->user = $this->user;
       $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
       $RequestSchoolFinance ->user = $this->user;
-      $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
-      $RequestSchoolGoal ->user = $this->user;
+      $RequestUser = CActiveRecord::model('RequestUser');
+      $RequestUser ->user = $this->user;
+
 
       $ids = !is_array($post['ids']) ? array($post['ids']) : $post['ids'];
       $year = safe($post, 'year');
@@ -848,6 +851,7 @@ class Request extends BaseModel {
 //          $this->copyData('spi_request_school_concept',$RequestSchoolConcept, $oldId, $newId );
 //          $this->copyData('spi_request_school_goal', $RequestSchoolGoal, $oldId, $newId );
           $this->copyData('spi_request_school_finance', $RequestSchoolFinance, $oldId, $newId );
+          $this->copyData('spi_request_user', $RequestUser, $oldId, $newId );
         }
       }
       response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'post');
@@ -879,8 +883,8 @@ class Request extends BaseModel {
 
     foreach ($value as $row) {
       unset($row['id']);
-      if($table != 'spi_request_school_finance' && $row['status'] != 'unfinished'){
-        $row['status'] = 'in_progress';
+      if($table == 'spi_request_school_concept' && $table == 'spi_request_school_goal'){
+        $row['status'] = 'unfinished';
       }
       $row['request_id'] = $newId;
       $model->insert($row, true);
