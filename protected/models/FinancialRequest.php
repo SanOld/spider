@@ -168,9 +168,9 @@ class FinancialRequest extends BaseModel {
     $summary = array (
         'changes'     =>  0,
         'spending'    =>  0,
-        'remained'    =>  0,
+        'remained'    =>  $total_cost,
         'payed'       =>  0,
-        'actual'      =>  0
+        'actual'      =>  $total_cost
       );
     
     $financial_requests = Yii::app() -> db -> createCommand()
