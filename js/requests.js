@@ -142,10 +142,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $scope.tableParams = grid('request', $scope.filter);
 
   $scope.paramsForExport = {
+    fileName: 'Antragsliste.csv',
     model: 'request',
     columns: {
       'code'           : 'Kennziffer',
       'performer_name' : 'Träger',
+      'schools'        : 'Schule(n)',
       'programm'       : 'Programm',
       'year'           : 'Jahr',
       'status_name'    : 'Status',
@@ -154,7 +156,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       'status_finance' : 'Finanzplan Status',
       'status_concept' : 'Konzept Status',
       'status_goal'    : 'Entwicklungszielen Status'
-    }
+    },
+    param: $scope.filter,
+    schools: 'name'
   };
   
   $scope.resetFilter = function () {

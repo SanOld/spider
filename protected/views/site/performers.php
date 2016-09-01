@@ -15,6 +15,7 @@ $this->breadcrumbs = array('Träger');
 					<h1 class="panel-title col-lg-6">Träger</h1>
 					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
+            <button class="custom-btn btn w-xs" export-to-csv ng-click="">csv Export</button>
 						<button <?php $this->demo(); ?>  class="btn w-lg custom-btn" ng-if="canCreate() && canByType(['a'])" ng-click="openEdit()">Träger hinzufügen</button>
 					</div>
 				</div>

@@ -42,6 +42,21 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();
   };
+  
+  $scope.paramsForExport = {
+      fileName: 'Benutzerliste.csv',
+      model: 'user',
+      columns: {
+        'name'         : 'Name',
+        'type_name'    : 'Benutzerrollen',
+        'relation_name': 'Akteur',
+        'login'        : 'Benutzername',
+        'email'        : 'E-Mail',
+        'phone'        : 'Telefon',
+        'status_name'  : 'Status'
+      },
+      param: $scope.filter
+    };
 
   $scope.updateGrid = function () {
     var rowType = Utils.getRowById($scope.userTypes, $scope.filter.type_id);

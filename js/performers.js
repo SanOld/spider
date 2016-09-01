@@ -24,6 +24,19 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
       controller: 'EditPerformerController'
     });
   };
+  $scope.paramsForExport = {
+    fileName: 'Trägerliste.csv',
+    model: 'performer',
+    columns: {
+      'short_name'          : 'Name',
+      'Adresse'             : 'full_address',
+      'representative_user' : 'Ansprechpartner(in)',
+      'email'               : 'E-Mail',
+      'phone'               : 'Telefon',
+      'is_checked'          : 'Profil'
+    },
+    param: $scope.filter,
+  };
 
   try {
     var id = /id=(\d+)/.exec(location.hash)[1];

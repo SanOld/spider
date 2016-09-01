@@ -13,6 +13,7 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
 								<h1 class="panel-title col-lg-6">Finanzübersicht</h1>
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
+                  <button class="custom-btn btn w-xs" export-to-csv ng-click="">csv Export</button>
 								</div>
 							</div>
 							<div class="panel-body summary-user request-edit">

@@ -35,6 +35,19 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
       controller: 'EditDistrictController'
     });
   };
+  
+  $scope.paramsForExport = {
+    fileName: 'Bezirkliste.csv',
+    model: 'district',
+    columns: {
+      'name'             : 'Name',
+      'full_address'     : 'Adresse',
+      'contact_user_name': 'Ansprechpartner(in)',
+      'phone'            : 'Telefon'
+    },
+    param: $scope.filter
+  };
+  
 //  $scope.qqSetting = {
 //    model: 'financial_document',
 //    customHeaders:{Authorization: network.token},

@@ -16,6 +16,7 @@ $this->breadcrumbs = array('E-Mail-Vorlagen');
 					<h1 class="panel-title col-lg-6">E-Mail-Vorlagen</h1>
 					<div class="pull-right heading-box-print">
             <a href="javascript:window.print()">Drucken<i class="ion-printer"></i></a>
+            <button class="custom-btn btn w-xs" export-to-csv ng-click="">csv Export</button>
 					</div>
 				</div>
 				<div class="panel-body hint-edit">

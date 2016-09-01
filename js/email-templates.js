@@ -25,6 +25,18 @@ spi.controller('EmailTemplatesController', function ($scope, $rootScope, network
     });
   };
 
+  $scope.paramsForExport = {
+    fileName: 'E-Mail-Vorlagenliste.csv',
+    model: 'email_template',
+    columns: {
+      'name'        : 'Name',
+      'description' : 'Beschreibung',
+      'last_change' : 'Letzte Änderung',
+      'user_name'   : 'Benutzer des Änderung'
+    },
+    param: $scope.filter
+  }; 
+    
   $scope.openTemplate = function (row, modeView) {
     grid.openEditor({
       data: row,

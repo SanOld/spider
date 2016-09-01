@@ -12,6 +12,18 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter();
   };
+  
+  $scope.paramsForExport = {
+    fileName: 'Hilfetexteliste.csv',
+    model: 'hint',
+    columns: {
+      'page_name'    : 'Seite',
+      'position_name': 'Position',
+      'title'        : 'Titel',
+      'description'  : 'Hilfetext'
+    },
+    param: $scope.filter
+  };
 
   $scope.openEdit = function (row, modeView) {
     grid.openEditor({

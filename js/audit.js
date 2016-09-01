@@ -20,6 +20,25 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
     $scope.filter.event_date = year + '-' + month + '-' + day;
   };
   
+  $scope.paramsForExport = {
+    fileName: 'Auditliste.csv',
+    model: 'audit',
+    columns: {
+      'record_id'       : 'ID',
+      'table_name'      : 'Seite',
+      'operation_name'  : 'Änderungtyp',
+      'first_name'      : 'Benutzer Vorname',
+      'last_name'       : 'Benutzer Nachname',
+      'date_formated'   : 'Datum',
+      'main_code'       : 'Projekt Kennziffer',
+      'column_name'     : 'Feldname',
+      'old_value'       : 'Vorher',
+      'new_value'       : 'Nachher'
+    },
+    param: $scope.filter,
+    recursive : ['column_name','old_value','new_value']
+  };
+  
   
   network.get('request', {list: 'year'}, function (result, response) {
     if (result) {

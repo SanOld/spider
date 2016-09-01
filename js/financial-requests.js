@@ -26,6 +26,25 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       items: {}
     };
     
+    $scope.paramsForExport = {
+      fileName: 'Mittelabrufliste.csv',
+      model: 'financial_request',
+      columns: {
+        'project_code'   : 'Kennziffer',
+        'year'           : 'Jahr',
+        'rate'           : 'Rate',
+        'performer_name' : 'Träger',
+        'schools'        : 'Schule(n)',
+        'kreditor'       : 'Kreditor',
+        'payment_name'   : 'Beleg Typ',
+        'receipt_date'   : 'Beleg -Datum',
+        'request_cost'   : 'Betrag',
+        'payment_date'   : 'Zahl. -Datum',
+      },
+      param: $scope.filter,
+      schools: 'name'
+    };
+    
     $scope.existsSelected = function() {
       return !!getSelectedIds().length;
     };
