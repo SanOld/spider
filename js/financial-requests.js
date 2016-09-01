@@ -468,20 +468,22 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           partial_rate = response.result[0].is_patrial_rate;
           pair = true;
         }else{
-          $scope.financialRequest.rate_id = $scope.rate;
-          var rates = [];
-          if(!pair){
-            for(var i in $scope.rates){
-              if($scope.rates[i].id == $scope.rate){
-                rates[0] = $scope.rates[i];
-                rates[0].name = rates[0].name.substring(4,7);
-                $scope.financialRequest.is_partial_rate = rates[0].name;
-                $scope.rates = rates;
-                return;
+          $timeout(function(){
+            $scope.financialRequest.rate_id = $scope.rate;
+          });          
+          var rates = [];            
+            if(!pair){
+              for(var i in $scope.rates){
+                if($scope.rates[i].id == $scope.rate){
+                  rates[0] = $scope.rates[i];
+                  rates[0].name = rates[0].name.substring(4,7);
+                  $scope.financialRequest.is_partial_rate = rates[0].name;
+                  $scope.rates = rates;
+                  return;
+                };
               };
             };
-          };
-            return;
+            return;    
         };
         network.get('rate', {}, function (result, response) {
           if(result) {
