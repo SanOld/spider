@@ -64,7 +64,11 @@ class FinancialRequest extends BaseModel {
       $command -> andWhere('tbl.payment_type_id = :type_id',   array(':type_id' => $params['TYPE_ID']));
     }
     if(safe($params, 'STATUS_ID')) {
-      $command -> andWhere('tbl.status_id = :status_id',       array(':status_id' => $params['STATUS_ID']));
+      if($this->user['type'] == 'p' || $this->user['type'] == 'a'){      
+        $command -> andWhere('tbl.status_id_pa = :status_id',       array(':status_id' => $params['STATUS_ID']));
+      }else{
+        $command -> andWhere('tbl.status_id = :status_id',       array(':status_id' => $params['STATUS_ID']));
+      }
     }
     if(safe($params, 'YEAR')) {
       $command -> andWhere('req.year = :year',                 array(':year' => $params['YEAR']));

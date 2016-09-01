@@ -322,23 +322,21 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
           $timeout(function(){
             network.get('document_template', {id: row.document_template_id, prepare_fin_request: 1, fin_request_id: row.id }, function (result, response) {
               if(result) {
-                var modalInstance = $uibModal.open({
-                  animation: false,
-                  templateUrl: 'printDocuments.html',
-                  controller: 'PrintDocumentTemplatesController',
-                  size: 'width-full',
-                  resolve: {
-                    document: function () {
-                      return response.result[0];
+                request.status_id = 4;
+                request.status_id_pa = 2;
+                network.put('financial_request/' + request.id, request, function (result2, response2) {
+                  $uibModal.open({
+                    animation: false,
+                    templateUrl: 'printDocuments.html',
+                    controller: 'PrintDocumentTemplatesController',
+                    size: 'width-full',
+                    resolve: {
+                      document: function () {
+                        return response.result[0];
+                      }
                     }
-                  }
-                });
-                modalInstance.result.then(function () {
-                  request.status_id = 4;
-                  request.status_id_pa = 2;
-                  network.put('financial_request/' + request.id, request, function (result, response) {
-                    grid.reload();
-                  });
+                  });                  
+                  grid.reload();
                 });
               };
             });
@@ -414,16 +412,20 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     };
     
     $scope.updateRates = function (project) {
+      delete $scope.financialRequest.rate_id;
+      $scope.getRates();
       $scope.project = project;
       var month = 'm' + project.start_date.substring(5,7);
       var receipt_rate = 'm' + $scope.dateFormat($scope.receiptDate).substring(5,7);
       var pair = true;
+      $scope.pair_remember = true;
       $scope.rate = 0;
       for(var item in $scope.months){
         if(month == item){
           $scope.rate = $scope.months[item].rate;
           if($scope.months[item].pair == 1){
             pair = false;
+            $scope.pair_remember = false;
           }
         };
         if(receipt_rate == item){
@@ -444,7 +446,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           pair = true;
         }else{
           $scope.financialRequest.rate_id = $scope.rate;
-          pair = pair;
           var rates = [];
           if(!pair){
             for(var i in $scope.rates){
@@ -457,38 +458,83 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
               };
             };
           };
-          return;
+            return;
         };
         network.get('rate', {}, function (result, response) {
           if(result) {
             $scope.rates = response.result;
-            var k = 0;
             for(var i = 0; i < $scope.rates.length; i++){
               if($scope.rates[i].id == last_rate_id && last_rate_id != 6){
                 $scope.updatedRates.push($scope.rates[i+1]);
                 break;
               };
-              if($scope.financialRequests[k] && $scope.financialRequests[k].rate_id != $scope.rates[i].id && first_rate_id > $scope.financialRequests[k].rate_id){
+              var current = false;
+              for(var k = 0; k < $scope.financialRequests.length; k++){
+                if($scope.financialRequests[k].rate_id == $scope.rates[i].id){
+                  current = true;
+                  break;
+                }
+              }
+              if(($scope.rates[i].id > receipt_rate && !current) || (first_rate_id > $scope.rate && $scope.rates[i].id == $scope.rate)){             
+                if($scope.rates[i].id == $scope.rate && !$scope.pair_remember){
+                  $scope.rates[i].name = $scope.rates[i].name.substring(4,7);
+                };
                 $scope.updatedRates.push($scope.rates[i]);
-              }else{
-                k++;
-              };
+              }
             };
             if(!$scope.updatedRates.length && last_rate_id == 6){
               delete $scope.paymentTypes[0];
-            }else{              
-              if($scope.updatedRates.length == 1){
-                $scope.financialRequest.rate_id = $scope.updatedRates[0].id;
-              };
-            };
+            }
             $scope.updatedRates.forEach(function(item, i, arr){
               if(receipt_rate + 1 < item['id']){
-                $scope.updatedRates = {};
+                delete $scope.updatedRates[i];
               };
             });
+            if($scope.updatedRates.length == 1 && $scope.updatedRates[0]){
+              $scope.financialRequest.rate_id = $scope.updatedRates[0].id;
+            }; 
             $scope.rates = $scope.updatedRates;
           };
         });
+      });
+    };
+    
+    $scope.countRequestCost = function (request_id){
+      if(!$scope.isInsert){
+        var month = 'm' + data.start_date.substring(5,7);
+        for(var item in $scope.months){
+          if(month == item){
+            $scope.rate = $scope.months[item].rate;
+          };
+        };
+      };      
+      var summary = {};
+      var cost = 0;
+      var number_of_rates = 6 - Number($scope.rate) + 1;
+      network.get('financial_request', {request_id: request_id, year: $scope.year, list: 'summary'}, function(result, response){
+        if(response.result.length) {
+          summary = {
+            'total_cost'  : Number(response.result[0].total_cost),
+            'changes'     : Number(response.result[0].changes || 0),
+            'actual'      : Number(response.result[0].actual || response.result[0].total_cost)
+          };
+          if(response.result[0].is_partial_rate == "1"){
+            summary['actual'] = summary['actual'] - Number(response.result[0].request_cost);
+            number_of_rates = number_of_rates - 1;
+          };
+          cost = summary['actual'] / number_of_rates ;
+        }else{
+          cost = Number($scope.selectProjectDetails.total_cost) / number_of_rates;
+        };
+        if($scope.financialRequest.is_partial_rate){
+          cost = cost / 2;
+        };
+        $scope.request_cost = cost.toFixed(2);
+        cost = String(cost.toFixed(2));
+        cost = cost.replace('.',',');
+        if($scope.isInsert){
+          $scope.financialRequest.request_cost = cost;
+        };
       });
     };
       
@@ -501,13 +547,15 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     };
     
     if(!$scope.isInsert) {
+      var cost = String(data.request_cost);
+      cost = cost.replace('.',',');
       $scope.financialRequest = {
         representative_user_id: data.representative_user_id,
         bank_account_id: data.bank_account_id,
         payment_type_id: data.payment_type_id,
         document_template_id: data.document_template_id,
         rate_id: data.rate_id,
-        request_cost: data.request_cost,
+        request_cost: cost,
         description: data.description,
         request_id: data.request_id,
         status: data.status
@@ -520,6 +568,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       };
       getPerformerUsers(data.performer_id);
       $scope.getProjects(data.year);
+      $scope.countRequestCost(data.request_id);
     }else{
       $scope.receiptDate = new Date ();
     };
@@ -530,10 +579,22 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         $scope.financialRequest.payment_date = value;
       };
     };
-        
+    
+    $scope.getRates = function(){
+      network.get('rate', {rate_id: data.rate_id}, function (result, response) {
+        if(result) {
+          if(!$scope.isInsert && data.is_partial_rate){
+            response.result[0].name = data.is_partial_rate;
+          };
+          $scope.rates = response.result;
+        };
+      });
+    };
+    $scope.getRates();
+    
     network.get('rate', {rate_id: data.rate_id}, function (result, response) {
       if(result) {
-        if(data.is_partial_rate){
+        if(!$scope.isInsert && data.is_partial_rate){
           response.result[0].name = data.is_partial_rate;
         };
         $scope.rates = response.result;
@@ -567,32 +628,6 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       });         
     };
     
-    $scope.countRequestCost = function (request_id){
-      var summary = {};
-      var cost = 0;
-      var number_of_rates = 6 - Number($scope.rate) + 1;
-      network.get('financial_request', {request_id: request_id, year: $scope.year, list: 'summary'}, function(result, response){
-        if(response.result.length) {
-          summary = {
-            'total_cost'  : Number(response.result[0].total_cost),
-            'changes'     : Number(response.result[0].changes),
-            'actual'      : Number(response.result[0].actual)
-          };
-          if(response.result[0].is_partial_rate == "1"){
-            summary['actual'] = summary['actual'] - Number(response.result[0].request_cost);
-            number_of_rates = number_of_rates - 1;
-          };
-          cost = summary['actual'] / number_of_rates ;
-        }else{
-          cost = Number($scope.selectProjectDetails.total_cost) / number_of_rates;
-        };
-        if($scope.financialRequest.is_partial_rate){
-          cost = cost / 2;
-        };
-        $scope.financialRequest.request_cost =  $scope.request_cost = cost.toFixed(2);
-      });
-    };
-    
     $scope.updateCost = function (payment_id, request_id){
       if(payment_id != 1){
         delete $scope.financialRequest.request_cost;
@@ -603,7 +638,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     
     $scope.refreshSumm = function (){
       $scope.error = false;
-      $scope.financialRequest.request_cost =  $scope.request_cost;
+      var cost = String($scope.request_cost);
+      cost = cost.replace('.',',');
+      $scope.financialRequest.request_cost =  cost;
     };
     
     $scope.updateTemplates = function(payment_id){    
@@ -695,9 +732,21 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.checkCost = function (request_cost, payment_type) {
       if(payment_type == 1){
         $scope.error = false;
-        if(request_cost > Number($scope.request_cost)){
+        var cost = request_cost.replace(',','.');
+        if(Number(cost) > Number($scope.request_cost)){
           $scope.error = true;
         };
+      };
+    };
+    
+    $scope.checkCostError = function (request_cost, fin_request_cost) {      
+      if(fin_request_cost){
+        var fin_cost = fin_request_cost.replace(',','.');
+      };
+      if(Number(fin_cost) != Number(request_cost)){
+        return true;
+      }else{
+        return false;
       };
     };
     
@@ -709,15 +758,18 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.submitFormFinancialRequest = function () {
       $scope.submited = true;
       $scope.formFinancialRequest.$setPristine();
+      var request_cost = $scope.financialRequest.request_cost;
       if ($scope.formFinancialRequest.$valid && !$scope.error) {
         var callback = function (result, response) {
           if (result) {
             if(network.user.type != 't'){
               $uibModalInstance.close();
             }else{
-              $scope.financialRequestId = response.id;
+              $scope.financialRequestId = $scope.financialRequestId ? $scope.financialRequestId : response.id;
+              $scope.financialRequest.status = 1;
               $scope.rights.print = 1;
               $scope.isInsert = false;
+              $scope.financialRequest.request_cost = request_cost;
             };
           };
           $scope.submited = false;
@@ -734,6 +786,14 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         if($scope.financialRequest.payment_type_id != 1){
           $scope.financialRequest.rate_id = null;
         };
+        if($scope.rate == $scope.financialRequest.rate_id && !$scope.pair_remember){
+          $scope.financialRequest.is_partial_rate = Utils.getRowById($scope.rates, $scope.rate).name;
+        };
+        if($scope.checkCostError($scope.request_cost, $scope.financialRequest.request_cost)){
+          $scope.financialRequest.request_cost = Number($scope.financialRequest.request_cost.replace(',','.'));
+        }else{     
+          $scope.financialRequest.request_cost = $scope.request_cost;
+        }
         if($scope.isInsert) {
           if(network.user.type == 'p' || network.user.type == 'a'){
             $scope.financialRequest.status_id = 2;
@@ -764,24 +824,23 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $timeout(function(){
             network.get('document_template', {id: data.document_template_id, prepare_fin_request: 1, fin_request_id: data.id}, function (result, response) {
               if(result) {
-                var modalInstance = $uibModal.open({
-                  animation: false,
-                  templateUrl: 'printDocuments.html',
-                  controller: 'PrintDocumentTemplatesController',
-                  size: 'width-full',
-                  resolve: {
-                    document: function () {
-                      return response.result[0];
-                    }
-                  }
-                });
-                modalInstance.result.then(function (template) {
-                  delete $scope.financialRequest.status;
-                  $scope.financialRequest.status_id = 4;
-                  $scope.financialRequest.status_id_pa = 2;
-                  network.put('financial_request/' + $scope.financialRequestId, $scope.financialRequest, function (result, response) {
-                    $uibModalInstance.close();
-                  });
+                delete $scope.financialRequest.status;
+                $scope.financialRequest.status_id = 4;
+                $scope.financialRequest.status_id_pa = 2;
+                network.put('financial_request/' + $scope.financialRequestId, $scope.financialRequest, function (result2, response2) {
+                  if(result2){
+                    $uibModal.open({
+                      animation: false,
+                      templateUrl: 'printDocuments.html',
+                      controller: 'PrintDocumentTemplatesController',
+                      size: 'width-full',
+                      resolve: {
+                        document: function () {
+                          return response.result[0];
+                        }
+                      }
+                    });  
+                  };               
                 });
               };
             });
