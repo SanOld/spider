@@ -2397,10 +2397,13 @@ spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModal
         title: "Die Antragsteile Konzept und Entwicklungsziele können nur zusammen senden werden.",
         type: "warning",
         confirmButtonText: "OK"
-      },function(isConfirm){
-         if(isConfirm){
-           $uibModalInstance.close();
-         }
+      });
+    }else if(!$scope.checkboxes.concept && !$scope.checkboxes.goal && !$scope.checkboxes.finance){
+      SweetAlert.swal({
+        html:true,
+        title: "Bitte wählen Sie Antragsteile.",
+        type: "warning",
+        confirmButtonText: "OK"
       });
     }else{
       $scope.formsToSend = [];
