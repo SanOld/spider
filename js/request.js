@@ -1174,6 +1174,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'total_cost':             $scope.total_cost
                     , 'bank_details_id':        $scope.data.bank_details_id
                     , 'status_finance':         $scope.data.status_finance
+                    , 'is_umlage':              $scope.data.is_umlage
                     };
     data.users = $scope.request_users;
     data.prof_associations = $scope.prof_associations;
@@ -1289,6 +1290,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     $scope.users = data.users;
     $scope.updateUserSelect();
     $scope.data = data;
+    $scope.data.is_umlage = $scope.data.is_umlage*1;
     if ($scope.data.finance_user_id == "0") {
       $scope.data.finance_user_id = '';
     }
@@ -1386,7 +1388,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
 
   var forValidate = {'cost_per_month_brutto':1, 'annual_bonus':1, 'additional_provision_vwl':1, 'supplementary_pension':1}
-  var toNum = {'have_annual_bonus':1, 'have_additional_provision_vwl':1, 'have_supplementary_pension':1, 'is_umlage':1}
+  var toNum = {'have_annual_bonus':1, 'have_additional_provision_vwl':1, 'have_supplementary_pension':1}
 
   function num(val) {
     val = val || 0;
@@ -1404,6 +1406,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     return cnt;
   }
 
+  $scope.calculateAllEmployees = function(emploes){
+    $.each(emploes, function(){
+      $scope.calculateEmployee(this);
+    });
+  }
   $scope.calculateEmployee = function(empl){
     for(var key in forValidate) {
       $scope.numValidate(empl,key);
@@ -1412,7 +1419,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       empl[key] = num(empl[key]);
     }
 
-    var umlage = empl.is_umlage?0.25:0.21;
+    var umlage = $scope.data.is_umlage===1?0.25:0.21;
     var mc = num(empl.month_count);
     empl.brutto = num(empl.cost_per_month_brutto) * mc
                 + num(empl.annual_bonus) * empl.have_annual_bonus

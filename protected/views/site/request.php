@@ -17,9 +17,9 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 			<div class="panel panel-default" ng-cloak>
 				<div class="panel-heading heading-noborder clearfix">
                   <h1 class="panel-title col-lg-6">Antrag {{requestYear}} <span ng-show="projectID">({{projectID}})</span>  #{{requestID}}</h1>
-					<div class="pull-right heading-box-print">
+<!--					<div class="pull-right heading-box-print">
 						<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
-					</div>
+					</div>-->
 				</div>
         <ng-form name="form">
             <button ng-if="((financeStatus == 'unfinished' || 

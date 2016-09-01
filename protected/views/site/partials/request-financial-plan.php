@@ -125,6 +125,13 @@
             <button class="btn w-xs pull-right" ng-click="request_users.push({})" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canFormEdit">Mitarbeiter/in hinzufügen</button>
           </div>
         </div>
+        <div class="row m-b-30">
+          <label class="col-lg-2 control-label">Umlage 1<span spi-hint text="_hint.fin_plan_employee_is_umlage.text"  title="_hint.fin_plan_employee_is_umlage.title"  class="has-hint"></span></label>
+          <div class="btn-group btn-toggle col-lg-2 control-label wrap-hint">
+            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateAllEmployees(request_users)" ng-class="data.is_umlage == 1 ? 'active' : 'btn-default'" ng-model="data.is_umlage" uib-btn-radio="1" class="btn btn-sm">JA</button>
+            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateAllEmployees(request_users)" ng-class="data.is_umlage != 1 ? 'active' : 'btn-default'" ng-model="data.is_umlage" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
+          </div>
+        </div>
         <div id="accordion-account" class="panel-group panel-group-joined row">
           <div class="panel panel-default row employee-row" data-name="{{emploee.user.name || 'ALLES ANZEIGEN'}}" ng-if="!emploee.is_deleted" ng-repeat="(key, emploee) in request_users">
             <div class="panel-heading">
@@ -150,13 +157,13 @@
             </div>
             <div class="panel-collapse collapse" ng-class = "{'in': collapsingUser == $index}" id="account{{$index}}">
               <div class="panel-body">
-                <div class="row m-b-30">
+<!--                <div class="row m-b-30">
                   <label class="col-lg-2 control-label">Umlage 1<span spi-hint text="_hint.fin_plan_employee_is_umlage.text"  title="_hint.fin_plan_employee_is_umlage.title"  class="has-hint"></span></label>
                   <div class="btn-group btn-toggle col-lg-2 control-label wrap-hint">
                     <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.is_umlage == 1 ? 'active' : 'btn-default'" ng-model="emploee.is_umlage" uib-btn-radio="1" class="btn btn-sm">JA</button>
                     <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.is_umlage != 1 ? 'active' : 'btn-default'" ng-model="emploee.is_umlage" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
                   </div>
-                </div>
+                </div>-->
                 <div class="row">
                   <div class="col-lg-4 p-r-0 custom-box-btn">
                     <div class="clearfix">
