@@ -377,8 +377,9 @@ class Request extends BaseModel {
 
     }
   }
+  
   protected function doAfterInsert($result, $params, $post) {
-    if(!$this->copy && $result['code'] == '200' && safe($result, 'id')) {
+    if($result['code'] == '200' && safe($result, 'id')) {
       $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
       $RequestSchoolConcept ->user = $this->user;
       $RequestSchoolFinance = CActiveRecord::model('RequestSchoolFinance');
@@ -822,14 +823,16 @@ class Request extends BaseModel {
         if($value){
           $value['year'] = $year;
 
-          $value['status_finance']    = ($value['status_finance']    == 'unfinished') ? $value['status_finance']    : 'in_progress';
-          $value['status_concept']    = ($value['status_concept']    == 'unfinished') ? $value['status_concept']    : 'in_progress';
-          $value['status_concept_ta'] = ($value['status_concept_ta'] == 'unfinished') ? $value['status_concept_ta'] : 'in_progress';
-          $value['status_goal']       = ($value['status_goal']       == 'unfinished') ? $value['status_goal']       : 'in_progress';
-          $value['status_goal_ta']    = ($value['status_goal_ta']    == 'unfinished') ? $value['status_goal_ta']    : 'in_progress';
+          $value['status_finance']    = 'unfinished';
+          $value['status_concept']    = 'unfinished';
+          $value['status_concept_ta'] = 'unfinished';
+          $value['status_goal']       = 'unfinished';
+          $value['status_goal_ta']    = 'unfinished';
 
-          $value['status_id'] = $this->calcStatusId($value, 'a');
-          $value['status_id_ta'] = $this->calcStatusId($value, 't');
+//          $value['status_id'] = $this->calcStatusId($value, 'a');
+//          $value['status_id_ta'] = $this->calcStatusId($value, 't');
+          $value['status_id'] = 1;
+          $value['status_id_ta'] = 1;
 
           unset ($value['id']);
           unset ($value['start_date']);
@@ -842,8 +845,8 @@ class Request extends BaseModel {
             $newId = $insertResult['id'];
           }
 
-          $this->copyData('spi_request_school_concept',$RequestSchoolConcept, $oldId, $newId );
-          $this->copyData('spi_request_school_goal', $RequestSchoolGoal, $oldId, $newId );
+//          $this->copyData('spi_request_school_concept',$RequestSchoolConcept, $oldId, $newId );
+//          $this->copyData('spi_request_school_goal', $RequestSchoolGoal, $oldId, $newId );
           $this->copyData('spi_request_school_finance', $RequestSchoolFinance, $oldId, $newId );
         }
       }
