@@ -44,11 +44,43 @@ class Summary extends BaseModel {
     if(safe($params, 'YEAR')) {
       $command -> andWhere('req.year = :year',                array(':year' => $params['YEAR']));
     }
-    
+    $command = $this->setWhereByRole($command);
+    return $command;
+  }
+  
+  protected function setWhereByRole($command) {
+    switch($this->user['type']) {
+      case TA:
+        $command->andWhere("prj.performer_id = :performer_id",  array(':performer_id' => $this->user['relation_id']));
+        break;
+      case SCHOOL:
+        $command -> leftJoin('spi_project_school sps',           'sps.project_id=prj.id');  
+        $command -> andWhere("sps.school_id = :school_id", array(':school_id' => $this->user['relation_id']));
+        $command -> andWhere("prj.type_id = 3");
+        break;
+    }
     return $command;
   }
   
   protected function doAfterSelect($results) {
+    foreach($results['result'] as &$row) {
+      if($row['project_id']){
+        $schools = Yii::app() -> db -> createCommand()
+        -> select('scl.*') -> from('spi_project_school prs')
+        -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
+        -> where('prs.project_id=:id', array(':id' => $row['project_id'])) 
+        -> queryAll();
+        $row['schools'] = $schools;
+      }
+
+      if(isset($row['schools']))  {
+        foreach ($row['schools'] as $key=>$schoolData) {
+          $row['schools'][$schoolData['id']] = $schoolData;
+          unset ($row['schools'][$key]);
+        }
+      }
+    }
+    
     foreach ($results['result'] as &$row){
       $FinRequest = CActiveRecord::model('FinancialRequest');
       $FinRequest->user = $this->user;
