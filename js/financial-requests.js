@@ -739,8 +739,10 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       };
     };
     
-    $scope.checkCostError = function (request_cost, fin_request_cost) {
-      var fin_cost = fin_request_cost.replace(',','.');
+    $scope.checkCostError = function (request_cost, fin_request_cost) {      
+      if(fin_request_cost){
+        var fin_cost = fin_request_cost.replace(',','.');
+      };
       if(Number(fin_cost) != Number(request_cost)){
         return true;
       }else{
@@ -756,15 +758,18 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.submitFormFinancialRequest = function () {
       $scope.submited = true;
       $scope.formFinancialRequest.$setPristine();
+      var request_cost = $scope.financialRequest.request_cost;
       if ($scope.formFinancialRequest.$valid && !$scope.error) {
         var callback = function (result, response) {
           if (result) {
             if(network.user.type != 't'){
               $uibModalInstance.close();
             }else{
-              $scope.financialRequestId = response.id;
+              $scope.financialRequestId = $scope.financialRequestId ? $scope.financialRequestId : response.id;
+              $scope.financialRequest.status = 1;
               $scope.rights.print = 1;
               $scope.isInsert = false;
+              $scope.financialRequest.request_cost = request_cost;
             };
           };
           $scope.submited = false;

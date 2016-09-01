@@ -1,6 +1,6 @@
 <div class="panel panel-color panel-primary edit-summary print-financial-request">
     <div class="panel-heading m-b-30 clearfix"> 
-      <h3 class="m-0 pull-left" ng-if="!isInsert">Mittelabruf bearbeiten #{{id}}</h3>
+      <h3 class="m-0 pull-left" ng-if="!isInsert">Mittelabruf bearbeiten #{{id ? id : financialRequestId}}</h3>
       <h3 class="m-0 pull-left" ng-if="isInsert">Mittelabruf hinzufügen</h3>
       <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
     </div>
@@ -206,9 +206,9 @@
             <div class="col-lg-1 p-0  m-t-5">
               <span class="symbol">€</span>
             </div>
-            <div class="col-lg-2" ng-if="isInsert || financialRequest.status == 1">
+            <div class="col-lg-2" ng-if="financialRequest.status == 1 || isInsert">
                 <div spi-hint text="_hint.request_cost.text"  title="_hint.request_cost.title" class="has-hint"></div>
-                <button class="btn custom-btn refresh-summ" ng-click="refreshSumm()" title="Refresh Betrag">
+                <button class="btn custom-btn refresh-summ pull-right" ng-click="refreshSumm()" title="Refresh Betrag">
 							  <i class="fa fa-rotate-left"></i>
 						  </button>
             </div>
