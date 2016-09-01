@@ -2340,7 +2340,7 @@ spi.controller('ModalEndFillController', function ($scope, start_date, due_date,
 
 spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModalInstance, network, RequestService, SweetAlert, Utils) {
   $scope.checkboxes = {
-    'finance' : false,
+    'finance' : true,
     'concept' : true,
     'goal'    : true
   };
