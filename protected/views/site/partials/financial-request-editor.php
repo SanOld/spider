@@ -12,7 +12,7 @@
             <div class="col-lg-8">
               <div spi-hint text="_hint.year.text"  title="_hint.year.title" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('year')}">
-                <ui-select ng-disabled="!rights.fields || !isInsert" on-select="getProjects($item.year)" ng-model="year" name="year">
+                <ui-select required ng-disabled="!rights.fields || !isInsert" on-select="getProjects($item.year)" ng-model="year" name="year">
                   <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">{{$select.selected.year}}</ui-select-match>
                   <ui-select-choices repeat="item.year as item in years | filter: $select.search | orderBy: 'year'">
                     <span ng-bind="item.year"></span>
@@ -147,7 +147,7 @@
                 <div spi-hint text="_hint.payment_type.text"  title="_hint.payment_type.title" class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_type')}">
                   <ui-select required on-select="updateTemplates(financialRequest.payment_type_id);updateCost(financialRequest.payment_type_id, financialRequest.request_id);"
-                             ng-model="financialRequest.payment_type_id"  name="payment_type" ng-disabled="!rights.fields">
+                             ng-model="financialRequest.payment_type_id"  name="payment_type" ng-disabled="!rights.fields || !financialRequest.request_id">
                     <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in paymentTypes | filter: $select.search | orderBy: 'id'">
                       <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -200,22 +200,27 @@
           </div>
           <div class="form-group">
             <label class="col-lg-4 control-label">Betrag</label>
-            <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('request_cost') || error}">
-              <input required ng-change="checkCost(financialRequest.request_cost, financialRequest.payment_type_id)" class="form-control" type="text" ng-model="financialRequest.request_cost" ng-disabled="!rights.fields" name="request_cost">
+            <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('request_cost') || error || formFinancialRequest.request_cost.$error.pattern}">
+              <input ng-pattern="/\d+[\,\.]?\d+?/" required ng-change="checkCost(financialRequest.request_cost, financialRequest.payment_type_id)" class="form-control" type="text" ng-model="financialRequest.request_cost" ng-disabled="!rights.fields" name="request_cost">
             </div>
             <div class="col-lg-1 p-0  m-t-5">
               <span class="symbol">€</span>
             </div>
-            <div class="col-lg-2" ng-if="financialRequest.status == 1 || isInsert">
+            <div class="col-lg-2" >
                 <div spi-hint text="_hint.request_cost.text"  title="_hint.request_cost.title" class="has-hint"></div>
-                <button class="btn custom-btn refresh-summ pull-right" ng-click="refreshSumm()" title="Refresh Betrag">
+                <button ng-if="financialRequest.status == 1 || isInsert" ng-disabled="!financialRequest.request_id" class="btn custom-btn refresh-summ pull-right" ng-click="refreshSumm()" title="Refresh Betrag">
 							  <i class="fa fa-rotate-left"></i>
 						  </button>
             </div>
-            <div class="col-lg-8 m-t-5">
-              <span ng-class="{hide: !fieldError('request_cost'),hide: !error}" class="hide">
-                <label ng-show="fieldError('request_cost')" class="error">Betrag erforderlich</label>
-                <label ng-show="error" class="error">Nur kleinere Raten erlaubt </label>
+            <div class="col-lg-8 m-t-5 pull-right">
+              <span ng-class="{hide: !fieldError('request_cost')}" class="hide">
+                <label ng-show="fieldError('request_cost')" class="error">Betrag erforderlich</label>                
+              </span>
+              <span ng-class="{hide: !error}" class="hide">
+                <label ng-show="error" class="error">Nur kleinere Raten erlaubt </label>         
+              </span>
+              <span ng-class="{hide: !formFinancialRequest.request_cost.$error.pattern}" class="hide">
+                <label ng-show="formFinancialRequest.request_cost.$error.pattern" class="error">Nur Ziffern erlauben</label>            
               </span>
             </div>
           </div>
