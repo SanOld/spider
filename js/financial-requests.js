@@ -20,7 +20,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
       $scope.setFilter();
       grid.reload();
     };
-    
+    $scope.project = {};
     $scope.checkboxes = {
       checked: false,
       items: {}
@@ -136,6 +136,9 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     
     $scope.updateProject = function(id, year){
       delete $scope.project;
+      if(!id){
+        return;
+      };
       network.get('financial_request', {'project_id': id ? id : '', 'year': year ? year : '', list: 'summary'}, function (result, response) {
         if(result) {
           if(response.result.length && response.result[0].actual){
@@ -377,6 +380,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.financialRequests = [];
     $scope.financialRequestId = data.id;
     $scope.error = false;
+    $scope.pair_remember = true;
     $scope.months = {
       m01  : {pair:0,rate:1},   // month_number : is_even for creating pairs
       m02  : {pair:1,rate:1},
@@ -613,11 +617,13 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       };
     });
     
-    network.get('document_template', {}, function (result, response) {
+    if(!$scope.isInsert){
+    network.get('document_template', {payment_id: data.payment_type_id}, function (result, response) {
       if(result) {
         $scope.paymentTemplates = response.result;
       };
     });
+    };
     
     function getPerformerUsers (request_id){
       network.get('user', {type: 't', relation_id: request_id}, function (result, response) {
@@ -643,7 +649,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       $scope.financialRequest.request_cost =  cost;
     };
     
-    $scope.updateTemplates = function(payment_id){    
+    $scope.updateTemplates = function(payment_id){
+      delete $scope.financialRequest.document_template_id;
+      delete $scope.financialRequest.request_cost;
       network.get('document_template', {payment_id: payment_id}, function (result, response) {
         if(result) {
           $scope.paymentTemplates = response.result;
@@ -730,7 +738,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     };
     
     $scope.checkCost = function (request_cost, payment_type) {
-      if(payment_type == 1){
+      if(payment_type == 1 && request_cost){
         $scope.error = false;
         var cost = request_cost.replace(',','.');
         if(Number(cost) > Number($scope.request_cost)){
@@ -752,7 +760,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     
     $scope.fieldError = function(field) {
         var form = $scope.formFinancialRequest;
-        return form[field] && ($scope.submited || form[field].$touched) && form[field].$invalid;
+        return form[field] && ($scope.submited || form[field].$touched) && (form[field].$invalid || form[field].$error.pattern);
     };
     
     $scope.submitFormFinancialRequest = function () {

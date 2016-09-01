@@ -188,18 +188,18 @@ class FinancialRequest extends BaseModel {
     foreach($financial_requests as $request){
         if($request['status_id'] == '3'){          
           if($request['payment_type_id'] == '1'){
-            $summary['payed'] += (integer) $request['request_cost'];
+            $summary['payed'] += $request['request_cost'];
           }else{          
             if($request['payment_type_id'] == '2'){
-              $summary['changes'] -= (integer) $request['request_cost'];
+              $summary['changes'] -= $request['request_cost'];
             };
             if($request['payment_type_id'] == '3'){
-              $summary['changes'] += (integer) $request['request_cost'];
+              $summary['changes'] += $request['request_cost'];
             };
          }
         };
-      $summary['actual'] = $total_cost +  (integer) $summary['changes'];
-      $summary['remained'] = $summary['actual'] -(integer) $summary['payed'];
+      $summary['actual'] = $total_cost + $summary['changes'];
+      $summary['remained'] = $summary['actual'] - $summary['payed'];
     };
     return $summary;
   }

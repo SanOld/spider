@@ -370,7 +370,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     array.forEach(function(item, i, arr){
       if(item.match(reg)){
         equal = true;
-        array[i] = item.slice(0,-2); 
+        array[i] = item.split('-');
+        array[i] = array[i][0];
       };
     });
     if(equal){
