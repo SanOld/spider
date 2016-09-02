@@ -584,6 +584,16 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       $scope.new_project_user = ""; 
     }      
   }
+  
+  $scope.length_schools = function(schools){
+    var length = 0;
+    for (var i in schools) {
+      if (schools.hasOwnProperty(i)) {
+        length ++;
+      };
+    };
+    return length;
+  };
 
   $scope.canEdit  = function (){
     return  RequestService.canEdit();

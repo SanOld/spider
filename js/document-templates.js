@@ -18,12 +18,16 @@ spi.controller('DocumentTemplatesController', function ($scope, $rootScope, netw
   $scope.paramsForExport = {
     fileName: 'Druck-Templatesliste.csv',
     model: 'document_template',
-    columns: {
-      'name'        : 'Name',
-      'type_name'   : 'Dokument-Typ',
-      'last_change' : 'Letzte Änderung',
-      'user_name'   : 'Benutzer des Änderung'
-    },
+    tables: {
+      table1: {
+        columns: {
+          'name'        : 'Name',
+          'type_name'   : 'Dokument-Typ',
+          'last_change' : 'Letzte Änderung',
+          'user_name'   : 'Benutzer des Änderung'
+        },
+      }
+    },    
     param: $scope.filter
   };
 

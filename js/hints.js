@@ -16,11 +16,15 @@ spi.controller('HintsController', function ($scope, $rootScope, network, GridSer
   $scope.paramsForExport = {
     fileName: 'Hilfetexteliste.csv',
     model: 'hint',
-    columns: {
-      'page_name'    : 'Seite',
-      'position_name': 'Position',
-      'title'        : 'Titel',
-      'description'  : 'Hilfetext'
+    tables: {
+      table1: {
+        columns: {
+          'page_name'    : 'Seite',
+          'position_name': 'Position',
+          'title'        : 'Titel',
+          'description'  : 'Hilfetext'
+        },
+      }
     },
     param: $scope.filter
   };

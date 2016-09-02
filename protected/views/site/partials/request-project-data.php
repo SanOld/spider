@@ -185,10 +185,10 @@
               </ng-show>
             </div>
           </div>
-          <h3 ng-if="data.schools.length > 0" class="panel-title m-b-15">
-            {{data.schools.length > 1?'Schulen':'Schule'}}
+          <h3 ng-if="length_schools(data.schools) > 0" class="panel-title m-b-15">
+            {{length_schools(data.schools) > 1?'Schulen':'Schule'}}
           </h3>
-          <div ng-if="data.schools.length > 0"  id="accordion-project" class="panel-group panel-group-joined">
+          <div ng-if="length_schools(data.schools) > 0"  id="accordion-project" class="panel-group panel-group-joined">
 
             <div ng-repeat="school in data.schools" class="panel panel-default">
               <div class="panel-heading">

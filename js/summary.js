@@ -35,21 +35,25 @@ spi.controller('SummaryController', function($scope, $rootScope, network, GridSe
     $scope.paramsForExport = {
       fileName: 'Finanzübersichtliste.csv',
       model: 'summary',
-      columns: {
-        'project_code'   : 'Kennziffer',
-        'performer_name' : 'Träger',
-        'schools'        : 'Schule(n)',
-        'programm'       : 'Topf',
-        'year'           : 'Jahr',
-        'total_cost'     : 'Fördersumme',
-        'changes'        : 'Änderung',
-        'actual'         : 'aktuelle Fördersumme',
-        'payed'          : 'Ausgezahlt',
-        'null'           : 'F-Berichte',
-        'remained'       : 'Verblieben'
+      tables: {
+        table1: {
+          columns: {
+            'project_code'   : 'Kennziffer',
+            'performer_name' : 'Träger',
+            'schools'        : 'Schule(n)',
+            'programm'       : 'Topf',
+            'year'           : 'Jahr',
+            'total_cost'     : 'Fördersumme',
+            'changes'        : 'Änderung',
+            'actual'         : 'aktuelle Fördersumme',
+            'payed'          : 'Ausgezahlt',
+            'null'           : 'F-Berichte',
+            'remained'       : 'Verblieben'
+          },
+          schools: 'name'
+        }
       },
       param: $scope.filter,
-      schools: 'name'
     };
     network.get('performer', {}, function (result, response) {
       if(result) {

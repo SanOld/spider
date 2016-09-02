@@ -39,12 +39,16 @@ spi.controller('DistrictController', function ($scope, $rootScope, network, Grid
   $scope.paramsForExport = {
     fileName: 'Bezirkliste.csv',
     model: 'district',
-    columns: {
-      'name'             : 'Name',
-      'full_address'     : 'Adresse',
-      'contact_user_name': 'Ansprechpartner(in)',
-      'phone'            : 'Telefon'
-    },
+    tables: {
+      table1: {
+        columns: {
+          'name'             : 'Name',
+          'full_address'     : 'Adresse',
+          'contact_user_name': 'Ansprechpartner(in)',
+          'phone'            : 'Telefon'
+        },
+      }
+    },    
     param: $scope.filter
   };
   

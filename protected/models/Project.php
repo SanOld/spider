@@ -6,7 +6,7 @@ class Project extends BaseModel {
   public $table = 'spi_project';
   public $post = array();
   public $params = array();
-  public $select_all = "tbl.*,
+  public $select_all = "tbl.*,spt.name type_name,
           (SELECT short_name FROM spi_performer prf WHERE prf.id=tbl.performer_id) AS `performer_name`,
           (SELECT name FROM spi_district dst WHERE dst.id=tbl.district_id) AS `district_name`,
           (SELECT name FROM spi_school scl WHERE scl.id=sps.school_id) AS `school_name`";
@@ -14,6 +14,7 @@ class Project extends BaseModel {
 
     $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
     $command -> leftJoin('spi_project_school sps', 'sps.project_id=tbl.id');
+    $command -> join('spi_project_type spt', 'tbl.type_id=spt.id');
     $command -> leftJoin ('spi_request req', 'req.project_id = tbl.id');
     $command -> where(' 1=1 ', array());
 

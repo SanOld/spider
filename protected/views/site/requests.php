@@ -217,11 +217,18 @@ $this->breadcrumbs = array('Anträge');
               </table>
 
               <div class="btn-row m-t-15 clearfix" ng-if="canEdit() && canByType(['a','p'])">
-                <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="chooseDocuments()">Druck-Template wählen</button>
-                <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkDuration()">Laufzeit festlegen</button>
-                <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(4)">Förderfähig</button>
-                <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(5)">Genehmigung</button>
-                <button class="btn m-b-5 pull-right"  ng-disabled="!existsSelected()" ng-click="copyRequest()" disabled>Folgeantrag hinzufügen</button>
+                <div class="col-lg-7">
+                  <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="chooseDocuments()">Druck-Template wählen</button>
+                  <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkDuration()">Laufzeit festlegen</button>
+                  <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(4)">Förderfähig</button>
+                  <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(5)">Genehmigung</button>
+                </div>
+                <div class="col-lg-3">
+                  <button ng-if="false" class="btn m-b-5" ng-click="export()">Daten exportieren</button>
+                </div> 
+                <div class="col-lg-2">
+                  <button class="btn m-b-5"  ng-disabled="!existsSelected()" ng-click="copyRequest()" disabled>Folgeantrag hinzufügen</button>
+                </div>
               </div>
             </div>
           </div>
@@ -505,6 +512,37 @@ $this->breadcrumbs = array('Anträge');
         <div class="col-lg-12">
           <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
           <button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled="form.$invalid || form.due_date < form.start_date">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="exportData.html">
+  <div class="panel panel-color panel-primary">
+    <div class="panel-heading clearfix"> 
+      <h3 class="m-0 pull-left">Daten exportieren</h3>
+      <button type="button" class="close" ng-click="cancel()" aria-hidden="true"><i class="ion-close-round "></i></button>
+    </div> 
+    <div class="panel-body text-center">
+      <ng-form name="sendToAccept">
+        <h3 class="m-b-10 p-b-10">Daten aus Anträgen exportieren:</h3>
+          <div class="checkbox p-b-10 clearfix custom-m-l-30">
+            <label class="cr-styled pull-left" for="projectData"><input ng-change="checkCheckbox()" name="projectData" id="projectData" type="checkbox" ng-model="checkbox.projectData"><i class="fa"></i>Projektdaten</label>
+          </div>
+          <div class="checkbox p-b-10 clearfix custom-m-l-30">
+            <label class="cr-styled pull-left" for="financeSingle"><input ng-change="checkCheckbox()" name="financeSingle" id="financeSingle" type="checkbox" ng-model="checkbox.financeSingle"><i class="fa"></i>Finanzplan(einzeln)</label>
+          </div>
+          <div class="checkbox p-b-10 clearfix custom-m-l-30">
+            <label class="cr-styled pull-left" for="financeSumm"><input ng-change="checkCheckbox()" name="financeSumm" id="financeSumm" type="checkbox" ng-model="checkbox.financeSumm"><i class="fa"></i>Finanzplan(Summen)</label>
+          </div>
+      </ng-form>
+    </div>
+    <div class="row p-t-10 text-center">
+      <div class="form-group group-btn m-t-20">
+        <div class="col-lg-12">
+          <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
+          <button ng-disabled="count < 1 || count > 1" class="btn w-lg custom-btn" export-to-csv ng-click=""">Senden</button>
         </div>
       </div>
     </div>

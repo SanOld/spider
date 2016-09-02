@@ -23,20 +23,24 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
   $scope.paramsForExport = {
     fileName: 'Auditliste.csv',
     model: 'audit',
-    columns: {
-      'record_id'       : 'ID',
-      'table_name'      : 'Seite',
-      'operation_name'  : 'Änderungtyp',
-      'first_name'      : 'Benutzer Vorname',
-      'last_name'       : 'Benutzer Nachname',
-      'date_formated'   : 'Datum',
-      'main_code'       : 'Projekt Kennziffer',
-      'column_name'     : 'Feldname',
-      'old_value'       : 'Vorher',
-      'new_value'       : 'Nachher'
+    tables: {
+      table1: {
+        columns: {
+          'record_id'       : 'ID',
+          'table_name'      : 'Seite',
+          'operation_name'  : 'Änderungtyp',
+          'first_name'      : 'Benutzer Vorname',
+          'last_name'       : 'Benutzer Nachname',
+          'date_formated'   : 'Datum',
+          'main_code'       : 'Projekt Kennziffer',
+          'column_name'     : 'Feldname',
+          'old_value'       : 'Vorher',
+          'new_value'       : 'Nachher'
+        },
+        recursive : ['column_name','old_value','new_value']
+      }
     },
     param: $scope.filter,
-    recursive : ['column_name','old_value','new_value']
   };
   
   

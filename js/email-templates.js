@@ -7,7 +7,7 @@ spi.controller('EmailTemplatesController', function ($scope, $rootScope, network
 
   $scope.updateGrid = function () {
     grid.reload();
-  };
+    };
 
 
   $scope.resetFilter = function () {
@@ -28,12 +28,16 @@ spi.controller('EmailTemplatesController', function ($scope, $rootScope, network
   $scope.paramsForExport = {
     fileName: 'E-Mail-Vorlagenliste.csv',
     model: 'email_template',
-    columns: {
-      'name'        : 'Name',
-      'description' : 'Beschreibung',
-      'last_change' : 'Letzte Änderung',
-      'user_name'   : 'Benutzer des Änderung'
-    },
+    tables: {
+      table1: {
+        columns: {
+          'name'        : 'Name',
+          'description' : 'Beschreibung',
+          'last_change' : 'Letzte Änderung',
+          'user_name'   : 'Benutzer des Änderung'
+        },
+      }
+    },    
     param: $scope.filter
   }; 
     

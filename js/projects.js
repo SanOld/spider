@@ -20,14 +20,18 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
     $scope.paramsForExport = {
       fileName: 'Projekteliste.csv',
       model: 'project',
-      columns: {
-        'code'           : 'Kennziffer',
-        'schools'        : 'Schule',
-        'performer_name' : 'Träger',
-        'district_name'  : 'Bezirk'
-      },
-      param: $scope.filter,
-      schools: 'name'
+      tables: {
+        table1: {
+          columns: {
+            'code'           : 'Kennziffer',
+            'schools'        : 'Schule',
+            'performer_name' : 'Träger',
+            'district_name'  : 'Bezirk'
+          },
+          schools: 'name'
+        }
+      },      
+      param: $scope.filter,      
     };
     
     function getSelectedIds() {

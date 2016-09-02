@@ -142,23 +142,27 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $scope.tableParams = grid('request', $scope.filter);
 
   $scope.paramsForExport = {
-    fileName: 'Antragsliste.csv',
+    fileName: 'Antragsliste.csv',      
     model: 'request',
-    columns: {
-      'code'           : 'Kennziffer',
-      'performer_name' : 'Träger',
-      'schools'        : 'Schule(n)',
-      'programm'       : 'Programm',
-      'year'           : 'Jahr',
-      'status_name'    : 'Status',
-      'end_fill'       : 'Abgabe',
-      'last_change'    : 'Lezte Äaderung',
-      'status_finance' : 'Finanzplan Status',
-      'status_concept' : 'Konzept Status',
-      'status_goal'    : 'Entwicklungszielen Status'
+    tables: {
+      table1: {
+        columns: {
+          'code'           : 'Kennziffer',
+          'performer_name' : 'Träger',
+          'schools'        : 'Schule(n)',
+          'programm'       : 'Programm',
+          'year'           : 'Jahr',
+          'status_name'    : 'Status',
+          'end_fill'       : 'Abgabe',
+          'last_change'    : 'Lezte Äaderung',
+          'status_finance' : 'Finanzplan Status',
+          'status_concept' : 'Konzept Status',
+          'status_goal'    : 'Entwicklungszielen Status'
+        },
+        schools: 'name'
+      }
     },
     param: $scope.filter,
-    schools: 'name'
   };
   
   $scope.resetFilter = function () {
@@ -635,6 +639,21 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       localStorageService.set('dataChanged', 0);
     }
   }
+  
+  $scope.export = function() {
+    var ids = getSelectedIds();
+      $uibModal.open({
+        animation: true,
+        templateUrl: 'exportData.html',
+        controller: 'ExportDataController',
+        size: 'custom-width-request-send-duration',
+        resolve: {
+          ids: function () {
+            return ids;
+          }
+        }
+      });
+    };
 });
 
 
@@ -852,5 +871,244 @@ spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $u
       window.print();
       $rootScope.printed = 0;
   });
+
+});
+
+spi.controller('ExportDataController', function ($scope, $timeout, network, $uibModalInstance, $sce, $rootScope, ids, localStorageService, SweetAlert) {
+  $scope.filter = localStorageService.get('requestsFilter', $scope.filter );  
+  $scope.checkbox = {
+    'projectData'   : false,
+    'financeSingle' : false,
+    'financeSumm'   : false
+  };
+  
+  $scope.checkCheckbox = function(){
+    $scope.count = 0;
+    for(var box in $scope.checkbox){
+      if($scope.checkbox[box]){
+        $scope.count++;
+      };
+    };
+    if($scope.count > 1){
+      SweetAlert.swal({
+        html:true,
+        title: "",
+        text: "Wählen Sie bitte ein Datei.",
+        type: "warning",
+        confirmButtonText: "OK"
+      });
+    };
+    if($scope.checkbox.financeSingle){
+      if(!ids.length){
+        SweetAlert.swal({
+          html:true,
+          title: "",
+          text: "Wählen Sie bitte ein Antrag um Financeplan(einzeln) zu exportiren.",
+          type: "warning",
+          confirmButtonText: "OK"
+        },function(isConfirm){
+           if(isConfirm){         
+              $scope.checkbox.financeSingle = false;
+           };
+        });
+      }
+      if(ids.length > 1){
+        SweetAlert.swal({
+          html:true,
+          title: "",
+          text: "Wählen Sie bitte nur ein Antrag um Financeplan(einzeln) zu exportiren.",
+          type: "warning",
+          confirmButtonText: "OK"
+        },function(isConfirm){
+           if(isConfirm){         
+              $scope.checkbox.financeSingle = false;
+           }
+        });
+      }
+    }
+    
+  };
+  $scope.checkCheckbox();
+  
+  $scope.paramsForExport = {};
+  
+  delete $scope.filter.limit;
+   
+  $scope.correctDatas = function(data){
+    //count schools
+    for(var i in data){
+      var schools = 0;
+      for(var k in data[i].schools){
+        schools += 1;
+      };
+      data[i].schools = schools;
+    };
+    for(var i in data){
+      //count data
+      var duration = 0;
+      if(data[i].start_date && data[i].due_date){
+        var month_start = data[i].start_date.substring(5,7);
+        var month_end = data[i].due_date.substring(5,7);
+        duration = Number(month_end) - Number(month_start);
+      };
+      data[i].duration = duration;      
+      //count material costs
+      var material_costs = 0;
+      material_costs = Number(data[i].training_cost) + Number(data[i].overhead_cost) + Number(data[i].prof_association_cost);
+      data[i].material_costs = material_costs;
+    };
+    //count rate
+    network.get('request_school_finance', {}, function (result, response) {
+      if(result){
+        for(var p in data){          
+          var rate_count = 0;
+          for(var f in response.result){            
+            if(response.result[f].request_id == data[p].id){
+              rate_count += Number(response.result[f].rate);
+            };
+          };
+          data[p].rate_count = rate_count;
+        };
+        network.get('project', {}, function (result, response) {
+          if(result){
+            for(var p in data){
+              for(var f in response.result){
+                if(response.result[f].id == data[p].project_id){              
+                  data[p].project_type = response.result[f].type_name;
+                };
+              };
+            };
+            $scope.paramsForExport['financeSumm'] = {
+              fileName: 'Financeplan(Summen).csv',
+              model: 'request',
+              tables: {
+                table1: {
+                  columns: {
+                    'code'           : 'Projekt-Kennziffer',
+                    'performer_name' : 'Trägername',
+                    'project_type'   : 'Fördertopf',
+                    'duration'       : 'Monate',
+                    'schools'        : 'Anzahl Schulen',
+                    'rate_count'     : 'Stellenanteil',
+                    'total_cost'     : 'Fördersumme',
+                    'emoloyees_cost' : 'Personalkosten',
+                    'material_cost'  : 'Ausgaben: Sachkosten',
+                    'training_cost'  : 'Fortbildung',
+                    'overhead_cost'  : 'Regiekosten',
+                    'prof_association_cost': 'Berufsgenossenschaft',
+                    'revenue_sum'    : 'Einnahmen',
+                  },
+                  data: data
+                }
+              },
+              param: $scope.filter,
+              data: data
+            };
+          };
+        });
+      };
+    });    
+  };
+  
+  network.get('request', $scope.filter, function (result, response) {
+    if(result){
+      $scope.correctDatas(response.result);
+    };
+  });
+  
+  $scope.exportFinanceSingle = function(request_id){
+    var data = [];
+    network.get('request', {id:request_id}, function (result, response) {
+      if(result){
+        data[0] = response.result;
+        data[0].is_umlage = response.result.is_umlage == 1 ? 'ja' : 'nein';
+        data[0].duration  = response.result.start_date + " - " + response.result.due_date;
+        network.get('request_user', {request_id: request_id}, function (result, response) {
+          if(result){
+            data.users = response.result;
+            network.get('request_user', {request_id: request_id}, function (result, response) {
+              if(result){
+                data.users = response.result;
+                network.get('request_school_finance', {request_id: request_id}, function (result, response) {
+                  if(result){
+                    data.schools = [];
+                    var counter = 0;
+                    for(var school in response.result){
+                      data.schools[counter] = response.result[school];
+                      data.schools[counter].count = '1';
+                      counter++;
+                    };
+                    $scope.paramsForExport['financeSingle'] = {
+                      fileName: 'Financeplan(einzeln).csv',
+                      model: 'request',
+                      tables: {
+                        table1: {
+                          columns: {
+                            'code'              : 'Kennziffer',
+                            'performer_name'    : 'Träger',
+                            'duration'          : 'Förderzeitraum',
+                            'is_umlage'         : 'Umlage 1',
+                            'null-1'            : '',
+                            'total_cost'        : 'Summe Fördervertrag',
+                            'revenue_cost'      : 'Summe sonstige Einnahmen',
+                            'null-2'            : '',
+                            'null-3'            : '',
+                            'null-4'            : '',
+                            'null-5'            : ''
+                          },
+                          data: data
+                        },
+                        table2:{
+                          columns: {
+                            'sex'               : 'Anrede',
+                            'name'              : 'Name',
+                            'group_name'        : 'Entgeltgruppe',
+                            'remuneration_name' : 'Entgeltstufe',
+                            'month_count'       : 'Geplante Monate im Projekt',
+                            'other'             : 'sonstige Information',
+                            'hours_per_week'    : 'Arbeitsstunden / Woche',
+                            'null'              : 'Summe Ausgaben',
+                            'brutto'            : 'AN-Brutto',
+                            'add_cost'          : 'AG-SV und Umlagen',
+                            'full_cost'         : 'Personalkosten'
+                          },
+                          data: data.users
+                        },
+                        table3:{
+                          columns: {
+                            'school_name'   : 'Schule',
+                            'rate'          : 'Stellenanteil',
+                            'month_count'   : 'Monate',
+                            'count'         : 'Anzahl Schulen',
+                            'overhead_cost' : 'Regiekosten',
+                            'training_cost' : 'Fortbildungskosten',
+                            'null'          : 'BG-Beitrag',
+                            'null-1'        : '',
+                            'null-2'        : '',
+                            'null-3'        : '',
+                            'null-4'        : ''
+                          },
+                          data: data.schools
+                        },
+                      },                      
+                      param: $scope.filter,
+                    };
+                  };
+                });
+              };
+            });
+          };
+        });
+      };
+    });
+  };
+  
+  $timeout(function(){
+    $scope.exportFinanceSingle(ids[0]);
+  });
+
+  $scope.cancel = function () {
+    $uibModalInstance.close();
+  };
 
 });

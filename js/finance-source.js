@@ -22,12 +22,16 @@ spi.controller('FinanceSourceController', function($scope, $rootScope, network, 
     $scope.paramsForExport = {
       fileName: 'Fördertöpfeliste.csv',
       model: 'finance_source',
-      columns: {
-        'type_name'    : 'Fördertopf',
-        'programm'     : 'Programm',
-        'Präfix'       : 'prefix',
-        'description'  : 'Beschreibung'
-      }
+      tables: {
+        table1: {
+          columns: {
+            'type_name'    : 'Fördertopf',
+            'programm'     : 'Programm',
+            'Präfix'       : 'prefix',
+            'description'  : 'Beschreibung'
+          }
+        }
+      },      
     };
 
     $scope.openEdit = function (row, modeView) {

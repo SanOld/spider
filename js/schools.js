@@ -33,14 +33,18 @@ spi.controller('SchoolController', function ($scope, $rootScope, network, GridSe
   $scope.paramsForExport = {
     fileName: 'Schulenliste.csv',
     model: 'school',
-    columns: {
-      'number'            : 'Schul-Nr.',
-      'name'              : 'Name',
-      'type_name'         : 'Schultyp',
-      'district_name'     : 'Bezirk',
-      'full_address'      : 'Adresse',
-      'contact_user_name' : 'Schulleitung',
-      'phone'             : 'Telefon'
+    tables: {
+      table1: {
+        columns: {
+          'number'            : 'Schul-Nr.',
+          'name'              : 'Name',
+          'type_name'         : 'Schultyp',
+          'district_name'     : 'Bezirk',
+          'full_address'      : 'Adresse',
+          'contact_user_name' : 'Schulleitung',
+          'phone'             : 'Telefon'
+        },
+      }
     },
     param: $scope.filter,
   };
