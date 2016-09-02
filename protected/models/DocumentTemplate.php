@@ -56,6 +56,16 @@ class DocumentTemplate extends BaseModel {
       $command -> join ('spi_payment_type ptp', 'type.id = ptp.template_type_id');
       $command -> andWhere("ptp.id = :payment_id", array(':payment_id' => $params['PAYMENT_ID']));
     }
+    $command = $this->setWhereByRole($command);
+    return $command;
+  }
+  
+  protected function setWhereByRole($command) {
+    switch($this->user['type']) {
+      case TA:
+        $command->andWhere("tbl.is_prototype = '0'");
+        break;
+    }
     return $command;
   }
 
