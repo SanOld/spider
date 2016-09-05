@@ -51,7 +51,7 @@ class SiteController extends Controller
 				$this->redirect('/');
 		}      
     try {      
-      if(safe(Yii::app()->session,'login') && !Yii::app()->session['rights'][$page]['show']){       
+      if(Yii::app()->session['login'] && !Yii::app()->session['rights'][$page]['show']){       
         $this->redirect('/dashboard');      
       }else{        
         if($page == 'request') {
