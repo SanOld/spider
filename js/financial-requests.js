@@ -1,11 +1,11 @@
 spi.controller('FinancialRequestController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal, Utils, SweetAlert, $timeout) {
     $rootScope._m = 'financial_request';
     var d = new Date;
-    $scope.defaulFilter = {year: d.getFullYear()};
+    $scope.defaulFilter = {};
     $scope.years = [];
     $scope.filter = localStorageService.get('finRequestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
     if(!$scope.filter == $scope.defaulFilter ){
-      localStorageService.set('finRequestsFilter', $scope.filter );
+      localStorageService.set('finRequestsFilter', $scope.filter);
     }
     if(network.user.type == 't' && network.user.is_finansist == 0){
       window.location = '/';
@@ -78,7 +78,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
     };
     
     $scope.setFilter = function(){
-       localStorageService.set('requestsFilter', $scope.filter );
+       localStorageService.set('finRequestsFilter', $scope.filter );
     };
   
     $scope.dateFormat = function(date, date_type){    
@@ -136,7 +136,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
         $scope.defaulFilter = {year: $scope.years[0]};
 
         if($scope.years.indexOf($scope.filter.year) == -1){
-          $scope.filter.year = $scope.years[0].year;
+          $scope.filter.year = $scope.years[0];
           $scope.setFilter();
           grid.reload();
         };          
@@ -183,7 +183,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
               return;
             };
             network.get('request', {'project_id': id ? id : '', 'year': year ? year : '', status_id: 5}, function (result, response) {
-              if(result) {
+              if(response.result.length) {
                 $scope.project = {
                   'project_code': response.result[0].code,
                   'start_date'  : response.result[0].start_date,
