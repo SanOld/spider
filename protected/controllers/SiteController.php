@@ -51,11 +51,13 @@ class SiteController extends Controller
 				$this->redirect('/');
 		}
     
-    $page_rightsh = $page == 'request'?'requests':$page;
+    $page_rightsh = $page == 'request' ? 'requests': $page;
     try {
       if(Yii::app()->session['login'] && !Yii::app()->session['rights'][$page_rightsh]['show']){       
         $this->redirect('/dashboard');      
-      }else{        
+      }elseif (!safe($pageInfo,'layout') && !Yii::app()->session['login'] && in_array($page, $pages)) {
+         $this->redirect('/'); 
+      }else {        
         if($page == 'request') {
           $id = safe($_GET, 'id');
           if(!$id || !$this->validID($page, $id)) {
