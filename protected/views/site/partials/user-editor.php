@@ -24,10 +24,10 @@
           <div class="col-lg-4">
             <div class="btn-group btn-toggle">
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 1}" ng-model="user.is_active"
-                      uib-btn-radio="1" ng-disabled="!can_change">AKTIV
+                      uib-btn-radio="1" ng-disabled="!can_change || is_self">AKTIV
               </button>
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_active != 0}" ng-model="user.is_active"
-                      uib-btn-radio="0" ng-disabled="!can_change">NICHT AKTIV
+                      uib-btn-radio="0" ng-disabled="!can_change || is_self">NICHT AKTIV
               </button>
             </div>
             <!--<span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_active ? 'Aktiv' : 'Nicht aktiv'}}</span>-->
@@ -39,10 +39,10 @@
             <div class="col-lg-4 p-l-0">
               <div class="btn-group btn-toggle">
                  <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 0}" ng-model="user.is_virtual"
-                        uib-btn-radio="0" ng-disabled="!can_change">JA
+                        uib-btn-radio="0" ng-disabled="!can_change || is_self">JA
                 </button>
                 <button class="btn btn-sm" ng-class="{'btn-default': user.is_virtual != 1}" ng-model="user.is_virtual"
-                        uib-btn-radio="1" ng-disabled="!can_change">NEIN
+                        uib-btn-radio="1" ng-disabled="!can_change || is_self">NEIN
                 </button>               
               </div>
               <!--<span ng-if="modeView || (!isAdmin && !userIsPA && !user.type == 't')" class="no-edit-text">{{user.is_virtual ? 'Nein' : 'Ja'}}</span>-->

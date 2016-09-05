@@ -81,6 +81,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.userIsPA = network.userIsPA;
   $scope.modeView = modeView;
   $scope.can_change = true;
+  $scope.is_self = false;
   
   $scope.user = {
     is_active: 1,
@@ -100,6 +101,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   if (data.id) {
     $scope.isInsert = false;
     $scope.userId = data.id;
+    $scope.is_self = $scope.userId == network.user.id;
     $scope.type_name = data.type_name;
     $scope.relation_name = data.relation_name;
     $scope.user = {
