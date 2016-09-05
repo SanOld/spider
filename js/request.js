@@ -1196,6 +1196,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       delete val.user;
       delete val.addCost;
       delete val.fullCost;
+      delete val.name;
+      delete val.sex;
+      delete val.group_name;
+      delete val.remuneration_name;
     });
     angular.forEach(finPlan.schools, function(val, key) {
       delete val.school_name;

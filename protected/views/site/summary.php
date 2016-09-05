@@ -99,9 +99,9 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
                         </td>
                         <td data-title="'Topf'" sortable="'programm'">{{row.programm == "Bonusprogramm" ? row.type : row.programm }}</td>
                         <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
-                        <td data-title="'Fördersumme'" sortable="'totalt_cost'">{{row.total_cost | number:2}} €</td>
+                        <td data-title="'Förders.'" sortable="'totalt_cost'">{{row.total_cost | number:2}} €</td>
                         <td data-title="'Änderung'" sortable="'changes'">{{row.changes | number:2}} €</td>
-                        <td title="aktuelle Fördersumme" data-title="'aktuelle FS'" sortable="'end_fill'">{{row.actual | number:2}} €</td>
+                        <td title="aktuelle Fördersumme" data-title="'aktuelle Förders.'" sortable="'end_fill'">{{row.actual | number:2}} €</td>
                         <td data-title="'Ausgezahlt'" sortable="'payed'">{{row.payed | number:2}} €</td>
                         <td data-title="'F-Berichte'"></td>
                         <td data-title="'Verblieben'" sortable="'remained'">{{row.remained | number:2}} €</td>
