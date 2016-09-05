@@ -449,7 +449,10 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
     
     $scope.checkIfChanged = function(project, data){
       var similar = true;
-      if(typeof project.schools[0] != 'object' ){
+      if(project.schools[0] == 0){
+        return similar;
+      };
+      if(typeof project.schools[0] != 'object'){
         for(var i = 0; i < project.schools.length; i++ ){
           similar = true;  
           for(var k = 0; k < data.schools.length; k++ ){
@@ -502,38 +505,39 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
       
       return result;
     };
-    
+      
     $scope.submitFormProjects = function () {
         $scope.submited = true;
         $scope.error = false;        
         $scope.schoolError = false;
-        $scope.formProjects.$setPristine();        
-        var callback = function (result, response) {
-          if (result) {
-              $uibModalInstance.close();
-              $scope.submited = false;
-          }else{
-              $scope.error = getError(response);
-              $scope.submited = true;
+        $scope.formProjects.$setPristine();
+        if ($scope.formProjects.$valid) {
+          var callback = function (result, response) {
+            if (result) {
+                $uibModalInstance.close();
+                $scope.submited = false;
+            }else{
+                $scope.error = getError(response);
+                $scope.submited = true;
+            }
+          };                
+          var $copyScopeProject = angular.copy($scope.project);
+  //        if($scope.schoolTypeCode != 's') {
+  //          $copyScopeProject.schools = [$copyScopeProject.school];
+  //        }
+          if($scope.schoolTypeCode == 'z') {
+            $copyScopeProject.schools = [0];
           }
-        };                
-        var $copyScopeProject = angular.copy($scope.project);
-//        if($scope.schoolTypeCode != 's') {
-//          $copyScopeProject.schools = [$copyScopeProject.school];
-//        }
-        if($scope.schoolTypeCode == 'z') {
-          $copyScopeProject.schools = [0];
-        }
-//        delete $copyScopeProject.school; 
-        if((!$copyScopeProject.schools || !$copyScopeProject.schools.length) && $scope.schoolTypeCode != 'z') {
-          $scope.schoolError = "schools";
-          return false;
-        }
-        if(!$copyScopeProject.district_id){
-          delete $copyScopeProject.district_id;
-          $copyScopeProject.district_id = 0;
-        };
-        if ($scope.isInsert) {            
+  //        delete $copyScopeProject.school; 
+          if((!$copyScopeProject.schools || !$copyScopeProject.schools.length) && $scope.schoolTypeCode != 'z') {
+            $scope.schoolError = "schools";
+            return false;
+          }
+          if(!$copyScopeProject.district_id){
+            delete $copyScopeProject.district_id;
+            $copyScopeProject.district_id = 0;
+          };
+          if ($scope.isInsert) {
             var prefix = "";
             $scope.programms.forEach(function(item, i, arr){
               if(item.prefix){
@@ -594,7 +598,8 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
           }else{
             $uibModalInstance.close();
           }
-        } 
+        }
+      }
     };
 
     function getError(response) {
