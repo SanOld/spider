@@ -49,9 +49,11 @@ class SiteController extends Controller
 			$params = array_change_key_case($_GET, CASE_UPPER);
 			if(!isset($params['RECOVERY_TOKEN']))
 				$this->redirect('/');
-		}      
-    try {      
-      if(Yii::app()->session['login'] && !Yii::app()->session['rights'][$page]['show']){       
+		}
+    
+    $page_rightsh = $page == 'request'?'requests':$page;
+    try {
+      if(Yii::app()->session['login'] && !Yii::app()->session['rights'][$page_rightsh]['show']){       
         $this->redirect('/dashboard');      
       }else{        
         if($page == 'request') {
