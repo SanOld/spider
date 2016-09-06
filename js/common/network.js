@@ -48,8 +48,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
       })
       .error(function (data, status, headers, config) {
         $network.logout();
-        //window.location = '/';
-        alert('redirect2');
+        window.location = '/';
       });
   };
   $network.logout = function () {
@@ -143,8 +142,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           if (data.system_code == 'ERR_INVALID_TOKEN') {
             $network.logout();
-            //window.location = '/'
-            alert('redirect');
+            window.location = '/';
           } else {
             Notification.error({title: 'Benachrichtigung', message: data.message});
             callback(false, data);
