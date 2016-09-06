@@ -1025,8 +1025,8 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       if(!$scope.add_employee_user){
         $scope.add_employee_user = true;
         $timeout(function(){       
-        angular.element('#employee_user').focus();   
-      });
+          angular.element('#employee_user').focus();   
+        });
       }else{
         $scope.add_employee_user = false;     
         $scope.request_users[idx].new_user_name = "";
@@ -1095,9 +1095,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         var callback = function (result, response) {
           if (result) {
             $scope.data.finance_user_id = response.id;
-            $scope.getPerformerUsers(function(){
-              $scope.submitRequest();
-            });
+            $scope.getPerformerUsers(function(){});
             $scope.add_finance_user = false; 
             $scope.new_fina_user = "";
             $scope.userLoading = false;
@@ -1152,7 +1150,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             if (result) {
               $scope.getEmployeeUsers(response.id, $scope.request_users[idx], function(){
                 $scope.request_users[idx].user_id = response.id;
-                $scope.submitRequest();
               });
               $scope.request_users[idx].new_user_name = "";               
               $scope.add_employee_user = false;             
@@ -1170,7 +1167,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   var usersById = {};
 
   RequestService.afterSave = function(){
-    //$scope.updateFinPlanUsers();
+    $scope.updateFinPlanUsers('submit');
     $scope.updateFinPlanProfAssociation();
   }
   RequestService.financePlanData = function(){
@@ -1185,8 +1182,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'bank_details_id':        $scope.data.bank_details_id
                     , 'status_finance':         $scope.data.status_finance
                     , 'is_umlage':              $scope.data.is_umlage
+                    , 'finance_user_id':        $scope.data.finance_user_id
                     };
-    data.users = $scope.request_users;
+    if($scope.request_users[0].user_id){
+      data.users = $scope.request_users;
+    };
     data.prof_associations = $scope.prof_associations;
     data.schools = $scope.financeSchools;
     var finPlan = angular.copy(data);
@@ -1338,31 +1338,25 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
   }
   
-  $scope.updateFinPlanUsers = function() {
+  $scope.updateFinPlanUsers = function(submit) {
+    var submit = submit || false;
     network.get('request_user', {request_id: $scope.$parent.requestID}, function (result, response) {
-      if (result) {
+      if (result && !submit) {
         $scope.request_users = response.result;
-
         if(response.count == '0') {
           $scope.request_users = [{}];
         } else {
-
           usersById=[];
           angular.forEach($scope.users, function(val, key) {
             usersById[val.id] = val;
           });
-          
           angular.forEach($scope.request_users, function(val, key) {
             $scope.calculateEmployee(val);
             val.user = usersById[val.user_id];
           });
-
-
           $timeout(function(){
             $scope.updateUserSelect();
           })
-
-
         }
       }
     });
