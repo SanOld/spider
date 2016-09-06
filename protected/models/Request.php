@@ -394,11 +394,12 @@ class Request extends BaseModel {
         -> where('req.id=:id', array(':id' => $result['id']))
         -> queryColumn();
 
-      $rate = Yii::app() -> db -> createCommand()
-        -> select('rate')
+      $proj = Yii::app() -> db -> createCommand()
+        -> select('rate, code')
         -> from('spi_project')
         -> where('id=:id', array(':id' => $params['project_id']))
-        -> queryScalar();
+        -> queryRow();
+      $rate = $proj['rate'];
 
       foreach($school_ids as $school_id) {
         $data = array(
@@ -406,7 +407,6 @@ class Request extends BaseModel {
           'school_id'  => $school_id,
         );
         $RequestSchoolConcept->insert($data, true);
-
         $data['rate'] = $rate;
         if($rate <= 0.5){
           $data['overhead_cost'] = 3000 * 0.5;
@@ -434,6 +434,25 @@ class Request extends BaseModel {
         }
       }
 
+      
+      $request = Yii::app() -> db -> createCommand()
+        -> select('usr.email, req.year')
+        -> from('spi_request req')
+        -> join('spi_performer prf', 'req.performer_id = prf.id')
+        -> join('spi_user usr', 'prf.representative_user_id = usr.id')
+        -> where('req.id=:id', array(':id' => $request_id))
+        ->queryRow();
+
+      $emailParams = array(
+          'request_code' => $proj['code'],
+          'year' => $request['year'],
+          'date' => date('H:i d.m.Y'),
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.$result['id'],
+      );
+
+      if($request['email']) {
+        Email::sendMessageByTemplate('antrag_erstellt', $emailParams, $request['email']);
+      }
     }
     return $result;
   }
