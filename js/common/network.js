@@ -48,7 +48,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
       })
       .error(function (data, status, headers, config) {
         $network.logout();
-        window.location = '/';
+        //window.location = '/';
+        alert('redirect2');
       });
   };
   $network.logout = function () {
@@ -69,8 +70,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
   };
   $network.isLogined = function () {
     var token = localStorageService.get('token');
-    var time = localStorageService.get('tokenTime') - $.now();
-    return (token && token != 'false' && time >= 0);
+    //var time = localStorageService.get('tokenTime') - $.now();
+    return (token);
   };
   $cookies.put('isLogined', $network.isLogined()?1:0);
   $network.connect = function (login, password, callback) {
@@ -92,7 +93,7 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
           $network.token = result.token;
           $network.user = result.user;
           localStorageService.set('token', result.token);
-          localStorageService.set('tokenTime', $.now() + 12 * 3600 * 1000);
+          //localStorageService.set('tokenTime', $.now() + 12 * 3600 * 1000);
           localStorageService.set('user', result.user);
           localStorageService.set('rights', result.rights);
           $cookies.put('isLogined', 1);
@@ -142,7 +143,8 @@ spi.service('network', function ($http, configs, localStorageService, Notificati
         } else {
           if (data.system_code == 'ERR_INVALID_TOKEN') {
             $network.logout();
-            window.location = '/'
+            //window.location = '/'
+            alert('redirect');
           } else {
             Notification.error({title: 'Benachrichtigung', message: data.message});
             callback(false, data);
