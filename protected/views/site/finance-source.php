@@ -61,9 +61,8 @@ $this->breadcrumbs = array('Fördertöpfe');
 
             <div class="col-lg-9">
               <div spi-hint text="_hint.finance_source_type.text"  title="_hint.finance_source_type.title"  class="has-hint"></div>
-              <span ng-if="!canEdit() || modeView" ng-bind="sourceTypeName"></span>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('finance_source_type')}">
-                <ui-select ng-disabled="!$select.items.length" ng-model="finance.project_type_id"
+                <ui-select ng-disabled="!$select.items.length || !canEdit()" ng-model="finance.project_type_id"
                            name="finance_source_type" required>
                   <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
                     {{$select.selected.name}}
