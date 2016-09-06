@@ -40,7 +40,14 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   $scope.tableParams = grid('user', $scope.filter, {sorting: {name: 'asc'}});
 
   $scope.resetFilter = function () {
-    $scope.filter = grid.resetFilter();
+    if ($scope.page) {
+      delete $scope.filter.keyword;
+      delete $scope.filter.type_id;
+      delete $scope.filter.is_finansist;
+      grid.reload();
+    }else{
+      $scope.filter = grid.resetFilter();
+    }
   };
   
   $scope.paramsForExport = {

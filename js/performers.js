@@ -240,7 +240,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     }
   };
 
-  $scope.savePerformer = function() {
+  $scope.savePerformer = function(bulk) {
       $scope.error = false;
       $scope.submited = true;
 
@@ -259,9 +259,9 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
           $scope.submited = false;
         };
         if ($scope.isInsert) {
-          network.post('performer', $scope.performer, callback);
+          network.post('performer', $scope.performer, callback, !bulk);
         } else {
-          network.put('performer/' + data.id, $scope.performer, callback);
+          network.put('performer/' + data.id, $scope.performer, callback, !bulk);
         }
       } else {
         $scope.tabActive = 0;
@@ -273,7 +273,7 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
     var form = $scope.form['formBank'+index];
     if ($scope.form.$dirty &&  network.user.type == 't') {
       $scope.checked(false);
-      $scope.savePerformer();
+      $scope.savePerformer(true);
     }
     form.$setPristine();
     if (form.$valid) {
