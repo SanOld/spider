@@ -440,7 +440,7 @@ class Request extends BaseModel {
         -> from('spi_request req')
         -> join('spi_performer prf', 'req.performer_id = prf.id')
         -> join('spi_user usr', 'prf.representative_user_id = usr.id')
-        -> where('req.id=:id', array(':id' => $request_id))
+        -> where('req.id=:id', array(':id' => $result['id']))
         ->queryRow();
 
       $emailParams = array(
