@@ -71,15 +71,13 @@ class SystemModel extends BaseModel
         $fields = Yii::app ()->db->createCommand ( $query )->queryAll ();
 
         $hash = md5(serialize($fields));
-//        if($hash == $table['hash']) {
-//          continue;
-//        }
+        if($hash == $table['hash']) {
+          continue;
+        }
         foreach($operations as $operation) {
-          
           $insert = "\n\n";            
           foreach($fields as $field) {
             $fieldName = $field['COLUMN_NAME'];
-
             if($operation['code'] != 'UPD') {
               $insert .= "INSERT INTO spi_audit_data(event_id,column_name,{$operation['from']}_value) VALUES(ev_id,'{$fieldName}',{$operation['from']}.{$fieldName});\n";
             } else {
@@ -88,9 +86,7 @@ class SystemModel extends BaseModel
                          INSERT INTO spi_audit_data(event_id,column_name,old_value,new_value) VALUES(ev_id,'{$fieldName}',old.{$fieldName},new.{$fieldName});
                         END IF;\n";
             }
-            $inserts[] = $insert;
           }
-
           $drop = "DROP TRIGGER IF EXISTS `{$tableName}_A{$operation['code']}`";
           $trigger = "CREATE
                           DEFINER = CURRENT_USER 
