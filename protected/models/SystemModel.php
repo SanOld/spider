@@ -71,12 +71,12 @@ class SystemModel extends BaseModel
         $fields = Yii::app ()->db->createCommand ( $query )->queryAll ();
 
         $hash = md5(serialize($fields));
-        if($hash == $table['hash']) {
-          continue;
-        }
+//        if($hash == $table['hash']) {
+//          continue;
+//        }
         foreach($operations as $operation) {
           
-          $insert = "\n\n";
+          $insert = "\n\n";            
           foreach($fields as $field) {
             $fieldName = $field['COLUMN_NAME'];
 
@@ -88,38 +88,39 @@ class SystemModel extends BaseModel
                          INSERT INTO spi_audit_data(event_id,column_name,old_value,new_value) VALUES(ev_id,'{$fieldName}',old.{$fieldName},new.{$fieldName});
                         END IF;\n";
             }
+            $inserts[] = $insert;
           }
 
-          $trigger = "
-            DROP TRIGGER IF EXISTS `{$tableName}_A{$operation['code']}`;
-            DELIMITER $$
-            CREATE
-                DEFINER = CURRENT_USER 
-                TRIGGER `{$tableName}_A{$operation['code']}` {$operation['when']} ON `{$tableName}` 
-                FOR EACH ROW BEGIN    
-                DECLARE ev_id INT; 	     
-                    IF check_audit('{$tableName}')=1 THEN	
-                  INSERT INTO spi_audit_event(table_name, record_id,event_type,user_id)
-                  VALUES('{$tableName}',{$operation['from']}.id,'{$operation['code']}',@user_id);
-                      SELECT LAST_INSERT_ID() INTO ev_id;
-                      {$insert}
-                END IF;
-            END$$
-            \n\n";
+          $drop = "DROP TRIGGER IF EXISTS `{$tableName}_A{$operation['code']}`";
+          $trigger = "CREATE
+                          DEFINER = CURRENT_USER 
+                          TRIGGER `{$tableName}_A{$operation['code']}` {$operation['when']} ON `{$tableName}` 
+                          FOR EACH ROW BEGIN    
+                          DECLARE ev_id INT; 	     
+                            IF check_audit('{$tableName}')=1 THEN	
+                              INSERT INTO spi_audit_event(table_name, record_id,event_type,user_id)
+                              VALUES('{$tableName}',{$operation['from']}.id,'{$operation['code']}',@user_id);
+                                SELECT LAST_INSERT_ID() INTO ev_id;
+                                  {$insert}
+                            END IF;
+                          END;
+                        \n";
 
         $triggers[] = $trigger; //массив для получения текста запроса в окне результатов
-//        Yii::app()->db
-//                  ->createCommand($trigger)
-//                  ->execute();
+        Yii::app()->db
+                  ->createCommand($drop)
+                  ->execute();
+        Yii::app()->db
+                  ->createCommand($trigger)
+                  ->execute();
         };
 
 
         Yii::app ()->db->createCommand ()->update ( 'spi_audit_setting', array('hash' => $hash), 'id=:id', array (':id' => $table['id'] ));
-      }
-      $version = $this->getServerVersion();
+      }      
       header ( 'Content-Type: application/json' );
-//      echo json_encode ( array('results' => 'done') );
-      echo $version; //вывод текста запроса в окне результатов
+      echo json_encode ( array('results' => 'done') );
+      //echo implode("\n", $triggers); //вывод текста запроса в окне результатов
       exit ();
     }
 
@@ -200,10 +201,5 @@ class SystemModel extends BaseModel
         echo json_encode ( array('results' => 'done') );
         exit ();
 
-    }
-    
-    public function getServerVersion() {
-      $version = Yii::app ()->db->getServerVersion();
-      return $version;
     }
   }
