@@ -12,7 +12,7 @@
             <div class="col-lg-8">
               <div spi-hint text="_hint.year.text"  title="_hint.year.title" class="has-hint"></div>
               <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('year')}">
-                <ui-select required ng-disabled="!rights.fields || !isInsert" on-select="getProjects($item.year)" ng-model="year" name="year">
+                <ui-select required ng-disabled="!rights.fields || !isInsert" on-select="onSelectYear();getProjects($item.year)" ng-model="year" name="year">
                   <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">{{$select.selected.year}}</ui-select-match>
                   <ui-select-choices repeat="item.year as item in years | filter: $select.search | orderBy: 'year'">
                     <span ng-bind="item.year"></span>
@@ -102,7 +102,7 @@
             <dt ng-show="IBAN.contact_person">Kontoinhaber: </dt>
             <dd ng-show="IBAN.contact_person" class="dd-margin">{{IBAN.contact_person}}</dd>
             <dt ng-show="user.type == 'a' || user.type == 'p'">Kreditor:</dt>
-            <dd ng-show="user.type == 'a' || user.type == 'p'" class="dd-margin">{{IBAN.bank_name}}</dd>
+            <dd ng-show="user.type == 'a' || user.type == 'p'" class="dd-margin">{{IBAN.bank_name ? IBAN.bank_name : '-'}}</dd>
             <dt ng-show="IBAN.description">Beschreibung:</dt>
             <dd ng-show="IBAN.description" class="financial-request">{{IBAN.description}}</dd>
           </dl>
