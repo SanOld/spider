@@ -98,7 +98,7 @@
               </div>
             </div>
           </div>
-          <dl class="custom-dl">
+          <dl class="custom-dl" ng-if="IBAN.contact_person || IBAN.bank_name || IBAN.description">
             <dt ng-show="IBAN.contact_person">Kontoinhaber: </dt>
             <dd ng-show="IBAN.contact_person" class="dd-margin">{{IBAN.contact_person}}</dd>
             <dt ng-show="user.type == 'a' || user.type == 'p'">Kreditor:</dt>
