@@ -16,8 +16,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.isChangedFinanceForm = false;
   $scope.isChangedConceptForm = false;
   $scope.isChangedGoalsForm = false;
-
-
+  
   $scope.tabs = ($scope.isFinansist || $scope.user_type == 's' ) ? ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'] : ['project-data', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
   if(hash && $scope.tabs.indexOf(hash) !== -1) {
@@ -313,6 +312,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
 
     var results = false;
     var user = network.user.type;
+    var is_finansist = network.user.is_finansist;
     var status = 'none';
     var status_id;
     var request = RequestService.getProjectData();
@@ -357,6 +357,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
         break;
         case 'save':;
           results = ((user == 'a' || user == 'p' || user == 't') && status != 'accept' && status != 'decline');
+          break;
+        case 'send':;
+          results = (((($scope.financeStatus == 'unfinished' || $scope.financeStatus == 'rejected') && is_finansist == '1')   
+                    ||($scope.conceptStatus == 'unfinished' || $scope.conceptStatus == 'rejected')   
+                    ||($scope.goalsStatus == 'unfinished'   || $scope.goalsStatus == 'rejected')  ) && user == 't' && status != 'decline');
           break;
       } 
 
