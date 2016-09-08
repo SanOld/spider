@@ -1661,8 +1661,8 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
     var statuses = [];
     var priorities = $scope.canAccept ? ['in_progress', 'rejected', 'unfinished', 'accepted'] : ['rejected', 'unfinished', 'in_progress', 'accepted'];
 
-    for(var i=0; i<$scope.schoolConcepts.length; i++) {
-      statuses.push($scope.schoolConcepts[i].status);
+    for(var item in $scope.schoolConcepts) {
+      statuses.push($scope.schoolConcepts[item].status);
     }
     for(var j=0; j<priorities.length; j++) {
       if(statuses.indexOf(priorities[j]) !== -1) {
