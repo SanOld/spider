@@ -22,12 +22,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 					</div>-->
 				</div>
         <ng-form name="form">
-            <button ng-if="((financeStatus == 'unfinished' || 
-                            financeStatus == 'rejected')   || 
-                            (conceptStatus == 'unfinished' || 
-                            conceptStatus == 'rejected')   || 
-                            (goalsStatus == 'unfinished'   ||
-                            goalsStatus == 'rejected')) && user.type == 't' " class="btn w-lg btn-lg btn-success m-b-10 m-t-30 pull-right" ng-click="sendToAccept()">Zur Prüfung übermitteln</button>
+            <button ng-if="userCan('send')" class="btn w-lg btn-lg btn-success m-b-10 m-t-30 pull-right" ng-click="sendToAccept()">Zur Prüfung übermitteln</button>
 				<uib-tabset class="panel-body request-order-nav" active="tabActive" ng-cloack>
 					<uib-tab class="project" index="'project-data'" select="setTab('project-data')" heading="Projektdaten">
 						<?php include(Yii::app()->getBasePath().'/views/site/partials/request-project-data.php'); ?>
