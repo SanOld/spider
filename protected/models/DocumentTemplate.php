@@ -313,7 +313,7 @@ class DocumentTemplate extends BaseModel {
         , '{PD_KONZEPT_FUNCTION}' => $this->requestConceptUser['function']
         , '{PD_KONZEPT_VORNAME}'  => $this->requestConceptUser['first_name']
         , '{PD_KONZEPT_NACHNAME}' => $this->requestConceptUser['last_name']
-        , '{PD_KONZEPT_TELEFON}'  => $this->requestConceptUser['phone']
+        , '{PD_KONZEPT_TELEFON}'  => $this->requestConceptUser['phone'] ? $this->requestConceptUser['phone'] : ''
         , '{PD_KONZEPT_EMAIL}'    => $this->requestConceptUser['email']
       );
       $params = array_merge($params,$data);
@@ -324,7 +324,7 @@ class DocumentTemplate extends BaseModel {
         , '{PD_FINANCE_FUNCTION}' => $this->requestFinanceUser['function']
         , '{PD_FINANCE_VORNAME}'  => $this->requestFinanceUser['first_name']
         , '{PD_FINANCE_NACHNAME}' => $this->requestFinanceUser['last_name']
-        , '{PD_FINANCE_TELEFON}'  => $this->requestFinanceUser['phone']
+        , '{PD_FINANCE_TELEFON}'  => $this->requestFinanceUser['phone'] ? $this->requestFinanceUser['phone'] : ''
         , '{PD_FINANCE_EMAIL}'    => $this->requestFinanceUser['email']
       );
       $params = array_merge($params,$data);
@@ -344,7 +344,7 @@ class DocumentTemplate extends BaseModel {
           '{PD_DISTRICT_BEZIRK}'          => $this->districtData['name']
         , '{PD_DISTRICT_PLZ}'             => $this->districtData['plz']
         , '{PD_DISTRICT_STADT}'           => $this->districtData['city']
-        , '{PD_DISTRICT_ADRESSE}'          => $this->districtData['address']
+        , '{PD_DISTRICT_ADRESSE}'         => $this->districtData['address']
         , '{PD_DISTRICT_TELEFON}'         => $this->districtData['phone']
         , '{PD_DISTRICT_TELEFAX}'         => $this->districtData['fax']
         , '{PD_DISTRICT_EMAIL}'           => $this->districtData['email']
