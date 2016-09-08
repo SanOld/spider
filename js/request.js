@@ -591,7 +591,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       $scope.new_project_user = ""; 
     }      
   }
-  
+    
   $scope.length_schools = function(schools){
     var length = 0;
     for (var i in schools) {
@@ -779,8 +779,15 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         } else {
           $scope.getPerformerUsers();
         }
-        
-
+        $timeout(function(){
+          if($scope.length_schools($scope.data.schools) == 1){
+            var id = 0;
+            for(var item in $scope.data.schools){
+              id = item;
+            };
+            $('._' + id + '_').trigger('click');
+          }  
+        });     
       }
     });
   }
@@ -1644,7 +1651,17 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   $scope.schoolConcepts = [];
   
-  $scope.  requestSchoolConcept = function(){
+  $scope.length_concepts = function(concepts){
+    var length = 0;
+    for (var i in concepts) {
+      if (concepts.hasOwnProperty(i)) {
+        length ++;
+      };
+    };
+    return length;
+  };
+  
+  $scope.requestSchoolConcept = function(){
     network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
       if (result) {
         $scope.schoolConcepts = response.result;
@@ -1654,7 +1671,16 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
             angular.element(this).toggleClass('open');
             angular.element(this).next().slideToggle();
           })
-        });
+        });        
+        $timeout(function(){
+          if($scope.length_concepts($scope.schoolConcepts) == 1){
+            var id = 0;
+            for(var item in $scope.schoolConcepts){
+              id = $scope.schoolConcepts[item].id;
+            };
+            $('.collapse-' + id).trigger('click');
+          }  
+        }); 
       }
     });
   }

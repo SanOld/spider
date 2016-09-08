@@ -193,7 +193,7 @@
             <div ng-repeat="school in data.schools" class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a class="collapse ng-binding collapsed" href="#_{{school.id}}_" data-parent="#accordion-project" data-toggle="collapse">
+                  <a class="collapse ng-binding collapsed _{{::school.id}}_" href="#_{{::school.id}}_" data-parent="#accordion-project" data-toggle="collapse">
                     {{school.name}} ({{school.number}})
                   </a>
                 </h4>
