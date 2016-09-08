@@ -1,0 +1,1 @@
+UPDATE `spi_user_type_right` SET `can_view` = '1' WHERE `type_id` = '6' AND `page_id` = '39'; 
