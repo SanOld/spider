@@ -740,6 +740,11 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       $scope.financialRequest = {request_id:item.id};
     };
     
+    $scope.onSelectYear = function (){
+      delete $scope.financialRequest.bank_account_id;
+      delete $scope.IBAN;
+    };
+    
     $scope.updateIBAN = function (item){
       $scope.IBAN = item;
     };
