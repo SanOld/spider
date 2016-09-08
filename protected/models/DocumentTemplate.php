@@ -300,7 +300,7 @@ class DocumentTemplate extends BaseModel {
             
     if($this->performerRepresentativeUser){
       $data = array(
-          '{PD_VERTRETUNGBERECHTIGTE_ANREDE}'   => safe($this->performerRepresentativeUser,'gender') ? $this->performerRepresentativeUser['gender'] : ''
+          '{PD_VERTRETUNGSBERECHTIGTE_ANREDE}'   => safe($this->performerRepresentativeUser,'gender') ? $this->performerRepresentativeUser['gender'] : ''
         , '{PD_VERTRETUNGSBERECHTIGTE_FUNCTION}' => safe($this->performerRepresentativeUser,'function') ? $this->performerRepresentativeUser['function'] : ''
         , '{PD_VERTRETUNGSBERECHTIGTE_VORNAME}'  => safe($this->performerRepresentativeUser,'first_name') ? $this->performerRepresentativeUser['first_name'] : ''
         , '{PD_VERTRETUNGSBERECHTIGTE_NACHNAME}' => safe($this->performerRepresentativeUser,'last_name') ? $this->performerRepresentativeUser['last_name'] : ''
@@ -472,20 +472,20 @@ class DocumentTemplate extends BaseModel {
     $groupOffer_plainGoal = '';
     $groupOffer = array(
           'capacity' => 'Verbesserung der (vorberuflichen) Handlungskompetenzen'
-        , 'transition' => 'Verbesserung aller ГњbergГ¤nge in Schule (Kita-GS-Sek I-Sek II) und in Aus'
+        , 'transition' => 'Verbesserung aller Übergänge in Schule (Kita-GS-Sek I-Sek II) und in Aus'
         , 'reintegration' => 'Abbau von Schuldistanz; Reintegration in den schulischen Alltag'
-        , 'social_skill' => 'StГ¤rkung der sozialen Kompetenzen und des Selbstvertrauen'
-        , 'prevantion_violence' => 'GewaltprГ¤vention und -intervention'
-        , 'health' => 'GesundheitsfГ¶rderung'
-        , 'sport' => 'FГ¶rderung sportlicher, kultureller und sportlicher Interessen'
-        , 'parent_skill' => 'Einbindung der Eltern und StГ¤rkung der Erziehungskompetenzen'
+        , 'social_skill' => 'Stärkung der sozialen Kompetenzen und des Selbstvertrauen'
+        , 'prevantion_violence' => 'Gewaltprävention und -intervention'
+        , 'health' => 'Gesundheitsförderung'
+        , 'sport' => 'Förderung sportlicher, kultureller und sportlicher Interessen'
+        , 'parent_skill' => 'Einbindung der Eltern und Stärkung der Erziehungskompetenzen'
         , 'other_goal' => 'Sonstiges (Bezug in extra Textfeld benennen)'
     );
 
     $groupNet = array(
           'cooperation' => 'Zusammenarbeit im Tandem oder Tridem'
         , 'participation' => 'Mitarbeit in schulischen Gremien, Treffen mit Schulleitung, Mitwirkung in AGs'
-        , 'social_area' => 'Г–ffnung der Schule in den Sozialraum'
+        , 'social_area' => 'Öffnung der Schule in den Sozialraum'
         , 'third_part' => 'Einbindung des Sozialraums bzw. Angebote Dritter in die Schule'
         , 'regional' => 'Mitarbeit in regionalen Arbeitsgemeinschaften / Netzwerken'
         , 'concept' => 'Gemeinsame Handlungs- und Bildungskonzepte'
