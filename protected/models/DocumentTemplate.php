@@ -264,7 +264,9 @@ class DocumentTemplate extends BaseModel {
   protected function prepareText($text) {
     $text = $this->prepareProjectData($text);
     $text = $this->prepareFinanceData($text);
-    $text = $this->prepareFinancialRequestData($text);
+    if(safe($_GET,'fin_request_id')){
+      $text = $this->prepareFinancialRequestData($text);
+    };
 //    $text = $this->prepareConceptData($text);
 //    $text = $this->prepareGoalsData($text);
     return $text;
