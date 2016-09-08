@@ -276,7 +276,7 @@ class DocumentTemplate extends BaseModel {
     $text = preg_replace_callback("/\{FOREACH=SCHOOL KEY=SC\}.+\{FOREACH_END=SCHOOL\}/is", array($this, 'repeatSchools'), $text);
 
     $params = array(
-          '{AUFLAGEN}'      => $this->requestData['senat_additional_info']
+          '{AUFLAGEN}'      => safe($this->requestData,'senat_additional_info') ? $this->requestData['senat_additional_info'] : ''
         , '{FOERDERSUMME}'  => $this->requestData['total_cost']
         , '{JAHR}'          => $this->requestData['year']
         , '{KENNZIFFER}'    => Yii::app()->db->createCommand()->select('code')->from('spi_project')->where('id=:id', array(':id' => $this->requestData['project_id']))->queryScalar()
@@ -287,69 +287,69 @@ class DocumentTemplate extends BaseModel {
 
     if($this->performerData){
       $data = array(
-          '{PD_TRAGER_ADRESSE}'   => $this->performerData['address']
-        , '{PD_TRAEGER_PLZ}'      => $this->performerData['plz']
-        , '{PD_TRAEGER_STADT}'    => $this->performerData['city']
-        , '{PD_TRAEGER_TELEFON}'  => $this->performerData['phone']
-        , '{PD_TRAEGER_TELEFAX}'  => $this->performerData['fax']
-        , '{PD_TRAEGER_HOMEPAGE}' => $this->performerData['homepage']
-        , '{PD_TRAEGER_EMAIL}'    => $this->performerData['email']
+          '{PD_TRAGER_ADRESSE}'   => safe($this->performerData,'address') ? $this->performerData['address'] : ''
+        , '{PD_TRAEGER_PLZ}'      => safe($this->performerData,'plz') ? $this->performerData['plz'] : ''
+        , '{PD_TRAEGER_STADT}'    => safe($this->performerData,'city') ? $this->performerData['city'] : ''
+        , '{PD_TRAEGER_TELEFON}'  => safe($this->performerData,'phone') ? $this->performerData['phone'] : ''
+        , '{PD_TRAEGER_TELEFAX}'  => safe($this->performerData,'fax') ? $this->performerData['fax'] : ''
+        , '{PD_TRAEGER_HOMEPAGE}' => safe($this->performerData,'homepage') ? $this->performerData['homepage'] : ''
+        , '{PD_TRAEGER_EMAIL}'    => safe($this->performerData,'email') ? $this->performerData['email'] : ''
       );
       $params = array_merge($params,$data);
     }
             
     if($this->performerRepresentativeUser){
       $data = array(
-          '{PD_VERTRETUNGBERECHTIGTE_ANREDE}'   => $this->performerRepresentativeUser['gender']
-        , '{PD_VERTRETUNGSBERECHTIGTE_FUNCTION}' => $this->performerRepresentativeUser['function']
-        , '{PD_VERTRETUNGSBERECHTIGTE_VORNAME}'  => $this->performerRepresentativeUser['first_name']
-        , '{PD_VERTRETUNGSBERECHTIGTE_NACHNAME}' => $this->performerRepresentativeUser['last_name']
+          '{PD_VERTRETUNGBERECHTIGTE_ANREDE}'   => safe($this->performerRepresentativeUser,'gender') ? $this->performerRepresentativeUser['gender'] : ''
+        , '{PD_VERTRETUNGSBERECHTIGTE_FUNCTION}' => safe($this->performerRepresentativeUser,'function') ? $this->performerRepresentativeUser['function'] : ''
+        , '{PD_VERTRETUNGSBERECHTIGTE_VORNAME}'  => safe($this->performerRepresentativeUser,'first_name') ? $this->performerRepresentativeUser['first_name'] : ''
+        , '{PD_VERTRETUNGSBERECHTIGTE_NACHNAME}' => safe($this->performerRepresentativeUser,'last_name') ? $this->performerRepresentativeUser['last_name'] : ''
       );
       $params = array_merge($params,$data);
     }
     if($this->requestConceptUser){
       $data = array(
-          '{PD_KONZEPT_ANREDE}'   => $this->requestConceptUser['gender']
-        , '{PD_KONZEPT_FUNCTION}' => $this->requestConceptUser['function']
-        , '{PD_KONZEPT_VORNAME}'  => $this->requestConceptUser['first_name']
-        , '{PD_KONZEPT_NACHNAME}' => $this->requestConceptUser['last_name']
-        , '{PD_KONZEPT_TELEFON}'  => $this->requestConceptUser['phone'] ? $this->requestConceptUser['phone'] : ''
-        , '{PD_KONZEPT_EMAIL}'    => $this->requestConceptUser['email']
+          '{PD_KONZEPT_ANREDE}'   => safe($this->requestConceptUser,'gender') ? $this->requestConceptUser['gender'] : ''
+        , '{PD_KONZEPT_FUNCTION}' => safe($this->requestConceptUser,'function') ? $this->requestConceptUser['function'] : ''
+        , '{PD_KONZEPT_VORNAME}'  => safe($this->requestConceptUser,'first_name') ? $this->requestConceptUser['first_name'] : ''
+        , '{PD_KONZEPT_NACHNAME}' => safe($this->requestConceptUser,'last_name') ? $this->requestConceptUser['last_name'] : ''
+        , '{PD_KONZEPT_TELEFON}'  => safe($this->requestConceptUser,'phone') ? $this->requestConceptUser['phone'] : ''
+        , '{PD_KONZEPT_EMAIL}'    => safe($this->requestConceptUser,'email') ? $this->requestConceptUser['email'] : ''
       );
       $params = array_merge($params,$data);
     }
     if($this->requestFinanceUser){
       $data = array(
-          '{PD_FINANCE_ANREDE}'   => $this->requestFinanceUser['gender']
-        , '{PD_FINANCE_FUNCTION}' => $this->requestFinanceUser['function']
-        , '{PD_FINANCE_VORNAME}'  => $this->requestFinanceUser['first_name']
-        , '{PD_FINANCE_NACHNAME}' => $this->requestFinanceUser['last_name']
-        , '{PD_FINANCE_TELEFON}'  => $this->requestFinanceUser['phone'] ? $this->requestFinanceUser['phone'] : ''
-        , '{PD_FINANCE_EMAIL}'    => $this->requestFinanceUser['email']
+          '{PD_FINANCE_ANREDE}'   => safe($this->requestFinanceUser,'phone') ? $this->requestFinanceUser['phone'] : ''
+        , '{PD_FINANCE_FUNCTION}' => safe($this->requestFinanceUser,'function') ? $this->requestFinanceUser['function'] : ''
+        , '{PD_FINANCE_VORNAME}'  => safe($this->requestFinanceUser,'first_name') ? $this->requestFinanceUser['first_name'] : ''
+        , '{PD_FINANCE_NACHNAME}' => safe($this->requestFinanceUser,'last_name') ? $this->requestFinanceUser['last_name'] : ''
+        , '{PD_FINANCE_TELEFON}'  => safe($this->requestFinanceUser,'phone') ? $this->requestFinanceUser['phone'] : ''
+        , '{PD_FINANCE_EMAIL}'    => safe($this->requestFinanceUser,'email') ? $this->requestFinanceUser['email'] : ''
       );
       $params = array_merge($params,$data);
     }
     if($this->bankDetails){
       $data = array(
-          '{PD_BANK_CONTACT}' => $this->bankDetails['contact_person']
-        , '{PD_BANK_NAME}'    => $this->bankDetails['bank_name']
-        , '{PD_BANK_OUTER}'   => $this->bankDetails['outer_id']
-        , '{PD_BANK_DESCR}'   => $this->bankDetails['description']
-        , '{PD_BANK_IBAN}'    => $this->bankDetails['iban']
+          '{PD_BANK_CONTACT}' => safe($this->bankDetails,'contact_person') ? $this->bankDetails['contact_person'] : ''
+        , '{PD_BANK_NAME}'    => safe($this->bankDetails,'bank_name') ? $this->bankDetails['bank_name'] : ''
+        , '{PD_BANK_OUTER}'   => safe($this->bankDetails,'outer_id') ? $this->bankDetails['outer_id'] : ''
+        , '{PD_BANK_DESCR}'   => safe($this->bankDetails,'description') ? $this->bankDetails['description'] : ''
+        , '{PD_BANK_IBAN}'    => safe($this->bankDetails,'iban') ? $this->bankDetails['iban'] : ''
       );
       $params = array_merge($params,$data);
     }
     if($this->districtData){
       $data = array(
-          '{PD_DISTRICT_BEZIRK}'          => $this->districtData['name']
-        , '{PD_DISTRICT_PLZ}'             => $this->districtData['plz']
-        , '{PD_DISTRICT_STADT}'           => $this->districtData['city']
-        , '{PD_DISTRICT_ADRESSE}'         => $this->districtData['address']
-        , '{PD_DISTRICT_TELEFON}'         => $this->districtData['phone']
-        , '{PD_DISTRICT_TELEFAX}'         => $this->districtData['fax']
-        , '{PD_DISTRICT_EMAIL}'           => $this->districtData['email']
-        , '{PD_DISTRICT_HOMEPAGE}'        => $this->districtData['homepage']
-        , '{PD_DISTRICT_ADDRESS}'         => $this->districtData['full_address']
+          '{PD_DISTRICT_BEZIRK}'          => safe($this->districtData,'iban') ? $this->districtData['name'] : ''
+        , '{PD_DISTRICT_PLZ}'             => safe($this->districtData,'plz') ? $this->districtData['plz'] : ''
+        , '{PD_DISTRICT_STADT}'           => safe($this->districtData,'city') ? $this->districtData['city'] : ''
+        , '{PD_DISTRICT_ADRESSE}'         => safe($this->districtData,'address') ? $this->districtData['address'] : ''
+        , '{PD_DISTRICT_TELEFON}'         => safe($this->districtData,'phone') ? $this->districtData['phone'] : ''
+        , '{PD_DISTRICT_TELEFAX}'         => safe($this->districtData,'fax') ? $this->districtData['fax'] : ''
+        , '{PD_DISTRICT_EMAIL}'           => safe($this->districtData,'email') ? $this->districtData['email'] : ''
+        , '{PD_DISTRICT_HOMEPAGE}'        => safe($this->districtData,'homepage') ? $this->districtData['homepage'] : ''
+        , '{PD_DISTRICT_ADDRESS}'         => safe($this->districtData,'full_address') ? $this->districtData['full_address'] : ''
       );
       $params = array_merge($params,$data);
     } 
@@ -391,12 +391,12 @@ class DocumentTemplate extends BaseModel {
 //    $text = preg_replace_callback("/\{FOREACH=SACHKOSTEN\}.+\{FOREACH_END=SACHKOSTEN\}/is", array($this, 'repeatSchools'), $text);
 
     $params = array(
-                    '{FD_REVENUE_SUM}'           => $this->requestData['revenue_sum']
-                  , '{FD_EMOLOYEES_COST}'        => $this->requestData['emoloyees_cost']
-                  , '{FD_TRAINING_COST}'         => $this->requestData['training_cost']
-                  , '{FD_OVERHEAD_COST}'         => $this->requestData['overhead_cost']
-                  , '{FD_PROF_ASSOCIATION_COST}' => $this->requestData['prof_association_cost']
-                  , '{FD_TOTAL_COST}'            => $this->requestData['total_cost']
+                    '{FD_REVENUE_SUM}'           => safe($this->requestData,'revenue_sum') ? $this->requestData['revenue_sum'] : ''
+                  , '{FD_EMOLOYEES_COST}'        => safe($this->requestData,'emoloyees_cost') ? $this->requestData['emoloyees_cost'] : ''
+                  , '{FD_TRAINING_COST}'         => safe($this->requestData,'training_cost') ? $this->requestData['training_cost'] : ''
+                  , '{FD_OVERHEAD_COST}'         => safe($this->requestData,'overhead_cost') ? $this->requestData['overhead_cost'] : ''
+                  , '{FD_PROF_ASSOCIATION_COST}' => safe($this->requestData,'prof_association_cost') ? $this->requestData['prof_association_cost'] : ''
+                  , '{FD_TOTAL_COST}'            => safe($this->requestData,'total_cost') ? $this->requestData['total_cost'] : ''
                 );
 
     return $this->doReplace($text,$params);
@@ -410,16 +410,17 @@ class DocumentTemplate extends BaseModel {
     
     $request_cost = $this->finRequestData['request_cost'];
     $request_cost = str_replace('.', ',', $request_cost);
+    $rate = Yii::app()->db->createCommand()->select('name')->from('spi_rate')->where('id=:id', array(':id' => $this->finRequestData['rate_id']))->queryScalar();
     
     $params = array(
-                    '{TRAEGERADRESSE}'           => $this->performerData['address']
-                  , '{KONTOVERBINDUNG}'          => "Bank: ".$this->bankData['bank_name']."<br> IBAN: ".$this->bankData['iban']
+                    '{TRAEGERADRESSE}'           => safe($this->performerData,'address') ? $this->performerData['address'] : ''
+                  , '{KONTOVERBINDUNG}'          => "Bank: ".safe($this->bankData,'bank_name') ? $this->bankData['bank_name'] : ''."<br> IBAN: ". safe($this->bankData,'iban') ? $this->bankData['iban'] : ''
                   //, '{KONTO}'                    => $this->bankData
                   //, '{BLZ}'                      => $this->bankData['']
-                  , '{KREDITOR}'                 => $this->bankData['bank_name']
-                  , '{IBAN}'                     => $this->bankData['iban']
+                  , '{KREDITOR}'                 => safe($this->bankData,'bank_name') ? $this->bankData['bank_name'] : ''
+                  , '{IBAN}'                     => safe($this->bankData,'iban') ? $this->bankData['iban'] : ''
                   , '{BELEGDATUM MITTELABRUF}'   => $date
-                  , '{RATE MITTELABRUF}'         => Yii::app()->db->createCommand()->select('name')->from('spi_rate')->where('id=:id', array(':id' => $this->finRequestData['rate_id']))->queryScalar()
+                  , '{RATE MITTELABRUF}'         => $rate == 0 ? '-' : $rate
                   , '{BETRAG MITTELABRUF}'       => $request_cost
                 );
 
@@ -438,25 +439,25 @@ class DocumentTemplate extends BaseModel {
                       '{FOREACH=PERSONALKOSTEN KEY=PK}'    => ''
                     , '{FOREACH_END=PERSONALKOSTEN}'       => ''
 
-                    , '{PK_USERNAME}'                      => $user_info['user_name']
-                    , '{PK_USERFUNCTION}'                  => $user_info['user_function']
+                    , '{PK_USERNAME}'                      => safe($user_info,'user_name') ? $user_info['user_name'] : ''
+                    , '{PK_USERFUNCTION}'                  => safe($user_info,'user_function') ? $user_info['user_function'] : ''
 
-                    , '{PK_KOSTEN_PRO_JAHR_BRUTTO}'        => $user['brutto']
-                    , '{PK_KOSTEN_PRO_JAHR_ANTEIL}'        => $user['add_cost']
+                    , '{PK_KOSTEN_PRO_JAHR_BRUTTO}'        => safe($user,'brutto') ? $user['brutto'] : ''
+                    , '{PK_KOSTEN_PRO_JAHR_ANTEIL}'        => safe($user,'add_cost') ? $user['add_cost'] : ''
 
-                    , '{PK_OTHER}'                         => $user['other']
-                    , '{PK_COST_PER_MONTH_BRUTTO}'         => $user['cost_per_month_brutto']
-                    , '{PK_MONTH_COUNT}'                   => $user['month_count']
-                    , '{PK_HOURS_PER_WEEK}'                => $user['hours_per_week']
-                    , '{PK_HAVE_ANNUAL_BONUS}'             => $user['have_annual_bonus']
-                    , '{PK_ANNUAL_BONUS}'                  => $user['annual_bonus']
-                    , '{PK_HAVE_ADDITIONAL_PROVISION_VWL}' => $user['have_additional_provision_vwl']
-                    , '{PK_ADDITIONAL_PROVISION_VWL}'      => $user['additional_provision_vwl']
-                    , '{PK_HAVE_SUPPLEMENTARY_PENSION}'    => $user['have_supplementary_pension']
-                    , '{PK_SUPPLEMENTARY_PENSION}'         => $user['supplementary_pension']
-                    , '{PK_BRUTTO}'                        => $user['brutto']
-                    , '{PK_ADD_COST}'                      => $user['add_cost']
-                    , '{PK_FULL_COST}'                     => $user['full_cost']
+                    , '{PK_OTHER}'                         => safe($user,'other') ? $user['other'] : ''
+                    , '{PK_COST_PER_MONTH_BRUTTO}'         => safe($user,'cost_per_month_brutto') ? $user['cost_per_month_brutto'] : ''
+                    , '{PK_MONTH_COUNT}'                   => safe($user,'month_count') ? $user['month_count'] : ''
+                    , '{PK_HOURS_PER_WEEK}'                => safe($user,'hours_per_week') ? $user['hours_per_week'] : ''
+                    , '{PK_HAVE_ANNUAL_BONUS}'             => safe($user,'have_annual_bonus') ? $user['have_annual_bonus'] : ''
+                    , '{PK_ANNUAL_BONUS}'                  => safe($user,'annual_bonus') ? $user['annual_bonus'] : ''
+                    , '{PK_HAVE_ADDITIONAL_PROVISION_VWL}' => safe($user,'have_additional_provision_vwl') ? $user['have_additional_provision_vwl'] : ''
+                    , '{PK_ADDITIONAL_PROVISION_VWL}'      => safe($user,'additional_provision_vwl') ? $user['additional_provision_vwl'] : ''
+                    , '{PK_HAVE_SUPPLEMENTARY_PENSION}'    => safe($user,'have_supplementary_pension') ? $user['have_supplementary_pension'] : ''
+                    , '{PK_SUPPLEMENTARY_PENSION}'         => safe($user,'supplementary_pension') ? $user['supplementary_pension'] : ''
+                    , '{PK_BRUTTO}'                        => safe($user,'brutto') ? $user['brutto'] : ''
+                    , '{PK_ADD_COST}'                      => safe($user,'add_cost') ? $user['add_cost'] : ''
+                    , '{PK_FULL_COST}'                     => safe($user,'full_cost') ? $user['full_cost'] : ''
                   );
       
       $text[] = $this->doReplace($data[0],$params);
@@ -521,24 +522,24 @@ class DocumentTemplate extends BaseModel {
       $params = array(
             '{FOREACH=GOAL KEY=GD}'           => ''
           , '{FOREACH_END=GOAL}'              => ''
-          , '{GD_NAME}'                       => $goal['name']
-          , '{GD_DESCRIPTION}'                => $goal['description']
+          , '{GD_NAME}'                       => safe($goal,'name') ? $goal['name'] : ''
+          , '{GD_DESCRIPTION}'                => safe($goal,'description') ? $goal['description'] : ''
 
           , '{GD_GROUPOFFER_SCHWERPUNKTZIEL}' => $groupOffer_priorityGoal
           , '{GD_GROUPOFFER_WEITERESZIEL}'    => $groupOffer_plainGoal
-          , '{GD_GROUPOFFER_OTHER}'           => $goal['other_description']
+          , '{GD_GROUPOFFER_OTHER}'           => safe($goal,'other_description') ? $goal['other_description'] : ''
 
           , '{GD_GROUPNET_SCHWERPUNKTZIEL}'   => $groupNet_priorityGoal
           , '{GD_GROUPNET_WEITERESZIEL}'      => $groupNet_plainGoal
-          , '{GD_GROUPNET_OTHER}'             => $goal['network_text']
+          , '{GD_GROUPNET_OTHER}'             => safe($goal,'network_text') ? $goal['network_text'] : ''
               
-          , '{GD_UMSETZUNG}'                  => $goal['implementation']
+          , '{GD_UMSETZUNG}'                  => safe($goal,'implementation') ? $goal['implementation'] : ''
 
-          , '{GD_INDIKATOREN1}'               => $goal['indicator_1']
-          , '{GD_INDIKATOREN2}'               => $goal['indicator_2']
-          , '{GD_INDIKATOREN3}'               => $goal['indicator_3']
-          , '{GD_INDIKATOREN4}'               => $goal['indicator_4']
-          , '{GD_INDIKATOREN5}'               => $goal['indicator_5']
+          , '{GD_INDIKATOREN1}'               => safe($goal,'indicator_1') ? $goal['indicator_1'] : ''
+          , '{GD_INDIKATOREN2}'               => safe($goal,'indicator_2') ? $goal['indicator_2'] : ''
+          , '{GD_INDIKATOREN3}'               => safe($goal,'indicator_3') ? $goal['indicator_3'] : '' 
+          , '{GD_INDIKATOREN4}'               => safe($goal,'indicator_4') ? $goal['indicator_4'] : '' 
+          , '{GD_INDIKATOREN5}'               => safe($goal,'indicator_5') ? $goal['indicator_5'] : ''
 
         );
 
