@@ -181,7 +181,7 @@ class DocumentTemplate extends BaseModel {
           $this->requestSchoolFinance = $requestInfo['result'];
           /*end request_school_finance*/
           
-          if($this->user['is_finasist'] == '1'){
+          if($this->user['is_finansist'] == '1'){
             /*start BankDetails*/
             $Request = CActiveRecord::model('BankDetails');
             $Request->user = $this->user;
