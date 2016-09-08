@@ -59,15 +59,6 @@ class DocumentTemplate extends BaseModel {
     $command = $this->setWhereByRole($command);
     return $command;
   }
-  
-  protected function setWhereByRole($command) {
-    switch($this->user['type']) {
-      case TA:
-        $command->andWhere("tbl.is_prototype = '0'");
-        break;
-    }
-    return $command;
-  }
 
   protected function doBeforeInsert($post) {
 
