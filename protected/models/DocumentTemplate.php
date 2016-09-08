@@ -164,8 +164,9 @@ class DocumentTemplate extends BaseModel {
         }
       }
       /*end performerUsers*/
-
-      /*start finance information*/
+      
+      
+        /*start finance information*/
           /*start finPlanUsers*/
           $Request = CActiveRecord::model('RequestUser');
           $Request->user = $this->user;
@@ -179,17 +180,16 @@ class DocumentTemplate extends BaseModel {
           $requestInfo = $Request->select(array('request_id' => safe($_GET, 'request_id')), true);
           $this->requestSchoolFinance = $requestInfo['result'];
           /*end request_school_finance*/
+          
+          if($this->user['is_finasist'] == '1'){
+            /*start BankDetails*/
+            $Request = CActiveRecord::model('BankDetails');
+            $Request->user = $this->user;
 
-
-
-
-          /*start BankDetails*/
-          $Request = CActiveRecord::model('BankDetails');
-          $Request->user = $this->user;
-
-          $requestInfo = $Request->select(array('performer_id' => $this->requestData['performer_id'] ), true);
-          $this->bankDetails = $requestInfo['result'][0];
-          /*end BankDetails*/
+            $requestInfo = $Request->select(array('performer_id' => $this->requestData['performer_id'] ), true);
+            $this->bankDetails = $requestInfo['result'][0];
+            /*end BankDetails*/
+          };          
 
           /*start RequestProfAssociation*/
           $Request = CActiveRecord::model('RequestProfAssociation');
@@ -198,8 +198,7 @@ class DocumentTemplate extends BaseModel {
 
           $this->profAssociation = $requestInfo['result'][0];
           /*end RequestProfAssociation*/
-
-      /*end finance information*/
+        /*end finance information*/ 
 
       /*start District*/
       $district_id = Yii::app()->db->createCommand()->select('district_id')->from('spi_project')->where('id=:id', array(':id' => $this->requestData['project_id']))->queryScalar();
@@ -235,7 +234,7 @@ class DocumentTemplate extends BaseModel {
         $row['text'] = $this->prepareText($row['text']);
       }
     }
-    if(safe($_GET, 'prepare_fin_request') == '1' && safe($_GET, 'fin_request_id')){
+    if(safe($_GET, 'prepare_fin_request') && safe($_GET, 'fin_request_id')){
       $FinRequest = CActiveRecord::model('FinancialRequest');      
       $FinRequest->user = $this->user;
       $finRequestInfo = $FinRequest->select(array('id' => safe($_GET, 'fin_request_id')), true);
