@@ -16,6 +16,7 @@ class SystemModel extends BaseModel
     public function startAllTablesAudit() {
       //TODO: выбираем список всех таблиц, кроме аудита и, если нету записи в сеттингах - добавляем.
       //;
+      $dbName = $this->getDsnAttribute('dbname', Yii::app()->db->connectionString);
       $query = "SELECT table_name 
                   FROM information_schema.tables 
                  WHERE table_schema= DATABASE() 
