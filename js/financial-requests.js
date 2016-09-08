@@ -436,7 +436,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
               $scope.selectProjectDetails = response.result[i];
             };
           };
-          $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.requests, data.request_id));          
+          if(!$scope.isInsert){
+            $scope.updateBankDetails(data.performer_id, data.request_id, Utils.getRowById($scope.requests, data.request_id));   
+          };   
         };
       });
     };
