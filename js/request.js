@@ -192,8 +192,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       data = data_reset;
     };
     var financeErors  = angular.copy(RequestService.hasErrorsFinanceForm());
-    financeErors = $scope.unique(financeErors);
-    if(financeErors.indexOf("Stellenanteil") == -1){
+    if(financeErors){
+      financeErors = $scope.unique(financeErors);
+    };
+    if(!financeErors || financeErors.indexOf("Stellenanteil") == -1){
       network.put('request/' + $scope.requestID, data, function(result, response) {
         if(result) {
           RequestService.afterSave();
@@ -2351,13 +2353,13 @@ spi.controller('ModalEndFillController', function ($scope, start_date, due_date,
 
 });
 
-spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModalInstance, network, RequestService, SweetAlert, Utils) {
+spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModalInstance, network, RequestService, SweetAlert, Utils) {  
+  $scope.user = network.user;
   $scope.checkboxes = {
-    'finance' : true,
+    'finance' : $scope.user.is_finasist == 1 ? true : false,
     'concept' : true,
     'goal'    : true
   };
-  $scope.user = network.user;
   $scope.errors = '';
   
   var goalErors     = RequestService.hasErrorsGoalsForm();   //array[array]

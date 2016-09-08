@@ -186,7 +186,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
     <div class="panel-body text-center">
       <ng-form name="sendToAccept">
         <h3 class="m-b-10 p-b-10">Folgende Antragsteile werden zur Prüfung übermittelt:</h3>
-          <div class="checkbox p-b-10 clearfix custom-m-l-30">
+          <div class="checkbox p-b-10 clearfix custom-m-l-30" ng-if="user.is_finansist == 1">
             <label class="cr-styled pull-left" for="finance"><input name="finance" id="finance" type="checkbox" ng-model="checkboxes.finance"><i class="fa"></i>Finanzplan</label>
           </div>
           <div class="checkbox p-b-10 clearfix custom-m-l-30">
