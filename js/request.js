@@ -1184,9 +1184,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'is_umlage':              $scope.data.is_umlage
                     , 'finance_user_id':        $scope.data.finance_user_id
                     };
-    if($scope.request_users[0].user_id){
-      data.users = $scope.request_users;
-    };
+    data.users = $scope.request_users;    
     data.prof_associations = $scope.prof_associations;
     data.schools = $scope.financeSchools;
     var finPlan = angular.copy(data);
