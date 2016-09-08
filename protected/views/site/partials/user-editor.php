@@ -1,5 +1,5 @@
 
-<script type="text/ng-template" id="editUserTemplate.html">
+<!--<script type="text/ng-template" id="editUserTemplate.html">-->
   <div class="panel panel-color panel-primary">
     <div class="panel-heading clearfix">
       <h3 ng-if="isInsert" class="m-0 pull-left">Benutzer hinzufügen</h3>
@@ -153,10 +153,10 @@
           <div class="col-lg-10">
             <div class="btn-group btn-toggle">
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 1}" ng-model="user.is_finansist"
-                      uib-btn-radio="1" ng-disabled="!can_change">JA
+                      uib-btn-radio="1" ng-disabled="!can_change || is_self">JA
               </button>
               <button class="btn btn-sm" ng-class="{'btn-default': user.is_finansist != 0}" ng-model="user.is_finansist"
-                      uib-btn-radio="0" ng-disabled="!can_change">NEIN
+                      uib-btn-radio="0" ng-disabled="!can_change || is_self">NEIN
               </button>
             </div>
             <!--<span ng-if="isCurrentUser || modeView" class="no-edit-text">{{user.is_finansist ? 'Ja' : 'Nein'}}</span>-->
