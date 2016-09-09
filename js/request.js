@@ -111,7 +111,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
             if(!RequestService.isChangedConceptForm()){  
               delete data_save['school_concepts'][item];
               data_save['school_concepts'][item] = { status : 'in_progress'};
-            }else{;
+            }else{
               data_save['school_concepts'][item].status = 'in_progress';
             }
           };
@@ -120,11 +120,17 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
         }
         if(formsToSend.indexOf('goal') != -1){
           for(var item in data_save['school_goals']){
-            if(!RequestService.isChangedConceptForm()){ 
-              delete data_save['school_goals'][item];
-              data_save['school_goals'][item] = { status : 'in_progress'};
-            }else{;
-              data_save['school_goals'][item].status = 'in_progress';
+            if(!RequestService.getSchoolGoalData()){
+              if(data_save['school_goals'][item].option == '0'){
+                delete data_save['school_goals'][item];
+                data_save['school_goals'][item] = { status : 'in_progress'};
+              }else{
+                delete data_save['school_goals'][item];
+              };
+            }else{
+              if(data_save['school_goals'][item].option == '0'){                
+                data_save['school_goals'][item].status = 'in_progress';
+              };
             }
           };
         }else{
@@ -171,7 +177,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       });
       angular.forEach(data['school_goals'], function(val, key) {
         delete data_reset['school_goals'][key];
-        if(val.status != 'unfinished' && val.status != 'rejected'){
+        if(val.status != 'unfinished' && val.status != 'rejected' && val.option == '0'){
           data_reset['school_goals'][key] = {
             status: 'in_progress'
           };
