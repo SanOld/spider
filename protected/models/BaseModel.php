@@ -97,7 +97,7 @@ class BaseModel extends CFormModel {
     return $result;
   }
   protected function getCountRes($command) {
-    $command->select('COUNT(*) cnt')
+    $command->select('(1)')
       ->order('')
       ->limit('-1')
       ->offset('');
