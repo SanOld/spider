@@ -180,6 +180,19 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
           button[0].click();
           button.remove();
         };
+        function length (schools){
+          var length = false;
+          for (var i in schools) {
+            if (schools.hasOwnProperty(i)) {
+              if (typeof schools[i] == 'object') {
+                length = true;
+                return length;
+              }else{                
+                return length;
+              };
+            };
+          };
+        };
         element.bind('click', function(e){
           if(scope.checkbox){
             for(var box in scope.checkbox){
@@ -198,60 +211,74 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
             };
           };
           var csvString = '';
-            network.get(scope.paramsForExport.model, scope.paramsForExport.param, function (result, response) {
-              if (result) {
-                for(var table in scope.paramsForExport.tables){
-                  if(scope.paramsForExport.tables[table].data){
-                    response.result = scope.paramsForExport.tables[table].data;
-                  };                
-                  //add columns to the top
-                  for(var column in scope.paramsForExport.tables[table].columns){
-                    csvString += scope.paramsForExport.tables[table].columns[column] + ",";
-                  };
-                  var counter = 0;                
-                  //add data to the csv file
-                  for(var i = 0; i < response.result.length; i++ ){
-                    csvString = csvString.substring(0,csvString.length - 1);            
-                    csvString = csvString + "\n";
-                    a:
-                    for(var columns in scope.paramsForExport.tables[table].columns){
-                      b:
-                      //recursive repeat of data for audit
-                      if(scope.paramsForExport.tables[table].recursive && scope.paramsForExport.tables[table].recursive.indexOf(columns) != -1){
-                        csvString += response.result[i].data[counter][columns] + ",";
-                        if(scope.paramsForExport.tables[table].recursive.indexOf(columns) == scope.paramsForExport.tables[table].recursive.length - 1){
-                          if(response.result[i].data.length == counter +1){
-                            counter = 0;
-                          }else{
-                            counter++;
-                            i --;                      
-                          };
-                          break a;
+          network.get(scope.paramsForExport.model, scope.paramsForExport.param, function (result, response) {
+            if (result) {
+              for(var table in scope.paramsForExport.tables){
+                if(scope.paramsForExport.tables[table].data){
+                  response.result = scope.paramsForExport.tables[table].data;
+                };                
+                //add columns to the top
+                for(var column in scope.paramsForExport.tables[table].columns){
+                  csvString += scope.paramsForExport.tables[table].columns[column] + ",";
+                };
+                var counter = 0;                
+                //add data to the csv file
+                for(var i = 0; i < response.result.length; i++ ){
+                  csvString = csvString.substring(0,csvString.length - 1);            
+                  csvString = csvString + "\n";
+                  a:
+                  for(var columns in scope.paramsForExport.tables[table].columns){
+                    b:
+                    //recursive repeat of data for audit
+                    if(scope.paramsForExport.tables[table].recursive && scope.paramsForExport.tables[table].recursive.indexOf(columns) != -1){
+                      csvString += response.result[i].data[counter][columns] + ",";
+                      if(scope.paramsForExport.tables[table].recursive.indexOf(columns) == scope.paramsForExport.tables[table].recursive.length - 1){
+                        if(response.result[i].data.length == counter +1){
+                          counter = 0;
                         }else{
-                          break b;
-                        }
-                      };
-                      c:
-                      //simple export data
-                      for(var column in response.result[i]){
-                        if(columns.match(/null/)){
-                          csvString += ',';
+                          counter++;
+                          i --;                      
                         };
-                        if(columns == column){
+                        break a;
+                      }else{
+                        break b;
+                      }
+                    };
+                    c:
+                    //simple export data
+                    for(var column in response.result[i]){
+                      if(columns.match(/null/) && !scope.paramsForExport.tables[table].enter){
+                        csvString += ',';
+                        break c;
+                      }else{
+                        var column_reg = new RegExp(column + '.+');
+                        if(columns == column || columns.match(column_reg)){
                           if(response.result[i][column]){
                             if(typeof response.result[i][column] == 'object'){
-                              var csvObjectString = '';
-                              for(var k in response.result[i][column]){
-                                var count = Number(k) + 1;
-                                csvObjectString += count + ". " + response.result[i][column][k][scope.paramsForExport.tables[table][column]] + " ";
-                              };
-                              csvString += '"' + csvObjectString + ',' ;
-                              csvString = csvString.substring(0, csvString.length - 1);
+                              if(columns != column && !length(response.result[i][column])){
+                                if(response.result[i][column][scope.paramsForExport.tables[table][columns]]){
+                                  csvString += '"' + response.result[i][column][scope.paramsForExport.tables[table][columns]] + '"' + ',' ;
+                                }else{
+                                  csvString += ',';
+                                }
+                              }else{
+                                var count = 0;
+                                var csvObjectString = '';
+                                for(var k in response.result[i][column]){
+                                  count += 1;
+                                  if(response.result[i][column][k][scope.paramsForExport.tables[table][columns]]){                                    
+                                    csvObjectString += count + ". " + response.result[i][column][k][scope.paramsForExport.tables[table][columns]] + " ";
+                                  }else{
+                                    csvObjectString += count + ". " + " - " + " ";
+                                  }                                  
+                                };
+                                csvString += '"' + csvObjectString + '"' + ',';
+                              }
                             }else{
                               //numbers in format 1000,00
                               if(typeof response.result[i][column] == 'number' || response.result[i][column].match(reg_number)){
-                                String(response.result[i][column]).replace(/\./gi, ",");
-                                csvString += '"' + response.result[i][column] + '"' + ',' ;
+                                var cost = String(response.result[i][column]).replace(/\./gi, ",");
+                                csvString += '"' + cost + '"' + ',' ;
                               }else if(response.result[i][column].match(reg_date)){
                                 //data in format 09-09-2018
                                 var day = response.result[i][column].substring(8);
@@ -266,17 +293,23 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
                             csvString += " ," ;
                           }
                           break c;
-                        }                
+                        }
                       }
                     }
                   }
-                  csvString = csvString + "\n";
-                  csvString = csvString + "\n";
-                };
-              };              
-              csvString = csvString.substring(0, csvString.length - 1);
-              addClick(csvString);
-            });
+                }
+                if(!scope.paramsForExport.tables[table].enter){                    
+                  csvString = csvString + "\n";                    
+                  csvString = csvString + "\n";  
+                };                
+              };
+            };              
+            csvString = csvString.substring(0, csvString.length - 1);
+            addClick(csvString);
+            if(scope.uibModalInstance){
+              scope.uibModalInstance.close();
+            };
+          });
         });
     	}
   	};
