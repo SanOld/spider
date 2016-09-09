@@ -60,7 +60,7 @@
                         <div spi-hint text="_hint.text.text"  title="_hint.text.title"  class="has-hint"></div>
                         <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('name')}">
                           <div class="">
-                            <summernote config="options" ng-model="document.text"></summernote>
+                            <summernote lang="de-DE" config="options" ng-model="document.text"></summernote>
                           </div>
                         </div>
                       </div>

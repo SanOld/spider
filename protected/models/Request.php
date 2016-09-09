@@ -828,6 +828,8 @@ class Request extends BaseModel {
       $RequestSchoolFinance ->user = $this->user;
       $RequestUser = CActiveRecord::model('RequestUser');
       $RequestUser ->user = $this->user;
+      $RequestProfAssociation = CActiveRecord::model('RequestProfAssociation');
+      $RequestProfAssociation ->user = $this->user;
 
 
       $ids = !is_array($post['ids']) ? array($post['ids']) : $post['ids'];
@@ -871,6 +873,7 @@ class Request extends BaseModel {
 //          $this->copyData('spi_request_school_goal', $RequestSchoolGoal, $oldId, $newId );
           $this->copyData('spi_request_school_finance', $RequestSchoolFinance, $oldId, $newId );
           $this->copyData('spi_request_user', $RequestUser, $oldId, $newId );
+          $this->copyData('spi_request_prof_association', $RequestProfAssociation, $oldId, $newId );
         }
       }
       response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'post');

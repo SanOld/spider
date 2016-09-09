@@ -122,14 +122,15 @@
             <button class="btn w-xs pull-right" ng-click=""></button>
           </div>  
           <div class="col-lg-6 btn-row">
-            <button class="btn w-xs pull-right" ng-click="request_users.push({})" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canFormEdit">Mitarbeiter/in hinzufügen</button>
+            <button class="btn w-xs pull-right" ng-click="request_users.push({})" 
+                    ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canFormEdit && canEdit()">Mitarbeiter/in hinzufügen</button>
           </div>
         </div>
         <div class="row m-b-30">
           <label class="col-lg-2 control-label">Umlage 1<span spi-hint text="_hint.fin_plan_employee_is_umlage.text"  title="_hint.fin_plan_employee_is_umlage.title"  class="has-hint"></span></label>
           <div class="btn-group btn-toggle col-lg-2 control-label wrap-hint">
-            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateAllEmployees(request_users)" ng-class="data.is_umlage == 1 ? 'active' : 'btn-default'" ng-model="data.is_umlage" uib-btn-radio="1" class="btn btn-sm">JA</button>
-            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateAllEmployees(request_users)" ng-class="data.is_umlage != 1 ? 'active' : 'btn-default'" ng-model="data.is_umlage" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
+            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateAllEmployees(request_users)" ng-class="data.is_umlage == 1 ? 'active' : 'btn-default'" ng-model="data.is_umlage" uib-btn-radio="1" class="btn btn-sm">JA</button>
+            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateAllEmployees(request_users)" ng-class="data.is_umlage != 1 ? 'active' : 'btn-default'" ng-model="data.is_umlage" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
           </div>
         </div>
         <div id="accordion-account" class="panel-group panel-group-joined row">
@@ -172,7 +173,8 @@
                         <input   placeholder="Vorname Nachname" ng-keyup="escapeEmployeeUser($event, $index)"
                                ng-keypress="submitToAddUserEmpl($event, emploee.new_user_name, $index)" 
                                ng-hide="!add_employee_user" class="form-control popup-input" type="text" ng-model="emploee.new_user_name"
-                               ng-disabled="userLoading" id="employee_user">  
+                               ng-disabled="userLoading"
+                               id="employee_user">
                         <div class="wrap-hint" ng-class="{'wrap-line error': (fieldsError2(emploee.user_id, 'Mitarbeiter' + '-' + key) && errorShow) }">
 
                               <ui-select required   on-select="employeeOnSelect($item, emploee)" class="type-document" ng-model="emploee.user_id"
@@ -295,13 +297,13 @@
                         <div class="form-group">
                           <label class="col-lg-4 control-label ">Jahressonderzahlungen<span spi-hint text="_hint.fin_plan_employee_have_annual_bonus.text"  title="_hint.fin_plan_employee_have_annual_bonus.title"  class="has-hint"></span></label>
                           <div class="btn-group btn-toggle col-lg-2 control-label">
-                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_annual_bonus == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_annual_bonus" uib-btn-radio="1" class="btn btn-sm">JA</button>
-                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_annual_bonus != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_annual_bonus" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
+                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateEmployee(emploee)" ng-class="emploee.have_annual_bonus == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_annual_bonus" uib-btn-radio="1" class="btn btn-sm">JA</button>
+                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateEmployee(emploee)" ng-class="emploee.have_annual_bonus != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_annual_bonus" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
                           </div>
                           <div class="has-input" ng-show="emploee.have_annual_bonus">
                             <div class="col-lg-2">
                             <div class="wrap-hint" ng-class="{'wrap-line error': (emploee.have_annual_bonus == 1 && fieldsError2(emploee.annual_bonus, 'Jahressonderzahlungen') && errorShow) }">
-                               <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit"  ng-change="calculateEmployee(emploee)" ng-required="(emploee.have_annual_bonus == 1 )" class="form-control" ng-model="emploee.annual_bonus" type="text" >
+                               <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateEmployee(emploee)" ng-required="(emploee.have_annual_bonus == 1 )" class="form-control" ng-model="emploee.annual_bonus" type="text" >
                             </div>                 
                             </div>
                             <div class="col-lg-2 p-0">
@@ -312,13 +314,13 @@
                         <div class="form-group">
                           <label class="col-lg-4 control-label">Zusatzversorgung (VWL)<span spi-hint text="_hint.fin_plan_employee_have_additional_provision_vwl.text"  title="_hint.fin_plan_employee_have_additional_provision_vwl.title"  class="has-hint"></span></label>
                           <div class="btn-group btn-toggle col-lg-2 control-label">
-                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_additional_provision_vwl == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_additional_provision_vwl" uib-btn-radio="1" class="btn btn-sm">JA</button>
-                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_additional_provision_vwl != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_additional_provision_vwl" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
+                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateEmployee(emploee)" ng-class="emploee.have_additional_provision_vwl == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_additional_provision_vwl" uib-btn-radio="1" class="btn btn-sm">JA</button>
+                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateEmployee(emploee)" ng-class="emploee.have_additional_provision_vwl != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_additional_provision_vwl" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
                           </div>
                           <div class="has-input"  ng-show="emploee.have_additional_provision_vwl">
                             <div class="col-lg-2">
                               <div class="wrap-hint" ng-class="{'wrap-line error': (emploee.have_additional_provision_vwl == 1 && fieldsError2(emploee.additional_provision_vwl, 'Zusatzversorgung (VWL)') && errorShow) }">
-                                <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-required="emploee.have_additional_provision_vwl == 1" class="form-control" type="text" ng-model="emploee.additional_provision_vwl">
+                                <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateEmployee(emploee)" ng-required="emploee.have_additional_provision_vwl == 1" class="form-control" type="text" ng-model="emploee.additional_provision_vwl">
                               </div>
                             </div>
                             <div class="col-lg-2 p-0">
@@ -329,13 +331,13 @@
                         <div class="form-group">
                           <label class="col-lg-4 control-label">Zusatzversorgung (betriebl. Altersversorgung)<span spi-hint text="_hint.fin_plan_employee_have_supplementary_pension.text"  title="_hint.fin_plan_employee_have_supplementary_pension.title"  class="has-hint"></span></label>
                           <div class="btn-group btn-toggle col-lg-2 control-label">
-                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_supplementary_pension == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_supplementary_pension" uib-btn-radio="1" class="btn btn-sm">JA</button>
-                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-class="emploee.have_supplementary_pension != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_supplementary_pension" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
+                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateEmployee(emploee)" ng-class="emploee.have_supplementary_pension == 1 ? 'active' : 'btn-default'" ng-model="emploee.have_supplementary_pension" uib-btn-radio="1" class="btn btn-sm">JA</button>
+                            <button ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateEmployee(emploee)" ng-class="emploee.have_supplementary_pension != 1 ? 'active' : 'btn-default'" ng-model="emploee.have_supplementary_pension" uib-btn-radio="0" class="btn btn-sm">NEIN</button>
                           </div>
                           <div class="has-input" ng-show="emploee.have_supplementary_pension">
                             <div class="col-lg-2">
                               <div class="wrap-hint" ng-class="{'wrap-line error': (emploee.have_supplementary_pension == 1 && fieldsError2(emploee.supplementary_pension, 'Zusatzversorgung') && errorShow) }">
-                                <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit" ng-change="calculateEmployee(emploee)" ng-required="emploee.have_supplementary_pension == 1" class="form-control" type="text" ng-model="emploee.supplementary_pension">
+                                <input ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"  ng-change="calculateEmployee(emploee)" ng-required="emploee.have_supplementary_pension == 1" class="form-control" type="text" ng-model="emploee.supplementary_pension">
                               </div>
                             </div>
                             <div class="col-lg-2 p-0">
@@ -428,7 +430,7 @@
               Berufsgenossenschaftsbeiträge
             </h3>
             <div class="col-lg-6 btn-row">
-              <button class="btn w-xs pull-right" ng-click="prof_associations.push({})" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canFormEdit">Berufsgenossenschaft hinzufügen</button>
+              <button class="btn w-xs pull-right" ng-click="prof_associations.push({})" ng-show="data.status_finance != 'accepted' && data.status_finance != 'acceptable' && data.status_finance != 'in_progress' && canFormEdit && canEdit()">Berufsgenossenschaft hinzufügen</button>
             </div>
           </div>
           <hr />
@@ -439,7 +441,9 @@
             </label>
             <div class="col-lg-7">
               <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.name, 'Berufsgenossenschaftsbeiträge-Name' + '-' + key) && errorShow) }">
-                <input name = "first" class="form-control" type="text" ng-model="association.name" ng-disabled="!canFormEdit || data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)">
+                <input name = "first" class="form-control" type="text" 
+                       ng-model="association.name"
+                       ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()" >
               </div>
             </div>
             <label class="col-lg-1 p-r-0 control-label">
@@ -447,7 +451,11 @@
             </label>
             <div class="col-lg-2">
               <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.sum,  'Berufsgenossenschaftsbeiträge-Beitrag' + '-' + key) && errorShow) }">
-                <input class="form-control" type="text" ng-disabled="!canFormEdit || data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept)" ng-init = "association.sum = (association.sum || '0,00'); numValidate2(association,'sum');"  ng-change="numValidate(association,'sum') ; updateResultCost();" ng-model="association.sum" >
+                <input class="form-control" type="text" 
+                       ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"
+                       ng-init = "association.sum = (association.sum || '0,00'); numValidate2(association,'sum');"
+                       ng-change="numValidate(association,'sum') ; updateResultCost();"
+                       ng-model="association.sum" >
               </div>
             </div>
             <div class="col-lg-1 p-0 custom-col-1 m-t-5">
