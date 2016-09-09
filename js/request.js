@@ -1932,6 +1932,13 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       }
     }
   });
+  
+  $scope.canGoalsEdit = function(){
+    if($scope.$parent.goalsStatus == 'unfinished' && $scope.canEdit()){
+      return true;
+    };
+    return false;
+  };
 
   $scope.canEdit  = function (){
     return  RequestService.canEdit();
