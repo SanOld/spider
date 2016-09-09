@@ -127,6 +127,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
             objSelectedCodes[row.code]['id'] = row.id;
           };
         }
+
         if(failCodes.length) {
           SweetAlert.swal({
             title: "Fehler",
@@ -137,24 +138,24 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
             if (isConfirm && !fineCodes.length) {
               return false;        
             }else{
-              $scope.openAddRequestForm(ids, selectedCodes, selectedProjectIds, objSelectedCodes);
+              $scope.openAddRequestForm( selectedCodes, selectedProjectIds, objSelectedCodes);
             };
           });
         }else{
-          $scope.openAddRequestForm(ids, selectedCodes, selectedProjectIds, objSelectedCodes);
+          $scope.openAddRequestForm( selectedCodes, selectedProjectIds, objSelectedCodes);
         };        
       };
     };
     
-    $scope.openAddRequestForm = function(ids, selectedCodes, selectedProjectIds, objSelectedCodes){
+    $scope.openAddRequestForm = function( selectedCodes, selectedProjectIds, objSelectedCodes){
       var modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'createRequest.html',
         controller: 'ModalRequestCreateController',
         size: 'custom-width-request-duration',
         resolve: {
-          ids: function () {
-            return ids;
+          selectedProjectIds: function () {
+            return selectedProjectIds;
           },
           selectedCodes: function () {
             return selectedCodes;
@@ -238,7 +239,7 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
                 });
               };
             } else {
-              network.post('request', {project_ids: ids, massCreate: true, year: data.year}, function(result) {
+              network.post('request', {project_ids: selectedProjectIds, massCreate: true, year: data.year}, function(result) {
                 if(result) {
                   grid.reload();
                 }
@@ -664,10 +665,10 @@ spi.controller('ProjectEditController', function ($scope, $uibModalInstance, mod
 });
 
 
-spi.controller('ModalRequestCreateController', function ($scope, $uibModalInstance, ids, selectedCodes) {
+spi.controller('ModalRequestCreateController', function ($scope, $uibModalInstance, selectedProjectIds, selectedCodes) {
   var d = new Date();
   $scope.year = new Date(d.setFullYear(d.getFullYear() + 1));
-  $scope.countElements = ids.length;
+  $scope.countElements = selectedProjectIds.length;
   if (selectedCodes.length > 0) {
     $scope.selectedElements = selectedCodes.join(', ');
   }
