@@ -224,7 +224,7 @@ $this->breadcrumbs = array('Anträge');
                   <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="setBulkStatus(5)">Genehmigung</button>
                 </div>
                 <div class="col-lg-3">
-                  <button ng-if="false" class="btn m-b-5" ng-click="export()">Daten exportieren</button>
+                  <button class="btn m-b-5" ng-click="export()">Daten exportieren</button>
                 </div> 
                 <div class="col-lg-2">
                   <button class="btn m-b-5"  ng-disabled="!existsSelected()" ng-click="copyRequest()" disabled>Folgeantrag hinzufügen</button>
