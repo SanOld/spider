@@ -770,8 +770,16 @@ class Request extends BaseModel {
           -> select('usr.*') -> from('spi_user usr')
           -> where('usr.id=:contact_id', array(':contact_id' => $row['district']['contact_id'])) 
           -> queryAll();
-          if($contact_user[0]){            
-            $row['district_contact_name'] = $contact_user[0]['last_name'] ? $contact_user[0]['last_name'] : '' . ' ' . $contact_user[0]['first_name'] ? $contact_user[0]['first_name'] : '';
+          if($contact_user[0]){
+            $last_name = '';
+            if(safe($contact_user[0], 'last_name')){
+              $last_name = $contact_user[0]['last_name'];
+            };
+            $first_name = '';
+            if(safe($contact_user[0], 'first_name')){
+              $first_name = $contact_user[0]['first_name'];
+            };
+            $row['district_contact_name'] = $last_name . ' ' . $first_name;
           };
         }
       }
