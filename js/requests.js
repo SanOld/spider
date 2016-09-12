@@ -656,7 +656,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         animation: true,
         templateUrl: 'exportData.html',
         controller: 'ExportDataController',
-        size: 'custom-width-request-send-duration',
+        size: 'custom-width-request-export',
         resolve: {
           ids: function () {
             return ids;
@@ -891,52 +891,28 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
     'financeSingle' : false,
     'financeSumm'   : false
   };
+  $scope.templates = {
+    'projectData'   : {name:'Projektdaten', type_name:'Projektdaten', checkbox:'projectData'},
+    'financeSingle' : {name:'Finanzplan(einzeln)', type_name:'Finanzplan', checkbox:'financeSingle'},
+    'financeSumm'   : {name:'Finanzplan(Summen)', type_name:'Finanzplan', checkbox:'financeSumm'}
+  };
   
-  $scope.checkCheckbox = function(){
-    $scope.count = 0;
-    for(var box in $scope.checkbox){
-      if($scope.checkbox[box]){
-        $scope.count++;
+  $scope.button_single = function(template){
+    if(template.checkbox == 'financeSingle' && (!ids.length || ids.length>1)){
+      return false;
+    }else{
+      return true;
+    };
+  }; 
+  
+  $scope.checkCheckbox = function(template){
+    if(template){
+      for(var box in $scope.checkbox){
+        if(box == template.checkbox){
+          $scope.checkbox[box] = true;
+        };
       };
-    };
-    if($scope.count > 1){
-      SweetAlert.swal({
-        html:true,
-        title: "",
-        text: "Wählen Sie bitte ein Datei.",
-        type: "warning",
-        confirmButtonText: "OK"
-      });
-    };
-    if($scope.checkbox.financeSingle){
-      if(!ids.length){
-        SweetAlert.swal({
-          html:true,
-          title: "",
-          text: "Wählen Sie bitte ein Antrag um Financeplan(einzeln) zu exportiren.",
-          type: "warning",
-          confirmButtonText: "OK"
-        },function(isConfirm){
-           if(isConfirm){         
-              $scope.checkbox.financeSingle = false;
-           };
-        });
-      }
-      if(ids.length > 1){
-        SweetAlert.swal({
-          html:true,
-          title: "",
-          text: "Wählen Sie bitte nur ein Antrag um Financeplan(einzeln) zu exportiren.",
-          type: "warning",
-          confirmButtonText: "OK"
-        },function(isConfirm){
-           if(isConfirm){         
-              $scope.checkbox.financeSingle = false;
-           }
-        });
-      }
     }
-    
   };
   $scope.checkCheckbox();
   
@@ -1075,7 +1051,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
                     'null-12'        : '"' + String(prof_association_cost_summ.toFixed(2)).replace(/\./gi, ",") + '"',
                     'null-13'        : '"' + String(revenue_summ.toFixed(2)).replace(/\./gi, ",") + '"',
                   },
-                  data: data
+                  no_data: true
                 }
               },
               param: $scope.filter,
@@ -1372,7 +1348,5 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
   $scope.cancel = function () {
     $uibModalInstance.close();
   };
-  
-  $scope.uibModalInstance = $uibModalInstance;
 
 });

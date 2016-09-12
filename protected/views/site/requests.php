@@ -306,7 +306,6 @@ $this->breadcrumbs = array('Anträge');
           </button>
         </div>
       </div>
-
     </div>
     <div class="row p-t-10 text-center">
       <div class="form-group group-btn m-t-20">
@@ -524,25 +523,25 @@ $this->breadcrumbs = array('Anträge');
       <h3 class="m-0 pull-left">Daten exportieren</h3>
       <button type="button" class="close" ng-click="cancel()" aria-hidden="true"><i class="ion-close-round "></i></button>
     </div> 
-    <div class="panel-body text-center">
-      <ng-form name="sendToAccept">
-        <h3 class="m-b-10 p-b-10">Daten aus Anträgen exportieren:</h3>
-          <div class="checkbox p-b-10 clearfix custom-m-l-30">
-            <label class="cr-styled pull-left" for="projectData"><input ng-change="checkCheckbox()" name="projectData" id="projectData" type="checkbox" ng-model="checkbox.projectData"><i class="fa"></i>Projektdaten</label>
-          </div>
-          <div class="checkbox p-b-10 clearfix custom-m-l-30">
-            <label class="cr-styled pull-left" for="financeSingle"><input ng-change="checkCheckbox()" name="financeSingle" id="financeSingle" type="checkbox" ng-model="checkbox.financeSingle"><i class="fa"></i>Finanzplan(einzeln)</label>
-          </div>
-          <div class="checkbox p-b-10 clearfix custom-m-l-30">
-            <label class="cr-styled pull-left" for="financeSumm"><input ng-change="checkCheckbox()" name="financeSumm" id="financeSumm" type="checkbox" ng-model="checkbox.financeSumm"><i class="fa"></i>Finanzplan(Summen)</label>
-          </div>
-      </ng-form>
+    <div class="panel-body">
+      <h3 class="m-b-30 text-center">Daten aus Anträgen exportieren:</h3>
+      <div ng-repeat="template in templates" class="doc-print">
+        <div class="holder-doc-print">
+          <span class="name-doc">{{template.type_name}}:</span>
+          <p>{{template.name}}</p>
+        </div>
+        <div class="btn-row">
+          <button ng-disabled="!button_single(template)" class="btn w-xs export-button" data-target="#modal-1" data-toggle="modal" export-to-csv ng-click="checkCheckbox(template)">
+            <span>csv Export</span>
+            <i class="ion-printer"></i>
+          </button>
+        </div>
+      </div>
     </div>
     <div class="row p-t-10 text-center">
       <div class="form-group group-btn m-t-20">
         <div class="col-lg-12">
           <button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-          <button ng-disabled="count < 1 || count > 1" class="btn w-lg custom-btn" export-to-csv ng-click=""">Senden</button>
         </div>
       </div>
     </div>

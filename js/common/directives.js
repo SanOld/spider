@@ -222,92 +222,98 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
                   csvString += scope.paramsForExport.tables[table].columns[column] + ",";
                 };
                 var counter = 0;                
-                //add data to the csv file
-                for(var i = 0; i < response.result.length; i++ ){
-                  csvString = csvString.substring(0,csvString.length - 1);            
-                  csvString = csvString + "\n";
-                  a:
-                  for(var columns in scope.paramsForExport.tables[table].columns){
-                    b:
-                    //recursive repeat of data for audit
-                    if(scope.paramsForExport.tables[table].recursive && scope.paramsForExport.tables[table].recursive.indexOf(columns) != -1){
-                      csvString += response.result[i].data[counter][columns] + ",";
-                      if(scope.paramsForExport.tables[table].recursive.indexOf(columns) == scope.paramsForExport.tables[table].recursive.length - 1){
-                        if(response.result[i].data.length == counter +1){
-                          counter = 0;
+                //add data to the csv file                
+                if(!scope.paramsForExport.tables[table].no_data){
+                  for(var i = 0; i < response.result.length; i++ ){
+                    csvString = csvString.substring(0,csvString.length - 1);            
+                    csvString = csvString + "\n";
+                    a:
+                    for(var columns in scope.paramsForExport.tables[table].columns){
+                      b:
+                      //recursive repeat of data for audit
+                      if(scope.paramsForExport.tables[table].recursive && scope.paramsForExport.tables[table].recursive.indexOf(columns) != -1){
+                        csvString += response.result[i].data[counter][columns] + ",";
+                        if(scope.paramsForExport.tables[table].recursive.indexOf(columns) == scope.paramsForExport.tables[table].recursive.length - 1){
+                          if(response.result[i].data.length == counter +1){
+                            counter = 0;
+                          }else{
+                            counter++;
+                            i --;                      
+                          };
+                          break a;
                         }else{
-                          counter++;
-                          i --;                      
-                        };
-                        break a;
-                      }else{
-                        break b;
-                      }
-                    };
-                    c:
-                    //simple export data
-                    for(var column in response.result[i]){
-                      if(columns.match(/null/) && !scope.paramsForExport.tables[table].enter){
-                        csvString += ',';
-                        break c;
-                      }else{
-                        var column_reg = new RegExp(column + '.+');
-                        if(columns == column || columns.match(column_reg)){
-                          if(response.result[i][column]){
-                            if(typeof response.result[i][column] == 'object'){
-                              if(columns != column && !length(response.result[i][column])){
-                                if(response.result[i][column][scope.paramsForExport.tables[table][columns]]){
-                                  csvString += '"' + response.result[i][column][scope.paramsForExport.tables[table][columns]] + '"' + ',' ;
+                          break b;
+                        }
+                      };
+                      c:
+                      //simple export data
+                      for(var column in response.result[i]){
+                        if(columns.match(/null/) && !scope.paramsForExport.tables[table].enter){
+                          csvString += ',';
+                          break c;
+                        }else{
+                          var column_reg = new RegExp(column + '.+');
+                          if(columns == column || columns.match(column_reg)){
+                            if(response.result[i][column]){
+                              if(typeof response.result[i][column] == 'object'){
+                                if(columns != column && !length(response.result[i][column])){
+                                  if(response.result[i][column][scope.paramsForExport.tables[table][columns]]){
+                                    csvString += '"' + response.result[i][column][scope.paramsForExport.tables[table][columns]] + '"' + ',' ;
+                                  }else{
+                                    csvString += ',';
+                                  }
                                 }else{
-                                  csvString += ',';
+                                  var count = 0;
+                                  var csvObjectString = '';
+                                  for(var k in response.result[i][column]){
+                                    count += 1;
+                                    if(response.result[i][column][k][scope.paramsForExport.tables[table][columns]]){                                    
+                                      csvObjectString += count + ". " + response.result[i][column][k][scope.paramsForExport.tables[table][columns]] + " ";
+                                    }else{
+                                      csvObjectString += count + ". " + " - " + " ";
+                                    }                                  
+                                  };
+                                  csvString += '"' + csvObjectString + '"' + ',';
                                 }
                               }else{
-                                var count = 0;
-                                var csvObjectString = '';
-                                for(var k in response.result[i][column]){
-                                  count += 1;
-                                  if(response.result[i][column][k][scope.paramsForExport.tables[table][columns]]){                                    
-                                    csvObjectString += count + ". " + response.result[i][column][k][scope.paramsForExport.tables[table][columns]] + " ";
-                                  }else{
-                                    csvObjectString += count + ". " + " - " + " ";
-                                  }                                  
-                                };
-                                csvString += '"' + csvObjectString + '"' + ',';
-                              }
-                            }else{
-                              //numbers in format 1000,00
-                              if(typeof response.result[i][column] == 'number' || response.result[i][column].match(reg_number)){
-                                var cost = String(response.result[i][column]).replace(/\./gi, ",");
-                                csvString += '"' + cost + '"' + ',' ;
-                              }else if(response.result[i][column].match(reg_date)){
-                                //data in format 09-09-2018
-                                var day = response.result[i][column].substring(8);
-                                var month = response.result[i][column].substring(5,7);
-                                var year = response.result[i][column].substring(0,4);
-                                csvString += '"' + day + '-' + month + '-' + year + '"' + ',' ;
-                              }else{
-                                csvString += '"' + response.result[i][column] + '"' + ',' ;
-                              }; 
-                            };                                                
-                          }else{                          
-                            csvString += " ," ;
+                                //numbers in format 1000,00
+                                if(typeof response.result[i][column] == 'number' || response.result[i][column].match(reg_number)){
+                                  var cost = String(response.result[i][column]).replace(/\./gi, ",");
+                                  csvString += '"' + cost + '"' + ',' ;
+                                }else if(response.result[i][column].match(reg_date)){
+                                  //data in format 09-09-2018
+                                  var day = response.result[i][column].substring(8);
+                                  var month = response.result[i][column].substring(5,7);
+                                  var year = response.result[i][column].substring(0,4);
+                                  csvString += '"' + day + '-' + month + '-' + year + '"' + ',' ;
+                                }else{
+                                  csvString += '"' + response.result[i][column] + '"' + ',' ;
+                                }; 
+                              };                                                
+                            }else{                          
+                              csvString += " ," ;
+                            }
+                            break c;
                           }
-                          break c;
                         }
                       }
                     }
                   }
-                }
-                if(!scope.paramsForExport.tables[table].enter){                    
-                  csvString = csvString + "\n";                    
-                  csvString = csvString + "\n";  
-                };                
+                  if(!scope.paramsForExport.tables[table].enter){                    
+                    csvString = csvString + "\n";                    
+                    csvString = csvString + "\n";  
+                  };
+                };
               };
             };              
             csvString = csvString.substring(0, csvString.length - 1);
             addClick(csvString);
-            if(scope.uibModalInstance){
-              scope.uibModalInstance.close();
+            if(scope.checkbox){
+              for(var box in scope.checkbox){
+                if(scope.checkbox[box]){
+                  scope.checkbox[box] = false;;
+                };
+              };
             };
           });
         });
