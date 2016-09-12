@@ -91,20 +91,20 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
                         </td>
                         <td data-title="'Kennz.'" sortable="'project_code'">{{row.project_code}}</td>
                         <td data-title="user.type != 't' ? 'Träger' : 'Schule(n)'" sortable="user.type != 't' ? 'performer_name' : 'school_name'">
-                         <div class="holder-school">
-                          <a ng-if="user.type != 't'" href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a>
-                          <i ng-if="user.type != 't' && +row.performer_is_checked" class="success fa fa-check-circle" aria-hidden="true"></i>
-                          <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
-                         </div>
+                          <div class="holder-school">
+                            <a ng-if="user.type != 't'" href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a>
+                              <i ng-if="user.type != 't' && +row.performer_is_checked" class="success fa fa-check-circle" aria-hidden="true"></i>
+                            <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
+                          </div>
                         </td>
                         <td data-title="'Topf'" sortable="'programm'">{{row.programm == "Bonusprogramm" ? row.type : row.programm }}</td>
                         <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
-                        <td data-title="'Förders.'" sortable="'totalt_cost'">{{row.total_cost | number:2}} €</td>
-                        <td data-title="'Änderung'" sortable="'changes'">{{row.changes | number:2}} €</td>
-                        <td title="aktuelle Fördersumme" data-title="'aktuelle Förders.'" sortable="'end_fill'">{{row.actual | number:2}} €</td>
-                        <td data-title="'Ausgezahlt'" sortable="'payed'">{{row.payed | number:2}} €</td>
-                        <td data-title="'F-Berichte'"></td>
-                        <td data-title="'Verblieben'" sortable="'remained'">{{row.remained | number:2}} €</td>
+                        <td class="holder-actual" data-title="'Förders.'" sortable="'totalt_cost'">{{row.total_cost | number:2}} €</td>
+                        <td class="holder-actual" data-title="'Änderung'" sortable="'changes'">{{row.changes | number:2}} €</td>
+                        <td class="holder-actual" title="aktuelle Fördersumme" data-title="'aktuelle Förders.'" sortable="'end_fill'">{{row.actual | number:2}} €</td>
+                        <td class="holder-actual" data-title="'Ausgezahlt'" sortable="'payed'">{{row.payed | number:2}} €</td>
+                        <td class="holder-report" data-title="'F-Berichte'"></td>
+                        <td class="holder-actual" data-title="'Verblieben'" sortable="'remained'">{{row.remained | number:2}} €</td>
                         <td data-title="'Mittelabrufe / Finanzberichte'" class="dt-edit">
                           <a title="Mittelabrufe" ng-click="link('financial-request', row)" class="btn requsted-btn">
                             <span></span>
@@ -114,7 +114,7 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
                           </a>
                         </td>
                         <td data-title="'VN'">
-                          <a title="Drucken" href="#" class="btn document"><i class="ion-printer"></i></a>
+                            <a title="Drucken" ng-click="printDocuments(row)" ng-disabled="user.type != 'a' && user.type != 't' && user.type != 'p'" class="btn document"><i class="ion-printer"></i></a>
                         </td>
                       </tr>
                       <tr ng-if="!$data.length"><td class="no-result" colspan="13">Keine Ergebnisse</td></tr>
@@ -133,3 +133,39 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
         <i class="fa"></i>
       </label>
     </script>
+    
+    <script type="text/ng-template" id="printSummaryDocuments.html">
+    <div class="panel panel-color panel-primary">
+      <div class="panel-heading clearfix">
+        <h3 class="m-0 pull-left">Dokumente drucken - {{::code}}</h3>
+        <button type="button" class="close" ng-click="cancel()"><i class="ion-close-round "></i></button>
+      </div>
+      <div class="panel-body">
+        <h3 class="m-b-30 text-center">Dokumente zum Druck</h3>
+        <div ng-repeat="template in templates" class="doc-print">
+          <div class="holder-doc-print">
+            <span class="name-doc">{{template.type_name}}:</span>
+            <p>{{template.name}}</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn w-xs" data-target="#modal-1" data-toggle="modal" ng-click="printDoc(template)">
+              <span>Drucken</span>
+              <i class="ion-printer"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+      <div class="row p-t-10 text-center">
+        <div class="form-group group-btn m-t-20">
+          <div class="col-lg-12">
+            <button class="btn w-lg cancel-btn" ng-click="cancel()">ABBRECHEN</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+  <script type="text/ng-template" id="showTemplate.html">
+    <?php include(Yii::app()->getBasePath().'/views/site/partials/document-template.php'); ?>
+  </script>

@@ -3498,3 +3498,16 @@ tr.virtual-row {
 .table-requests [data-title-text="Betrag"] {
     width: 80px;
 }
+
+[data-title-text="VN"] .btn.document {
+    float: none;
+}
+.table-summary .holder-school {
+    width: 130px;
+}
+.table-summary .holder-actual {
+    width: 90px;
+}
+.table-summary .holder-report {
+    width: 120px;
+}

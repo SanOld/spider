@@ -15,6 +15,14 @@ class DocumentTemplateType extends BaseModel {
   protected function setWhereByRole($command, $params = array()) {
     return $command;
   }
+  
+  protected function getParamCommand($command, array $params, array $logic = array()) {
+    $params = array_change_key_case($params, CASE_UPPER);
+    if (safe($params, 'CODE')) {
+      $command->andWhere("tbl.code = :code", array(':code' => $params['CODE']));
+    }
+    return $command;
+  }
 
 
 }

@@ -88,5 +88,115 @@ spi.controller('SummaryController', function($scope, $rootScope, network, GridSe
       localStorageService.set('finRequestsFilter', filter);
       window.location = '/' + link;
     };
+    
+    $scope.printDocuments = function(row) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'printSummaryDocuments.html',
+        controller: 'SummaryPrintDocumentsController',
+        size: 'custom-width',
+        resolve: {
+          row: function () {
+            return row;
+          },
+          user: function () {
+            return $scope.user;
+          }
+        }
+      });
+      modalInstance.result.then(function (template) {
+       $uibModal.open({
+          animation: true,
+          templateUrl: 'showTemplate.html',
+          controller: 'ShowDocumentTemplatesController',
+          size: 'width-full',
+          resolve: {
+            data: function () {
+              return template;
+            },
+            row: function () {
+              return row;
+            }
+          }
+        });
+      });
+    };
+
+});
+
+spi.controller('SummaryPrintDocumentsController', function ($scope,user, row, $uibModalInstance, network) {
+  $scope.row = row;
+  $scope.code = row.code;
+  $scope.user = user;
+  var ids = []
+  network.get('document_template_type', {code:'spending_report'}, function (result, response) {
+    if (result) {
+      var type_id = response.result[0].id;
+      console.log(type_id );
+      network.get('document_template', {type_id:type_id}, function (result, response) {
+        if (result) {
+          for(var i = 0; i < response.result.length;i++ ) {
+            ids.push(response.result[i].id)
+          }
+          if(ids.length) {
+            network.get('document_template', {'ids[]': ids, 'prepare': 1, 'request_id': row.request_id }, function (result, response) {
+              if (result) {
+                $scope.templates = response.result;
+                console.log($scope.templates);
+              };
+            });
+          }
+        }
+      });
+    }
+  });
+
+  $scope.printDoc = function(template){
+    $uibModalInstance.close(template,  $scope.printed);
+  }
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+});
+
+spi.controller('ShowDocumentTemplatesController', function ($scope, $timeout, $uibModalInstance, data, $sce, $rootScope) {
+  $scope.isInsert = !data.id;
+
+  $scope.filter = {};
+
+  $scope.trustAsHtml = function(string) {
+    return $sce.trustAsHtml(string);
+  };
+
+  if (!$scope.isInsert) {
+    $scope.document = {
+      text: data.text,
+      name: data.name
+    };
+  } else {
+    $scope.document = {
+      text: ''
+    };
+  }
+  
+  $scope.print = function(){
+    $rootScope.printed = 1;
+    $timeout(function() {
+      window.print();
+      $rootScope.printed = 0;
+    });
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.close($scope.request);
+  };
+
+  $rootScope.printed = 1;
+  $timeout(function() {
+      window.print();
+      $rootScope.printed = 0;
+  });
 
 });
