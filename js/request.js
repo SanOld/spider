@@ -369,6 +369,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
                     ||($scope.conceptStatus == 'unfinished' || $scope.conceptStatus == 'rejected')   
                     ||($scope.goalsStatus == 'unfinished'   || $scope.goalsStatus == 'rejected')  ) && user == 't' && status != 'decline');
           break;
+        case 'copyData':;
+          results = ((user == 't') &&  status != 'accept' && status != 'decline'  && status != 'acceptable' );
+          break;
       } 
 
     }
@@ -542,6 +545,53 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     
 
   };
+
+    $scope.copyData = function(){
+
+      var params = {
+         project_code: $scope.projectID
+        , year: ($scope.requestYear-1)
+      };
+
+      network.get('request', params, function(result, response) {
+        if(result && response['result'].length > 0) {
+          copy();
+        } else {
+            SweetAlert.swal({
+                html:true,
+                title: "Error",
+                text: "Request to project "+params.project_code + " in " + params.year + " is absent",
+                type: "error",
+                confirmButtonText: "OK"
+            });
+        }
+      });
+
+      var copy = function(){
+          SweetAlert.swal({
+            html:true,
+            title: "Data of concept and goals will be copied",
+            type: "warning",
+            confirmButtonText: "OK",
+            showCancelButton: true,
+            cancelButtonText: "ABBRECHEN",
+          },function(isConfirm){
+            if (isConfirm) {
+              var params = {
+                request_id: $scope.requestID
+                , project_code: $scope.projectID
+                , year: ($scope.requestYear-1)
+                , copyDataConceptGoal: true
+              }
+              network.post('request', params, function(result) {
+                if(result) {
+                  $timeout(function(){location.href = '/request/'+$scope.requestID;})
+                }
+              });
+            }
+          });
+        }
+    };
   
     $scope.sendToAccept = function() {
       var modalInstance = $uibModal.open({

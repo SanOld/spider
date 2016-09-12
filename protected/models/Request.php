@@ -135,6 +135,9 @@ class Request extends BaseModel {
       $command -> leftJoin('spi_financial_request frq', 'frq.request_id = tbl.id');
       $command -> andWhere('frq.no_rate = :no_rate', array(':no_rate' => $params['NO_RATE']));
     }
+    if(safe($params, 'PROJECT_CODE')) {
+      $command -> andWhere('prj.code = :project_code', array(':project_code' => $params['PROJECT_CODE']));
+    }
     if(safe($params, 'STATUS_ID')) {
       if(!is_int($params['STATUS_ID'])) {
         $values = explode(',', $params['STATUS_ID']);
@@ -950,8 +953,6 @@ class Request extends BaseModel {
           $value['status_goal']       = 'unfinished';
           $value['status_goal_ta']    = 'unfinished';
 
-//          $value['status_id'] = $this->calcStatusId($value, 'a');
-//          $value['status_id_ta'] = $this->calcStatusId($value, 't');
           $value['status_id'] = 1;
           $value['status_id_ta'] = 1;
 
@@ -994,6 +995,38 @@ class Request extends BaseModel {
      }
      response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'post');
   }
+  public function copyDataConceptGoal ($post){
+     $newId = safe($post, 'request_id');
+     $year = safe($post, 'year');
+     $project_code = safe($post, 'project_code');
+
+    if($newId) {
+
+        $command = Yii::app() -> db -> createCommand() -> select('tbl.id') -> from($this -> table . ' tbl');
+        $command ->leftJoin('spi_project prj', 'tbl.project_id = prj.id');
+        $command -> where('prj.code = :project_code', array(':project_code' => $project_code));
+        $command -> andWhere('year = :year', array(':year' => $year));
+        $oldId = $command ->queryScalar();
+
+      $RequestSchoolConcept = CActiveRecord::model('RequestSchoolConcept');
+      $RequestSchoolConcept ->user = $this->user;
+      $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
+      $RequestSchoolGoal ->user = $this->user;
+
+      if($newId && $oldId){
+
+        $this->updateData('spi_request_school_concept',$RequestSchoolConcept, $oldId, $newId );
+        $this->updateData('spi_request_school_goal', $RequestSchoolGoal, $oldId, $newId );
+        response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'post');
+      } else {
+        response(409, array ('result' => false, 'system_code' => 'ERR_INVALID_QUERY'), 'post');
+      }
+
+    } else {
+      response(409, array ('result' => false, 'system_code' => 'ERR_ID_NOT_SPECIFIED'), 'post');
+    }
+    
+   }
 
   protected function copyData($table, $model,$oldId, $newId){
     $command = Yii::app() -> db -> createCommand() -> select('*') -> from($table);
@@ -1008,5 +1041,20 @@ class Request extends BaseModel {
       $row['request_id'] = $newId;
       $model->insert($row, true);
     }
+
   }
+
+  protected function updateData($table, $model,$oldId, $newId){
+
+    $command = Yii::app() -> db -> createCommand() -> select('*') -> from($table);
+    $command -> where('request_id = :id', array(':id' => $newId));
+    $new_value = $command ->queryAll();
+
+    foreach ($new_value as $row) {
+      $model->delete($row['id'],  true);
+    }
+
+    $this->copyData($table, $model,$oldId, $newId);
+  }
+
 }
