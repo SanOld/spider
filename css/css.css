@@ -3498,3 +3498,6 @@ tr.virtual-row {
 .table-requests [data-title-text="Betrag"] {
     width: 80px;
 }
+.export-button{
+    position:absolute;
+}

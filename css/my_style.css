@@ -51,3 +51,7 @@
 .modal .edit-user .col-lg-3.col-width-type {
 	width: 32.7%!important;
 }
+.modal-dialog.modal-custom-width-request-export{
+  width:  550px !important;
+  margin: 160px auto !important;
+}
