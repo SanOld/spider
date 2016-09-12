@@ -661,7 +661,7 @@ class Request extends BaseModel {
               -> select('usr.*') -> from('spi_user usr')
               -> where('usr.id=:contact_id', array(':contact_id' => $schoolData['contact_id'])) 
               -> queryAll();
-              if($contact[0]){                
+              if(safe($contact,0)){                
                 if($contact[0]['sex'] == '1'){
                   $contact[0]['sex'] = 'm';
                 }else if($contact[0]['sex'] == '2'){
@@ -689,7 +689,7 @@ class Request extends BaseModel {
           -> select('prf.*') -> from('spi_performer prf')
           -> where('prf.id=:performer_id', array(':performer_id' => $row['performer_id'])) 
           -> queryAll();
-          if($performer[0]){
+          if(safe($performer,0)){
             $row['performer'] = $performer[0];
           }
         }
@@ -699,7 +699,7 @@ class Request extends BaseModel {
           -> select('usr.*') -> from('spi_user usr')
           -> where('usr.id=:representative_user_id', array(':representative_user_id' => $row['performer']['representative_user_id'])) 
           -> queryAll();
-          if($representative[0]){
+          if(safe($representative,0)){
             if($representative[0]['sex'] == '1'){
               $representative[0]['sex'] = 'm';
             }else if($representative[0]['sex'] == '2'){
@@ -716,7 +716,7 @@ class Request extends BaseModel {
           -> select('usr.*') -> from('spi_user usr')
           -> where('usr.id=:concept_user_id', array(':concept_user_id' => $row['concept_user_id'])) 
           -> queryAll();
-          if($concept_user[0]){
+          if(safe($concept_user,0)){
             if($concept_user[0]['sex'] == '1'){
               $concept_user[0]['sex'] = 'm';
             }else if($concept_user[0]['sex'] == '2'){
@@ -733,7 +733,7 @@ class Request extends BaseModel {
           -> select('usr.*') -> from('spi_user usr')
           -> where('usr.id=:finance_user_id', array(':finance_user_id' => $row['finance_user_id'])) 
           -> queryAll();
-          if($finance_user[0]){
+          if(safe($finance_user,0)){
             if($finance_user[0]['sex'] == '1'){
               $finance_user[0]['sex'] = 'm';
             }else if($finance_user[0]['sex'] == '2'){
@@ -750,7 +750,7 @@ class Request extends BaseModel {
           -> select('bnk.*') -> from('spi_bank_details bnk')
           -> where('bnk.id=:bank_details_id', array(':bank_details_id' => $row['bank_details_id'])) 
           -> queryAll();
-          if($bank_details[0]){
+          if(safe($bank_details,0)){
             $row['bank_details'] = $bank_details[0];
           }          
         }
@@ -760,7 +760,7 @@ class Request extends BaseModel {
           -> select('dst.*') -> from('spi_district dst')
           -> where('dst.id=:district_id', array(':district_id' => $row['district_id'])) 
           -> queryAll();
-          if($district[0]){
+          if(safe($district,0)){
             $row['district'] = $district[0];
           }
         }
@@ -770,7 +770,7 @@ class Request extends BaseModel {
           -> select('usr.*') -> from('spi_user usr')
           -> where('usr.id=:contact_id', array(':contact_id' => $row['district']['contact_id'])) 
           -> queryAll();
-          if($contact_user[0]){
+          if(safe($contact_user,0)){
             $last_name = '';
             if(safe($contact_user[0], 'last_name')){
               $last_name = $contact_user[0]['last_name'];
