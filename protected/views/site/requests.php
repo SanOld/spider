@@ -171,7 +171,7 @@ $this->breadcrumbs = array('Anträge');
                    <div class="holder-school">
                     <a ng-if="user.type != 't'" href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a>
                     <i ng-if="user.type != 't' && +row.performer_is_checked" class="success fa fa-check-circle" aria-hidden="true"></i>
-                    <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.schools" class="school-td" target="_blank">{{school.name}}</a>
+                    <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.ordered_schools" class="school-td" target="_blank">{{school.name}}</a>
                    </div>
                   </td>
                   <td data-title="'Programm'" sortable="'programm'">{{row.programm}}</td>
