@@ -18,6 +18,7 @@ class Request extends BaseModel {
                       , rqs.name status_name
                       , rqs.code status_code
                       , prj.code code
+                      , dst.id district_id
                       , IF(prj.type_id = 3, 1, 0) is_bonus_project
                       , prj.id project_id
                       , fns.programm
@@ -93,6 +94,7 @@ class Request extends BaseModel {
       }
       $command -> leftJoin( 'spi_performer prf',  'tbl.performer_id        = prf.id' );
       $command -> join( 'spi_project prj',        'tbl.project_id          = prj.id' );
+      $command -> join( 'spi_district dst',        'prj.district_id        = dst.id' );
       $command -> join( 'spi_finance_source fns', 'prj.programm_id         = fns.id' );
       $command -> where(' 1=1 ', array());
 
@@ -654,6 +656,23 @@ class Request extends BaseModel {
           foreach ($row['schools'] as $key=>$schoolData) {
             $row['schools'][$schoolData['id']] = $schoolData;
             unset ($row['schools'][$key]);
+            if($schoolData['contact_id']){
+              $contact = Yii::app() -> db -> createCommand()
+              -> select('usr.*') -> from('spi_user usr')
+              -> where('usr.id=:contact_id', array(':contact_id' => $schoolData['contact_id'])) 
+              -> queryAll();
+              if($contact[0]['sex'] == '1'){
+                $contact[0]['sex'] = 'm';
+              }else if($contact[0]['sex'] == '2'){
+                $contact[0]['sex'] = 'f';
+              }else{
+                $contact[0]['sex'] = '-';
+              }
+              $row['schools'][$schoolData['id']]['contact_sex'] = $contact[0]['sex'];
+              $row['schools'][$schoolData['id']]['contact_title'] = $contact[0]['title'];
+              $row['schools'][$schoolData['id']]['contact_first_name'] = $contact[0]['first_name'];
+              $row['schools'][$schoolData['id']]['contact_last_name'] = $contact[0]['last_name'];
+            }            
           }
         }
 
@@ -662,6 +681,84 @@ class Request extends BaseModel {
           $row = $this->changeToLock($row);
         }
         $new = $row;
+        
+        if($row['performer_id']){
+          $performer = Yii::app() -> db -> createCommand()
+          -> select('prf.*') -> from('spi_performer prf')
+          -> where('prf.id=:performer_id', array(':performer_id' => $row['performer_id'])) 
+          -> queryAll();
+          $row['performer'] = $performer[0];
+        }
+        
+        if($row['performer'] && $row['performer']['representative_user_id'] ){
+          $representative = Yii::app() -> db -> createCommand()
+          -> select('usr.*') -> from('spi_user usr')
+          -> where('usr.id=:representative_user_id', array(':representative_user_id' => $row['performer']['representative_user_id'])) 
+          -> queryAll();
+          if($representative[0]['sex'] == '1'){
+            $representative[0]['sex'] = 'm';
+          }else if($representative[0]['sex'] == '2'){
+            $representative[0]['sex'] = 'f';
+          }else{
+            $representative[0]['sex'] = '-';
+          }
+          $row['representative'] = $representative[0];
+        }
+        
+        if($row['concept_user_id']){
+          $concept_user = Yii::app() -> db -> createCommand()
+          -> select('usr.*') -> from('spi_user usr')
+          -> where('usr.id=:concept_user_id', array(':concept_user_id' => $row['concept_user_id'])) 
+          -> queryAll();
+          if($concept_user[0]['sex'] == '1'){
+            $concept_user[0]['sex'] = 'm';
+          }else if($concept_user[0]['sex'] == '2'){
+            $concept_user[0]['sex'] = 'f';
+          }else{
+            $concept_user[0]['sex'] = '-';
+          }
+          $row['concept_user'] = $concept_user[0];
+        }
+        
+        if($row['finance_user_id']){
+          $finance_user = Yii::app() -> db -> createCommand()
+          -> select('usr.*') -> from('spi_user usr')
+          -> where('usr.id=:finance_user_id', array(':finance_user_id' => $row['finance_user_id'])) 
+          -> queryAll();
+          if($finance_user[0]['sex'] == '1'){
+            $finance_user[0]['sex'] = 'm';
+          }else if($finance_user[0]['sex'] == '2'){
+            $finance_user[0]['sex'] = 'f';
+          }else{
+            $finance_user[0]['sex'] = '-';
+          }
+          $row['finance_user'] = $finance_user[0];
+        }
+        
+        if($row['bank_details_id']){
+          $bank_details = Yii::app() -> db -> createCommand()
+          -> select('bnk.*') -> from('spi_bank_details bnk')
+          -> where('bnk.id=:bank_details_id', array(':bank_details_id' => $row['bank_details_id'])) 
+          -> queryAll();
+          $row['bank_details'] = $bank_details[0];
+        }
+        
+        if($row['district_id']){
+          $district = Yii::app() -> db -> createCommand()
+          -> select('dst.*') -> from('spi_district dst')
+          -> where('dst.id=:district_id', array(':district_id' => $row['district_id'])) 
+          -> queryAll();
+          $row['district'] = $district[0];
+        }
+        
+        if($row['district'] && $row['district']['contact_id'] ){
+          $contact_user = Yii::app() -> db -> createCommand()
+          -> select('usr.*') -> from('spi_user usr')
+          -> where('usr.id=:contact_id', array(':contact_id' => $row['district']['contact_id'])) 
+          -> queryAll();
+          $row['district_contact_name'] = $contact_user[0]['last_name'] . ' ' . $contact_user[0]['first_name'];
+        }
+        
       }
 
     }
