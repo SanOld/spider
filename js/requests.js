@@ -22,6 +22,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     checked: false,
     items: {}
   };
+ 
+  $scope.defaultFilterStatuses = 'unfinished_finance,unfinished_concept,unfinished_goal,in_progress_finance,in_progress_concept,in_progress_goal,accepted_finance,accepted_concept,accepted_goal,rejected_finance,rejected_concept,rejected_goal,';
+  $scope.filter.statuses = $scope.defaultFilterStatuses;
+  
   $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
 
   $scope.headerChecked = function (value) {
@@ -35,7 +39,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         $scope.checks[i][i2] = satus;
       });
     });
-    delete $scope.filter.statuses;
+    if(!satus){
+      delete $scope.filter.statuses;
+    }else{
+      $scope.filter.statuses = $scope.defaultFilterStatuses;
+    }    
     grid.reload();
   };
   
@@ -935,11 +943,42 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
   $scope.paramsForExport = {};
   
   delete $scope.filter.limit;
+  
+  $scope.getTime = function(date){
+    var hour = date.getHours();
+    if(hour < 10){
+      hour = "0" + hour;
+    };
+    var minute = date.getMinutes();
+    if(minute < 10){
+      minute = "0" + minute;
+    };
+    var sec = date.getSeconds();
+    if(sec < 10){
+      sec = "0" + sec;
+    };
+    return hour + ':' + minute + ':' + sec; 
+  };
+  
+  $scope.dateFormat = function(date){    
+    var day = date.getDate();
+    if(day < 10){
+      day = "0" + day;
+    };
+    var month = date.getMonth() + 1;
+    if(month < 10){
+      month = "0" + month;
+    };
+    var year = date.getFullYear();       
+    return day + '.' + month + '.' + year;
+  };
+  
    
-  $scope.correctDatas = function(data){
+  $scope.exportFinanceSumm = function(data){
     //count schools
     for(var i in data){
       var schools = 0;
+      data[i].school_data = data[i].schools;
       for(var k in data[i].schools){
         schools += 1;
       };
@@ -980,6 +1019,24 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
                 };
               };
             };
+            var schools_summ = 0;
+            var rate_summ = 0;
+            var emoloyees_cost_summ = 0;
+            var material_cost_summ = 0;
+            var training_cost_summ = 0;
+            var overhead_cost_summ = 0;
+            var prof_association_cost_summ = 0;
+            var revenue_summ = 0;
+            data.forEach(function(item, i, arr){
+              schools_summ += data[i].schools;
+              rate_summ += data[i].rate_count;
+              emoloyees_cost_summ += Number(data[i].emoloyees_cost);
+              material_cost_summ += Number(data[i].material_costs);
+              training_cost_summ += Number(data[i].training_cost);
+              overhead_cost_summ += Number(data[i].overhead_cost);
+              prof_association_cost_summ += Number(data[i].prof_association_cost);
+              revenue_summ += Number(data[i].revenue_sum);
+            });
             $scope.paramsForExport['financeSumm'] = {
               fileName: 'Financeplan(Summen).csv',
               model: 'request',
@@ -994,11 +1051,29 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
                     'rate_count'     : 'Stellenanteil',
                     'total_cost'     : 'Fördersumme',
                     'emoloyees_cost' : 'Personalkosten',
-                    'material_cost'  : 'Ausgaben: Sachkosten',
+                    'material_costs' : 'Ausgaben: Sachkosten',
                     'training_cost'  : 'Fortbildung',
                     'overhead_cost'  : 'Regiekosten',
                     'prof_association_cost': 'Berufsgenossenschaft',
                     'revenue_sum'    : 'Einnahmen',
+                  },
+                  data: data
+                },
+                table2: {
+                  columns: {
+                    'null-1'         : '',
+                    'null-2'        : 'Summe',
+                    'null-3'         : '',
+                    'null-4'         : '',
+                    'null-5'         : '"' + String(schools_summ).replace(/\./gi, ",") + '"',
+                    'null-6'         : '"' + String(rate_summ).replace(/\./gi, ",") + '"',
+                    'null-7'         : '',
+                    'null-8'         : '"' + String(emoloyees_cost_summ.toFixed(2)).replace(/\./gi, ",") + '"',
+                    'null-9'         : '"' + String(material_cost_summ.toFixed(2)).replace(/\./gi, ",") + '"',
+                    'null-10'        : '"' + String(training_cost_summ.toFixed(2)).replace(/\./gi, ",") + '"',
+                    'null-11'        : '"' + String(overhead_cost_summ.toFixed(2)).replace(/\./gi, ",") + '"',
+                    'null-12'        : '"' + String(prof_association_cost_summ.toFixed(2)).replace(/\./gi, ",") + '"',
+                    'null-13'        : '"' + String(revenue_summ.toFixed(2)).replace(/\./gi, ",") + '"',
                   },
                   data: data
                 }
@@ -1011,13 +1086,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
       };
     });    
   };
-  
-  network.get('request', $scope.filter, function (result, response) {
-    if(result){
-      $scope.correctDatas(response.result);
-    };
-  });
-  
+    
   $scope.exportFinanceSingle = function(request_id){
     var data = [];
     network.get('request', {id:request_id}, function (result, response) {
@@ -1093,7 +1162,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
                           data: data.schools
                         },
                       },                      
-                      param: $scope.filter,
+                      param: $scope.filter
                     };
                   };
                 });
@@ -1105,6 +1174,197 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
     });
   };
   
+  $scope.exportProjectData = function(data){
+    var date = new Date();
+    var fileDate = $scope.dateFormat(date);
+    var time = $scope.getTime(date);
+    var year = $scope.filter.year;
+    console.log(data);
+    $scope.paramsForExport['projectData'] = {
+      fileName: 'Projektdaten.csv',
+      model: 'request',
+      tables: {
+        table1: {
+          columns: {
+            'null-0' : '',
+            'null-1' : '1. Projektdaten ('+year+', Export vom '+fileDate+', '+time+')',
+          },             
+          enter: true
+        },
+        table2: {
+          columns: {
+            'null-0' : '',
+            'null-1' : 'Antragsrelevante Stammdaten'
+          },             
+          enter: true
+        },
+        table3: {
+          columns: {
+            'null-0' : '',
+            'null-1' : 'Adresse des Trägers'
+          },             
+          enter: true
+        },
+        table4: {
+          columns: {
+            'code'                      : 'Kennziffer',
+            'performer_name'            : 'Name',
+            'performer_plz'             : 'PLZ',
+            'performer_city'            : 'Stadt',
+            'performer_address'         : 'Straße / Hausnummer oder Postfach',
+            'performer_phone'           : 'Telefon',
+            'performer_fax'             : 'Telefax',
+            'performer_homepage'        : 'Homepage',
+            'performer_email'           : 'E-Mail',
+            'representative_sex'        : 'Anrede',
+            'representative_title'      : 'Titel',
+            'representative_first_name' : 'Vorname',
+            'representative_last_name'  : 'Nachname',
+            'representative_function'   : 'Position',
+            'school_data_name'          : 'Name',
+            'school_data_plz'           : 'PLZ',
+            'school_data_city'          : 'Stadt',
+            'school_data_address'       : 'Straße',
+            'school_data_phone'         : 'Telefon',
+            'school_data_fax'           : 'Telefax',
+            'school_data_homepage'      : 'Homepage',
+            'school_data_email'         : 'E-Mail',
+            'school_data_contact_sex'   : 'Anrede',
+            'school_data_contact_title'      : 'Titel',
+            'school_data_contact_first_name' : 'Vorname',
+            'school_data_contact_last_name'  : 'Nachname',
+            'concept_user_sex'          : 'Anrede',
+            'concept_user_title'        : 'Titel',
+            'concept_user_first_name'   : 'Vorname',
+            'concept_user_last_name'    : 'Nachname',
+            'concept_user_phone'        : 'Telefon',
+            'concept_user_email'        : 'E-Mail',
+            'finance_user_sex'          : 'Anrede',
+            'finance_user_title'        : 'Titel',
+            'finance_user_first_name'   : 'Vorname',
+            'finance_user_last_name'    : 'Nachname',
+            'finance_user_phone'        : 'Telefon',
+            'finance_user_email'        : 'E-Mail',
+            'bank_details_contact_person'    : 'Kontoinhaber',
+            'null-1'                    : 'Kontonummer',
+            'null-2'                    : 'Bankleitzahl',
+            'bank_details_bank_name'    : 'Geldinstitut',
+            'bank_details_iban'         : 'IBAN',
+            'null-3'                    : 'BIC',
+            'district_name'             : 'Bezirk',
+            'district_contact_name'     : 'Ansprechpartner/in',
+            'district_plz'              : 'PLZ',
+            'district_city'             : 'Stadt',
+            'district_address'          : 'Straße',
+            'district_phone'            : 'Telefon',
+            'district_fax'              : 'Telefax',
+            'district_email'            : 'E-Mail'
+          },
+          performer_name                : 'name',
+          performer_plz                 : 'plz',
+          performer_city                : 'city',
+          performer_addres              : 'addres',
+          performer_phone               : 'phone',
+          performer_fax                 : 'fax',
+          performer_homepage            : 'homepage',
+          performer_email               : 'email',
+          representative_sex            : 'sex',
+          representative_title          : 'title',
+          representative_first_name     : 'first_name',
+          representative_last_name      : 'last_name',
+          representative_function       : 'function',
+          school_data_name              : 'name',
+          school_data_plz               : 'plz',
+          school_data_city              : 'city',
+          school_data_address           : 'address',
+          school_data_phone             : 'phone',
+          school_data_fax               : 'fax',
+          school_data_homepage          : 'homepage',
+          school_data_email             : 'email',
+          school_data_contact_sex       : 'contact_sex',
+          school_data_contact_title     : 'contact_title',
+          school_data_contact_first_name: 'contact_first_name',
+          school_data_contact_last_name : 'contact_last_name',
+          concept_user_sex              : 'sex',
+          concept_user_title            : 'title',
+          concept_user_first_name       : 'first_name',
+          concept_user_last_name        : 'last_name',
+          concept_user_phone            : 'phone',
+          concept_user_email            : 'email',
+          finance_user_sex              : 'sex',
+          finance_user_title            : 'title',
+          finance_user_first_name       : 'first_name',
+          finance_user_last_name        : 'last_name',
+          finance_user_phone            : 'phone',
+          finance_user_email            : 'email',
+          bank_details_contact_person   : 'contact_person',
+          bank_details_bank_name        : 'bank_name',
+          bank_details_iban             : 'iban',
+          district_name                 : 'name',
+          district_plz                  : 'plz',
+          district_city                 : 'city',
+          district_address              : 'address',
+          district_phone                : 'phone',
+          district_fax                  : 'fax',
+          district_email                : 'email',
+          data: data
+        }, 
+      },
+      param: $scope.filter
+    };
+    //empty fields for first table
+    for(var i = 2; i < 51; i++){
+      $scope.paramsForExport['projectData'].tables.table1.columns['null-'+i] = '';
+    };
+     //empty fields for second table
+    for(var i = 2; i < 26; i++){
+      $scope.paramsForExport['projectData'].tables.table2.columns['null-'+i] = '';
+    };
+    $scope.paramsForExport['projectData'].tables.table2.columns['null-26'] = 'Antragsrelevante Projektdaten';
+    for(var i = 27; i < 51; i++){
+      $scope.paramsForExport['projectData'].tables.table2.columns['null-'+i] = '';
+    };
+     //empty fields for third table
+    for(var i = 2; i < 9; i++){
+      $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
+    };
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-9'] = 'Vertretungsberechtigte Person';
+    for(var i = 10; i < 14; i++){
+      $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
+    };
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-14'] = 'Adresse der Schule';
+    for(var i = 15; i < 22; i++){
+      $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
+    };
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-22'] = 'Schulleitung';
+    for(var i = 23; i < 26; i++){
+      $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
+    };
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-26'] = 'Ansprechperson für Rückfragen zum Konzept';
+    for(var i = 27; i < 32; i++){
+      $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
+    };
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-32'] = 'Ansprechperson für Rückfragen zum Finanzplan';
+    for(var i = 33; i < 38; i++){
+      $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
+    };
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-38'] = 'Kontoverbindung';
+    for(var i = 39; i < 44; i++){
+      $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
+    };
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-44'] = 'Angaben zum Jugendamt';
+    for(var i = 45; i < 51; i++){
+      $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
+    };
+  };
+    
+  network.get('request', $scope.filter, function (result, response) {
+    if(result){
+      $scope.exportFinanceSumm(response.result);
+      $scope.exportProjectData(response.result);
+    };
+  });
+  
   $timeout(function(){
     $scope.exportFinanceSingle(ids[0]);
   });
@@ -1112,5 +1372,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
   $scope.cancel = function () {
     $uibModalInstance.close();
   };
+  
+  $scope.uibModalInstance = $uibModalInstance;
 
 });

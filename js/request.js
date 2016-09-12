@@ -686,7 +686,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           results = ((user == 'a' || user == 'p' || user == 't') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline' && $scope.request.status_code != 'acceptable');
           break;
         case 'senat_additional_info':;
-          results = ((user == 'a' || user == 'p') && $scope.request.status_code == 'acceptable');
+          results = ((user == 'a' || user == 'p') && $scope.request.status_code != 'accept' && $scope.request.status_code != 'decline' && $scope.request.status_code != 'acceptable');
           break;
       }
     }

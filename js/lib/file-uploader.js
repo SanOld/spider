@@ -1375,7 +1375,10 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
     _onComplete: function(id, xhr){
       // the request was aborted/cancelled
       if (!this._files[id]) return;
-      var ext = this._files[0]['type'].split('/');
+      var ext = '';
+      if(this._files[this._files.length - 1]['type']){        
+        ext = this._files[this._files.length - 1]['type'].split('/');
+      }
       var name = this.getName(id);
       var size = this.getSize(id);
 
