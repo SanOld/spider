@@ -22,6 +22,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     checked: false,
     items: {}
   };
+ 
+  $scope.defaultFilterStatuses = 'unfinished_finance,unfinished_concept,unfinished_goal,in_progress_finance,in_progress_concept,in_progress_goal,accepted_finance,accepted_concept,accepted_goal,rejected_finance,rejected_concept,rejected_goal,';
+  $scope.filter.statuses = $scope.defaultFilterStatuses;
+  
   $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
 
   $scope.headerChecked = function (value) {
@@ -35,7 +39,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
         $scope.checks[i][i2] = satus;
       });
     });
-    delete $scope.filter.statuses;
+    if(!satus){
+      delete $scope.filter.statuses;
+    }else{
+      $scope.filter.statuses = $scope.defaultFilterStatuses;
+    }    
     grid.reload();
   };
   
