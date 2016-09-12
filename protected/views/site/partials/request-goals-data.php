@@ -569,7 +569,7 @@
                   <div class="row">
                     <div ng-show=" userCan('textNotice', goal.status) " class="col-lg-9 ">
                       <h4 class="m-t-0">Prüfnotiz</h4>
-                      <textarea ng-disabled="!userCan('allFields', goal.status)"  ng-model="goal.newNotice" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
+                      <textarea ng-disabled="!userCan('allFields', goal.status) && !userCan('textNotice', goal.status)"  ng-model="goal.newNotice" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
                     </div>
 
                     <div class="col-lg-3 text-right pull-right" >
