@@ -1186,10 +1186,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   }
   var usersById = {};
 
-  RequestService.afterSave = function(){
+  RequestService.afterSave = function(callback){
+    var callback = callback || function(){};
     $scope.updateFinPlanUsers('submit');
     $scope.updateFinPlanProfAssociation();
-  }
+    callback();
+  };
   RequestService.financePlanData = function(){
     var data = {};
     data.request =  { 'revenue_description':    $scope.data.revenue_description
@@ -1204,7 +1206,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'is_umlage':              $scope.data.is_umlage
                     , 'finance_user_id':        $scope.data.finance_user_id
                     };
-    data.users = $scope.request_users;    
+    data.users = $scope.request_users;
     data.prof_associations = $scope.prof_associations;
     data.schools = $scope.financeSchools;
     var finPlan = angular.copy(data);
@@ -1271,10 +1273,15 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             $scope.data.status_finance = status;
             $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
             $scope.$parent.setFinanceStatus(status);
-            RequestService.afterSave();
-            if (network.user.type == 'a') {
-              $scope.$parent.submitRequest();
-            }
+            RequestService.afterSave(
+              function(){
+                $timeout(function(){
+                  if (network.user.type == 'a') {
+                    $scope.$parent.submitRequest();
+                  };
+                });
+              }
+            );            
           }
         });
     }
@@ -1288,9 +1295,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         if($scope.errorArray.length){
           return $scope.$parent.doErrorIncompleteFields($scope.errorArray);
         } else {
-          $scope.errorShow = false;
+          $scope.errorShow = false;          
+          RequestService.acceptMSG(callback);
         }
-        RequestService.acceptMSG(callback);
         break;
       case 'in_progress':
 
@@ -1304,11 +1311,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
         $scope.errorShow = true;
         if($scope.errorArray.length){
-          return   $scope.$parent.doErrorIncompleteFields($scope.errorArray);
+          return $scope.$parent.doErrorIncompleteFields($scope.errorArray);
         } else {
-          $scope.errorShow = false;
+          $scope.errorShow = false;          
+          RequestService.sendMSG(callback);
         }
-        RequestService.sendMSG(callback);
         break;
       case 'rejected':
         if(!$scope.data.comment) return false;
@@ -1571,7 +1578,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
       $scope.updateUserSelect();
       $scope.updateResultCost();
-
+      $scope.financePlanForm.$dirty = true;
       $scope.errorArray = [];
   }
   $scope.deleteProfAssociation = function(idx){
