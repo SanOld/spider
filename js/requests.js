@@ -5,7 +5,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
   $rootScope.printed = 0;
   var d = new Date;
   var year = d.getFullYear() + 1;
-  $scope.defaulFilter = {year: year, status_id: '1,3,4,5'}
+  $scope.defaulFilter = {year: year, status_id: '1,3,4,5,6'}
   $scope.filter = localStorageService.get('requestsFilter', $scope.filter ) || angular.copy($scope.defaulFilter);
   if(!$scope.filter == $scope.defaulFilter ){
     localStorageService.set('requestsFilter', $scope.filter );
@@ -110,7 +110,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
       $scope.years = response.result;
       if($scope.years.length > 0){
         if($scope.years.indexOf($scope.defaulFilter.year) == -1){
-          $scope.defaulFilter = {year: $scope.years[0], status_id: '1,3,4,5'};
+          $scope.defaulFilter = {year: $scope.years[0], status_id: '1,3,4,5,6'};
         }        
         if($scope.years.indexOf($scope.filter.year) == -1){
            $scope.filter.year = $scope.years[0];
