@@ -12,10 +12,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.goalsStatus = '';
   $scope.isFinansist = ['a', 'p', 'g'].indexOf(network.user.type) !== -1 || (network.user.type == 't' && +network.user.is_finansist);
   $scope.is_bonus_project = true;
-  $scope.isChangedProjectForm = false;
+  $scope.initall = false;
   $scope.isChangedFinanceForm = false;
   $scope.isChangedConceptForm = false;
   $scope.isChangedGoalsForm = false;
+  $scope.isPreviousRequest = false;
   
   $scope.tabs = ($scope.isFinansist || $scope.user_type == 's' ) ? ['project-data', 'finance-plan', 'school-concepts', 'schools-goals'] : ['project-data', 'school-concepts', 'schools-goals'];
   var hash = $location.hash();
@@ -370,7 +371,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
                     ||($scope.goalsStatus == 'unfinished'   || $scope.goalsStatus == 'rejected')  ) && user == 't' && status != 'decline');
           break;
         case 'copyData':;
-          results = ((user == 't') &&  status != 'accept' && status != 'decline'  && status != 'acceptable' );
+          results = ((user == 't') &&  status != 'accept' && status != 'decline'  && status != 'acceptable' && $scope.isPreviousRequest );
           break;
       } 
 
@@ -546,79 +547,75 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
 
   };
 
-    $scope.copyData = function(){
+  $scope.checkPreviousRequest = function(){
+    var params = {
+       project_code: $scope.projectID
+      , year: ($scope.requestYear-1)
+    };
+    network.get('request', params, function(result, response) {
+      if(result && response['result'].length > 0) {
+        $scope.isPreviousRequest = true;
+      }
+    });
+  }
 
-      var params = {
-         project_code: $scope.projectID
-        , year: ($scope.requestYear-1)
-      };
-
-      network.get('request', params, function(result, response) {
-        if(result && response['result'].length > 0) {
-          copy();
-        } else {
-            SweetAlert.swal({
-                html:true,
-                title: "Error",
-                text: "Request to project "+params.project_code + " in " + params.year + " is absent",
-                type: "error",
-                confirmButtonText: "OK"
-            });
-        }
-      });
-
-      var copy = function(){
-          SweetAlert.swal({
-            html:true,
-            title: "Data of concept and goals will be copied",
-            type: "warning",
-            confirmButtonText: "OK",
-            showCancelButton: true,
-            cancelButtonText: "ABBRECHEN",
-          },function(isConfirm){
-            if (isConfirm) {
-              var params = {
-                request_id: $scope.requestID
-                , project_code: $scope.projectID
-                , year: ($scope.requestYear-1)
-                , copyDataConceptGoal: true
-              }
-              network.post('request', params, function(result) {
-                if(result) {
-                  $timeout(function(){location.href = '/request/'+$scope.requestID;})
-                }
-              });
+  $scope.copyData = function(){
+    if($scope.isPreviousRequest){
+        SweetAlert.swal({
+          html:true,
+          title: "Datenkopierung",
+          text: "Daten des Konzepts und der Ziele\n\
+        werden aus dem Antrag (" + ($scope.requestYear-1) +") " + $scope.projectID + " kopiert.\n\
+        Die vorhandenen Daten werden übergeschrieben",
+          type: "warning",
+          confirmButtonText: "OK",
+          showCancelButton: true,
+          cancelButtonText: "ABBRECHEN",
+        },function(isConfirm){
+          if (isConfirm) {
+            var params = {
+              request_id: $scope.requestID
+              , project_code: $scope.projectID
+              , year: ($scope.requestYear-1)
+              , copyDataConceptGoal: true
             }
-          });
-        }
-    };
+            network.post('request', params, function(result) {
+              if(result) {
+                 RequestService.updateSchoolGoal();
+                 RequestService.updateSchoolConcept();
+              }
+            });
+          }
+        });
+      }
+  };
   
-    $scope.sendToAccept = function() {
-      var modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'sendToAccept.html',
-        controller: 'SendToAcceptController',
-        size: 'custom-width-request-send-duration'
-      });
-      modalInstance.result.then(function (formsToSend) {
-        if(formsToSend.length){
-          if(formsToSend.indexOf('finance') != -1){
-            $scope.setFinanceStatus('in_progress');
-            RequestService.setStatusFinanceForm('in_progress');
-          };
-          if(formsToSend.indexOf('concept') != -1){
-            $scope.setConceptStatus('in_progress');
-            RequestService.setStatusConceptForm('in_progress', 'accept');
-          };
-          if(formsToSend.indexOf('goal') != -1){
-            $scope.setGoalsStatus('in_progress');
-            RequestService.setStatusGoalForm('in_progress', 'accept');
-          };
+  $scope.sendToAccept = function() {
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'sendToAccept.html',
+      controller: 'SendToAcceptController',
+      size: 'custom-width-request-send-duration'
+    });
+    modalInstance.result.then(function (formsToSend) {
+      if(formsToSend.length){
+        if(formsToSend.indexOf('finance') != -1){
+          $scope.setFinanceStatus('in_progress');
+          RequestService.setStatusFinanceForm('in_progress');
         };
-      });
-    };
+        if(formsToSend.indexOf('concept') != -1){
+          $scope.setConceptStatus('in_progress');
+          RequestService.setStatusConceptForm('in_progress', 'accept');
+        };
+        if(formsToSend.indexOf('goal') != -1){
+          $scope.setGoalsStatus('in_progress');
+          RequestService.setStatusGoalForm('in_progress', 'accept');
+        };
+      };
+    });
+  };
     
-    $scope.$on('sendToAccept', function(event,status, pages){
+  $scope.$on('sendToAccept', function(event,status, pages){
       $scope.submitRequest(status, pages);
     });
 });
@@ -770,6 +767,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
         $scope.$parent.setProjectID($scope.data.code);
         $scope.$parent.setRequestYear($scope.data.year);
         $scope.$parent.setBonusProject($scope.data.is_bonus_project);
+        $scope.$parent.checkPreviousRequest();
        
         $scope.request = {
           id:                             response.result.id,
@@ -1943,6 +1941,10 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   RequestService.setChangedConceptForm = function(){
     $scope.conceptForm.$dirty = false;
   }
+
+  RequestService.updateSchoolConcept = function(){
+     $scope.requestSchoolConcept();
+  }
  
 });
 
@@ -1971,24 +1973,29 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.error = false;
   $scope.count = [];
   $scope.deleted = [];
-  network.get('request_school_goal', {request_id: $scope.$parent.requestID}, function (result, response) {
-    if (result) {
-      $scope.schoolGoals = response.result;
-      $scope.checkSchoolStatus();
-      for (var school in $scope.schoolGoals) {
-        $scope.count[school] = 0;
-        var schools = $scope.schoolGoals;
-        for (var goal in schools[school].goals) {                   
-          var goals = schools[school].goals;
-          if(goals[goal].is_active == 1){            
-            ++$scope.count[school];
-            $scope.schoolGoals[school].counter = $scope.count[school];  //count active fields
+  $scope.requestSchoolGoal = function(){
+    network.get('request_school_goal'
+    , {request_id: $scope.$parent.requestID}, function (result, response) {
+      if (result) {
+        $scope.schoolGoals = response.result;
+        $scope.checkSchoolStatus();
+        for (var school in $scope.schoolGoals) {
+          $scope.count[school] = 0;
+          var schools = $scope.schoolGoals;
+          for (var goal in schools[school].goals) {
+            var goals = schools[school].goals;
+            if(goals[goal].is_active == 1){
+              ++$scope.count[school];
+              $scope.schoolGoals[school].counter = $scope.count[school];  //count active fields
+            }
           }
         }
       }
-    }
-  });
-  
+    });
+  }
+
+  $scope.requestSchoolGoal();
+
   $scope.canGoalsEdit = function(){
     if($scope.$parent.goalsStatus == 'unfinished' && $scope.canEdit()){
       return true;
@@ -2320,7 +2327,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
   $scope.fieldError = function (goal, field, condition) {
     var check = condition || true;
-    if(check != '0'){
+    if(check != '0' && goal.errors !== undefined && goal.errors[field] !== undefined){
       if(goal[field] == undefined || goal[field] == ''){
         goal.errors[field] = true;
         return true;
@@ -2329,7 +2336,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         return false;
       }
     } else {
-      delete goal.errors[field];
+//      delete goal.errors[field];
       return false;
     }
 
@@ -2347,7 +2354,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         return false;
       }
     } else {
-      goal.errors[group] = true;
+//      goal.errors[group] = true;
       return true;
     }
   }
@@ -2395,6 +2402,11 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   RequestService.setChangedGoalsForm = function(){
     $scope.goalsForm.$dirty = false;
   }
+
+  RequestService.updateSchoolGoal = function(){
+     $scope.requestSchoolGoal();
+  }
+
 });
 
 spi.controller('ModalDurationController', function ($scope, start_date, due_date, end_fill,  $uibModalInstance) {
