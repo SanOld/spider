@@ -1588,7 +1588,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         $scope.prof_associations.splice(idx, 1);
       }
       $scope.updateResultCost();
-
+      $scope.financePlanForm.$dirty = true;
       $scope.errorArray = [];
   }
 
