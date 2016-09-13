@@ -763,7 +763,7 @@ label.error {
 .has-hint.btn-question,
 #finance .has-hint2 .btn-question {
 	float:right;
-	margin-top:8px;
+	margin-top:12px;
 }
 .wrap-hint {
 	overflow: hidden;
@@ -1866,7 +1866,7 @@ body.safari .box-finance .sum strong {
 }
 #finance .has-hint.btn-question {
 	float:none;
-	margin-top:0;
+	margin-top:3px;
 	vertical-align:top;
 }
 #accordion-account .panel-heading a[data-toggle="collapse"]:before {
@@ -3385,7 +3385,7 @@ form[name=conceptForm] .alert-danger {display: block;}
     margin-left: 42px;
 }
 .concept-form-block .btn-question {
-    margin-top: 0;
+    margin-top: 4px;
 }
 .custom-btn.print_btn {
 	font-size:15px;
