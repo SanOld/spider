@@ -2200,6 +2200,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         if(angular.isObject($scope.schoolGoals[school])){
           var goals = angular.copy($scope.schoolGoals[school].goals);
           for(var goal in goals){
+            delete goals[goal].total_count;
             delete goals[goal].groups;
             delete goals[goal].errors;
             delete goals[goal].showError;
