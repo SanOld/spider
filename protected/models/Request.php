@@ -22,7 +22,7 @@ class Request extends BaseModel {
                       , IF(prj.type_id = 3, 1, 0) is_bonus_project
                       , prj.id project_id
                       , fns.programm
-                      ,(SELECT name FROM spi_school scl WHERE scl.id = prs.school_id LIMIT 1) AS `school_name`";
+                      ,(SELECT scl.name FROM spi_project_school prs LEFT JOIN spi_school scl ON prs.school_id=scl.id WHERE prs.project_id=prj.id ORDER BY scl.name LIMIT 1) AS `school_name`";
 
   public $paPriority = array('in_progress' => 1, 'rejected' => 2, 'unfinished' => 3, 'accepted' => 4 );
   public $taPriority = array('rejected' => 1, 'unfinished' => 2, 'in_progress' => 3, 'accepted' => 4 );
@@ -94,7 +94,6 @@ class Request extends BaseModel {
       }
       $command -> leftJoin( 'spi_performer prf',  'tbl.performer_id        = prf.id' );
       $command -> join( 'spi_project prj',        'tbl.project_id          = prj.id' );
-      $command -> join( 'spi_project_school prs',        'prs.project_id   = prj.id' );
       $command -> join( 'spi_district dst',        'prj.district_id        = dst.id' );
       $command -> join( 'spi_finance_source fns', 'prj.programm_id         = fns.id' );
       $command -> where(' 1=1 ', array());
@@ -659,7 +658,6 @@ class Request extends BaseModel {
           -> select('scl.*') -> from('spi_project_school prs')
           -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
           -> where('prs.project_id=:id', array(':id' => $row['project_id']))
-          -> order('scl.name DESC')
           -> queryAll();
           $ordered_schools = $schools;
           foreach ($ordered_schools as $key=>$schoolData) {
