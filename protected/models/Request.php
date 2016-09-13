@@ -560,8 +560,18 @@ class Request extends BaseModel {
               $RequestUser->update($id, $data, true);
             }
           } else {
+            $result = true;
+            $req_users = $RequestUser->select(array('request_id'=>$request_id), true);
+            $users = $req_users['result'];
+            foreach ($users as $user){
+              if($user['user_id'] == $data['user_id']){
+                $result = false;
+              };
+            };
             $data['request_id'] = $request_id;
-            $RequestUser->insert($data, true);
+            if($result){
+              $RequestUser->insert($data, true);
+            }
           }
         }
       }
