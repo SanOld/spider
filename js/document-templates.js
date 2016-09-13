@@ -84,7 +84,8 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
     $scope.document = {
       id:     '',
       name:   '',
-      text:   ''
+      text:   '',
+      is_prototype: 0
     };
   }
 
@@ -149,7 +150,7 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
         }
         $scope.submited = false;
       };
-      if(data.is_prototype == 0){
+      if(data.is_prototype == undefined || data.is_prototype == 0){
         if ($scope.isInsert) {
           network.post('document_template', $scope.document, callback);
         } else {
