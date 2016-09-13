@@ -1234,10 +1234,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   }
   var usersById = {};
 
-  RequestService.afterSave = function(){
+  RequestService.afterSave = function(callback){
+    var callback = callback || function(){};
     $scope.updateFinPlanUsers('submit');
     $scope.updateFinPlanProfAssociation();
-  }
+    callback();
+  };
   RequestService.financePlanData = function(){
     var data = {};
     data.request =  { 'revenue_description':    $scope.data.revenue_description
@@ -1252,7 +1254,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'is_umlage':              $scope.data.is_umlage
                     , 'finance_user_id':        $scope.data.finance_user_id
                     };
-    data.users = $scope.request_users;    
+    data.users = $scope.request_users;
     data.prof_associations = $scope.prof_associations;
     data.schools = $scope.financeSchools;
     var finPlan = angular.copy(data);
@@ -1319,10 +1321,15 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
             $scope.data.status_finance = status;
             $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
             $scope.$parent.setFinanceStatus(status);
-            RequestService.afterSave();
-            if (network.user.type == 'a') {
-              $scope.$parent.submitRequest();
-            }
+            RequestService.afterSave(
+              function(){
+                $timeout(function(){
+                  if (network.user.type == 'a') {
+                    $scope.$parent.submitRequest();
+                  };
+                });
+              }
+            );            
           }
         });
     }
@@ -1336,9 +1343,9 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         if($scope.errorArray.length){
           return $scope.$parent.doErrorIncompleteFields($scope.errorArray);
         } else {
-          $scope.errorShow = false;
+          $scope.errorShow = false;          
+          RequestService.acceptMSG(callback);
         }
-        RequestService.acceptMSG(callback);
         break;
       case 'in_progress':
 
@@ -1352,11 +1359,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
         $scope.errorShow = true;
         if($scope.errorArray.length){
-          return   $scope.$parent.doErrorIncompleteFields($scope.errorArray);
+          return $scope.$parent.doErrorIncompleteFields($scope.errorArray);
         } else {
-          $scope.errorShow = false;
+          $scope.errorShow = false;          
+          RequestService.sendMSG(callback);
         }
-        RequestService.sendMSG(callback);
         break;
       case 'rejected':
         if(!$scope.data.comment) return false;
@@ -1619,7 +1626,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
       $scope.updateUserSelect();
       $scope.updateResultCost();
-
+      $scope.financePlanForm.$dirty = true;
       $scope.errorArray = [];
   }
   $scope.deleteProfAssociation = function(idx){
@@ -1629,7 +1636,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         $scope.prof_associations.splice(idx, 1);
       }
       $scope.updateResultCost();
-
+      $scope.financePlanForm.$dirty = true;
       $scope.errorArray = [];
   }
 
@@ -2100,7 +2107,10 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         currentGroup.counter++;
       }
     }
-
+    goal.total_count = 0;
+    for(var item in goal.groups){
+      goal.total_count += goal.groups[item].counter;
+    };
     currentGroup[key] = goal[key];
   }
 
@@ -2177,8 +2187,11 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return $scope.activeTab;
   }
 
-  $scope.submitForm = function( goal, action ) {
-
+  $scope.submitForm = function( goal, action ) {      
+      goal.total_count = 0;
+      for(var item in goal.groups){
+        goal.total_count += goal.groups[item].counter;
+      };
 
       submitRequest = function(){
         var sendGoal = angular.copy(goal);
@@ -2186,6 +2199,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         if ('errors' in sendGoal){delete sendGoal.errors;}
         if ('showError' in sendGoal){delete sendGoal.showError;}
         if ('newNotice' in sendGoal){delete sendGoal.newNotice;}
+        if ('total_count' in sendGoal){delete sendGoal.total_count;}
           network.put('request_school_goal/' + sendGoal.id, sendGoal, function(result){
             if(result) {
               $scope.checkSchoolStatus();
@@ -2208,7 +2222,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       switch (action) {
         case 'submit':
           
-          if(isEmptyObject(goal.errors) && goal.groups.groupOffer.counter < 3){
+          if(isEmptyObject(goal.errors) && (goal.total_count < 3 || !goal.total_count)){
             $scope.tempStatus = 'in_progress';
             RequestService.sendMSG(callback);
           } else {
@@ -2226,7 +2240,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           RequestService.acceptMSG(callback);
           break;
         case 'accept':
-          if(isEmptyObject(goal.errors) && goal.groups.groupOffer.counter < 3){
+          if(isEmptyObject(goal.errors) && (goal.total_count < 3 || !goal.total_count)){
             goal.notice = goal.newNotice;
             $scope.tempStatus = 'accepted';
             RequestService.acceptMSG(callback);
@@ -2246,6 +2260,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         if(angular.isObject($scope.schoolGoals[school])){
           var goals = angular.copy($scope.schoolGoals[school].goals);
           for(var goal in goals){
+            delete goals[goal].total_count;
             delete goals[goal].groups;
             delete goals[goal].errors;
             delete goals[goal].showError;

@@ -17,7 +17,7 @@ class RequestStatus extends BaseModel {
     $deactivity_ids = array();
     foreach($result['result'] as &$row) {
       $row['virtual'] = 0;
-      if(in_array($row['code'], array('open', 'in_progress', 'acceptable', 'accept'))) {
+      if(in_array($row['code'], array('open', 'in_progress', 'acceptable', 'accept', 'wait'))) {
         $activity_ids[] = $row['id'];
       }
 //      if($row['code'] == 'decline') {
