@@ -2050,7 +2050,10 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         currentGroup.counter++;
       }
     }
-
+    goal.total_count = 0;
+    for(var item in goal.groups){
+      goal.total_count += goal.groups[item].counter;
+    };
     currentGroup[key] = goal[key];
   }
 
@@ -2158,7 +2161,8 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       switch (action) {
         case 'submit':
           
-          if(isEmptyObject(goal.errors) && goal.groups.groupOffer.counter < 3){
+          if(isEmptyObject(goal.errors) && goal.total_count < 3){
+            delete goal.total_count;
             $scope.tempStatus = 'in_progress';
             RequestService.sendMSG(callback);
           } else {

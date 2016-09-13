@@ -59,14 +59,14 @@
                       </span>
                       <br>
                     </div>
-
+                    <span  ng-if="goal.total_count > 2" >                        
+                      <br>
+                      <label  class="error">Bitte wählen Sie nicht mehr als zwei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel.</label>
+                    </span>
                     <label class="control-label">
                       <h4>Angebote für Schüler/innen und Eltern</h4>
                       <span spi-hint text="_hint.goals_groupOffer.text"  title="_hint.goals_groupOffer.title" class="has-hint"></span>
-                    </label>  
-                    <span  ng-if="goal.groups.groupOffer.counter > 2" >
-                        <label  class="error">Bitte wählen Sie nicht mehr als zwei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel.</label>
-                    </span>
+                    </label>
                     <div class="holder-radio">
                       <div class="p-0 text-center">
                         <div class="row">
@@ -295,9 +295,9 @@
                       <h4>Interne / Externe Vernetzung</h4>
                       <span spi-hint text="_hint.goals_groupNet.text" text="_hint.goals_groupNet.title" class="has-hint"></span>
                     </label>
-                    <span  ng-if="goal.groups.groupNet.counter > 2" >
+<!--                    <span  ng-if="goal.groups.groupNet.counter > 2" >
                         <label  class="error">Bitte wählen Sie nicht mehr als zwei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel.</label>
-                    </span>
+                    </span>-->
                     <div class="holder-radio">
                       <div class="p-0 text-center">
                         <div class="row">
