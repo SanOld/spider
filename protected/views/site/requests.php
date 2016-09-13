@@ -420,36 +420,36 @@ $this->breadcrumbs = array('Anträge');
       <div class="form-group">
         <ng-form name="form">
           <div class="holder-datepicker text-right">
-            <div class="col-lg-3 p-0">
-              <label>Beginn</label>
-            </div>
-            <div class="col-lg-3 p-0">
-              <div class="input-group">
-                <input type="text" ng-click="dp_start_date_is_open = !dp_start_date_is_open" ng-model="form.start_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_start_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            <div class="col-lg-6 set-duration">
+              <div class="col-lg-6 p-0">
+                <label>Beginn</label>
+              </div>
+              <div class="col-lg-6 p-0 m-b-30">
+                <div class="input-group">
+                  <input type="text" ng-click="dp_start_date_is_open = !dp_start_date_is_open" ng-model="form.start_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_start_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+              </div>
+              <div class="col-lg-6 p-0">
+                <label>Ende</label>
+              </div>
+              <div class="col-lg-6 p-0 ">
+                <div class="input-group">
+                  <input type="text" ng-click="dp_due_date_is_open = !dp_due_date_is_open" ng-model="form.due_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_due_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
               </div>
             </div>
-            <div class="col-lg-3 p-0">
-              <label>Abgabedatum</label>
-            </div>
-            <div class="col-lg-3 p-0">
-              <div class="input-group">
-                <input type="text" ng-click="dp_end_fill_is_open = !dp_end_fill_is_open" ng-model="form.end_fill" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_end_fill_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-              </div>
-            </div>
-
-          </div>
-          <br>
-          <div class="holder-datepicker text-right">
-            <div class="col-lg-3 p-0">
-              <label>Ende</label>
-            </div>
-            <div class="col-lg-3 p-0">
-              <div class="input-group">
-                <input type="text" ng-click="dp_due_date_is_open = !dp_due_date_is_open" ng-model="form.due_date" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_due_date_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-              </div>
+            <div class="col-lg-6 m-t-30">
+                <div class="col-lg-6 p-0">
+                  <label>Abgabedatum</label>
+                </div>
+                <div class="col-lg-6 p-0">
+                  <div class="input-group">
+                    <input type="text" ng-click="dp_end_fill_is_open = !dp_end_fill_is_open" ng-model="form.end_fill" uib-datepicker-popup="dd.MM.yyyy" datepicker-append-to-body="true" show-button-bar="false" is-open="dp_end_fill_is_open" datepicker-options="dateOptions" required class="form-control datepicker" placeholder="dd.mm.yyyy">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </div>
+                </div>
             </div>
           </div>
         </ng-form>

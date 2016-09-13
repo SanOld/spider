@@ -3513,3 +3513,6 @@ tr.virtual-row {
 .table-summary .holder-report {
     width: 120px;
 }
+.set-duration{
+    margin-left: -56px;
+}
