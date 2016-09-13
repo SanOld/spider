@@ -2130,8 +2130,11 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return $scope.activeTab;
   }
 
-  $scope.submitForm = function( goal, action ) {
-
+  $scope.submitForm = function( goal, action ) {      
+      goal.total_count = 0;
+      for(var item in goal.groups){
+        goal.total_count += goal.groups[item].counter;
+      };
 
       submitRequest = function(){
         var sendGoal = angular.copy(goal);
@@ -2139,6 +2142,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         if ('errors' in sendGoal){delete sendGoal.errors;}
         if ('showError' in sendGoal){delete sendGoal.showError;}
         if ('newNotice' in sendGoal){delete sendGoal.newNotice;}
+        if ('total_count' in sendGoal){delete sendGoal.total_count;}
           network.put('request_school_goal/' + sendGoal.id, sendGoal, function(result){
             if(result) {
               $scope.checkSchoolStatus();
@@ -2161,8 +2165,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
       switch (action) {
         case 'submit':
           
-          if(isEmptyObject(goal.errors) && goal.total_count < 3){
-            delete goal.total_count;
+          if(isEmptyObject(goal.errors) && (goal.total_count < 3 || !goal.total_count)){
             $scope.tempStatus = 'in_progress';
             RequestService.sendMSG(callback);
           } else {
@@ -2180,7 +2183,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           RequestService.acceptMSG(callback);
           break;
         case 'accept':
-          if(isEmptyObject(goal.errors) && goal.groups.groupOffer.counter < 3){
+          if(isEmptyObject(goal.errors) && (goal.total_count < 3 || !goal.total_count)){
             goal.notice = goal.newNotice;
             $scope.tempStatus = 'accepted';
             RequestService.acceptMSG(callback);
