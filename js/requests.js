@@ -1239,7 +1239,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
           performer_name                : 'name',
           performer_plz                 : 'plz',
           performer_city                : 'city',
-          performer_addres              : 'addres',
+          performer_address             : 'address',
           performer_phone               : 'phone',
           performer_fax                 : 'fax',
           performer_homepage            : 'homepage',
