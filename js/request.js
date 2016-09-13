@@ -371,7 +371,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
                     ||($scope.goalsStatus == 'unfinished'   || $scope.goalsStatus == 'rejected')  ) && user == 't' && status != 'decline');
           break;
         case 'copyData':;
-          results = ((user == 't') &&  status != 'accept' && status != 'decline'  && status != 'acceptable' && $scope.isPreviousRequest );
+          results = ((user == 't') &&  status != 'accept' && status != 'decline'  && status != 'acceptable' && $scope.isPreviousRequest
+                    && $scope.conceptStatus != 'in_progress' && $scope.conceptStatus != 'accepted'
+                    && $scope.goalsStatus != 'in_progress' && $scope.goalsStatus != 'accepted');
           break;
       } 
 
