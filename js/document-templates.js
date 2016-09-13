@@ -89,7 +89,7 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
     };
   }
 
-  $scope.filter = {type_id: data.type_id, is_email: 0};
+  $scope.filter = {type_id: $scope.document.type_id, is_email: 0};
 
   network.get('document_template_type', {filter: 1}, function (result, response) {
     if (result) {
@@ -97,24 +97,17 @@ spi.controller('EditDocumentTemplatesController', function ($scope, $rootScope, 
     }
   });
 
-
-
   var grid = GridService();
   $scope.tableParams = grid('document_template_placeholder', $scope.filter, {sorting: {name: 'asc'}});
 
   $scope.updateGrid = function () {
+    $scope.filter.type_id = $scope.document.type_id;
     grid.reload();
   };
 
   $scope.resetFilter = function () {
     $scope.filter = grid.resetFilter({type_id: data.type_id, is_email: 0});
   };
-
-    network.get('document_template_placeholder', {filter: 1}, function (result, response) {
-    if (result) {
-      window.console.log(response.result);
-    }
-  });
 
   $scope.options = {
   height: 200,                 // set editor height

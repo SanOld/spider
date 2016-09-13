@@ -29,7 +29,6 @@ class DocumentTemplatePlaceholder extends BaseModel {
     if (isset($params['DOCUMENT_ID'])) {
       $command -> andWhere("dtp.email_document_id = :document_id", array(':document_id' => $params['DOCUMENT_ID']));
     }
-
     return $command;
   }
 }
