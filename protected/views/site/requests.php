@@ -204,7 +204,7 @@ $this->breadcrumbs = array('Anträge');
                   <td data-title="'Abgabe'" sortable="'end_fill'">{{getDate(row.end_fill) | date : 'dd.MM.yyyy'}}</td>
                   <td data-title="'Letzte Änd.'" sortable="'last_change'">{{getDate(row.last_change) | date : 'dd.MM.yyyy'}}</td>
                   <td data-title="'Ansicht / Bearbeiten'" ng-click="setFilter()">
-                    <a ng-click="printDocuments(row)"  ng-class=" {disabled: !userCan( 'btnPrintDocument', row.status_code)} " class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
+                    <a ng-click="printDocuments(row)"  ng-class=" {disabled: !userCan( 'btnPrintDocument', row.status_code, row.status_goal)} " class="btn document" href="" title="Drucken"><i class="ion-printer"></i></a>
                     <a ng-if="canEdit(row)" class="btn edit-btn" href="/request/{{row.id}}"  title="Bearbeiten">
                       <i class="ion-edit"></i>
                     </a>

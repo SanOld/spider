@@ -461,7 +461,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
           return row;
         },
         userCan: function () {
-          return $scope.userCan('btnPrintDocument', row.status_code );
+          return $scope.userCan('btnPrintDocument', row.status_code);
         },
         user: function () {
           return $scope.user;
@@ -598,22 +598,31 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
                                           open:         {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                           in_progress:  {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                           decline:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          wait:         {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          unfinished:   {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                           acceptable:   {'a' : 1, 'p' : 1, 't': 1, 'default': 0 },
                                           accept:       {'a' : 1, 'p' : 1, 't': 1, 'default': 0 },
+                                          accepted:     {'a' : 1, 'p' : 1, 't': 1, 'default': 0 },
                                           default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
                                         },
                               default:  {
                                           open:         {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                           in_progress:  {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                           decline:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          wait:         {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          unfinished:   {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          rejected:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                           acceptable:   {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                           accept:       {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
+                                          accepted:     {'a' : 0, 'p' : 0, 't': 0, 'default': 0 },
                                           default:      {'a' : 0, 'p' : 0, 't': 0, 'default': 0 }
                                         }
                       }
 
-  $scope.userCan = function( field, status_code ){
+  $scope.userCan = function( field, status_code, status_goal){    
     var status = status_code  || 'default';
+    var goal_status = status_goal  || 'default';    
     var userType='';
     switch($scope.userType){
       case 'a':;
@@ -631,6 +640,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     }
 
     var result = $scope.permissions[field][status][userType];
+    if(!result){
+      result = $scope.permissions[field][goal_status][userType];
+    };
     return result;
 
   }
@@ -758,9 +770,14 @@ spi.controller('ModalCopyRequestController', function ($scope, ids, year,  selec
 
 });
 
-spi.controller('ModalPrintDocumentsController', function ($scope,user, row,  userCan, $uibModalInstance, network) {
+spi.controller('ModalPrintDocumentsController', function ($scope, user, row,  userCan, $uibModalInstance, network) {
   $scope.row = row;
   $scope.userCan = userCan;
+  $scope.canPrintGoals = false;
+  if(!$scope.userCan){
+    $scope.canPrintGoals = true;
+    $scope.userCan = true;    
+  };
   $scope.code = row.code;
   $scope.user = user;
   var ids = [];
@@ -773,6 +790,13 @@ spi.controller('ModalPrintDocumentsController', function ($scope,user, row,  use
     network.get('document_template', {'ids[]': ids, 'prepare': 1, 'request_id': row.id }, function (result, response) {
       if (result) {
         $scope.templates = response.result;
+        if($scope.canPrintGoals){
+          $scope.templates.forEach(function(item, i, arr){
+            if(item.type_code != "goal_agreement"){
+              delete $scope.templates[i];
+            };
+          });
+        };
       }
     });
   }
@@ -1239,7 +1263,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
           performer_name                : 'name',
           performer_plz                 : 'plz',
           performer_city                : 'city',
-          performer_addres              : 'addres',
+          performer_address             : 'address',
           performer_phone               : 'phone',
           performer_fax                 : 'fax',
           performer_homepage            : 'homepage',
