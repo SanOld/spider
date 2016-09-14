@@ -512,16 +512,17 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       }, function(isConfirm){
         if(isConfirm) {
           request_data.status_code = 'in_progress';
+          var oldStatus = request_data.status_id;
           request_data.status_id = statusId;
           switch(statusId){
             case 3:;
               request_data.status_code = 'in_progress';
               request_data.status_id = statusId;
-              if(request_data.status_id == 5 || request_data.status_id == 4){                
+              if(oldStatus == 5 || oldStatus == 4){
                 network.get('user_lock', {request_id: request_data['id']},function(result, response){
                   if(result){
                     for(var key in response.result){
-                      network.delete('user_lock/'+response.result[key]['id']+'?request_id='+request_data['id']);
+                      network.delete('user_lock/'+response.result[key]['id']);
                     }
                   }
                 });
