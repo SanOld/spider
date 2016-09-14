@@ -790,11 +790,8 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
           status_id:                      response.result.status_id
         };
         
-        if(response.result.status_id == '5'){
+        if(response.result.status_id == '5' || response.result.status_id == '4'){
         
-
-          
-
          network.get('User', {type: 't', relation_id: $scope.request.performer_id}, function (result, response) {
             if (result) {
               $scope.performerUsers = response.result;
@@ -813,9 +810,12 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
                         //To Do change data
                         for (var i = 0; i < $scope.performerUsers.length; i++) {
                           for (var y = 0; y < $scope.performerUsersLock.length; y++) {
-                            if( $scope.performerUsers[i]['id'] = $scope.performerUsersLock[y]['user_id'] ){
+                            delete $scope.performerUsersLock[y]['id'];
+                            if( $scope.performerUsers[i]['id'] == $scope.performerUsersLock[y]['user_id'] ){
                                 for(var key in $scope.performerUsersLock[y]){
-                                  $scope.performerUsers[i][key] = $scope.performerUsersLock[y][key];
+                                  if($scope.performerUsers[i][key] != undefined){
+                                    $scope.performerUsers[i][key] = $scope.performerUsersLock[y][key];
+                                  }
                                 }
                             }
                           }
@@ -1035,7 +1035,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
     };
     return changed_fields;
   };
-  
+
 });
 
 spi.controller('RequestFinancePlanController', function ($scope, network, RequestService, Utils, $timeout) {
