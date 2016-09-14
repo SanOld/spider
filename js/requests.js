@@ -772,6 +772,7 @@ spi.controller('ModalCopyRequestController', function ($scope, ids, year,  selec
 
 spi.controller('ModalPrintDocumentsController', function ($scope, user, row,  userCan, $uibModalInstance, network) {
   $scope.row = row;
+  $scope.templates = [];
   $scope.userCan = userCan;
   $scope.canPrintGoals = false;
   if(!$scope.userCan){
@@ -789,13 +790,15 @@ spi.controller('ModalPrintDocumentsController', function ($scope, user, row,  us
   if(ids.length) {
     network.get('document_template', {'ids[]': ids, 'prepare': 1, 'request_id': row.id }, function (result, response) {
       if (result) {
-        $scope.templates = response.result;
+        var templates = response.result;
         if($scope.canPrintGoals){
-          $scope.templates.forEach(function(item, i, arr){
-            if(item.type_code != "goal_agreement"){
-              delete $scope.templates[i];
+          templates.forEach(function(item, i, arr){
+            if(item.type_code == "goal_agreement"){
+              $scope.templates.push(item);
             };
           });
+        }else{
+          $scope.templates = templates;
         };
       }
     });
