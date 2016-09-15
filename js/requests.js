@@ -517,10 +517,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
           failCodes.push(row.code);
         }
 
-        for(var field in required){
-          if(row[required[field]] == '' || row[required[field]] == '0' || row[required[field]] == undefined ){
-            failCodes.push(row.code);
-            break;
+        if(failCodes.indexOf(row.code)==-1){
+          for(var field in required){
+            if(row[required[field]] == '' || row[required[field]] == '0' || row[required[field]] == undefined ){
+              failCodes.push(row.code);
+              break;
+            }
           }
         }
       }
