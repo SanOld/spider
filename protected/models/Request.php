@@ -604,7 +604,7 @@ class Request extends BaseModel {
 
       $Request = CActiveRecord::model('RequestLock');
       $Request->user = $this->user;
-      $Request->insert(array('request_id'=>$request_id));
+      $Request->insert(array('request_id'=>$request_id), true);
 
     }
 

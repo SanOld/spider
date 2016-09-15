@@ -114,7 +114,6 @@ class RequestLock extends BaseModel {
       $command -> leftJoin( 'spi_user fin_user',              'fin_user.id         = tbl.finance_user_id' );
 
       $command -> where('tbl.id=:id', array(':id' => $this->request_id ));
-//      $result -> $command->text;
       $result = $command -> queryRow();
 
 

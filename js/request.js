@@ -2126,7 +2126,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           var tempSchoolStatus = '';
           for (var goal in schools[school].goals) {            
             var goals = schools[school].goals;
-            if(!(goals[goal].status == 'unfinished' && goals[goal].option == '1')){
+            if(!(goals[goal].status == 'unfinished' || goals[goal].option == '1')){
               if($scope.paPriority[goals[goal].status] < $scope.paPriority[tempSchoolStatus] || tempSchoolStatus == ''){
                 tempSchoolStatus = goals[goal].status;
               }
@@ -2141,7 +2141,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           var tempSchoolStatus = '';
           for (var goal in schools[school].goals) {
             var goals = schools[school].goals;
-            if(!(goals[goal].status === 'unfinished' && goals[goal].option === '1')){
+            if(!(goals[goal].status === 'unfinished' || goals[goal].option === '1')){
               if($scope.taPriority[goals[goal].status] < $scope.taPriority[tempSchoolStatus] || tempSchoolStatus == ''){
                 tempSchoolStatus = goals[goal].status;
               }
