@@ -884,7 +884,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
     'financeSumm'   : false
   };
   $scope.templates = {
-    'projectData'   : {name:'Projektdaten', type_name:'Projektdaten', checkbox:'projectData'},
+    'projectData'   : {name:'Projektdaten(Summen)', type_name:'Projektdaten', checkbox:'projectData'},
     'financeSingle' : {name:'Finanzplan(einzeln)', type_name:'Finanzplan', checkbox:'financeSingle'},
     'financeSumm'   : {name:'Finanzplan(Summen)', type_name:'Finanzplan', checkbox:'financeSumm'}
   };
@@ -1147,9 +1147,8 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
     var fileDate = $scope.dateFormat(date);
     var time = $scope.getTime(date);
     var year = $scope.filter.year;
-    console.log(data);
     $scope.paramsForExport['projectData'] = {
-      fileName: 'Projektdaten.csv',
+      fileName: 'Projektdaten(Summen).csv',
       model: 'request',
       tables: {
         table1: {
