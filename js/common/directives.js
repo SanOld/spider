@@ -211,7 +211,7 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
             };
           };
           var csvString = '';
-          network.get(scope.paramsForExport.model, scope.paramsForExport.param, function (result, response) {
+          network.get(scope.paramsForExport.model, scope.filter, function (result, response) {
             if (result) {
               for(var table in scope.paramsForExport.tables){
                 if(scope.paramsForExport.tables[table].data){
@@ -232,7 +232,11 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
                       b:
                       //recursive repeat of data for audit
                       if(scope.paramsForExport.tables[table].recursive && scope.paramsForExport.tables[table].recursive.indexOf(columns) != -1){
-                        csvString += response.result[i].data[counter][columns] + ",";
+                        if(response.result[i].data[counter][columns]){
+                          csvString += response.result[i].data[counter][columns] + ",";
+                        }else{
+                          csvString += ",";
+                        }                        
                         if(scope.paramsForExport.tables[table].recursive.indexOf(columns) == scope.paramsForExport.tables[table].recursive.length - 1){
                           if(response.result[i].data.length == counter +1){
                             counter = 0;
@@ -280,14 +284,34 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
                                 if(typeof response.result[i][column] == 'number' || response.result[i][column].match(reg_number)){
                                   var cost = String(response.result[i][column]).replace(/\./gi, ",");
                                   csvString += '"' + cost + '"' + ',' ;
+                                  if(scope.paramsForExport.tables[table].concat && scope.paramsForExport.tables[table].concat == column){
+                                    csvString += '"' + cost + " ";
+                                  }else{
+                                    csvString += '"' + cost + '"' + ',' ;
+                                  }
                                 }else if(response.result[i][column].match(reg_date)){
                                   //data in format 09-09-2018
-                                  var day = response.result[i][column].substring(8);
+                                  var date = '';
+                                  if(response.result[i][column].length > 11){                                    
+                                    date = response.result[i][column].substring(11);
+                                  }
+                                  var day = response.result[i][column].substring(8,10);
                                   var month = response.result[i][column].substring(5,7);
                                   var year = response.result[i][column].substring(0,4);
-                                  csvString += '"' + day + '-' + month + '-' + year + '"' + ',' ;
+                                  if(scope.paramsForExport.tables[table].concat && scope.paramsForExport.tables[table].concat == column){
+                                    csvString += '"' + day + '-' + month + '-' + year + " " + date + " ";
+                                  }else{
+                                    csvString += '"' + day + '-' + month + '-' + year + " " + date + '"' + ',' ;
+                                  }
                                 }else{
-                                  csvString += '"' + response.result[i][column] + '"' + ',' ;
+                                  if(response.result[i][column].indexOf('"') != -1){
+                                    response.result[i][column] = response.result[i][column].replace(/"/g,"'");
+                                  };
+                                  if(scope.paramsForExport.tables[table].concat && scope.paramsForExport.tables[table].concat == column){
+                                    csvString += '"' + response.result[i][column] + " ";
+                                  }else{
+                                    csvString += '"' + response.result[i][column] + '"' + ',' ;
+                                  }
                                 }; 
                               };                                                
                             }else{                          

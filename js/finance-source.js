@@ -27,7 +27,7 @@ spi.controller('FinanceSourceController', function($scope, $rootScope, network, 
           columns: {
             'type_name'    : 'Fördertopf',
             'programm'     : 'Programm',
-            'Präfix'       : 'prefix',
+            'prefix'       : 'Präfix',
             'description'  : 'Beschreibung'
           }
         }

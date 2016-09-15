@@ -24,8 +24,9 @@ spi.controller('DocumentTemplatesController', function ($scope, $rootScope, netw
           'name'        : 'Name',
           'type_name'   : 'Dokument-Typ',
           'last_change' : 'Letzte Änderung',
-          'user_name'   : 'Benutzer des Änderung'
+          'user_name'   : ''
         },
+        concat: 'last_change'
       }
     },    
     param: $scope.filter
