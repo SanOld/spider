@@ -774,6 +774,7 @@ spi.controller('ModalCopyRequestController', function ($scope, ids, year,  selec
 
 spi.controller('ModalPrintDocumentsController', function ($scope, user, row,  userCan, $uibModalInstance, network) {
   $scope.row = row;
+  $scope.templates = [];
   $scope.userCan = userCan;
   $scope.canPrintGoals = false;
   if(!$scope.userCan){
@@ -791,13 +792,15 @@ spi.controller('ModalPrintDocumentsController', function ($scope, user, row,  us
   if(ids.length) {
     network.get('document_template', {'ids[]': ids, 'prepare': 1, 'request_id': row.id }, function (result, response) {
       if (result) {
-        $scope.templates = response.result;
+        var templates = response.result;
         if($scope.canPrintGoals){
-          $scope.templates.forEach(function(item, i, arr){
-            if(item.type_code != "goal_agreement"){
-              delete $scope.templates[i];
+          templates.forEach(function(item, i, arr){
+            if(item.type_code == "goal_agreement"){
+              $scope.templates.push(item);
             };
           });
+        }else{
+          $scope.templates = templates;
         };
       }
     });
@@ -918,7 +921,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
     'financeSumm'   : false
   };
   $scope.templates = {
-    'projectData'   : {name:'Projektdaten', type_name:'Projektdaten', checkbox:'projectData'},
+    'projectData'   : {name:'Projektdaten(Summen)', type_name:'Projektdaten', checkbox:'projectData'},
     'financeSingle' : {name:'Finanzplan(einzeln)', type_name:'Finanzplan', checkbox:'financeSingle'},
     'financeSumm'   : {name:'Finanzplan(Summen)', type_name:'Finanzplan', checkbox:'financeSumm'}
   };
@@ -1181,9 +1184,8 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
     var fileDate = $scope.dateFormat(date);
     var time = $scope.getTime(date);
     var year = $scope.filter.year;
-    console.log(data);
     $scope.paramsForExport['projectData'] = {
-      fileName: 'Projektdaten.csv',
+      fileName: 'Projektdaten(Summen).csv',
       model: 'request',
       tables: {
         table1: {

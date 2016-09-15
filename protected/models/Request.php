@@ -175,13 +175,14 @@ class Request extends BaseModel {
           $status = $element[0];
           $page = 'status_'.$element[1];
         }
-        $string .= "tbl.".$page." = '".$status."' OR ";
+        if($page == 'status_finance' && $this->user['type'] == SCHOOL){
+          $string .= "(tbl.".$page." = '".$status."' AND prj.type_id = 3) OR ";
+        }else{
+          $string .= "tbl.".$page." = '".$status."' OR ";
+        }
       };
       $string = substr($string,0,-4);
       $command->andWhere($string);
-      if(!$this->user['is_finansist'] && ($this->user['type'] == TA || $this->user['type'] == SCHOOL)){
-        $command->andWhere('prj.type_id = 3');
-      };     
     };
     if (safe($params, 'CODE')) {
       if($this->user['type'] == TA){        

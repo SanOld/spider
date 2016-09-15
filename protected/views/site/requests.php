@@ -124,7 +124,7 @@ $this->breadcrumbs = array('Anträge');
           <div class="custom-checkbox row m-b-10">              
             <div class="col-lg-8">
               <div class="col-lg-2" ng-repeat="item in part_statuses">
-                <span title="Finanzplan"  ng-show="user.type != 'd'">
+                <span title="Finanzplan" ng-if="isFinansist || user.type == 's'">
                     <input  type="checkbox" name="name_{{item}}+ 'finance'" ng-model="checks[item]['finance']" 
                            ng-change="deleteStatus(item + '_finance', checks[item]['finance']);updateGrid();" id="{{item}}_finance">
                     <label  class="cell-finplan {{item}} status-icon" for='{{item}}_finance'><i class="fa fa-check-circle bg-color"></i></label>
@@ -241,7 +241,7 @@ $this->breadcrumbs = array('Anträge');
           <div class="clearfix square-legend">
             <div class="notice">
               <div class="legends">
-                <span class="cell-finplan unfinished status-icon"></span>
+                <span class="cell-finplan unfinished status-icon" ng-if="isFinansist || user.type == 's'"></span>
                 <span class="cell-concept unfinished status-icon"></span>
                 <span class="cell-school unfinished status-icon"></span>
               </div>
@@ -249,7 +249,7 @@ $this->breadcrumbs = array('Anträge');
             </div>
             <div class="notice">
               <div class="legends">
-                <span class="cell-finplan in_progress status-icon"></span>
+                <span class="cell-finplan in_progress status-icon" ng-if="isFinansist || user.type == 's'"></span>
                 <span class="cell-concept in_progress status-icon"></span>
                 <span class="cell-school in_progress status-icon"></span>
               </div>
@@ -257,7 +257,7 @@ $this->breadcrumbs = array('Anträge');
             </div>
             <div class="notice">
               <div class="legends">
-                <span class="cell-finplan accepted status-icon"></span>
+                <span class="cell-finplan accepted status-icon" ng-if="isFinansist || user.type == 's'"></span>
                 <span class="cell-concept accepted status-icon"></span>
                 <span class="cell-school accepted status-icon"></span>
               </div>
@@ -265,7 +265,7 @@ $this->breadcrumbs = array('Anträge');
             </div>
             <div class="notice">
               <div class="legends">
-                <span class="cell-finplan rejected status-icon"></span>
+                <span class="cell-finplan rejected status-icon" ng-if="isFinansist || user.type == 's'"></span>
                 <span class="cell-concept rejected status-icon"></span>
                 <span class="cell-school rejected status-icon"></span>
               </div>
