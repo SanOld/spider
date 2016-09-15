@@ -52,6 +52,10 @@ class School extends BaseModel {
     if (isset($params['REQUESTS'])) {
       $command->join('spi_request req', 'req.project_id = prj.id');
     }
+    if (isset($params['REPORTS'])) {
+      $command->join('spi_request req', 'req.project_id = prj.id');
+      $command->join('spi_finance_report frp', 'frp.request_id = req.id');
+    }
     return $command;
   }
 

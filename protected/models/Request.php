@@ -131,10 +131,6 @@ class Request extends BaseModel {
     if(safe($params, 'GROUP_CODES')) {
       $command -> group('prj.code');
     }
-    if(safe($params, 'NO_RATE')) {
-      $command -> leftJoin('spi_financial_request frq', 'frq.request_id = tbl.id');
-      $command -> andWhere('frq.no_rate = :no_rate', array(':no_rate' => $params['NO_RATE']));
-    }
     if(safe($params, 'PROJECT_CODE')) {
       $command -> andWhere('prj.code = :project_code', array(':project_code' => $params['PROJECT_CODE']));
     }

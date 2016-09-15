@@ -412,7 +412,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     $scope.error = false;
     $scope.pair_remember = true;
     $scope.months = {
-      m01  : {pair:0,rate:1},   // month_number : is_even for creating pairs
+      m01  : {pair:0,rate:1},   // month_number : {check if is in pair, rate number}
       m02  : {pair:1,rate:1},
       m03  : {pair:0,rate:2},
       m04  : {pair:1,rate:2},
@@ -426,7 +426,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       m12  : {pair:1,rate:6}
     };
     $scope.rate_dates = {
-      1  : '01-01',   // month_number : is_even for creating pairs
+      1  : '01-01',   // rate : start date
       2  : '03-01',
       3  : '05-01',
       4  : '07-01',
