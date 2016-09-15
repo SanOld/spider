@@ -266,6 +266,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             if(result) {
               grid.reload();
               $scope.checkboxes.items = {};
+              $scope.updateProject($scope.filter.project_id, $scope.filter.year);
             };
           });
         });
@@ -328,6 +329,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             if(result) {
               grid.reload();
               $scope.checkboxes.items = {};
+              $scope.updateProject($scope.filter.project_id, $scope.filter.year);
             };
           });
         });
@@ -366,6 +368,7 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
                     }
                   });                  
                   grid.reload();
+                  $scope.updateProject($scope.filter.project_id, $scope.filter.year);
                 });
               };
             });
@@ -448,7 +451,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         delete $scope.financialRequest.request_id;
         delete $scope.selectProjectDetails;
       };
-      network.get('request', {status_id: 5,'year' : year, 'no_rate': 0}, function(result, response){
+      network.get('request', {status_id: 5,'year' : year}, function(result, response){
         if(result) {
           $scope.requests = response.result;          
           for (var i = 0; i < response.result.length; i++) {
@@ -484,82 +487,84 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
         };
       };
       $scope.getRates($scope.rate);
-      $scope.updatedRates = [];
-      $scope.getPaymentTypes();
-      var last_rate_id = 0;
-      var first_rate_id = 0;
-      network.get('financial_request', {request_id: project.id, payment_type_id: 1}, function (result, response) {
-        if(response.result.length) {
-          $scope.financialRequests = response.result;
-          last_rate_id = response.result[response.result.length - 1].rate_id;
-          first_rate_id = response.result[0].rate_id;
-          pair = true;
-        }else{
-          $timeout(function(){
-            var receiptDate = $scope.receiptDate;
-            receiptDate.setMonth(receiptDate.getMonth() + 2);
-            if(receiptDate >= new Date(project.start_date)){
-              $scope.financialRequest.rate_id = $scope.rate;
-            }else{
-              delete $scope.rates;
-            }
-          });          
-          var rates = [];            
-          if(!pair){
-            for(var i in $scope.rates){
-              if($scope.rates[i].id == $scope.rate){
-                rates[0] = $scope.rates[i];
-                rates[0].name = rates[0].name.substring(4,7);
-                $scope.financialRequest.is_partial_rate = rates[0].name;
-                $scope.rates = rates;
-                return;
-              };
-            };
-          };
-          return;    
-        };
-        network.get('rate', {}, function (result, response) {
-          if(result) {
-            $scope.rates = response.result;
-            for(var i = 0; i < $scope.rates.length; i++){
-              if($scope.rates[i].id == last_rate_id && last_rate_id != 6){
-                $scope.updatedRates.push($scope.rates[i+1]);
-                break;
-              };
-              var current = false;
-              for(var k = 0; k < $scope.financialRequests.length; k++){
-                if($scope.financialRequests[k].rate_id == $scope.rates[i].id){
-                  current = true;
-                  break;
-                }
+      $timeout(function(){    
+        $scope.updatedRates = [];
+        $scope.getPaymentTypes();
+        var last_rate_id = 0;
+        var first_rate_id = 0;
+        network.get('financial_request', {request_id: project.id, payment_type_id: 1}, function (result, response) {
+          if(response.result.length) {
+            $scope.financialRequests = response.result;
+            last_rate_id = response.result[response.result.length - 1].rate_id;
+            first_rate_id = response.result[0].rate_id;
+            pair = true;
+          }else{
+            $timeout(function(){
+              var receiptDate = $scope.receiptDate;
+              receiptDate.setMonth(receiptDate.getMonth() + 2);
+              if(receiptDate >= new Date(project.start_date)){
+                $scope.financialRequest.rate_id = $scope.rate;
+              }else{
+                delete $scope.rates;
               }
-              if(($scope.rates[i].id > receipt_rate && !current) || (first_rate_id > $scope.rate && $scope.rates[i].id == $scope.rate)){             
-                if($scope.rates[i].id == $scope.rate && !$scope.pair_remember){
-                  $scope.rates[i].name = $scope.rates[i].name.substring(4,7);
+            });          
+            var rates = [];            
+            if(!pair){
+              for(var i in $scope.rates){
+                if($scope.rates[i].id == $scope.rate){
+                  rates[0] = $scope.rates[i];
+                  rates[0].name = rates[0].name.substring(4,7);
+                  $scope.financialRequest.is_partial_rate = rates[0].name;
+                  $scope.rates = rates;
+                  return;
                 };
-                $scope.updatedRates.push($scope.rates[i]);
-              }
-            };
-            if(!$scope.updatedRates.length && last_rate_id == 6){
-              delete $scope.paymentTypes[0];
-            }
-            var receiptDate = $scope.receiptDate;
-            var year = project.start_date.substring(0,4);
-            receiptDate.setMonth(receiptDate.getMonth() + 2);
-            $scope.updatedRates.forEach(function(item, i, arr){
-              var day = year + '-' + $scope.rate_dates[item.id];
-              var rateDate = new Date(day);              
-              var diff = receiptDate - rateDate;
-              diff = Math.ceil(diff / (1000 * 3600 * 24 * 30));
-              if(diff < 2 || receipt_rate + 1 < item['id']){
-                delete $scope.updatedRates[i];
               };
-            });
-            if($scope.updatedRates.length == 1 && $scope.updatedRates[0]){
-              $scope.financialRequest.rate_id = $scope.updatedRates[0].id;
-            }; 
-            $scope.rates = $scope.updatedRates;
+            };
+            return;    
           };
+          network.get('rate', {}, function (result, response) {
+            if(result) {
+              $scope.rates = response.result;
+              for(var i = 0; i < $scope.rates.length; i++){
+                if($scope.rates[i].id == last_rate_id && last_rate_id != 6){
+                  $scope.updatedRates.push($scope.rates[i+1]);
+                  break;
+                };
+                var current = false;
+                for(var k = 0; k < $scope.financialRequests.length; k++){
+                  if($scope.financialRequests[k].rate_id == $scope.rates[i].id){
+                    current = true;
+                    break;
+                  }
+                }
+                if(($scope.rates[i].id > receipt_rate && !current) || (first_rate_id > $scope.rate && $scope.rates[i].id == $scope.rate)){             
+                  if($scope.rates[i].id == $scope.rate && !$scope.pair_remember){
+                    $scope.rates[i].name = $scope.rates[i].name.substring(4,7);
+                  };
+                  $scope.updatedRates.push($scope.rates[i]);
+                }
+              };
+              if(!$scope.updatedRates.length && last_rate_id == 6){
+                delete $scope.paymentTypes[0];
+              }
+              var receiptDate = $scope.receiptDate;
+              var year = project.start_date.substring(0,4);
+              receiptDate.setMonth(receiptDate.getMonth() + 2);
+              $scope.updatedRates.forEach(function(item, i, arr){
+                var day = year + '-' + $scope.rate_dates[item.id];
+                var rateDate = new Date(day);              
+                var diff = receiptDate - rateDate;
+                diff = Math.ceil(diff / (1000 * 3600 * 24 * 30));
+                if(diff < 2 || receipt_rate + 1 < item['id']){
+                  delete $scope.updatedRates[i];
+                };
+              });
+              if($scope.updatedRates.length == 1 && $scope.updatedRates[0]){
+                $scope.financialRequest.rate_id = $scope.updatedRates[0].id;
+              }; 
+              $scope.rates = $scope.updatedRates;
+            };
+          });
         });
       });
     };
