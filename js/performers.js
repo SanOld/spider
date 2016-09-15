@@ -31,7 +31,7 @@ spi.controller('PerformerController', function ($scope, $rootScope, network, Gri
       table1: {
         columns: {
           'short_name'          : 'Name',
-          'Adresse'             : 'full_address',
+          'full_address'        : 'Adresse',
           'representative_user' : 'Ansprechpartner(in)',
           'email'               : 'E-Mail',
           'phone'               : 'Telefon',

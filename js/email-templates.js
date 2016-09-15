@@ -34,8 +34,9 @@ spi.controller('EmailTemplatesController', function ($scope, $rootScope, network
           'name'        : 'Name',
           'description' : 'Beschreibung',
           'last_change' : 'Letzte Änderung',
-          'user_name'   : 'Benutzer des Änderung'
+          'user_name'   : ''
         },
+        concat: 'last_change'
       }
     },    
     param: $scope.filter
