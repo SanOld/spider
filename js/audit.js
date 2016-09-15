@@ -31,7 +31,7 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
           'operation_name'  : 'Änderungtyp',
           'first_name'      : 'Benutzer Vorname',
           'last_name'       : 'Benutzer Nachname',
-          'date_formated'   : 'Datum',
+          'event_date'      : 'Datum',
           'main_code'       : 'Projekt Kennziffer',
           'column_name'     : 'Feldname',
           'old_value'       : 'Vorher',
