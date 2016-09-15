@@ -979,41 +979,30 @@ class Request extends BaseModel {
       unset($post['ids']);
       unset($post['year']);
       unset($post['copy']);
+      $value = array();
       foreach($ids as $oldId) {
         $res = $this->select(array('id'=>$oldId), true);
-        $command = Yii::app() -> db -> createCommand() -> select('*') -> from($this -> table . ' tbl');
+        $command = Yii::app() -> db -> createCommand() -> select(' tbl.project_id') -> from($this -> table . ' tbl');
         $command -> where('id = :id', array(':id' => $oldId));
         $value = $command ->queryRow();
 
         if($value){
           $value['year'] = $year;
 
-          $value['status_finance']    = 'unfinished';
-          $value['status_concept']    = 'unfinished';
-          $value['status_concept_ta'] = 'unfinished';
-          $value['status_goal']       = 'unfinished';
-          $value['status_goal_ta']    = 'unfinished';
-
-          $value['status_id'] = 1;
-          $value['status_id_ta'] = 1;
-
-          unset ($value['id']);
-          unset ($value['start_date']);
-          unset ($value['due_date']);
-          unset ($value['end_fill']);
-          unset ($value['last_change']);
           $newId = false;
           $insertResult = $this->insert($value, true);
           if($insertResult['result']){
             $newId = $insertResult['id'];
           }
 
-//          $this->copyData('spi_request_school_concept',$RequestSchoolConcept, $oldId, $newId );
-//          $this->copyData('spi_request_school_goal', $RequestSchoolGoal, $oldId, $newId );
-          $this->copyData('spi_request_school_finance', $RequestSchoolFinance, $oldId, $newId );
-          $this->copyData('spi_request_user', $RequestUser, $oldId, $newId );
-          $this->copyData('spi_request_prof_association', $RequestProfAssociation, $oldId, $newId );
+
+          $this->updateData('spi_request_school_finance', $RequestSchoolFinance, $oldId, $newId );
+//          $this->copyData('spi_request_user', $RequestUser, $oldId, $newId );
+//          $this->copyData('spi_request_prof_association', $RequestProfAssociation, $oldId, $newId );
         }
+
+
+
       }
       response(200, array ('result' => true, 'system_code' => 'SUCCESSFUL'), 'post');
     }
@@ -1070,15 +1059,34 @@ class Request extends BaseModel {
    }
 
   protected function copyData($table, $model,$oldId, $newId){
+
     $command = Yii::app() -> db -> createCommand() -> select('*') -> from($table);
     $command -> where('request_id = :id', array(':id' => $oldId));
     $value = $command ->queryAll();
 
     foreach ($value as $row) {
-      unset($row['id']);
-      if($table == 'spi_request_school_concept' && $table == 'spi_request_school_goal'){
-        $row['status'] = 'unfinished';
+      switch ($table) {
+        case 'spi_request_school_finance':
+          if($row['rate'] <= 0.5){
+            $row['overhead_cost'] = 3000 * 0.5;
+          }else if($row['rate'] % 1 == 0.5) {
+            $row['overhead_cost'] = 3000 * $row['rate'];
+          } else {
+            $row['overhead_cost'] = 3000 * round($row['rate']);
+          };
+          $row['training_cost'] = 1800;
+          break;
+        case 'spi_request_school_concept':
+        case 'spi_request_school_goal':
+           $row['status'] = 'unfinished';
+          break;
+        default:
+
+          break;
       }
+
+      unset($row['id']);
+
       $row['request_id'] = $newId;
       $model->insert($row, true);
     }
