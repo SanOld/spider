@@ -567,7 +567,7 @@ class Request extends BaseModel {
             $req_users = $RequestUser->select(array('request_id'=>$request_id), true);
             $users = $req_users['result'];
             foreach ($users as $user){
-              if($user['user_id'] == $data['user_id']){
+              if(safe($data,'user_id') && $user['user_id'] == $data['user_id']){
                 $result = false;
               };
             };
