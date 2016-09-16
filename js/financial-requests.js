@@ -588,8 +588,16 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
             'changes'     : Number(response.result[0].changes || 0),
             'actual'      : Number(response.result[0].actual || response.result[0].total_cost)
           };
-          if(response.result[0].is_partial_rate == "1"){
-            summary['actual'] = summary['actual'] - Number(response.result[0].request_cost);
+          var is_partial = false;
+          var item_id = 0;
+          response.result.forEach(function(item, i, arr){
+            if(item.rate_id == $scope.rate){
+              item_id = i;
+              is_partial = true;
+            };
+          });
+          if(is_partial){
+            summary['actual'] = summary['actual'] - Number(response.result[item_id].request_cost);
             number_of_rates = number_of_rates - 1;
           };
           cost = summary['actual'] / number_of_rates ;
