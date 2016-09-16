@@ -348,7 +348,7 @@ class BaseModel extends CFormModel {
       $results = $this->doBeforeInsert($post);
       if ($results ['result']) {
         $params = safe($results, 'params', $post);
-        $post = safe($result, 'post', $post);
+        $post = safe($results, 'post', $post);
         $missed = $this->checkRequired($params);
         if (!$missed) {
           $results = $this->doInsert($params, $post);
