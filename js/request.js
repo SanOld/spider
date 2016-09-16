@@ -584,8 +584,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
             }
             network.post('request', params, function(result) {
               if(result) {
-                 RequestService.updateSchoolGoal();
+                 $timeout(function(){
                  RequestService.updateSchoolConcept();
+                 RequestService.updateSchoolGoal();
+               });
               }
             });
           }
@@ -1728,6 +1730,18 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   $scope.requestSchoolConcept = function(){
     network.get('request_school_concept', {request_id: $scope.$parent.requestID}, function (result, response) {
       if (result) {
+        
+        id = 0;
+        $scope.conceptTab = [];
+        $scope.school_concept = {};
+        for(var elem in response.result){
+          var id = response.result[elem].id;
+          $scope.conceptTab[id] = 'data';
+          $scope.school_concept[id]={};
+          $scope.school_concept[id]['situation'] = response.result[elem].situation;
+          $scope.school_concept[id]['offers_youth_social_work'] = response.result[elem].offers_youth_social_work;
+        };
+        
         $scope.schoolConcepts = response.result;
         $scope.setBestStatusByUserType();
         $timeout(function() {
@@ -1735,7 +1749,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
             angular.element(this).toggleClass('open');
             angular.element(this).next().slideToggle();
           })
-        });        
+        });
         $timeout(function(){
           if($scope.length_concepts($scope.schoolConcepts) == 1){
             var id = 0;
@@ -1743,8 +1757,8 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
               id = $scope.schoolConcepts[item].id;
             };
             $('.collapse-' + id).trigger('click');
-          }  
-        }); 
+          }
+        });
       }
     });
   }

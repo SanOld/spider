@@ -2,9 +2,10 @@
   <div class="panel-group panel-group-joined" id="accordion-concepts">
     <form name="conceptForm" novalidate >
     <div class="panel panel-default" ng-repeat="schoolConcept in schoolConcepts">
-      <div class="panel-heading" ng-init="conceptTab[schoolConcept.id] = 'data'">
+      <div class="panel-heading" >
         <h4 class="panel-title">
           <a ng-if="schoolConcept.school_name" data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-{{::schoolConcept.id}}" ng-class="{collapsed: schoolConcepts.length > 1}" class="collapse collapse-{{::schoolConcept.id}}">
+            id={{schoolConcept.id}} </br> tab = {{conceptTab[schoolConcept.id]}} </br>
             {{::schoolConcept.school_name}} ({{::schoolConcept.school_number}})
 												<span class="notice">
 													<span class="color-notice {{schoolConcept.status}}-row"></span>
@@ -35,7 +36,7 @@
                       1. Situation an der Schule<span spi-hint text="_hint.school_concept_situation.text"  title="_hint.school_concept_situation.title"  class="has-hint"></span>
                     </label>
                     <div class="wrap-hint">                        
-                      <textarea id="area-{{::schoolConcept.id}}-1" ng-init="school_concept[schoolConcept.id].situation = schoolConcept.situation"
+                      <textarea id="area-{{::schoolConcept.id}}-1" 
                                   class="form-control custom-height animate-textarea textarea-2" ng-model="school_concept[schoolConcept.id].situation"
                                   placeholder="Tragen Sie den Text hier ein" ng-focus="textareaClass == 'area-1' ? type = 'situation' : type = 'offers_youth_social_work'; schoolConcept.oldValue = school_concept[schoolConcept.id].situation"                                  
                                   ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'" required></textarea>                      
@@ -49,7 +50,7 @@
                       2. Angebote der Jugendsozialarbeit an der Schule<span spi-hint text="_hint.school_concept_offers_youth_social_work.text"  title="_hint.school_concept_offers_youth_social_work.title"  class="has-hint"></span>
                     </label>
                     <div class="wrap-hint">                     
-                      <textarea id="area-{{::schoolConcept.id}}-2" ng-init="school_concept[schoolConcept.id].offers_youth_social_work = schoolConcept.offers_youth_social_work"
+                      <textarea id="area-{{::schoolConcept.id}}-2" 
                                   class="form-control custom-height animate-textarea textarea-2" ng-model="school_concept[schoolConcept.id].offers_youth_social_work"
                                   placeholder="Tragen Sie den Text hier ein" ng-focus="textareaClass == 'area-1' ? type = 'situation' : type = 'offers_youth_social_work'; schoolConcept.oldValue = school_concept[schoolConcept.id].offers_youth_social_work "                                 
                                   ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'" required></textarea>                      
