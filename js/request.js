@@ -2443,22 +2443,41 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
 });
 
-spi.controller('ModalDurationController', function ($scope, start_date, due_date, end_fill,  $uibModalInstance) {
+spi.controller('ModalDurationController', function ($scope, start_date, due_date, end_fill, ids,  $uibModalInstance, network,$timeout) {
 //  $scope.countElements = ids.length;
-
+  
+  network.get('request', {id: ids[0]},function(result, response){
+    if(result){
+      $scope.request_date = new Date('01-01-'+ response.result.year);
+      $scope.request_year = response.result.year;
+      $timeout(function(){
+        $scope.dateOptions = {
+          startingDay: 1,
+          showButtonBar: 0,
+          showWeeks: 0,
+          initDate: $scope.request_date
+        };
+      });  
+    }
+  });
+  
   $scope.form={
     start_date: Date.parse(start_date),
     due_date: Date.parse(due_date),
     end_fill: Date.parse(end_fill)
   };
-
-  $scope.dateOptions = {
-    startingDay: 1,
-    showButtonBar: 0,
-    showWeeks: 0,
-    //initDate: start_date
+  
+  $scope.checkYear = function(){
+    if($scope.form.start_date && new Date($scope.form.start_date).getFullYear() != $scope.request_year){
+      return true;
+    };    
+    if($scope.form.due_date && new Date($scope.form.due_date).getFullYear() != $scope.request_year){
+      return true;
+    }; 
+    return false;
   };
 
+  
   $scope.ok = function () {
     $uibModalInstance.close($scope.form);
   };
@@ -2469,7 +2488,22 @@ spi.controller('ModalDurationController', function ($scope, start_date, due_date
 
 });
 
-spi.controller('ModalEndFillController', function ($scope, start_date, due_date, end_fill, $uibModalInstance) {
+spi.controller('ModalEndFillController', function ($scope, start_date, due_date, end_fill, $uibModalInstance, ids, network, $timeout) {
+
+  network.get('request', {id: ids[0]},function(result, response){
+    if(result){
+      $scope.request_date = new Date('01-01-'+ response.result.year);
+      $scope.request_year = response.result.year;
+      $timeout(function(){
+        $scope.dateOptions = {
+          startingDay: 1,
+          showButtonBar: 0,
+          showWeeks: 0,
+          initDate: $scope.request_date
+        };
+      });  
+    }
+  });
 
   $scope.form={
     start_date: Date.parse(start_date),
@@ -2477,10 +2511,11 @@ spi.controller('ModalEndFillController', function ($scope, start_date, due_date,
     end_fill: Date.parse(end_fill)
   };
 
-  $scope.dateOptions = {
-    startingDay: 1,
-    showButtonBar: 0,
-    showWeeks: 0,
+   $scope.checkYear = function(){
+    if($scope.form.end_fill && new Date($scope.form.end_fill).getFullYear() != $scope.request_year){
+      return true;
+    };
+    return false;
   };
 
   $scope.ok = function () {
