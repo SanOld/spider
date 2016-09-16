@@ -102,7 +102,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 			<div class="form-group group-btn m-t-20">
 				<div class="col-lg-12">
 					<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-					<button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled=" form.$invalid || form.due_date < form.start_date ">Speichern</button>
+					<button class="btn w-lg custom-btn" ng-click="ok()" ng-disabled=" form.$invalid || form.due_date < form.start_date || checkYear()">Speichern</button>
 				</div>
 			</div>
 		</div>
@@ -166,7 +166,7 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
 			<div class="form-group group-btn m-t-20">
 				<div class="col-lg-12">
 					<button class="btn w-lg cancel-btn" ng-click="cancel()">Abbrechen</button>
-					<button class="btn w-lg custom-btn" ng-click="ok()"  ng-disabled="form.$invalid">Speichern</button>
+					<button class="btn w-lg custom-btn" ng-click="ok()"  ng-disabled="form.$invalid || checkYear()">Speichern</button>
 				</div>
 			</div>
 		</div>
