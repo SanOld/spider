@@ -599,7 +599,7 @@ class Request extends BaseModel {
       }
     }
 
-    if ((safe($post, 'status_id') == 4 && $post['old']['status_id'] != 4) || (safe($post, 'status_id') == 5 && $post['old']['status_id'] != 5)){
+    if ((safe($post, 'status_id') == 4  || safe($post, 'status_id') == 5) && $post['old']['status_id'] != 4 && $post['old']['status_id'] != 5){
 
       $Request = CActiveRecord::model('RequestLock');
       $Request->user = $this->user;
