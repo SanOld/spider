@@ -908,11 +908,11 @@ class Request extends BaseModel {
     
     $prams = $post;
     $post['old'] = Yii::app() -> db -> createCommand()
-        -> select('*')
-        -> from('spi_request rq')
+        -> select('rq.*')
+        -> from($this -> table . ' rq')
         -> where('rq.id=:id', array(':id' => $id))
         ->queryRow();
-    
+
     
     return array (
       'result' => true,
