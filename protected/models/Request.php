@@ -599,7 +599,7 @@ class Request extends BaseModel {
       }
     }
 
-    if (safe($post, 'status_id') == 5 || safe($post, 'status_id') == 4 ){
+    if ((safe($post, 'status_id') == 4 && $post['old']['status_id'] != 4) || (safe($post, 'status_id') == 5 && $post['old']['status_id'] != 5)){
 
       $Request = CActiveRecord::model('RequestLock');
       $Request->user = $this->user;
@@ -611,10 +611,10 @@ class Request extends BaseModel {
       $emailParams = array(
           'request_code' => $request['code'],
           'date' => date('H:i d.m.Y'),
-          'url' => Yii::app()->getBaseUrl(true).'/request/'.$request_id.'#finance-plan',
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.$request_id,
       );
 
-      $template = safe($post, 'status_id') == 4?'antrag_acknowledge':'antrag_acknowledge';
+      $template = safe($post, 'status_id') == 4?'antrag_acknowledge':'antrag_approved';
       if($request['finance_user_email']) {
         Email::sendMessageByTemplate($template, $emailParams, $request['finance_user_email']);
       }
