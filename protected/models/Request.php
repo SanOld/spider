@@ -649,7 +649,7 @@ class Request extends BaseModel {
         unset ($row['schools'][$key]);
       }
 
-      if($row['status_id'] == '5'){
+      if($row['status_id'] == '4' || $row['status_id'] == '5'){
         $row = $this->changeToLock($row);
       }
 
@@ -700,7 +700,7 @@ class Request extends BaseModel {
         }
 
         $old = $row;
-        if($row['status_id'] == '5'){
+        if($row['status_id'] == '4' || $row['status_id'] == '5'){
           $row = $this->changeToLock($row);
         }
         $new = $row;

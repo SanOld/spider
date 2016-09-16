@@ -39,7 +39,7 @@ class RequestSchoolGoal extends BaseModel {
                                     -> from('spi_request tbl')
                                     ->where('tbl.id = :id', array(':id' => $row['request_id']))
                                     ->queryScalar();
-      if($status_id == '5'){
+      if($status_id == '4' || $status_id == '5'){
         $school_result=Yii::app() -> db -> createCommand()
                                     -> select('tbl.name, tbl.number')
                                     -> from('spi_school_lock tbl')
