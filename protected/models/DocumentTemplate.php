@@ -411,7 +411,7 @@ class DocumentTemplate extends BaseModel {
                   , '{KREDITOR}'                 => safe($this->bankData,'bank_name') ? $this->bankData['bank_name'] : ''
                   , '{IBAN}'                     => safe($this->bankData,'iban') ? $this->bankData['iban'] : ''
                   , '{BELEGDATUM MITTELABRUF}'   => $date
-                  , '{RATE MITTELABRUF}'         => $rate == 0 ? '-' : $rate
+                  , '{RATE MITTELABRUF}'         => !safe($this->finRequestData,'is_partial_rate') ? $rate == '0' ? '-' : $rate : $this->finRequestData['is_partial_rate']
                   , '{BETRAG MITTELABRUF}'       => $request_cost
                 );
 
