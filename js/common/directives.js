@@ -304,7 +304,10 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
                                     csvString += '"' + day + '-' + month + '-' + year + " " + date + '"' + ',' ;
                                   }
                                 }else{
-                                  if(response.result[i][column].indexOf('"') != -1){
+                                  if(scope.paramsForExport.tables[table].replace && scope.paramsForExport.tables[table].replace[0] == column && response.result[i][scope.paramsForExport.tables[table].replace[1]]){
+                                    column = scope.paramsForExport.tables[table].replace[1];
+                                  };
+                                  if(response.result[i][column] && response.result[i][column].indexOf('"') != -1){
                                     response.result[i][column] = response.result[i][column].replace(/"/g,"'");
                                   };
                                   if(scope.paramsForExport.tables[table].concat && scope.paramsForExport.tables[table].concat == column){
@@ -312,7 +315,7 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
                                   }else{
                                     csvString += '"' + response.result[i][column] + '"' + ',' ;
                                   }
-                                }; 
+                                };
                               };                                                
                             }else{                          
                               csvString += " ," ;

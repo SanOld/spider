@@ -43,7 +43,8 @@ spi.controller('FinancialRequestController', function($scope, $rootScope, networ
             'request_cost'   : 'Betrag',
             'payment_date'   : 'Zahl. -Datum',
           },
-          schools: 'name'
+          schools: 'name',
+          replace: ['rate','is_partial_rate']
         }
       },
       param: $scope.filter,
