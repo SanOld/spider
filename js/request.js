@@ -229,21 +229,6 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     });
   };
   
-  $scope.checkIfCanNewOpen = function (){
-    network.get('project', {request_id: $scope.requestID}, function(result, response){
-      if(response.result[0].is_old == '1') {
-        $scope.banToReopen = true;
-      };
-    });
-    network.get('financial_request', {request_id: $scope.requestID}, function(result, response){
-      if(response.result.length) {
-        $scope.banToReopen = true;
-      };
-    });
-  };
-  $scope.checkIfCanNewOpen();
-  
-  
   $scope.remove = function () {
     Utils.doConfirm(function() {
       network.delete('request/' + $scope.requestID, function (result) {
@@ -617,6 +602,23 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       };
     });
   };
+    
+  $scope.checkIfCanNewOpen = function (){
+    if($scope.userCan('reopen')){
+      network.get('project', {request_id: $scope.requestID}, function(result, response){
+        if(response.result[0].is_old == '1') {
+          $scope.banToReopen = true;
+        };
+      });
+      network.get('financial_request', {request_id: $scope.requestID}, function(result, response){
+        if(response.result.length) {
+          $scope.banToReopen = true;
+        };
+      });
+    }
+  };
+  $scope.checkIfCanNewOpen();
+  
     
   $scope.$on('sendToAccept', function(event,status, pages){
       $scope.submitRequest(status, pages);
