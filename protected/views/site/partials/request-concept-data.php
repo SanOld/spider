@@ -21,7 +21,7 @@
         <div class="panel-body">
           <ng-form name="schoolForm{{$index}}" disable-all="{{schoolConcept.status == 'accepted' || !canEdit()}}">
           <div ng-class="{current: conceptTab[schoolConcept.id] == 'data'}" id="tab-data-{{::schoolConcept.id}}" class="block-concept current">
-            <div ng-if="schoolConcept.status != 'unfinished'" class="alert" ng-class="{'alert-danger': schoolConcept.status == 'rejected', 'alert-success': schoolConcept.status == 'accepted', 'alert-warning': schoolConcept.status == 'in_progress'}">
+            <div ng-if="schoolConcept.status && schoolConcept.status != 'unfinished'" class="alert" ng-class="{'alert-danger': schoolConcept.status == 'rejected', 'alert-success': schoolConcept.status == 'accepted', 'alert-warning': schoolConcept.status == 'in_progress'}">
               <div ng-switch="schoolConcept.status">
                 <strong ng-switch-when="rejected">Anmerkung der Programmagentur</strong>
                 <strong ng-switch-when="accepted">Geprüft</strong>

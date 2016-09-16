@@ -159,7 +159,7 @@ class RequestSchoolGoal extends BaseModel {
           }
         }
         $school['status'] = $tempGoalStatus;
-        if($priority[$school['status']] < safe($priority, $tempSchoolStatus) || $tempSchoolStatus == ''){
+        if((safe($priority,$school['status']) && $priority[$school['status']] < safe($priority, $tempSchoolStatus)) || $tempSchoolStatus == ''){
           $tempSchoolStatus = $school['status'];
         }
       }

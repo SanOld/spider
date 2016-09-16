@@ -768,24 +768,26 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
     };
     
     $scope.updateBankDetails = function(performer_id, request_id, request){
-      network.get('bank_details', {performer_id: performer_id, request_id: request_id}, function (result, response) {
-        if (result) {
-          $scope.bank_details = response.result;
-          var bank_account_id = '';
-          if(!$scope.financialRequests.length){  
-            bank_account_id = request.bank_details_id;
-          }else{
-            bank_account_id = $scope.financialRequests[$scope.financialRequests.length - 1].bank_account_id;
-          };
-          angular.forEach($scope.bank_details, function(val, key) {
-            if(val.id == bank_account_id) {
-              $scope.financialRequest.bank_account_id = bank_account_id;
-              $scope.updateIBAN(val);
-              return false;
+      $timeout(function(){
+        network.get('bank_details', {performer_id: performer_id, request_id: request_id}, function (result, response) {
+          if (result) {
+            $scope.bank_details = response.result;
+            var bank_account_id = '';
+            if(!$scope.financialRequests.length){  
+              bank_account_id = request.bank_details_id;
+            }else{
+              bank_account_id = $scope.financialRequests[$scope.financialRequests.length - 1].bank_account_id;
             };
-          }); 
-        };
-      });
+            angular.forEach($scope.bank_details, function(val, key) {
+              if(val.id == bank_account_id) {
+                $scope.financialRequest.bank_account_id = bank_account_id;
+                $scope.updateIBAN(val);
+                return false;
+              };
+            }); 
+          };
+        });
+      });      
     };
     
     $scope.checkCost = function (request_cost, payment_type) {
