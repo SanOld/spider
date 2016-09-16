@@ -541,7 +541,9 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
                   if($scope.rates[i].id == $scope.rate && !$scope.pair_remember){
                     $scope.rates[i].name = $scope.rates[i].name.substring(4,7);
                   };
-                  $scope.updatedRates.push($scope.rates[i]);
+                  if($scope.rates[i] > $scope.rate){                    
+                    $scope.updatedRates.push($scope.rates[i]);
+                  }
                 }
               };
               if(!$scope.updatedRates.length && last_rate_id == 6){
@@ -555,7 +557,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
                 var rateDate = new Date(day);              
                 var diff = receiptDate - rateDate;
                 diff = Math.ceil(diff / (1000 * 3600 * 24 * 30));
-                if(diff < 2 || receipt_rate + 1 < item['id']){
+                if(diff < 2 || (receipt_rate + 1 < item['id'] && $scope.receiptDate < project.start_date)){
                   delete $scope.updatedRates[i];
                 };
               });
