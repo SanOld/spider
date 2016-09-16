@@ -599,12 +599,18 @@ class Request extends BaseModel {
       }
     }
 
+    $Request = CActiveRecord::model('RequestLock');
+    $Request->user = $this->user;
+    $isExistRequestLock = $this->isExistRequestLock($request_id);
     if ((safe($post, 'status_id') == 4  || safe($post, 'status_id') == 5) && $post['old']['status_id'] != 4 && $post['old']['status_id'] != 5){
-
-      $Request = CActiveRecord::model('RequestLock');
-      $Request->user = $this->user;
-      $Request->insert(array('request_id'=>$request_id), true);
-
+      if($isExistRequestLock){
+        $Request->delete($isExistRequestLock, true);
+      }
+      $Request->insert(array('request_id'=>$request_id, ), true);
+    } else {
+      if($isExistRequestLock){
+        $Request->delete($isExistRequestLock, true);
+      }
     }
 
     if((safe($post, 'status_id') == 4 && $post['old']['status_id'] != 4) || (safe($post, 'status_id') == 5 && $post['old']['status_id'] != 5)) {
@@ -622,6 +628,21 @@ class Request extends BaseModel {
     
     return $result;
   }
+
+  protected function isExistRequestLock($request_id){
+    $result = false;
+
+    $Request = CActiveRecord::model('RequestLock');
+    $Request->user = $this->user;
+
+    $result = Yii::app() -> db -> createCommand()
+                              -> select('id')
+                              -> from('spi_request_lock')
+                              -> where('request_id=:request_id', array(':request_id'=>$request_id))
+                              -> queryScalar();
+    return $result;
+  }
+
 
   protected function doAfterSelect($result) {
 
