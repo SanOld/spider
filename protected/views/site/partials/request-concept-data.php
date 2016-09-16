@@ -5,7 +5,6 @@
       <div class="panel-heading" >
         <h4 class="panel-title">
           <a ng-if="schoolConcept.school_name" data-toggle="collapse" data-parent="#accordion-concepts" href="#collapse-{{::schoolConcept.id}}" ng-class="{collapsed: schoolConcepts.length > 1}" class="collapse collapse-{{::schoolConcept.id}}">
-            id={{schoolConcept.id}} </br> tab = {{conceptTab[schoolConcept.id]}} </br>
             {{::schoolConcept.school_name}} ({{::schoolConcept.school_number}})
 												<span class="notice">
 													<span class="color-notice {{schoolConcept.status}}-row"></span>
