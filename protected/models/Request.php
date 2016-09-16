@@ -580,19 +580,18 @@ class Request extends BaseModel {
       }
     }
     
-    if(safe($post, 'status_finance') == 'rejected') {
-      $request = Yii::app() -> db -> createCommand()
-        -> select('rq.id request_id, (SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
+    $request = Yii::app() -> db -> createCommand()
+        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
         -> from('spi_request rq')
         -> where('rq.id=:id', array(':id' => $request_id))
         ->queryRow();
-
+    if(safe($post, 'status_finance') == 'rejected' && $post['old']['status_finance'] != 'rejected') {
       $emailParams = array(
           'request_code' => $request['code'],
           'part' => 'finanzplan',
           'comment' => safe($post, 'finance_comment'),
           'date' => date('H:i d.m.Y'),
-          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($request, 'request_id').'#finance-plan',
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.$request_id.'#finance-plan',
       );
 
       if($request['finance_user_email']) {
@@ -600,7 +599,7 @@ class Request extends BaseModel {
       }
     }
 
-     if (safe($post, 'status_id') == 5 || safe($post, 'status_id') == 4 ){
+    if (safe($post, 'status_id') == 5 || safe($post, 'status_id') == 4 ){
 
       $Request = CActiveRecord::model('RequestLock');
       $Request->user = $this->user;
@@ -608,17 +607,11 @@ class Request extends BaseModel {
 
     }
 
-    if(safe($post, 'status_id') == 4 || safe($post, 'status_id') == 5 ) {
-      $request = Yii::app() -> db -> createCommand()
-        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
-        -> from('spi_request rq')
-        -> where('rq.id=:id', array(':id' => $request_id))
-        ->queryRow();
-
+    if((safe($post, 'status_id') == 4 && $post['old']['status_id'] != 4) || (safe($post, 'status_id') == 5 && $post['old']['status_id'] != 5)) {
       $emailParams = array(
           'request_code' => $request['code'],
           'date' => date('H:i d.m.Y'),
-          'url' => Yii::app()->getBaseUrl(true).'/request/'.safe($post, 'request_id').'#finance-plan',
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.$request_id.'#finance-plan',
       );
 
       $template = safe($post, 'status_id') == 4?'antrag_acknowledge':'antrag_acknowledge';
@@ -912,11 +905,18 @@ class Request extends BaseModel {
     if(isset($post['total_cost'])) {
       $post['total_cost'] = (float)str_replace(",", ".", $post['total_cost']);
     }
-
-
+    
+    $prams = $post;
+    $post['old'] = Yii::app() -> db -> createCommand()
+        -> select('*')
+        -> from('spi_request rq')
+        -> where('rq.id=:id', array(':id' => $request_id))
+        ->queryRow();
+    
+    
     return array (
       'result' => true,
-      'params' => $post,
+      'params' => $prams,
       'post' => $post
     );
 
