@@ -198,7 +198,7 @@
                         <div class="col-lg-8 p-l-0">
                           <div spi-hint text="_hint.contact_person.text"  title="_hint.contact_person.title"  class="has-hint"></div>
                           <div class="wrap-hint">
-                            <input class="form-control" name="contact_person" ng-model="bank.contact_person" type="text" value=""/>
+                              <input ng-disabled="user_type == 'p'" class="form-control" name="contact_person" ng-model="bank.contact_person" type="text" value=""/>
                           </div>
                         </div>
                       </div>
@@ -207,7 +207,7 @@
                         <div class="col-lg-8 p-l-0">
                           <div spi-hint text="_hint.iban.text"  title="_hint.iban.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formBank{{$index}}', 'iban')}">
-                            <input class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
+                            <input ng-disabled="user_type == 'p'" class="form-control" name="iban" ng-iban="DE" ng-model="bank.iban" type="text" value="" ng-required="1" maxlength="34"/>
                             <span ng-class="{hide: !fieldError('formBank{{$index}}', 'iban')}" class="hide">
                               <label ng-show="form.formBank{{$index}}.iban.$error.required" class="error">IBAN ist erforderlich</label>
                               <label ng-show="form.formBank{{$index}}.iban.$error.iban" class="error">Bitte IBAN prüfen.</label>
@@ -221,7 +221,7 @@
                         <div class="col-lg-8 p-l-0">
                           <div spi-hint text="_hint.outer_id.text"  title="_hint.outer_id.title"  class="has-hint"></div>
                           <div class="wrap-hint">
-                            <input class="form-control" type="text" name="outer_id" ng-model="bank.outer_id" value=""/>
+                            <input ng-disabled="user_type == 'p'" class="form-control" type="text" name="outer_id" ng-model="bank.outer_id" value=""/>
                           </div>
                         </div>
                       </div>
@@ -230,7 +230,7 @@
                         <div class="col-lg-8 p-l-0">
                           <div spi-hint text="_hint.description.text"  title="_hint.description.title"  class="has-hint"></div>
                           <div class="wrap-hint">
-                            <textarea name="description" ng-model="bank.description" class="form-control"></textarea>
+                            <textarea ng-disabled="user_type == 'p'" name="description" ng-model="bank.description" class="form-control"></textarea>
                           </div>
                         </div>
                       </div>
