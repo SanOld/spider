@@ -538,11 +538,11 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
                     break;
                   }
                 }
-                if(($scope.rates[i].id > receipt_rate && !current) || (first_rate_id > $scope.rate && $scope.rates[i].id == $scope.rate)){             
+                if(($scope.rates[i].id >= receipt_rate && !current) || (first_rate_id > $scope.rate && $scope.rates[i].id == $scope.rate)){             
                   if($scope.rates[i].id == $scope.rate && !$scope.pair_remember){
                     $scope.rates[i].name = $scope.rates[i].name.substring(4,7);
                   };
-                  if($scope.rates[i] > $scope.rate){                    
+                  if($scope.rates[i].id >= $scope.rate){                    
                     $scope.updatedRates.push($scope.rates[i]);
                   }
                 }
@@ -562,7 +562,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
                   delete $scope.updatedRates[i];
                 };
               });
-              if($scope.updatedRates.length == 1 && $scope.updatedRates[0]){
+              if(!$scope.updatedRates[1] &&  $scope.updatedRates[0]){
                 $scope.financialRequest.rate_id = $scope.updatedRates[0].id;
               }; 
               $scope.rates = $scope.updatedRates;
@@ -585,7 +585,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
       var cost = 0;
       var number_of_rates = 6 - Number($scope.rate) + 1;
       network.get('financial_request', {request_id: request_id, year: $scope.year, list: 'summary'}, function(result, response){
-        if(response.result.length) {
+        if(response.result[0].actual) {
           summary = {
             'total_cost'  : Number(response.result[0].total_cost),
             'changes'     : Number(response.result[0].changes || 0),
@@ -594,7 +594,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           var is_partial = false;
           var item_id = 0;
           response.result.forEach(function(item, i, arr){
-            if(item.rate_id == $scope.rate){
+            if(item.rate_id == $scope.rate && item.is_partial_rate){
               item_id = i;
               is_partial = true;
             };
