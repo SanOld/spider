@@ -34,6 +34,10 @@ class Page extends BaseModel {
     if(!safe($params, 'SYSTEM')) {
       $command->andWhere('tbl.is_system = 0');
     }
+    if(safe($params, 'AUDIT')) {
+      $command->orWhere('tbl.code = "bank_details"');
+    }
+
     return $command;
   }
 

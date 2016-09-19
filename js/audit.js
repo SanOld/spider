@@ -66,7 +66,7 @@ spi.controller('AuditController', function ($scope, $rootScope, network, GridSer
     grid.reload();
   };
   
-  network.get('page', {'order':'name'}, function (result, response) {
+  network.get('page', {'order':'name', 'audit': true}, function (result, response) {
       if(result) {
         var key = -1;
         $.each(response.result, function(k,val){
