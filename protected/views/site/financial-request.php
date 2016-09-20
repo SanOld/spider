@@ -24,76 +24,76 @@ $this->breadcrumbs = array('Finanzen','Mittelabrufe');
 								<div class="row datafilter">
 									<form>
                     <div class='clearfix'>
-										<div class="col-lg-2 p-r-0">
-											<div class="form-group">
-												<label>Suche nach Projekt</label>
-												<ui-select on-select="updateProject(filter.project_id, filter.year)" ng-change="updateGrid()" ng-model="filter.project_id">
-                          <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.project_code}}</ui-select-match>
-                          <ui-select-choices repeat="item.project_id as item in projects | filter: $select.search | orderBy: 'project_code'">
-                            <span ng-bind="item.project_code"></span>
-                          </ui-select-choices>
-                        </ui-select>
-											</div>
-										</div>
-										<div class="col-lg-2 p-r-0">
-											<div class="form-group">
-												<div class="form-group">
-													<label>Beleg Typ</label>
-													<ui-select ng-change="updateGrid()" ng-model="filter.type_id">
-                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                            <ui-select-choices repeat="item.id as item in paymentTypes | filter: $select.search | orderBy: 'name'">
-                              <span ng-bind-html="item.name | highlight: $select.search"></span>
-                            </ui-select-choices>
-                          </ui-select>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-2 p-r-0">
-											<div class="form-group">
-												<div class="form-group">
-													<label>Jahr</label>
-													<ui-select on-select="updateProject(filter.project_id, filter.year, filter.school_id, filter.performer_id)" ng-change="updateGrid()" ng-model="filter.year">
-                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected}}</ui-select-match>
-                            <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: 'item'">
-                              <span ng-bind="item"></span>
-                            </ui-select-choices>
-                          </ui-select>
-                        </div>
-                      </div>
-										</div>
-										<div class="col-lg-2 p-r-0">
-											<div class="form-group">
+                      <div class="col-lg-2 p-r-0">
                         <div class="form-group">
-                          <label>Status</label>
-                          <ui-select ng-change="updateGrid()" ng-model="filter.status_id">
-                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                            <ui-select-choices repeat="item.id as item in statuses | filter: $select.search | orderBy: 'id'">
-                              <span ng-bind="item.name"></span>
+                          <label>Suche nach Projekt</label>
+                          <ui-select on-select="updateProject(filter.project_id, filter.year)" ng-change="updateGrid()" ng-model="filter.project_id">
+                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.project_code}}</ui-select-match>
+                            <ui-select-choices repeat="item.project_id as item in projects | filter: $select.search | orderBy: 'project_code'">
+                              <span ng-bind="item.project_code"></span>
                             </ui-select-choices>
                           </ui-select>
                         </div>
                       </div>
-										</div>
-										<div class="col-lg-2 p-r-0">
-											<div class="form-group">
+                      <div class="col-lg-2 p-r-0">
                         <div class="form-group">
-                          <label>Fördertopf</label>
-                          <ui-select ng-change="updateGrid()" ng-model="filter.project_type_id">
-                            <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
-                            <ui-select-choices repeat="item.id as item in projectTypes | filter: $select.search | orderBy: 'name'">
-                              <span ng-bind="item.name"></span>
-                            </ui-select-choices>
-                          </ui-select>
+                          <div class="form-group">
+                            <label>Beleg Typ</label>
+                            <ui-select ng-change="updateGrid()" ng-model="filter.type_id">
+                              <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                              <ui-select-choices repeat="item.id as item in paymentTypes | filter: $select.search | orderBy: 'name'">
+                                <span ng-bind-html="item.name | highlight: $select.search"></span>
+                              </ui-select-choices>
+                            </ui-select>
+                          </div>
                         </div>
                       </div>
-										</div>
-										<div class="col-lg-2 p-r-0 reset-btn-width">
-											<button ng-click="resetFilter()" class="btn pull-right w-lg custom-reset"> <i class="fa fa-rotate-left"></i>
-                        <span>Filter zurücksetzen</span>
-                      </button>
-										</div>
+                      <div class="col-lg-2 p-r-0">
+                        <div class="form-group">
+                          <div class="form-group">
+                            <label>Jahr</label>
+                            <ui-select on-select="updateProject(filter.project_id, filter.year, filter.school_id, filter.performer_id)" ng-change="updateGrid()" ng-model="filter.year">
+                              <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected}}</ui-select-match>
+                              <ui-select-choices repeat="item as item in years | filter: $select.search | orderBy: 'item'">
+                                <span ng-bind="item"></span>
+                              </ui-select-choices>
+                            </ui-select>
+                          </div>
+                        </div>
                       </div>
-                      <div class='clearfix'>
+                      <div class="col-lg-2 p-r-0">
+                        <div class="form-group">
+                          <div class="form-group">
+                            <label>Status</label>
+                            <ui-select ng-change="updateGrid()" ng-model="filter.status_id">
+                              <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                              <ui-select-choices repeat="item.id as item in statuses | filter: $select.search | orderBy: 'id'">
+                                <span ng-bind="item.name"></span>
+                              </ui-select-choices>
+                            </ui-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 p-r-0">
+                        <div class="form-group">
+                          <div class="form-group">
+                            <label>Fördertopf</label>
+                            <ui-select ng-change="updateGrid()" ng-model="filter.project_type_id">
+                              <ui-select-match allow-clear="true" placeholder="Alles anzeigen">{{$select.selected.name}}</ui-select-match>
+                              <ui-select-choices repeat="item.id as item in projectTypes | filter: $select.search | orderBy: 'name'">
+                                <span ng-bind="item.name"></span>
+                              </ui-select-choices>
+                            </ui-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 p-r-0 reset-btn-width">
+                        <button ng-click="resetFilter()" class="btn pull-right w-lg custom-reset"> <i class="fa fa-rotate-left"></i>
+                          <span>Filter zurücksetzen</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class='clearfix'>
 										<div class="col-lg-4 p-r-0">
                       <div class="form-group" ng-hide="user.type  == 't'">
                         <label>Träger</label>

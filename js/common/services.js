@@ -95,7 +95,6 @@ spi.service("GridService", function (network, NgTableParams, $uibModal, Notifica
       return filter;
     };
     grid.openEditor = function (params, callback) {
-      console.log(params);
       model = params.model || model;
       if(model && params.data && params.data.id) {
         network.get(model, {id: params.data.id}, function(result, response) {

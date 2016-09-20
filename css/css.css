@@ -2406,7 +2406,7 @@ td.truncate span {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-td .id-request > span {
+td .id-request > span {    
 	display:block;
 }
 .finacing-edit td.align-right,
@@ -2513,11 +2513,11 @@ tfoot th.align-right {
 .finance-report .ion-information-circled {
 	color:#3996e5;
 	font-size:20px;
-	margin: 0;
+	margin: 6px;
 }
-.finance-report .notice {
+/*.finance-report .notice {
 	padding: 0 0 10px;
-}
+}*/
 .custom-btn .fa-gear {
 	margin: 0 10px 0 0;
 }
@@ -3031,6 +3031,10 @@ body.safari label {
   width:400px !important;
   margin: 160px auto !important;
 }
+.modal-dialog.modal-custom-width-finance-report-duration{
+  width:550px !important;
+  margin: 160px auto !important;
+}
 .modal-dialog.modal-custom-width-request-send-duration{
   width:  480px !important;
   margin: 160px auto !important;
@@ -3495,6 +3499,15 @@ tr.virtual-row {
 .m-l-200{
     margin-left: 200px !important;
 }
+.m-l-180{
+    margin-left: 180px !important;
+}
+.m-l-100{
+    margin-left: 100px !important;
+}
+.m-t-35{
+    margin-top: 35px !important;
+}
 .table-requests [data-title-text="Betrag"] {
     width: 80px;
 }
@@ -3507,6 +3520,9 @@ tr.virtual-row {
 .table-summary .holder-school {
     width: 130px;
 }
+.table-reports [data-title-text="Betrag"]{
+    width: 120px;
+}
 .table-summary .holder-actual {
     width: 90px;
 }
@@ -3515,4 +3531,35 @@ tr.virtual-row {
 }
 .set-duration{
     margin-left: -56px;
+}
+.information-circled{
+    margin-left: 4px;
+    margin-top: -4px;
+}
+.textarea-min-height{
+    min-height: 60px !important;
+}
+.finance-report-textarea{
+    width: 617px !important;
+}
+.finance-report-textarea-decline{
+    width: 470px !important;
+}
+.finance-report-euro{
+    margin-left: 364px;
+    position: absolute;
+    margin-top: -34px;
+}
+.finance-report-input{
+    margin-left: -2px;
+}
+.finance-report-label{
+    width: 168px !important;
+}
+.information-font-size{
+    font-size: 14px !important;
+}
+.span-fix span{
+    margin:0 0 0 -78px;
+    display: block;
 }

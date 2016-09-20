@@ -109,7 +109,7 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
                           <a title="Mittelabrufe" ng-click="link('financial-request', row)" class="btn requsted-btn">
                             <span></span>
                           </a>
-                          <a title="Belege" class="btn requsted-btn" href="/finance-report">
+                          <a title="Finanzbericht" class="btn requsted-btn" href="/finance-report">
                             <span></span>
                           </a>
                         </td>

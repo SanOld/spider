@@ -140,7 +140,7 @@
                   <label class="error">Belegdatum erforderlich</label>
                 </span>
             </div>
-            </div>
+          </div>
           <div class="form-group">
             <label class="col-lg-4 control-label">Beleg-Typ</label>
             <div class="col-lg-8">
@@ -201,7 +201,7 @@
           <div class="form-group">
             <label class="col-lg-4 control-label">Betrag</label>
             <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('request_cost') || error || formFinancialRequest.request_cost.$error.pattern}">
-              <input ng-pattern="/\d+[\,\.]?\d+?/" required ng-change="checkCost(financialRequest.request_cost, financialRequest.payment_type_id)" class="form-control" type="text" ng-model="financialRequest.request_cost" ng-disabled="!rights.fields" name="request_cost">
+              <input ng-pattern="/\d+[\,\.]?\d*/" required ng-change="checkCost(financialRequest.request_cost, financialRequest.payment_type_id)" class="form-control" type="text" ng-model="financialRequest.request_cost" ng-disabled="!rights.fields" name="request_cost">
             </div>
             <div class="col-lg-1 p-0  m-t-5">
               <span class="symbol">€</span>
