@@ -1793,13 +1793,13 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
         angular.element('#area-' + school_id + '-' + num ).focus();
     });
   };
-  $scope.exit = function(school_id, index, num, id, type){
+  $scope.exit = function(school_concept_id, school_id, num, id, type){
     var number = num.split('-');
-    $scope.school_concept[id][type] = $scope.schoolConcepts[index].oldValue;
+    $scope.school_concept[id][type] = $scope.schoolConcepts[school_id].oldValue;
     $scope.fullscreen = false;
     $scope.isTextareaShow = false; 
     $scope.textareaClass = '';    
-    angular.element('#' + number[0] + '-' + school_id + '-' + number[1]).removeClass('animate');
+    angular.element('#' + number[0] + '-' + school_concept_id + '-' + number[1]).removeClass('animate');
   };  
   $scope.checkTextarea = function(index, newValue){
     if(newValue != $scope.schoolConcepts[index].oldValue){
@@ -1910,19 +1910,19 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
 
   };
 
-  $scope.saveText = function (school_id, data, name, num, $index) {    
+  $scope.saveText = function (school_concept_id, data, name, num, school_id ) {
     var number = num.split('-');
-    if($scope.checkTextarea($index, data[name])){
+    if($scope.checkTextarea(school_id, data[name])){
       if(data[name] != undefined) {
         var params = {};
         params[name] = data[name];
-        network.put('request_school_concept/' + school_id, params);
+        network.put('request_school_concept/' + school_concept_id, params);
       }
     };    
     $scope.isTextareaShow = false;     
     $scope.fullscreen = false;
     $scope.textareaClass = '';    
-    angular.element( '#' + number[0] + '-' + school_id + '-' + number[1] ).removeClass('animate');
+    angular.element( '#' + number[0] + '-' + school_concept_id + '-' + number[1] ).removeClass('animate');
   };
 
   $scope.openComparePopup = function(history, change) {
