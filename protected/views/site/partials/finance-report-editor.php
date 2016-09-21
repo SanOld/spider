@@ -177,7 +177,7 @@
           <label class="col-lg-5 control-label">Betrag</label>
           <div class="col-lg-6" ng-class="{'wrap-line error': fieldError('report_cost') || formFinanceReport.report_cost.$error.pattern}">
             <input ng-pattern="/\d+[\,\.]?\d*/" class="form-control finance-report-input"
-            type="text" ng-model="financeReport.report_cost" name="report_cost" required>
+                   type="text" ng-model="financeReport.report_cost" name="report_cost" required ng-change="checkTrainingCost(financeReport.request_id, financeReport.cost_type_id)">
             <span ng-class="{hide: !fieldError('report_cost')}" class="hide">
               <label class="error" ng-if="fieldError('report_cost') && !formFinanceReport.report_cost.$error.pattern">Betrag erforderlich</label>
             </span>

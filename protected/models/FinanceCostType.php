@@ -11,18 +11,14 @@ class FinanceCostType extends BaseModel {
     $command -> where(' 1=1 ', array());
     return $command;
   }
-  
-//  protected function getParamCommand($command, array $params, array $logic = array()) {
-//    parent::getParamCommand($command, $params);
-//    $params = array_change_key_case($params, CASE_UPPER);
-//    if(safe($params, 'LAST_RATE_ID')) {
-//      $command -> andWhere('tbl.id = :last_rate_id + 1', array(':last_rate_id' => $params['LAST_RATE_ID']));
-//    }
-//    if(safe($params, 'RATE_ID')) {
-//      $command -> andWhere('tbl.id = :rate_id', array(':rate_id' => $params['RATE_ID']));
-//    }
-//    $command = $this->setWhereByRole($command);
-//    
-//    return $command;
-//  }
+
+  protected function getParamCommand($command, array $params, array $logic = array()) {
+    parent::getParamCommand($command, $params);
+    $params = array_change_key_case($params, CASE_UPPER);
+    if(safe($params, 'REPORT_TYPE_ID')) {
+      $command -> andWhere('tbl.report_type_id = :report_type_id', array(':report_type_id' => $params['REPORT_TYPE_ID']));
+    }
+    
+    return $command;
+  }
 }

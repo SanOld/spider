@@ -475,6 +475,18 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
       });
     };
     
+//    $scope.checkTrainingCost = function(request_id, cost_type_id){
+//      if(cost_type_id == ){
+//        
+//      }
+//      var request = Utils.getRowById($scope.requests, request_id);
+//      network.get('finance_report', {request_id:request_id, }, function (result, response) {
+//        if(result) {
+//          i
+//        }
+//      });
+//    };
+    
     $scope.fieldError = function(field) {
         var form = $scope.formFinanceReport;
         return form[field] && ($scope.submited || form[field].$touched) && (form[field].$invalid);

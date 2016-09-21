@@ -24,7 +24,7 @@ class FinanceReport extends BaseModel {
       $command -> leftJoin ('spi_project prj',               'req.project_id = prj.id');
       $command -> leftJoin ('spi_finance_cost_type fct',     'tbl.cost_type_id = fct.id');
       $command -> leftJoin ('spi_payment_method_type pmt',   'tbl.payment_method_id = pmt.id');
-      $command -> leftJoin ('spi_finance_report_type frt',   'pmt.report_type_id = frt.id');
+      $command -> leftJoin ('spi_finance_report_type frt',   'fct.report_type_id = frt.id');
       if($this->user['type'] == 'p' || $this->user['type'] == 'a'){      
         $command -> join   ('spi_finance_report_status frs',   'frs.id              = tbl.status_id_pa');
       }else{

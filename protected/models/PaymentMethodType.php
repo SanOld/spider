@@ -11,14 +11,4 @@ class PaymentMethodType extends BaseModel {
     $command -> where(' 1=1 ', array());
     return $command;
   }
-  
-  protected function getParamCommand($command, array $params, array $logic = array()) {
-    parent::getParamCommand($command, $params);
-    $params = array_change_key_case($params, CASE_UPPER);
-    if(safe($params, 'REPORT_TYPE_ID')) {
-      $command -> andWhere('tbl.report_type_id = :report_type_id', array(':report_type_id' => $params['REPORT_TYPE_ID']));
-    }
-    
-    return $command;
-  }
 }
