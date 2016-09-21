@@ -5,6 +5,9 @@ class FinanceReport extends BaseModel {
   public $table = 'spi_finance_report';
   public $post = array();
   public $select_all = 'tbl.*, req.year, fct.description cost_type, prj.code project_code, frt.id report_type_id, frs.code status_code, frs.id status ';
+  public $requestData = array();
+  public $projectData = array();
+  public $reportData = array();
 
   protected function getCommand() {
     if(safe($_GET, 'list') == 'year') {      
@@ -101,6 +104,46 @@ class FinanceReport extends BaseModel {
   }
   
   protected function doBeforeInsert($post) {
+    
+      if(safe($post,'overhead_cost')){
+        $Request = CActiveRecord::model('Request');
+        $Request->user = $this->user;
+        $requestInfo = $Request->select(array('id' => safe($post, 'request_id')), true);
+        $this->requestData = $requestInfo['result'][0];
+        
+        $Project = CActiveRecord::model('Project');
+        $Project->user = $this->user;
+        $projectInfo = $Project->select(array('id' => safe($this->requestData, 'project_id')), true);
+        $this->projectData = $projectInfo['result'][0];
+        
+        $post['code'] = '999999';
+        $post['project_code'] = $this->projectData['code'];
+        
+        $Report = CActiveRecord::model('FinanceReport');
+        $Report->user = $this->user;
+        $reportInfo = $Report->select(array('code' => $post['project_code']. '/' .$post['code']), true);
+        if(!safe($reportInfo['result'],0)){          
+          $post['request_id'] = $this->requestData['id'];
+          $post['cost_type_id'] = 5;
+          $post['report_cost'] = $this->requestData['overhead_cost'];
+          $post['chargeable_cost'] = $this->requestData['overhead_cost'];
+          $post['payment_method_id'] = 2;
+          $post['status_id'] = 4;
+          $post['status_id_pa'] = 2;
+          $post['status_message'] = 'in_progress';
+          $post['payment_date'] = '0000-00-00';
+          unset($post['overhead_cost']);
+        }else{
+          unset($post['code']);
+          unset($post['project_code']);
+          return array(
+            'code' => '409',
+            'result' => false,
+            'system_code' => 'ERR_DUPLICATED',
+            'message' => 'Beleg existiert bereits'
+          );
+        };     
+      };
       
       $post['code'] = $post['project_code']. '/' .$post['code'];
       unset($post['project_code']);

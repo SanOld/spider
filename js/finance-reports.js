@@ -411,12 +411,16 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
           $scope.financeReport.status_message = 'in_progress';
         break;
       };
-      var id = data.id ? data.id : $scope.financeReportId;
-      network.put('finance_report/' + id, $scope.financeReport, function (result, response) {
-        if(result){
-          $uibModalInstance.close();
-        };               
-      });
+      var id = data.id ? data.id : $scope.financeReportId;      
+      $scope.submited = true;
+      $scope.formFinanceReport.$setPristine();
+      if ($scope.formFinanceReport.$valid && !$scope.error && !$scope.training_cost_error) {        
+        network.put('finance_report/' + id, $scope.financeReport, function (result, response) {
+          if(result){
+            $uibModalInstance.close();
+          };               
+        });
+      }
     };
     
     
@@ -497,8 +501,8 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
     };
     
     $scope.fieldError = function(field) {
-        var form = $scope.formFinanceReport;
-        return form[field] && ($scope.submited || form[field].$touched) && (form[field].$invalid);
+      var form = $scope.formFinanceReport;
+      return form[field] && ($scope.submited || form[field].$touched) && (form[field].$invalid);
     };
 
     $scope.$on('modal.closing', function(event, reason, closed) {

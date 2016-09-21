@@ -205,6 +205,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       network.put('request/' + $scope.requestID, data, function(result, response) {
         if(result) {
           RequestService.afterSave();
+          if(changeStatus && data.status_id == 5){
+            network.post('finance_report', {overhead_cost: true, request_id: data.id}, function(result, response) {});
+          };            
         };
       });
     }else{
