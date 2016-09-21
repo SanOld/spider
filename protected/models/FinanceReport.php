@@ -48,8 +48,14 @@ class FinanceReport extends BaseModel {
     if(safe($params, 'REPORT_TYPE_ID')) {
       $command -> andWhere('frt.id = :report_type_id',         array(':report_type_id' => $params['REPORT_TYPE_ID']));
     }
+    if(safe($params, 'COST_TYPE_ID')) {
+      $command -> andWhere('tbl.cost_type_id = :cost_type_id', array(':cost_type_id' => $params['COST_TYPE_ID']));
+    }
     if(safe($params, 'PERFORMER_ID')) {
       $command -> andWhere('req.performer_id = :performer_id', array(':performer_id' => $params['PERFORMER_ID']));
+    }
+    if(safe($params, 'REQUEST_ID')) {
+      $command -> andWhere('tbl.request_id = :request_id',     array(':request_id' => $params['REQUEST_ID']));
     }
     if(safe($params, 'PROJECT_ID')) {
       $command -> andWhere('prj.id = :project_id',             array(':project_id' => $params['PROJECT_ID']));

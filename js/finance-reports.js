@@ -275,6 +275,7 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
     $scope.reportStatus = data.status_code;
     $scope.reportComment = data.comment || '';
     $scope.formChanged = false;
+    $scope.training_cost_error = false;
     
     $scope.getProjects = function (year, change) {
       $scope.year = year;
@@ -354,7 +355,7 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
       $scope.submited = true;
       $scope.formFinanceReport.$setPristine();
       $timeout(function(){
-        if ($scope.formFinanceReport.$valid && !$scope.error) {
+        if ($scope.formFinanceReport.$valid && !$scope.error && !$scope.training_cost_error) {
           var callback = function (result, response) {
             if (result) {
               if($scope.isInsert && $scope.user.type == 't'){
@@ -475,17 +476,25 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
       });
     };
     
-//    $scope.checkTrainingCost = function(request_id, cost_type_id){
-//      if(cost_type_id == ){
-//        
-//      }
-//      var request = Utils.getRowById($scope.requests, request_id);
-//      network.get('finance_report', {request_id:request_id, }, function (result, response) {
-//        if(result) {
-//          i
-//        }
-//      });
-//    };
+    $scope.checkTrainingCost = function(request_id, cost_type_id){
+      if(cost_type_id == 6){        
+        var request = Utils.getRowById($scope.requests, request_id);
+        var training_cost = 0;
+        network.get('finance_report', {request_id:request_id, cost_type_id:cost_type_id}, function (result, response) {
+          if(result && response.result.length) {            
+            response.result.forEach(function(item, i, arr){
+              training_cost += Number(item.report_cost);
+            });
+          };          
+          training_cost += Number($scope.financeReport.report_cost);
+          if(training_cost > Number(request.training_cost)){
+            $scope.training_cost_error = true;
+          }else{
+            $scope.training_cost_error = false;
+          };
+        });
+      }
+    };
     
     $scope.fieldError = function(field) {
         var form = $scope.formFinanceReport;

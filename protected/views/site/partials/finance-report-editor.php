@@ -175,7 +175,7 @@
       <div class="col-lg-6">
         <div class="form-group">
           <label class="col-lg-5 control-label">Betrag</label>
-          <div class="col-lg-6" ng-class="{'wrap-line error': fieldError('report_cost') || formFinanceReport.report_cost.$error.pattern}">
+          <div class="col-lg-6" ng-class="{'wrap-line error': fieldError('report_cost') || formFinanceReport.report_cost.$error.pattern || training_cost_error}">
             <input ng-pattern="/\d+[\,\.]?\d*/" class="form-control finance-report-input"
                    type="text" ng-model="financeReport.report_cost" name="report_cost" required ng-change="checkTrainingCost(financeReport.request_id, financeReport.cost_type_id)">
             <span ng-class="{hide: !fieldError('report_cost')}" class="hide">
@@ -183,6 +183,9 @@
             </span>
             <span ng-class="{hide: !formFinanceReport.report_cost.$error.pattern}" class="hide">
               <label class="error" ng-if="formFinanceReport.report_cost.$error.pattern">Nur Ziffern erlauben</label>
+            </span>
+            <span ng-class="{hide: !training_cost_error}" class="hide">
+              <label class="error" ng-if="training_cost_error">Betrag überschreitet Fortbildungskosten</label>
             </span>
           </div>
           <div class="col-lg-1 m-t-5 p-0">
