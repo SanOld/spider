@@ -60,7 +60,7 @@
           <div class="col-lg-7">
             <div spi-hint text="_hint.report_type.text"  title="_hint.report_type.title" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('report_type')}">
-              <ui-select required ng-model="financeReport.report_type_id" name="report_type" on-select="paymentMethodSelect(financeReport.report_type_id);" 
+              <ui-select required ng-model="financeReport.report_type_id" name="report_type" on-select="costTypeSelect(financeReport.report_type_id);" 
                          ng-disabled="statusMessage == 'accepted' || reportStatus == 'wait' || (user.type != 't' && user.type != 'a' && user.type != 'p')">
                 <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{$select.selected.description}}
@@ -82,7 +82,7 @@
             <div spi-hint text="_hint.project_code.text"  title="_hint.cost_type.title" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('cost_type')}">
               <ui-select required ng-model="financeReport.cost_type_id" name="cost_type"
-                         ng-disabled="statusMessage == 'accepted' || reportStatus == 'wait' || (user.type != 't' && user.type != 'a' && user.type != 'p')">
+                         ng-disabled="!financeReport.report_type_id || statusMessage == 'accepted' || reportStatus == 'wait' || (user.type != 't' && user.type != 'a' && user.type != 'p')">
                 <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{$select.selected.description}}
                 </ui-select-match>
@@ -156,7 +156,7 @@
             <div spi-hint text="_hint.project_code.text"  title="_hint.cost_type.title" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_method')}">
               <ui-select required ng-model="financeReport.payment_method_id" name="payment_method" 
-                         ng-disabled="!financeReport.report_type_id || statusMessage == 'accepted' || reportStatus == 'wait' || (user.type != 't' && user.type != 'a' && user.type != 'p')">
+                         ng-disabled="statusMessage == 'accepted' || reportStatus == 'wait' || (user.type != 't' && user.type != 'a' && user.type != 'p')">
                 <ui-select-match allow-clear="true" placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' : '(Bitte auswählen)'}}">
                   {{$select.selected.description}}
                 </ui-select-match>
@@ -274,7 +274,7 @@
       <div class="col-lg-5 text-left" >
         <a class="btn btn-icon btn-danger btn-lg sweet-4" 
            ng-if="(user.type == 'a' || user.type == 'p') || (user.type == 't' && reportStatus != 'wait' && statusMessage != 'accepted')"
-           id="sa-warning"><i class="fa fa-trash-o"></i></a>
+           id="sa-warning" ng-click="remove()"><i class="fa fa-trash-o"></i></a>
       </div>
       <div class="col-lg-7 text-right">
         <button class="btn w-lg cancel-btn btn-lg" ng-click="cancel()">Abbrechen</button>

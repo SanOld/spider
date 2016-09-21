@@ -289,10 +289,10 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
       });
     };
     
-    $scope.paymentMethodSelect = function(report_type_id){
-      network.get('payment_method_type', {report_type_id:report_type_id}, function (result, response) {
+    $scope.costTypeSelect = function(report_type_id){
+      network.get('finance_cost_type', {report_type_id:report_type_id}, function (result, response) {
         if(result) {
-          $scope.paymentMethodTypes = response.result;
+          $scope.costTypes = response.result;
         };
       }); 
     };
@@ -319,7 +319,7 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
       $scope.getProjects(data.year);
       $scope.receiptDate = new Date (data.receipt_date);
       $scope.paymentDate = new Date (data.payment_date);
-      $scope.paymentMethodSelect(data.report_type_id);
+      $scope.costTypeSelect(data.report_type_id);
       $scope.year = data.year;
     }else{
       $scope.receiptDate = new Date ();
@@ -431,9 +431,9 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
       };
     });
     
-    network.get('finance_cost_type', {}, function (result, response) {
+    network.get('payment_method_type', {}, function (result, response) {
       if(result) {
-        $scope.costTypes = response.result;
+        $scope.paymentMethodTypes = response.result;
       };
     });
     
@@ -466,7 +466,7 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
     
     $scope.remove = function() {
       Utils.doConfirm(function() {
-        network.delete('financial_request/'+data.id, function (result) {
+        network.delete('finance_report/'+data.id, function (result) {
           if(result) {
             Utils.deleteSuccess();
             $uibModalInstance.close();
