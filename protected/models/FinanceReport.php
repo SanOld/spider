@@ -20,7 +20,7 @@ class FinanceReport extends BaseModel {
                 ->selectDistinct('prj.id project_id, prj.code project_code')
                 ->from('spi_project prj')->group('prj.code');      
       $command  ->rightJoin ('spi_request req',          'req.project_id = prj.id' );
-      $command  ->rightJoin ('spi_finance_report frp',   'frp.request_id = req.id' );
+      $command  ->where ('req.status_id = 5');
     }else{
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
       $command -> leftJoin ('spi_request req',               'tbl.request_id = req.id');
