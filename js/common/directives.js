@@ -27,7 +27,7 @@ spi.directive("qqFileUpload", function (Notification) {
     scope: {
       setting: '='
     },
-    template: '<div class="btn w-sw custom-color pull-right" id="file-uploader"></div>',
+    template: '<div class="btn w-sw custom-color pull-right csv-import-btn" id="file-uploader"></div>',
     link: function (scope, element, attrs, ctrl) {
       var uploader = new qq.FileUploader({
         element: document.getElementById('file-uploader'),

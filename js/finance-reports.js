@@ -45,6 +45,17 @@ spi.controller('FinanceReportController', function($scope, $rootScope, network, 
       param: $scope.filter,
     };
     
+      
+    $scope.qqSetting = {
+      model: 'finance_report',
+      customHeaders:{Authorization: network.token},
+      buttonText: 'csv Import',
+      onUpload: function (id, fileName, responseJSON) {
+        Notification.success({title: 'File upload success!', message: 'file uploaded'});
+        grid.reload();
+      }
+    };
+    
     $scope.existsSelected = function() {
       return !!getSelectedIds().length;
     };

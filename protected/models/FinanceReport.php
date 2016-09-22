@@ -177,4 +177,22 @@ class FinanceReport extends BaseModel {
     );
   }
   
+  public function addContent ($file){
+    $imported_file = file($file);
+    for($i = 1; $i < sizeof($imported_file);$i++){
+      $data = explode(',',$imported_file[$i]);
+//      Yii::app ()->db->createCommand()->insert($this->table, array(
+//        'request_id' => trim($data[0]),
+//        'cost_type_id' => 5,
+//        'report_cost' => trim($data[0]),
+//        'chargeable_cost' => trim($data[0]),
+//        'payment_method_id' => trim($data[0]),
+//        'status_id' => 4,
+//        'status_id_pa' => 2,
+//        'status_message' => 'in_progress',
+//        'payment_date' => '0000-00-00'
+//      ));
+    };    
+  }
+  
 }

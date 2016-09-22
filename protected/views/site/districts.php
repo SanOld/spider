@@ -18,7 +18,6 @@ $this->breadcrumbs = array('Bezirk');
             <a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
             <button class="custom-btn btn w-xs" export-to-csv ng-click="">csv Export</button>
             <button <?php $this->demo(); ?>  class="btn w-lg custom-btn" ng-if="canEdit() && canByType(['a'])" ng-click="openEdit()">Bezirk hinzufügen</button>
-<!--            <div qq-file-upload setting="qqSetting"></div>      -->
           </div>       
         </div>
         <div class="panel-body districts">
