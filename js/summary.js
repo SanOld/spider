@@ -81,11 +81,12 @@ spi.controller('SummaryController', function($scope, $rootScope, network, GridSe
     });
     
     $scope.link = function(link, row){
+      var filter_name = link == 'financial-request' ? 'finRequestsFilter' : 'finReportFilter';
       var filter = {
         project_id: row.project_id,
         year: row.year
       };
-      localStorageService.set('finRequestsFilter', filter);
+      localStorageService.set(filter_name, filter);
       window.location = '/' + link;
     };
     

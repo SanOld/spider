@@ -15,7 +15,48 @@ class Summary extends BaseModel {
                         pjt.name type,
                         req.year, 
                         req.total_cost,
-                        req.id request_id');
+                        req.id request_id,
+                        
+                        (IF((SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 1 AND status_id = 3) IS NULL, 0,
+                        (SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 1 AND status_id = 3))) as payed,
+                        
+                        (IF((SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 3 AND status_id = 3) IS NULL, 0,
+                        (SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 3 AND status_id = 3))
+                        - IF((SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 2 AND status_id = 3) IS NULL, 0,
+                        (SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 2 AND status_id = 3))) as changes,                        
+
+                        
+                        (req.total_cost + IF((SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 2 AND payment_type_id = 3 AND status_id = 3) IS NULL, 0,
+                        (SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 2 AND payment_type_id = 3 AND status_id = 3))) as actual,
+                        
+                        (req.total_cost +                         
+                         (IF((SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 3 AND status_id = 3) IS NULL, 0,
+                        (SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 3 AND status_id = 3))
+                        - IF((SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 2 AND status_id = 3) IS NULL, 0,
+                        (SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                        WHERE freq.request_id = req.id AND payment_type_id = 2 AND status_id = 3)))                         
+                         - (IF((SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                         WHERE freq.request_id = req.id AND payment_type_id = 1 AND status_id = 3) IS NULL, 0,
+                        (SELECT SUM(freq.request_cost) FROM spi_financial_request freq 
+                         WHERE freq.request_id = req.id AND payment_type_id = 1 AND status_id = 3)))) as remained,
+                         
+                        (IF((SELECT SUM(rep.report_cost) FROM spi_finance_report rep 
+                        WHERE rep.request_id = req.id AND rep.status_id = 3) IS NULL, 0,
+                        (SELECT SUM(rep.report_cost) FROM spi_finance_report rep 
+                        WHERE rep.request_id = req.id AND rep.status_id = 3))) as finance_report
+                          
+                         ');
     $command->from('spi_request req');
     if(safe($_GET, 'list') == 'year') {      
       $command ->group('req.year');

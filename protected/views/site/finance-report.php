@@ -164,6 +164,7 @@ $this->breadcrumbs = array('Finanzen','Finanzbericht');
                       <div class="btn-row m-t-15 clearfix">
                         <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="changeStatus('accept')" ng-if="user.type == 'a' || user.type == 'p'">Sachlich richtig</button>
                         <button class="btn m-b-5" ng-disabled="!existsSelected()" ng-click="changeStatus('decline')" ng-if="user.type == 'a' || user.type == 'p'">Anmerkung</button>
+                        <button class="btn m-b-5 pull-right" ng-disabled="!existsSelected()" ng-click="changeStatus('senden')" ng-if="user.type == 't'">Belege senden</button>
                       </div>
 										</div>
 									</div>

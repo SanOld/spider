@@ -228,35 +228,37 @@
             </div>
           </div>
         </div>
-        <div class="form-group m-t-20">
-          <label class="col-lg-5 control-label p-r-0">Anrechenbarer Betrag</label>
-          <div class="col-lg-6" ng-class="{'wrap-line error': fieldError('chargeable_cost') || formFinanceReport.chargeable_cost.$error.pattern}">
-              <input ng-disabled="user.type == 't'" ng-pattern="/\d+[\,\.]?\d*/" class="form-control finance-report-input"
-                     type="text" ng-model="financeReport.chargeable_cost" name="chargeable_cost">
-          </div>
-          <div class="col-lg-1 p-0  m-t-5 ">
-            <span class="symbol">€</span>
-          </div>
-          <div class="m-t-5 pull-right">
-            <span ng-class="{hide: !formFinanceReport.chargeable_cost.$error.pattern}" class="hide">
-              <label ng-show="formFinanceReport.chargeable_cost.$error.pattern" class="error">Nur Ziffern erlauben</label>            
-            </span>
-          </div>
-        </div> 
-        <div class="form-group">
-          <label class="col-lg-5 control-label">Begründung</label>
-          <div class="col-lg-7">
-            <div spi-hint text="_hint.reasoning.text"  title="_hint.reasoning.title" class="has-hint"></div>
-            <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('reasoning')}">
-              <textarea ng-disabled="user.type == 't'" name="reasoning" class="form-control textarea-min-height" ng-model="financeReport.reasoning" 
-                        ng-required="checkChargeableCost(financeReport.chargeable_cost,financeReport.report_cost)"></textarea>
-                <span ng-class="{hide: !fieldError('reasoning')}" class="hide">
-                  <label class="error">Begründung erforderlich</label>
-                  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                </span>
+        <div class="finance-report-addittional">  
+          <div class="form-group m-t-20">
+            <label class="col-lg-5 control-label p-r-0">Anrechenbarer Betrag</label>
+            <div class="col-lg-6" ng-class="{'wrap-line error': fieldError('chargeable_cost') || formFinanceReport.chargeable_cost.$error.pattern}">
+                <input ng-disabled="user.type == 't'" ng-pattern="/\d+[\,\.]?\d*/" class="form-control finance-report-input"
+                       type="text" ng-model="financeReport.chargeable_cost" name="chargeable_cost">
+            </div>
+            <div class="col-lg-1 p-0  m-t-5 ">
+              <span class="symbol">€</span>
+            </div>
+            <div class="m-t-5 pull-right">
+              <span ng-class="{hide: !formFinanceReport.chargeable_cost.$error.pattern}" class="hide">
+                <label ng-show="formFinanceReport.chargeable_cost.$error.pattern" class="error">Nur Ziffern erlauben</label>            
+              </span>
+            </div>
+          </div> 
+          <div class="form-group">
+            <label class="col-lg-5 control-label">Begründung</label>
+            <div class="col-lg-7">
+              <div spi-hint text="_hint.reasoning.text"  title="_hint.reasoning.title" class="has-hint"></div>
+              <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('reasoning')}">
+                <textarea ng-disabled="user.type == 't'" name="reasoning" class="form-control textarea-min-height" ng-model="financeReport.reasoning" 
+                          ng-required="checkChargeableCost(financeReport.chargeable_cost,financeReport.report_cost)"></textarea>
+                  <span ng-class="{hide: !fieldError('reasoning')}" class="hide">
+                    <label class="error">Begründung erforderlich</label>
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                  </span>
+              </div>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
     </div>
     <hr />

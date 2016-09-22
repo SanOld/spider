@@ -171,20 +171,25 @@ spi.controller('FinanceReportController', function($scope, $rootScope, network, 
             $scope.report.status_id_pa = 4;          
             $scope.report.status_message = 'rejected';
           break;
+          case 'senden':
+            $scope.report.status_id = 4;
+            $scope.report.status_id_pa = 2;          
+            $scope.report.status_message = 'in_progress';
+          break;
         };
         var failCodes = [];
         var rightCodes = [];
         for(var i = 0; i < ids.length; i++) {
           var row = Utils.getRowById($scope.tableParams.data, ids[i]);
-          if(status == 'accept'){
+          if(status == 'accept' || status == 'senden'){
             if(row.status_code != 'in_progress' && row.status_code != 'open') {
-              failCodes.push(row.project_code);
+              failCodes.push(row.code);
             }else{
               rightCodes.push(row.code);
             }; 
           }else{
             if(row.status_code != 'in_progress') {
-              failCodes.push(row.project_code);
+              failCodes.push(row.code);
             }else{
               rightCodes.push(row.code);
             }; 

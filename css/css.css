@@ -3563,3 +3563,10 @@ tr.virtual-row {
     margin:0 0 0 -78px;
     display: block;
 }
+.finance-report-addittional{
+    margin-top: 20px;
+    background-color: #f3f3f3;
+    padding: 1px 15px 1px 15px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}

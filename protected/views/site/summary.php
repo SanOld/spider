@@ -99,17 +99,17 @@ $this->breadcrumbs = array('Finanzen','Finanzübersicht');
                         </td>
                         <td data-title="'Topf'" sortable="'programm'">{{row.programm == "Bonusprogramm" ? row.type : row.programm }}</td>
                         <td data-title="'Jahr'" sortable="'year'">{{row.year}}</td>
-                        <td class="holder-actual" data-title="'Förders.'" sortable="'totalt_cost'">{{row.total_cost | number:2}} €</td>
+                        <td class="holder-actual" data-title="'Förders.'" sortable="'total_cost'">{{row.total_cost | number:2}} €</td>
                         <td class="holder-actual" data-title="'Änderung'" sortable="'changes'">{{row.changes | number:2}} €</td>
                         <td class="holder-actual" title="aktuelle Fördersumme" data-title="'aktuelle Förders.'" sortable="'end_fill'">{{row.actual | number:2}} €</td>
                         <td class="holder-actual" data-title="'Ausgezahlt'" sortable="'payed'">{{row.payed | number:2}} €</td>
-                        <td class="holder-report" data-title="'F-Berichte'"></td>
+                        <td class="holder-report" data-title="'F-Berichte'" sortable="'finance_report'">{{row.finance_report | number:2}} €</td>
                         <td class="holder-actual" data-title="'Verblieben'" sortable="'remained'">{{row.remained | number:2}} €</td>
                         <td data-title="'Mittelabrufe / Finanzberichte'" class="dt-edit">
                           <a title="Mittelabrufe" ng-click="link('financial-request', row)" class="btn requsted-btn">
                             <span></span>
                           </a>
-                          <a title="Finanzbericht" class="btn requsted-btn" href="/finance-report">
+                          <a title="Finanzbericht" ng-click="link('finance-report', row)" class="btn requsted-btn" href="/finance-report">
                             <span></span>
                           </a>
                         </td>
