@@ -99,8 +99,7 @@
         </div>
         <div class="form-group" ng-show="financeReport.request_id">
           <label class="col-lg-5 control-label">Belegnummer</label>
-          <div class="col-lg-7">
-            <div spi-hint text="_hint.code.text"  title="_hint.code.title" class="has-hint"></div>
+          <div class="col-lg-6">
             <div class="row">
               <div class="col-lg-4 m-b-10">
                 <label class="control-label text-nowrap">{{project_code + ' /'}}</label>
@@ -116,8 +115,11 @@
                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                  </span>
               </div>
-              </div>
-          </div>
+            </div>
+          </div>          
+          <div class="col-lg-1">
+            <div spi-hint text="_hint.code.text"  title="_hint.code.title" class="has-hint"></div>
+          </div>  
         </div>
         <div class="form-group">
           <label class="col-lg-5 control-label">Belegdatum</label>
