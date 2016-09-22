@@ -280,7 +280,7 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
     $scope.reportStatus = data.status_code;
     $scope.reportComment = data.comment || '';
     $scope.formChanged = false;
-    $scope.training_cost_error = false;
+    $scope.cost_error = false;
     
     $scope.getProjects = function (year, change) {
       $scope.year = year;
@@ -360,7 +360,7 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
       $scope.submited = true;
       $scope.formFinanceReport.$setPristine();
       $timeout(function(){
-        if ($scope.formFinanceReport.$valid && !$scope.error && !$scope.training_cost_error) {
+        if ($scope.formFinanceReport.$valid && !$scope.error && !$scope.cost_error) {
           var callback = function (result, response) {
             if (result) {
               if($scope.isInsert && $scope.user.type == 't'){
@@ -419,7 +419,7 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
       var id = data.id ? data.id : $scope.financeReportId;      
       $scope.submited = true;
       $scope.formFinanceReport.$setPristine();
-      if ($scope.formFinanceReport.$valid && !$scope.error && !$scope.training_cost_error) {        
+      if ($scope.formFinanceReport.$valid && !$scope.error && !$scope.cost_error) {        
         network.put('finance_report/' + id, $scope.financeReport, function (result, response) {
           if(result){
             $uibModalInstance.close();
@@ -485,8 +485,8 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
       });
     };
     
-    $scope.checkTrainingCost = function(request_id, cost_type_id){
-      if(cost_type_id == 6){        
+    $scope.checkTrainingOverheadCost = function(request_id, cost_type_id){
+      if(cost_type_id == 6 || cost_type_id == 5){        
         var request = Utils.getRowById($scope.requests, request_id);
         var training_cost = 0;
         network.get('finance_report', {request_id:request_id, cost_type_id:cost_type_id}, function (result, response) {
@@ -497,9 +497,9 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
           };          
           training_cost += Number($scope.financeReport.report_cost);
           if(training_cost > Number(request.training_cost)){
-            $scope.training_cost_error = true;
+            $scope.cost_error = true;
           }else{
-            $scope.training_cost_error = false;
+            $scope.cost_error = false;
           };
         });
       }
