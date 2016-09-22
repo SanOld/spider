@@ -3570,6 +3570,9 @@ tr.virtual-row {
     border-radius: 5px;
     box-sizing: border-box;
 }
+.csv-import-btn{
+    margin-bottom: -14px !important;
+}
 .position-in-data{
     padding-inline-start: 10px;
 }

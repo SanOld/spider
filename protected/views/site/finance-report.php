@@ -15,7 +15,7 @@ $this->breadcrumbs = array('Finanzen','Finanzbericht');
 								<div class="pull-right heading-box-print">
 									<a href="javascript:window.print()">Drucken <i class="ion-printer"></i></a>
                   <button class="custom-btn btn w-xs" export-to-csv ng-click="">csv Export</button>
-									<button class="custom-btn btn w-xs" ng-if="user.type == 'a' || user.type == 'p' || user.type == 't'">csv Import</button>
+									<button class="p-0 b-0" ng-if="user.type == 'a' || user.type == 'p' || user.type == 't'" qq-file-upload setting="qqSetting"></button>
 									<button class="btn w-lg custom-btn" ng-click="openEdit()" 
                           ng-if="user.type == 'a' || user.type == 'p' || user.type == 't'" >Beleg hinzufügen</button>
 								</div>
