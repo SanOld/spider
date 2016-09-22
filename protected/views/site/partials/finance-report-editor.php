@@ -79,7 +79,7 @@
         <div class="form-group">
           <label class="col-lg-5 control-label">Kostenart</label>
           <div class="col-lg-7">
-            <div spi-hint text="_hint.project_code.text"  title="_hint.cost_type.title" class="has-hint"></div>
+            <div spi-hint text="_hint.cost_type.text"  title="_hint.cost_type.title" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('cost_type')}">
               <ui-select required ng-model="financeReport.cost_type_id" name="cost_type"
                          ng-disabled="!financeReport.report_type_id || statusMessage == 'accepted' || reportStatus == 'wait' || (user.type != 't' && user.type != 'a' && user.type != 'p')">
@@ -100,21 +100,22 @@
         <div class="form-group" ng-show="financeReport.request_id">
           <label class="col-lg-5 control-label">Belegnummer</label>
           <div class="col-lg-7">
-              <div class="row">
-            <div class="col-lg-4 m-b-10">
-              <label class="control-label text-nowrap">{{project_code + ' /'}}</label>
-            </div>
-            <div class="col-lg-8 span-fix" ng-class="{'wrap-line error': fieldError('code') || error}">
-              <input ng-change="checkReportCode(project_code + '/' + financeReport.code)" required class="form-control" type="text" ng-model="financeReport.code" name="code">
-              <span ng-class="{hide: !fieldError('code')}" class="hide block">
-                 <label class="error" ng-if="fieldError('code')">Belegnummer erforderlich</label>
-                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-               </span>
-               <span ng-class="{hide: !error}" class="hide block">
-                 <label class="error" ng-if="error">Diese Belegnummer existiert bereits</label>
-                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-               </span>
-            </div>
+            <div spi-hint text="_hint.code.text"  title="_hint.code.title" class="has-hint"></div>
+            <div class="row">
+              <div class="col-lg-4 m-b-10">
+                <label class="control-label text-nowrap">{{project_code + ' /'}}</label>
+              </div>
+              <div class="col-lg-8 span-fix" ng-class="{'wrap-line error': fieldError('code') || error}">
+                <input ng-change="checkReportCode(project_code + '/' + financeReport.code)" required class="form-control" type="text" ng-model="financeReport.code" name="code">
+                <span ng-class="{hide: !fieldError('code')}" class="hide block">
+                   <label class="error" ng-if="fieldError('code')">Belegnummer erforderlich</label>
+                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                 </span>
+                 <span ng-class="{hide: !error}" class="hide block">
+                   <label class="error" ng-if="error">Diese Belegnummer existiert bereits</label>
+                   <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                 </span>
+              </div>
               </div>
           </div>
         </div>
@@ -153,7 +154,7 @@
         <div class="form-group">
           <label class="col-lg-5 control-label">Zahlungsweise</label>
           <div class="col-lg-7">
-            <div spi-hint text="_hint.project_code.text"  title="_hint.cost_type.title" class="has-hint"></div>
+            <div spi-hint text="_hint.payment_method.text"  title="_hint.payment_method.title" class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payment_method')}">
               <ui-select required ng-model="financeReport.payment_method_id" name="payment_method" 
                          ng-disabled="statusMessage == 'accepted' || reportStatus == 'wait' || (user.type != 't' && user.type != 'a' && user.type != 'p')">
@@ -175,7 +176,8 @@
       <div class="col-lg-6">
         <div class="form-group">
           <label class="col-lg-5 control-label">Betrag</label>
-          <div class="col-lg-6" ng-class="{'wrap-line error': fieldError('report_cost') || formFinanceReport.report_cost.$error.pattern || training_cost_error}">
+          <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('report_cost') || formFinanceReport.report_cost.$error.pattern || training_cost_error}">
+            
             <input ng-pattern="/\d+[\,\.]?\d*/" class="form-control finance-report-input"
                    type="text" ng-model="financeReport.report_cost" name="report_cost" required ng-change="checkTrainingCost(financeReport.request_id, financeReport.cost_type_id)">
             <span ng-class="{hide: !fieldError('report_cost')}" class="hide">
@@ -191,12 +193,14 @@
           <div class="col-lg-1 m-t-5 p-0">
             <span class="symbol">€</span>
           </div>
-          
+          <div class="col-lg-1">
+            <div spi-hint text="_hint.report_cost.text"  title="_hint.report_cost.title" class="has-hint"></div>
+          </div>          
         </div>
         <div class="form-group">
           <label class="col-lg-5 control-label">Empfänger</label>
           <div class="col-lg-7">
-            <div spi-hint text="_hint.first_name.text"  title="_hint.first_name.title"  class="has-hint"></div>
+            <div spi-hint text="_hint.payer.text"  title="_hint.payer.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('payer')}">
               <input required class="form-control" type="text" ng-model="financeReport.payer" name="payer">
               <span ng-class="{hide: !fieldError('payer')}" class="hide">
@@ -231,13 +235,16 @@
         <div class="finance-report-addittional">  
           <div class="form-group m-t-20">
             <label class="col-lg-5 control-label p-r-0">Anrechenbarer Betrag</label>
-            <div class="col-lg-6" ng-class="{'wrap-line error': fieldError('chargeable_cost') || formFinanceReport.chargeable_cost.$error.pattern}">
+            <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('chargeable_cost') || formFinanceReport.chargeable_cost.$error.pattern}">
                 <input ng-disabled="user.type == 't'" ng-pattern="/\d+[\,\.]?\d*/" class="form-control finance-report-input"
                        type="text" ng-model="financeReport.chargeable_cost" name="chargeable_cost">
             </div>
             <div class="col-lg-1 p-0  m-t-5 ">
               <span class="symbol">€</span>
             </div>
+            <div class="col-lg-1">
+              <div spi-hint text="_hint.chargeable_cost.text"  title="_hint.chargeable_cost.title" class="has-hint"></div>
+            </div>  
             <div class="m-t-5 pull-right">
               <span ng-class="{hide: !formFinanceReport.chargeable_cost.$error.pattern}" class="hide">
                 <label ng-show="formFinanceReport.chargeable_cost.$error.pattern" class="error">Nur Ziffern erlauben</label>            
@@ -278,7 +285,7 @@
     <div class="form-group group-btn row m-t-30">
       <div class="col-lg-5 text-left" >
         <a class="btn btn-icon btn-danger btn-lg sweet-4" 
-           ng-if="(user.type == 'a' || user.type == 'p') || (user.type == 't' && reportStatus != 'wait' && statusMessage != 'accepted')"
+           ng-if="((user.type == 'a' || user.type == 'p') || (user.type == 't' && reportStatus != 'wait' && statusMessage != 'accepted')) && !isInsert"
            id="sa-warning" ng-click="remove()"><i class="fa fa-trash-o"></i></a>
       </div>
       <div class="col-lg-7 text-right">

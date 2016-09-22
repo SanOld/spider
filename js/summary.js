@@ -1,5 +1,5 @@
 spi.controller('SummaryController', function($scope, $rootScope, network, GridService, localStorageService, $uibModal, Utils, SweetAlert, $timeout) {
-    $rootScope._m = 'financial_request';
+    $rootScope._m = 'summary';
     var d = new Date;
     $scope.defaulFilter = {};
     $scope.years = [];
