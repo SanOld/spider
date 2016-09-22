@@ -12,14 +12,13 @@ class FinanceReport extends BaseModel {
   protected function getCommand() {
     if(safe($_GET, 'list') == 'year') {      
       $command = Yii::app() -> db -> createCommand()->selectDistinct('req.year')
-                ->from('spi_request req')->group('year');
-      $command  ->rightJoin ('spi_finance_report frp',   'frp.request_id = req.id' );      
-      $command -> leftJoin ('spi_project prj',               'req.project_id = prj.id');
+                ->from('spi_request req')->group('year');     
+      $command -> leftJoin ('spi_project prj',               'req.project_id = prj.id');      
+      $command  ->where ('req.status_id = 5');
     }else if(safe($_GET, 'list') == 'project'){      
-      $command = Yii::app() -> db -> createCommand()
-                ->selectDistinct('prj.id project_id, prj.code project_code')
+      $command = Yii::app() -> db -> createCommand()->selectDistinct('prj.id project_id, prj.code project_code')
                 ->from('spi_project prj')->group('prj.code');      
-      $command  ->rightJoin ('spi_request req',          'req.project_id = prj.id' );
+      $command  ->leftJoin ('spi_request req',          'req.project_id = prj.id' );
       $command  ->where ('req.status_id = 5');
     }else{
       $command = Yii::app() -> db -> createCommand() -> select($this->select_all) -> from($this -> table . ' tbl');
@@ -34,8 +33,6 @@ class FinanceReport extends BaseModel {
         $command -> join   ('spi_finance_report_status frs',   'frs.id              = tbl.status_id');
       }
     } 
-      
-      $command -> where    (' 1=1 ', array());
     return $command;
   }
   

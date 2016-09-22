@@ -126,7 +126,7 @@
               <div class="input-group" ng-class="{'wrap-line error': fieldError('receipt_date')}">
                 <input uib-datepicker-popup="dd.MM.yyyy" is-open="popup_receipt_date.opened" datepicker-options="dateOptions"
                        ng-model="receiptDate" type="text" id="receipt_date"  
-                       class="form-control datepicker" placeholder="Alle Daten" required name="receipt_date">
+                       class="form-control datepicker position-in-data" placeholder="Alle Daten" required name="receipt_date">
                 <span class="input-group-addon" ng-click="popup_receipt_date.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
               </div>
               <span ng-class="{hide: !fieldError('receipt_date')}" class="hide">
@@ -142,7 +142,7 @@
             <div class="input-group"  ng-class="{'wrap-line error': fieldError('payment_date')}">
               <input  uib-datepicker-popup="dd.MM.yyyy" is-open="popup_payment_date.opened" datepicker-options="dateOptions"
                       ng-model="paymentDate" ng-change="setValue(paymentDate)" type="text" id="payment_date"
-                      class="form-control datepicker" placeholder="Alle Daten" required name="payment_date">
+                      class="form-control datepicker position-in-data" placeholder="Alle Daten" required name="payment_date">
               <span class="input-group-addon" ng-click="popup_payment_date.opened = true"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>
             <span ng-class="{hide: !fieldError('payment_date')}" class="hide">
