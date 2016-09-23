@@ -165,7 +165,7 @@
           <div class="col-lg-4" ng-if="!isInsert && isFinansist">
             <div class="heading-button clearfix m-b-15">
               <h3 class="subheading pull-left">Bankverbindungen</h3>
-              <button ng-if="!modeView && (!bank_details.length || bank_details[0].id)" ng-click="addBankForm()" class="btn w-md custom-btn pull-right" type="button">Neu</button>
+              <button ng-if="!modeView && (!bank_details.length || bank_details[0].id) && user_type != 'p'" ng-click="addBankForm()" class="btn w-md custom-btn pull-right" type="button">Neu</button>
             </div>
             <div class="holder-bank-details" ng-class="{'has-few-block': bank_details.length > 1}">
             <div id="accordion-bank" class="panel-group panel-group-joined">
