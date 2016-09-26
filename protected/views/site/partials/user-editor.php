@@ -94,7 +94,7 @@
           <label class="col-lg-2 control-label">Anrede</label>
 
           <div class="col-lg-10 holder-label-radio">
-            <div class="radio-inline" ng-if="!modeView && canEdit()">
+            <div class="radio-inline m-b-5-custom" ng-if="!modeView && canEdit()">
               <label for="radio1" class="cr-styled">
                 <input type="radio" ng-model="user.sex" name="sex" value="1" id="radio1" ng-required="!user.sex">
                 <i class="fa"></i>
@@ -103,7 +103,7 @@
             </div>
             <div class="radio-inline">
               <label for="radio2" class="cr-styled" ng-if="!modeView && canEdit()">
-                <input type="radio" ng-model="user.sex" name="sex" value="2" id="radio2" ng-required="!user.sex">
+                <input  type="radio" ng-model="user.sex" name="sex" value="2" id="radio2" ng-required="!user.sex">
                 <i class="fa"></i>
                 Frau
               </label>

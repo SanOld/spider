@@ -535,8 +535,12 @@ table.dataTable thead .sorting_desc:after {
 	padding:0;
 	background:none;
 	line-height:12px;
-	margin: 0 0 0 5px;
+	margin: 4px 0 6px 5px;
 	text-decoration:none;
+}
+.custom-hint{
+    margin-top: 4px !important;
+    position: absolute;
 }
 .form-horizontal label {
 	text-align:left !important;
@@ -3575,4 +3579,7 @@ tr.virtual-row {
 }
 .position-in-data{
     padding-inline-start: 10px;
+}
+.m-b-5-custom {
+    margin-bottom: 5px !important;
 }
