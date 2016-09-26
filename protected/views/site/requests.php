@@ -170,7 +170,7 @@ $this->breadcrumbs = array('Anträge');
                     <!--<span class="performer-icon" ng-class="{'unchecked':row.performer_is_checked != '1'}">{{row.performer_name}}</span>-->
                    <div class="holder-school">
                     <a ng-if="user.type != 't'" href="/performers#id={{row.performer_id}}" target="_blank">{{row.performer_name}}</a>
-                    <i ng-if="user.type != 't' && +row.performer_is_checked" class="success fa fa-check-circle" aria-hidden="true"></i>
+                    <i ng-if="user.type != 't' && +row.performer_is_checked" class="success fa fa-check-circle" aria-hidden="true" title="Profil überprüft"></i>
                     <a ng-if="user.type == 't'" href="/schools#id={{school.id}}" ng-repeat="school in row.ordered_schools" class="school-td" target="_blank">{{school.name}}</a>
                    </div>
                   </td>
@@ -236,6 +236,9 @@ $this->breadcrumbs = array('Anträge');
             <div class="notice {{status.code == 'decline' ? 'decline-div' : ''}}" ng-repeat="status in statuses | filter:{virtual: 0}">
               <span class="color-notice" ng-class="status.code+'-row'"></span>
               {{status.name}}
+            </div>
+            <div class="">
+              <span class="table-requests"><i class="success fa fa-check-circle" aria-hidden="true"></i>Profil überprüft</span>               
             </div>
           </div>
           <div class="clearfix square-legend">
