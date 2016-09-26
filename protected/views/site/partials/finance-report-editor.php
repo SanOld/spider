@@ -107,11 +107,11 @@
               <div class="col-lg-8 span-fix" ng-class="{'wrap-line error': fieldError('code') || error}">
                 <input ng-change="checkReportCode(project_code + '/' + financeReport.code)" required class="form-control" type="text" ng-model="financeReport.code" name="code">
                 <span ng-class="{hide: !fieldError('code')}" class="hide block">
-                   <label class="error" ng-if="fieldError('code')">Belegnummer erforderlich</label>
+                   <label class="error m-l-10" ng-if="fieldError('code')">Belegnummer erforderlich</label>
                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                  </span>
                  <span ng-class="{hide: !error}" class="hide block">
-                   <label class="error" ng-if="error">Diese Belegnummer existiert bereits</label>
+                   <label class="error m-l-10" ng-if="error">Diese Belegnummer existiert bereits</label>
                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                  </span>
               </div>
@@ -239,7 +239,7 @@
             <label class="col-lg-5 control-label p-r-0">Anrechenbarer Betrag</label>
             <div class="col-lg-5" ng-class="{'wrap-line error': fieldError('chargeable_cost') || formFinanceReport.chargeable_cost.$error.pattern}">
                 <input ng-disabled="user.type == 't'" ng-pattern="/\d+[\,\.]?\d*/" class="form-control finance-report-input"
-                       type="text" ng-model="financeReport.chargeable_cost" name="chargeable_cost">
+                       type="text" ng-model="financeReport.chargeable_cost" ng-change="numValidate(financeReport,'chargeable_cost',2)" name="chargeable_cost">
             </div>
             <div class="col-lg-1 p-0  m-t-5 ">
               <span class="symbol">€</span>
@@ -247,7 +247,7 @@
             <div class="col-lg-1">
               <div spi-hint text="_hint.chargeable_cost.text"  title="_hint.chargeable_cost.title" class="has-hint"></div>
             </div>  
-            <div class="m-t-5 pull-right">
+            <div class="col-lg-7 m-t-5 pull-right">
               <span ng-class="{hide: !formFinanceReport.chargeable_cost.$error.pattern}" class="hide">
                 <label ng-show="formFinanceReport.chargeable_cost.$error.pattern" class="error">Nur Ziffern erlauben</label>            
               </span>

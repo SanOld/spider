@@ -391,6 +391,12 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
           $scope.financeReport.payment_date = $scope.dateFormat($scope.paymentDate);
           $scope.financeReport.receipt_date = $scope.dateFormat($scope.receiptDate);        
           $scope.financeReport.project_code = $scope.project_code;
+          if($scope.financeReport.chargeable_cost){
+            $scope.financeReport.chargeable_cost = String($scope.financeReport.chargeable_cost).replace(',','.');
+          }
+          if($scope.financeReport.report_cost){
+            $scope.financeReport.report_cost = String($scope.financeReport.report_cost).replace(',','.');
+          }
           if($scope.isInsert) {
             network.post('finance_report', $scope.financeReport, callback);
           } else {
@@ -514,7 +520,28 @@ spi.controller('EditFinanceReportController', function ($scope, modeView, $uibMo
           };
         });
       }
+      $scope.numValidate($scope.financeReport,'report_cost',2)
     };
+    
+    $scope.numValidate = function(obj, key, cnt){
+      cnt = cnt || 2;
+      if(!obj[key]) {
+        obj[key] = 0;
+      } else {
+        obj[key] = obj[key].split('.').join(',');
+        obj[key] = obj[key].split(/[^0-9\,]/).join('');
+        var r = new RegExp('([0-9]+)([\,]{0,1})([0-9]{0,'+cnt+'})[0-9]*', 'i');
+        var m = obj[key].match(r);
+        try{
+          if(m[1][0]=='0' && m[1].length>1){
+            m[1] = m[1].substring(1,m[1].length);
+          }
+          obj[key] = m[1]+m[2]+m[3];
+        } catch(e) {
+          obj[key] = '';
+        }
+      }
+    }
     
     $scope.fieldError = function(field) {
       var form = $scope.formFinanceReport;

@@ -809,7 +809,28 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
           $scope.error = true;
         };
       };
+      $scope.numValidate($scope.financialRequest,'request_cost',2);
     };
+    
+    $scope.numValidate = function(obj, key, cnt){
+      cnt = cnt || 2;
+      if(!obj[key]) {
+        obj[key] = 0;
+      } else {
+        obj[key] = obj[key].split('.').join(',');
+        obj[key] = obj[key].split(/[^0-9\,]/).join('');
+        var r = new RegExp('([0-9]+)([\,]{0,1})([0-9]{0,'+cnt+'})[0-9]*', 'i');
+        var m = obj[key].match(r);
+        try{
+          if(m[1][0]=='0' && m[1].length>1){
+            m[1] = m[1].substring(1,m[1].length);
+          }
+          obj[key] = m[1]+m[2]+m[3];
+        } catch(e) {
+          obj[key] = '';
+        }
+      }
+    }
     
     $scope.checkCostError = function (request_cost, fin_request_cost) {      
       if(fin_request_cost){
