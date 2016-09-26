@@ -19,7 +19,7 @@
             <div class="tabs-vertical-env">
               <ul  class="nav tabs-vertical">
                 <li  ng-repeat="goal in school.goals" ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
-                    <button  class="goals" ng-click="activateTab(school.goals);deleteGoal(goal.id)" ng-if="goal.option == 1 && goal.is_active == 1 && canEdit()">
+                    <button  class="goals" ng-click="activateTab(school.goals);deleteGoal(goal.id)" ng-if="goal.option == 1 && goal.is_active == 1 && userCan('allFields', goal.status)">
                       <i class="ion-close-round"></i>
                     </button>
                     <a class="goal_{{goal.id}}" data-toggle="tab" href="#goal_{{::goal.id}}" ng-if="goal.is_active == 1">

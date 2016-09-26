@@ -136,7 +136,7 @@ class RequestSchoolGoal extends BaseModel {
     $resultStatus = 'unfinished';
 
         $result = Yii::app() -> db -> createCommand()
-      -> select('id, status, option, school_id')
+      -> select('id, status, option, school_id, is_active')
       -> from('spi_request_school_goal')
       -> where('request_id=:request_id', array(':request_id' => $request_id))
       -> queryAll();
@@ -152,7 +152,7 @@ class RequestSchoolGoal extends BaseModel {
       foreach ($schools as &$school) {
         $tempGoalStatus = '';
         foreach(safe($school, 'goals', array()) as $goal) {
-          if(!($goal['option'] == '1')){
+          if(!($goal['is_active'] == '0')){
             if($priority[$goal['status']] < safe($priority, $tempGoalStatus) || $tempGoalStatus == ''){
               $tempGoalStatus = $goal['status'];
             }

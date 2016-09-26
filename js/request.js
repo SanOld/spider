@@ -122,14 +122,14 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
         if(formsToSend.indexOf('goal') != -1){
           for(var item in data_save['school_goals']){
             if(!RequestService.getSchoolGoalData()){
-              if(data_save['school_goals'][item].option == '0'){
+              if(data_save['school_goals'][item].is_active == '1'){
                 delete data_save['school_goals'][item];
                 data_save['school_goals'][item] = { status : 'in_progress'};
               }else{
                 delete data_save['school_goals'][item];
               };
             }else{
-              if(data_save['school_goals'][item].option == '0'){                
+              if(data_save['school_goals'][item].is_active == '1'){                
                 data_save['school_goals'][item].status = 'in_progress';
               };
             }
@@ -178,7 +178,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       });
       angular.forEach(data['school_goals'], function(val, key) {
         delete data_reset['school_goals'][key];
-        if(val.status != 'unfinished' && val.status != 'rejected' && val.option == '0'){
+        if(val.status != 'unfinished' && val.status != 'rejected' && val.is_active == '1'){
           data_reset['school_goals'][key] = {
             status: 'in_progress'
           };
@@ -2026,7 +2026,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.requestSchoolGoal();
 
   $scope.canGoalsEdit = function(){
-    if($scope.$parent.goalsStatus == 'unfinished' && $scope.canEdit()){
+    if(($scope.$parent.goalsStatus == 'unfinished'|| $scope.$parent.goalsStatus == 'rejected') && $scope.canEdit()){
       return true;
     };
     return false;
@@ -2044,6 +2044,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         var goals = schools[school].goals;
         if(goals[goal].id == id){
           goals[goal].is_active = 0;
+          $scope.goalsForm.$dirty = true;
           --$scope.count[school];
           $scope.deleted[school].unshift(id);
           $scope.schoolGoals[school].counter = $scope.count[school];
@@ -2053,6 +2054,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   }
   
   $scope.addGoal = function (school_goals){
+    $scope.goalsForm.$dirty = true;
     var school_id = school_goals[1].school_id;
     ++$scope.count[school_id];
     $scope.schoolGoals[school_id].counter = $scope.count[school_id];
@@ -2145,7 +2147,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           var tempSchoolStatus = '';
           for (var goal in schools[school].goals) {            
             var goals = schools[school].goals;
-            if(!(goals[goal].option == '1')){
+            if(!(goals[goal].is_active == '0')){
               if($scope.paPriority[goals[goal].status] < $scope.paPriority[tempSchoolStatus] || tempSchoolStatus == ''){
                 tempSchoolStatus = goals[goal].status;
               }
@@ -2160,7 +2162,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           var tempSchoolStatus = '';
           for (var goal in schools[school].goals) {
             var goals = schools[school].goals;
-            if(!(goals[goal].option === '1')){
+            if(!(goals[goal].is_active == '0')){
               if($scope.taPriority[goals[goal].status] < $scope.taPriority[tempSchoolStatus] || tempSchoolStatus == ''){
                 tempSchoolStatus = goals[goal].status;
               }
