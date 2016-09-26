@@ -325,7 +325,7 @@
         </div>
         <hr />
         <div class="row">
-          <div class="col-lg-4 form-horizontal">
+          <div class="col-lg-4 form-horizontal" ng-if="user_type != 't'">
             <h4>Druck-Template wählen</h4>
             <div class="form-group">
               <label class="col-lg-4 control-label">Zielvereinbarung:</label>
@@ -337,8 +337,6 @@
                   </ui-select-choices>
                 </ui-select>
               </div>
-
-
             </div>
             <div class="form-group">
               <label class="col-lg-4 control-label">Antrag:</label>
@@ -363,7 +361,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-8">
+          <div class="col-lg-{{user_type != 't' ? '8' : '12'}}">
             <h4>Auflage</h4>
             <textarea ng-disabled="!userCan('senat_additional_info')" class="form-control custom-height-textarea" placeholder="Tragen Sie den Text hier ein" ng-model="request.senat_additional_info" class="form-control"></textarea>
           </div>
