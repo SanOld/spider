@@ -82,6 +82,7 @@ spi.controller('UserEditController', function ($scope, $rootScope, modeView, $ui
   $scope.modeView = modeView;
   $scope.can_change = true;
   $scope.is_self = false;
+  $scope.user_type = network.user.type;
   
   $scope.user = {
     is_active: 1,
