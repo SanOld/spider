@@ -438,7 +438,7 @@ class Request extends BaseModel {
 
       
       $request = Yii::app() -> db -> createCommand()
-        -> select('usr.email, req.year')
+        -> select('usr.email, req.year, req.end_fill')
         -> from('spi_request req')
         -> join('spi_performer prf', 'req.performer_id = prf.id')
         -> join('spi_user usr', 'prf.representative_user_id = usr.id')
@@ -449,6 +449,7 @@ class Request extends BaseModel {
           'request_code' => $proj['code'],
           'year' => $request['year'],
           'date' => date('H:i d.m.Y'),
+          'request_end_date' => $request['end_fill'],
           'url' => Yii::app()->getBaseUrl(true).'/request/'.$result['id'],
       );
 
@@ -577,13 +578,14 @@ class Request extends BaseModel {
     }
     
     $request = Yii::app() -> db -> createCommand()
-        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email')
+        -> select('(SELECT code FROM spi_project WHERE id = rq.project_id) code, (SELECT email FROM spi_user WHERE id = rq.finance_user_id) finance_user_email, rq.end_fill')
         -> from('spi_request rq')
         -> where('rq.id=:id', array(':id' => $request_id))
         ->queryRow();
     if(safe($post, 'status_finance') == 'rejected' && $post['old']['status_finance'] != 'rejected') {
       $emailParams = array(
           'request_code' => $request['code'],
+          'request_end_date' => $request['end_fill'],
           'part' => 'finanzplan',
           'comment' => safe($post, 'finance_comment'),
           'date' => date('H:i d.m.Y'),

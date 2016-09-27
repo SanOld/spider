@@ -68,7 +68,8 @@ class Email {
         $placeholders[] = $key;
       }
       $message = str_replace($placeholders, $data, $row['text']);
-      return self::send($email, self::$from, $row['subject'], $message, '', $showResults);
+      $subject = str_replace($placeholders, $data, $row['subject']);
+      return self::send($email, self::$from, $subject, $message, '', $showResults);
     }
     return false;
   }
