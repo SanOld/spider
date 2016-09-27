@@ -623,6 +623,19 @@ class Request extends BaseModel {
         Email::sendMessageByTemplate($template, $emailParams, $request['finance_user_email']);
       }
     }
+    if(safe($post, 'end_fill') != $post['old']['end_fill']) {
+      $emailParams = array(
+          'request_code' => $request['code'],
+          'request_end_date' => $request['end_fill'],
+          'request_end_date_old' => $post['old']['end_fill'],
+          'date' => date('H:i d.m.Y'),
+          'url' => Yii::app()->getBaseUrl(true).'/request/'.$request_id,
+      );
+
+      if($request['finance_user_email']) {
+        Email::sendMessageByTemplate('request_end_date_is_changed', $emailParams, $request['finance_user_email']);
+      }
+    }
     
     return $result;
   }
