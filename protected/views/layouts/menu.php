@@ -1,7 +1,21 @@
 <nav class="navbar navbar-default header-nav m-b-0">
 	<div class="container">
 		<ul class="nav navbar-nav">
-			<li ng-class="{'active': _m=='dashboard'}"><a href="/dashboard">Startseite</a></li>
+			<li ng-class="{'active': _m=='dashboard'}"><a href="/dashboard">Startseite</a></li>           
+			<li ng-class="{'active': ['performer', 'school', 'district'].indexOf(_m) !== -1}" class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Stammdaten</a>
+				<ul class="dropdown-menu">
+          <?php if(safe(Yii::app()->session['rights']['performers'], 'show')): ?>  
+					  <li><a href="/performers">Träger</a></li>
+          <?php endif; ?>  
+          <?php if(safe(Yii::app()->session['rights']['schools'], 'show')): ?>
+					  <li><a href="/schools">Schule</a></li>
+          <?php endif; ?>  
+          <?php if(safe(Yii::app()->session['rights']['districts'], 'show')): ?>          
+					  <li><a href="/districts">Bezirk</a></li>
+          <?php endif; ?>  
+				</ul>
+			</li>
 			<!--<li><a href="/request-list.php">Anträge</a></li>-->
       <li><a href="/requests">Anträge</a></li>
       <?php if(safe(Yii::app()->session['rights']['summary'], 'show') ||
@@ -35,21 +49,7 @@
 			</li>
       <?php if(safe(Yii::app()->session['rights']['projects'], 'show')): ?>
 			<li><a href="/projects">Projekte</a></li>
-      <?php endif; ?>      
-			<li ng-class="{'active': ['performer', 'school', 'district'].indexOf(_m) !== -1}" class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Akteure</a>
-				<ul class="dropdown-menu">
-          <?php if(safe(Yii::app()->session['rights']['performers'], 'show')): ?>  
-					  <li><a href="/performers">Träger</a></li>
-          <?php endif; ?>  
-          <?php if(safe(Yii::app()->session['rights']['schools'], 'show')): ?>
-					  <li><a href="/schools">Schule</a></li>
-          <?php endif; ?>  
-          <?php if(safe(Yii::app()->session['rights']['districts'], 'show')): ?>          
-					  <li><a href="/districts">Bezirk</a></li>
-          <?php endif; ?>  
-				</ul>
-			</li>
+      <?php endif; ?> 
       <?php if(safe(Yii::app()->session['rights']['users'], 'show') || safe(Yii::app()->session['rights']['user-roles'], 'show')): ?>
 			<li ng-class="{'active': ['user', 'user_type'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Benutzer</a>
