@@ -182,15 +182,15 @@ class School extends BaseModel {
   
   protected function doAfterInsert($result, $params, $post) {
 
-    if($post['email']) {
+    if($params['email']) {
       $emailParams = array(
         'type' => 'Schule',
-        'name' => $post['name'].' ('.$post['number'].')',
+        'name' => $params['name'].' ('.$params['number'].')',
         'date' => date('H:i d.m.Y'),
         'url' => Yii::app()->getBaseUrl(true).'/schools#id='.$result['id'],
       );
       
-      Email::sendMessageByTemplate('akteure_created', $emailParams, $post['email']);
+      Email::sendMessageByTemplate('akteure_created', $emailParams, $params['email']);
     }
     return $result;
   }

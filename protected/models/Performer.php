@@ -210,15 +210,15 @@ class Performer extends BaseModel {
   
   protected function doAfterInsert($result, $params, $post) {
 
-    if($post['email']) {
+    if($params['email']) {
       $emailParams = array(
         'type' => 'Träger',
-        'name' => $post['name'].' ('.$post['short_name'].')',
+        'name' => $params['name'].' ('.$post['short_name'].')',
         'date' => date('H:i d.m.Y'),
         'url' => Yii::app()->getBaseUrl(true).'/performers#id='.$result['id'],
       );
       
-      Email::sendMessageByTemplate('akteure_created', $emailParams, $post['email']);
+      Email::sendMessageByTemplate('akteure_created', $emailParams, $params['email']);
     }
     return $result;
   }

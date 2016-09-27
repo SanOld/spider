@@ -133,15 +133,15 @@ class District extends BaseModel {
   
   protected function doAfterInsert($result, $params, $post) {
 
-    if($post['email']) {
+    if($params['email']) {
       $emailParams = array(
         'type' => 'Bezirk',
-        'name' => $post['name'],
+        'name' => $params['name'],
         'date' => date('H:i d.m.Y'),
         'url' => Yii::app()->getBaseUrl(true).'/districts#id='.$result['id'],
       );
       
-      Email::sendMessageByTemplate('akteure_created', $emailParams, $post['email']);
+      Email::sendMessageByTemplate('akteure_created', $emailParams, $params['email']);
     }
     return $result;
   }
