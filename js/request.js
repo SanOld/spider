@@ -1263,6 +1263,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                     , 'status_finance':         $scope.data.status_finance
                     , 'is_umlage':              $scope.data.is_umlage
                     , 'finance_user_id':        $scope.data.finance_user_id
+                    , 'finance_comment':        $scope.data.comment
                     };
     data.users = $scope.request_users;
     data.prof_associations = $scope.prof_associations;
@@ -1378,7 +1379,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }
     $scope.$parent.setFinanceStatus(data.status_finance);
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
-
+    $scope.data.comment = data.finance_comment;
     angular.forEach($scope.users, function(val, key) {
       usersById[val.id] = val;
     });
