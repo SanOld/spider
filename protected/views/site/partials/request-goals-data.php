@@ -29,8 +29,8 @@
                     {{::goal.name}}<span ng-if="goal.option == 1"> (optional)</span></a>
                 </li>
                 <button ng-if="canGoalsEdit();" class="btn w-xs pull-right" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hinzufügen</button>
-              </ul>  
-               
+              </ul>
+
               <div class="tab-content" >
                 <div ng-repeat="goal in school.goals" id="goal_{{goal.id}}" class="tab-pane {{$index == 0 ? 'active' : ''}}" >
                   <div>

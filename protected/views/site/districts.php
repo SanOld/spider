@@ -195,9 +195,9 @@ $this->breadcrumbs = array('Bezirk');
                 </div>
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
                   <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
-                  <span ng-if="!canEdit() || modeView" ng-bind="contactUser.name || '-'"></span>
-                  <span spi-hint text="_hint.contact_id.text"  title="_hint.contact_id.title"  class="{{canEdit() && !modeView ? 'has-hint' : ''}}"></span>
-                  <div class="wrap-hint" ng-if="canEdit() && !modeView">
+                  <span ng-if="canEditContactPerson('input')" ng-bind="contactUser.name || '-'"></span>
+                  <span spi-hint text="_hint.contact_id.text"  title="_hint.contact_id.title"  class="{{canEditContactPerson() ? 'has-hint' : ''}}"></span>
+                  <div class="wrap-hint" ng-if="canEditContactPerson()">
                     <ui-select ng-disabled="!$select.items.length" ng-change="changeContactUser(district.contact_id)"
                                ng-model="district.contact_id" name="contact_id">
                       <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">

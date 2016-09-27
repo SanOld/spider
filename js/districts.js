@@ -154,7 +154,18 @@ spi.controller('EditDistrictController', function ($scope, $uibModalInstance, mo
 
   $scope.canEditDistrict = function() {
     return $rootScope.canEdit() || data.id == network.user.relation_id || network.user.type == 't';
-  }
+  };
+  $scope.canEditContactPerson = function(input) {
+    switch (network.user.type){
+      case 't':
+        if(input) return $rootScope.canEdit();
+        return !$scope.modeView;
+        break;
+      default:
+        if(input) return !$rootScope.canEdit() || $scope.modeView;
+        return $rootScope.canEdit() && !$scope.modeView;
+    }
+  };
   $scope.canByType = function(types) {
     return types.indexOf(network.user.type) != -1;
   }
