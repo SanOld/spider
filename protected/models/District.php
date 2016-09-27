@@ -143,7 +143,7 @@ class District extends BaseModel {
       
       Email::sendMessageByTemplate('akteure_created', $emailParams, $post['email']);
     }
-    
+    return $result;
   }
 
 

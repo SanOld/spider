@@ -192,7 +192,7 @@ class School extends BaseModel {
       
       Email::sendMessageByTemplate('akteure_created', $emailParams, $post['email']);
     }
-    
+    return $result;
   }
 
   protected function checkPermission($user, $action, $data) {

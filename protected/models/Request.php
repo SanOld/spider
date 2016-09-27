@@ -449,7 +449,7 @@ class Request extends BaseModel {
           'request_code' => $proj['code'],
           'year' => $request['year'],
           'date' => date('H:i d.m.Y'),
-          'request_end_date' => $request['end_fill'],
+          'request_end_date' => date('d.m.Y',strtotime($request['end_fill'])),
           'url' => Yii::app()->getBaseUrl(true).'/request/'.$result['id'],
       );
 
@@ -585,7 +585,7 @@ class Request extends BaseModel {
     if(safe($post, 'status_finance') == 'rejected' && $post['old']['status_finance'] != 'rejected') {
       $emailParams = array(
           'request_code' => $request['code'],
-          'request_end_date' => $request['end_fill'],
+          'request_end_date' => date('d.m.Y',strtotime($request['end_fill'])),
           'part' => 'finanzplan',
           'comment' => safe($post, 'finance_comment'),
           'date' => date('H:i d.m.Y'),
@@ -623,11 +623,11 @@ class Request extends BaseModel {
         Email::sendMessageByTemplate($template, $emailParams, $request['finance_user_email']);
       }
     }
-    if(safe($post, 'end_fill') != $post['old']['end_fill']) {
+    if(safe($post, 'end_fill') != safe($post['old'],'end_fill')) {
       $emailParams = array(
           'request_code' => $request['code'],
-          'request_end_date' => $request['end_fill'],
-          'request_end_date_old' => $post['old']['end_fill'],
+          'request_end_date' => date('d.m.Y',strtotime($request['end_fill'])),
+          'request_end_date_old' => date('d.m.Y',strtotime($post['old']['end_fill'])),
           'date' => date('H:i d.m.Y'),
           'url' => Yii::app()->getBaseUrl(true).'/request/'.$request_id,
       );
