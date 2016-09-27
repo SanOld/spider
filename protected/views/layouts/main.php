@@ -30,7 +30,7 @@
           </a>
           <ul style="overflow: hidden; outline: none;" tabindex="5003"
               class="dropdown-menu extended pro-menu fadeInUp animated">
-            <li><a href="" ng-click="openUserProfile()"><i class="fa fa-briefcase"></i>Profil</a></li>
+            <li><a href="" ng-click="openUserProfile()"><i class="fa fa-briefcase"></i>Benutzerkonto</a></li>
             <li><a href="" ng-click="logout()"><i class="fa fa-sign-out"></i>Ausloggen</a></li>
           </ul>
         </li>

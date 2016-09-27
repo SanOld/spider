@@ -18,9 +18,9 @@
 </table>
 <div class="notice">
   <span class="color-notice"></span>
-  Nicht aktiv Benutzer
+  Benutzer nicht aktiv
 </div>
 <div class="notice">
   <span class="color-notice accept-row"></span>
-  Virtuelle Benutzer
+  Benutzer ohne Login
 </div>
