@@ -1286,27 +1286,6 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     return finPlan;
   };
 
-  var modelToName = { 'data.finance_user_id': 'Ansprechpartner für Rückfragen zum Finanzplan'
-                    , 'data.bank_details_id': 'Bankverbindung'
-                    , 'emploee.user_id': 'Mitarbeiter/in hinzufügen'
-                    , 'emploee.group_id': 'Entgeltgruppe'
-                    , 'emploee.remuneration_level_id': 'Entgeltstufe'
-                    , 'emploee.other': 'Sonstiges'
-                    , 'emploee.cost_per_month_brutto': 'Kosten pro Monat (AN-Brutto)'
-                    , 'emploee.month_count': 'Geplante Monate im Projekt'
-                    , 'emploee.hours_per_week': 'Arbeitsstunden pro Woche'
-                    , 'emploee.annual_bonus': 'Jahressonderzahlungen'
-                    , 'emploee.additional_provision_vwl': 'Zusatzversorgung (VWL) JANEIN'
-                    , 'emploee.supplementary_pension': 'Zusatzversorgung (betriebl. Altersversorgung)'
-                    
-                    
-                    , 'association.name': 'Berufsgenossenschaftsbeiträge Name'
-                    , 'association.sum': 'Berufsgenossenschaftsbeiträge Beitrag'
-                    , 'data.revenue_description': 'Sonstige Einnahmen'
-                    , 'data.revenue_sum': 'Sonstige Einnahmen Betrag'
-                    }
-
-
   $scope.fieldsError2 = function (model, modelName){
 
     var name = modelName;
@@ -1502,7 +1481,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       $scope.calculateEmployee(this);
     });
   }
-  $scope.calculateEmployee = function(empl){
+  $scope.calculateEmployee = function(empl, button, name){    
+    var other_field = typeof button == 'undefined' ? true : button;
+    var index = name ? $scope.errorArray.indexOf(name) : false;
+    if(!other_field && index != -1){
+      $scope.errorArray.splice(index,1);
+    }
     for(var key in forValidate) {
       $scope.numValidate(empl,key);
     }
