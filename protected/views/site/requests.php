@@ -116,12 +116,12 @@ $this->breadcrumbs = array('Anträge');
               </div>
             </form>
           </div>            
-          <div class="row m-t-10 m-b-10 no-print">
+          <div class="row m-t-10 m-b-10 no-print" ng-if="user.type == 'a'">
             <div class="col-lg-12">
               <span>Prüfstatus filtern</span>
             </div>                  
           </div>
-          <div class="custom-checkbox row m-b-10 no-print">              
+          <div class="custom-checkbox row m-b-10 no-print" ng-if="user.type == 'a'">              
             <div class="col-lg-8">
               <div class="col-lg-2" ng-repeat="item in part_statuses">
                 <span title="Finanzplan" ng-if="isFinansist || user.type == 's'">
