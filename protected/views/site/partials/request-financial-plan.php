@@ -557,10 +557,10 @@
               <button ng-hide="data.status_finance == 'accepted' || !canEdit()" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm('accepted')">AKZEPTIEREN</button>
               <button ng-hide="data.status_finance == 'rejected' || !canEdit()" ng-class="{disabled: !data.comment}" ng-click="submitForm('rejected')" class="btn w-lg btn-lg btn-danger">ANMERKUNG</button>
             </div>
-            <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && data.status_finance != 'in_progress' && data.status_finance != 'accepted' && canEdit()">
+<!--            <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && data.status_finance != 'in_progress' && data.status_finance != 'accepted' && canEdit()">
               <h4 class="m-t-0"></h4>
               <button class="btn w-lg btn-lg custom-btn m-b-10" ng-click="submitForm('in_progress')" title="Antragsteil zur Prüfung übermitteln">SENDEN</button>
-            </div>
+            </div>-->
           </div>
         </div>
       </div>
