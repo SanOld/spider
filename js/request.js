@@ -2611,7 +2611,7 @@ spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModal
     if((!$scope.checkboxes.concept && $scope.checkboxes.goal) || ($scope.checkboxes.concept && !$scope.checkboxes.goal)){
       SweetAlert.swal({
         html:true,
-        title: "Die Antragsteile Konzept und Entwicklungsziele können nur zusammen senden werden.",
+        title: "Die Antragsteile Konzept und Entwicklungsziele können nur zusammen gesendet werden.",
         type: "warning",
         confirmButtonText: "OK"
       });

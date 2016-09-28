@@ -51,7 +51,7 @@
                         <h4>{{::goal.name}}</h4> <span spi-hint text="_hint.goals_goal.text" title="_hint.goals_goal.title" class="has-hint"></span>
                     </label>
                     <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'description') && goal.showError)}">
-                        <textarea ng-disabled="!userCan('allFields', goal.status)"  required ng-model="goal.description" name="description" class="form-control" placeholder="Tragen Sie den Text hier ein here" ></textarea>
+                        <textarea ng-disabled="!userCan('allFields', goal.status)"  required ng-model="goal.description" name="description" class="form-control" placeholder="Tragen Sie den Text hier ein" ></textarea>
 
                       <span ng-class="{hide: !(fieldError(goal, 'description')  && goal.showError)}" class="hide">
                         <label  class="error">Feld ist erforderlich</label>
