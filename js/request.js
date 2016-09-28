@@ -101,39 +101,64 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
         data_save.status_id = 3;
         if(formsToSend.indexOf('finance') != -1){
           data_save['status_finance'] = 'in_progress';
-          if(!RequestService.isChangedFinanceForm()){
+          if(!RequestService.isChangedFinanceForm() && (data.status_finance =='accepted' || data.status_finance =='in_progress')){
             delete data_save['finance_plan'];
+            var index = formsToSend.indexOf('finance');
+            delete formsToSend[index];
           }
         }else{
           delete data_save['finance_plan'];
         }    
         if(formsToSend.indexOf('concept') != -1){
+          var object_length = 0;
           for(var item in  data_save['school_concepts']){
-            if(!RequestService.isChangedConceptForm()){  
+            if(data_save['school_concepts'][item].status == 'accepted' || data_save['school_concepts'][item].status == 'in_progress'){
               delete data_save['school_concepts'][item];
-              data_save['school_concepts'][item] = { status : 'in_progress'};
             }else{
-              data_save['school_concepts'][item].status = 'in_progress';
+              object_length += 1;
+              if(!RequestService.isChangedConceptForm()){
+                delete data_save['school_concepts'][item];
+                data_save['school_concepts'][item] = { status : 'in_progress'};
+              }else{
+                data_save['school_concepts'][item].status = 'in_progress';
+              }
             }
           };
+          if(!object_length){
+            delete data_save['school_concepts'];
+            var index = formsToSend.indexOf('concept');
+            delete formsToSend[index];
+          }
         }else{
           delete data_save['school_concepts'];
         }
         if(formsToSend.indexOf('goal') != -1){
+          var object_length = 0;
           for(var item in data_save['school_goals']){
-            if(!RequestService.getSchoolGoalData()){
-              if(data_save['school_goals'][item].is_active == '1'){
-                delete data_save['school_goals'][item];
-                data_save['school_goals'][item] = { status : 'in_progress'};
-              }else{
-                delete data_save['school_goals'][item];
-              };
+            if(data_save['school_goals'][item].status == 'accepted' || data_save['school_goals'][item].status == 'in_progress'){
+              delete data_save['school_goals'][item];
             }else{
-              if(data_save['school_goals'][item].is_active == '1'){                
-                data_save['school_goals'][item].status = 'in_progress';
-              };
-            }
+              if(!RequestService.getSchoolGoalData()){
+                if(data_save['school_goals'][item].is_active == '1'){
+                  delete data_save['school_goals'][item];
+                  data_save['school_goals'][item] = { status : 'in_progress'};
+                  object_length += 1;
+                }else{
+                  delete data_save['school_goals'][item];
+                };
+              }else{
+                if(data_save['school_goals'][item].is_active == '1'){
+                  data_save['school_goals'][item].status = 'in_progress';
+                  object_length += 1;
+                };
+              }
+            };
           };
+          if(!object_length){
+            delete data_save['school_goals'];
+            var index = formsToSend.indexOf('goal');
+            delete formsToSend[index];
+          }
         }else{
           delete data_save['school_goals'];      
         };
@@ -1798,7 +1823,10 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   RequestService.getSchoolConceptData = function() {
     var school_concept = angular.copy($scope.school_concept);
     for(var item in school_concept){
-      var row = Utils.getRowById($scope.schoolConcepts, item);
+      var row = {};
+      for(var i in $scope.schoolConcepts){
+        if($scope.schoolConcepts[i].id == item) row = $scope.schoolConcepts[i];
+      };
       school_concept[item].status = row.status;
     };
     return school_concept;
@@ -2412,7 +2440,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         if($scope.schoolGoals[item].goals[i].status != 'unfinished' && $scope.schoolGoals[item].goals[i].status != 'rejected' && action == 'reset'){          
           $scope.schoolGoals[item].goals[i].status = status;
         };
-        if(action == 'accept'){
+        if(action == 'accept' && $scope.schoolGoals[item].goals[i].status != 'accepted'){
           $scope.schoolGoals[item].goals[i].status = status;
         };
       };
