@@ -13,7 +13,7 @@
           <div ng-class="isInsert || !isFinansist ? 'col-lg-12' : 'col-lg-8'">
             <h3 class="subheading">Allgemeine Information</h3>
             <hr>
-            <ng-form name="formPerformer" class="form-horizontal" disable-all="!canEditPerformer() || modeView">
+            <ng-form name="formPerformer" class="form-horizontal" disable-all="!canEditPerformer() || modeView || user_type == 'p'">
               <div class="address-row">
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Name</label>
@@ -136,7 +136,7 @@
                   <span ng-if="(!canEdit() && !isFinansist) || modeView" ng-bind="representativeUser.name || '-'"></span>
                   <span spi-hint text="_hint.representative_user_id.text"  title="_hint.representative_user_id.title"  class="{{(canEdit() || isFinansist) && !modeView ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="(canEdit() || isFinansist) && !modeView">
-                    <ui-select ng-disabled="!$select.items.length" ng-change="changeRepresentativeUser(performer.representative_user_id)" ng-model="performer.representative_user_id" name="representative_user_id">
+                    <ui-select ng-disabled="!$select.items.length || user_type == 'p'" ng-change="changeRepresentativeUser(performer.representative_user_id)" ng-model="performer.representative_user_id" name="representative_user_id">
                       <ui-select-match placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Nicht ausgewählt)'}}">{{$select.selected.name}}</ui-select-match>
                       <ui-select-choices repeat="item.id as item in users | filter: $select.search | orderBy: 'name'">
                         <span ng-bind-html="item.name | highlight: $select.search"></span>
@@ -282,7 +282,7 @@
                       <div class="btn-row" ng-show = "!isTextareaShow" >
                           <button class="btn m-t-2 fullscreen1"ng-click="textOnFocus($event, 'company_overview')"> &nbsp;</button>
                       </div>
-                      <textarea   name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-disabled="user_type == 'p'"  name="company_overview" ng-model="performer.company_overview" class="form-control animate-textarea textarea-1" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                   
@@ -295,7 +295,7 @@
                       <div class="btn-row" ng-show = "!isTextareaShow" >
                           <button class="btn m-t-2 fullscreen1"ng-click="textOnFocus($event, 'diversity')"> &nbsp;</button>
                       </div>
-                      <textarea  name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-disabled="user_type == 'p'"  name="diversity" ng-model="performer.diversity" class="form-control animate-textarea textarea-2" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -304,7 +304,7 @@
                     <h3 class="m-0">Dokumente</h3>
                     <label>Sie können PDF- und DOC-Dateien hochladen<br/> (10 Mb Größenbeschränkung)</label>
                   </div>
-                  <div ng-if="documents.length < 5 && canEditPerformer()" qq-file-upload setting="qqSetting"></div>
+                  <div ng-if="documents.length < 5 && canEditPerformer() && user_type != 'p'" qq-file-upload setting="qqSetting"></div>
                 </div>
                 <div class="form-custom-box clearfix m-0 upload-box" ng-if="!isInsert && documents.length">
                   <ul class="list-unstyled">
@@ -321,7 +321,7 @@
                       <div class="btn-row" ng-show = "!isTextareaShow" >
                           <button class="btn m-t-2 fullscreen1"ng-click="textOnFocus($event, 'further_education')"> &nbsp;</button>
                       </div>
-                      <textarea name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-disabled="user_type == 'p'" name="further_education" ng-model="performer.further_education" class="form-control animate-textarea textarea-3" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
@@ -333,7 +333,7 @@
                       <div class="btn-row" ng-show = "!isTextareaShow" >
                           <button class="btn m-t-2 fullscreen1"ng-click="textOnFocus($event, 'quality_standards')"> &nbsp;</button>
                       </div>
-                      <textarea name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
+                      <textarea ng-disabled="user_type == 'p'" name="quality_standards" ng-model="performer.quality_standards" class="form-control animate-textarea textarea-4" placeholder="Tragen Sie den Text hier ein"></textarea>
                     </div>
                   </div>
                 </div>
