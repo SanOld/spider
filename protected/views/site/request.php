@@ -54,9 +54,9 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
             <button class="btn w-lg cancel-btn btn-lg {{(userCan('changeStatus_print') || userCan('changeStatus_lock') || userCan('reopen')) && userCan('delete') ? 'request-back' : ''}}" ng-click="cancel()" title="Abbrechen">Zur Übersicht</button>
 					</div>
 					<div class="col-lg-{{(userCan('changeStatus_print') || userCan('changeStatus_lock')) && userCan('reopen') ? '4' : '5'}} text-right">
-						<button ng-show="userCan('save') || back" class="btn m-t-2 custom-btn btn-lg ion-skip-backward" ng-click="submitRequest();toTab(-1)" title="Speichern und zurück"></button>
+						<button ng-show="userCan('save') || back" class="btn m-t-2 custom-btn btn-lg ion-skip-backward" ng-click="submitRequest();toTab(-1)" title="{{userCan('save') && back ? 'Speichern und ' : ''}}zurück"></button>
 						<button ng-show="userCan('save')" class="btn w-lg save-btn btn-lg fa fa-floppy-o fa-5x" ng-click="submitRequest(true)" title="Speichern und auf Seite bleiben"></button>
-						<button ng-show="userCan('save') || next"  class="btn m-t-2 custom-btn btn-lg ion-skip-forward" ng-click="submitRequest();toTab(1)" title="Speichern und weiter"></button>
+						<button ng-show="userCan('save') || next"  class="btn m-t-2 custom-btn btn-lg ion-skip-forward" ng-click="submitRequest();toTab(1)" title="{{userCan('save') && next ? 'Speichern und ' : ''}}weiter"></button>
          </div>  
 				</div>
         </ng-form> 
