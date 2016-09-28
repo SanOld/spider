@@ -109,7 +109,7 @@ class User extends BaseModel {
           array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
         break;
       case TA:
-        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type) OR tbl.type_id IN(1,2)'.
+        $command->andWhere('(tbl.relation_id = :relation_id AND tbl.type = :type)'.
           'OR (tbl.relation_id IN(SELECT district_id FROM spi_project WHERE performer_id = :relation_id ) AND tbl.type = "d")'.
           'OR (tbl.relation_id IN(SELECT school_id FROM spi_project_school WHERE project_id IN(SELECT id FROM spi_project WHERE performer_id = :relation_id)) AND tbl.type = "s")',
           array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));

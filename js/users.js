@@ -21,14 +21,18 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
   network.get('user_type', angular.merge({filter: 1}, $scope.filter['type'] ? {type: $scope.filter['type']} : {}), function (result, response) {
     if (result) {
       $scope.userTypes = response.result;
-
+      var user_types = [];
       var rowTA = null;
       for (var i = 0; i < $scope.userTypes.length; i++) {
+        if((network.user.type == 't' && $scope.userTypes[i].type != 'a' && $scope.userTypes[i].type != 'p') || network.user.type != 't'){
+          user_types.push($scope.userTypes[i]);
+        }
         if ($scope.userTypes[i].type == 't') {
           rowTA = $scope.userTypes[i];
           break;
         }
       }
+      $scope.userTypes = user_types;
       if(rowTA) {
         $scope.userTypes.splice(i+1, 0, {id: rowTA.id+'_1', name: rowTA.name + ' (F)', 'type': rowTA.type});
         rowTA.id += '_0'
