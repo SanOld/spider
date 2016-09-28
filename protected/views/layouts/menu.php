@@ -1,7 +1,10 @@
 <nav class="navbar navbar-default header-nav m-b-0">
 	<div class="container">
 		<ul class="nav navbar-nav">
-			<li ng-class="{'active': _m=='dashboard'}"><a href="/dashboard">Startseite</a></li>           
+			<li ng-class="{'active': _m=='dashboard'}"><a href="/dashboard">Startseite</a></li>
+		<?php if(safe(Yii::app()->session['rights']['performers'], 'show') ||
+			safe(Yii::app()->session['rights']['schools'], 'show') ||
+			safe(Yii::app()->session['rights']['districts'], 'show')): ?>
 			<li ng-class="{'active': ['performer', 'school', 'district'].indexOf(_m) !== -1}" class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Stammdaten</a>
 				<ul class="dropdown-menu">
@@ -16,37 +19,38 @@
           <?php endif; ?>  
 				</ul>
 			</li>
+		<?php endif; ?>
 			<!--<li><a href="/request-list.php">Anträge</a></li>-->
       <li><a href="/requests">Anträge</a></li>
-      <?php if(safe(Yii::app()->session['rights']['summary'], 'show') ||
+      <?php /*if(safe(Yii::app()->session['rights']['summary'], 'show') ||
                safe(Yii::app()->session['rights']['financial-request'], 'show') ||
                safe(Yii::app()->session['rights']['finance-report'], 'show') ||
-               safe(Yii::app()->session['rights']['finance-source'], 'show')): ?>
+               safe(Yii::app()->session['rights']['finance-source'], 'show')): */?><!--
 			<li ng-class="{'active': ['finance_source'].indexOf(_m) !== -1}" class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Finanzen</a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-if="user.is_finansist== '1' || user.type != 't'">Finanzen</a>
 				<ul class="dropdown-menu">
-          <?php if(safe(Yii::app()->session['rights']['summary'], 'show')):?>
+          <?php /*if(safe(Yii::app()->session['rights']['summary'], 'show')):*/?>
 					<li><a href="/summary">Finanzübersicht</a></li>
-          <?php endif; ?>
-          <?php if(safe(Yii::app()->session['rights']['financial-request'], 'show')):?>
+          <?php /*endif; */?>
+          <?php /*if(safe(Yii::app()->session['rights']['financial-request'], 'show')):*/?>
 					  <li ng-hide="user.type == 't' && user.is_finansist == 0"><a href="/financial-request">Mittelabrufe</a></li>
-          <?php endif; ?>
-          <?php if(safe(Yii::app()->session['rights']['finance-report'], 'show')):?>
+          <?php /*endif; */?>
+          <?php /*if(safe(Yii::app()->session['rights']['finance-report'], 'show')):*/?>
 					  <li><a href="/finance-report">Finanzbericht</a></li>
-          <?php endif; ?>
-          <?php if(safe(Yii::app()->session['rights']['finance-source'], 'show')): ?>
+          <?php /*endif; */?>
+          <?php /*if(safe(Yii::app()->session['rights']['finance-source'], 'show')): */?>
 					  <li><a href="/finance-source">Fördertöpfe</a></li>
-          <?php endif; ?>
+          <?php /*endif; */?>
 				</ul>
 			</li>
-      <?php endif; ?>
+      <?php /*endif; */?>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Berichte</a>
 				<ul class="dropdown-menu">
 					<li><a href="#" style="color: #aaa;">Sachberichte</a></li>
 					<li><a href="#" style="color: #aaa;">Auswertung</a></li>
 				</ul>
-			</li>
+			</li>-->
       <?php if(safe(Yii::app()->session['rights']['projects'], 'show')): ?>
 			<li><a href="/projects">Projekte</a></li>
       <?php endif; ?> 
