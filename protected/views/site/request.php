@@ -192,7 +192,11 @@ $this->breadcrumbs = array('Anträge'=>'/requests', 'Antrag {{request_code}}');
             <label class="cr-styled pull-left" for="goal"><input name="goal" id="goal" type="checkbox" ng-model="checkboxes.goal"><i class="fa"></i>Entwicklungsziele</label>
           </div>
         <div class="col-lg-12">
-          <span>Hinweis: Abgesendete Antragsteile können während der Prüfung nicht bearbeitet werden.</span>
+          <span>Hinweis:</span>
+			<ul>
+			  <li>Abgesendete Antragsteile können während der Prüfung nicht bearbeitet werden.</li>
+		      <li>Bei einer erneuten Bearbeitung werden bereits positiv geprüfte Antragsteile nicht noch einmal gesendet.</li>
+			</ul>
         </div>
       </ng-form>
     </div>
