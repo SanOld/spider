@@ -23,7 +23,7 @@ $this->breadcrumbs = array('Anträge');
         <div class="panel-body request-edit">
           <div class="row datafilter">
             <form>
-              <div class="col-lg-2">
+              <div class="col-lg-2" ng-if="user.type != 's'">
                 <div class="form-group" ng-hide="user.type  == 't'">
                   <label>Träger</label>
                   <ui-select ng-change="updateGrid()" ng-model="filter.performer_id">
@@ -43,7 +43,7 @@ $this->breadcrumbs = array('Anträge');
                   </ui-select>
                 </div>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-2" ng-if="user.type != 's'">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Kennziffer</label>
@@ -57,7 +57,7 @@ $this->breadcrumbs = array('Anträge');
                   </div>
                 </div>
               </div>
-              <div class="col-lg-1 custom-lg-1">
+              <div class="col-lg-1 custom-lg-1" ng-if="user.type != 's'">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Fördertopf</label>
@@ -70,7 +70,7 @@ $this->breadcrumbs = array('Anträge');
                   </div>
                 </div>
               </div>
-              <div class="col-lg-1 custom-lg-1">
+              <div class="col-lg-1 custom-lg-1"  ng-if="user.type != 's'">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Schultyp</label>
@@ -96,7 +96,7 @@ $this->breadcrumbs = array('Anträge');
                   </div>
                 </div>
               </div>
-              <div class="col-lg-1 custom-lg-1">
+              <div class="col-lg-1 custom-lg-1"  ng-if="user.type != 's'">
                 <div class="form-group">
                   <div class="form-group">
                     <label>Status</label>
@@ -109,7 +109,7 @@ $this->breadcrumbs = array('Anträge');
                   </div>
                 </div>
               </div>
-              <div class="col-lg-2 reset-btn-width">
+              <div class="col-lg-2 reset-btn-width {{user.type == 's' ? 'pull-right m-r-15' : ''}}">
                 <button ng-click="resetFilter()" class="btn pull-right w-lg custom-reset"> <i class="fa fa-rotate-left"></i>
                   <span>Filter zurücksetzen</span>
                 </button>
