@@ -90,7 +90,9 @@
 				</ul>
 			</li>
       <?php endif; ?>
+			<?php if(Yii::app()->session['rights']['contact']['show']): ?>
 			<li><a href="/contact">Kontakt</a></li>
+			<?php endif; ?>
 		</ul>
 	</div>   
 </nav>
