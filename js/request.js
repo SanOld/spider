@@ -1755,6 +1755,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
           $scope.school_concept[id]={};
           $scope.school_concept[id]['situation'] = response.result[elem].situation;
           $scope.school_concept[id]['offers_youth_social_work'] = response.result[elem].offers_youth_social_work;
+          $scope.school_concept[id]['comment'] =  response.result[elem].comment;
         };
         
         $scope.schoolConcepts = response.result;
@@ -2025,6 +2026,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           $scope.count[school] = 0;
           var schools = $scope.schoolGoals;
           for (var goal in schools[school].goals) {
+            $scope.schoolGoals[school].goals[goal].newNotice = $scope.schoolGoals[school].goals[goal].notice;
             var goals = schools[school].goals;
             if(goals[goal].is_active == 1){
               ++$scope.count[school];
@@ -2301,6 +2303,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
             delete goals[goal].groups;
             delete goals[goal].errors;
             delete goals[goal].showError;
+            goals[goal].notice = goals[goal].newNotice;
             delete goals[goal].newNotice;
             data[goals[goal].id]=(goals[goal]);
           }
