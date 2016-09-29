@@ -2382,7 +2382,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
   $scope.fieldError = function (goal, field, condition) {
     var check = condition || true;
-    if(check != '0' && goal.errors !== undefined && goal.errors[field] !== undefined){
+    if(check != '0' ){
       if(goal[field] == undefined || goal[field] == ''){
         goal.errors[field] = true;
         return true;
@@ -2391,7 +2391,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         return false;
       }
     } else {
-//      delete goal.errors[field];
+      delete goal.errors[field];
       return false;
     }
 
