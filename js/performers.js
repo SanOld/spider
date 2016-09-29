@@ -251,7 +251,8 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
       if ($scope.form.formPerformer.$valid) {
         var callback = function (result, response) {
           if (result) {
-            $uibModalInstance.close();
+            //$uibModalInstance.close();
+            $scope.form.$dirty = false;
             localStorageService.set('dataChanged', 1);
           } else {
             $scope.error = getError(response.system_code);
