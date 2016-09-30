@@ -13,10 +13,17 @@ spi.controller('UserController', function ($scope, $rootScope, network, GridServ
     {id: 1, name: 'Aktiv'},
     {id: 0, name: 'Nicht aktiv'}
   ];
-  $scope.states = [
-    {id: 1, name: 'Ohne Login'},
-    {id: 0, name: 'Mit Login'}
-  ];
+
+  if(network.user.is_finansist == '0' && network.user.type == 't'){
+    $scope.states = [
+      {id: 0, name: 'Mit Login'}
+    ];
+  }else{
+    $scope.states = [
+      {id: 1, name: 'Ohne Login'},
+      {id: 0, name: 'Mit Login'}
+    ];
+  }
 
   network.get('user_type', angular.merge({filter: 1}, $scope.filter['type'] ? {type: $scope.filter['type']} : {}), function (result, response) {
     if (result) {

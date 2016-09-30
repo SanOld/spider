@@ -113,6 +113,10 @@ class User extends BaseModel {
           'OR (tbl.relation_id IN(SELECT district_id FROM spi_project WHERE performer_id = :relation_id ) AND tbl.type = "d")'.
           'OR (tbl.relation_id IN(SELECT school_id FROM spi_project_school WHERE project_id IN(SELECT id FROM spi_project WHERE performer_id = :relation_id)) AND tbl.type = "s")',
           array(':relation_id' => $this->user['relation_id'], ':type' => $this->user['type']));
+        if($this->user['is_finansist'] == 0){
+          $command->andWhere('tbl.is_virtual = 0');
+        }
+
         break;
     }
     return $command;
