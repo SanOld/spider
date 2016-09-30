@@ -205,6 +205,7 @@ spi.service("RequestService", function () {
   this.isChangedConceptForm = function() {};
   this.setChangedConceptForm = function() {};
   this.hasErrorsConceptForm = function() {};
+  this.setErrorsConceptForm = function() {};
   
   this.isChangedGoalsForm = function() {};
   this.setChangedGoalsForm = function() {};

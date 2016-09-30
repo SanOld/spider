@@ -87,6 +87,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       }
       if(!conceptErors){
         completed += 'Konzept, ';
+      }else{
+        RequestService.setErrorsConceptForm();
       }
       if(!goalErors.length){
         completed += 'Entwicklungsziele, ';
@@ -643,7 +645,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       size: 'custom-width-request-send-duration'
     });
     modalInstance.result.then(function (formsToSend) {
-      if(formsToSend.length){
+      if(formsToSend && formsToSend.length){
         if(formsToSend.indexOf('finance') != -1){
           $scope.setFinanceStatus('in_progress');
           RequestService.setStatusFinanceForm('in_progress');
@@ -1748,6 +1750,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   $scope.canFormEdit = ['a','t'].indexOf(network.user.type) !== -1;
   $scope.fullscreen = false;
   $scope.equal = true;
+  $scope.conceptShowErrors = false;
 
   $scope.canEdit  = function (){
     return  RequestService.canEdit();
@@ -1991,6 +1994,15 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   
   RequestService.hasErrorsConceptForm = function(){      
     return $scope.conceptForm.$invalid;
+  };
+
+  RequestService.setErrorsConceptForm = function(){
+    $scope.conceptShowErrors = true;
+  };
+
+  $scope.fieldError = function(index, field) {
+    var form = $scope.conceptForm['schoolForm'+index];
+    return form[field] && form[field].$invalid;
   };
   
   RequestService.setStatusConceptForm = function(status, action){
@@ -2609,6 +2621,7 @@ spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModal
        if(isConfirm){         
          RequestService.setErrorsFinanceForm(true);
          RequestService.setErrorsGoalsForm(true);
+         RequestService.setErrorsConceptForm();
          $uibModalInstance.close();
        }
     });
