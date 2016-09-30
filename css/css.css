@@ -3583,3 +3583,6 @@ tr.virtual-row {
 .m-b-5-custom {
     margin-bottom: 5px !important;
 }
+.textarea-fullscreen-error{
+	margin: -28px 1px;
+}
