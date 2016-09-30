@@ -1512,7 +1512,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   });
 
 
-  var forValidate = {'cost_per_month_brutto':1, 'annual_bonus':1, 'additional_provision_vwl':1, 'supplementary_pension':1}
+  var forValidate = {'cost_per_month_brutto':1,'hours_per_week':4, 'annual_bonus':1, 'additional_provision_vwl':1, 'supplementary_pension':1}
   var toNum = {'have_annual_bonus':1, 'have_additional_provision_vwl':1, 'have_supplementary_pension':1}
 
   function num(val) {
@@ -1543,7 +1543,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       $scope.errorArray.splice(index,1);
     }
     for(var key in forValidate) {
-      $scope.numValidate(empl,key);
+      if(key == 'hours_per_week'){
+        $scope.numValidate(empl,key,forValidate[key]);
+      }else{
+        $scope.numValidate(empl,key);
+      }
     }
     for(var key in toNum) {
       empl[key] = num(empl[key]);
@@ -1554,12 +1558,12 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     empl.brutto = num(empl.cost_per_month_brutto) * mc
                 + num(empl.annual_bonus) * empl.have_annual_bonus
                 + num(empl.additional_provision_vwl) * mc * num(empl.have_additional_provision_vwl)
-                + num(empl.supplementary_pension) * (mc + empl.have_annual_bonus) * num(empl.have_supplementary_pension);
+                + num(empl.supplementary_pension) * mc * num(empl.have_supplementary_pension);
     empl.brutto = Math.ceil(empl.brutto/100)*100; // Результат округлять вверх до 100 евро. Например: 1201 = 1300
 
     var summ  = num(empl.cost_per_month_brutto) * mc
               + num(empl.annual_bonus) * empl.have_annual_bonus
-              + num(empl.additional_provision_vwl) * mc * empl.have_additional_provision_vwl;
+              + num(empl.supplementary_pension) * mc * empl.have_additional_provision_vwl;
     empl.addCost = summ * umlage;
     empl.addCost = Math.ceil(empl.addCost/100)*100;
     empl.fullCost = empl.brutto + empl.addCost;
@@ -1586,7 +1590,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     });
     $scope.prof_association_cost = num($scope.prof_association_cost);
     $scope.revenue_sum = num($scope.data.revenue_sum);
-    $scope.total_cost = $scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum;
+    $scope.total_cost = Math.ceil($scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum);
 
   }
   $scope.updateTrainingCost = function(school){

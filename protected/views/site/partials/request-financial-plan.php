@@ -365,14 +365,14 @@
                 <div class="sum rate-ico clearfix">
                   <strong>Stellenanteil</strong>
                   <div class="col-lg-12 p-l-0 m-t-10">
-                    <div class="has-hint has-hint2">
+                    <div class="has-hint has-hint2 custom-hint-rate">
                       <span spi-hint text="_hint.fin_plan_school_rate.text"  title="_hint.fin_plan_school_rate.title" ></span>
                     </div>
 <!--                    <div class="wrap-hint">
                       <input required name = "Stellenanteil" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" ng-disabled="!canAccept">
                     </div>-->
-                    <div class="wrap-hint" ng-class="{'wrap-line error': (( canAccept && fieldsError2(school.rate, 'Stellenanteil' + '-' + key)  && errorShow) || errorArray.indexOf('Stellenanteil'+ '-' + key) != -1) }">
-                      <input required name = "{{('Stellenanteil'+$index)}}" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 3)" ng-change=" numValidate(school,'rate', 3); updateTrainingCost(school)" ng-model="school.rate" 
+                    <div class="wrap-hint custom-input-width" ng-class="{'wrap-line error': (( canAccept && fieldsError2(school.rate, 'Stellenanteil' + '-' + key)  && errorShow) || errorArray.indexOf('Stellenanteil'+ '-' + key) != -1) }">
+                      <input required name = "{{('Stellenanteil'+$index)}}" type="text" class="form-control" ng-init = " numValidate2(school,'rate', 4)" ng-change=" numValidate(school,'rate', 4); updateTrainingCost(school)" ng-model="school.rate"
                              ng-disabled="data.status_finance == 'accepted' || !canAccept || !canEdit() || (user_type == 'p' && data.status_finance != 'in_progress')">
                     </div>
                   </div>

@@ -551,6 +551,21 @@ class Request extends BaseModel {
         $RequestUser = CActiveRecord::model('RequestUser');
         $RequestUser ->user = $this->user;
         foreach ($this->finance_plan['users'] as $data) {
+          if($data['cost_per_month_brutto']){
+            $data['cost_per_month_brutto']  = (float)str_replace(",", ".", $data['cost_per_month_brutto']);
+          }
+          if($data['hours_per_week']){
+            $data['hours_per_week']  = (float)str_replace(",", ".", $data['hours_per_week']);
+          }
+          if($data['have_annual_bonus'] == 1 && $data['annual_bonus']){
+            $data['annual_bonus']  = (float)str_replace(",", ".", $data['annual_bonus']);
+          }
+          if($data['have_additional_provision_vwl'] == 1 && $data['additional_provision_vwl']){
+            $data['additional_provision_vwl']  = (float)str_replace(",", ".", $data['additional_provision_vwl']);
+          }
+          if($data['have_supplementary_pension'] == 1 && $data['supplementary_pension']){
+            $data['supplementary_pension']  = (float)str_replace(",", ".", $data['supplementary_pension']);
+          }
           unset($data['new_user_name']);
           if($id = safe($data,'id')) {
             unset($data['id']);

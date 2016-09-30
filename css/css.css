@@ -3586,3 +3586,9 @@ tr.virtual-row {
 .textarea-fullscreen-error{
 	margin: -28px 1px;
 }
+.custom-input-width{
+	width: 81% !important;
+}
+.custom-hint-rate{
+	margin-right: -6px;
+}
