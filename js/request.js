@@ -1,4 +1,4 @@
-spi.controller('RequestController', function ($scope, $rootScope, network, Utils, $location, RequestService, SweetAlert, $timeout, $uibModal) {
+spi.controller('RequestController', function ($scope, $rootScope, network, Utils,Notification, $location, RequestService, SweetAlert, $timeout, $uibModal) {
   if (!$rootScope._m) {
     $rootScope._m = 'request';
   }
@@ -73,6 +73,30 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
   $scope.setRequestYear = function(requestYear){
     $scope.requestYear = requestYear;
     RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
+  };
+
+  $scope.checkIfReadyToSend = function() {
+    var goalErors     = RequestService.hasErrorsGoalsForm();   //array[array]
+    var conceptErors  = RequestService.hasErrorsConceptForm(); //boolean
+    var financeErors  = RequestService.hasErrorsFinanceForm(); //array[]
+    var completed = '';
+      if(!financeErors.length){
+        completed += 'Finanzplan, ';
+      }else{
+        RequestService.setErrorsFinanceForm(true);
+      }
+      if(!conceptErors){
+        completed += 'Konzept, ';
+      }
+      if(!goalErors.length){
+        completed += 'Entwicklungsziele, ';
+      }else{
+        RequestService.setErrorsGoalsForm(true);
+      };
+    if(completed.length){
+      completed = completed.substring(0, completed.length - 2);
+      Notification.info({title: 'Antragsteile sind fertig ausgefüllt:', message: completed});
+    }
   };
   
   $scope.submitRequest = function (changeStatus, formsToSend, reset) {
@@ -229,6 +253,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     if(!financeErors || financeErors.indexOf("Stellenanteil") == -1){
       network.put('request/' + $scope.requestID, data, function(result, response) {
         if(result) {
+          if(!reset && !formsToSend){
+            $scope.checkIfReadyToSend();
+          };
           RequestService.afterSave();
           if(changeStatus && data.status_id == 5){
             network.post('finance_report', {overhead_cost: true, request_id: data.id}, function(result, response) {});
