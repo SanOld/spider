@@ -1,7 +1,7 @@
 <div id="finance" class="tab-pane" ng-controller="RequestFinancePlanController">
   <div class="panel-group panel-group-joined m-0">
     <div class="panel panel-default">
-      <div ng-if="data.status_finance != 'unfinished'" class="alert" ng-class="{'alert-danger': data.status_finance == 'rejected', 'alert-success': data.status_finance == 'accepted', 'alert-warning': data.status_finance == 'in_progress'}">
+      <div ng-if="data.status_finance && data.status_finance != 'unfinished'" class="alert" ng-class="{'alert-danger': data.status_finance == 'rejected', 'alert-success': data.status_finance == 'accepted', 'alert-warning': data.status_finance == 'in_progress'}">
         <div ng-switch="data.status_finance">
           <strong ng-switch-when="rejected">Anmerkung der Programmagentur</strong>
           <strong ng-switch-when="accepted">Geprüft</strong>

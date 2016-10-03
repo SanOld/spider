@@ -194,7 +194,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     if(!row) {
       return $rootScope.canEdit();
     } else {
-      return  (network.user.type == 'a' || (row.status_code != 'decline' && row.status_code != 'accept'  && row.status_code != 'acceptable')) && $rootScope.canEdit();
+      return  (network.user.type == 'a' || (row.status_code != 'decline' && row.status_code != 'accept' && row.status_code != 'acceptable' && network.user.type == 't')
+        || (row.status_code != 'decline' && row.status_code != 'accept' && network.user.type != 't')) && $rootScope.canEdit();
     }
   };
 

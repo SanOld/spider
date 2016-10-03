@@ -154,7 +154,7 @@
                         <label ng-show="dublicate" class="error">Dieser Name existiert bereits</label>
                       </span>
                       </div>
-                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_project_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()" >
+                      <div class="col-lg-2 p-0 btn-row" ng-cloak ng-show="!add_project_user && (data.status_id == '3' || data.status_id == '1') && canEdit()" >
                         <button class="btn m-t-2 add-user" ng-click="addNewConceptUser()">&nbsp;</button>
                       </div>             
                       <div class="col-lg-3 p-0" ng-show="add_project_user && data.status_finance != 'accepted' && data.status_finance != 'acceptable' && canEdit()" >
