@@ -608,10 +608,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     if($scope.isPreviousRequest){
         SweetAlert.swal({
           html:true,
-          title: "Datenkopierung",
-          text: "Daten des Konzepts und der Ziele\n\
-        werden aus dem Antrag (" + ($scope.requestYear-1) +") " + $scope.projectID + " kopiert.\n\
-        Die vorhandenen Daten werden übergeschrieben",
+          title: "Daten vom Vorjahr übernehmen",
+          text: "Konzept und Entwicklungsziele\n\
+            werden aus dem Antrag (" + ($scope.requestYear-1) +") " + $scope.projectID + " kopiert.\n\
+            Die vorhandenen Daten werden übergeschrieben",
           type: "warning",
           confirmButtonText: "OK",
           showCancelButton: true,

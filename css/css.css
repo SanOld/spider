@@ -109,6 +109,9 @@ body.bg {
 	font-weight:600;
 	font-size:21px;
 }
+.btn.copy-btn{
+        font-size:18px !important;
+}
 .btn.save-btn {
 	background:#00529e;
 	border:1px solid #00529e;
