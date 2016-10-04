@@ -2,7 +2,7 @@ ALTER TABLE spi_request_school_finance MODIFY rate DECIMAL(7,4);
 ALTER TABLE spi_request_user MODIFY hours_per_week DECIMAL(10,4);
 
 
-ALTER TABLE `spider_st_db`.`spi_request_school_goal` DROP COLUMN `name`, DROP COLUMN `capacity`, 
+ALTER TABLE `spi_request_school_goal` DROP COLUMN `name`, DROP COLUMN `capacity`, 
 DROP COLUMN `transition`, DROP COLUMN `reintegration`, DROP COLUMN `social_skill`,
 DROP COLUMN `prevantion_violence`, DROP COLUMN `health`, DROP COLUMN `sport`, DROP COLUMN `parent_skill`,
 DROP COLUMN `other_goal`, DROP COLUMN `other_description`, DROP COLUMN `cooperation`, DROP COLUMN `participation`, 
@@ -15,7 +15,7 @@ CREATE TABLE `spi_goal` (
   `is_actual` tinyint(1) NOT NULL DEFAULT '1',
   `is_with_desc` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `spi_goal` */
 
@@ -46,7 +46,7 @@ CREATE TABLE `spi_request_goal` (
   KEY `spi_goal_id` (`goal_id`),
   CONSTRAINT `spi_goal_id` FOREIGN KEY (`goal_id`) REFERENCES `spi_goal` (`id`),
   CONSTRAINT `spi_request_school_goal_id` FOREIGN KEY (`request_school_goal_id`) REFERENCES `spi_request_school_goal` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11425 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `spi_page` (`code`, `page_code`, `name`, `is_real_page`, `is_editable`) VALUES ('goal', 'goal', 'Entwicklungziele', '0', '0'); 
