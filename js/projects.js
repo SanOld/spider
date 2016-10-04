@@ -178,12 +178,12 @@ spi.controller('ProjectController', function($scope, $rootScope, network, GridSe
                 objFailCodes[code]['id'] = id;
               };
               var text = {plural : [], singular: []};
-              text['plural'][1] = 'Anträge';
-              text['plural'][2] = 'können nicht aktualisiert sein. Anträge für diese Projekte schon existieren.';
+              text['plural'][1] = 'Die Anträge für';
+              text['plural'][2] = 'existieren bereits und können nicht doppelt angelegt werden.';
               text['plural'][3] = 'werden hinzufügen.';
 
-              text['singular'][1] = 'Antrag';
-              text['singular'][2] = 'kann nicht aktualisiert sein. Antrag für dieses Projekt schon existiert.';
+              text['singular'][1] = 'Der Antrag für';
+              text['singular'][2] = 'existiert bereits und kann nicht doppelt angelegt werden.';
               text['singular'][3] = 'wird hinzufügen.';
 
               if (failCodes.length == 1){
