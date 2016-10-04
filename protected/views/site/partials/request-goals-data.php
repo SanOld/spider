@@ -26,7 +26,7 @@
                     <span class="notice">
                       <span  class="color-notice {{goal.status}}-row"></span>
                     </span>
-                    {{::goal.name}}<span ng-if="goal.option == 1"> (optional)</span></a>
+                    Entwicklungziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></a>
                 </li>
                 <button ng-if="canGoalsEdit();" class="btn w-xs pull-right" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hinzufügen</button>
               </ul>
@@ -45,10 +45,8 @@
                         {{goal.notice}}
                       </strong>
                     </div>
-
-
                     <label class="control-label">
-                        <h4>{{::goal.name}}</h4> <span spi-hint text="_hint.goals_goal.text" title="_hint.goals_goal.title" class="has-hint"></span>
+                        <h4> Entwicklungziel {{::goal.goal_number}}</h4> <span spi-hint text="_hint.goals_goal.text" title="_hint.goals_goal.title" class="has-hint"></span>
                     </label>
                     <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'description') && goal.showError)}">
                         <textarea ng-disabled="!userCan('allFields', goal.status)"  required ng-model="goal.description" name="description" class="form-control" placeholder="Tragen Sie den Text hier ein" ></textarea>
@@ -64,7 +62,7 @@
                       <label  class="error">Bitte wählen Sie nicht mehr als zwei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel.</label>
                     </span>
                     <label class="control-label">
-                      <h4>Angebote für Schüler/innen und Eltern</h4>
+                      <h4>Programmschwerpunkte</h4>
                       <span spi-hint text="_hint.goals_groupOffer.text"  title="_hint.goals_groupOffer.title" class="has-hint"></span>
                     </label>
                     <div class="holder-radio">
@@ -74,415 +72,50 @@
                           <span class="col-lg-1">Weiteres Ziel</span>
                           <span class="col-lg-1">kein Ziel</span>
                         </div>
-
-                        <div class="row" ng-init="checkCount('groupOffer', 'capacity', goal, 1)" >
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.capacity" ng-change="checkCount('groupOffer', 'capacity', goal)">
-                              <i class="fa"  ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
-                            </label>
+                        <div ng-repeat="single_goal in goal.goals">
+                          <div class="row" ng-init="checkCount(goal, goal.goals)">
+                            <div class="label-holder col-lg-2">
+                              <label class="cr-styled">
+                                <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="single_goal.value" ng-change="checkCount(goal, goal.goals)">
+                                <i class="fa" ng-class="{'err': goal.errors.total_count < 1 && goal.showError}"></i>
+                              </label>
+                            </div>
+                            <div class="label-holder col-lg-1">
+                              <label class="cr-styled">
+                                <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="single_goal.value" ng-change="checkCount(goal, goal.goals)">
+                                <i class="fa"></i>
+                              </label>
+                            </div>
+                            <div class="label-holder col-lg-1">
+                              <label class="cr-styled">
+                                <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="single_goal.value" ng-change="checkCount(goal, goal.goals)" checked="">
+                                <i class="fa"></i>
+                              </label>
+                            </div>
+                            <p class="col-lg-8">{{single_goal.name}}</p>
                           </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.capacity" ng-change="checkCount('groupOffer', 'capacity', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.capacity" ng-change="checkCount('groupOffer', 'capacity', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Verbesserung der (vorberuflichen) Handlungskompetenzen</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupOffer', 'transition', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.transition" ng-change="checkCount('groupOffer', 'transition', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input  ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.transition" ng-change="checkCount('groupOffer', 'transition', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.transition" ng-change="checkCount('groupOffer', 'transition', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Verbesserung aller Übergänge in Schule (Kita-GS-Sek I-Sek II) und in Ausbildung</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupOffer', 'reintegration', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.reintegration" ng-change="checkCount('groupOffer', 'reintegration', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.reintegration" ng-change="checkCount('groupOffer', 'reintegration', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.reintegration" ng-change="checkCount('groupOffer', 'reintegration', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Abbau von Schuldistanz; Reintegration in den schulischen Alltag</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupOffer', 'social_skill', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.social_skill" ng-change="checkCount('groupOffer', 'social_skill', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.social_skill" ng-change="checkCount('groupOffer', 'social_skill', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.social_skill" ng-change="checkCount('groupOffer', 'social_skill', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Stärkung der sozialen Kompetenzen und des Selbstvertrauens</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupOffer', 'prevantion_violence', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.prevantion_violence" ng-change="checkCount('groupOffer', 'prevantion_violence', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.prevantion_violence" ng-change="checkCount('groupOffer', 'prevantion_violence', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.prevantion_violence" ng-change="checkCount('groupOffer', 'prevantion_violence', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Gewaltprävention und -intervention</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupOffer', 'health', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.health" ng-change="checkCount('groupOffer', 'health', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.health" ng-change="checkCount('groupOffer', 'health', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.health" ng-change="checkCount('groupOffer', 'health', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Gesundheitsförderung </p>
-                        </div>
-                        <div class="row" ng-init="checkCount('groupOffer', 'sport', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.sport" ng-change="checkCount('groupOffer', 'sport', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.sport" ng-change="checkCount('groupOffer', 'sport', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.sport" ng-change="checkCount('groupOffer', 'sport', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Förderung sportlicher, kultureller und sportlicher Interessen</p>
-                        </div>
-                        <div class="row" ng-init="checkCount('groupOffer', 'parent_skill', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.parent_skill" ng-change="checkCount('groupOffer', 'parent_skill', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.parent_skill" ng-change="checkCount('groupOffer', 'parent_skill', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.parent_skill" ng-change="checkCount('groupOffer', 'parent_skill', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Einbindung der Eltern und Stärkung der Erziehungskompetenzen</p>
-                        </div>
-                        <div class="row" ng-init="checkCount('groupOffer', 'other_goal', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.other_goal" ng-change="checkCount('groupOffer', 'other_goal', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupOffer.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.other_goal" ng-change="checkCount('groupOffer', 'other_goal', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.other_goal" ng-change="checkCount('groupOffer', 'other_goal', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Sonstiges (Bezug in extra Textfeld benennen)</p>
-                        </div>
-                        <div class="col-lg-8 pull-right textarea-box" ng-show="goal.other_goal > 0">
-                          <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'other_description', goal.other_goal) && goal.showError && goal.other_goal > 0)}">
-                            <textarea ng-disabled="!userCan('allFields', goal.status)" placeholder="Tragen Sie den Text hier ein" ng-model="goal.other_description" class="form-control"></textarea>
-
-                            <span ng-class="{hide: !(fieldError(goal, 'other_description', goal.other_goal)  && goal.showError  && goal.other_goal > 0)}" class="hide">
-                              <label  class="error">Feld ist erforderlich</label>
-                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            </span>
-                            <br>
+                          <div class="col-lg-8 pull-right textarea-box" ng-show="single_goal.is_with_desc == '1' && single_goal.value > 0">
+                            <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'single_description',school, 'additional') && goal.showError)}">
+                              <textarea ng-disabled="!userCan('allFields', goal.status)" placeholder="Tragen Sie den Text hier ein" ng-model="single_goal.description" class="form-control"></textarea>
+                              <span ng-class="{hide: !(fieldError(goal, 'single_description',school, 'additional')  && goal.showError)}" class="hide">
+                                <label class="error">Feld ist erforderlich</label>
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                              </span>
+                              <br>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="wrap-hint" ng-class="{'wrap-line error': (groupError(goal, 'groupOffer') && goal.showError)}">
-
-                      <span ng-class="{hide: !(groupError(goal, 'groupOffer') && goal.showError)}" class="hide">
-                        <label  class="error">Wählen Sie ein Schwerpunktziel</label>
-                        <!--<span class="glyphicon glyphicon-remove form-control-feedback"></span>-->
-                      </span>
-
-                    </div>
-
-                    <label class="control-label">
-                      <h4>Interne / Externe Vernetzung</h4>
-                      <span spi-hint text="_hint.goals_groupNet.text" text="_hint.goals_groupNet.title" class="has-hint"></span>
-                    </label>
-<!--                    <span  ng-if="goal.groups.groupNet.counter > 2" >
-                        <label  class="error">Bitte wählen Sie nicht mehr als zwei Schwerpunktziele aus. Formulieren Sie bei Bedarf unter "sonstiges" ein eigenes Ziel.</label>
-                    </span>-->
-                    <div class="holder-radio">
-                      <div class="p-0 text-center">
-                        <div class="row">
-                          <span class="col-lg-2">Schwerpunktziel </span>
-                          <span class="col-lg-1">Weiteres Ziel</span>
-                          <span class="col-lg-1">kein Ziel</span>
-                        </div>
-                        <div class="row" ng-init="checkCount('groupNet', 'cooperation', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled" >
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.cooperation" ng-change="checkCount('groupNet', 'cooperation', goal)" >
-                              <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}" ></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.cooperation" ng-change="checkCount('groupNet', 'cooperation', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.cooperation"  ng-change="checkCount('groupNet', 'cooperation', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Zusammenarbeit im Tandem oder Tridem</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupNet', 'participation', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.participation" ng-change="checkCount('groupNet', 'participation', goal)" >
-                              <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.participation" ng-change="checkCount('groupNet', 'participation', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.participation" ng-change="checkCount('groupNet', 'participation', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Mitarbeit in schulischen Gremien, Treffen mit Schulleitung, Mitwirkung in AGs</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupNet', 'social_area', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.social_area" ng-change="checkCount('groupNet', 'social_area', goal)" >
-                              <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.social_area" ng-change="checkCount('groupNet', 'social_area', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.social_area" ng-change="checkCount('groupNet', 'social_area', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Öffnung der Schule in den Sozialraum</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupNet', 'third_part', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.third_part" ng-change="checkCount('groupNet', 'third_part', goal)" >
-                              <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.third_part" ng-change="checkCount('groupNet', 'third_part', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.third_part" ng-change="checkCount('groupNet', 'third_part', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Einbindung des Sozialraums bzw. Angebote Dritter in die Schule</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupNet', 'regional', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.regional" ng-change="checkCount('groupNet', 'regional', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.regional" ng-change="checkCount('groupNet', 'regional', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.regional" ng-change="checkCount('groupNet', 'regional', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Mitarbeit in regionalen Arbeitsgemeinschaften / Netzwerken</p>
-                        </div>
-
-                        <div class="row" ng-init="checkCount('groupNet', 'concept', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.concept" ng-change="checkCount('groupNet', 'concept', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.concept" ng-change="checkCount('groupNet', 'concept', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.concept" ng-change="checkCount('groupNet', 'concept', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Gemeinsame Handlungs- und Bildungskonzepte </p>
-                        </div>
-                        <div class="row" ng-init="checkCount('groupNet', 'net_other_goal', goal, 1)">
-                          <div class="label-holder col-lg-2">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="1" ng-model="goal.net_other_goal" ng-change="checkCount('groupNet', 'net_other_goal', goal)">
-                              <i class="fa" ng-class="{'err': goal.groups.groupNet.error  && goal.showError}"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="2" ng-model="goal.net_other_goal" ng-change="checkCount('groupNet', 'net_other_goal', goal)">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <div class="label-holder col-lg-1">
-                            <label class="cr-styled">
-                              <input ng-disabled="!userCan('allFields', goal.status)" type="radio" value="0" ng-model="goal.net_other_goal" ng-change="checkCount('groupNet', 'net_other_goal', goal)" checked="">
-                              <i class="fa"></i>
-                            </label>
-                          </div>
-                          <p class="col-lg-8">Sonstiges (Bezug in extra Textfeld benennen)</p>
-                        </div>
-                        <div class="col-lg-8 pull-right textarea-box" ng-show="goal.net_other_goal > 0">
-                          <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'network_text',  goal.net_other_goal ) && goal.showError && goal.net_other_goal > 0)}">
-                            <textarea ng-disabled="!userCan('allFields', goal.status)" ng-model="goal.network_text" placeholder="Tragen Sie den Text hier ein"  class="form-control"></textarea>
-
-                            <span ng-class="{hide: !(fieldError(goal, 'network_text', goal.net_other_goal)  && goal.showError  && goal.net_other_goal > 0)}" class="hide">
-                              <label  class="error">Feld ist erforderlich</label>
-                              <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            </span>
-                            <br>
-                          </div>
-                        </div>
+                      <div class="wrap-hint" ng-class="{'wrap-line error': (goal.total_count < 1 && goal.showError)}">
+                        <span ng-class="{hide: !(goal.total_count < 1 && goal.showError)}" class="hide">
+                          <label  class="error">Wählen Sie ein Schwerpunktziel</label>
+                        </span>
                       </div>
                     </div>
-                    <div class="wrap-hint" ng-class="{'wrap-line error': (groupError(goal, 'groupNet') && goal.showError)}">
-                      <span ng-class="{hide: !(groupError(goal, 'groupNet') && goal.showError)}" class="hide">
-                        <label  class="error">Wählen Sie ein Schwerpunktziel</label>
-                        <!--<span class="glyphicon glyphicon-remove form-control-feedback"></span>-->
-                      </span>
-                      <br>
-                    </div>
-
                     <label class="control-label">
                       <h4>Umsetzung</h4>
                       <span spi-hint text="_hint.implementation.text" title="_hint.implementation.title" class="has-hint"></span>
                     </label>
-
                     <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'implementation') && goal.showError)}">
                       <textarea ng-disabled="!userCan('allFields', goal.status)" required ng-model="goal.implementation" class="form-control" placeholder="Tragen Sie den Text hier ein"></textarea>
 
@@ -565,8 +198,7 @@
                       </div>
                     </div>
                     <hr />
-                  </div>
-                  <div class="row">
+                    <div class="row">
                     <div ng-show=" userCan('textNotice', goal.status) " class="col-lg-9 ">
                       <h4 class="m-t-0">Prüfnotiz</h4>
                       <textarea ng-disabled="!userCan('allFields', goal.status) && !userCan('textNotice', goal.status)"  ng-model="goal.newNotice" placeholder="Tragen Sie den Text hier ein" class="form-control"></textarea>
@@ -581,18 +213,15 @@
                       </div>
                     </div>
                   </div>
-
+                  </div>                  
                 </div>
               </div>
-
             </div>
-
           </div>
         </div>
       </div>
-</form>
-    </div>
-
-
+      
+   </form>
   </div>
+</div>
 

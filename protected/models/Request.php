@@ -427,12 +427,23 @@ class Request extends BaseModel {
           $goalData = array(
             'request_id' => $result['id'],
             'school_id'  => $school_id,
-            'goal_id'  => $i,
+            'goal_number'  => $i,
             'option'  => $opt,              
-            'is_active'  => $active,
-            'name' => 'Entwicklungsziel ' . $i
+            'is_active'  => $active
           );
           $RequestSchoolGoal->insert($goalData, true);
+          $id =  Yii::app()->db->createCommand()->select('id')->from('spi_request_school_goal')
+                  ->where('request_id = :request_id AND school_id = :school_id AND goal_number = :goal_number', 
+                          array(':request_id'=>$result['id'],'school_id'=>$school_id,'goal_number'=>$i))->queryScalar();
+          $goals = Yii::app()->db->createCommand()->select('id')->from('spi_goal')->where('1=1')->queryAll();
+          foreach ($goals as $goal){
+            $RequestGoal = CActiveRecord::model('RequestGoal');
+            $RequestGoal ->user = $this->user;
+            $goal = array(
+              'request_school_goal_id' => $id,
+              'goal_id'  => $goal['id']);
+            $RequestGoal->insert($goal, true);
+          }
         }
       }
 
@@ -496,7 +507,10 @@ class Request extends BaseModel {
       $RequestSchoolGoal = CActiveRecord::model('RequestSchoolGoal');
       $RequestSchoolGoal->user = $this->user;
       foreach ($this->school_goals as $id=>$data) {
-        $RequestSchoolGoal->update($id, $data, true);
+        if(isset($data['total_count'])){
+          unset($data['total_count']);
+        };
+        $RequestSchoolGoal->update($id, $data, true);        
       }
     }
 
@@ -1106,7 +1120,7 @@ class Request extends BaseModel {
     
    }
 
-  protected function copyData($table, $model,$oldId, $newId){
+  protected function copyData($table, $model, $oldId, $newId){
 
     $command = Yii::app() -> db -> createCommand() -> select('*') -> from($table);
     $command -> where('request_id = :id', array(':id' => $oldId));
@@ -1131,12 +1145,29 @@ class Request extends BaseModel {
         default:
 
           break;
-      }
-
+      }   
+      $id = $row['id'];
       unset($row['id']);
 
       $row['request_id'] = $newId;
       $model->insert($row, true);
+      
+      if($table == 'spi_request_school_goal'){
+        $RequestGoal = CActiveRecord::model('RequestGoal');
+        $RequestGoal ->user = $this->user;
+        $goal_command = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_request_goal');
+        $goal_command -> where('request_school_goal_id = :id', array(':id' => $id));
+        $new_value_goal = $goal_command ->queryAll();
+        $last_id = Yii::app()->db->createCommand()->select('id')->from('spi_request_school_goal')
+                  ->where('request_id = :request_id AND school_id = :school_id AND goal_number = :goal_number', 
+                          array(':request_id'=>$row['request_id'],'school_id'=>$row['school_id'],'goal_number'=>$row['goal_number']))->queryScalar();     
+        foreach ($new_value_goal as $row_goal) {
+          $row_goal['request_school_goal_id'] = $last_id;
+          unset($row_goal['id']);
+          $RequestGoal->insert($row_goal, true);
+        };
+      };
+      
     }
 
   }
@@ -1148,10 +1179,21 @@ class Request extends BaseModel {
     $new_value = $command ->queryAll();
 
     foreach ($new_value as $row) {
+      if($table == 'spi_request_school_goal'){
+        $RequestGoal = CActiveRecord::model('RequestGoal');
+        $RequestGoal ->user = $this->user;
+        $goal_command = Yii::app() -> db -> createCommand() -> select('*') -> from('spi_request_goal');
+        $goal_command -> where('request_school_goal_id = :id', array(':id' => $row['id']));
+        $new_value_goal = $goal_command ->queryAll();
+        
+        foreach ($new_value_goal as $row_goal) {
+          $RequestGoal->delete($row_goal['id'],  true);
+        }
+      }
       $model->delete($row['id'],  true);
     }
 
-    $this->copyData($table, $model,$oldId, $newId);
+    $this->copyData($table, $model, $oldId, $newId);
   }
 
 }

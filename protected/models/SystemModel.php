@@ -199,4 +199,25 @@ class SystemModel extends BaseModel
         exit ();
 
     }
+    
+    public function updateGoals(){
+      $request_school_ids = Yii::app()->db->createCommand()->select('id')->from('spi_request_school_goal')->where('1=1')->queryAll();
+      $goals = Yii::app()->db->createCommand()->select('id')->from('spi_goal')->where('1=1')->queryAll();
+      foreach ($request_school_ids as $key=>$value) {
+        foreach ($goals as $goal){          
+          $columns = array(
+            'request_school_goal_id' => $value['id'],
+            'goal_id' => $goal['id']            
+          );
+          if($goal['id'] == 1){
+            $columns['value'] = 1;
+          };
+          Yii::app()->db->createCommand()->insert('spi_request_goal', $columns);  
+        }      
+      };
+      
+       header ( 'Content-Type: application/json' );
+        echo json_encode ( array('results' => 'done') );
+        exit ();
+    }
   }
