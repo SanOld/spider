@@ -615,11 +615,12 @@ class Request extends BaseModel {
     $Request = CActiveRecord::model('RequestLock');
     $Request->user = $this->user;
     $isExistRequestLock = $this->isExistRequestLock($request_id);
-    if ((safe($post, 'status_id') == 4  || safe($post, 'status_id') == 5) && $post['old']['status_id'] != 4 && $post['old']['status_id'] != 5){
-      if($isExistRequestLock){
+
+    if ((safe($post, 'status_id') == 4  || safe($post, 'status_id') == 5) ){
+      if($post['old']['status_id'] != 4 && $post['old']['status_id'] != 5){
         $Request->delete($isExistRequestLock, true);
+        $Request->insert(array('request_id'=>$request_id, ), true);
       }
-      $Request->insert(array('request_id'=>$request_id, ), true);
     } else {
       if($isExistRequestLock){
         $Request->delete($isExistRequestLock, true);
