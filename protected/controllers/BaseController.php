@@ -23,7 +23,8 @@ define('MODELS', 'User, UserType, UserTypeRight,
                   Hint,
                   BankDetails,
                   FinanceSource,
-                  Request, RequestStatus, RequestSchoolConcept, RequestSchoolGoal, RequestSchoolFinance,
+                  Goal,
+                  Request, RequestStatus, RequestSchoolConcept, RequestGoal, RequestSchoolGoal, RequestSchoolFinance,
                   SystemModel,
                   AuditTables, Audit,
                   DocumentTemplate, DocumentTemplateType, DocumentTemplatePlaceholder, EmailTemplate,
@@ -111,17 +112,17 @@ class BaseController extends Controller {
         case 'post' :
           if($_GET['model'] == 'SystemModel') {
             if($auth->user['type'] == 'a') {
-              switch($_POST['run']) {
-                case 'startAllTablesAudit':$this -> model ->startAllTablesAudit();
-                  break;
-                case 'updateTablesAudit':$this -> model ->updateTablesAudit();
-                  break;
-                case 'deleteTablesAudit':$this -> model ->deleteTablesAudit();
-                  break;
-                case 'updateReuest':$this -> model ->updateReuest();
-                  break;
-              }
-
+              $this -> model ->{$_POST['run']}();
+//              switch($_POST['run']) {
+//                case 'startAllTablesAudit':$this -> model ->startAllTablesAudit();
+//                  break;
+//                case 'updateTablesAudit':$this -> model ->updateTablesAudit();
+//                  break;
+//                case 'deleteTablesAudit':$this -> model ->deleteTablesAudit();
+//                  break;
+//                case 'updateReuest':$this -> model ->updateReuest();
+//                  break;
+//              }
             } else {
               response('403', array ( 'result'      => false
                                     , 'system_code' => 'ERR_PERMISSION'

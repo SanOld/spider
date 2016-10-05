@@ -105,7 +105,7 @@ class FinanceReport extends BaseModel {
       if(safe($post,'overhead_cost')){
         $Request = CActiveRecord::model('Request');
         $Request->user = $this->user;
-        $requestInfo = $Request->select(array('id' => safe($post, 'request_id')), true);
+        $requestInfo = $Request->select(array('id' => safe($post, 'request_id'), 'year' => safe($post, 'request_year')), true);
         $this->requestData = $requestInfo['result'][0];
         
         $Project = CActiveRecord::model('Project');
@@ -118,8 +118,8 @@ class FinanceReport extends BaseModel {
         
         $Report = CActiveRecord::model('FinanceReport');
         $Report->user = $this->user;
-        $reportInfo = $Report->select(array('code' => $post['project_code']. '/' .$post['code']), true);
-        if(!safe($reportInfo['result'],0)){          
+        $reportInfo = $Report->select(array('code' => $post['project_code']. '/' .$post['code'], 'request_id' => safe($post, 'request_id')), true);
+        if(!safe($reportInfo['result'], 0)){
           $post['request_id'] = $this->requestData['id'];
           $post['cost_type_id'] = 5;
           $post['report_cost'] = $this->requestData['overhead_cost'];
@@ -129,31 +129,32 @@ class FinanceReport extends BaseModel {
           $post['status_id_pa'] = 2;
           $post['status_message'] = 'in_progress';
           $post['payment_date'] = '0000-00-00';
-          unset($post['overhead_cost']);
-        }else{
-          unset($post['code']);
+          unset($post['overhead_cost']); 
+          unset($post['request_year']); 
+          
+          $post['code'] = $post['project_code']. '/' .$post['code'];
           unset($post['project_code']);
+          unset($post['report_type_id']);
+
+          if(!safe($post,'chargeable_cost')){
+            $post['chargeable_cost'] = $post['report_cost'];
+          };
+
           return array(
-            'code' => '409',
+              'result' => true,
+              'params' => $post
+          );
+        } else{
+          return array(
+            'code' => '200',
             'result' => false,
-            'system_code' => 'ERR_DUPLICATED',
+              'params' => $this->requestData,
+            'system_code' => 'DUPLICATED',
             'message' => 'Beleg existiert bereits'
           );
         };     
       };
       
-      $post['code'] = $post['project_code']. '/' .$post['code'];
-      unset($post['project_code']);
-      unset($post['report_type_id']);
-      
-      if(!safe($post,'chargeable_cost')){
-        $post['chargeable_cost'] = $post['report_cost'];
-      };
-      
-      return array(
-          'result' => true,
-          'params' => $post
-      );
   }
   
   protected function doBeforeUpdate($post, $id) {

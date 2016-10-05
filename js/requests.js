@@ -194,7 +194,8 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     if(!row) {
       return $rootScope.canEdit();
     } else {
-      return  (network.user.type == 'a' || (row.status_code != 'decline' && row.status_code != 'accept'  && row.status_code != 'acceptable')) && $rootScope.canEdit();
+      return  (network.user.type == 'a' || (row.status_code != 'decline' && row.status_code != 'accept' && row.status_code != 'acceptable' && network.user.type == 't')
+        || (row.status_code != 'decline' && row.status_code != 'accept' && network.user.type != 't')) && $rootScope.canEdit();
     }
   };
 
@@ -332,12 +333,12 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
               objFailCodes[code]['id'] = id;
             }
             var text = {plural : [], singular: []};
-            text['plural'][1] = 'Anträge';
-            text['plural'][2] = 'können nicht eröffnen sein.';
+            text['plural'][1] = 'Die Anträge für';
+            text['plural'][2] = 'existieren bereits und können nicht doppelt angelegt werden.';
             text['plural'][3] = 'werden hinzufügen.';
 
-            text['singular'][1] = 'Antrag';
-            text['singular'][2] = 'kann nicht eröffnen sein. Antrag für dieses Projekt schon existiert.';
+            text['singular'][1] = 'Der Antrag für';
+            text['singular'][2] = 'existiert bereits und kann nicht doppelt angelegt werden.';
             text['singular'][3] = 'wird hinzufügen.';
 
             if (failCodes.length == 1){

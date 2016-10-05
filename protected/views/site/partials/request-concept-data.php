@@ -34,13 +34,13 @@
                     <label class="control-label">
                       1. Situation an der Schule<span spi-hint text="_hint.school_concept_situation.text"  title="_hint.school_concept_situation.title"  class="has-hint"></span>
                     </label>
-                    <div class="wrap-hint"  ng-class="{'wrap-line error': fieldError($index, 'situation') && conceptShowErrors}">
+                    <div class="wrap-hint"  ng-class="{'wrap-line error': fieldError($index, 'situation') && conceptShowErrors && !fullscreen}">
                       <textarea id="area-{{::schoolConcept.id}}-1" name="situation"
                                   class="form-control custom-height animate-textarea textarea-2" ng-model="school_concept[schoolConcept.id].situation"
                                   placeholder="Tragen Sie den Text hier ein" ng-focus="textareaClass == 'area-1' ? type = 'situation' : type = 'offers_youth_social_work'; schoolConcept.oldValue = school_concept[schoolConcept.id].situation"
                                   ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'" required></textarea>                      
                         <div class="btn-row" ng-if="!isTextareaShow && !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted')">
-                          <button class="btn m-t-2 fullscreen1" ng-class="{'textarea-fullscreen-error': fieldError($index, 'situation') && conceptShowErrors}"
+                          <button class="btn m-t-2 fullscreen1" ng-class="{'textarea-fullscreen-error': fieldError($index, 'situation') && conceptShowErrors && !fullscreen}"
                                   ng-click="textOnFocus(schoolConcept.id, 1, schoolConcept.status)"> &nbsp;</button>
                         </div>                     
                     </div>
@@ -49,13 +49,13 @@
                     <label class="control-label">
                       2. Angebote der Jugendsozialarbeit an der Schule<span spi-hint text="_hint.school_concept_offers_youth_social_work.text"  title="_hint.school_concept_offers_youth_social_work.title"  class="has-hint"></span>
                     </label>
-                    <div class="wrap-hint"  ng-class="{'wrap-line error': fieldError($index, 'offers_youth_social_work') && conceptShowErrors}">
+                    <div class="wrap-hint"  ng-class="{'wrap-line error': fieldError($index, 'offers_youth_social_work') && conceptShowErrors && !fullscreen}">
                       <textarea id="area-{{::schoolConcept.id}}-2" name="offers_youth_social_work"
                                   class="form-control custom-height animate-textarea textarea-2" ng-model="school_concept[schoolConcept.id].offers_youth_social_work"
                                   placeholder="Tragen Sie den Text hier ein" ng-focus="textareaClass == 'area-1' ? type = 'situation' : type = 'offers_youth_social_work'; schoolConcept.oldValue = school_concept[schoolConcept.id].offers_youth_social_work "
                                   ng-readonly="!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted'" required></textarea>                      
                       <div class="btn-row" ng-if="!isTextareaShow && !(!canFormEdit || (schoolConcept.status == 'in_progress' && !canAccept) || schoolConcept.status == 'accepted')">
-                        <button class="btn m-t-2 fullscreen2" ng-class="{'textarea-fullscreen-error': fieldError($index, 'offers_youth_social_work') && conceptShowErrors}"
+                        <button class="btn m-t-2 fullscreen2" ng-class="{'textarea-fullscreen-error': fieldError($index, 'offers_youth_social_work') && conceptShowErrors && !fullscreen}"
                                 ng-click="textOnFocus(schoolConcept.id, 2, schoolConcept.status)"> &nbsp;</button>
                       </div>
                     </div>

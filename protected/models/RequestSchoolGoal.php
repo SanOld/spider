@@ -60,7 +60,24 @@ class RequestSchoolGoal extends BaseModel {
       unset ($row['school_name']);
       unset ($row['school_number']);
 
-      $schools[$row['school_id']]['goals'][$row['goal_id']] = $row;
+      $schools[$row['school_id']]['goals'][$row['goal_number']] = $row;
+      $goals = Yii::app() -> db -> createCommand()
+                                    -> select('*, gl.name, rgl.id request_goal_id')
+                                    -> from('spi_request_goal rgl')
+                                    -> leftJoin('spi_goal gl', 'rgl.goal_id = gl.id' )
+                                    -> where('rgl.request_school_goal_id = :id', array(':id' => $row['id']))
+                                    -> queryAll();
+      $updated_goals = array();
+      foreach ($goals as $goal){
+        $updated_goals[$goal['request_goal_id']] = array(
+            'value' => $goal['value'],
+            'description' => $goal['description'],
+            'name' => $goal['name'],
+            'is_with_desc' => $goal['is_with_desc'],
+        );
+      }
+      $schools[$row['school_id']]['goals'][$row['goal_number']]['goals'] = $updated_goals;
+      
     }
     $result['result'] = $schools;
 
@@ -94,6 +111,28 @@ class RequestSchoolGoal extends BaseModel {
       );
 
     }
+  }
+  
+  protected function doBeforeUpdate($post, $id) {   
+    if(safe($post, 'goals')){
+      $RequestGoal = CActiveRecord::model('RequestGoal');
+      $RequestGoal->user = $this->user;
+      foreach ($post['goals'] as $goal_id => $goal){
+        $goalToUpdate = array(
+            'value' => $goal['value'],
+            'description' => $goal['description']
+        );
+        $RequestGoal->update($goal_id, $goalToUpdate, true);
+      };
+      unset($post['goals']);
+    }   
+    
+    return array (
+      'result' => true,
+      'params' => $post,
+      'post' => $post
+    );
+
   }
 
   protected function doAfterUpdate($result, $params, $post, $id) {

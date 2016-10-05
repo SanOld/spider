@@ -80,22 +80,22 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     var conceptErors  = RequestService.hasErrorsConceptForm(); //boolean
     var financeErors  = RequestService.hasErrorsFinanceForm(); //array[]
     var completed = '';
-      if(!financeErors.length){
-        completed += 'Finanzplan, ';
-      }else{
-        RequestService.setErrorsFinanceForm(true);
-      }
-      if(!conceptErors){
-        completed += 'Konzept, ';
-      }else{
-        RequestService.setErrorsConceptForm();
-      }
-      if(!goalErors.length){
-        completed += 'Entwicklungsziele, ';
-      }else{
-        RequestService.setErrorsGoalsForm(true);
-      };
-    if(completed.length){
+    if(!financeErors.length && ($scope.financeStatus != 'accepted' && $scope.financeStatus != 'in_progress')){
+      completed += 'Finanzplan, ';
+    }else if(financeErors.length){
+      RequestService.setErrorsFinanceForm(true);
+    }
+    if(!conceptErors && ($scope.conceptStatus != 'accepted' && $scope.conceptStatus != 'in_progress')){
+      completed += 'Konzept, ';
+    }else if(conceptErors.length){
+      RequestService.setErrorsConceptForm();
+    }
+    if(!goalErors.length && ($scope.goalsStatus != 'accepted' && $scope.goalsStatus != 'in_progress')){
+      completed += 'Entwicklungsziele, ';
+    }else if(goalErors.length){
+      RequestService.setErrorsGoalsForm(true);
+    };
+    if(completed.length && network.user.type == 't'){
       completed = completed.substring(0, completed.length - 2);
       Notification.info({title: 'Antragsteile sind fertig ausgefüllt:', message: completed});
     }
@@ -259,8 +259,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
             $scope.checkIfReadyToSend();
           };
           RequestService.afterSave();
+          console.log(data.year);
           if(changeStatus && data.status_id == 5){
-            network.post('finance_report', {overhead_cost: true, request_id: data.id}, function(result, response) {});
+            network.post('finance_report', {overhead_cost: true, request_id: data.id, request_year: $scope.requestYear}, function(result, response) {});
           };            
         };
       });
@@ -2060,8 +2061,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.count = [];
   $scope.deleted = [];
   $scope.requestSchoolGoal = function(){
-    network.get('request_school_goal'
-    , {request_id: $scope.$parent.requestID}, function (result, response) {
+    network.get('request_school_goal', {request_id: $scope.$parent.requestID}, function (result, response) {
       if (result) {
         $scope.schoolGoals = response.result;
         $scope.checkSchoolStatus();
@@ -2070,6 +2070,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           var schools = $scope.schoolGoals;
           for (var goal in schools[school].goals) {
             $scope.schoolGoals[school].goals[goal].newNotice = $scope.schoolGoals[school].goals[goal].notice;
+            $scope.schoolGoals[school].goals[goal].errors = {};
             var goals = schools[school].goals;
             if(goals[goal].is_active == 1){
               ++$scope.count[school];
@@ -2079,10 +2080,10 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         }
       }
     });
-  }
+  }  
 
   $scope.requestSchoolGoal();
-
+  
   $scope.canGoalsEdit = function(){
     if(($scope.$parent.goalsStatus == 'unfinished'|| $scope.$parent.goalsStatus == 'rejected') && $scope.canEdit()){
       return true;
@@ -2134,19 +2135,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
             for(var el in $scope.schoolGoals[school_id].goals[goal][element]){
               $scope.schoolGoals[school_id].goals[goal][element][el] = true;                               
             }              
-          }else if(element == 'groups'){              
-            for(var el in $scope.schoolGoals[school_id].goals[goal][element]){
-              for(var item in $scope.schoolGoals[school_id].goals[goal][element][el]){
-                if(item == 'error'){                    
-                  $scope.schoolGoals[school_id].goals[goal][element][el][item] = true;  
-                }else if(item == 'counter'){
-                  $scope.schoolGoals[school_id].goals[goal][element][el][item] = 0; 
-                }else{
-                  $scope.schoolGoals[school_id].goals[goal][element][el][item] = '0';
-                } 
-              }                            
-            }
-          }else if(element != 'id' && element != 'request_id' && element != 'school_id' && element != 'goal_id' && element != 'option' && element != 'name' && element != 'status'){
+          }else if(element != 'id' && element != 'request_id' && element != 'school_id' && element != 'goal_number' && element != 'option' && element != 'name' && element != 'status' && element != 'goals'){
             if($scope.schoolGoals[school_id].goals[goal][element] && $scope.schoolGoals[school_id].goals[goal][element] != '' && isNaN($scope.schoolGoals[school_id].goals[goal][element]*1)){
               $scope.schoolGoals[school_id].goals[goal][element] = '';
             }
@@ -2161,39 +2150,22 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     }     
   }
   
-  $scope.checkCount = function(group, key, goal, flag){
-    var init = flag || 0;
-
-    if (!('groups' in goal)){
-      goal.groups = {};
+  $scope.checkCount = function(goal, goals){
+    if (!('errors' in goal)){
       goal.errors = {};
     }
-    if (!(group in goal.groups)){
-      goal.groups[group] = {};
-      goal.groups[group].counter = 0;
-    }
-    var currentGroup = goal.groups[group];
-
-    if (!(key in currentGroup)){
-      currentGroup[key] = goal[key];
-    }
-
-    if(!init){
-      if (goal[key] === '1'){
-        currentGroup.counter++;
-      } else if(currentGroup[key] === '1') {
-        currentGroup.counter--;
-      }
-    } else {
-      if (goal[key] === '1'){
-        currentGroup.counter++;
-      }
-    }
-    goal.total_count = 0;
-    for(var item in goal.groups){
-      goal.total_count += goal.groups[item].counter;
+    var total_count = 0;
+    for(var i in goals){ 
+      if(goals[i].value == '1'){
+        ++total_count;
+      };
     };
-    currentGroup[key] = goal[key];
+    goal.total_count = total_count;
+    if(total_count > 2 || total_count < 1){      
+      goal.errors.total_count = total_count;
+    }else{
+      delete goal.errors.total_count;
+    }
   }
 
   $scope.checkSchoolStatus = function(){
@@ -2269,20 +2241,14 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return $scope.activeTab;
   }
 
-  $scope.submitForm = function( goal, action ) {      
-      goal.total_count = 0;
-      for(var item in goal.groups){
-        goal.total_count += goal.groups[item].counter;
-      };
-
+  $scope.submitForm = function( goal, action ) {
       submitRequest = function(){
         var sendGoal = angular.copy(goal);
-        if ('groups' in sendGoal){delete sendGoal.groups;}
         if ('errors' in sendGoal){delete sendGoal.errors;}
+        if ('total_count' in sendGoal){delete sendGoal.total_count;}
         if ('showError' in sendGoal){delete sendGoal.showError;}
         if ('newNotice' in sendGoal){delete sendGoal.newNotice;}
-        if ('total_count' in sendGoal){delete sendGoal.total_count;}
-          network.put('request_school_goal/' + sendGoal.id, sendGoal, function(result){
+        network.put('request_school_goal/' + sendGoal.id, sendGoal, function(result){
             if(result) {
               $scope.checkSchoolStatus();
             }
@@ -2342,8 +2308,6 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         if(angular.isObject($scope.schoolGoals[school])){
           var goals = angular.copy($scope.schoolGoals[school].goals);
           for(var goal in goals){
-            delete goals[goal].total_count;
-            delete goals[goal].groups;
             delete goals[goal].errors;
             delete goals[goal].showError;
             goals[goal].notice = goals[goal].newNotice;
@@ -2423,37 +2387,30 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return results;
   }
 
-  $scope.fieldError = function (goal, field, condition) {
-    var check = condition || true;
-    if(check != '0' ){
-      if(goal[field] == undefined || goal[field] == ''){
-        goal.errors[field] = true;
-        return true;
-      } else {
-        delete goal.errors[field];
-        return false;
-      }
+  $scope.fieldError = function (goal, field, school, additional) {
+    if(additional){
+      for(var i in goal.goals){
+        if(goal.goals[i].value == '0' && goal.goals[i].is_with_desc == '1'){
+          goal.goals[i].description = '';
+          delete goal.errors[field];
+          return false;
+        }
+        if(goal.goals[i].is_with_desc == '1' && (goal.goals[i].description  == undefined || goal.goals[i].description  == '') && goal.goals[i].value != '0'){
+          goal.errors[field] = true;
+          return true;
+        }
+        if(goal.goals[i].is_with_desc == '1' && goal.goals[i].description  != undefined && goal.goals[i].description  != '' && goal.goals[i].value != '0'){
+          delete goal.errors[field];
+          return false;
+        }
+      };
+    }
+    if(goal[field] == undefined || goal[field] == ''){
+      goal.errors[field] = true;
+      return true;
     } else {
       delete goal.errors[field];
       return false;
-    }
-
-  }
-
-  $scope.groupError = function(goal, group){
-    if(goal.groups !== undefined && goal.groups[group] !== undefined){
-      if(goal.groups[group].counter == undefined || goal.groups[group].counter == 0){
-        goal.groups[group].error = true;
-        goal.errors[group] = true;
-        return true;
-      } else {
-        goal.groups[group].error = false;
-        delete goal.errors[group];
-        return false;
-      }
-    } else {
-//      goal.errors[group] = true;
-      return true;
     }
   }
   
@@ -2512,7 +2469,7 @@ spi.controller('ModalDurationController', function ($scope, start_date, due_date
   
   network.get('request', {id: ids[0]},function(result, response){
     if(result){
-      $scope.request_date = new Date('01-01-'+ response.result.year);
+      $scope.request_date = new Date(response.result.year,'0','1');
       $scope.request_year = response.result.year;
       $timeout(function(){
         $scope.dateOptions = {
@@ -2556,7 +2513,7 @@ spi.controller('ModalEndFillController', function ($scope, start_date, due_date,
 
   network.get('request', {id: ids[0]},function(result, response){
     if(result){
-      $scope.request_date = new Date('01-01-'+ response.result.year);
+      $scope.request_date = new Date(response.result.year,'0','1');
       $scope.request_year = response.result.year;
       $timeout(function(){
         $scope.dateOptions = {

@@ -184,17 +184,15 @@ class DocumentTemplate extends BaseModel {
           $Request->user = $this->user;
           $requestInfo = $Request->select(array('request_id' => safe($_GET, 'request_id')), true);
           $this->requestSchoolFinance = $requestInfo['result'];
-          /*end request_school_finance*/
+          /*end request_school_finance*/          
           
-          if($this->user['is_finansist'] == '1'){
             /*start BankDetails*/
             $Request = CActiveRecord::model('BankDetails');
             $Request->user = $this->user;
 
-            $requestInfo = $Request->select(array('performer_id' => $this->requestData['performer_id'] ), true);
+            $requestInfo = $Request->select(array('id' => $this->requestData['bank_details_id'] ), true);
             $this->bankDetails = $requestInfo['result'][0];
             /*end BankDetails*/
-          };          
 
           /*start RequestProfAssociation*/
           $Request = CActiveRecord::model('RequestProfAssociation');
@@ -214,7 +212,7 @@ class DocumentTemplate extends BaseModel {
       $this->requestSchoolConcept = $requestInfo['result'];
       /*end request_school_concept*/
 
-      /*start request_school_goal*/
+      /*start request_school_ */
       $Request = CActiveRecord::model('RequestSchoolGoal');
       $Request->user = $this->user;
       $requestInfo = $Request->select(array('request_id' => safe($_GET, 'request_id')), true);
@@ -467,71 +465,39 @@ class DocumentTemplate extends BaseModel {
 
   private function repeatGoal($data){
     $text = array();
-    $groupOffer_priorityGoal = '';
-    $groupOffer_plainGoal = '';
-    $groupOffer = array(
-          'capacity' => 'Verbesserung der (vorberuflichen) Handlungskompetenzen'
-        , 'transition' => 'Verbesserung aller Übergänge in Schule (Kita-GS-Sek I-Sek II) und in Aus'
-        , 'reintegration' => 'Abbau von Schuldistanz; Reintegration in den schulischen Alltag'
-        , 'social_skill' => 'Stärkung der sozialen Kompetenzen und des Selbstvertrauen'
-        , 'prevantion_violence' => 'Gewaltprävention und -intervention'
-        , 'health' => 'Gesundheitsförderung'
-        , 'sport' => 'Förderung sportlicher, kultureller und sportlicher Interessen'
-        , 'parent_skill' => 'Einbindung der Eltern und Stärkung der Erziehungskompetenzen'
-        , 'other_goal' => 'Sonstiges (Bezug in extra Textfeld benennen)'
-    );
-
-    $groupNet = array(
-          'cooperation' => 'Zusammenarbeit im Tandem oder Tridem'
-        , 'participation' => 'Mitarbeit in schulischen Gremien, Treffen mit Schulleitung, Mitwirkung in AGs'
-        , 'social_area' => 'Öffnung der Schule in den Sozialraum'
-        , 'third_part' => 'Einbindung des Sozialraums bzw. Angebote Dritter in die Schule'
-        , 'regional' => 'Mitarbeit in regionalen Arbeitsgemeinschaften / Netzwerken'
-        , 'concept' => 'Gemeinsame Handlungs- und Bildungskonzepte'
-        , 'net_other_goal' => 'Sonstiges (Bezug in extra Textfeld benennen)'
-    );
-
+    
     foreach ($this->goals as $key => $goal) {
       if($goal['description'] == ''){
         continue;
       }
-      $groupNet_priorityGoal = '';
-      $groupNet_plainGoal = '';
-      $groupOffer_priorityGoal = '';
-      $groupOffer_plainGoal = '';
+      $priorityGoal = '';
+      $plainGoal = '';
+      
+      $requestGoal = Yii::app() -> db -> createCommand()
+                             -> select('tbl.*, gl.name goal_name') -> from('spi_request_goal tbl')
+                             -> join('spi_goal gl', 'tbl.goal_id = gl.id')
+                             -> where('request_school_goal_id = :goal_id ', array(':goal_id' => safe($goal, 'id'))) -> queryAll();
 
-
-      foreach($groupNet as $groupKey=>$groupValue){
-        if($goal[$groupKey] == '1'){
-          $groupNet_priorityGoal .= $groupValue.'<br>';
-        } else if($goal[$groupKey] == '2'){
-          $groupNet_plainGoal .= $groupValue.'<br>';
-        }
-      }
-
-
-      foreach($groupOffer as $groupKey=>$groupValue){
-        if($goal[$groupKey] == '1'){
-          $groupOffer_priorityGoal .= $groupValue.'<br>';
-        } else if($goal[$groupKey] == '2'){
-          $groupOffer_plainGoal .= $groupValue.'<br>';
+      foreach($requestGoal as $single_goal){
+        if($single_goal['value'] == '1'){
+          $priorityGoal .= $single_goal['goal_name'].'<br>';
+          safe($single_goal,'description') && $single_goal['description'] != '' && $single_goal['description'] != null ? $other_description = $single_goal['description'] : $other_description = '';
+        } else if($single_goal['value'] == '2'){
+          $plainGoal .= $single_goal['goal_name'].'<br>';
+          safe($single_goal,'description') && $single_goal['description'] != '' && $single_goal['description'] != null ? $other_description = $single_goal['description'] : $other_description = '';
         }
       }
       
       $params = array(
             '{FOREACH=GOAL KEY=GD}'           => ''
           , '{FOREACH_END=GOAL}'              => ''
-          , '{GD_NAME}'                       => safe($goal,'name') ? $goal['name'] : ''
+          , '{GD_NAME}'                       => 'Entwicklungziel '.safe($goal,'goal_number')
           , '{GD_DESCRIPTION}'                => safe($goal,'description') ? $goal['description'] : ''
 
-          , '{GD_GROUPOFFER_SCHWERPUNKTZIEL}' => $groupOffer_priorityGoal
-          , '{GD_GROUPOFFER_WEITERESZIEL}'    => $groupOffer_plainGoal
-          , '{GD_GROUPOFFER_OTHER}'           => safe($goal,'other_description') ? $goal['other_description'] : ''
+          , '{GD_SCHWERPUNKTZIEL}'            => $priorityGoal
+          , '{GD_WEITERESZIEL}'               => $plainGoal
+          , '{GD_OTHER}'                      => $other_description
 
-          , '{GD_GROUPNET_SCHWERPUNKTZIEL}'   => $groupNet_priorityGoal
-          , '{GD_GROUPNET_WEITERESZIEL}'      => $groupNet_plainGoal
-          , '{GD_GROUPNET_OTHER}'             => safe($goal,'network_text') ? $goal['network_text'] : ''
-              
           , '{GD_UMSETZUNG}'                  => safe($goal,'implementation') ? $goal['implementation'] : ''
 
           , '{GD_INDIKATOREN1}'               => safe($goal,'indicator_1') ? $goal['indicator_1'] : ''

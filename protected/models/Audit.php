@@ -50,6 +50,15 @@ class Audit extends BaseModel {
                                       -> join('spi_project prj', 'prj.id=req.project_id ')
                                       -> where('req.id=:record_id', array(':record_id' => $row['record_id']))
                                       -> queryScalar();
+      } elseif ($table_code == 'request_goal') {
+        $row['main_code'] = Yii::app() -> db -> createCommand() 
+                                      -> select('CONCAT(prj.code, "(", req.year ,")")') 
+                                      -> from('spi_'.$table_code.' tbl')
+                                      -> join('spi_request_school_goal scg', 'scg.id=tbl.request_school_goal_id ')
+                                      -> join('spi_request req', 'req.id=scg.request_id ')
+                                      -> join('spi_project prj', 'prj.id=req.project_id ')
+                                      -> where('tbl.id=:record_id', array(':record_id' => $row['record_id']))
+                                      -> queryScalar();
       } elseif (strrpos($table_code, 'request') !== false) {
         $row['main_code'] = Yii::app() -> db -> createCommand() 
                                       -> select('CONCAT(prj.code, "(", req.year ,")")') 
@@ -136,6 +145,33 @@ class Audit extends BaseModel {
                   //request is not exists
                   $query = "(1<>1";
                   break;
+                }
+              } elseif($table == 'spi_request_goal') {
+                try {
+                  $com = Yii::app() -> db -> createCommand()
+                                          -> select('tbl.id') 
+                                          -> from($table.' tbl')
+                                          -> join('spi_request_school_goal scg', 'scg.id=tbl.request_school_goal_id')
+                                          -> join('spi_request req', 'req.id=scg.request_id ')
+                                          -> join('spi_project prj', 'prj.id=req.project_id ')
+                                          -> where('1=1');
+
+                  if(safe($params, 'REQUEST_CODE')) {
+                    $com->andWhere('prj.code LIKE :code', array(':code' => '%'.safe($params, 'REQUEST_CODE').'%'));
+                  }
+                  if(safe($params, 'REQUEST_YEAR')) {
+                    $com->andWhere('req.year=:year', array(':year' => safe($params, 'REQUEST_YEAR')));
+                  }
+                  $res = $com -> queryAll();
+                  if($res) {
+                    $ids = array();
+                    foreach ($res as $resRow) {
+                      $ids[] = $resRow['id'];
+                    }
+                    $query .= "\n OR (tbl.table_name = '".$table."' AND tbl.record_id IN(".  implode(', ', $ids).'))';
+                  }
+                } catch (Exception $e) {
+                  //skip
                 }
               } else {
                 try {
