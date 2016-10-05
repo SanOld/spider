@@ -106,7 +106,21 @@ class DocumentTemplate extends BaseModel {
 
       /*start performerUsers*/
 
-      if ($this->requestData['status_id'] == '5'){
+      /*start District*/
+      $district_id = Yii::app()->db->createCommand()->select('district_id')->from('spi_project')->where('id=:id', array(':id' => $this->requestData['project_id']))->queryScalar();
+      $Request = CActiveRecord::model('District');
+      $Request->user = $this->user;
+      $requestInfo = $Request->select(array('id' => $district_id ), true);
+      $this->districtData = $requestInfo['result'][0];
+      /*end District*/
+
+
+      if ($this->requestData['status_id'] == '5' || $this->requestData['status_id'] == '4'){
+
+        $this->performerData['name'] = $this->requestData['performer_long_name'];
+        $this->districtData['name'] = $this->requestData['district_name'];
+
+        
         $Request = CActiveRecord::model('UserLock');
         $Request->user = $this->user;
 
@@ -127,7 +141,7 @@ class DocumentTemplate extends BaseModel {
 
       foreach ($this->performerUsers as $key=>$value){
 
-        if ($this->requestData['status_id'] != '5' ){
+        if ($this->requestData['status_id'] != '5' && $this->requestData['status_id'] != '4'){
           $this->performerUsers[$key]['user_id'] = $this->performerUsers[$key]['id'];
         }
 
@@ -191,13 +205,7 @@ class DocumentTemplate extends BaseModel {
           /*end RequestProfAssociation*/
         /*end finance information*/ 
 
-      /*start District*/
-      $district_id = Yii::app()->db->createCommand()->select('district_id')->from('spi_project')->where('id=:id', array(':id' => $this->requestData['project_id']))->queryScalar();
-      $Request = CActiveRecord::model('District');
-      $Request->user = $this->user;
-      $requestInfo = $Request->select(array('id' => $district_id ), true);
-      $this->districtData = $requestInfo['result'][0];
-      /*end District*/
+
 
       /*start request_school_concept*/
       $Request = CActiveRecord::model('RequestSchoolConcept');
