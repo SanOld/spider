@@ -1566,7 +1566,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
               + num(empl.annual_bonus) * empl.have_annual_bonus
               + num(empl.supplementary_pension) * mc * empl.have_additional_provision_vwl;
     empl.addCost = summ * umlage;
-    empl.addCost = Math.ceil(empl.addCost/100)*100;
+    //empl.addCost = Math.ceil(empl.addCost/100)*100;
     empl.fullCost = empl.brutto + empl.addCost;
     $scope.updateResultCost();
   }
@@ -1580,6 +1580,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         $scope.emoloyeesCost += num(empl.fullCost);
       }
     });
+    $scope.emoloyeesCost = Math.ceil(($scope.emoloyeesCost)/100)*100;
     angular.forEach($scope.financeSchools, function(sch, key) {
       $scope.training_cost += num(sch.training_cost);
       $scope.overhead_cost += num(sch.overhead_cost);
@@ -1591,23 +1592,24 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     });
     $scope.prof_association_cost = num($scope.prof_association_cost);
     $scope.revenue_sum = num($scope.data.revenue_sum);
-    $scope.total_cost = Math.ceil($scope.emoloyeesCost + $scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum);
+    $scope.total_cost = $scope.emoloyeesCost + Math.ceil($scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum);
 
   }
   $scope.updateTrainingCost = function(school){
     var definer = 0;
+    school.training_cost = 1800 * (school.month_count/12);
     if(num(school.rate) == 0){
       definer = 0.5;
-      school.overhead_cost = 3000 * definer;
+      school.overhead_cost = 3000 * definer * school.month_count/12;
     }else if(num(school.rate) % 1 == 0){
       definer = num(school.rate);
-      school.overhead_cost = 3000 * definer;
+      school.overhead_cost = 3000 * definer * school.month_count/12;
     }else if(num(school.rate) % 1 <= 0.5){
       definer = Math.floor(num(school.rate)) + 0.5;
-      school.overhead_cost = 3000 * definer;
+      school.overhead_cost = 3000 * definer * school.month_count/12;
     }else {
       definer = Math.round(num(school.rate));
-      school.overhead_cost = 3000 * definer;
+      school.overhead_cost = 3000 * definer * school.month_count/12;
     }
     $scope.updateResultCost();
   }

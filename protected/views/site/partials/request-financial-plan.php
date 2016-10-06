@@ -386,7 +386,7 @@
                       <span spi-hint text="_hint.fin_plan_school_month_count.text"  title="_hint.fin_plan_school_month_count.title" ></span>
                     </div>
                     <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.month_count, 'Monat' + '-' + key))  && errorShow ) }">
-                      <input type="text" class="form-control" ng-init = "numValidate2(school,'month_count');" ng-change="numValidate(school,'month_count');" ng-model="school.month_count"
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'month_count');" ng-change="numValidate(school,'month_count');updateTrainingCost(school)" ng-model="school.month_count"
                              ng-disabled="data.status_finance == 'accepted' || !canAccept || !canEdit() || (user_type == 'p' && data.status_finance != 'in_progress')">
                     </div>
                   </div>
