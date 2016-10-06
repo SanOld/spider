@@ -23,11 +23,11 @@
                       <button  class="goals" ng-click="activateTab(school.goals);deleteGoal(goal.id);" ng-if="goal.option == 1 && goal.is_active == 1 && userCan('allFields', goal.status)">
                         <i class="ion-close-round"></i>
                       </button>
-                      <a class="goal_{{goal.id}}" data-toggle="tab" href="#goal_{{::goal.id}}" ng-if="goal.is_active == 1">
+                      <a ng-click="scrollUp(school.school_number)" class="goal_{{goal.id}}" data-toggle="tab" href="#goal_{{::goal.id}}" ng-if="goal.is_active == 1">
                       <span class="notice">
                         <span  class="color-notice {{goal.status}}-row"></span>
                       </span>
-                      <span  ng-click="scrollUp(school.school_number)" >Entwicklungziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></span></a>
+                      Entwicklungziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></a>
                     </li>
                   <button id="goals-button-{{$index}}" ng-if="canGoalsEdit();" class="btn w-xs pull-right" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hinzufügen</button>
                   </ul>

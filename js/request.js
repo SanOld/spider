@@ -2051,7 +2051,7 @@ spi.controller('СonceptCompareController', function($scope, history, $uibModalI
 
 });
 
-spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, SweetAlert) {
+spi.controller('RequestSchoolGoalController', function ($scope, network,  RequestService, SweetAlert, $timeout) {
   $scope.userType = network.user.type;
   $scope.schoolGoals = [];
   $scope.activeTab = 0;
@@ -2348,7 +2348,9 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.activateTab = function(goals, index, item){
     var id = goals[1].id;
     $scope.activeTab = id;
-    $('.goal_' + id).trigger('click');
+    $timeout(function () {      
+      $('.goal_' + id).trigger('click');
+    });
   }
 
   $scope.getActivateTab = function(){    
