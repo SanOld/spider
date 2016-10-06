@@ -19,19 +19,19 @@
             <div class="tabs-vertical-env">
               <div class="nav tabs-vertical" id="goals-div-{{$index}}">
                   <ul id="goals-list-{{$index}}" class="nav">
-                    <li ng-repeat="goal in school.goals" ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
-                        <button  class="goals" ng-click="activateTab(school.goals);deleteGoal(goal.id)" ng-if="goal.option == 1 && goal.is_active == 1 && userCan('allFields', goal.status)">
-                          <i class="ion-close-round"></i>
-                        </button>
-                        <a class="goal_{{goal.id}}" data-toggle="tab" href="#goal_{{::goal.id}}" ng-if="goal.is_active == 1">
-                        <span class="notice">
-                          <span  class="color-notice {{goal.status}}-row"></span>
-                        </span>
-                        Entwicklungziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></a>
+                    <li ng-click="scrollUp(school.school_number)" ng-repeat="goal in school.goals" ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
+                      <button  class="goals" ng-click="activateTab(school.goals);deleteGoal(goal.id);" ng-if="goal.option == 1 && goal.is_active == 1 && userCan('allFields', goal.status)">
+                        <i class="ion-close-round"></i>
+                      </button>
+                      <a class="goal_{{goal.id}}" data-toggle="tab" href="#goal_{{::goal.id}}" ng-if="goal.is_active == 1">
+                      <span class="notice">
+                        <span  class="color-notice {{goal.status}}-row"></span>
+                      </span>
+                      Entwicklungziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></a>
                     </li>
                   <button id="goals-button-{{$index}}" ng-if="canGoalsEdit();" class="btn w-xs pull-right" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hinzufügen</button>
                   </ul>
-               </div>
+              </div>
 
               <div class="tab-content" >
                 <div ng-repeat="goal in school.goals" id="goal_{{goal.id}}" class="tab-pane {{$index == 0 ? 'active' : ''}}" >

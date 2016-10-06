@@ -2091,6 +2091,24 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
     return top;
   };
   
+  $scope.scrollUp = function(school_number){
+    var index = 0;
+    var i = 0;
+    for(var item in $scope.schoolGoals){
+      if($scope.schoolGoals[item].school_number == school_number){
+        index = i;
+      };
+      ++i;
+    };
+    var link = $('#goals-div-' + index);
+    var offset = link.offset();
+    var top = offset.top;
+    var scrollTop = $(window).scrollTop();
+    if(scrollTop > top){
+      $(window).scrollTop(top);
+    };
+  };
+  
   $scope.getScrollIndex = function(scrollTop){ 
     var collapseItems = $('#schools-goals .in');
     if(collapseItems.length){
