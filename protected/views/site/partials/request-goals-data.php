@@ -19,7 +19,7 @@
             <div class="tabs-vertical-env">
               <div class="nav tabs-vertical" id="goals-div-{{$index}}">
                   <ul id="goals-list-{{$index}}" class="nav">
-                    <li ng-click="scrollUp(school.school_number)" ng-repeat="goal in school.goals" ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
+                    <li ng-repeat="goal in school.goals" ng-class="getActivateTab() == goal.id ? 'active' : '' "  class="{{$index == 0 ? 'active' : ''}}" >
                       <button  class="goals" ng-click="activateTab(school.goals);deleteGoal(goal.id);" ng-if="goal.option == 1 && goal.is_active == 1 && userCan('allFields', goal.status)">
                         <i class="ion-close-round"></i>
                       </button>
@@ -27,7 +27,7 @@
                       <span class="notice">
                         <span  class="color-notice {{goal.status}}-row"></span>
                       </span>
-                      Entwicklungziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></a>
+                      <span  ng-click="scrollUp(school.school_number)" >Entwicklungziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></span></a>
                     </li>
                   <button id="goals-button-{{$index}}" ng-if="canGoalsEdit();" class="btn w-xs pull-right" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hinzufügen</button>
                   </ul>
