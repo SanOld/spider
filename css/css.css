@@ -1317,7 +1317,7 @@ table.dataTable thead > tr > th.sorting_disabled {
 	border:0;
 }
 #accordion-order .tabs-vertical-env .tabs-vertical {
-	width: 230px;
+	width: 246px;
 	background: #f3f3f3;
 }
 #accordion-order .tabs-vertical-env .tabs-vertical + .tab-content {
@@ -3594,4 +3594,12 @@ tr.virtual-row {
 }
 .custom-hint-rate{
 	margin-right: -6px;
+}
+.position-fixed{
+    position: fixed;
+    top: 0px;
+    width:243px;
+}
+.position-fixed-button{
+    width:243px;
 }

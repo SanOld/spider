@@ -2080,7 +2080,101 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
         }
       }
     });
-  }  
+  }
+  
+  $scope.countTop = function(otherId){
+    var link = $('#goals-div-' + otherId);
+    var offset = link.offset();
+    var top = offset.top;
+    return top;
+  };
+  
+  $scope.getScrollIndex = function(scrollTop){ 
+    var collapseItems = $('#schools-goals .in');
+    if(collapseItems.length){
+      var collapseItemsIds = [];
+      for(var i=0;i<collapseItems.length; i++){
+        if(collapseItems[i]){
+          var id = collapseItems[i].id;
+          id = id.split('_');
+          id = id[1];
+          collapseItemsIds[id] = collapseItems[i];
+          collapseItemsIds[id].position = i;
+        };
+      };
+      var collapseId = $('#schools-goals .in').attr('id');
+      if(collapseId && collapseItems.length == 1){
+        var onScrollIndex = collapseId.split('_');
+        onScrollIndex = onScrollIndex[1];
+        return onScrollIndex;
+      };
+      if(collapseId && collapseItems.length > 1){
+        var newIndex = Number($scope.onScrollIndex);
+        var position = collapseItemsIds[$scope.onScrollIndex].position;
+        var newPosition = String(position + 1);
+        if(collapseItems[position + 1]){
+          for(var i=0;i<collapseItemsIds.length; i++){
+            if(collapseItemsIds[i] && String(collapseItemsIds[i].position) == newPosition){
+              newIndex = i;
+            };
+          };
+        };
+        var top = $scope.countTop(newIndex);
+        if(scrollTop > top){
+          return newIndex;
+        }else{        
+          if(collapseItems[position - 1]){
+            var otherId2 = Number($scope.onScrollIndex) - 1;
+            var newPosition = String(position - 1);
+            for(var i=0;i<collapseItemsIds.length; i++){
+              if(collapseItemsIds[i] && String(collapseItemsIds[i].position) == newPosition){
+                otherId2 = i;
+              };
+            };
+            var top2 = $scope.countTop(otherId2);
+            var link2 = $('#goals-div-' + otherId2);
+            var max_stop = $('#page').height() - (($('#page').height() - link2.height() - top2)) - $('#goals-list-' + otherId2).height();
+            if(scrollTop < max_stop){
+              $('#goals-list-' + $scope.onScrollIndex).removeClass('position-fixed');
+              $('#goals-button-' + $scope.onScrollIndex).removeClass('position-fixed-button');
+              return otherId2;
+            }else{
+              return $scope.onScrollIndex;
+            }
+          }else{
+            return $scope.onScrollIndex;
+          };
+        }
+      };
+    }    
+  };
+  
+  $(window).scroll(function(){
+    var scrollTop = $(window).scrollTop();
+    $scope.onScrollIndex = $scope.getScrollIndex(scrollTop);
+    if($scope.onScrollIndex != undefined){
+      var link = $('#goals-div-' + $scope.onScrollIndex);
+      var offset = link.offset();
+      var top = offset.top;
+      var max_stop = $('#page').height() - (($('#page').height() - link.height() - top)) - $('#goals-list-' + $scope.onScrollIndex).height();
+      if(scrollTop > top && scrollTop < max_stop){
+        $('#goals-list-' + $scope.onScrollIndex).addClass('position-fixed');
+        $('#goals-button-' + $scope.onScrollIndex).addClass('position-fixed-button');
+      }
+      if(scrollTop > max_stop){
+        $('#goals-list-' + $scope.onScrollIndex).removeClass('position-fixed');
+        $('#goals-button-' + $scope.onScrollIndex).removeClass('position-fixed-button');
+      };
+      if(scrollTop < top){
+        $('#goals-list-' + $scope.onScrollIndex).removeClass('position-fixed');
+        $('#goals-button-' + $scope.onScrollIndex).removeClass('position-fixed-button');
+      };
+    }
+  });
+  
+  $('#clear-position-fixed').click(function(){
+    $('.position-fixed').removeClass('position-fixed');
+  });
 
   $scope.requestSchoolGoal();
   
