@@ -1317,11 +1317,11 @@ table.dataTable thead > tr > th.sorting_disabled {
 	border:0;
 }
 #accordion-order .tabs-vertical-env .tabs-vertical {
-	width: 246px;
+	width: 250px;
 	background: #f3f3f3;
 }
 #accordion-order .tabs-vertical-env .tabs-vertical + .tab-content {
-	width:880px;
+	width:864px;
 }
 .form-group .radio-inline {
 	padding-left:0;
@@ -1374,6 +1374,7 @@ body .nav.nav-tabs.tab-color > li.active > a,
 #accordion-order .tabs-vertical-env .nav.tabs-vertical li.active > a:active {
 	border-color:#00529e !important;
 	background: #fff !important;
+        width: 249px;
 }
 #accordion-order .tabs-vertical-env .nav.tabs-vertical li > a:focus {
 	opacity: 1 !important;
@@ -3598,8 +3599,11 @@ tr.virtual-row {
 .position-fixed{
     position: fixed;
     top: 0px;
-    width:243px;
+    width:246px;
 }
 .position-fixed-button{
-    width:243px;
+    width:246px;
+}
+.button-new-goal-width{
+    width:249px;
 }

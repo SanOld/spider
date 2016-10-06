@@ -29,7 +29,7 @@
                       </span>
                       Entwicklungziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></a>
                     </li>
-                  <button id="goals-button-{{$index}}" ng-if="canGoalsEdit();" class="btn w-xs pull-right" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hinzufügen</button>
+                  <button id="goals-button-{{$index}}" ng-if="canGoalsEdit();" class="btn button-new-goal-width" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hinzufügen</button>
                   </ul>
               </div>
 
