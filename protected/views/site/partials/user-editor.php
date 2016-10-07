@@ -347,7 +347,7 @@
         <div class="row" ng-if="(user_type == 'p' && isInsert) || (user_type != 'p' && (!modeView && (isCurrentUser || canEdit()) && user.is_virtual != 1))">
           <div class="form-custom-box clearfix">
             <div class="col-lg-12">
-              <h4>Passwort ändern</h4>
+              <h4>Passwort</h4>
             </div>
             <div ng-if="isCurrentUser" class="col-lg-4">
               <label>Altes Passwort</label>
