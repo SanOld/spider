@@ -380,7 +380,7 @@
               </div>
               <div class="col-lg-2 col-lg-offset-1">
                 <span class="sum calendar-ico clearfix">
-                  <strong>Monat</strong>
+                  <strong>Monate</strong>
                   <div class="col-lg-12 p-l-0 m-t-10">
                     <div class="has-hint has-hint2">
                       <span spi-hint text="_hint.fin_plan_school_month_count.text"  title="_hint.fin_plan_school_month_count.title" ></span>
@@ -400,7 +400,7 @@
                       <span spi-hint text="_hint.fin_plan_school_traning_cost.text"  title="_hint.fin_plan_school_traning_cost.title" ></span>
                     </div>
                     <div class="wrap-hint" ng-class="{'wrap-line error': ((canAccept && fieldsError2(school.training_cost, 'Fortbildungskosten' + '-' + key))  && errorShow) }">
-                      <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost');"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" 
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'training_cost');numValidate(school,'training_cost',2)"  ng-change="numValidate(school,'training_cost');updateResultCost();" ng-model="school.training_cost" 
                              ng-disabled="data.status_finance == 'accepted' || !canAccept || !canEdit() || school.rate*1 > 1 && school.rate*1 < 0.5 || (user_type == 'p' && data.status_finance != 'in_progress')">
                     </div>
                   </div>
@@ -415,7 +415,7 @@
                       <span spi-hint text="_hint.fin_plan_school_overhead_cost.text"  title="_hint.fin_plan_school_overhead_cost.title" ></span>
                     </div>
                    <div class="wrap-hint" ng-class="{'wrap-line error': (( canAccept && fieldsError2(school.overhead_cost, 'Regiekosten' + '-' + key))  && errorShow)}">
-                      <input type="text" class="form-control" ng-init = "numValidate2(school,'overhead_cost');" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" 
+                      <input type="text" class="form-control" ng-init = "numValidate2(school,'overhead_cost');;numValidate(school,'overhead_cost',2)" ng-change="numValidate(school,'overhead_cost');updateResultCost();" ng-model="school.overhead_cost" 
                              ng-disabled="data.status_finance == 'accepted' || !canAccept || !canEdit() || (user_type == 'p' && data.status_finance != 'in_progress')">
                    </div>
                   </div>
@@ -453,7 +453,7 @@
               <div class="wrap-hint" ng-class="{'wrap-line error': (prof_associations.length > 1 && fieldsError2(association.sum,  'Berufsgenossenschaftsbeiträge-Beitrag' + '-' + key) && errorShow) }">
                 <input class="form-control" type="text" 
                        ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()"
-                       ng-init = "association.sum = (association.sum || '0,00'); numValidate2(association,'sum');"
+                       ng-init = "association.sum = (association.sum || '0,00'); numValidate2(association,'sum');numValidate(association,'sum',2);"
                        ng-change="numValidate(association,'sum') ; updateResultCost();"
                        ng-model="association.sum" >
               </div>
@@ -492,7 +492,7 @@
                   </label>
                   <div class="col-lg-2">
                     <input class="form-control" type="text" ng-disabled="data.status_finance == 'accepted' || (data.status_finance == 'in_progress' && !canAccept) || !canFormEdit || !canEdit()" 
-                           ng-init = "data.revenue_sum = (data.revenue_sum || '0,00'); numValidate2(data,'revenue_sum');"  
+                           ng-init = "data.revenue_sum = (data.revenue_sum || '0,00');numValidate2(data,'revenue_sum');"  
                            ng-change="numValidate(data,'revenue_sum'); updateResultCost(); " ng-model="data.revenue_sum" >
                   </div>
                   <span class="symbol m-t-5">€</span>

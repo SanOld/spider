@@ -1431,6 +1431,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     }
     if ($scope.data.revenue_sum != undefined ) {
       $scope.numValidate2(data,'revenue_sum');
+      $scope.numValidate(data,'revenue_sum');
     }
     $scope.$parent.setFinanceStatus(data.status_finance);
     $scope.selectFinanceResult = Utils.getRowById($scope.users, data.finance_user_id);
@@ -1556,15 +1557,22 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
 
     var umlage = $scope.data.is_umlage===1?0.25:0.21;
     var mc = num(empl.month_count);
-    empl.brutto = num(empl.cost_per_month_brutto) * mc
-                + num(empl.annual_bonus) * empl.have_annual_bonus
-                + num(empl.additional_provision_vwl) * mc * num(empl.have_additional_provision_vwl)
-                + num(empl.supplementary_pension) * mc * num(empl.have_supplementary_pension);
+    var changed_empl = angular.copy(empl);
+    for(var key in changed_empl){
+      if(typeof changed_empl[key] == 'string' && changed_empl[key].indexOf('.') != -1 && changed_empl[key].indexOf(',') != -1){
+        changed_empl[key] = changed_empl[key].split('.');
+        changed_empl[key] = changed_empl[key][0] + changed_empl[key][1];
+      };
+    }
+    empl.brutto = num(changed_empl.cost_per_month_brutto) * mc
+                + num(changed_empl.annual_bonus) * changed_empl.have_annual_bonus
+                + num(changed_empl.additional_provision_vwl) * mc * num(changed_empl.have_additional_provision_vwl)
+                + num(changed_empl.supplementary_pension) * mc * num(changed_empl.have_supplementary_pension);
     empl.brutto = Math.ceil(empl.brutto/100)*100; // Результат округлять вверх до 100 евро. Например: 1201 = 1300
 
-    var summ  = num(empl.cost_per_month_brutto) * mc
-              + num(empl.annual_bonus) * empl.have_annual_bonus
-              + num(empl.supplementary_pension) * mc * empl.have_additional_provision_vwl;
+    var summ  = num(changed_empl.cost_per_month_brutto) * mc
+              + num(changed_empl.annual_bonus) * changed_empl.have_annual_bonus
+              + num(changed_empl.supplementary_pension) * mc * changed_empl.have_additional_provision_vwl;
     empl.addCost = summ * umlage;
     //empl.addCost = Math.ceil(empl.addCost/100)*100;
     empl.fullCost = empl.brutto + empl.addCost;
@@ -1581,23 +1589,45 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       }
     });
     $scope.emoloyeesCost = Math.ceil(($scope.emoloyeesCost)/100)*100;
-    angular.forEach($scope.financeSchools, function(sch, key) {
-      $scope.training_cost += num(sch.training_cost);
-      $scope.overhead_cost += num(sch.overhead_cost);
+    
+    angular.forEach($scope.financeSchools, function(sch, key) {      
+      var training_cost = angular.copy(sch.training_cost);
+      if(typeof sch.training_cost == 'string' && sch.training_cost.indexOf('.') != -1 && sch.training_cost.indexOf(',') != -1){
+        training_cost = training_cost.split('.');
+        training_cost = training_cost[0] + training_cost[1];
+      };      
+      var overhead_cost = angular.copy(sch.overhead_cost);        
+      if(typeof sch.overhead_cost == 'string' && sch.overhead_cost.indexOf('.') != -1 && sch.overhead_cost.indexOf(',') != -1){
+        overhead_cost = overhead_cost.split('.');
+        overhead_cost = overhead_cost[0] + overhead_cost[1];
+      };
+      $scope.training_cost += num(training_cost);
+      $scope.overhead_cost += num(overhead_cost);
     });
     angular.forEach($scope.prof_associations, function(ps, key) {
       if(!ps.is_deleted) {
-        $scope.prof_association_cost += num(ps.sum);
+      var prof_associations = angular.copy(ps.sum);        
+      if(typeof ps.sum == 'string' && ps.sum.indexOf('.') != -1 && ps.sum.indexOf(',') != -1){
+        prof_associations = prof_associations.split('.');
+        prof_associations = prof_associations[0] + prof_associations[1];
+      };
+       $scope.prof_association_cost += num(prof_associations);
       }
     });
     $scope.prof_association_cost = num($scope.prof_association_cost);
-    $scope.revenue_sum = num($scope.data.revenue_sum);
+    var revenue_sum = angular.copy($scope.data.revenue_sum);        
+    if(typeof $scope.data.revenue_sum == 'string' && $scope.data.revenue_sum.indexOf('.') != -1 && $scope.data.revenue_sum.indexOf(',') != -1){
+      revenue_sum = revenue_sum.split('.');
+      revenue_sum = revenue_sum[0] + revenue_sum[1];
+    };    
+    $scope.revenue_sum = num(revenue_sum);
     $scope.total_cost = $scope.emoloyeesCost + Math.ceil($scope.training_cost + $scope.overhead_cost + $scope.prof_association_cost - $scope.revenue_sum);
 
   }
   $scope.updateTrainingCost = function(school){
     var definer = 0;
     school.training_cost = 1800 * (school.month_count/12);
+    $scope.numValidate(school.training_cost);
     if(num(school.rate) == 0){
       definer = 0.5;
       school.overhead_cost = 3000 * definer * school.month_count/12;
@@ -1611,6 +1641,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
       definer = Math.round(num(school.rate));
       school.overhead_cost = 3000 * definer * school.month_count/12;
     }
+    $scope.numValidate(school.overhead_cost);
     $scope.updateResultCost();
   }
   
@@ -1630,6 +1661,10 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     if(!obj[key]) {
       obj[key] = 0;
     } else {
+      if(obj[key].indexOf('.') != -1 && obj[key].indexOf(',') != -1){
+        obj[key] = obj[key].split('.');
+        obj[key] = obj[key][0] + obj[key][1];
+      };
       obj[key] = obj[key].split('.').join(',');
       obj[key] = obj[key].split(/[^0-9\,]/).join('');
       var r = new RegExp('([0-9]+)([\,]{0,1})([0-9]{0,'+cnt+'})[0-9]*', 'i');
@@ -1638,6 +1673,11 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         if(m[1][0]=='0' && m[1].length>1){
           m[1] = m[1].substring(1,m[1].length);
         }
+        if(m[1].length > 3 && m[2] && m[3]){
+          var substr_end = m[1].substring(m[1].length-3,m[1].length);
+          var substr_start = m[1].substring(0,m[1].length-3);
+          m[1] = substr_start + '.' + substr_end;
+        };
         obj[key] = m[1]+m[2]+m[3];
       } catch(e) {
         obj[key] = '';

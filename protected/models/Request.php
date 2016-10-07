@@ -524,12 +524,24 @@ class Request extends BaseModel {
           unset($data['id']);
 
           if($data['rate']){
+            if(strpos($data['rate'], '.') !== false && strpos($data['rate'], ',') !== false){
+              $data['rate']  = explode('.', $data['rate']);
+              $data['rate']  = $data['rate'][0].$data['rate'][1];
+            }
             $data['rate']           = (float)str_replace(",", ".", $data['rate']);
           }
           if($data['training_cost']){
+            if(strpos($data['training_cost'], '.') !== false && strpos($data['training_cost'], ',') !== false){
+              $data['training_cost']  = explode('.', $data['training_cost']);
+              $data['training_cost']  = $data['training_cost'][0].$data['training_cost'][1];
+            }
             $data['training_cost']  = (float)str_replace(",", ".", $data['training_cost']);
           }
           if($data['overhead_cost']){
+            if(strpos($data['overhead_cost'], '.') !== false && strpos($data['overhead_cost'], ',') !== false){
+              $data['overhead_cost']  = explode('.', $data['overhead_cost']);
+              $data['overhead_cost']  = $data['overhead_cost'][0].$data['overhead_cost'][1];
+            }
             $data['overhead_cost']  = (float)str_replace(",", ".", $data['overhead_cost']);
           }
           $res = $RequestSchoolFinance->update($id, $data, true);
@@ -543,6 +555,10 @@ class Request extends BaseModel {
         foreach ($this->finance_plan['prof_associations'] as $data) {
           if($id = safe($data,'id')) {
             if($data['sum']){
+              if(strpos($data['sum'], '.') !== false && strpos($data['sum'], ',') !== false){
+                $data['sum']  = explode('.', $data['sum']);
+                $data['sum']  = $data['sum'][0].$data['sum'][1];
+              }
               $data['sum']  = (float)str_replace(",", ".", $data['sum']);
             }
             unset($data['id']);
@@ -553,6 +569,10 @@ class Request extends BaseModel {
             }
           } elseif(!safe($data,'is_deleted')) {
             if($data['sum']){
+              if(strpos($data['sum'], '.') !== false && strpos($data['sum'], ',') !== false){
+                $data['sum']  = explode('.', $data['sum']);
+                $data['sum']  = $data['sum'][0].$data['sum'][1];
+              }
               $data['sum']  = (float)str_replace(",", ".", $data['sum']);
             }
             $data['request_id'] = $request_id;
@@ -566,18 +586,38 @@ class Request extends BaseModel {
         $RequestUser ->user = $this->user;
         foreach ($this->finance_plan['users'] as $data) {
           if($data['cost_per_month_brutto']){
+            if(strpos($data['cost_per_month_brutto'], '.') !== false && strpos($data['cost_per_month_brutto'], ',') !== false){
+              $data['cost_per_month_brutto']  = explode('.', $data['cost_per_month_brutto']);
+              $data['cost_per_month_brutto']  = $data['cost_per_month_brutto'][0].$data['cost_per_month_brutto'][1];
+            }
             $data['cost_per_month_brutto']  = (float)str_replace(",", ".", $data['cost_per_month_brutto']);
           }
           if($data['hours_per_week']){
+            if(strpos($data['hours_per_week'], '.') !== false && strpos($data['hours_per_week'], ',') !== false){
+              $data['hours_per_week']  = explode('.', $data['hours_per_week']);
+              $data['hours_per_week']  = $data['hours_per_week'][0].$data['hours_per_week'][1];
+            }
             $data['hours_per_week']  = (float)str_replace(",", ".", $data['hours_per_week']);
           }
           if($data['have_annual_bonus'] == 1 && $data['annual_bonus']){
+            if(strpos($data['annual_bonus'], '.') !== false && strpos($data['annual_bonus'], ',') !== false){
+              $data['annual_bonus']  = explode('.', $data['annual_bonus']);
+              $data['annual_bonus']  = $data['annual_bonus'][0].$data['annual_bonus'][1];
+            }
             $data['annual_bonus']  = (float)str_replace(",", ".", $data['annual_bonus']);
           }
           if($data['have_additional_provision_vwl'] == 1 && $data['additional_provision_vwl']){
+            if(strpos($data['additional_provision_vwl'], '.') !== false && strpos($data['additional_provision_vwl'], ',') !== false){
+              $data['additional_provision_vwl']  = explode('.', $data['additional_provision_vwl']);
+              $data['additional_provision_vwl']  = $data['additional_provision_vwl'][0].$data['additional_provision_vwl'][1];
+            }
             $data['additional_provision_vwl']  = (float)str_replace(",", ".", $data['additional_provision_vwl']);
           }
           if($data['have_supplementary_pension'] == 1 && $data['supplementary_pension']){
+            if(strpos($data['supplementary_pension'], '.') !== false && strpos($data['supplementary_pension'], ',') !== false){
+              $data['supplementary_pension']  = explode('.', $data['supplementary_pension']);
+              $data['supplementary_pension']  = $data['supplementary_pension'][0].$data['supplementary_pension'][1];
+            }
             $data['supplementary_pension']  = (float)str_replace(",", ".", $data['supplementary_pension']);
           }
           unset($data['new_user_name']);
@@ -947,6 +987,10 @@ class Request extends BaseModel {
     }
 
     if(isset($post['revenue_sum'])) {
+      if(strpos($post['revenue_sum'], '.') !== false && strpos($post['revenue_sum'], ',') !== false){
+        $post['revenue_sum']  = explode('.', $post['revenue_sum']);
+        $post['revenue_sum']  = $post['revenue_sum'][0].$post['revenue_sum'][1];
+      }
       $post['revenue_sum'] = (float)str_replace(",", ".", $post['revenue_sum']);
     }
     if(isset($post['emoloyees_cost'])) {
@@ -957,9 +1001,6 @@ class Request extends BaseModel {
     }
     if(isset($post['overhead_cost'])) {
       $post['overhead_cost'] = (float)str_replace(",", ".", $post['overhead_cost']);
-    }
-    if(isset($post['prof_association_cost'])) {
-      $post['prof_association_cost'] = (float)str_replace(",", ".", $post['prof_association_cost']);
     }
     if(isset($post['prof_association_cost'])) {
       $post['prof_association_cost'] = (float)str_replace(",", ".", $post['prof_association_cost']);
