@@ -1086,7 +1086,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   }
 
   RequestService.setChangedProjectForm = function(){
-    $scope.projectData.$dirty = false;
+    $scope.projectData.$setPristine();
   }
   
   RequestService.getChangedProjectFields = function(){
@@ -1788,7 +1788,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
   }
   
   RequestService.setChangedFinanceForm = function(){
-    $scope.financePlanForm.$dirty = false;
+    $scope.financePlanForm.$setPristine();
   }
 });
 
@@ -2070,7 +2070,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
   }
 
   RequestService.setChangedConceptForm = function(){
-    $scope.conceptForm.$dirty = false;
+    $scope.conceptForm.$setPristine();
   }
 
   RequestService.updateSchoolConcept = function(){
@@ -2613,7 +2613,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   }
 
   RequestService.setChangedGoalsForm = function(){
-    $scope.goalsForm.$dirty = false;
+    $scope.goalsForm.$setPristine();
   }
 
   RequestService.updateSchoolGoal = function(){
