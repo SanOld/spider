@@ -80,14 +80,16 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     var conceptErors  = RequestService.hasErrorsConceptForm(); //boolean
     var financeErors  = RequestService.hasErrorsFinanceForm(); //array[]
     var completed = '';
-    if(!financeErors.length && ($scope.financeStatus != 'accepted' && $scope.financeStatus != 'in_progress')){
-      completed += 'Finanzplan, ';
-    }else if(financeErors.length){
-      RequestService.setErrorsFinanceForm(true);
+    if(network.user.is_finansist == '1' || network.user.type == 'p'){      
+      if(!financeErors.length && ($scope.financeStatus != 'accepted' && $scope.financeStatus != 'in_progress')){
+        completed += 'Finanzplan, ';
+      }else if(financeErors.length){
+        RequestService.setErrorsFinanceForm(true);
+      }
     }
     if(!conceptErors && ($scope.conceptStatus != 'accepted' && $scope.conceptStatus != 'in_progress')){
       completed += 'Konzept, ';
-    }else if(conceptErors.length){
+    }else if(conceptErors){
       RequestService.setErrorsConceptForm();
     }
     if(!goalErors.length && ($scope.goalsStatus != 'accepted' && $scope.goalsStatus != 'in_progress')){
