@@ -124,6 +124,7 @@ $this->breadcrumbs = array('Audit');
                     </div>
                     <strong>{{group.data[0].operation_name}}</strong>
                     <span>von {{group.data[0].user_name}} am {{group.data[0].date_formated}}</span> 
+                    <span>{{group.data[0].goal_number}}</span> 
                   </td>
                   <td>
                     <span class="after">Vorher</span>
@@ -143,7 +144,7 @@ $this->breadcrumbs = array('Audit');
                     {{field.old_value}}
                   </td>
                   <td sortable="'new_value'" data-title="'Nachher'">
-                    {{field.new_value}}
+                    {{field.column_name == 'goal_id' ? field.new_value + ' (' + group.data[0].goals[field.new_value] + ')' : field.new_value}}
                   </td>
                 </tr>
                 <tr ng-show="!$groups.length"><td class="no-result" colspan="3">Keine Ergebnisse</td></tr>

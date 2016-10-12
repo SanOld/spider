@@ -51,14 +51,21 @@ class Audit extends BaseModel {
                                       -> where('req.id=:record_id', array(':record_id' => $row['record_id']))
                                       -> queryScalar();
       } elseif ($table_code == 'request_goal') {
-        $row['main_code'] = Yii::app() -> db -> createCommand() 
-                                      -> select('CONCAT(prj.code, "(", req.year ,")")') 
+        $goal_data = Yii::app() -> db -> createCommand() 
+                                      -> select('CONCAT(prj.code, "(", req.year ,")") main_code, scg.goal_number') 
                                       -> from('spi_'.$table_code.' tbl')
                                       -> join('spi_request_school_goal scg', 'scg.id=tbl.request_school_goal_id ')
                                       -> join('spi_request req', 'req.id=scg.request_id ')
                                       -> join('spi_project prj', 'prj.id=req.project_id ')
                                       -> where('tbl.id=:record_id', array(':record_id' => $row['record_id']))
-                                      -> queryScalar();
+                                      -> queryAll();
+        $row['main_code'] = $goal_data[0]['main_code'];
+        $row['goal_number'] = 'Entwicklungziel '.$goal_data[0]['goal_number'];
+        $goals = Yii::app() -> db -> createCommand()-> select('id, name')-> from('spi_goal')-> queryAll();
+        $row['goals'] = array();
+        foreach ($goals as $goal){
+          $row['goals'][$goal['id']] = $goal['name'];
+        };
       } elseif (strrpos($table_code, 'request') !== false) {
         $row['main_code'] = Yii::app() -> db -> createCommand() 
                                       -> select('CONCAT(prj.code, "(", req.year ,")")') 
