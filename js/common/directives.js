@@ -283,10 +283,10 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
                                 //numbers in format 1000,00
                                 if(typeof response.result[i][column] == 'number' || response.result[i][column].match(reg_number)){
                                   var cost = String(response.result[i][column]).replace(/\./gi, ",");
-                                  csvString += '"' + cost + '"' + ',' ;
+//                                  csvString += '"' + cost + '"' + ',' ;
                                   if(scope.paramsForExport.tables[table].concat && scope.paramsForExport.tables[table].concat == column){
                                     csvString += '"' + cost + " ";
-                                  }else{
+                                  } else {
                                     csvString += '"' + cost + '"' + ',' ;
                                   }
                                 }else if(response.result[i][column].match(reg_date)){
@@ -334,6 +334,7 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
               };
             };              
             csvString = csvString.substring(0, csvString.length - 1);
+            console.log('csvString:',csvString)
             addClick(csvString);
             if(scope.checkbox){
               for(var box in scope.checkbox){

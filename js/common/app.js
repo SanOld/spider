@@ -103,9 +103,19 @@ Date.prototype.ymd = function() {
   var dd  = this.getDate().toString();
   return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
  };
+Date.prototype.time = function() {
+  var m = this.getMinutes().toString();
+  var h = (this.getHours()).toString();
+  return (h[1]?h:"0"+h[0]) + '-' + (m[1]?m:"0"+m[0]);
+ };
 Date.prototype.dmy = function() {
   var yy = (this.getFullYear().toString()).split('20').join('');
   var mm = (this.getMonth()+1).toString();
   var dd  = this.getDate().toString();
   return (dd[1]?dd:"0"+dd[0]) + '.' + (mm[1]?mm:"0"+mm[0])+'.'+yy ;
  };
+ 
+ function YMDToDMY(ymd) {
+   var d = ymd.split('-');
+   return d[2]+'-'+d[1]+'-'+d[0];
+ }

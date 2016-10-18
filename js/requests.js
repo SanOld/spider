@@ -1099,7 +1099,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
       if(result){
         data[0] = response.result;
         data[0].is_umlage = response.result.is_umlage == 1 ? 'ja' : 'nein';
-        data[0].duration  = response.result.start_date + " - " + response.result.due_date;
+        data[0].duration  = YMDToDMY(response.result.start_date) + " - " + YMDToDMY(response.result.due_date);
         network.get('request_user', {request_id: request_id}, function (result, response) {
           if(result){
             data.users = response.result;
@@ -1115,8 +1115,12 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
                       data.schools[counter].count = '1';
                       counter++;
                     };
+                    
+                    var now = new Date();
+                    
+                    
                     $scope.paramsForExport['financeSingle'] = {
-                      fileName: 'Financeplan(einzeln).csv',
+                      fileName: 'Finanzplanexport_'+data[0].code+'_'+now.ymd()+'_'+now.time()+'(einzeln).csv',
                       model: 'request',
                       tables: {
                         table1: {
@@ -1127,7 +1131,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
                             'is_umlage'         : 'Umlage 1',
                             'null-1'            : '',
                             'total_cost'        : 'Summe Fördervertrag',
-                            'revenue_cost'      : 'Summe sonstige Einnahmen',
+                            'revenue_sum'       : 'Summe sonstige Einnahmen',
                             'null-2'            : '',
                             'null-3'            : '',
                             'null-4'            : '',
