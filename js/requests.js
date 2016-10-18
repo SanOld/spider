@@ -73,7 +73,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, GridS
     };    
   };
 
-  network.get('performer', {}, function (result, response) {
+  network.get('performer', {'direction': 'asc', 'order':'short_name'}, function (result, response) {
       if(result) {
           $scope.performers = response.result;
       }
