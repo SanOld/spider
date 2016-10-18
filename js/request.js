@@ -2672,7 +2672,7 @@ spi.controller('ModalEndFillController', function ($scope, start_date, due_date,
   network.get('request', {id: ids[0]},function(result, response){
     if(result){
       $scope.request_date = new Date(response.result.year,'0','1');
-      $scope.request_year = response.result.year;
+      $scope.request_year = response.result.year-1;
       $timeout(function(){
         $scope.dateOptions = {
           startingDay: 1,
