@@ -754,8 +754,9 @@ class Request extends BaseModel {
       foreach($result['result'] as &$row) {
         if($row['project_id']){
           $schools = Yii::app() -> db -> createCommand()
-          -> select('scl.*') -> from('spi_project_school prs')
+          -> select('scl.*, sct.name type_name') -> from('spi_project_school prs')
           -> leftJoin('spi_school scl', 'prs.school_id=scl.id')
+          -> join('spi_school_type sct', 'sct.id=scl.type_id')
           -> where('prs.project_id=:id', array(':id' => $row['project_id']))
           -> queryAll();
           $ordered_schools = $schools;

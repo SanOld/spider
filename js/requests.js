@@ -1262,6 +1262,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
             'school_data_fax'           : 'Telefax',
             'school_data_homepage'      : 'Homepage',
             'school_data_email'         : 'E-Mail',
+            'school_data_type_name'     : 'Schultyp',
             'school_data_contact_sex'   : 'Anrede',
             'school_data_contact_title'      : 'Titel',
             'school_data_contact_first_name' : 'Vorname',
@@ -1278,9 +1279,9 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
             'finance_user_last_name'    : 'Nachname',
             'finance_user_phone'        : 'Telefon',
             'finance_user_email'        : 'E-Mail',
+            'bank_details_bank_name'    : 'Kreditor',
             'bank_details_contact_person'    : 'Kontoinhaber',
             'bank_details_iban'         : 'IBAN',
-            'null-3'                    : 'BIC',
             'district_name'             : 'Bezirk',
             'district_contact_name'     : 'Ansprechpartner/in',
             'district_plz'              : 'PLZ',
@@ -1311,6 +1312,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
           school_data_fax               : 'fax',
           school_data_homepage          : 'homepage',
           school_data_email             : 'email',
+          school_data_type_name         : 'type_name',
           school_data_contact_sex       : 'contact_sex',
           school_data_contact_title     : 'contact_title',
           school_data_contact_first_name: 'contact_first_name',
@@ -1343,15 +1345,15 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
       param: $scope.filter
     };
     //empty fields for first table
-    for(var i = 2; i < 48; i++){
+    for(var i = 2; i < 49; i++){
       $scope.paramsForExport['projectData'].tables.table1.columns['null-'+i] = '';
     };
      //empty fields for second table
-    for(var i = 2; i < 26; i++){
+    for(var i = 2; i < 27; i++){
       $scope.paramsForExport['projectData'].tables.table2.columns['null-'+i] = '';
     };
-    $scope.paramsForExport['projectData'].tables.table2.columns['null-26'] = 'Antragsrelevante Projektdaten';
-    for(var i = 27; i < 48; i++){
+    $scope.paramsForExport['projectData'].tables.table2.columns['null-27'] = 'Antragsrelevante Projektdaten';
+    for(var i = 28; i < 49; i++){
       $scope.paramsForExport['projectData'].tables.table2.columns['null-'+i] = '';
     };
      //empty fields for third table
@@ -1363,27 +1365,27 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
     $scope.paramsForExport['projectData'].tables.table3.columns['null-14'] = 'Adresse der Schule';
-    for(var i = 15; i < 22; i++){
+    for(var i = 15; i < 23; i++){
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
-    $scope.paramsForExport['projectData'].tables.table3.columns['null-22'] = 'Schulleitung';
-    for(var i = 23; i < 26; i++){
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-23'] = 'Schulleitung';
+    for(var i = 24; i < 27; i++){
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
-    $scope.paramsForExport['projectData'].tables.table3.columns['null-26'] = 'Ansprechperson für Rückfragen zum Konzept';
-    for(var i = 27; i < 32; i++){
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-27'] = 'Ansprechperson für Rückfragen zum Konzept';
+    for(var i = 28; i < 33; i++){
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
-    $scope.paramsForExport['projectData'].tables.table3.columns['null-32'] = 'Ansprechperson für Rückfragen zum Finanzplan';
-    for(var i = 33; i < 38; i++){
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-33'] = 'Ansprechperson für Rückfragen zum Finanzplan';
+    for(var i = 34; i < 39; i++){
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
-    $scope.paramsForExport['projectData'].tables.table3.columns['null-38'] = 'Kontoverbindung';
-    for(var i = 39; i < 41; i++){
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-39'] = 'Kontoverbindung';
+    for(var i = 40; i < 42; i++){
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
-    $scope.paramsForExport['projectData'].tables.table3.columns['null-41'] = 'Angaben zum Jugendamt';
-    for(var i = 45; i < 48; i++){
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-42'] = 'Angaben zum Jugendamt';
+    for(var i = 43; i < 49; i++){
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
   };
