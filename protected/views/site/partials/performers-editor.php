@@ -60,7 +60,7 @@
                     <div class="col-lg-8">
                       <div spi-hint text="_hint.plz.text"  title="_hint.plz.title"  class="has-hint"></div>
                       <div class="wrap-hint">
-                        <input class="form-control" name="plz" ng-model="performer.plz" type="text" value=""/>
+                        <input ng-required="user_type == 't'" class="form-control" name="plz" ng-model="performer.plz" type="text" value=""/>
                       </div>
                     </div>
                   </div>

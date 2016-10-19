@@ -1366,7 +1366,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
         network.put('request/'+$scope.$parent.requestID, data, function(result, response) {
           if(result) {
             $scope.data.status_finance = status;
-            $scope.data.comment = status == 'accepted' ? '' : $scope.data.finance_comment;
+            $scope.data.finance_comment = status == 'accepted' ? '' : $scope.data.comment;
             $scope.$parent.setFinanceStatus(status);
             RequestService.afterSave(
               function(){

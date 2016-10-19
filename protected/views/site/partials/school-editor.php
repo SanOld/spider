@@ -38,7 +38,7 @@
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.district_id.text"  title="_hint.district_id.title"  class="has-hint"></div>
                           <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('district_id')}">
-                            <ui-select ng-disabled="(!$select.items.length || !canEdit()) && user_type != 't'" ng-model="school.district_id"
+                            <ui-select ng-disabled="!$select.items.length || !canEdit()" ng-model="school.district_id"
                                        name="district_id" required>
                               <ui-select-match
                                 placeholder="{{$select.disabled ? '(keine Items sind verfügbar)' :'(Bitte wählen Sie)'}}">
@@ -59,7 +59,7 @@
                         <div class="col-lg-9">
                           <div spi-hint text="_hint.address.text"  title="_hint.address.title"  class="has-hint"></div>
                           <div class="wrap-hint">
-                            <textarea name="address" ng-model="school.address" class="form-control scoole-textarea"></textarea>
+                            <textarea ng-disabled="user_type == 'p'" name="address" ng-model="school.address" class="form-control scoole-textarea"></textarea>
                           </div>
                         </div>
                       </div>
