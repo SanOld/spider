@@ -192,6 +192,7 @@ spi.service("RequestService", function () {
 
   this.isChangedProjectForm = function() {};
   this.setChangedProjectForm = function() {};
+  this.setErrorsProjectForm = function() {};
   
   this.setStatusConceptForm = function() {};  
   this.setStatusFinanceForm = function() {};  

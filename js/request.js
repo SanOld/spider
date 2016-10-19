@@ -75,10 +75,11 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
     RequestService.setRequestCode($scope.requestYear + ' (' + $scope.projectID + ')');
   };
 
-  $scope.checkIfReadyToSend = function() {
+  $scope.checkIfReadyToSend = function(request_data) {
     var goalErors     = RequestService.hasErrorsGoalsForm();   //array[array]
     var conceptErors  = RequestService.hasErrorsConceptForm(); //boolean
     var financeErors  = RequestService.hasErrorsFinanceForm(); //array[]
+    var projectUserError = request_data.concept_user_id == '' || !request_data.concept_user_id ? true : false;
     var completed = '';
     if(network.user.is_finansist == '1' || network.user.type == 'p'){      
       if(!financeErors.length && ($scope.financeStatus != 'accepted' && $scope.financeStatus != 'in_progress')){
@@ -96,6 +97,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       completed += 'Entwicklungsziele, ';
     }else if(goalErors.length){
       RequestService.setErrorsGoalsForm(true);
+    };
+    if(projectUserError){
+      RequestService.setErrorsProjectForm();
     };
     if(completed.length && network.user.type == 't'){
       completed = completed.substring(0, completed.length - 2);
@@ -258,7 +262,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       network.put('request/' + $scope.requestID, data, function(result, response) {
         if(result) {
           if(!reset && !formsToSend){
-            $scope.checkIfReadyToSend();
+            $scope.checkIfReadyToSend(data);
           };
           RequestService.afterSave();
           console.log(data.year);
@@ -489,6 +493,7 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
 
     var data = RequestService.getFullProjectData();
     var request_data = RequestService.getProjectData();
+    var projectUserError = request_data.concept_user_id == '' || !request_data.concept_user_id ? true : false;
     
     var required = {
                   'doc_target_agreement_id': 'Druck-Template: Zielvereinbarung'
@@ -532,6 +537,10 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
           text: "Der Antrag ist nicht vollständig. Bitte ergänzen: \n "+failFields.join(',\n '),
           type: "error",
           confirmButtonText: "OK"
+        }, function(isConfirm){
+          if(isConfirm && projectUserError) {
+            RequestService.setErrorsProjectForm();
+          };
         });
         return false;
       }
@@ -698,6 +707,7 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
   $scope.userLoading = false;
   $scope.canFormEdit = ['a','p'].indexOf(network.user.type) !== -1;
   $scope.user_type = network.user.type;
+  $scope.concept_user_error = false;
   $scope.addNewConceptUser = function(){      
     $scope.dublicate = false;
     $scope.required = false;
@@ -1065,6 +1075,10 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
       });
     }
   };
+  
+  $scope.checkProjectError = function(){
+    RequestService.setErrorsProjectForm();
+  };
 
   RequestService.getProjectData = function() {
     return $scope.request;
@@ -1083,6 +1097,13 @@ spi.controller('RequestProjectDataController', function ($scope, network, Utils,
 
   RequestService.isChangedProjectForm = function(){
     return $scope.projectData.$dirty;
+  }
+  
+  RequestService.setErrorsProjectForm = function(){
+    if(!$scope.request.concept_user_id){
+      return $scope.concept_user_error = true;
+    }
+    return $scope.concept_user_error = false;    
   }
 
   RequestService.setChangedProjectForm = function(){
@@ -2716,7 +2737,8 @@ spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModal
     'goal'    : true
   };
   $scope.errors = '';
-  
+  var projectData   = RequestService.getProjectData();  
+  var projectUserError = projectData.concept_user_id == '' || !projectData.concept_user_id ? true : false;
   var goalErors     = RequestService.hasErrorsGoalsForm();   //array[array]
   var conceptErors  = RequestService.hasErrorsConceptForm(); //boolean
   var financeErors  = RequestService.hasErrorsFinanceForm(); //array[]
@@ -2729,11 +2751,14 @@ spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModal
         $scope.errors += 'Konzept\n';
       }else if(item == 'goal' && goalErors.length){
         $scope.errors += 'Entwicklungsziele\n';
-      };
+      }
     });
+    if(projectUserError && formsToSend.indexOf('concept') != -1 && formsToSend.indexOf('goal') != -1){
+      $scope.errors += 'Projektdaten\n';
+    };
     SweetAlert.swal({
       html:true,
-      title: "Die Antragteile können nur vollständig ausgefüllt übermittelt werden!",
+      title: "Die Antragsteile können nur vollständig ausgefüllt übermittelt werden!",
       text: "Bitte überprüfen Sie folgende Antragsteile:\n" + $scope.errors,
       type: "error",
       confirmButtonText: "OK"
@@ -2742,6 +2767,7 @@ spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModal
          RequestService.setErrorsFinanceForm(true);
          RequestService.setErrorsGoalsForm(true);
          RequestService.setErrorsConceptForm();
+         RequestService.setErrorsProjectForm();
          $uibModalInstance.close();
        }
     });
@@ -2796,6 +2822,9 @@ spi.controller('SendToAcceptController', function ($scope, $rootScope, $uibModal
           condition = false;
         };
       });
+      if($scope.formsToSend.indexOf('goal') != -1 && $scope.formsToSend.indexOf('concept') != -1 && projectUserError){
+        condition = false;
+      };
 
       if(!condition){
         return $scope.doErrorIncompleteFields($scope.formsToSend);

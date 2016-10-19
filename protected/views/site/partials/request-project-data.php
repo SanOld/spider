@@ -139,11 +139,11 @@
                       </label>
                     </h4>
                     <div class="clearfix">
-                      <div class="col-lg-9 p-l-0 m-b-15"  ng-class="{'wrap-line error': dublicate || required}" >  
+                      <div class="col-lg-9 p-l-0 m-b-15"  ng-class="{'wrap-line error': dublicate || required || concept_user_error}" >  
                       <input placeholder="Vorname Nachname" ng-keyup="escape($event)" ng-disabled="userLoading" 
                              ng-keypress="submitToAddUser($event, new_project_user)" ng-hide="!add_project_user" class="form-control popup-input" type="text" 
                              ng-model="new_project_user" ng-required="add_project_user" id="project_user">
-                      <ui-select on-select="onSelectCallback($item, $model, 2)" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users')">
+                      <ui-select on-select="onSelectCallback($item, $model, 2);checkProjectError()" class="type-document" ng-model="request.concept_user_id" ng-disabled="!userCan('users')">
                         <ui-select-match allow-clear="true" placeholder="Bitte auswählen">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in  performerUsers | filter: $select.search | orderBy: 'name'">
                           <span ng-bind-html="item.name | highlight: $select.search"></span>
