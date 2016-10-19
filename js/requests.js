@@ -993,10 +993,11 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
     for(var i in data){
       //count data
       var duration = 0;
-      if(data[i].start_date && data[i].due_date){
-        var month_start = data[i].start_date.substring(5,7);
-        var month_end = data[i].due_date.substring(5,7);
-        duration = Number(month_end) - Number(month_start);
+      if(data[i].start_date && data[i].due_date){        
+        var start_date = new Date(data[i].start_date);
+        var due_date = new Date(data[i].due_date);
+        duration = due_date - start_date;
+        duration = Math.ceil(duration / (1000 * 3600 * 24 * 31));
       };
       data[i].duration = duration;      
       //count material costs
@@ -1005,13 +1006,14 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
       data[i].material_costs = material_costs;
     };
     //count rate
-    network.get('request_school_finance', {}, function (result, response) {
+    network.get('request_school_finance', {'export_csv':1}, function (result, response) {
       if(result){
         for(var p in data){          
           var rate_count = 0;
           for(var f in response.result){            
             if(response.result[f].request_id == data[p].id){
               rate_count += Number(response.result[f].rate);
+              break;
             };
           };
           data[p].rate_count = rate_count;
@@ -1043,8 +1045,9 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
               prof_association_cost_summ += Number(data[i].prof_association_cost);
               revenue_summ += Number(data[i].revenue_sum);
             });
+            var now = new Date();
             $scope.paramsForExport['financeSumm'] = {
-              fileName: 'Financeplan(Summen).csv',
+              fileName: 'Finanzplanexport_'+now.ymd()+'_'+now.time()+'(Summen).csv',
               model: 'request',
               tables: {
                 table1: {
@@ -1125,33 +1128,31 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
                       tables: {
                         table1: {
                           columns: {
-                            'code'              : 'Kennziffer',
-                            'performer_name'    : 'Träger',
-                            'duration'          : 'Förderzeitraum',
-                            'is_umlage'         : 'Umlage 1',
-                            'null-1'            : '',
-                            'total_cost'        : 'Summe Fördervertrag',
-                            'revenue_sum'       : 'Summe sonstige Einnahmen',
-                            'null-2'            : '',
-                            'null-3'            : '',
-                            'null-4'            : '',
-                            'null-5'            : ''
+                            'code'                  : 'Kennziffer',
+                            'performer_name'        : 'Träger',
+                            'duration'              : 'Förderzeitraum',
+                            'is_umlage'             : 'Umlage 1',
+                            'null-1'                : '',
+                            'total_cost'            : 'Summe Fördervertrag',
+                            'revenue_sum'           : 'Summe sonstige Einnahmen',
+                            'prof_association_cost' : 'BG-Beitrag',
+                            'null-2'                : '',
+                            'null-3'                : ''
                           },
                           data: data
                         },
                         table2:{
                           columns: {
-                            'sex'               : 'Anrede',
-                            'name'              : 'Name',
-                            'group_name'        : 'Entgeltgruppe',
-                            'remuneration_name' : 'Entgeltstufe',
-                            'month_count'       : 'Geplante Monate im Projekt',
-                            'other'             : 'sonstige Information',
-                            'hours_per_week'    : 'Arbeitsstunden / Woche',
-                            'null'              : 'Summe Ausgaben',
-                            'brutto'            : 'AN-Brutto',
-                            'add_cost'          : 'AG-SV und Umlagen',
-                            'full_cost'         : 'Personalkosten'
+                            'sex'                   : 'Anrede',
+                            'name'                  : 'Name',
+                            'group_name'            : 'Entgeltgruppe',
+                            'remuneration_name'     : 'Entgeltstufe',
+                            'month_count'           : 'Geplante Monate im Projekt',
+                            'other'                 : 'sonstige Information',
+                            'hours_per_week'        : 'Arbeitsstunden / Woche',
+                            'brutto'                : 'AN-Brutto pro Monat',
+                            'add_cost'              : 'AG-SV und Umlagen',
+                            'full_cost'             : 'Personalkosten',
                           },
                           data: data.users
                         },
@@ -1163,7 +1164,6 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
                             'count'         : 'Anzahl Schulen',
                             'overhead_cost' : 'Regiekosten',
                             'training_cost' : 'Fortbildungskosten',
-                            'null'          : 'BG-Beitrag',
                             'null-1'        : '',
                             'null-2'        : '',
                             'null-3'        : '',
@@ -1185,12 +1185,36 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
   };
   
   $scope.exportProjectData = function(data){
+    for(var i in data){
+      if(!data[i].performer){
+        data[i].performer = {};
+      }
+      if(!data[i].representative){
+        data[i].representative = {};
+      }
+      if(!data[i].concept_user){
+        data[i].concept_user = {};
+      }
+      if(!data[i].finance_user){
+        data[i].finance_user = {};
+      }
+      if(!data[i].bank_details){
+        data[i].bank_details = {};
+      }
+      if(!data[i].district){
+        data[i].district = {};
+      }
+      if(!data[i].district_contact_name){
+        data[i].district_contact_name = {};
+      }
+    };
     var date = new Date();
     var fileDate = $scope.dateFormat(date);
     var time = $scope.getTime(date);
     var year = $scope.filter.year;
+    var now = new Date();
     $scope.paramsForExport['projectData'] = {
-      fileName: 'Projektdaten(Summen).csv',
+      fileName: 'Projektdaten_'+now.ymd()+'_'+now.time()+'(Summen).csv',
       model: 'request',
       tables: {
         table1: {
@@ -1255,9 +1279,6 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
             'finance_user_phone'        : 'Telefon',
             'finance_user_email'        : 'E-Mail',
             'bank_details_contact_person'    : 'Kontoinhaber',
-            'null-1'                    : 'Kontonummer',
-            'null-2'                    : 'Bankleitzahl',
-            'bank_details_bank_name'    : 'Geldinstitut',
             'bank_details_iban'         : 'IBAN',
             'null-3'                    : 'BIC',
             'district_name'             : 'Bezirk',
@@ -1322,7 +1343,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
       param: $scope.filter
     };
     //empty fields for first table
-    for(var i = 2; i < 51; i++){
+    for(var i = 2; i < 48; i++){
       $scope.paramsForExport['projectData'].tables.table1.columns['null-'+i] = '';
     };
      //empty fields for second table
@@ -1330,7 +1351,7 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
       $scope.paramsForExport['projectData'].tables.table2.columns['null-'+i] = '';
     };
     $scope.paramsForExport['projectData'].tables.table2.columns['null-26'] = 'Antragsrelevante Projektdaten';
-    for(var i = 27; i < 51; i++){
+    for(var i = 27; i < 48; i++){
       $scope.paramsForExport['projectData'].tables.table2.columns['null-'+i] = '';
     };
      //empty fields for third table
@@ -1358,11 +1379,11 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
     $scope.paramsForExport['projectData'].tables.table3.columns['null-38'] = 'Kontoverbindung';
-    for(var i = 39; i < 44; i++){
+    for(var i = 39; i < 41; i++){
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
-    $scope.paramsForExport['projectData'].tables.table3.columns['null-44'] = 'Angaben zum Jugendamt';
-    for(var i = 45; i < 51; i++){
+    $scope.paramsForExport['projectData'].tables.table3.columns['null-41'] = 'Angaben zum Jugendamt';
+    for(var i = 45; i < 48; i++){
       $scope.paramsForExport['projectData'].tables.table3.columns['null-'+i] = '';
     };
   };

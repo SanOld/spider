@@ -334,7 +334,7 @@ spi.directive('exportToCsv',['network','$timeout', function(network, $timeout){
               };
             };              
             csvString = csvString.substring(0, csvString.length - 1);
-            console.log('csvString:',csvString)
+            //console.log('csvString:',csvString)
             addClick(csvString);
             if(scope.checkbox){
               for(var box in scope.checkbox){

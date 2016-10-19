@@ -557,7 +557,7 @@ spi.controller('EditFinancialRequestController', function ($scope, modeView, $ui
                 var day = year + '-' + $scope.rate_dates[item.id];
                 var rateDate = new Date(day);              
                 var diff = receiptDate - rateDate;
-                diff = Math.ceil(diff / (1000 * 3600 * 24 * 30));
+                diff = Math.ceil(diff / (1000 * 3600 * 24 * 31));
                 if(diff < 2 || (receipt_rate + 1 < item['id'] && $scope.receiptDate < project.start_date)){
                   delete $scope.updatedRates[i];
                 };

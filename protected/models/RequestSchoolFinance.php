@@ -23,31 +23,32 @@ class RequestSchoolFinance extends BaseModel {
   }
 
   protected function doAfterSelect($result) {
-    foreach($result['result'] as $key=>$value) {
+    if(!isset($_GET['export_csv'])){
+      foreach($result['result'] as $key=>$value) {
+        $status_id = Yii::app() -> db -> createCommand()
+                                      -> select('status_id')
+                                      -> from('spi_request tbl')
+                                      ->where('tbl.id = :id', array(':id' => $value['request_id']))
+                                      ->queryScalar();
+        if($status_id == '4' || $status_id == '5'){
+          $school_result=Yii::app() -> db -> createCommand()
+                                      -> select('tbl.name, tbl.number')
+                                      -> from('spi_school_lock tbl')
+                                      ->where('tbl.request_id = :id', array(':id' => $value['request_id']))
+                                      ->andWhere('tbl.school_id = :school_id', array(':school_id' => $value['school_id']))
+                                      ->queryRow();
 
-      $status_id = Yii::app() -> db -> createCommand()
-                                    -> select('status_id')
-                                    -> from('spi_request tbl')
-                                    ->where('tbl.id = :id', array(':id' => $value['request_id']))
-                                    ->queryScalar();
-      if($status_id == '4' || $status_id == '5'){
-        $school_result=Yii::app() -> db -> createCommand()
-                                    -> select('tbl.name, tbl.number')
-                                    -> from('spi_school_lock tbl')
-                                    ->where('tbl.request_id = :id', array(':id' => $value['request_id']))
-                                    ->andWhere('tbl.school_id = :school_id', array(':school_id' => $value['school_id']))
-                                    ->queryRow();
 
+          $result['result'][$key]['school_name'] = $school_result['name'];
+          $result['result'][$key]['school_number'] = $school_result['name'];
 
-        $result['result'][$key]['school_name'] = $school_result['name'];
-        $result['result'][$key]['school_number'] = $school_result['name'];
+        }
+
+        $result['result'][$value['school_id']] = $value;
+        unset ($result['result'][$key]);
 
       }
-
-      $result['result'][$value['school_id']] = $value;
-      unset ($result['result'][$key]);
-
-    }
+    }    
     return $result;
   }
 //

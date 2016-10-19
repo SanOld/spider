@@ -116,6 +116,8 @@ Date.prototype.dmy = function() {
  };
  
  function YMDToDMY(ymd) {
-   var d = ymd.split('-');
-   return d[2]+'-'+d[1]+'-'+d[0];
+    if(ymd){     
+     var d = ymd.split('-');
+     return d[2]+'-'+d[1]+'-'+d[0];
+    }
  }

@@ -779,9 +779,9 @@ class Request extends BaseModel {
               -> queryAll();
               if(safe($contact,0)){                
                 if($contact[0]['sex'] == '1'){
-                  $contact[0]['sex'] = 'm';
+                  $contact[0]['sex'] = 'Herr';
                 }else if($contact[0]['sex'] == '2'){
-                  $contact[0]['sex'] = 'f';
+                  $contact[0]['sex'] = 'Frau';
                 }else{
                   $contact[0]['sex'] = '-';
                 }
@@ -817,9 +817,9 @@ class Request extends BaseModel {
           -> queryAll();
           if(safe($representative,0)){
             if($representative[0]['sex'] == '1'){
-              $representative[0]['sex'] = 'm';
+              $representative[0]['sex'] = 'Herr';
             }else if($representative[0]['sex'] == '2'){
-              $representative[0]['sex'] = 'f';
+              $representative[0]['sex'] = 'Frau';
             }else{
               $representative[0]['sex'] = '-';
             }
@@ -834,9 +834,9 @@ class Request extends BaseModel {
           -> queryAll();
           if(safe($concept_user,0)){
             if($concept_user[0]['sex'] == '1'){
-              $concept_user[0]['sex'] = 'm';
+              $concept_user[0]['sex'] = 'Herr';
             }else if($concept_user[0]['sex'] == '2'){
-              $concept_user[0]['sex'] = 'f';
+              $concept_user[0]['sex'] = 'Frau';
             }else{
               $concept_user[0]['sex'] = '-';
             }
@@ -851,9 +851,9 @@ class Request extends BaseModel {
           -> queryAll();
           if(safe($finance_user,0)){
             if($finance_user[0]['sex'] == '1'){
-              $finance_user[0]['sex'] = 'm';
+              $finance_user[0]['sex'] = 'Herr';
             }else if($finance_user[0]['sex'] == '2'){
-              $finance_user[0]['sex'] = 'f';
+              $finance_user[0]['sex'] = 'Frau';
             }else{
               $finance_user[0]['sex'] = '-';
             }
