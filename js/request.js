@@ -1385,7 +1385,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
     var data = {};
     switch (status) {
       case 'accepted':
-
+        if($scope.data.comment && $scope.data.comment.length && $scope.data.status_finance != 'rejected') return false;
         $scope.errorShow = true;
         if($scope.errorArray.length){
           return $scope.$parent.doErrorIncompleteFields($scope.errorArray);
@@ -1942,6 +1942,7 @@ spi.controller('RequestSchoolConceptController', function ($scope, network, $tim
           RequestService.acceptMSG(callback);
           break;
         case 'accept':
+          if(data.comment && data.comment.length && concept.status != 'rejected') return false;
           if($scope.conceptForm['schoolForm'+index].$invalid) return $scope.$parent.doErrorIncompleteFields();
           status = 'accepted';
 
@@ -2427,7 +2428,6 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
 
       switch (action) {
         case 'submit':
-          
           if(isEmptyObject(goal.errors) && (goal.total_count < 3 || !goal.total_count)){
             $scope.tempStatus = 'in_progress';
             RequestService.sendMSG(callback);
@@ -2446,6 +2446,7 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
           RequestService.acceptMSG(callback);
           break;
         case 'accept':
+          if (goal.newNotice && goal.newNotice.length && goal.status != 'rejected') return false;
           if(isEmptyObject(goal.errors) && (goal.total_count < 3 || !goal.total_count)){
             goal.notice = goal.newNotice;
             $scope.tempStatus = 'accepted';

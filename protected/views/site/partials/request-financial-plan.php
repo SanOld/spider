@@ -554,7 +554,7 @@
           </div>
           <div class="col-lg-2">
             <div class="m-t-30 text-right pull-right" ng-if="canAccept">
-                <button ng-hide="data.status_finance == 'accepted' || !canEdit()" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm('accepted')" ng-class="{disabled: data.comment.length}">AKZEPTIEREN</button>
+                <button ng-hide="data.status_finance == 'accepted' || !canEdit()" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm('accepted')" ng-class="{disabled: data.comment.length && data.status_finance != 'rejected'}">AKZEPTIEREN</button>
               <button ng-hide="data.status_finance == 'rejected' || !canEdit()" ng-class="{disabled: !data.comment}" ng-click="submitForm('rejected')" class="btn w-lg btn-lg btn-danger">ANMERKUNG</button>
             </div>
 <!--            <div class="text-right pull-right" ng-if="canFormEdit && !canAccept && data.status_finance != 'in_progress' && data.status_finance != 'accepted' && canEdit()">

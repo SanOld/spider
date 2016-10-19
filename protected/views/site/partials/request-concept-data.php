@@ -78,7 +78,7 @@
                   </div>
                   <div class="col-lg-2">
                     <div class="m-t-30 text-right pull-right" ng-if="canAccept">
-                      <button ng-hide="schoolConcept.status == 'accepted' || !canEdit()" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept', $index)">AKZEPTIEREN</button>
+                      <button ng-hide="schoolConcept.status == 'accepted' || !canEdit()" class="btn w-lg btn-lg btn-success m-b-10" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'accept', $index)" ng-class="{disabled: school_concept[schoolConcept.id].comment.length && schoolConcept.status != 'rejected'}">AKZEPTIEREN</button>
                       <button ng-hide="schoolConcept.status == 'rejected' || !canEdit()" ng-class="{disabled: !school_concept[schoolConcept.id].comment}" ng-click="submitForm(school_concept[schoolConcept.id], schoolConcept, 'reject', $index)" class="btn w-lg btn-lg btn-danger">ANMERKUNG</button>
                     </div>
 <!--                    <div class="text-right pull-right" ng-if="canFormEdit && !isTextareaShow && !canAccept && schoolConcept.status != 'in_progress' && schoolConcept.status != 'accepted' && canEdit()">
