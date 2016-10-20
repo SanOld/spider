@@ -85,7 +85,7 @@
           <div class="col-lg-4">
             <div spi-hint text="_hint.function.text"  title="_hint.function.title"  class="has-hint"></div>
             <div class="wrap-hint">
-              <input id="title" class="form-control" ng-model="user.function" type="text" value="" ng-disabled="user_type == 'p'">
+              <input id="title" class="form-control" ng-model="user.function" type="text" value="" ng-disabled="user_type == 'p' && !isInsert && !isCurrentUser">
             </div>
           </div>
         </div>
@@ -96,14 +96,14 @@
           <div class="col-lg-10 holder-label-radio">
             <div class="radio-inline m-b-5-custom" ng-if="!modeView && canEdit()">
               <label for="radio1" class="cr-styled">
-                <input ng-disabled="user_type == 'p' && !isInsert" type="radio" ng-model="user.sex" name="sex" value="1" id="radio1" ng-required="!user.sex">
+                <input ng-disabled="user_type == 'p' && !isInsert && !isCurrentUser" type="radio" ng-model="user.sex" name="sex" value="1" id="radio1" ng-required="!user.sex">
                 <i class="fa"></i>
                 Herr
               </label>
             </div>
             <div class="radio-inline">
               <label for="radio2" class="cr-styled" ng-if="!modeView && canEdit()">
-                <input ng-disabled="user_type == 'p' && !isInsert" type="radio" ng-model="user.sex" name="sex" value="2" id="radio2" ng-required="!user.sex">
+                <input ng-disabled="user_type == 'p' && !isInsert && !isCurrentUser" type="radio" ng-model="user.sex" name="sex" value="2" id="radio2" ng-required="!user.sex">
                 <i class="fa"></i>
                 Frau
               </label>
@@ -197,7 +197,7 @@
           <div class="col-lg-8">
             <div spi-hint text="_hint.title.text"  title="_hint.title.title"  class="has-hint"></div>
             <div class="wrap-hint">
-              <input ng-disabled="user_type == 'p'" id="title" class="form-control" ng-model="user.title" type="text" value="">
+              <input ng-disabled="user_type == 'p' && !isInsert && !isCurrentUser" id="title" class="form-control" ng-model="user.title" type="text" value="">
             </div>
           </div>
         </div>
@@ -207,7 +207,7 @@
           <div class="col-lg-8">
             <div spi-hint text="_hint.first_name.text"  title="_hint.first_name.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('first_name')}">
-              <input ng-disabled="user_type == 'p' && !isInsert" class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name"
+              <input ng-disabled="user_type == 'p' && !isInsert && !isCurrentUser" class="form-control" ng-model="user.first_name" name="first_name" type="text" id="first_name"
                      value="" ng-minlength="2" ng-maxlength="45" required>
                 <span ng-class="{hide: !fieldError('first_name')}" class="hide">
                 <label ng-show="form.first_name.$error.required" class="error">Vorname erforderlich</label>
@@ -223,7 +223,7 @@
           <div class="col-lg-8">
             <div spi-hint text="_hint.last_name.text"  title="_hint.last_name.title"  class="has-hint"></div>
             <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('last_name')}">
-              <input ng-disabled="user_type == 'p' && !isInsert" class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
+              <input ng-disabled="user_type == 'p' && !isInsert && !isCurrentUser" class="form-control" ng-model="user.last_name" name="last_name" type="text" id="lname" value=""
                      ng-minlength="2" ng-maxlength="45" ng-required="!user.is_virtual">
               <span ng-class="{hide: !fieldError('last_name')}" class="hide">
                 <label ng-show="form.last_name.$error.required" class="error">Nachname erforderlich</label>
@@ -297,7 +297,7 @@
                 <div spi-hint text="_hint.login.text"  title="_hint.login.title"  class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('login')}">
                   <input class="form-control" type="text" name="login" ng-model="user.login" id="login" value=""
-                         ng-disabled="(isCurrentUser && !isAdmin) || (user_type == 'p' && !isInsert)" ng-minlength="3" ng-maxlength="45" ng-required="!user.is_virtual">
+                         ng-disabled="(isCurrentUser && !isAdmin) || (user_type == 'p' && !isInsert && !isCurrentUser)" ng-minlength="3" ng-maxlength="45" ng-required="!user.is_virtual">
 									<span ng-class="{hide: !fieldError('login')}" class="hide">
 										<label ng-show="form.login.$error.required" class="error">Benutzername erforderlich</label>
 										<label ng-show="form.login.$error.minlength" class="error">Benutzername ist zu kurz</label>
@@ -314,7 +314,7 @@
               <div class="col-lg-9">
                 <div spi-hint text="_hint.email.text"  title="_hint.email.title"  class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('email')}">
-                  <input ng-disabled="user_type == 'p' && !isInsert" class="form-control" type="email" name="email" ng-model="user.email" id="email" value=""
+                  <input ng-disabled="user_type == 'p' && !isInsert && !isCurrentUser" class="form-control" type="email" name="email" ng-model="user.email" id="email" value=""
                          ng-maxlength="45" ng-pattern="emailFormat" ng-required="!user.is_virtual">
 									<span ng-class="{hide: !fieldError('email')}" class="hide">
 										<label ng-show="form.email.$error.required" class="error">E-Mail erforderlich</label>
@@ -333,7 +333,7 @@
               <div class="col-lg-9">
                 <div spi-hint text="_hint.phone.text"  title="_hint.phone.title"  class="has-hint"></div>
                 <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('phone')}">
-                  <input ng-disabled="user_type == 'p'" class="form-control" type="text" name="phone" ng-model="user.phone"  value="" ng-pattern="/^[^A-Za-z]*$/">
+                  <input ng-disabled="user_type == 'p' && !isInsert && !isCurrentUser" class="form-control" type="text" name="phone" ng-model="user.phone"  value="" ng-pattern="/^[^A-Za-z]*$/">
                   <span ng-class="{hide: !fieldError('phone')}" class="hide">
 										<label ng-show="form.phone.$error.pattern" class="error">Telefon must not contain letters</label>
 										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
