@@ -50,8 +50,12 @@
                     <label class="col-lg-4 control-label">Adresse</label>
                     <div class="col-lg-8">
                       <div spi-hint text="_hint.address.text"  title="_hint.address.title"  class="has-hint"></div>
-                      <div class="wrap-hint">
-                        <textarea name="address" ng-model="performer.address" class="form-control"></textarea>
+                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'address')}">
+                        <textarea name="address" ng-model="performer.address" ng-required="user_type == 't'" class="form-control"></textarea>
+                        <span ng-class="{hide: !fieldError('formPerformer', 'address')}" class="hide">
+                          <label ng-show="formPerformer.address.$error.required" class="error">Adresse ist erforderlich</label>                        
+                          <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -59,8 +63,12 @@
                     <label class="col-lg-4 control-label">PLZ</label>
                     <div class="col-lg-8">
                       <div spi-hint text="_hint.plz.text"  title="_hint.plz.title"  class="has-hint"></div>
-                      <div class="wrap-hint">
+                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'plz')}">
                         <input ng-required="user_type == 't'" class="form-control" name="plz" ng-model="performer.plz" type="text" value=""/>
+                        <span ng-class="{hide: !fieldError('formPerformer', 'plz')}" class="hide">
+                          <label ng-show="formPerformer.plz.$error.required" class="error">PLZ ist erforderlich</label>                        
+                          <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -68,8 +76,12 @@
                     <label class="col-lg-4 control-label">Stadt</label>
                     <div class="col-lg-8">
                       <div spi-hint text="_hint.city.text"  title="_hint.city.title"  class="has-hint"></div>
-                      <div class="wrap-hint">
-                        <input class="form-control" name="city" ng-model="performer.city" type="text" value=""/>
+                      <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'city')}">
+                        <input class="form-control" ng-required="user_type == 't'" name="city" ng-model="performer.city" type="text" value=""/>
+                        <span ng-class="{hide: !fieldError('formPerformer', 'city')}" class="hide">
+                          <label ng-show="formPerformer.city.$error.required" class="error">Stadt ist erforderlich</label>                        
+                          <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -80,9 +92,10 @@
                     <div class="col-lg-9">
                       <div spi-hint text="_hint.phone.text"  title="_hint.phone.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'phone')}">
-                        <input name="phone" ng-model="performer.phone" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
+                        <input name="phone" ng-model="performer.phone" ng-required="user_type == 't'" type="text" value="" class="form-control" ng-pattern="/^[^A-Za-z]*$/">
                         <span ng-class="{hide: !fieldError('formPerformer', 'phone')}" class="hide">
                           <label ng-show="form.formPerformer.phone.$error.pattern" class="error">Telefon must not contain letters</label>
+                          <label ng-show="formPerformer.phone.$error.required" class="error">Telefon ist erforderlich</label>  
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -93,9 +106,10 @@
                     <div class="col-lg-9">
                       <div spi-hint text="_hint.fax.text"  title="_hint.fax.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'fax')}">
-                        <input class="form-control" name="fax" ng-model="performer.fax" type="text" value="" ng-pattern="/^[^A-Za-z]*$/" />
+                        <input class="form-control" name="fax" ng-model="performer.fax" ng-required="user_type == 't'" type="text" value="" ng-pattern="/^[^A-Za-z]*$/" />
                         <span ng-class="{hide: !fieldError('formPerformer', 'fax')}" class="hide">
                           <label ng-show="form.formPerformer.fax.$error.pattern" class="error">Fax must not contain letters</label>
+                          <label ng-show="formPerformer.fax.$error.required" class="error">Fax ist erforderlich</label>  
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -106,9 +120,10 @@
                     <div class="col-lg-9">
                       <div spi-hint text="_hint.email.text"  title="_hint.email.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'email')}">
-                        <input class="form-control" name="email" ng-model="performer.email" type="email" value="" ng-pattern="emailFormat" />
+                        <input class="form-control" name="email" ng-required="user_type == 't'" ng-model="performer.email" type="email" value="" ng-pattern="emailFormat" />
                         <span ng-class="{hide: !fieldError('formPerformer', 'email')}" class="hide">
                           <label ng-show="form.formPerformer.email.$error.email || form.formPerformer.email.$error.pattern" class="error">Geben Sie eine gültige E-Mail ein</label>
+                          <label ng-show="formPerformer.email.$error.required" class="error">E-Mail ist erforderlich</label>  
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
@@ -119,9 +134,10 @@
                     <div class="col-lg-9">
                       <div spi-hint text="_hint.homepage.text"  title="_hint.homepage.title"  class="has-hint"></div>
                       <div class="wrap-hint" ng-class="{'wrap-line error': fieldError('formPerformer', 'homepage')}">
-                        <input class="form-control" name="homepage" ng-model="performer.homepage" type="text" ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/" value=""/>
+                        <input class="form-control" ng-required="user_type == 't'" name="homepage" ng-model="performer.homepage" type="text" ng-pattern="/^((https?|ftp)\:\/\/)?([a-zA-Z0-9]{1})((\.[a-zA-Z0-9-])|([a-zA-Z0-9-]))*\.([a-zA-Z]{2,6})(\/?)$/" value=""/>
                         <span ng-class="{hide: !fieldError('formPerformer', 'homepage')}" class="hide">
                           <label ng-show="form.formPerformer.homepage.$error.pattern" class="error">Geben Sie eine gültige Website</label>
+                          <label ng-show="formPerformer.homepage.$error.required" class="error">Website ist erforderlich</label>
                           <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </span>
                       </div>
