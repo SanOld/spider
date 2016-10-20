@@ -449,10 +449,9 @@ class Request extends BaseModel {
 
       
       $request = Yii::app() -> db -> createCommand()
-        -> select('usr.email, req.year, req.end_fill')
+        -> select('prf.email, req.year, req.end_fill')
         -> from('spi_request req')
         -> join('spi_performer prf', 'req.performer_id = prf.id')
-        -> join('spi_user usr', 'prf.representative_user_id = usr.id')
         -> where('req.id=:id', array(':id' => $result['id']))
         ->queryRow();
 
