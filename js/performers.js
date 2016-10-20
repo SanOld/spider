@@ -212,31 +212,32 @@ spi.controller('EditPerformerController', function ($scope, $rootScope, filterFi
 
   $scope.submitFormPerformer = function () {
     var formBankValid = true;
-    $scope.submited = true;
-
-    for(var i=0; i<$scope.bank_details.length; i++) {
-      var form = $scope.form['formBank'+i];
-      if ($scope.form.$dirty &&  network.user.type == 't') {
-        $scope.checked(false);
-      }
-      form.$setPristine();
-      if (form.$invalid) {
-        $scope.tabActive = 0;
-        $location.hash('formBank'+i);
-        $timeout(function() {
-          $anchorScroll();
-        });
-        formBankValid = false;
-        break;
-      }
-    }
-
-
-    if(formBankValid) {
+    $scope.submited = true;    
+    if($scope.form.formPerformer.$valid){     
       for(var i=0; i<$scope.bank_details.length; i++) {
-        $scope.saveBankDetails($scope.bank_details[i], i, true);
+        var form = $scope.form['formBank'+i];
+        if ($scope.form.$dirty &&  network.user.type == 't') {
+          $scope.checked(false);
+        }
+        form.$setPristine();
+        if (form.$invalid) {
+          $scope.tabActive = 0;
+          $location.hash('formBank'+i);
+          $timeout(function() {
+            $anchorScroll();
+          });
+          formBankValid = false;
+          break;
+        }
       }
-      $scope.savePerformer();
+
+
+      if(formBankValid) {
+        for(var i=0; i<$scope.bank_details.length; i++) {
+          $scope.saveBankDetails($scope.bank_details[i], i, true);
+        }
+        $scope.savePerformer();
+      } 
     }
   };
 
