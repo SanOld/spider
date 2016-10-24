@@ -2263,10 +2263,18 @@ spi.controller('RequestSchoolGoalController', function ($scope, network,  Reques
   $scope.requestSchoolGoal();
   
   $scope.canGoalsEdit = function(){
-    if(($scope.$parent.goalsStatus == 'unfinished'|| $scope.$parent.goalsStatus == 'rejected') && $scope.canEdit()){
-      return true;
+    switch(network.user.type){
+      case 'p':
+        return false;
+        break;
+      case 'a':
+      case 't':
+        if(($scope.$parent.goalsStatus == 'unfinished'|| $scope.$parent.goalsStatus == 'rejected') && $scope.canEdit()){
+          return true;
+        }; 
+        return false;
+        break;
     };
-    return false;
   };
 
   $scope.canEdit  = function (){
