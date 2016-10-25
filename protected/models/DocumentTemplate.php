@@ -491,7 +491,7 @@ class DocumentTemplate extends BaseModel {
       $params = array(
             '{FOREACH=GOAL KEY=GD}'           => ''
           , '{FOREACH_END=GOAL}'              => ''
-          , '{GD_NAME}'                       => 'Entwicklungziel '.safe($goal,'goal_number')
+          , '{GD_NAME}'                       => 'Entwicklungsziel '.safe($goal,'goal_number')
           , '{GD_DESCRIPTION}'                => safe($goal,'description') ? $goal['description'] : ''
 
           , '{GD_SCHWERPUNKTZIEL}'            => $priorityGoal

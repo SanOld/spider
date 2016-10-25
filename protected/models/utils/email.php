@@ -75,6 +75,9 @@ class Email {
   }
 
   static function send($to, $from, $subject, $message, $frwd = '', $showResults = true, $addAttachment = false) {
+    if(Yii::app()->params['disable_emails']) {
+      return false;
+    }
     $mail = Yii::app() -> Smtpmail;
     if ($addAttachment && is_array($addAttachment)) {
       foreach($addAttachment as $value){

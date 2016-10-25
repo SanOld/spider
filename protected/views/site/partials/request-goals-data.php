@@ -27,7 +27,7 @@
                       <span class="notice">
                         <span  class="color-notice {{goal.status}}-row"></span>
                       </span>
-                      Entwicklungziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></a>
+                      Entwicklungsziel {{goal.goal_number}}<span ng-if="goal.option == 1"> (optional)</span></a>
                     </li>
                   <button id="goals-button-{{$index}}" ng-if="canGoalsEdit();" class="btn button-new-goal-width" ng-click="addGoal(school.goals)" ng-hide="school.counter >= 5">Weiteres Entwicklungsziel hinzufügen</button>
                   </ul>
@@ -48,7 +48,7 @@
                       </strong>
                     </div>
                     <label class="control-label">
-                        <h4> Entwicklungziel {{::goal.goal_number}}</h4> <span spi-hint text="_hint.goals_goal.text" title="_hint.goals_goal.title" class="has-hint"></span>
+                        <h4> Entwicklungsziel {{::goal.goal_number}}</h4> <span spi-hint text="_hint.goals_goal.text" title="_hint.goals_goal.title" class="has-hint"></span>
                     </label>
                     <div class="wrap-hint" ng-class="{'wrap-line error': (fieldError(goal, 'description') && goal.showError)}">
                         <textarea ng-disabled="!userCan('allFields', goal.status)"  required ng-model="goal.description" name="description" class="form-control" placeholder="Tragen Sie den Text hier ein" ></textarea>

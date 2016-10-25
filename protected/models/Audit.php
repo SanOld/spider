@@ -60,7 +60,7 @@ class Audit extends BaseModel {
                                       -> where('tbl.id=:record_id', array(':record_id' => $row['record_id']))
                                       -> queryAll();
         $row['main_code'] = $goal_data[0]['main_code'];
-        $row['goal_number'] = 'Entwicklungziel '.$goal_data[0]['goal_number'];
+        $row['goal_number'] = 'Entwicklungsziel '.$goal_data[0]['goal_number'];
         $goals = Yii::app() -> db -> createCommand()-> select('id, name')-> from('spi_goal')-> queryAll();
         $row['goals'] = array();
         foreach ($goals as $goal){
