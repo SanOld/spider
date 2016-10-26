@@ -273,7 +273,7 @@
                   <dd><strong>{{data.district_name}}</strong></dd>
                 </ng-show>
                 <ng-show ng-show="data.district_contact">
-                  <dt>Ansprechpartner(in):</dt>
+                  <dt>Jugendamtsleiter(in):</dt>
                   <dd><strong>{{data.district_contact}}</strong></dd>
                 </ng-show>
               </dl>
@@ -319,7 +319,7 @@
         <hr/>
         <div class="row">
           <div class="col-lg-12">
-            <h4 class="m-t-0">Zusätzliche Information</h4>
+            <h4 class="m-t-0">Zusätzliche Information (z.B. Ansprechperson im Jugendamt)</h4>
             <textarea ng-disabled="!userCan('additional_info')" placeholder="Tragen Sie den Text hier ein" ng-model="request.additional_info" class="form-control"></textarea>
           </div>
         </div>

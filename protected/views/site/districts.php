@@ -27,7 +27,7 @@ $this->breadcrumbs = array('Bezirk');
                 <form class="class-form">
                   <div class="col-lg-10">
                     <div class="form-group">
-                      <label>Suche nach Namen, Adresse oder Ansprechpartner(in)</label>
+                      <label>Suche nach Namen, Adresse oder Jugendamtsleiter(in)</label>
                       <input ng-change="updateGrid()" type="search" ng-model="filter.keyword" class="form-control"
                              placeholder="Eingegeben">
                     </div>
@@ -44,7 +44,7 @@ $this->breadcrumbs = array('Bezirk');
                 <tr ng-repeat="row in $data">
                   <td data-title="'Name'" sortable="'name'">{{row.name}}</td>
                   <td data-title="'Adresse'" sortable="'full_address'">{{row.full_address}}</td>
-                  <td data-title="'Ansprechpartner(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
+                  <td data-title="'Jugendamtsleiter(in)'" sortable="'contact_user_name'">{{row.contact_user_name}}</td>
                   <td data-title="'Telefon'" sortable="'phone'">{{row.phone}}</td>
                   <td data-title="'Ansicht / Bearbeiten'" header-class="'dt-edit'" class="dt-edit">
                     <a class="btn center-block edit-btn" ng-click="openEdit(row, !canEdit(row.id))">
@@ -194,7 +194,7 @@ $this->breadcrumbs = array('Bezirk');
                   </div>
                 </div>
                 <div ng-if="!isInsert" class="col-lg-3 schoole-contact">
-                  <h3 class="m-t-0 m-b-15">Ansprechpartner(in)</h3>
+                  <h3 class="m-t-0 m-b-15">Jugendamtsleiter(in)</h3>
                   <span ng-if="canEditContactPerson('input')" ng-bind="contactUser.name || '-'"></span>
                   <span spi-hint text="_hint.contact_id.text"  title="_hint.contact_id.title"  class="{{canEditContactPerson() ? 'has-hint' : ''}}"></span>
                   <div class="wrap-hint" ng-if="canEditContactPerson()">

@@ -42,13 +42,14 @@ class RequestSchoolConcept extends BaseModel {
                                     ->where('tbl.request_id = :id', array(':id' => $value['request_id']))
                                     ->andWhere('tbl.school_id = :school_id', array(':school_id' => $value['school_id']))
                                     ->queryRow();
-
+        
         $result['result'][$key]['school_name'] = $school_result['name'];
         $result['result'][$key]['school_number'] = $school_result['name'];
       }
-
-      $result['result'][$value['school_id']] = $result['result'][$key];
-      unset ($result['result'][$key]);
+      if($value['school_id'] != 0){
+        $result['result'][$value['school_id']] = $result['result'][$key];
+        unset ($result['result'][$key]);
+      }      
     }
     return $result;
   }
