@@ -1591,7 +1591,7 @@ spi.controller('RequestFinancePlanController', function ($scope, network, Reques
                 + num(changed_empl.annual_bonus) * changed_empl.have_annual_bonus
                 + num(changed_empl.additional_provision_vwl) * mc * num(changed_empl.have_additional_provision_vwl)
                 + num(changed_empl.supplementary_pension) * mc * num(changed_empl.have_supplementary_pension);
-    empl.brutto = Math.ceil(empl.brutto/100)*100; // Результат округлять вверх до 100 евро. Например: 1201 = 1300
+    //empl.brutto = Math.ceil(empl.brutto/100)*100; // Результат округлять вверх до 100 евро. Например: 1201 = 1300
 
     var summ  = num(changed_empl.cost_per_month_brutto) * mc
               + num(changed_empl.annual_bonus) * changed_empl.have_annual_bonus
