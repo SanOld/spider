@@ -1095,89 +1095,110 @@ spi.controller('ExportDataController', function ($scope, $timeout, network, $uib
       };
     });    
   };
+  
+  $scope.getTime = function(date){    
+    var m = date.getMinutes().toString();
+    var h = (date.getHours()).toString();
+    return (h[1]?h:"0"+h[0]) + ':' + (m[1]?m:"0"+m[0]);
+  };
+  
+  $scope.getDate = function(date){    
+    var yy = (date.getFullYear().toString()).split('20').join('');
+    var mm = (date.getMonth()+1).toString();
+    var dd  = date.getDate().toString();
+    return (dd[1]?dd:"0"+dd[0]) + '/' + (mm[1]?mm:"0"+mm[0]) + '/' + yy ;
+  };
     
   $scope.exportFinanceSingle = function(request_id){
+    var now = new Date();    
     var data = [];
     network.get('request', {id:request_id}, function (result, response) {
       if(result){
         data[0] = response.result;
         data[0].is_umlage = response.result.is_umlage == 1 ? 'ja' : 'nein';
-        data[0].duration  = YMDToDMY(response.result.start_date) + " - " + YMDToDMY(response.result.due_date);
+        data[0].duration  = response.result.start_date && response.result.due_date ? 
+                YMDToDMY(response.result.start_date) + " - " + YMDToDMY(response.result.due_date) : ' ';
+        data[0].export_date = ""+$scope.getDate(now) + ' ' + $scope.getTime(now)+"";
+        console.log(data[0].export_date);
+        data[0].revenue_sum = '-' + response.result.revenue_sum;
         network.get('request_user', {request_id: request_id}, function (result, response) {
           if(result){
             data.users = response.result;
-            network.get('request_user', {request_id: request_id}, function (result, response) {
+            network.get('request_school_finance', {request_id: request_id}, function (result, response) {
               if(result){
-                data.users = response.result;
-                network.get('request_school_finance', {request_id: request_id}, function (result, response) {
-                  if(result){
-                    data.schools = [];
-                    var counter = 0;
-                    for(var school in response.result){
-                      data.schools[counter] = response.result[school];
-                      data.schools[counter].count = '1';
-                      counter++;
-                    };
-                    
-                    var now = new Date();
-                    
-                    
-                    $scope.paramsForExport['financeSingle'] = {
-                      fileName: 'Finanzplanexport_'+data[0].code+'_'+now.ymd()+'_'+now.time()+'(einzeln).csv',
-                      model: 'request',
-                      tables: {
-                        table1: {
-                          columns: {
-                            'code'                  : 'Kennziffer',
-                            'performer_name'        : 'Träger',
-                            'duration'              : 'Förderzeitraum',
-                            'is_umlage'             : 'Umlage 1',
-                            'null-1'                : '',
-                            'total_cost'            : 'Summe Fördervertrag',
-                            'revenue_sum'           : 'Summe sonstige Einnahmen',
-                            'prof_association_cost' : 'BG-Beitrag',
-                            'null-2'                : '',
-                            'null-3'                : ''
-                          },
-                          data: data
-                        },
-                        table2:{
-                          columns: {
-                            'sex'                   : 'Anrede',
-                            'name'                  : 'Name',
-                            'group_name'            : 'Entgeltgruppe',
-                            'remuneration_name'     : 'Entgeltstufe',
-                            'month_count'           : 'Geplante Monate im Projekt',
-                            'other'                 : 'sonstige Information',
-                            'hours_per_week'        : 'Arbeitsstunden / Woche',
-                            'brutto'                : 'AN-Brutto pro Monat',
-                            'add_cost'              : 'AG-SV und Umlagen',
-                            'full_cost'             : 'Personalkosten',
-                          },
-                          data: data.users
-                        },
-                        table3:{
-                          columns: {
-                            'school_name'   : 'Schule',
-                            'rate'          : 'Stellenanteil',
-                            'month_count'   : 'Monate',
-                            'count'         : 'Anzahl Schulen',
-                            'overhead_cost' : 'Regiekosten',
-                            'training_cost' : 'Fortbildungskosten',
-                            'null-1'        : '',
-                            'null-2'        : '',
-                            'null-3'        : '',
-                            'null-4'        : ''
-                          },
-                          data: data.schools
-                        },
-                      },                      
-                      param: $scope.filter
-                    };
-                  };
-                });
+                data.schools = [];
+                var counter = 0;
+                for(var school in response.result){
+                  data.schools[counter] = response.result[school];
+                  data.schools[counter].count = '1';
+                  counter++;
+                }; 
+                $scope.paramsForExport['financeSingle'] = {
+                  fileName: 'Finanzplanexport_'+data[0].code+'_'+now.ymd()+'_'+now.time()+'(einzeln).csv',
+                  model: 'request',
+                  tables: {
+                    table1: {
+                      columns: {
+                        'code'                  : 'Kennziffer',
+                        'performer_name'        : 'Träger',
+                        'duration'              : 'Förderzeitraum',
+                        'is_umlage'             : 'Umlage 1',
+                        'null-1'                : '',
+                        'total_cost'            : 'Summe Fördervertrag',
+                        'emoloyees_cost'        : 'Summe Personalkosten',
+                        'training_cost'         : 'Summe Fortbildungskosten',
+                        'overhead_cost'         : 'Summe Regiekosten',
+                        'prof_association_cost' : 'Summe Berufsgenossenschaftsbeiträge',
+                        'revenue_sum'           : 'Summe sonstige Einnahmen',
+                        'null-2'                : '',
+                        'export_date'           : 'Datum /Uhrzeit exportiert',
+                        'null-3'                : ''
+                      },
+                      data: data
+                    },
+                    table2:{
+                      columns: {
+                        'sex'                   : 'Anrede',
+                        'name'                  : 'Name',
+                        'group_name'            : 'Entgeltgruppe',
+                        'remuneration_name'     : 'Entgeltstufe',
+                        'month_count'           : 'Geplante Monate im Projekt',
+                        'other'                 : 'sonstige Information',
+                        'hours_per_week'        : 'Arbeitsstunden / Woche',
+                        'full_cost'             : 'Anrechenbare Personalkosten',
+                        'brutto'                : 'AN-Brutto mit Zusatz',
+                        'add_cost'              : 'AG-SV und Umlagen',
+                        'cost_per_month_brutto' : 'AN-Brutto pro Monat',
+                        'annual_bonus'          : 'Jahressonderzahlung',
+                        'additional_provision_vwl': 'VWL',
+                        'supplementary_pension' : 'BAV',
+                      },
+                      data: data.users
+                    },
+                    table3:{
+                      columns: {
+                        'school_name'   : 'Schule',
+                        'rate'          : 'Stellenanteil',
+                        'month_count'   : 'Monate',
+                        'count'         : 'Anzahl Schulen',
+                        'overhead_cost' : 'Regiekosten',
+                        'training_cost' : 'Fortbildungskosten',
+                        'null-1'        : '',
+                        'null-2'        : '',
+                        'null-3'        : '',
+                        'null-4'        : '',
+                        'null-5'        : '',
+                        'null-6'        : '',
+                        'null-7'        : '',
+                        'null-8'        : ''
+                      },
+                      data: data.schools
+                    },
+                  },                      
+                  param: $scope.filter
+                };
               };
-            });
+            });          
           };
         });
       };
