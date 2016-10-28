@@ -210,7 +210,7 @@ class Performer extends BaseModel {
   
   protected function doAfterInsert($result, $params, $post) {
 
-    if($params['email']) {
+    if(safe($params,'email')) {
       $emailParams = array(
         'type' => 'Träger',
         'name' => $params['name'].' ('.$post['short_name'].')',
