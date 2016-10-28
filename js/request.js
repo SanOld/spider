@@ -688,7 +688,9 @@ spi.controller('RequestController', function ($scope, $rootScope, network, Utils
       });
     }
   };
-  $scope.checkIfCanNewOpen();
+  $timeout(function(){    
+    $scope.checkIfCanNewOpen();
+  });
   
     
   $scope.$on('sendToAccept', function(event,status, pages){
